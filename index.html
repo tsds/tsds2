@@ -1,0 +1,212 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+ <html>
+ 	<head>
+ 		<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+ 		<title></title>
+ 		<script type="text/javascript" src="deps/1.7.2/jquery.min.js"></script>
+ 		<script type="text/javascript" src="deps/strftime.js"></script>
+ 		<script type="text/javascript" src="deps/sprintf-0.7-beta1.js"></script>	
+ 		<script type="text/javascript" src="deps/date.js"></script>
+	 	<style>
+ 			input.try {
+			margin-top: 1px;
+			font-size: 65%;
+			background: white none repeat scroll 0 0;
+			border-color: midnightBlue;
+		}
+ 			textarea.try {
+			margin-top: 1px;
+			white-space: nowrap;
+			background: white none repeat scroll 0 0;
+			border-color: yellow;
+		}
+		</style>
+ 	</head>
+ 	<script>
+ 	
+	 	 var Start   = '2012-10-01';
+	 	 var Stop    = '2012-10-10';
+	 	 var Cadence = '';
+	
+	 	 var Catalog = {Name:"USGS Real Time Magnetometer Measurements",
+	 	 				ID: "USGS/MAG/1M",
+	 	 				Description: "USGS Real Time Magnetometer Measurements"};
+	 	 var Dataset = [
+	 	 				["BDT one-minute","BDT1m","bdtvmin","BDT","bdt","Boulder Test"],
+	 	               	["BOU one-minute","BOU1m","bouvmin","BOU","bou","Boulder"],
+						["BRT test one-minute","BRT1m","brtvmin","BRT","brt","Barrow Test"],
+						["BRW one-minute","BRW1m","brwvmin","BRW","brw","Barrow"],
+						["BSL one-minute","BSL1m","bslvmin","BSL","bsl","Stennis Space Center"],
+						["CMO one-minute","CMO1m","cmovmin","CMO","cmo","College"],
+						["DED one-minute","DED1m","dedvmin","DED","ded","Deadhorse"],
+						["FRD one-minute","FRD1m","frdvmin","FRD","frd","Fredericksburg"],
+						];
+	 	 var Template           = "http://magweb.cr.usgs.gov/data/magnetometer/$4/OneMinute/$5%Y%m%dvmin.min";
+	 	 var ColumnLabels       = ["DATE","TIME","DOY","$4H","$4D","$4Z","$4F"];
+	 	 var ColumnLongnames    = ["$6 H","$6 D","$6 Z","$6 F"];
+		 var ColumnUnits        = ["Date","Time","DOY","nT","nT","nT","nT"];
+	 	 var ColumnGroupings    = ["$4_HDZ","$4_HDZ","$4_HDZ","$4_F"];
+	 	 var LineTemplate       = "%Y-%m-%d %h:%M:%s.%ss %j %.2f %.2f %.2f %.2f";
+	 	 var LineRegex          = "^[0-9][0-9][0-9][0-9]";
+	 	 var ColumnGroupnames   = {"$4_XYZ":"Flux-gate Magnetometer Data","$4_F":"Proton Magnetometer Data"};
+	 	 var ColumnGrouptypes   = {"$4_XYZ":"Vector","$4_F":"Scalar"};
+
+		function expandtemplate(el,tmpstr,Dataset) {
+			
+			if (arguments.length == 1) {
+				Dataset = $('#Dataset').text().split("\n");
+				tmpstr = $(el).prev().val();
+				for (i = 0; i < Dataset.length;i++) {
+					TemplateExpanded = expandtemplate(el,tmpstr,Dataset[i]);
+					console.log(TemplateExpanded);
+				}
+
+				return TemplateExpanded;
+			}
+
+		    if (tmpstr instanceof Object) {
+				tmpobj = {};
+				for (var attr in tmpstr) {
+					tmpobj[expandtemplate(el,attr,Dataset)] = expandtemplate(el,tmpstr[attr],Dataset);
+				}
+				return tmpobj;
+		    }
+
+			var N = tmpstr.match(/\$/g).length; // Number of wildcards
+			sDataset = Dataset.split(",");
+			for (var i=0;i < N; i++) {
+				tmpstr = tmpstr.replace(/\$([0-9])/,"'+sDataset[$1-1]+'");
+			}
+		 	tmpstr = "'" + tmpstr + "'";
+		 	tmpstr = eval(tmpstr);
+			$(el).nextAll('textarea').eq(0).val($(el).nextAll('textarea').eq(0).val()+tmpstr+"\n");
+			
+			if (!tmpstr.match("%")) {
+				return tmpstr;
+			}
+
+			var START_ms   = new Date(Date.parse($('#Start').val()));
+			var STOP_ms    = new Date(Date.parse($('#Stop').val()));
+			var Ndays      = 1 + Math.round((STOP_ms.valueOf()-START_ms.valueOf())/(1000*24*60*60));
+			var START_date = Date.parse(Start);
+
+			var i = 0;
+			var urls = new Array();
+			while (i < Ndays) {
+				fname = START_date.strftime(tmpstr);
+				urls[i] = fname;
+				START_date.addDays(1);
+				i = i + 1;
+			}
+
+			$(el).nextAll('textarea').eq(1).val($(el).nextAll('textarea').eq(1).val()+urls+"\n\n");
+			$(el).nextAll('textarea').eq(1).val($(el).nextAll('textarea').eq(1).val().replace(/,/g,"\n"));
+			$(el).nextAll('textarea').eq(0).scrollLeft(1000);
+			$(el).nextAll('textarea').eq(1).scrollLeft(1000);
+			return urls;
+		}
+		
+		$(document).ready(function(){
+			$('#CatalogName').val(Catalog["Name"]);
+			$('#CatalogID').val(Catalog["ID"]);
+			$('#CatalogDescription').val(Catalog["Description"]);
+			$('#Template').val(Template);
+			$('#LineTemplate').val(LineTemplate);
+			$('#LineRegex').val(LineRegex);
+			$('#ColumnUnits').val(ColumnUnits);
+			var tmp = JSON.stringify(Dataset).replace(/\],\[/g,"\n").replace("[[","").replace("]]","").replace(/\"/g,"");
+			console.log(tmp)
+			$('#Dataset').text(tmp);
+			//$('#Dataset').text(Dataset[0]+"\n"+Dataset[1]);
+			$('#ColumnLabels').val(ColumnLabels);
+			$('#ColumnLongnames').val(ColumnLongnames);
+
+			$('#ColumnGroupings').val(ColumnGroupings);
+			$('#ColumnGroupnames').val(JSON.stringify(ColumnGroupnames));
+			$('#ColumnGrouptypes').val(JSON.stringify(ColumnGrouptypes));
+
+			$('#Start').val(Start);
+			$('#Stop').val(Stop);
+			$('input[type=button].try').click(function () {$(this).nextAll('textarea').eq(0).val('');expandtemplate(this);});
+			$('input[type=text].try').mouseout(function () {$(this).nextAll('textarea').eq(0).val('');$(this).next().click();});			
+			$('input[type=button].try').click();
+			var template0 =  '<dataset name="$1"><access serviceName="tss" urlPath="$2"/><access serviceName="ncml" urlPath="$2"/><timeCoverage><Start>$Start</Start><End>$Stop</End></timeCoverage></dataset>';
+			var template = '';
+			for (i=0;i < Dataset.length;i++) {
+				template = template +
+							template0.
+								replace("$1",Dataset[i][0]).
+								replace(/\$2/g,Dataset[i][1]).
+								replace("$Start",Start).
+								replace("$Stop",Stop);
+			}
+			template = '<catalog xmlns="http://www.unidata.ucar.edu/namespaces/thredds/InvCatalog/v1.0" xmlns:xlink="http://www.w3.org/1999/xlink" name="$CatalogName">' + template + '</catalog>'
+			template = template.replace("$CatalogName",Catalog["Name"]);
+			$('#catalog').text(template);
+		});
+ 	</script>
+ 	<body>
+ 	<form id="mainform" action="/" method="post">
+ 		<input type="submit" class="try" value="Submit">
+ 		<br/>
+ 		<input type='text' id='CatalogName' style="width: 30.5em;"></input>
+ 		<br/>
+ 		<input type='text' id='CatalogID' style="width: 30.5em;"></input>
+ 		<br/>
+ 		<input type='text' id='CatalogDescription' style="width: 30.5em;"></input>
+ 		<br/>
+ 		<input type='text' id='LineRegex' style="width: 30.5em;"></input>
+ 		<br/>
+ 		<input type='text' id='LineTemplate' style="width: 30.5em;"></input>
+ 		<br/>
+ 		<input type='text' id='ColumnUnits' style="width: 30.5em;"></input>
+ 		<br/>
+ 		<hr/>
+ 		Dataset description, ID, other info
+ 		<br>
+ 		<textarea id='Dataset' rows='5' cols='48' name='Dataset'></textarea>
+ 		<br/>
+ 		<input type='text' id='ColumnLabels' class="try" style="width: 32.4em;"></input>
+ 		<input type="button" class="try" value="Expand">
+ 		<br/>
+ 		<textarea class="try" rows='5' cols='48'></textarea>
+ 		<br/>
+ 		<input type='text' id='ColumnLongnames' class="try" style="width: 32.4em;"></input>
+		<input type="button" class="try" value="Expand">
+ 		<br/>
+ 		<textarea rows='5' cols='48'></textarea>
+ 		<br/>
+ 		<input type='text' id='ColumnGroupings' class="try" style="width: 32.4em;"></input>
+		<input type="button" class="try" value="Expand">
+ 		<br/>
+ 		<textarea class="try" rows='5' cols='48'></textarea>
+ 		<br/>
+ 		<input type='text' class="try" id='ColumnGroupnames' style="width: 32.4em;"></input>
+		<input type="button" class="try" value="Expand">
+ 		<br/>
+ 		<textarea class="try" rows='5' cols='48'></textarea>
+ 		<br/>
+ 		<input type='text' class="try" id='ColumnGrouptypes' style="width: 32.4em;"></input>
+		<input type="button" class="try" value="Expand">
+ 		<br/>
+ 		<textarea class="try" rows='5' cols='48'></textarea>
+ 		<br/>
+ 		<hr/>
+ 		<input type='text' id='Start' style="width: 14.85em;"></input>
+ 		<input type='text' id='Stop' style="width: 14.85em;"></input>
+ 		<br/>
+ 		<input type='text' id='Template' class="try" style="width: 32.4em;"></input>
+ 		<input type="button" class="try" value="Expand">
+ 		<br/>
+ 		<textarea class="try" rows='5' cols='48'></textarea>
+ 		<br/>
+ 		<textarea class="try" rows='5' cols='48'></textarea>
+		<br/>
+		catalog.thredds:
+		<br/>
+	 	<textarea id="catalog" rows='5' cols='48'></textarea>
+		<br/>
+		<input type="submit" class="try" value="Submit">
+ 	</form>
+ 	</body>
+ </html>
