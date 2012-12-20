@@ -10,7 +10,7 @@
 	 	<style>
  			input.try {
 			margin-top: 1px;
-			font-size: 65%;
+			font-size: 67%;
 			background: white none repeat scroll 0 0;
 			border-color: midnightBlue;
 		}
@@ -72,6 +72,7 @@
 				return tmpobj;
 		    }
 
+			if (!tmpstr){return "";}
 			var N = tmpstr.match(/\$/g).length; // Number of wildcards
 			sDataset = Dataset.split(",");
 			for (var i=0;i < N; i++) {
@@ -98,7 +99,7 @@
 				START_date.addDays(1);
 				i = i + 1;
 			}
-
+						
 			$(el).nextAll('textarea').eq(1).val($(el).nextAll('textarea').eq(1).val()+urls+"\n\n");
 			$(el).nextAll('textarea').eq(1).val($(el).nextAll('textarea').eq(1).val().replace(/,/g,"\n"));
 			$(el).nextAll('textarea').eq(0).scrollLeft(1000);
@@ -106,6 +107,17 @@
 			return urls;
 		}
 		
+		function syncsubmit() {
+			//console.log($('#urls').val().split("\n\n")[0]);
+			linkblocks = $('#urls').val().split("\n\n");
+			console.log(linkblocks);
+			$("#tryurls").html("");
+			for (i = 0;i < linkblocks.length-1;i++) {
+				var url = "http://datacache.org/dc/syncsubmit?source="+encodeURI(linkblocks[i]);
+				console.log(url.length);
+				$("#tryurls").append("<a id='" +i + "' href='"+url+"'>"+i+"</a> ");
+			}		
+		}
 		$(document).ready(function(){
 			$('#CatalogName').val(Catalog["Name"]);
 			$('#CatalogID').val(Catalog["ID"]);
@@ -127,10 +139,31 @@
 
 			$('#Start').val(Start);
 			$('#Stop').val(Stop);
-			$('input[type=button].try').click(function () {$(this).nextAll('textarea').eq(0).val('');expandtemplate(this);});
-			$('input[type=text].try').mouseout(function () {$(this).nextAll('textarea').eq(0).val('');$(this).next().click();});			
-			$('input[type=button].try').click();
-			var template0 =  '<dataset name="$1"><access serviceName="tss" urlPath="$2"/><access serviceName="ncml" urlPath="$2"/><timeCoverage><Start>$Start</Start><End>$Stop</End></timeCoverage></dataset>';
+			$('input[type=button].try').click(
+				function () {
+					expandtemplate(this);
+					syncsubmit();
+				});
+			$('input[type=text].try').mouseout(
+				function () {
+					$(this).nextAll('textarea').val('');
+					$(this).next().click();
+					syncsubmit();
+					$('input[type=button].try').click();
+				});
+			
+			function detectchange() {
+				newval = $('input[type=text].try').val();
+				if (detectchange.lastval && newval != detectchange.lastval) {
+					console.log("Change detected:" + detectchange.lastval + " | " + newval);
+				} else {
+					console.log("No change detected");
+				}
+				detectchange.lastval = newval;	
+			}
+			//setInterval(detectchange,1000);
+			$('input[type=button].try').click();				
+			var template0 = '<dataset name="$1"><access serviceName="tss" urlPath="$2"/><access serviceName="ncml" urlPath="$2"/><timeCoverage><Start>$Start</Start><End>$Stop</End></timeCoverage></dataset>';
 			var template = '';
 			for (i=0;i < Dataset.length;i++) {
 				template = template +
@@ -142,7 +175,7 @@
 			}
 			template = '<catalog xmlns="http://www.unidata.ucar.edu/namespaces/thredds/InvCatalog/v1.0" xmlns:xlink="http://www.w3.org/1999/xlink" name="$CatalogName">' + template + '</catalog>'
 			template = template.replace("$CatalogName",Catalog["Name"]);
-			$('#catalog').text(template);
+			$('#catalog').val(template);
 		});
  	</script>
  	<body>
@@ -200,8 +233,10 @@
  		<br/>
  		<textarea class="try" rows='5' cols='48'></textarea>
  		<br/>
- 		<textarea class="try" rows='5' cols='48'></textarea>
-		<br/>
+ 		<textarea id="urls" class="try" rows='5' cols='48'></textarea>
+ 		<br/>
+ 		Try URLs: <span id="tryurls" value="Try URLs"></span>
+ 		<br/>
 		catalog.thredds:
 		<br/>
 	 	<textarea id="catalog" rows='5' cols='48'></textarea>
