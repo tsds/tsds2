@@ -4,21 +4,50 @@
  		<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
  		<title></title>
  		<script type="text/javascript" src="deps/1.7.2/jquery.min.js"></script>
+ 		<script type="text/javascript" src="deps/autosize/jquery.autosize-min.js"></script>
  		<script type="text/javascript" src="deps/strftime.js"></script>
  		<script type="text/javascript" src="deps/sprintf-0.7-beta1.js"></script>	
  		<script type="text/javascript" src="deps/date.js"></script>
 	 	<style>
- 			input.try {
+	 	body {
+	 		font-size: 100%;
+	 	}
+ 		input.try {
 			margin-top: 1px;
-			font-size: 67%;
+			font-size: 100%;
 			background: white none repeat scroll 0 0;
-			border-color: midnightBlue;
+			border-color: black;
 		}
- 			textarea.try {
+		input[type='button'] {
+			display:none;
+		}
+		input[type='text'] {
+			font-size: 100%;
+    		border:1px solid blue;
+   			width:100%;
+    		margin:5px 0;
+    		padding:3px;
+		}
+ 		textarea {
 			margin-top: 1px;
+			font-size: 100%;
+			width:100%;
+			height:1.5em;
 			white-space: nowrap;
 			background: white none repeat scroll 0 0;
-			border-color: yellow;
+		}
+		textarea.try
+		{
+		    border:1px solid yellow;
+		}
+		textarea.enter
+		{
+		    border:1px solid blue	;
+		}
+		.boxsizingBorder {
+		    -webkit-box-sizing: border-box;
+		    -moz-box-sizing: border-box;
+			box-sizing: border-box;
 		}
 		</style>
  	</head>
@@ -42,19 +71,20 @@
 						["FRD one-minute","FRD1m","frdvmin","FRD","frd","Fredericksburg"],
 						];
 	 	 var Template           = "http://magweb.cr.usgs.gov/data/magnetometer/$4/OneMinute/$5%Y%m%dvmin.min";
-	 	 var ColumnLabels       = ["DATE","TIME","DOY","$4H","$4D","$4Z","$4F"];
-	 	 var ColumnLongnames    = ["$6 H","$6 D","$6 Z","$6 F"];
+	 	 var ColumnLabels       = ["Date","Time","DOY","$4H","$4D","$4Z","$4F"];
+	 	 var ColumnLongnames    = ["Date","Time","DOY","$6 H","$6 D","$6 Z","$6 F"];
 		 var ColumnUnits        = ["Date","Time","DOY","nT","nT","nT","nT"];
-	 	 var ColumnGroupings    = ["$4_HDZ","$4_HDZ","$4_HDZ","$4_F"];
+	 	 var ColumnGroupings    = ["none","none","none","$4_XYZ","$4_XYZ","$4_XYZ","none"];
 	 	 var LineTemplate       = "%Y-%m-%d %h:%M:%s.%ss %j %.2f %.2f %.2f %.2f";
 	 	 var LineRegex          = "^[0-9][0-9][0-9][0-9]";
-	 	 var ColumnGroupnames   = {"$4_XYZ":"Flux-gate Magnetometer Data","$4_F":"Proton Magnetometer Data"};
-	 	 var ColumnGrouptypes   = {"$4_XYZ":"Vector","$4_F":"Scalar"};
+	 	 var ColumnGroupnames   = {"$4_XYZ":"Flux-gate Magnetometer Data"};
+	 	 var ColumnGrouptypes   = {"$4_XYZ":"Vector"};
 
 		function expandtemplate(el,tmpstr,Dataset) {
 			
 			if (arguments.length == 1) {
-				Dataset = $('#Dataset').text().split("\n");
+				Dataset = $('#Dataset').val().split("\n");
+				console.log(Dataset);
 				tmpstr = $(el).prev().val();
 				for (i = 0; i < Dataset.length;i++) {
 					TemplateExpanded = expandtemplate(el,tmpstr,Dataset[i]);
@@ -73,6 +103,7 @@
 		    }
 
 			if (!tmpstr){return "";}
+			
 			var N = tmpstr.match(/\$/g).length; // Number of wildcards
 			sDataset = Dataset.split(",");
 			for (var i=0;i < N; i++) {
@@ -81,7 +112,7 @@
 		 	tmpstr = "'" + tmpstr + "'";
 		 	tmpstr = eval(tmpstr);
 			$(el).nextAll('textarea').eq(0).val($(el).nextAll('textarea').eq(0).val()+tmpstr+"\n");
-			
+
 			if (!tmpstr.match("%")) {
 				return tmpstr;
 			}
@@ -93,76 +124,26 @@
 
 			var i = 0;
 			var urls = new Array();
+			var aurls = new Array();
 			while (i < Ndays) {
 				fname = START_date.strftime(tmpstr);
 				urls[i] = fname;
+				var aurl = "http://aurora.gmu.edu:8080/AutoplotServlet-20121220/SimpleServlet?url=";
+				var aurl = aurl + encodeURIComponent("vap+dat:"+urls[i]+"?skipLines=25&time=field0&timeFormat=$Y-$m-$d+$H:$M:$S&column=field3&plot.title=field3");
+				aurls[i] = aurl;
+				console.log(aurl);
 				START_date.addDays(1);
 				i = i + 1;
 			}
-						
 			$(el).nextAll('textarea').eq(1).val($(el).nextAll('textarea').eq(1).val()+urls+"\n\n");
 			$(el).nextAll('textarea').eq(1).val($(el).nextAll('textarea').eq(1).val().replace(/,/g,"\n"));
+			$(el).nextAll('textarea').eq(2).val($(el).nextAll('textarea').eq(2).val()+aurls+"\n\n");
+			$(el).nextAll('textarea').eq(2).val($(el).nextAll('textarea').eq(2).val().replace(/,/g,"\n"));		
+
 			$(el).nextAll('textarea').eq(0).scrollLeft(1000);
 			$(el).nextAll('textarea').eq(1).scrollLeft(1000);
-			return urls;
-		}
-		
-		function syncsubmit() {
-			//console.log($('#urls').val().split("\n\n")[0]);
-			linkblocks = $('#urls').val().split("\n\n");
-			console.log(linkblocks);
-			$("#tryurls").html("");
-			for (i = 0;i < linkblocks.length-1;i++) {
-				var url = "http://datacache.org/dc/syncsubmit?source="+encodeURI(linkblocks[i]);
-				console.log(url.length);
-				$("#tryurls").append("<a id='" +i + "' href='"+url+"'>"+i+"</a> ");
-			}		
-		}
-		$(document).ready(function(){
-			$('#CatalogName').val(Catalog["Name"]);
-			$('#CatalogID').val(Catalog["ID"]);
-			$('#CatalogDescription').val(Catalog["Description"]);
-			$('#Template').val(Template);
-			$('#LineTemplate').val(LineTemplate);
-			$('#LineRegex').val(LineRegex);
-			$('#ColumnUnits').val(ColumnUnits);
-			var tmp = JSON.stringify(Dataset).replace(/\],\[/g,"\n").replace("[[","").replace("]]","").replace(/\"/g,"");
-			console.log(tmp)
-			$('#Dataset').text(tmp);
-			//$('#Dataset').text(Dataset[0]+"\n"+Dataset[1]);
-			$('#ColumnLabels').val(ColumnLabels);
-			$('#ColumnLongnames').val(ColumnLongnames);
-
-			$('#ColumnGroupings').val(ColumnGroupings);
-			$('#ColumnGroupnames').val(JSON.stringify(ColumnGroupnames));
-			$('#ColumnGrouptypes').val(JSON.stringify(ColumnGrouptypes));
-
-			$('#Start').val(Start);
-			$('#Stop').val(Stop);
-			$('input[type=button].try').click(
-				function () {
-					expandtemplate(this);
-					syncsubmit();
-				});
-			$('input[type=text].try').mouseout(
-				function () {
-					$(this).nextAll('textarea').val('');
-					$(this).next().click();
-					syncsubmit();
-					$('input[type=button].try').click();
-				});
-			
-			function detectchange() {
-				newval = $('input[type=text].try').val();
-				if (detectchange.lastval && newval != detectchange.lastval) {
-					console.log("Change detected:" + detectchange.lastval + " | " + newval);
-				} else {
-					console.log("No change detected");
-				}
-				detectchange.lastval = newval;	
-			}
-			//setInterval(detectchange,1000);
-			$('input[type=button].try').click();				
+			$(el).nextAll('textarea').eq(2).scrollLeft(1000);
+			 
 			var template0 = '<dataset name="$1"><access serviceName="tss" urlPath="$2"/><access serviceName="ncml" urlPath="$2"/><timeCoverage><Start>$Start</Start><End>$Stop</End></timeCoverage></dataset>';
 			var template = '';
 			for (i=0;i < Dataset.length;i++) {
@@ -174,72 +155,182 @@
 								replace("$Stop",Stop);
 			}
 			template = '<catalog xmlns="http://www.unidata.ucar.edu/namespaces/thredds/InvCatalog/v1.0" xmlns:xlink="http://www.w3.org/1999/xlink" name="$CatalogName">' + template + '</catalog>'
-			template = template.replace("$CatalogName",Catalog["Name"]);
+			template = template.replace("$CatalogName",$('#CatalogName').val());
+			$('#catalog').val('');
 			$('#catalog').val(template);
+
+			return urls;
+		}
+		
+		function links() {
+			//console.log($('#urls').val().split("\n\n")[0]);
+			linkblocks = $('#urls').val().split("\n\n");
+			console.log(linkblocks);
+			$("#tryurls").html("");
+			for (i = 0;i < linkblocks.length-1;i++) {
+				var url = "http://datacache.org/dc/syncsubmit?source="+encodeURI(linkblocks[i]);
+				console.log("url length: " + url.length);
+				$("#tryurls").append("<a id='" +i + "' href='"+url+"'>"+i+"</a> ");
+			}
+			$("#links").show();		
+		}
+		function detectchange() {			
+				
+				var newval = "";
+				$('.enter').each(function () {newval = newval + $(this).val()});
+				if (detectchange.lastval && newval != detectchange.lastval) {
+					console.log("Change detected:");// + detectchange.lastval + " | " + newval);
+					$('input[type=button].try').click();
+				} else {
+					console.log("No change detected");
+				}
+				detectchange.lastval = newval;
+				
+			}
+
+		$(document).ready(function(){
+			$('#CatalogName').val(Catalog["Name"]);
+			$('#CatalogID').val(Catalog["ID"]);
+			$('#CatalogDescription').val(Catalog["Description"]);
+			$('#Template').val(Template);
+			$('#LineTemplate').val(LineTemplate);
+			$('#LineRegex').val(LineRegex);
+			$('#ColumnUnits').val(ColumnUnits);
+			var tmp = JSON.stringify(Dataset).replace(/\],\[/g,"\n").replace("[[","").replace("]]","").replace(/\"/g,"");
+			//console.log(tmp)
+			$('#Dataset').text(tmp);
+			//$('#Dataset').text(Dataset[0]+"\n"+Dataset[1]);
+			$('#ColumnLabels').val(ColumnLabels);
+			$('#ColumnLongnames').val(ColumnLongnames);
+
+			$('#ColumnGroupings').val(ColumnGroupings);
+			$('#ColumnGroupnames').val(JSON.stringify(ColumnGroupnames));
+			$('#ColumnGrouptypes').val(JSON.stringify(ColumnGrouptypes));
+
+			$('#Start').val(Start);
+			$('#Stop').val(Stop);
+			
+			$('input[type=button].try').click(
+				function () {
+					$('textarea.try').val('');						
+					$('input[type=button].try').each(function() {expandtemplate(this)});
+					links();
+					
+				});
+
+			$('textarea').autosize();
+			
+			$("textarea.try").mouseenter(function() {
+				// Remove last newline.
+				$(this).val($(this).val().replace(/^\s+|\s+$/g, ""));
+				// Trigger autosize event.
+				$(this).trigger("oninput");
+			});
+			$("textarea.try").mouseout(function() {
+				$(this).height("1.5em");
+			});
+
+			setInterval(detectchange,500);
+			$('input[type=button].try').click();				
+
 		});
  	</script>
  	<body>
  	<form id="mainform" action="/" method="post">
  		<input type="submit" class="try" value="Submit">
+		<br/>
+		Catalog name
  		<br/>
- 		<input type='text' id='CatalogName' style="width: 30.5em;"></input>
+ 		<input class="enter" type="text" id="CatalogName"></input>
  		<br/>
- 		<input type='text' id='CatalogID' style="width: 30.5em;"></input>
+		Catalog ID
  		<br/>
- 		<input type='text' id='CatalogDescription' style="width: 30.5em;"></input>
+ 		<input class="enter" type="text" id="CatalogID"></input>
  		<br/>
- 		<input type='text' id='LineRegex' style="width: 30.5em;"></input>
+		Catalog description
  		<br/>
- 		<input type='text' id='LineTemplate' style="width: 30.5em;"></input>
+ 		<input class="enter" type="text" id="CatalogDescription"></input>
  		<br/>
- 		<input type='text' id='ColumnUnits' style="width: 30.5em;"></input>
+		Data line regular expression
+ 		<br/>
+ 		<input type="text" id="LineRegex"></input>
+ 		<br/>
+		Data line template 			
+ 		<br/>
+ 		<input type="text" id="LineTemplate"></input>
+ 		<br/>
+ 		Column units
+ 		<br/>
+ 		<input type="text" id="ColumnUnits"></input>
  		<br/>
  		<hr/>
  		Dataset description, ID, other info
  		<br>
- 		<textarea id='Dataset' rows='5' cols='48' name='Dataset'></textarea>
+ 		<textarea class="enter" id="Dataset"></textarea>
  		<br/>
- 		<input type='text' id='ColumnLabels' class="try" style="width: 32.4em;"></input>
+ 		Column labels
+ 		<br/>
+ 		<input type='text' id="ColumnLabels" class="enter"></input>
  		<input type="button" class="try" value="Expand">
  		<br/>
- 		<textarea class="try" rows='5' cols='48'></textarea>
+ 		<textarea class="try"></textarea>
  		<br/>
- 		<input type='text' id='ColumnLongnames' class="try" style="width: 32.4em;"></input>
+ 		Column description
+ 		<br/>
+ 		<input type="text" id="ColumnLongnames" class="enter"></input>
 		<input type="button" class="try" value="Expand">
  		<br/>
- 		<textarea rows='5' cols='48'></textarea>
+ 		<textarea class="try"></textarea>
  		<br/>
- 		<input type='text' id='ColumnGroupings' class="try" style="width: 32.4em;"></input>
+ 		Column groupings
+ 		<br/>
+ 		<input type="text" id="ColumnGroupings" class="enter"></input>
 		<input type="button" class="try" value="Expand">
  		<br/>
- 		<textarea class="try" rows='5' cols='48'></textarea>
+ 		<textarea class="try"></textarea>
  		<br/>
- 		<input type='text' class="try" id='ColumnGroupnames' style="width: 32.4em;"></input>
+ 		Column group names
+ 		<br/>
+ 		<input type="text" id="ColumnGroupnames" class="enter"></input>
 		<input type="button" class="try" value="Expand">
  		<br/>
- 		<textarea class="try" rows='5' cols='48'></textarea>
+ 		<textarea class="try"></textarea>
  		<br/>
- 		<input type='text' class="try" id='ColumnGrouptypes' style="width: 32.4em;"></input>
+ 		Column group types
+ 		<br/>
+ 		<input type='text' id="ColumnGrouptypes" class="enter"></input>
 		<input type="button" class="try" value="Expand">
  		<br/>
- 		<textarea class="try" rows='5' cols='48'></textarea>
+ 		<textarea class="try"></textarea>
  		<br/>
  		<hr/>
- 		<input type='text' id='Start' style="width: 14.85em;"></input>
- 		<input type='text' id='Stop' style="width: 14.85em;"></input>
  		<br/>
- 		<input type='text' id='Template' class="try" style="width: 32.4em;"></input>
+ 		Start date(s)
+ 		<br/>
+ 		<input type="text" id="Start" class="enter"></input>
+ 		<br/>
+ 		Stop date(s)
+ 		<br/>
+ 		<input type="text" id="Stop" class="enter"></input>
+ 		<br/>
+ 		URL template
+ 		<br/>
+ 		<input type="text" id="Template" class="enter"></input>
  		<input type="button" class="try" value="Expand">
  		<br/>
- 		<textarea class="try" rows='5' cols='48'></textarea>
+ 		<textarea class="try"></textarea>
  		<br/>
- 		<textarea id="urls" class="try" rows='5' cols='48'></textarea>
+ 		<textarea id="urls" class="try"></textarea>
  		<br/>
- 		Try URLs: <span id="tryurls" value="Try URLs"></span>
+ 		<div class="links" style="display:none">Try URLs: <span id="tryurls" value="Try URLs"></span></div>
+ 		<br/>
+ 		<textarea id="aurls" class="try"></textarea>
+ 		<br/>
+ 		<div id="links" style="display:none">Try URLs: <span id="tryaurls" value="Try URLs"></span></div>
  		<br/>
 		catalog.thredds:
 		<br/>
-	 	<textarea id="catalog" rows='5' cols='48'></textarea>
+	 	<textarea class="try" id="catalog"></textarea>
 		<br/>
 		<input type="submit" class="try" value="Submit">
  	</form>
