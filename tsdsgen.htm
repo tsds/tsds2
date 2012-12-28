@@ -67,14 +67,13 @@
 				START_date.addDays(1);
 				i = i + 1;
 			}
-			$(el).nextAll('textarea').eq(1).val($(el).nextAll('textarea').eq(1).val()+urls+"\n\n");
-			$(el).nextAll('textarea').eq(1).val($(el).nextAll('textarea').eq(1).val().replace(/,/g,"\n"));
-			$(el).nextAll('textarea').eq(2).val($(el).nextAll('textarea').eq(2).val()+aurls+"\n\n");
-			$(el).nextAll('textarea').eq(2).val($(el).nextAll('textarea').eq(2).val().replace(/,/g,"\n"));		
+			$('#urls').val($('#urls').val()+urls+"\n\n");
+			$('#urls').val($('#urls').val().replace(/,/g,"\n"));
+			$('#urls').scrollLeft(1000);
 
-			$(el).nextAll('textarea').eq(0).scrollLeft(1000);
-			$(el).nextAll('textarea').eq(1).scrollLeft(1000);
-			$(el).nextAll('textarea').eq(2).scrollLeft(1000);
+			$('#aurls').val($('#aurls').val()+aurls+"\n");
+			$('#aurls').val($('#aurls').val().replace(/,/g,"\n"));
+			$('#aurls').scrollLeft(1000);
 			 
 			var template0 = '<dataset name="$1"><access serviceName="tss" urlPath="$2"/><access serviceName="ncml" urlPath="$2"/><timeCoverage><Start>$Start</Start><End>$Stop</End></timeCoverage></dataset>';
 			var template = '';
@@ -255,24 +254,28 @@
  		<br/>
   		<input type="text" id="LineTemplate"></input>
  		<br/>
- 		Start date(s) <input type="button" class="guessajax" value="Guess">
+ 		<br/>
+ 		Start date min
  		<br/>
  		<input type="text" id="Start" class="enter"></input>
  		<br/>
- 		Stop date(s) <input type="button" class="guessajax" value="Guess">
+ 		<textarea class="try"></textarea>
+ 		<br/>
+ 		<br/> 		
+ 		Stop date max
  		<br/>
  		<input type="text" id="Stop" class="enter"></input>
  		<br/>
+ 		<textarea class="try"></textarea>
+ 		<br/> 		
  		<br/>
+ 		Data urls
   		<textarea id="urls" class="try"></textarea>
  		<br/>
-		<input type="button" class="tryajax" onclick="tryajax(this)" value="Try">
  		<br/>
- 		<br/>
+		Plot urls
  		<textarea id="aurls" class="try"></textarea>
 		<br/>
-		<input type="button" class="tryajax" value="Try">
- 		<br/>
 		<br/>
 		catalog.thredds:
 		<br/>
