@@ -2,84 +2,16 @@
  <html>
  	<head>
  		<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
- 		<title></title>
+ 		<title>TSDS Generator</title>
+ 		<link rel="stylesheet" type="text/css" href="asset/main.css">
  		<script type="text/javascript" src="deps/1.7.2/jquery.min.js"></script>
  		<script type="text/javascript" src="deps/autosize/jquery.autosize-min.js"></script>
  		<script type="text/javascript" src="deps/strftime.js"></script>
  		<script type="text/javascript" src="deps/sprintf-0.7-beta1.js"></script>	
  		<script type="text/javascript" src="deps/date.js"></script>
-	 	<style>
-	 	body {
-	 		font-size: 100%;
-	 	}
- 		input.try {
-			margin-top: 1px;
-			font-size: 100%;
-			background: white none repeat scroll 0 0;
-			border-color: black;
-		}
-		input[type='button'] {
-			display:none;
-		}
-		input[type='text'] {
-			font-size: 100%;
-    		border:1px solid blue;
-   			width:100%;
-    		margin:5px 0;
-    		padding:3px;
-		}
- 		textarea {
-			margin-top: 1px;
-			font-size: 100%;
-			width:100%;
-			height:1.5em;
-			white-space: nowrap;
-			background: white none repeat scroll 0 0;
-		}
-		textarea.try
-		{
-		    border:1px solid yellow;
-		}
-		textarea.enter
-		{
-		    border:1px solid blue	;
-		}
-		.boxsizingBorder {
-		    -webkit-box-sizing: border-box;
-		    -moz-box-sizing: border-box;
-			box-sizing: border-box;
-		}
-		</style>
+ 		<script type="text/javascript" src="tsdsgen-default.js"></script>
  	</head>
  	<script>
- 	
-	 	 var Start   = '2012-10-01';
-	 	 var Stop    = '2012-10-10';
-	 	 var Cadence = '';
-	
-	 	 var Catalog = {Name:"USGS Real Time Magnetometer Measurements",
-	 	 				ID: "USGS/MAG/1M",
-	 	 				Description: "USGS Real Time Magnetometer Measurements"};
-	 	 var Dataset = [
-	 	 				["BDT one-minute","BDT1m","bdtvmin","BDT","bdt","Boulder Test"],
-	 	               	["BOU one-minute","BOU1m","bouvmin","BOU","bou","Boulder"],
-						["BRT test one-minute","BRT1m","brtvmin","BRT","brt","Barrow Test"],
-						["BRW one-minute","BRW1m","brwvmin","BRW","brw","Barrow"],
-						["BSL one-minute","BSL1m","bslvmin","BSL","bsl","Stennis Space Center"],
-						["CMO one-minute","CMO1m","cmovmin","CMO","cmo","College"],
-						["DED one-minute","DED1m","dedvmin","DED","ded","Deadhorse"],
-						["FRD one-minute","FRD1m","frdvmin","FRD","frd","Fredericksburg"],
-						];
-	 	 var Template           = "http://magweb.cr.usgs.gov/data/magnetometer/$4/OneMinute/$5%Y%m%dvmin.min";
-	 	 var ColumnLabels       = ["Date","Time","DOY","$4H","$4D","$4Z","$4F"];
-	 	 var ColumnLongnames    = ["Date","Time","DOY","$6 H","$6 D","$6 Z","$6 F"];
-		 var ColumnUnits        = ["Date","Time","DOY","nT","nT","nT","nT"];
-	 	 var ColumnGroupings    = ["none","none","none","$4_XYZ","$4_XYZ","$4_XYZ","none"];
-	 	 var LineTemplate       = "%Y-%m-%d %h:%M:%s.%ss %j %.2f %.2f %.2f %.2f";
-	 	 var LineRegex          = "^[0-9][0-9][0-9][0-9]";
-	 	 var ColumnGroupnames   = {"$4_XYZ":"Flux-gate Magnetometer Data"};
-	 	 var ColumnGrouptypes   = {"$4_XYZ":"Vector"};
-
 		function expandtemplate(el,tmpstr,Dataset) {
 			
 			if (arguments.length == 1) {
@@ -186,24 +118,23 @@
 				}
 				detectchange.lastval = newval;
 				
-			}
+		}
 
 		$(document).ready(function(){
-			$('#CatalogName').val(Catalog["Name"]);
-			$('#CatalogID').val(Catalog["ID"]);
-			$('#CatalogDescription').val(Catalog["Description"]);
+			$('#CatalogName').val(CatalogDescription["Name"]);
+			$('#CatalogID').val(CatalogDescription["ID"]);
+			$('#CatalogDescription').val(CatalogDescription["Description"]);
 			$('#Template').val(Template);
 			$('#LineTemplate').val(LineTemplate);
 			$('#LineRegex').val(LineRegex);
 			$('#ColumnUnits').val(ColumnUnits);
-			var tmp = JSON.stringify(Dataset).replace(/\],\[/g,"\n").replace("[[","").replace("]]","").replace(/\"/g,"");
+			var tmp = JSON.stringify(DatasetDescription).replace(/\],\[/g,"\n").replace("[[","").replace("]]","").replace(/\"/g,"");
 			//console.log(tmp)
 			$('#Dataset').text(tmp);
 			//$('#Dataset').text(Dataset[0]+"\n"+Dataset[1]);
-			$('#ColumnLabels').val(ColumnLabels);
-			$('#ColumnLongnames').val(ColumnLongnames);
-
-			$('#ColumnGroupings').val(ColumnGroupings);
+			$('#ColumnLabels').val(JSON.stringify(ColumnLabels));
+			$('#ColumnLongnames').val(JSON.stringify(ColumnLongnames));
+			$('#ColumnGroupings').val(JSON.stringify(ColumnGroupings));
 			$('#ColumnGroupnames').val(JSON.stringify(ColumnGroupnames));
 			$('#ColumnGrouptypes').val(JSON.stringify(ColumnGrouptypes));
 
@@ -227,44 +158,46 @@
 				$(this).trigger("oninput");
 			});
 			$("textarea.try").mouseout(function() {
-				$(this).height("1.5em");
+				//$(this).height("1.5em");
 			});
 
 			setInterval(detectchange,500);
 			$('input[type=button].try').click();				
 
 		});
- 	</script>
+
+		function tryajax(el) {
+			var url = "http://datacache.org/dc/syncsubmit?source=";
+			url     = url + encodeURI($($(el).prevAll('textarea')[0]).val());
+			window.location.href = url;
+		}
+		</script>
  	<body>
- 	<form id="mainform" action="/" method="post">
+ 	<div id="submiturl"></div>
+ 	<div style="width:50%">
+ 	<form id="form" action="/" method="post">
  		<input type="submit" class="try" value="Submit">
 		<br/>
-		Catalog name
+		* Catalog Name
  		<br/>
  		<input class="enter" type="text" id="CatalogName"></input>
  		<br/>
-		Catalog ID
+		* Catalog ID
  		<br/>
  		<input class="enter" type="text" id="CatalogID"></input>
  		<br/>
-		Catalog description
+		Catalog Description (If not specified, Catalog Name is used.)
  		<br/>
  		<input class="enter" type="text" id="CatalogDescription"></input>
  		<br/>
-		Data line regular expression
- 		<br/>
- 		<input type="text" id="LineRegex"></input>
- 		<br/>
-		Data line template 			
- 		<br/>
- 		<input type="text" id="LineTemplate"></input>
- 		<br/>
- 		Column units
+ 		* Column units
  		<br/>
  		<input type="text" id="ColumnUnits"></input>
  		<br/>
+ 		<br/>
  		<hr/>
- 		Dataset description, ID, other info
+		<br/>
+ 		Dataset description, [ID, other info].  (If not specified, ID is generated based on Dataset Description.)
  		<br>
  		<textarea class="enter" id="Dataset"></textarea>
  		<br/>
@@ -303,36 +236,50 @@
  		<br/>
  		<textarea class="try"></textarea>
  		<br/>
+		<br/>
  		<hr/>
  		<br/>
- 		Start date(s)
- 		<br/>
- 		<input type="text" id="Start" class="enter"></input>
- 		<br/>
- 		Stop date(s)
- 		<br/>
- 		<input type="text" id="Stop" class="enter"></input>
- 		<br/>
- 		URL template
+ 		* URL template
  		<br/>
  		<input type="text" id="Template" class="enter"></input>
  		<input type="button" class="try" value="Expand">
  		<br/>
  		<textarea class="try"></textarea>
  		<br/>
- 		<textarea id="urls" class="try"></textarea>
  		<br/>
- 		<div class="links" style="display:none">Try URLs: <span id="tryurls" value="Try URLs"></span></div>
+		Data line regular expression <input type="button" class="guessajax" value="Guess">
+ 		<br/>
+ 		<input type="text" id="LineRegex"></input>
+ 		<br/>
+		Data Line Template <input type="button" class="guessajax" value="Guess">
+ 		<br/>
+  		<input type="text" id="LineTemplate"></input>
+ 		<br/>
+ 		Start date(s) <input type="button" class="guessajax" value="Guess">
+ 		<br/>
+ 		<input type="text" id="Start" class="enter"></input>
+ 		<br/>
+ 		Stop date(s) <input type="button" class="guessajax" value="Guess">
+ 		<br/>
+ 		<input type="text" id="Stop" class="enter"></input>
+ 		<br/>
+ 		<br/>
+  		<textarea id="urls" class="try"></textarea>
+ 		<br/>
+		<input type="button" class="tryajax" onclick="tryajax(this)" value="Try">
+ 		<br/>
  		<br/>
  		<textarea id="aurls" class="try"></textarea>
+		<br/>
+		<input type="button" class="tryajax" value="Try">
  		<br/>
- 		<div id="links" style="display:none">Try URLs: <span id="tryaurls" value="Try URLs"></span></div>
- 		<br/>
+		<br/>
 		catalog.thredds:
 		<br/>
 	 	<textarea class="try" id="catalog"></textarea>
 		<br/>
 		<input type="submit" class="try" value="Submit">
  	</form>
+ 	</div>
  	</body>
  </html>
