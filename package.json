@@ -1,0 +1,11 @@
+{
+	"name": "lsremote.js",
+  	"version": "0.1.0",
+	"dependencies": {
+		"findit" : "0.1.2",
+		"request" : "2.9.203",
+		"express" : "3.0.0beta7",
+		"jsftp": "0.5.5",
+		"jsdom": "*",
+	}
+}
