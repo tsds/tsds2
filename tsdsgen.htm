@@ -10,119 +10,14 @@
  		<script type="text/javascript" src="deps/sprintf-0.7-beta1.js"></script>	
  		<script type="text/javascript" src="deps/date.js"></script>
  		<script type="text/javascript" src="tsdsgen-default.js"></script>
+ 		 <script type="text/javascript" src="tsdsgen.js"></script>
  	</head>
- 	<script>
-		function expandtemplate(el,tmpstr,Dataset) {
-			
-			if (arguments.length == 1) {
-				Dataset = $('#Dataset').val().split("\n");
-				console.log(Dataset);
-				tmpstr = $(el).prev().val();
-				for (i = 0; i < Dataset.length;i++) {
-					TemplateExpanded = expandtemplate(el,tmpstr,Dataset[i]);
-					console.log(TemplateExpanded);
-				}
-
-				return TemplateExpanded;
-			}
-
-		    if (tmpstr instanceof Object) {
-				tmpobj = {};
-				for (var attr in tmpstr) {
-					tmpobj[expandtemplate(el,attr,Dataset)] = expandtemplate(el,tmpstr[attr],Dataset);
-				}
-				return tmpobj;
-		    }
-
-			if (!tmpstr){return "";}
-			
-			var N = tmpstr.match(/\$/g).length; // Number of wildcards
-			sDataset = Dataset.split(",");
-			for (var i=0;i < N; i++) {
-				tmpstr = tmpstr.replace(/\$([0-9])/,"'+sDataset[$1-1]+'");
-			}
-		 	tmpstr = "'" + tmpstr + "'";
-		 	tmpstr = eval(tmpstr);
-			$(el).nextAll('textarea').eq(0).val($(el).nextAll('textarea').eq(0).val()+tmpstr+"\n");
-
-			if (!tmpstr.match("%")) {
-				return tmpstr;
-			}
-
-			var START_ms   = new Date(Date.parse($('#Start').val()));
-			var STOP_ms    = new Date(Date.parse($('#Stop').val()));
-			var Ndays      = 1 + Math.round((STOP_ms.valueOf()-START_ms.valueOf())/(1000*24*60*60));
-			var START_date = Date.parse(Start);
-
-			var i = 0;
-			var urls = new Array();
-			var aurls = new Array();
-			while (i < Ndays) {
-				fname = START_date.strftime(tmpstr);
-				urls[i] = fname;
-				var aurl = "http://aurora.gmu.edu:8080/AutoplotServlet-20121220/SimpleServlet?url=";
-				var aurl = aurl + encodeURIComponent("vap+dat:"+urls[i]+"?skipLines=25&time=field0&timeFormat=$Y-$m-$d+$H:$M:$S&column=field3&plot.title=field3");
-				aurls[i] = aurl;
-				console.log(aurl);
-				START_date.addDays(1);
-				i = i + 1;
-			}
-			$('#urls').val($('#urls').val()+urls+"\n\n");
-			$('#urls').val($('#urls').val().replace(/,/g,"\n"));
-			$('#urls').scrollLeft(1000);
-
-			$('#aurls').val($('#aurls').val()+aurls+"\n");
-			$('#aurls').val($('#aurls').val().replace(/,/g,"\n"));
-			$('#aurls').scrollLeft(1000);
-			 
-			var template0 = '<dataset name="$1"><access serviceName="tss" urlPath="$2"/><access serviceName="ncml" urlPath="$2"/><timeCoverage><Start>$Start</Start><End>$Stop</End></timeCoverage></dataset>';
-			var template = '';
-			for (i=0;i < Dataset.length;i++) {
-				template = template +
-							template0.
-								replace("$1",Dataset[i][0]).
-								replace(/\$2/g,Dataset[i][1]).
-								replace("$Start",Start).
-								replace("$Stop",Stop);
-			}
-			template = '<catalog xmlns="http://www.unidata.ucar.edu/namespaces/thredds/InvCatalog/v1.0" xmlns:xlink="http://www.w3.org/1999/xlink" name="$CatalogName">' + template + '</catalog>'
-			template = template.replace("$CatalogName",$('#CatalogName').val());
-			$('#catalog').val('');
-			$('#catalog').val(template);
-
-			return urls;
-		}
-		
-		function links() {
-			//console.log($('#urls').val().split("\n\n")[0]);
-			linkblocks = $('#urls').val().split("\n\n");
-			console.log(linkblocks);
-			$("#tryurls").html("");
-			for (i = 0;i < linkblocks.length-1;i++) {
-				var url = "http://datacache.org/dc/syncsubmit?source="+encodeURI(linkblocks[i]);
-				console.log("url length: " + url.length);
-				$("#tryurls").append("<a id='" +i + "' href='"+url+"'>"+i+"</a> ");
-			}
-			$("#links").show();		
-		}
-		function detectchange() {			
-				
-				var newval = "";
-				$('.enter').each(function () {newval = newval + $(this).val()});
-				if (detectchange.lastval && newval != detectchange.lastval) {
-					console.log("Change detected:");// + detectchange.lastval + " | " + newval);
-					$('input[type=button].try').click();
-				} else {
-					console.log("No change detected");
-				}
-				detectchange.lastval = newval;
-				
-		}
-
+	<script>
 		$(document).ready(function(){
+			
 			$('#CatalogName').val(CatalogDescription["Name"]);
 			$('#CatalogID').val(CatalogDescription["ID"]);
-			$('#CatalogDescription').val(CatalogDescription["Description"]);
+			$('#CatalogDescription').val(CatalogDescription["Description"] || CatalogDescription["Name"]	);
 			$('#Template').val(Template);
 			$('#LineTemplate').val(LineTemplate);
 			$('#LineRegex').val(LineRegex);
@@ -130,22 +25,20 @@
 			var tmp = JSON.stringify(DatasetDescription).replace(/\],\[/g,"\n").replace("[[","").replace("]]","").replace(/\"/g,"");
 			//console.log(tmp)
 			$('#Dataset').text(tmp);
-			//$('#Dataset').text(Dataset[0]+"\n"+Dataset[1]);
 			$('#ColumnLabels').val(JSON.stringify(ColumnLabels));
 			$('#ColumnLongnames').val(JSON.stringify(ColumnLongnames));
 			$('#ColumnGroupings').val(JSON.stringify(ColumnGroupings));
 			$('#ColumnGroupnames').val(JSON.stringify(ColumnGroupnames));
 			$('#ColumnGrouptypes').val(JSON.stringify(ColumnGrouptypes));
 
-			$('#Start').val(Start);
-			$('#Stop').val(Stop);
+			$('#startmin').val(Start);
+			$('#stopmax').val(Stop);
 			
 			$('input[type=button].try').click(
 				function () {
 					$('textarea.try').val('');						
 					$('input[type=button].try').each(function() {expandtemplate(this)});
 					links();
-					
 				});
 
 			$('textarea').autosize();
@@ -157,19 +50,15 @@
 				$(this).trigger("oninput");
 			});
 			$("textarea.try").mouseout(function() {
-				//$(this).height("1.5em");
+				$(this).height("1.5em");
 			});
 
-			setInterval(detectchange,500);
+			//setInterval(detectchange,500);
 			$('input[type=button].try').click();				
+			guessstartstop();
 
 		});
 
-		function tryajax(el) {
-			var url = "http://datacache.org/dc/syncsubmit?source=";
-			url     = url + encodeURI($($(el).prevAll('textarea')[0]).val());
-			window.location.href = url;
-		}
 		</script>
  	<body>
  	<div id="submiturl"></div>
@@ -236,44 +125,66 @@
  		<textarea class="try"></textarea>
  		<br/>
 		<br/>
- 		<hr/>
+ 		<hr/>	
+ 		* Data line regular expression <input id="trydataregex" type="button" class="guessajax" value="Try">
+ 		<br/>
+ 		<input type="text" id="LineRegex"></input>
+ 		<br/>
+		* Data Line Template <input id="trydatatemplate" type="button" class="guessajax" value="Try">
+  		<input type="text" id="LineTemplate"></input>
+ 		<hr/>	
  		<br/>
  		* URL template
  		<br/>
  		<input type="text" id="Template" class="enter"></input>
  		<input type="button" class="try" value="Expand">
  		<br/>
- 		<textarea class="try"></textarea>
+ 		<textarea id="templateexpanded" class="try"></textarea>
  		<br/>
- 		<br/>
-		Data line regular expression <input type="button" class="guessajax" value="Guess">
- 		<br/>
- 		<input type="text" id="LineRegex"></input>
- 		<br/>
-		Data Line Template <input type="button" class="guessajax" value="Guess">
- 		<br/>
-  		<input type="text" id="LineTemplate"></input>
- 		<br/>
- 		<br/>
- 		* Start date min
- 		<br/>
- 		<input type="text" id="Start" class="enter"></input>
- 		<br/>
- 		<textarea class="try"></textarea>
- 		<br/>
- 		<br/> 		
- 		* Stop date max
- 		<br/>
- 		<input type="text" id="Stop" class="enter"></input>
- 		<br/>
- 		<textarea class="try"></textarea>
- 		<br/> 		
  		<br/>
  		Data urls
+ 		<input id="checkdataurls" type="button" onclick="tryajax(this)" value="Check">
+ 		<span id="checkdataurls_span" style="display:none">
+ 			<span id="results"></span>
+ 		</span>
+ 		<br/>
   		<textarea id="urls" class="try"></textarea>
  		<br/>
  		<br/>
-		Plot urls
+ 		<div id="urlsvalid" style="display:none">
+	 		Valid data urls
+	 		<br/>
+	  		<textarea id="urlsv" class="try"></textarea>
+	 		<br/>
+	 		<br/>
+ 		</div>
+ 		<div id="urlsinvalid" style="display:none">
+	 		Invalid data urls
+	 		<br/>
+	  		<textarea id="urlsiv" class="try"></textarea>
+	 		<br/>
+	 		<br/>
+ 		</div>
+ 		* Start date min (YYYY-MM-DD)
+ 		<br/>
+ 		<input type="text" id="startmin" class="enter"></input>
+ 		<br/>
+ 		Start dates <span id="guessstartnote" style="display:none"></span>
+ 		<br/> 		
+ 		<textarea id="startdates" class="try"></textarea>
+ 		<br/>
+ 		<br/> 		
+ 		* Stop date max 
+ 		<br/>
+ 		<input type="text" id="stopmax" class="enter"></input>
+ 		<br/>
+ 		Stop dates <span id="guessstopnote" style="display:none"></span>
+ 		<br/> 		
+ 		<textarea id="stopdates" class="try"></textarea>
+ 		<br/> 		
+ 		<br/>
+		Plot urls <input id="createplots" type="button" class="guessajax" value="Create">
+ 		<br/>
  		<textarea id="aurls" class="try"></textarea>
 		<br/>
 		<br/>

@@ -49,8 +49,8 @@ if (debug) {
 if (check) {
 	eval(require('fs').readFileSync('deps/node/head.js', 'utf8'));	 
 	head(files, function (headers) {
-		console.log(headers);
-		console.log(files);
+		//console.log(headers);
+		//console.log(files);
 		info = new Array();
 		for (i = 0;i < files.length; i++) {
 			info[i]	 = new Array();
@@ -70,5 +70,5 @@ if (check) {
 		console.log(info);
 	});
 } else {
-	console.log(files);				
+	//console.log(files);				
 }
