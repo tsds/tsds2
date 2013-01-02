@@ -1,13 +1,14 @@
 var AutoplotServlet = "http://aurora.gmu.edu:8080/AutoplotServlet-20121220/SimpleServlet?url=";
-//var DataCache       = "http://datacache.org/dc/sync%3Fsource=";
-var DataCache       = "http://datacache.org/dc/sync?source=";
-//var Proxy           = "http://localhost:8002/proxy?url=";
-var Proxy = "";
+var DataCache       = "http://datacache.org/dc/sync";
+var Proxy           = "";
+var DataCache       = "http://datacache.org/dc/sync";
+//var DataCache       = "http://localhost:8000/sync";
+var Proxy           = "http://localhost:8002/proxy?url=";
 
 var Start   = '2012-10-01';
-var Stop    = '2012-10-31';
-var Start   = '2012-11-01';
-var Stop    = '2012-11-30';
+var Stop    = '2012-10-02';
+//var Start   = '2012-11-01';
+//var Stop    = '2012-12-31';
 
 var Cadence = '';
 	
