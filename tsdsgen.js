@@ -184,16 +184,77 @@ function tryajax(el) {
 	urls = $($('#urls')).val().split("\n\n");
 	urlsv = new Array();  // Valid urls
 	urlsiv = new Array(); // Invalid urls
-
+	var noproxy = true;
+	var needproxy = false;
+	$.ajax({
+			type: 'GET',
+			async: false,
+			url: DataCache, 
+			success: function (data) {console.log("Don't need a proxy");},
+			error: function () {needproxy=true;$('#checkdataurls_span #results').text('Cannot connect to ' + DataCache + ' directly.  Will try proxy if available. ');}
+	});
+	$.ajax({
+			type: 'GET',
+			async: false,
+			url: Proxy, 
+			success: function (data) {noproxy=false;console.log("Proxy seems to be available.");},
+			error: function () {if (needproxy) {$('#checkdataurls_span #results').append("Proxy " + Proxy + " not available. ");}}
+	});
+	if (needproxy && noproxy) {
+		$('#checkdataurls_span #results').append("Cannot proceed.  When this program is not run on a web server (e.g., URL starts with file://), either a proxy server is needed or you must run your browser with security disabled so requests to " + DataCache + " can be made.  See http://tsds.org/tsdsgen#Local for more information.");
+		return;
+	}
+	if (needproxy) {
+		_DataCache = DataCache + "%2Fsource=";
+	} else {
+		Proxy = "";
+		_DataCache = DataCache + "?source=";
+	} 
+	
+	Nurls = urls.split(/\n/g).filter(function(element){return element.length}).length;
+	
+	var z = 0;
+	var k = 0;
+	for (var i = 0;i < urls.length;i++) {
+		if (urls[i]) {
+			urlss = urls[i].split(/\n/g).filter(function(element){return element.length});
+			for (var j = 0;j < urlss.length;j++) {
+				k = k + 1;
+				//console.log(urlss[j]);
+				urlsv[i] = new Array();
+				urlsiv[i] = new Array();	
+				function closurehead(i,j,k) {			
+					$.ajax({
+						type: 'HEAD',
+						url: Proxy + urlss[j], 
+						success: function (data, textStatus, jqXHR) {
+								z = z+1;
+								if (jqXHR.getResponseHeader('Content-Length') > 0) {
+									urlsv[i][j] = urlss[j];
+								} else {
+									urlsiv[i][j] = urlss[j];
+								}
+								// console.log("z = " + z + ", k = " + k);
+								if (z == Nurls) {
+									$('#checkdataurls_span #results').append("Done.");
+								}
+							}
+					});
+				}
+				closurehead(i,j,k);				
+			}				
+		}
+	}
+	return;
+	
 	z = 0;
-//	for (var i = 0;i<urls.length;i++) {
-	for (var i = 0;i<1;i++) {
+	for (var i = 0;i < urls.length;i++) {
 		if (urls[i]) {
 			function closure(i) {
 				$.ajax({
 					type: 'GET',
-					url: Proxy + DataCache + encodeURI(urls[i]), 
-					success: function (data) {
+					url: Proxy + _DataCache + encodeURI(urls[i]), 
+					success: function (data, textStatus, jqXHR) {
 						z = z+1;
 						urlsv[i] = new Array();
 						urlsiv[i] = new Array();
@@ -208,13 +269,11 @@ function tryajax(el) {
 						}
 						
 						var msg = $('#checkdataurls_span #results').text();
-						var msg = msg + Nvalid + "/" + data.length + ", ";
-						$('#checkdataurls_span #results').text(msg);
-						//console.log(data);
-						//console.log(i + " " + urlsc[i]);
-						if (z == urls.length) { // Last one
-							var msg = $('#checkdataurls_span #results').text();
-							$('#checkdataurls_span #results').text(msg.replace(/, $/,'.'));
+						var msg = Nvalid + "/" + data.length + ", ";
+						$('#checkdataurls_span #results').append(msg);
+
+						if (z == urls.length - 1) { // Last one
+							$('#checkdataurls_span #results').append("Done.");
 							$('#urlsvalid').show();
 							$('#urlsinvalid').show();
 							$('#urlsv').val(urlsv.filter(function(element){return element.length}).join('\n\n').replace(/,/g,'\n'));
