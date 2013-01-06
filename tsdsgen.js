@@ -69,27 +69,100 @@ function guessstartstop() {
 
 }
 
-function expandtemplate(el,tmpstr,Dataset) {
-	
-	if (arguments.length == 1) {
-		Dataset = $('#Dataset').val().split("\n");
-		tmpstr = $(el).prev().val();
-		for (i = 0; i < Dataset.length;i++) {
-			TemplateExpanded = expandtemplate(el,tmpstr,Dataset[i]);
+function expandtemplate(el) {
+		
+	if (arguments.length == 1 && (typeof el === "object")) {
+		expandtemplate.tmpstr = $(el).prev().val();
+		tmpstr = expandtemplate.tmpstr;
+		
+		expandtemplate.Dataset = new Array();
+		expandtemplate.Dataset = $('#Dataset').val().split("\n");
+		Dataset = expandtemplate.Dataset;
+
+		var TemplateExpanded = "";
+		function expand(dataset,callback) {
+			TemplateExpanded = TemplateExpanded + expandtemplate(dataset) + "\n";
 		}
-		return TemplateExpanded;
+
+
+		function finish() {
+						
+			ta = $(el).nextAll('textarea').eq(0);
+			ta.val(TemplateExpanded.replace(/\]\n\[/g,"],\n[").replace(/}\n{/g,"},\n{"));	
+			toc = new Date();
+			Nurls = (TemplateExpanded.match(/o/g)||[]).length;
+			console.log("Generation of " + N + " URLs completed in " + (toc-tic) + " ms") ;
+			tic = new Date();
+			$('#checkdataurls_results').text("Placing URLs below");
+			N = TemplateExpanded.length/1000000;
+			if (N > 3) {
+				//$('#checkdataurls_results').text("");
+				//$('#checkdataurls_span').show();
+				alert('Generation of ' + Nurls + ' URLs completed.  \n\nURLs are ' + Math.round(N*10)/10 + ' MB.  Rendering in browser could take up to '  + Math.round(N) + ' seconds.');
+			}			
+				$('#urls').show();
+				toc = new Date();
+				console.log("Placement of URLs in DOM (" + N + " MB)" + " completed in " + (toc-tic) + " ms") ;
+				if (N < 1) 
+					$('#urls').scrollLeft(1000);
+		}
+
+		var START_ms   = new Date(Date.parse($('#startmin').val()));
+		var STOP_ms    = new Date(Date.parse($('#stopmax').val()));
+		var Ndays      = 1 + Math.round((STOP_ms.valueOf()-START_ms.valueOf())/(1000*24*60*60));
+
+		if (1) {
+			tic = new Date();
+			Dataset.forEach(expand);
+			finish();			
+		}
+
+		// An attempt at parallelization of URL generation.
+		// Is much slower.
+		if (0) {
+			function finish2(TemplateExpanded) {
+				ta = $(el).nextAll('textarea').eq(0);
+				ta.val(TemplateExpanded.replace(/\]\n\[/g,"],\n[").replace(/}\n{/g,"},\n{"));	
+				N = (TemplateExpanded.match(/o/g)||[]).length;
+				toc = new Date();
+				console.log("Generation of " + N + " URLs completed at " + (toc-tic) + " ms") ;
+				$('#urls').show();
+				N = TemplateExpanded.length/1000000;
+				console.log("Placement of URLs in DOM (" + N + " MB)" + " completed at " + (toc-tic) + " ms") ;
+				$('#urls').scrollLeft(1000);
+			}
+			function expand2(dataset) {	
+				TemplateExpanded2 = expandtemplate(dataset) + "\n";
+				finish2(TemplateExpanded2);
+			}
+			
+			tic = new Date();
+			async.forEach(Dataset, expand2, function (err) {
+				// Seems to never be called?
+				console.log('Done');
+				toc = new Date();
+				console.log(toc-tic);
+			});
+		}
+	} else {
+		tmpstr = expandtemplate.tmpstr;
+		Dataset = el;
 	}
 
 	if (tmpstr instanceof Object) {
 		tmpobj = {};
 		for (var attr in tmpstr) {
-			tmpobj[expandtemplate(el,attr,Dataset)] = expandtemplate(el,tmpstr[attr],Dataset);
+			console.log(attr);
+			tmpobj[expandtemplate(Dataset)] = expandtemplate(tmpstr[attr]);
 		}
 		return tmpobj;
 	}
 
 	if (!tmpstr) {return "";}
-	
+	tmpstr = expandtemplate.tmpstr;
+
+	//console.log("Expanding " + Dataset);
+	//console.log("with template " + tmpstr);
 	// Expand wildcards
 	var N = tmpstr.match(/\$/g).length;
 	sDataset = Dataset.split(",");
@@ -98,13 +171,11 @@ function expandtemplate(el,tmpstr,Dataset) {
 	}
 	tmpstr = "'" + tmpstr + "'";
 	tmpstr = eval(tmpstr);
-	$(el).nextAll('textarea').eq(0).val($(el).nextAll('textarea').eq(0).val()+tmpstr+"\n");
 
 	if (!tmpstr.match("%")) {
 		return tmpstr;
 	}
 	
-	//console.log(tmpstr);
 	// Expand times
 	var START_ms   = new Date(Date.parse($('#startmin').val()));
 	var STOP_ms    = new Date(Date.parse($('#stopmax').val()));
@@ -115,22 +186,30 @@ function expandtemplate(el,tmpstr,Dataset) {
 	urls = "";
 	aurls = "";
 	nl = "";
+	//tic = new Date();
 	while (i < Ndays) {
 		fname = START_date.strftime(tmpstr);
 		if (i > 0) {nl="\n";}
 		urls = urls + nl + fname;
-		var aurlx = AutoplotServlet + encodeURIComponent("vap+dat:"+fname+"?skipLines=25&time=field0&timeFormat=$Y-$m-$d+$H:$M:$S&column=field3&plot.title=field3");
-		aurls = aurls + nl + aurlx;
+		//var aurlx = AutoplotServlet + encodeURIComponent("vap+dat:"+fname+"?skipLines=25&time=field0&timeFormat=$Y-$m-$d+$H:$M:$S&column=field3&plot.title=field3");
+		//aurls = aurls + nl + aurlx;
 		START_date.addDays(1);
 		i = i + 1;
 	}
-	$('#urls').val($('#urls').val()+urls+"\n\n");
-	$('#urls').scrollLeft(1000);
+	//toc = new Date();
+	//console.log("Done.  Took " + (toc-tic) + " ms");
 
-	$('#aurls').val($('#aurls').val()+aurls+"\n\n");
-	$('#aurls').scrollLeft(1000);
+
+	//$('#aurls').append(aurls+"\n\n");
+	//$('#aurls').scrollLeft(1000);
 	
-	// Catalog
+	return urls + "\n";
+	
+}
+
+function catalog(DataSet	) {
+
+	// THREDDS Catalog
 	var template0 = '<dataset name="$1"><access serviceName="tss" urlPath="$2"/><access serviceName="ncml" urlPath="$2"/><timeCoverage><Start>$Start</Start><End>$Stop</End></timeCoverage></dataset>';
 	var template = '';
 	for (i=0;i < Dataset.length;i++) {
@@ -145,8 +224,6 @@ function expandtemplate(el,tmpstr,Dataset) {
 	template = template.replace("$CatalogName",$('#CatalogName').val());
 	$('#catalog').val('');
 	$('#catalog').val(template);
-
-	return urls;
 }
 
 function links() {
@@ -172,80 +249,62 @@ function detectchange() {
 		} else {
 			console.log("No change detected");
 		}
-		detectchange.lastval = newval;
-		
+		detectchange.lastval = newval;	
 }
 
-function tryajax(el) {
+function ajaxReport(el) {
+	// TODO: Remove bad URLs and call guessstartstop() when done.
 
-	data = encodeURI($($(el).nextAll('textarea')[0]).val());
-	$('#checkdataurls_span').show();
-	$('#checkdataurls_span #results').text('... ');
-	urls = $($('#urls')).val().split("\n\n");
-	urlsv = new Array();  // Valid urls
-	urlsiv = new Array(); // Invalid urls
+
+	el = '#' + $(el).attr('id');
+	$(el+'_span').show();
+	$(el+'_results').text('... ');
+	console.log("Checking " + DataCache);
+	
+	// TODO: Have ajaxHEAD modify urlsv and urlsi.
+	urls = $($('#urls')).val().split("\n\n").filter(function(element){return element.length});
+	
+	// See if AJAX GET requests needs Proxy.  If so, return Proxy.  Otherwise, return "".
 	var noproxy = true;
-	var needproxy = false;
-	$.ajax({
-			type: 'GET',
-			async: false,
-			url: DataCache, 
-			success: function (data) {console.log("Don't need a proxy");},
-			error: function () {needproxy=true;$('#checkdataurls_span #results').text('Cannot connect to ' + DataCache + ' directly.  Will try proxy if available. ');}
-	});
-	$.ajax({
-			type: 'GET',
-			async: false,
-			url: Proxy, 
-			success: function (data) {noproxy=false;console.log("Proxy seems to be available.");},
-			error: function () {if (needproxy) {$('#checkdataurls_span #results').append("Proxy " + Proxy + " not available. ");}}
-	});
-	if (needproxy && noproxy) {
-		$('#checkdataurls_span #results').append("Cannot proceed.  When this program is not run on a web server (e.g., URL starts with file://), either a proxy server is needed or you must run your browser with security disabled so requests to " + DataCache + " can be made.  See http://tsds.org/tsdsgen#Local for more information.");
-		return;
-	}
-	if (needproxy) {
+	var needproxy = true;	
+	testurl = urls[0].split(/\n/g).filter(function(element){return element.length})[0];
+	Proxy = checkproxy(testurl, DataCache, el+'_results');
+	
+	if (Proxy) {
 		_DataCache = DataCache + "%2Fsource=";
 	} else {
-		Proxy = "";
 		_DataCache = DataCache + "?source=";
 	} 
 	
-	Nurls = urls.split(/\n/g).filter(function(element){return element.length}).length;
+	$.ajax({
+		type: 'HEAD',
+		async: false,
+		timeout: 300,
+		url: _DataCache, 
+		success: function () {
+				console.log("AJAX HEAD request to DataCache worked.");
+				},
+		error: function () {
+				console.log("AJAX HEAD request to DataCache failed.");
+				$(el + "_results").text('Connection to DataCache server ' + _DataCache.replace(/\?.*/,'')	 + ' failed. Cannot continue.');
+			}
+	});
+
+	data = encodeURI($($(el).nextAll('textarea')[0]).val());
 	
-	var z = 0;
-	var k = 0;
-	for (var i = 0;i < urls.length;i++) {
-		if (urls[i]) {
-			urlss = urls[i].split(/\n/g).filter(function(element){return element.length});
-			for (var j = 0;j < urlss.length;j++) {
-				k = k + 1;
-				//console.log(urlss[j]);
-				urlsv[i] = new Array();
-				urlsiv[i] = new Array();	
-				function closurehead(i,j,k) {			
-					$.ajax({
-						type: 'HEAD',
-						url: Proxy + urlss[j], 
-						success: function (data, textStatus, jqXHR) {
-								z = z+1;
-								if (jqXHR.getResponseHeader('Content-Length') > 0) {
-									urlsv[i][j] = urlss[j];
-								} else {
-									urlsiv[i][j] = urlss[j];
-								}
-								// console.log("z = " + z + ", k = " + k);
-								if (z == Nurls) {
-									$('#checkdataurls_span #results').append("Done.");
-								}
-							}
-					});
-				}
-				closurehead(i,j,k);				
-			}				
-		}
+	function status(Nvalid,Nchecked) {
+		var msg = $(el+'_results').text().replace("... ","");
+		var msg = Nvalid + "/" + Nchecked + ", ";
+		$(el+'_results').append(msg);
 	}
-	return;
+		
+	function report() {	
+		$(el+'_results').append("Done.");
+		$('#urlsvalid').show();
+		$('#urlsinvalid').show();
+		$('#urlsv').val(urlsv.filter(function(element){return element.length}).join('\n\n').replace(/,/g,'\n'));
+		$('#urlsi').val(urlsi.filter(function(element){return element.length}).join('\n\n').replace(/,/g,'\n'));
+	}
 	
 	z = 0;
 	for (var i = 0;i < urls.length;i++) {
@@ -257,32 +316,98 @@ function tryajax(el) {
 					success: function (data, textStatus, jqXHR) {
 						z = z+1;
 						urlsv[i] = new Array();
-						urlsiv[i] = new Array();
+						urlsi[i] = new Array();
 						var Nvalid = 0;
 						for (var j = 0;j < data.length;j++) {
 							if (data[j].dataLength > 0) {
 								Nvalid = Nvalid + 1;	
 								urlsv[i][j] = urls[i].split("\n")[j];
 							} else {
-								urlsiv[i][j] = urls[i].split("\n")[j];
+								urlsi[i][j] = urls[i].split("\n")[j];
 							}
-						}
-						
-						var msg = $('#checkdataurls_span #results').text();
-						var msg = Nvalid + "/" + data.length + ", ";
-						$('#checkdataurls_span #results').append(msg);
-
-						if (z == urls.length - 1) { // Last one
-							$('#checkdataurls_span #results').append("Done.");
-							$('#urlsvalid').show();
-							$('#urlsinvalid').show();
-							$('#urlsv').val(urlsv.filter(function(element){return element.length}).join('\n\n').replace(/,/g,'\n'));
-							$('#urlsiv').val(urlsiv.filter(function(element){return element.length}).join('\n\n').replace(/,/g,'\n'));
-						}
+						}						
+						status(Nvalid,data.length)
+						if (z == urls.length) {report();}
 					}});
 			}
 			closure(i);
-			console.log("Checking URL block " + (i+1) + "/" + urls.length);
+			//console.log("Checking URL block " + (i+1) + "/" + urls.length);
 		}
 	}
+}
+
+function ajaxHEAD(el) {
+	
+	// TODO: Remove bad URLs and call guessstartstop() when done.
+
+	el = '#' + $(el).attr('id');
+	
+	$(el+'_span').show();
+	$(el+'_results').text('... ');
+
+	urls = $($('#urls')).val().split("\n\n").filter(function(element){return element.length});
+	urlsv = new Array();  // Valid urls
+	urlsi = new Array(); // Invalid urls
+
+	// See if AJAX HEAD requests needs Proxy.  If so, return Proxy.  Otherwise, return "".
+	var noproxy = true;
+	var needproxy = true;	
+	testurl = urls[0].split(/\n/g).filter(function(element){return element.length})[0];
+	Proxy = checkproxy(testurl, Proxy, el+'_results');
+	if (Proxy === false) return;
+	
+	// Count total number of URLs
+	Nurls = 0;
+	for (var i = 0;i < urls.length;i++) {	
+		urlss = urls[i].split(/\n/g).filter(function(element){return element.length});
+		Nurls = Nurls + urlss.length;
+	}
+
+	// Do HEAD request on each URL
+	function report(Nvalid) {
+		$(el+'_results').text(Nvalid + "/" + Nurls + " are valid. Done.");
+		$(el+'_span').next('span').show();
+	}
+	function status(z, Nvalid) {
+		$(el+'_results').text(Nvalid + "/" + z + " checked are valid. " + (Nurls-z) + " checks left.");
+	}
+
+	var z = 0;
+	var k = 0;
+	var Nvalid = 0;
+	for (var i = 0;i < urls.length;i++) {
+		if (urls[i]) {
+			urlss = urls[i].split(/\n/g).filter(function(element){return element.length});
+			for (var j = 0;j < urlss.length;j++) {
+				k = k + 1;
+				urlsv[i]  = new Array();
+				urlsi[i] = new Array();	
+				function closurehead(i,j,k) {			
+					$.ajax({
+						type: 'HEAD',
+						url: Proxy + urlss[j], 
+						error: function () {
+									z = z+1;
+									urlsi[i][j] = urlss[j];
+									if (z % 100) {status(z,Nvalid);}
+									if (z == Nurls) {report(Nvalid);}
+								}, 
+						success: function (data, textStatus, jqXHR) {
+								z = z+1;
+								Nvalid = Nvalid + 1;
+								if (jqXHR.getResponseHeader('Content-Length') > 0) {
+									urlsv[i][j] = urlss[j];
+								} else {
+									urlsi[i][j] = urlss[j];
+								}
+								if (z % 100) {status(z,Nvalid);}
+								if (z == Nurls) {report(Nvalid);}
+							}
+					});
+				}
+				closurehead(i,j,k);				
+			}				
+		}
+	}
+	return;	
 }

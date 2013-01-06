@@ -4,17 +4,22 @@
  		<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
  		<title>TSDS Generator</title>
  		<link rel="stylesheet" type="text/css" href="asset/main.css">
+ 		<link rel="icon" type="image/ico" href="asset/favicon.ico"/>
+ 		<script type="text/javascript" src="deps/async.js"></script>
+ 		
  		<script type="text/javascript" src="deps/1.7.2/jquery.min.js"></script>
  		<script type="text/javascript" src="deps/autosize/jquery.autosize-min.js"></script>
  		<script type="text/javascript" src="deps/strftime.js"></script>
  		<script type="text/javascript" src="deps/sprintf-0.7-beta1.js"></script>	
  		<script type="text/javascript" src="deps/date.js"></script>
+ 		<script type="text/javascript" src="deps/jquery.scrollTo-min.js"></script>
+
+ 		<script type="text/javascript" src="checkproxy.js"></script> 		
  		<script type="text/javascript" src="tsdsgen-default.js"></script>
- 		 <script type="text/javascript" src="tsdsgen.js"></script>
+ 		<script type="text/javascript" src="tsdsgen.js"></script>
  	</head>
 	<script>
 		$(document).ready(function(){
-			
 			$('#CatalogName').val(CatalogDescription["Name"]);
 			$('#CatalogID').val(CatalogDescription["ID"]);
 			$('#CatalogDescription').val(CatalogDescription["Description"] || CatalogDescription["Name"]	);
@@ -36,26 +41,34 @@
 			
 			$('input[type=button].try').click(
 				function () {
-					$('textarea.try').val('');						
-					$('input[type=button].try').each(function() {expandtemplate(this)});
+					$(this).val('');						
+					$(this).each(function() {expandtemplate(this)});
 					links();
 				});
 
-			$('textarea').autosize();
-			
-			$("textarea.try").mouseenter(function() {
-				// Remove last newline.
-				$(this).val($(this).val().replace(/^\s+|\s+$/g, ""));
-				// Trigger autosize event.
-				$(this).trigger("oninput");
-			});
-			$("textarea.try").mouseout(function() {
-				$(this).height("1.5em");
-			});
+			$('textarea.enter').autosize();
 
+			if (0) {
+				$('textarea.try').autosize();
+
+				
+				$("textarea.try").toggle(
+								function () {
+									$(this).trigger("oninput"); // Trigger autosize event.
+								},	
+								function () {
+									$(this).height("5.5em")
+								});
+			}
+				
 			//setInterval(detectchange,500);
-			$('input[type=button].try').click();				
-			guessstartstop();
+			setTimeout(
+					function () {
+						$('input[type=button].try').click();
+						//$('input[type=button].try').eq(5).click();
+						// Create THREDDS catalog
+						//catalog($('#Dataset').val().split("\n")); 
+					}, 10);
 
 		});
 
@@ -83,41 +96,41 @@
  		<input type="text" id="ColumnUnits"></input>
  		<br/>
  		<br/>
- 		<hr/>
+ 	<hr/>
 		<br/>
- 		* Dataset description, [ID, other info].  (If not specified, ID is generated based on Dataset Description.)
+ 		* Dataset Description, [ID, other info].  (If not specified, ID is generated based on Dataset Description.)
  		<br>
  		<textarea class="enter" id="Dataset"></textarea>
  		<br/>
- 		Column labels
+ 		Column labels ($1 refers to DatasetDescription, $2 refers to ID, etc.)
  		<br/>
  		<input type='text' id="ColumnLabels" class="enter"></input>
  		<input type="button" class="try" value="Expand">
  		<br/>
  		<textarea class="try"></textarea>
  		<br/>
- 		Column description
+ 		Column description ($1 refers to DatasetDescription, $2 refers to ID, etc.)
  		<br/>
  		<input type="text" id="ColumnLongnames" class="enter"></input>
 		<input type="button" class="try" value="Expand">
  		<br/>
  		<textarea class="try"></textarea>
  		<br/>
- 		Column groupings
+ 		Column groupings ($1 refers to DatasetDescription, $2 refers to ID, etc.)
  		<br/>
  		<input type="text" id="ColumnGroupings" class="enter"></input>
 		<input type="button" class="try" value="Expand">
  		<br/>
  		<textarea class="try"></textarea>
  		<br/>
- 		Column group names
+ 		Column group names ($1 refers to DatasetDescription, $2 refers to ID, etc.)
  		<br/>
  		<input type="text" id="ColumnGroupnames" class="enter"></input>
 		<input type="button" class="try" value="Expand">
  		<br/>
  		<textarea class="try"></textarea>
  		<br/>
- 		Column group types
+ 		Column group types ($1 refers to DatasetDescription, $2 refers to ID, etc.)
  		<br/>
  		<input type='text' id="ColumnGrouptypes" class="enter"></input>
 		<input type="button" class="try" value="Expand">
@@ -125,30 +138,51 @@
  		<textarea class="try"></textarea>
  		<br/>
 		<br/>
- 		<hr/>	
- 		* Data line regular expression <input id="trydataregex" type="button" class="guessajax" value="Try">
+ 	<hr/>	
  		<br/>
- 		<input type="text" id="LineRegex"></input>
+ 		 * Start date min (YYYY-MM-DD)
  		<br/>
-		* Data Line Template <input id="trydatatemplate" type="button" class="guessajax" value="Try">
-  		<input type="text" id="LineTemplate"></input>
- 		<hr/>	
+ 		<input type="text" id="startmin" class="enter"></input>
  		<br/>
- 		* URL template
+ 		<div style="display:none;">
+	 		Start dates <span id="guessstartnote" style="display:none"></span>
+	 		<br/> 		
+	 		<textarea id="startdates" class="try"></textarea>
+	 		<br/>
+	 		<br/>
+ 		</div> 		
+ 		* Stop date max 
+ 		<br/>
+	 	<input type="text" id="stopmax" class="enter"></input>
+	 	<br/>
+ 		<div style="display:none;">
+	 		Stop dates <span id="guessstopnote" style="display:none"></span>
+	 		<br/> 		
+	 		<textarea id="stopdates" class="try"></textarea>
+	 		<br/> 		
+	 		<br/>
+ 		</div>
+ 		* URL template ($1 refers to Dataset Description, $2 refers to ID, etc.  %Y = four-digit year, %m = two-digit month, %d = two-digit day.)
  		<br/>
  		<input type="text" id="Template" class="enter"></input>
  		<input type="button" class="try" value="Expand">
  		<br/>
- 		<textarea id="templateexpanded" class="try"></textarea>
+ 		Data URLs (Generated by expanding $ wildcards for each Dataset and the % wildcards for entire timerange.) 
  		<br/>
- 		<br/>
- 		Data urls
- 		<input id="checkdataurls" type="button" onclick="tryajax(this)" value="Check">
+ 		<input id="checkdataurls" type="button" onclick="ajaxHEAD(this);" value="Check if URLs are valid.">
  		<span id="checkdataurls_span" style="display:none">
- 			<span id="results"></span>
+ 			<span id="checkdataurls_results"></span>
+ 		</span>
+ 		<span id="reportdataurls" style="display:none">
+ 			<br/>
+	 		<input id="reportdataurls" type="button" onclick="ajaxReport(this);" value="Generate report on URLs (slow)">
+	 		<span id="reportdataurls_span" style="display:none">
+	 			<span id="reportdataurls_results"></span>
+	 		</span>
  		</span>
  		<br/>
-  		<textarea id="urls" class="try"></textarea>
+  		<textarea id="urls" class="try" style="display:none"></textarea>
+  		<div id="urls" class="try" style="display:none"></div>
  		<br/>
  		<br/>
  		<div id="urlsvalid" style="display:none">
@@ -161,38 +195,30 @@
  		<div id="urlsinvalid" style="display:none">
 	 		Invalid data urls
 	 		<br/>
-	  		<textarea id="urlsiv" class="try"></textarea>
+	  		<textarea id="urlsi" class="try"></textarea>
 	 		<br/>
 	 		<br/>
  		</div>
- 		* Start date min (YYYY-MM-DD)
+ 	<hr/>	
+		<br/>
+ 		* Data line regular expression <input id="trydataregex" type="button" class="guessajax" value="Try">
  		<br/>
- 		<input type="text" id="startmin" class="enter"></input>
+ 		<input type="text" id="LineRegex"></input>
  		<br/>
- 		Start dates <span id="guessstartnote" style="display:none"></span>
- 		<br/> 		
- 		<textarea id="startdates" class="try"></textarea>
- 		<br/>
- 		<br/> 		
- 		* Stop date max 
- 		<br/>
- 		<input type="text" id="stopmax" class="enter"></input>
- 		<br/>
- 		Stop dates <span id="guessstopnote" style="display:none"></span>
- 		<br/> 		
- 		<textarea id="stopdates" class="try"></textarea>
- 		<br/> 		
- 		<br/>
-		Plot urls <input id="createplots" type="button" class="guessajax" value="Create">
- 		<br/>
- 		<textarea id="aurls" class="try"></textarea>
+		* Data Line Template <input id="trydatatemplate" type="button" class="guessajax" value="Try">
+  		<input type="text" id="LineTemplate"></input>
 		<br/>
 		<br/>
-		catalog.thredds:
-		<br/>
-	 	<textarea class="try" id="catalog"></textarea>
-		<br/>
-		<input type="submit" class="try" value="Submit">
+ 	<hr/>	
+		<br/> 		
+ 		<div style="display:none">
+			<br/>
+			<br/>
+			catalog.thredds:
+			<br/>
+		 	<textarea class="try" id="catalog"></textarea>
+			<br/>
+		</div>
  	</form>
  	</div>
  	</body>

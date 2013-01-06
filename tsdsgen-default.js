@@ -1,19 +1,25 @@
-var AutoplotServlet = "http://aurora.gmu.edu:8080/AutoplotServlet-20121220/SimpleServlet?url=";
+var AutoplotServlet = "http://autoplot.org/plot/SimpleServlet?url=";
 var DataCache       = "http://datacache.org/dc/sync";
 var Proxy           = "";
-var DataCache       = "http://datacache.org/dc/sync";
-//var DataCache       = "http://localhost:8000/sync";
+//var DataCache       = "http://datacache.org/dc/sync";
+var DataCache       = "http://localhost:8000/sync";
 var Proxy           = "http://localhost:8002/proxy?url=";
 
 var Start   = '2012-10-01';
 var Stop    = '2012-10-02';
+//var Stop    = '2012-10-02';
 //var Start   = '2012-11-01';
+//var Start   = '2000-01-01';
+//var Start   = '2010-01-01';
 //var Stop    = '2012-12-31';
 
 var Cadence = '';
 	
 var CatalogDescription = {Name:"USGS Real Time 1-Minute Magnetometer Measurements", ID:"USGS/MAG/1M",Description:""};
-var CatalogDescription = {Name:"USGS Real Time 1-Second Magnetometer Measurements", ID:"USGS/MAG/1S",Description:""};
+//var CatalogDescription = {Name:"USGS Real Time 1-Second Magnetometer Measurements", ID:"USGS/MAG/1S",Description:""};
+
+var Template           = "http://magweb.cr.usgs.gov/data/magnetometer/$5/OneMinute/$6%Y%m%dvmin.min";
+//var Template           = "http://magweb.cr.usgs.gov/data/magnetometer/$5/OneSecond/$6%Y%m%dvsec.sec";
 
 var DatasetDescription = [
 						  ["BDT one-minute","","BDT1m","bdtvmin","BDT","bdt","Boulder Test"],                           
@@ -34,9 +40,6 @@ var DatasetDescription = [
 						  ["SJG one-minute","","SJG1m","sjgvmin","SJG","sjg","San Juan"],
 						  ["TUC one-minute","","TUC1m","tucvmin","TUC","tuc","Tucson"],
 						 ];
-
-var Template           = "http://magweb.cr.usgs.gov/data/magnetometer/$5/OneMinute/$6%Y%m%dvmin.min";
-var Template           = "http://magweb.cr.usgs.gov/data/magnetometer/$5/OneSecond/$6%Y%m%dvsec.sec";
 
 var ColumnLabels       = ["DATE","TIME","DOY","$5H","$5D","$5Z","$5F"];
 var ColumnLongnames    = ["Date","Time","$7 H","$7 D","$7 Z","$7 F"];
