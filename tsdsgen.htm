@@ -65,6 +65,7 @@
 			setTimeout(
 					function () {
 						$('input[type=button].try').click();
+						dlscript();
 						//$('input[type=button].try').eq(5).click();
 						// Create THREDDS catalog
 						//catalog($('#Dataset').val().split("\n")); 
@@ -199,7 +200,15 @@
 	 		<br/>
 	 		<br/>
  		</div>
- 	<hr/>	
+ 	<hr/>
+ 		<div id="dlscript" style="display:none">
+	 		Download Script
+	 		<br/>
+	  		<textarea id="script" class="try"></textarea>
+	 		<br/>
+	 		<br/>
+ 		</div>
+ 	</hr>	
 		<br/>
  		* Data line regular expression <input id="trydataregex" type="button" class="guessajax" value="Try">
  		<br/>

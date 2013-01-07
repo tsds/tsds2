@@ -252,6 +252,21 @@ function detectchange() {
 		detectchange.lastval = newval;	
 }
 
+function dlscript(language) {
+	//$('#checkdataurls').click();
+	var urls = $('#urlsv').val().split('\n').filter(function(element){return element.length});
+	var dlurls = new Array();
+	//console.log(urls);
+	//urls.length
+	for (var i = 0;i < 10; i++) {
+		dlurls[i] = DataCache + "?return=data&source=" + encodeURI(urls[i]);
+	}
+	script = "urls={...\n'" + dlurls.join("',...\n'").toString() + "'...\n}";
+	script = script + "\n" +
+		"for i=1:length(urls),s=urlread(urls{i});sprintf('Reading %4d/%4d',i,urls{i});end";
+	$('#script').val(script).parent().show();
+}
+
 function ajaxReport(el) {
 	// TODO: Remove bad URLs and call guessstartstop() when done.
 
