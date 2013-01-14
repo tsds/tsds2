@@ -191,8 +191,6 @@ function expandtemplate(el) {
 		fname = START_date.strftime(tmpstr);
 		if (i > 0) {nl="\n";}
 		urls = urls + nl + fname;
-		//var aurlx = AutoplotServlet + encodeURIComponent("vap+dat:"+fname+"?skipLines=25&time=field0&timeFormat=$Y-$m-$d+$H:$M:$S&column=field3&plot.title=field3");
-		//aurls = aurls + nl + aurlx;
 		START_date.addDays(1);
 		i = i + 1;
 	}
@@ -254,36 +252,48 @@ function detectchange() {
 
 function dlscript(language) {
 	//$('#checkdataurls').click();
-	var urls = $('#urlsv').val().split('\n').filter(function(element){return element.length});
+	if ($('#urlsv').text().length == 0) {
+		var urls = $('#urls').val().split('\n').filter(function(element){return element.length});		
+	} else {
+		var urls = $('#urlv').val().split('\n').filter(function(element){return element.length});		
+	}
 	var dlurls = new Array();
 	//console.log(urls);
 	//urls.length
+	script = "prefix = '';\nfiles={...\n";
+
 	for (var i = 0;i < 10; i++) {
 		dlurls[i] = DataCache + "?return=data&source=" + encodeURI(urls[i]);
+		script = script + "'" + encodeURI(urls[i]) + "',...\n";
 	}
-	script = "urls={...\n'" + dlurls.join("',...\n'").toString() + "'...\n}";
-	script = script + "\n" +
-		"for i=1:length(urls),s=urlread(urls{i});sprintf('Reading %4d/%4d',i,urls{i});end";
+	script = script + "}";
 	$('#script').val(script).parent().show();
 }
 
-function ajaxReport(el) {
+function ajaxReport(el,type) {
 	// TODO: Remove bad URLs and call guessstartstop() when done.
-
 
 	el = '#' + $(el).attr('id');
 	$(el+'_span').show();
 	$(el+'_results').text('... ');
-	console.log("Checking " + DataCache);
 	
-	// TODO: Have ajaxHEAD modify urlsv and urlsi.
-	urls = $($('#urls')).val().split("\n\n").filter(function(element){return element.length});
+	urls = new Array();
+	if ($("#urlsv").val() !== "") {
+		urls = $($('#urlsv')).val().split("\n\n").filter(function(element){return element.length});	
+		data = encodeURI($("#urlsv").val());
+	} else {
+		urls = $($('#urls')).val().split("\n\n").filter(function(element){return element.length});			
+		data = encodeURI($("#urls").val());
+	}
+	//console.log(urls);
+	//console.log(data);
 	
+	if (urls.length == 0) {return}
 	// See if AJAX GET requests needs Proxy.  If so, return Proxy.  Otherwise, return "".
 	var noproxy = true;
 	var needproxy = true;	
 	testurl = urls[0].split(/\n/g).filter(function(element){return element.length})[0];
-	Proxy = checkproxy(testurl, DataCache, el+'_results');
+	Proxy = checkproxy(DataCache, DataCache, el+'_results');
 	
 	if (Proxy) {
 		_DataCache = DataCache + "%2Fsource=";
@@ -297,64 +307,77 @@ function ajaxReport(el) {
 		timeout: 300,
 		url: _DataCache, 
 		success: function () {
-				console.log("AJAX HEAD request to DataCache worked.");
+					console.log("AJAX HEAD request to DataCache worked.");
 				},
 		error: function () {
-				console.log("AJAX HEAD request to DataCache failed.");
-				$(el + "_results").text('Connection to DataCache server ' + _DataCache.replace(/\?.*/,'')	 + ' failed. Cannot continue.');
-			}
+					console.log("AJAX HEAD request to DataCache failed.");
+					$(el + "_results").text('Connection to DataCache server ' + _DataCache.replace(/\?.*/,'')	 + ' failed. Cannot continue.');
+				}
 	});
 
-	data = encodeURI($($(el).nextAll('textarea')[0]).val());
-	
-	function status(Nvalid,Nchecked) {
-		var msg = $(el+'_results').text().replace("... ","");
-		var msg = Nvalid + "/" + Nchecked + ", ";
-		$(el+'_results').append(msg);
-	}
-		
-	function report() {	
-		$(el+'_results').append("Done.");
-		$('#urlsvalid').show();
-		$('#urlsinvalid').show();
-		$('#urlsv').val(urlsv.filter(function(element){return element.length}).join('\n\n').replace(/,/g,'\n'));
-		$('#urlsi').val(urlsi.filter(function(element){return element.length}).join('\n\n').replace(/,/g,'\n'));
+	if (type === "report") {
+		// Insert DataCache report URL into iframe.
+		console.log(_DataCache.replace("sync","report") + data);
+		$(el+'_results').attr("src",_DataCache.replace("sync","report") + data);
+		return;
 	}
 	
-	z = 0;
-	for (var i = 0;i < urls.length;i++) {
-		if (urls[i]) {
-			function closure(i) {
-				$.ajax({
-					type: 'GET',
-					url: Proxy + _DataCache + encodeURI(urls[i]), 
-					success: function (data, textStatus, jqXHR) {
-						z = z+1;
-						urlsv[i] = new Array();
-						urlsi[i] = new Array();
-						var Nvalid = 0;
-						for (var j = 0;j < data.length;j++) {
-							if (data[j].dataLength > 0) {
-								Nvalid = Nvalid + 1;	
-								urlsv[i][j] = urls[i].split("\n")[j];
-							} else {
-								urlsi[i][j] = urls[i].split("\n")[j];
-							}
-						}						
-						status(Nvalid,data.length)
-						if (z == urls.length) {report();}
-					}});
+	if (type === "plot") {
+		DataSet = $('#Dataset').val().split("\n");
+		var urlss = new Array();
+		L = new Array();
+		for (var i = 0; i < urls.length; i++) {
+			L[i] = 0;
+			urlss[i] = urls[i].split(/\n/g).filter(function(element){return element.length});
+			options = "width=500&height=100&font=sans-8&format=image%2Fpng&column=10em%2C100%25-3em&row=1em%2C100%25-4em&renderType=&color=%230000ff&fillColor=%23aaaaff&foregroundColor=%23ffffff&backgroundColor=%23000000";
+			$(el).append("<div style='font-size:60%'>"+DataSet[i].split(",")[0]+"<span id='s"+i+"'></span></div>");
+			$(el).append("<div style='overflow-x:scroll;white-space: nowrap;' id='"+i+"'/>");
+			for (j = 0; j < urlss[i].length; j++) { 
+				var aurls = "http://autoplot.org/plot/SimpleServlet?" + options + "&url=" + encodeURIComponent("vap+dat:"+urlss[i][j]+"?skipLines=25&time=field0&timeFormat=$Y-$m-$d+$H:$M:$S&column=field3&plot.title=field3&width=100px");			
+				var ld = "onload='stats(" + i + "," + j + "," + urlss[i].length + ")'";
+				console.log(ld);
+				$(el + " #"+i).append('<img ' + ld + ' src="' + aurls + '"/>');
 			}
-			closure(i);
-			//console.log("Checking URL block " + (i+1) + "/" + urls.length);
-		}
+		}	
 	}
 }
 
-function ajaxHEAD(el) {
+function stats(i,j,N) {
+	L[i] = L[i]+1;
+	$("#s"+i).text(" " + L[i] + "/" + N);
+}
+
+
+
+function report(el,Nvalid) {
+	$(el+'_results').text(Nvalid + "/" + Nurls + " are valid. Done.");
+	$('#urlsvalid').show();
+	$('#urlsinvalid').show();
+	$('#urlsv').val(urlsv.filter(function(element){return element.length}).join('\n\n').replace(/,/g,'\n'));
+	$('#urlsi').val(urlsi.filter(function(element){return element.length}).join('\n\n').replace(/,/g,'\n'));
+}
+
+function urlarrays() {
+	// Count total number of URLs
+	Nurls = 0;
+	var urlss = new Array();
+	for (var i = 0;i < urls.length;i++) {	
+		urlsv[i]  = new Array();
+		urlsi[i] = new Array();
+		urlss[i] = new Array();
+		urlss[i] = urls[i].split(/\n/g).filter(function(element){return element.length});
+		Nurls = Nurls + urlss[i].length;
+	}
+	return [urlss,urlsv,urlsi]
+}
+function ajaxRequest(el,type) {
 	
 	// TODO: Remove bad URLs and call guessstartstop() when done.
 
+	TYPE = 'HEAD';
+	if (arguments.length > 1)
+		TYPE = type; 
+	
 	el = '#' + $(el).attr('id');
 	
 	$(el+'_span').show();
@@ -371,58 +394,51 @@ function ajaxHEAD(el) {
 	Proxy = checkproxy(testurl, Proxy, el+'_results');
 	if (Proxy === false) return;
 	
+	U = urlarrays();
+	urlss = U[0];
+	urlsv = U[1];
+	urlsi = U[2]
+	
 	// Count total number of URLs
 	Nurls = 0;
 	for (var i = 0;i < urls.length;i++) {	
-		urlss = urls[i].split(/\n/g).filter(function(element){return element.length});
-		Nurls = Nurls + urlss.length;
+		Nurls = Nurls + urlss[i].length;
 	}
 
-	// Do HEAD request on each URL
-	function report(Nvalid) {
-		$(el+'_results').text(Nvalid + "/" + Nurls + " are valid. Done.");
-		$(el+'_span').next('span').show();
-	}
 	function status(z, Nvalid) {
 		$(el+'_results').text(Nvalid + "/" + z + " checked are valid. " + (Nurls-z) + " checks left.");
 	}
 
 	var z = 0;
-	var k = 0;
 	var Nvalid = 0;
-	for (var i = 0;i < urls.length;i++) {
-		if (urls[i]) {
-			urlss = urls[i].split(/\n/g).filter(function(element){return element.length});
-			for (var j = 0;j < urlss.length;j++) {
-				k = k + 1;
-				urlsv[i]  = new Array();
-				urlsi[i] = new Array();	
-				function closurehead(i,j,k) {			
-					$.ajax({
-						type: 'HEAD',
-						url: Proxy + urlss[j], 
-						error: function () {
-									z = z+1;
-									urlsi[i][j] = urlss[j];
-									if (z % 100) {status(z,Nvalid);}
-									if (z == Nurls) {report(Nvalid);}
-								}, 
-						success: function (data, textStatus, jqXHR) {
-								z = z+1;
-								Nvalid = Nvalid + 1;
-								if (jqXHR.getResponseHeader('Content-Length') > 0) {
-									urlsv[i][j] = urlss[j];
-								} else {
-									urlsi[i][j] = urlss[j];
-								}
-								if (z % 100) {status(z,Nvalid);}
-								if (z == Nurls) {report(Nvalid);}
-							}
-					});
+	function closurehead(i,j) {			
+		$.ajax({
+			type: TYPE,
+			url: Proxy + urlss[i][j], 
+			error: function () {
+						z = z + 1;
+						urlsi[i][j] = urlss[i][j];
+						if (z % 100) {status(z,Nvalid);}
+						if (z == Nurls) {report(Nvalid);}
+					}, 
+			success: function (data, textStatus, jqXHR) {
+					z = z + 1;
+					Nvalid = Nvalid + 1;
+					if (jqXHR.getResponseHeader('Content-Length') > 0) {
+						urlsv[i][j] = urlss[i][j];
+					} else {
+						urlsi[i][j] = urlss[i][j];
+					}
+					if (z % 100) {status(z,Nvalid);}
+					if (z == Nurls) {report(el,Nvalid);}
 				}
-				closurehead(i,j,k);				
-			}				
-		}
+		});
+	}
+	
+	for (var i = 0;i < urlss.length;i++) {
+		for (var j = 0;j < urlss[i].length;j++) {
+			closurehead(i,j);				
+		}				
 	}
 	return;	
 }

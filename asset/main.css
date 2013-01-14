@@ -1,5 +1,5 @@
 body {
-		font-size: 100%;
+	font-size: 100%;
 }
 input.try {
 	margin-top: 1px;
@@ -9,8 +9,15 @@ input.try {
 	display:none;
 
 }
-//input[type='button'] {
-//}
+//input[type='button'] {}
+
+iframe {
+	font-size:100%;
+  	border: 3px solid black;
+ 	width: 100%;
+	margin: 5px 0;
+	padding: 3px;
+}
 input[type='text'] {
 	font-size:100%;
   	border: 3px solid blue;
