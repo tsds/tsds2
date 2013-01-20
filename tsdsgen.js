@@ -74,9 +74,23 @@ function expandtemplate(el) {
 	if (arguments.length == 1 && (typeof el === "object")) {
 		expandtemplate.tmpstr = $(el).prev().val();
 		tmpstr = expandtemplate.tmpstr;
+		console.log(tmpstr);
 		
-		expandtemplate.Dataset = new Array();
-		expandtemplate.Dataset = $('#Dataset').val().split("\n");
+		tmp = $('#Dataset').val();
+		DatasetIn = tmp.split(":");
+		console.log(parseInt(DatasetIn[0]));
+		console.log(parseInt(DatasetIn[1]));
+		if (typeof(parseInt(DatasetIn[1])) == "number" && !isNaN(DatasetIn[1])) {
+			expandtemplate.Dataset = new Array();
+			console.log("tsdsgen: Dataset is an integer.")
+			for (i = parseInt(DatasetIn[0]);i < parseInt(DatasetIn[1]); i++) {
+				expandtemplate.Dataset[i-parseInt(DatasetIn[0])] = i;
+			}
+			console.log(Dataset);
+			$('#Dataset').val(expandtemplate.Dataset.join("\n"));
+		} else {
+			expandtemplate.Dataset = $('#Dataset').val().split("\n");
+		}
 		Dataset = expandtemplate.Dataset;
 
 		var TemplateExpanded = "";
@@ -159,18 +173,28 @@ function expandtemplate(el) {
 	}
 
 	if (!tmpstr) {return "";}
+	
+	console.log(Dataset)
 	tmpstr = expandtemplate.tmpstr;
 
-	//console.log("Expanding " + Dataset);
-	//console.log("with template " + tmpstr);
+	console.log("Expanding template " + tmpstr);
+	console.log("with dataset array 	" + Dataset);
 	// Expand wildcards
-	var N = tmpstr.match(/\$/g).length;
-	sDataset = Dataset.split(",");
-	for (var i=0;i < N; i++) {
-		tmpstr = tmpstr.replace(/\$([0-9])/,"'+sDataset[$1-1]+'");
+	var wcs = tmpstr.match(/\$/g);
+	var N   = 0;
+	if (wcs != null) {
+		N = wcs.length;
 	}
-	tmpstr = "'" + tmpstr + "'";
-	tmpstr = eval(tmpstr);
+	if (typeof(Dataset) !== "number") {
+		sDataset = Dataset.split(",");
+		for (var i=0;i < N; i++) {
+			tmpstr = tmpstr.replace(/\$([0-9])/,"'+sDataset[$1-1]+'");
+		}
+		tmpstr = "'" + tmpstr + "'";
+		tmpstr = eval(tmpstr);
+	} else {
+		
+	}
 
 	if (!tmpstr.match("%")) {
 		return tmpstr;
@@ -275,7 +299,7 @@ function ajaxReport(el,type) {
 
 	el = '#' + $(el).attr('id');
 	$(el+'_span').show();
-	$(el+'_results').text('... ');
+	//$(el+'_results').text('... ');
 	
 	urls = new Array();
 	if ($("#urlsv").val() !== "") {
@@ -316,25 +340,34 @@ function ajaxReport(el,type) {
 	});
 
 	if (type === "report") {
+		$(el+'_span').show();
+		el = el + "_results";
 		// Insert DataCache report URL into iframe.
 		console.log(_DataCache.replace("sync","report") + data);
-		$(el+'_results').attr("src",_DataCache.replace("sync","report") + data);
+		$(el).attr("src",_DataCache.replace("sync","report") + data);
 		return;
 	}
 	
 	if (type === "plot") {
+		$(el+'_span').show();
 		DataSet = $('#Dataset').val().split("\n");
 		var urlss = new Array();
 		L = new Array();
+		el = el + "_results";
 		for (var i = 0; i < urls.length; i++) {
 			L[i] = 0;
 			urlss[i] = urls[i].split(/\n/g).filter(function(element){return element.length});
 			options = "width=500&height=100&font=sans-8&format=image%2Fpng&column=10em%2C100%25-3em&row=1em%2C100%25-4em&renderType=&color=%230000ff&fillColor=%23aaaaff&foregroundColor=%23ffffff&backgroundColor=%23000000";
 			$(el).append("<div style='font-size:60%'>"+DataSet[i].split(",")[0]+"<span id='s"+i+"'></span></div>");
 			$(el).append("<div style='overflow-x:scroll;white-space: nowrap;' id='"+i+"'/>");
+			var timeFormat = $('#LineTemplate').val().replace(/(%.*\s).*/g,'');
+			timeFormat = timeFormat.replace(/ \$/g,"+$")
+			console.log(timeFormat);
+			//$Y-$m-$d+$H:$M:$S
 			for (j = 0; j < urlss[i].length; j++) { 
-				var aurls = "http://autoplot.org/plot/SimpleServlet?" + options + "&url=" + encodeURIComponent("vap+dat:"+urlss[i][j]+"?skipLines=25&time=field0&timeFormat=$Y-$m-$d+$H:$M:$S&column=field3&plot.title=field3&width=100px");			
+				var aurls = "http://autoplot.org/plot/SimpleServlet?" + options + "&url=" + encodeURIComponent("vap+dat:"+urlss[i][j]+"?skipLines=25&time=field0&timeFormat="+timeFormat+"&column=field3&plot.title=field3&width=100px");			
 				var ld = "onload='stats(" + i + "," + j + "," + urlss[i].length + ")'";
+				console.log(aurls);
 				console.log(ld);
 				$(el + " #"+i).append('<img ' + ld + ' src="' + aurls + '"/>');
 			}
@@ -346,8 +379,6 @@ function stats(i,j,N) {
 	L[i] = L[i]+1;
 	$("#s"+i).text(" " + L[i] + "/" + N);
 }
-
-
 
 function report(el,Nvalid) {
 	$(el+'_results').text(Nvalid + "/" + Nurls + " are valid. Done.");
@@ -370,6 +401,7 @@ function urlarrays() {
 	}
 	return [urlss,urlsv,urlsi]
 }
+
 function ajaxRequest(el,type) {
 	
 	// TODO: Remove bad URLs and call guessstartstop() when done.
@@ -381,7 +413,7 @@ function ajaxRequest(el,type) {
 	el = '#' + $(el).attr('id');
 	
 	$(el+'_span').show();
-	$(el+'_results').text('... ');
+	//$(el+'_results').text('... ');
 
 	urls = $($('#urls')).val().split("\n\n").filter(function(element){return element.length});
 	urlsv = new Array();  // Valid urls

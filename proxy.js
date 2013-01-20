@@ -23,7 +23,6 @@ app.configure(function() {
     app.use(express.directory(__dirname));
 });
 
-
 // Get port number from command line option
 var port = process.argv[2] || 8002;
 
