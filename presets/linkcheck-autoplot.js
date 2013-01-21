@@ -1,10 +1,6 @@
-var AutoplotServlet = "http://autoplot.org/plot/SimpleServlet?url=";
-
-var DataCache       = "http://datacache.org/dc/sync";
-var DataCache       = "http://localhost:8000/sync";
-
-var Proxy           = "";
-var Proxy           = "http://localhost:8002/proxy?url=";
+// For Autoplot
+var skipLines = "0";
+var column = "field6"
 
 var Start   = '2012-10-01';
 var Stop    = '2012-10-02';
@@ -39,7 +35,7 @@ var ColumnLabels       = ["Year","Month","Day","Hour","Min","Sec","Response time
 var ColumnLongnames    = ColumnLabels;
 var ColumnUnits        = ["Year","Month","Day","h","m","s","ms","byte"];
 var ColumnGroupings    = [];
-var LineTemplate       = "$Y $m $d $h $M $s %d %d";
+var LineTemplate       = "$Y $m $d $H $M $S %d %d";
 var LineRegex          = "^[0-9][0-9][0-9][0-9]";
 var ColumnGroupnames   = {};
 var ColumnGroupnames   = {};

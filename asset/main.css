@@ -6,9 +6,18 @@ input.try {
 	font-size: 100%;
 	background: white none repeat scroll 0 0;
 	border-color: black;
-	display:none;
+	display: none;
 
 }
+input.guessajax {
+	margin-top: 1px;
+	font-size: 100%;
+	background: white none repeat scroll 0 0;
+	border-color: black;
+	display: none;
+
+}
+
 //input[type='button'] {}
 
 iframe {

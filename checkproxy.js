@@ -13,7 +13,7 @@ function checkproxy(testurl, proxy, report) {
 	if (needproxy) {
 		console.log("checkproxy.js: Trying proxied AJAX HEAD request to " + Proxy + testurl);
 		$.ajax({
-				type: 'GET',
+				type: 'HEAD',
 				async: false,
 				timeout: 300,
 				url: proxy + testurl, 

@@ -1,25 +1,13 @@
-var AutoplotServlet = "http://autoplot.org/plot/SimpleServlet?url=";
-var DataCache       = "http://datacache.org/dc/sync";
-var Proxy           = "";
-//var DataCache       = "http://datacache.org/dc/sync";
-var DataCache       = "http://localhost:8000/sync";
-var Proxy           = "http://localhost:8002/proxy?url=";
+// For Autoplot
+var skipLines = "25";
+var column    = "field3"
 
 var Start   = '2012-10-01';
-//var Stop    = '2012-10-30';
 var Stop    = '2012-10-02';
-//var Start   = '2012-11-01';
-//var Start   = '2000-01-01';
-//var Start   = '2010-01-01';
-//var Stop    = '2012-12-31';
-
-var Cadence = '';
 	
 var CatalogDescription = {Name:"USGS Real Time 1-Minute Magnetometer Measurements", ID:"USGS/MAG/1M",Description:""};
-//var CatalogDescription = {Name:"USGS Real Time 1-Second Magnetometer Measurements", ID:"USGS/MAG/1S",Description:""};
 
 var Template           = "http://magweb.cr.usgs.gov/data/magnetometer/$5/OneMinute/$6%Y%m%dvmin.min";
-//var Template           = "http://magweb.cr.usgs.gov/data/magnetometer/$5/OneSecond/$6%Y%m%dvsec.sec";
 
 var DatasetDescription = [
 						  ["1","BDT one-minute","BDT1m","bdtvmin","BDT","bdt","Boulder Test"],                           
@@ -42,9 +30,9 @@ var DatasetDescription = [
 						 ];
 
 var ColumnLabels       = ["DATE","TIME","DOY","$5H","$5D","$5Z","$5F"];
-var ColumnLongnames    = ["Date","Time","$7 H","$7 D","$7 Z","$7 F"];
-var ColumnUnits        = ["Gregorian","UTC","nT","nT","nT","nT"];
-var ColumnGroupings    = ["Time","Time","$5_HDZ","$5_HDZ","$5_HDZ","$5_F"];
+var ColumnLongnames    = ["Date","Time","Day of Year","$7 H","$7 D","$7 Z","$7 F"];
+var ColumnUnits        = ["Gregorian","UTC","Gregorian","nT","nT","nT","nT"];
+var ColumnGroupings    = ["Time","Time","Time","$5_HDZ","$5_HDZ","$5_HDZ","$5_F"];
 var LineTemplate       = "$Y-$m-$d $H:$M:$S %j %.2f %.2f %.2f %.2f";
 var LineRegex          = "^[0-9][0-9][0-9][0-9]";
 var ColumnGroupnames   = {"Time":"Date and Time","$5_XYZ":"Flux-gate Magnetometer Data","$5_F":"Proton Magnetometer Data"};
