@@ -3,7 +3,7 @@ var skipLines = "25";
 var column    = "field3"
 
 var Start   = '2012-10-01';
-var Stop    = '2012-10-02';
+var Stop    = '2012-10-31';
 	
 var CatalogDescription = {Name:"USGS Real Time 1-Minute Magnetometer Measurements", ID:"USGS/MAG/1M",Description:""};
 

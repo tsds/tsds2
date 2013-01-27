@@ -13,8 +13,8 @@
  		<script type="text/javascript" src="deps/date.js"></script>
  		<script type="text/javascript" src="deps/jquery.scrollTo-min.js"></script>
 
- 		<script type="text/javascript" src="checkproxy.js"></script> 		
- 		<script type="text/javascript" src="presets/linkcheck-autoplot.js"></script>
+ 		<script type="text/javascript" src="asset/checkproxy.js"></script> 		
+ 		<script type="text/javascript" src="presets/USGS-RT-1M.js"></script>
  		<script type="text/javascript" src="tsdsgen.js"></script>
  	</head>
 	<script>
@@ -147,6 +147,7 @@
  		<br/>
   		<textarea id="urls" class="try" style="display:none"></textarea>
   		<div id="urls" class="try" style="display:none"></div>
+  		Plot configuration file: <input type="text" id="VAP" value="http://tsds.org/tsds/default.vap"></input>
  		<br/>  		
  		<input id="report0dataurls" type="button" onclick="ajaxRequest(this,'HEAD');" value="HEAD check">
  		<input id="report1dataurls" type="button" onclick="ajaxRequest(this,'GET');" value="GET check (slow)">

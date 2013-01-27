@@ -406,6 +406,7 @@ function ajaxRequest(el,type) {
 	// See if AJAX HEAD requests needs Proxy.  If so, return Proxy.  Otherwise, return "".
 	testurl = urls[0].split(/\n/g).filter(function(element){return element.length})[0];
 	Proxy   = checkproxy(testurl, Proxy, el+'_results');
+	console.log("here");
 	if (Proxy === false) return;
 
 	U     = urlarrays(); // urls in blocks of datasets.
