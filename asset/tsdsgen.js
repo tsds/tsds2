@@ -309,7 +309,7 @@ function ajaxReport(el,type) {
 		});
 
 		$(el+'_span').show();
-		el = el + "_results";
+		el = el + "_iframe";
 		// Insert DataCache report URL into iframe.
 		console.log(_DataCache.replace("sync","report") + data);
 		$(el).attr("src",_DataCache.replace("sync","report") + data);
