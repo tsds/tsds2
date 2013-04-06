@@ -26,7 +26,7 @@ function checkproxy(testurl, proxy, report) {
 	}
 		
 	if (needproxy && noproxy) {
-		$(report).text("checkproxy.js: Proxy needed and proxy not found.");
+		$(report).text("checkproxy.js: Request to " + testurl + " failed. Either that page is not available or a proxy is needed.");
 		$(report).append(" See <a href='http://tsds.org/tsdsgen#Full_functionality'>http://tsds.org/tsdsgen</a> for more information.");
 		return false;
 	}

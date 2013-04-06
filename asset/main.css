@@ -1,6 +1,14 @@
 body {
 	font-size: 100%;
 }
+.CodeMirror {
+  border: 1px solid #eee;
+  height: auto;
+}
+.CodeMirror-scroll {
+  overflow-y: hidden;
+  overflow-x: auto;
+}
 input.try {
 	margin-top: 1px;
 	font-size: 100%;
@@ -22,7 +30,7 @@ input.guessajax {
 
 iframe {
 	font-size:100%;
-  	border: 3px solid black;
+  	border: 3px solid yellow;
  	width: 100%;
 	margin: 5px 0;
 	padding: 3px;

@@ -1,34 +1,19 @@
 // For Autoplot, for now.
 PlotColumns = 4;
 
+//var URLTemplate        = "http://magweb.cr.usgs.gov/data/magnetometer/$1/OneMinute/$5%Y%m%dvmin.min";
 var URLTemplate        = "http://magweb.cr.usgs.gov/data/magnetometer/$1/OneSecond/$5%Y%m%dvsec.sec";
 
-var CatalogName        = "USGS Real Time 1-Second Magnetometer Measurements";
+var CatalogName        = "USGS Real Time 1-Minute Magnetometer Measurements";
 var CatalogID          = "USGS/MAG/1M";
 var CatalogDescription = ""; // Could be a URL or [{title:"",description:""}] or {title:"",description:""}
-var CatalogDescriptionURL = "";
+var CatalogDescriptionURL = "http://magweb.cr.usgs.gov/data/magnetometer/";
 
-var StartDates       = ["2012-10-01"];
-var StopDates        = ["2012-10-31"];
+var StartDates       = ["2012-04-01"];
+var StopDates        = ["2012-04-03"];
 
 var Datasets         = [
-						  ["BDT","BDT one-minute","BDT1m","bdtvmin","bdt","Boulder Test"],                           
-						  ["BOU","BOU one-minute","BOU1m","bouvmin","bou","Boulder"],
-						  ["BRT","BRT one-minute","BRT1m","brtvmin","brt","Barrow Test"],
-						  ["BRW","BRW one-minute","BRW1m","brwvmin","brw","Barrow"],
-						  ["BSL","BSL one-minute","BSL1m","bslvmin","bsl","Stennis Space Center"],
-						  ["CMO","CMO one-minute","CMO1m","cmovmin","cmo","College"],
-						  ["DED","DED one-minute","DED1m","dedvmin","ded","Deadhorse"],
 						  ["FRD","FRD one-minute","FRD1m","frdvmin","frd","Fredericksburg"],
-						  ["FRN","FRN one-minute","FRN1m","frnvmin","frn","Fresno"],
-						  ["GUA","GUA one-minute","GUA1m","guavmin","gua","Guam"],
-						  ["HON","HON one-minute","HON1m","honvmin","hon","Honolulu"],
-						  ["KGI","KGI one-minute","KGI1m","kgivmin","kgi","King Sejong Island"],
-						  ["NEW","NEW one-minute","NEW1m","newvmin","new","Newport"],
-						  ["SHU","SHU one-minute","SHU1m","shuvmin","shu","Shumagin"],
-						  ["SIT","SIT one-minute","SIT1m","sitvmin","sit","Sitka"],
-						  ["SJG","SJG one-minute","SJG1m","sjgvmin","sjg","San Juan"],
-						  ["TUC","TUC one-minute","TUC1m","tucvmin","tuc","Tucson"],
 						 ];
 
 var DatasetName        = "$2";

@@ -1,39 +1,66 @@
-// For Autoplot
-var skipLines = "25";
-var column    = "field3"
+// For Autoplot, for now.
+PlotColumns = 4;
 
-var Start   = '2012-10-01';
-var Stop    = '2012-10-31';
-	
-var CatalogDescription = {Name:"USGS Real Time 1-Minute Magnetometer Measurements", ID:"USGS/MAG/1M",Description:""};
+var URLTemplate        = "http://magweb.cr.usgs.gov/data/magnetometer/$1/OneMinute/$5%Y%m%dvmin.min";
 
-var Template           = "http://magweb.cr.usgs.gov/data/magnetometer/$5/OneMinute/$6%Y%m%dvmin.min";
+var CatalogName        = "USGS Real Time 1-Minute Magnetometer Measurements";
+var CatalogID          = "USGS/MAG/1M";
+var CatalogDescription = ""; // Could be a URL or [{title:"",description:""}] or {title:"",description:""}
+var CatalogDescriptionURL = "";
 
-var DatasetDescription = [
-						  ["1","BDT one-minute","BDT1m","bdtvmin","BDT","bdt","Boulder Test"],                           
-						  ["2","BOU one-minute","BOU1m","bouvmin","BOU","bou","Boulder"],
-						  ["3","BRT test one-minute","BRT1m","brtvmin","BRT","brt","Barrow Test"],
-						  ["4","BRW one-minute","BRW1m","brwvmin","BRW","brw","Barrow"],
-						  ["5","BSL one-minute","BSL1m","bslvmin","BSL","bsl","Stennis Space Center"],
-						  ["6","CMO one-minute","CMO1m","cmovmin","CMO","cmo","College"],
-						  ["7","DED one-minute","DED1m","dedvmin","DED","ded","Deadhorse"],
-						  ["8","FRD one-minute","FRD1m","frdvmin","FRD","frd","Fredericksburg"],
-						  ["9","FRN one-minute","FRN1m","frnvmin","FRN","frn","Fresno"],
-						  ["10","GUA one-minute","GUA1m","guavmin","GUA","gua","Guam"],
-						  ["11","HON one-minute","HON1m","honvmin","HON","hon","Honolulu"],
-						  ["12","KGI one-minute","KGI1m","kgivmin","KGI","kgi","King Sejong Island"],
-						  ["13","NEW one-minute","NEW1m","newvmin","NEW","new","Newport"],
-						  ["14","SHU one-minute","SHU1m","shuvmin","SHU","shu","Shumagin"],
-						  ["15","SIT one-minute","SIT1m","sitvmin","SIT","sit","Sitka"],
-						  ["16","SJG one-minute","SJG1m","sjgvmin","SJG","sjg","San Juan"],
-						  ["17","TUC one-minute","TUC1m","tucvmin","TUC","tuc","Tucson"],
+var StartDates       = ["2012-10-01"];
+var StopDates        = ["2012-10-31"];
+
+var Datasets         = [
+						  ["BDT","BDT one-minute","BDT1m","bdtvmin","bdt","Boulder Test"],                           
+						  ["BOU","BOU one-minute","BOU1m","bouvmin","bou","Boulder"],
+						  ["BRT","BRT one-minute","BRT1m","brtvmin","brt","Barrow Test"],
+						  ["BRW","BRW one-minute","BRW1m","brwvmin","brw","Barrow"],
+						  ["BSL","BSL one-minute","BSL1m","bslvmin","bsl","Stennis Space Center"],
+						  ["CMO","CMO one-minute","CMO1m","cmovmin","cmo","College"],
+						  ["DED","DED one-minute","DED1m","dedvmin","ded","Deadhorse"],
+						  ["FRD","FRD one-minute","FRD1m","frdvmin","frd","Fredericksburg"],
+						  ["FRN","FRN one-minute","FRN1m","frnvmin","frn","Fresno"],
+						  ["GUA","GUA one-minute","GUA1m","guavmin","gua","Guam"],
+						  ["HON","HON one-minute","HON1m","honvmin","hon","Honolulu"],
+						  ["KGI","KGI one-minute","KGI1m","kgivmin","kgi","King Sejong Island"],
+						  ["NEW","NEW one-minute","NEW1m","newvmin","new","Newport"],
+						  ["SHU","SHU one-minute","SHU1m","shuvmin","shu","Shumagin"],
+						  ["SIT","SIT one-minute","SIT1m","sitvmin","sit","Sitka"],
+						  ["SJG","SJG one-minute","SJG1m","sjgvmin","sjg","San Juan"],
+						  ["TUC","TUC one-minute","TUC1m","tucvmin","tuc","Tucson"],
 						 ];
 
-var ColumnLabels       = ["DATE","TIME","DOY","$5H","$5D","$5Z","$5F"];
-var ColumnLongnames    = ["Date","Time","Day of Year","$7 H","$7 D","$7 Z","$7 F"];
-var ColumnUnits        = ["Gregorian","UTC","Gregorian","nT","nT","nT","nT"];
-var ColumnGroupings    = ["Time","Time","Time","$5_HDZ","$5_HDZ","$5_HDZ","$5_F"];
-var LineTemplate       = "$Y-$m-$d $H:$M:$S %j %.2f %.2f %.2f %.2f";
-var LineRegex          = "^[0-9][0-9][0-9][0-9]";
-var ColumnGroupnames   = {"Time":"Date and Time","$5_XYZ":"Flux-gate Magnetometer Data","$5_F":"Proton Magnetometer Data"};
-var ColumnGrouptypes   = {"Time":"Time","$5_XYZ":"Vector","$5_F":"Scalar"};
+var DatasetName        = "$2";
+var DatasetID          = "$1";
+var DatasetDescription = ""; // Could be a URL or [{title:"",description:""}] or {title:"",description:""}
+
+var TimeColumns      = "1,2";
+var TimeFormat       = "$Y-$m-$d,$H:$M:$S";
+var TimeUnits        = "Gregorian,UT";
+var TimeLabels       = "Date,Time";
+
+var DataColumns      = "3,(4,5,6),7";
+var DataIDs          = "DOY,(H,D,Z),F";
+var DataNames        = "Day of Year,($6 H,$6 D,$6 Z),$6 F";
+var DataLabels       = "DOY,($1H,$1D,$1Z),$1F";
+var DataValues       = "'',(0.1,0.2,0.3),''";
+var DataTypes        = "d,f,f,f,f";
+//var DataTypes      = "d,(f),f";
+var DataUnits        = "Gregorian,nT,nT,nT,nT";
+//var DataUnits        = "Gregorian,(nT),nT";
+var DataRenderings   = "%j,%.2f,%.2f,%.2f,%.2f";
+//var DataRenderings   = "%j,(%.2f),%.2f";
+var DataFillValues   = ",99999.00,99999.00,99999.00,99999.00";
+
+var DataGroupIDs     = "$1_HDZ"
+var DataGroupNames   = "Magnetic Field Vector"
+var DataGroupLabels  = ""
+
+var SkipLines        = "25";
+var LineRegEx        = "^[0-9]";
+var CommentCharacter = "^#";
+var DataDelimiter    = "\\s";
+var DataLineFormat   = "";
+
+var IOSP             = "lasp.tss.iosp.ColumnarAsciiReader";

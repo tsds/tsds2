@@ -3,60 +3,110 @@
  	<head>
  		<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
  		<title>TSDS Generator</title>
+		<link rel="stylesheet" href="deps/codemirror-2.3/lib/codemirror.css">		
  		<link rel="stylesheet" type="text/css" href="asset/main.css">
  		<link rel="icon" type="image/ico" href="asset/favicon.ico"/>
 
  		<script type="text/javascript" src="deps/1.7.2/jquery.min.js"></script>
  		<script type="text/javascript" src="deps/autosize/jquery.autosize-min.js"></script>
- 		<script type="text/javascript" src="deps/strftime.js"></script>
- 		<script type="text/javascript" src="deps/sprintf-0.7-beta1.js"></script>	
- 		<script type="text/javascript" src="deps/date.js"></script>
  		<script type="text/javascript" src="deps/jquery.scrollTo-min.js"></script>
+		<script type="text/javascript" src="deps/jquery.tmpl.js"></script>
+		<script type="text/javascript" src="deps/jquery.imagesloaded.js"></script>
+
+ 		<script type="text/javascript" src="../expandtemplate/deps/strftime.js"></script>
+ 		<script type="text/javascript" src="../expandtemplate/deps/sprintf-0.7-beta1.js"></script>	
+ 		<script type="text/javascript" src="../expandtemplate/deps/date.js"></script>
+ 		<script type="text/javascript" src="../expandtemplate/lib/expandtemplate.js"></script>  		
+
+		<script src="deps/codemirror-2.3/lib/codemirror.js"></script>
+		<script src="deps/codemirror-2.3/mode/xml/xml.js"></script>
+		<script src="deps/codemirror-2.3/lib/util/formatting.js"></script>
 
  		<script type="text/javascript" src="asset/checkproxy.js"></script>
  		<script type="text/javascript" src="asset/tsdsgen.js"></script>  		
  		<script type="text/javascript" src="presets/USGS-RT-1M.js"></script>
- 		<script type="text/javascript" src="tsdsgen.js"></script>
+		<!--script type="text/javascript" src="presets/linkcheck-autoplot.js"></script-->
  	</head>
 	<script>
-		var AutoplotServlet = "http://autoplot.org/plot/SimpleServlet?";
-		var 	plotoptions     = "width=500&height=100&font=sans-8&format=image%2Fpng&column=10em%2C100%25-3em&row=1em%2C100%25-4em&renderType=&color=%230000ff&fillColor=%23aaaaff&foregroundColor=%23ffffff&backgroundColor=%23000000";
+		var AutoplotServlet  = "http://autoplot.org/plot/SimpleServlet?";
+		var 	plotoptions      = "width=500&height=100&font=sans-8&format=image%2Fpng&column=10em%2C100%25-3em&row=1em%2C100%25-4em&renderType=&color=%230000ff&fillColor=%23aaaaff&foregroundColor=%23ffffff&backgroundColor=%23000000";
 
-		var DataCache       = "http://datacache.org/dc/sync";
-		var DataCache       = "http://localhost:8000/sync";
-	
-		var Proxy           = "";
-		var Proxy           = "http://localhost:8002/proxy?url=";
+		var DataCache        = "http://datacache.org/dc/sync";
+		var DataCache        = "http://localhost:8000/sync";
+
+		var URLTemplateExpander = "";
+		//var URLTemplateExpander = "http://sarahandjeremy.net:8180/AutoplotServlet/ScriptServlet2?fast=on&resourceURI=$resourceURI&timerange=$timerange";
+		//http://autoplot.org/data/versioning/data_$Y_$m_$d.qds
+		//2010-03-01/2010-03-10
+		
+		var Proxy            = "";
+		var Proxy            = "http://localhost:8002/proxy?url=";
 
 		$(document).ready(function(){
-			$('#CatalogName').val(CatalogDescription["Name"]);
-			$('#CatalogID').val(CatalogDescription["ID"]);
-			$('#CatalogDescription').val(CatalogDescription["Description"] || CatalogDescription["Name"]	);
-			$('#Template').val(Template);
-			$('#LineTemplate').val(LineTemplate);
-			$('#LineRegex').val(LineRegex);
-			$('#ColumnUnits').val(ColumnUnits);
-	
-			var tmp = JSON.stringify(DatasetDescription).replace(/\],\[/g,"\n").replace("[[","").replace("]]","").replace(/\"/g,"");
-			$('#Dataset').text(tmp);
+			$('#CatalogName').val(CatalogName);
+			$('#CatalogID').val(CatalogID);
+			if (CatalogDescription == "") {
+				$('#CatalogDescription').val(CatalogName);
+			} else {
+				$('#CatalogDescription').val(CatalogDescription);
+			}
+			$('#CatalogDescriptionURL').val(CatalogDescriptionURL);
 			
-			$('#ColumnLabels').val(JSON.stringify(ColumnLabels));
-			$('#ColumnLongnames').val(JSON.stringify(ColumnLongnames));
-			$('#ColumnGroupings').val(JSON.stringify(ColumnGroupings));
-			$('#ColumnGroupnames').val(JSON.stringify(ColumnGroupnames));
-			$('#ColumnGrouptypes').val(JSON.stringify(ColumnGrouptypes));
+			// TODO: If only one value duplicate.
+			$('#StartDates').val(StartDates[0]);
+			$('#StopDates').val(StopDates[0]);
+
+			var tmp = JSON.stringify(Datasets).replace(/\],\[/g,"\n").replace("[[","").replace("]]","").replace(/\"/g,"");
+			$('#Datasets').text(tmp);
+
+			$('#URLTemplateExpander').val(URLTemplateExpander);
+			$('#URLTemplate').val(URLTemplate);
 			
-			$('#startmin').val(Start);
-			$('#stopmax').val(Stop);
+			$('#PlotColumns').val(PlotColumns);
+
+			$('#TimeColumns').val(TimeColumns);
+			$('#TimeFormat').val(TimeFormat);
+			$('#TimeUnits').val(TimeUnits);
+			$('#TimeLabels').val(TimeLabels);
 			
+			$('#DataColumns').val(DataColumns);
+			$('#DataIDs').val(DataIDs);
+			$('#DataNames').val(DataNames);
+			$('#DataLabels').val(DataLabels);
+			$('#DataValues').val(DataValues);
+			$('#DataTypes').val(DataTypes);
+			$('#DataUnits').val(DataUnits);
+			$('#DataRenderings').val(DataRenderings);
+			$('#DataFillValues').val(DataFillValues);
+
+			$('#DataGroupIDs').val(DataGroupIDs);
+			$('#DataGroupNames').val(DataGroupNames);
+			$('#DataGroupLabels').val(DataGroupLabels);
+			//$('#DataGroupTypes').val(JSON.stringify(DataGroupTypes));
+			
+			$('#SkipLines').val(SkipLines);
+			$('#LineRegEx').val(LineRegEx);
+
+			//$('#LineTemplate').val(LineTemplate);
+			$('#LineRegEx').val(LineRegEx);
+			$('#CommentCharacter').val(CommentCharacter);
+			$('#DataDelimiter').val(DataDelimiter);
+			$('#DataLineFormat').val(DataLineFormat);
+			
+			$('#IOSP').val(IOSP);
+
+			expand();
+			//console.log(urls);
+			$('textarea.enter').autosize();
+
+			return;
 			$('input[type=button].try').click(
 				function () {
 					$(this).val('');						
-					$(this).each(function() {expandtemplate(this)});
+					$(this).each(function() {expandtemplate2(this)});
 					links();
 				});
 
-			$('textarea.enter').autosize();
 
 			if (0) {
 				$('textarea.try').autosize();
@@ -74,10 +124,11 @@
 			setTimeout(
 					function () {
 						$('input[type=button].try').click();
-						dlscript();
+						//dlscript();
 						//$('input[type=button].try').eq(5).click();
 						// Create THREDDS catalog
-						//catalog($('#Dataset').val().split("\n")); 
+						//catalog($('#Datasets').val().split("\n")); 
+						
 					}, 10);
 
 		});
@@ -89,66 +140,52 @@
  	<form id="form" action="/" method="post">
  		<input type="submit" class="try" value="Submit">
 	<hr/>
-		* Catalog Name
- 		<br/>
- 		<input class="enter" type="text" id="CatalogName"></input>
- 		<br/>
 		* Catalog ID
  		<br/>
  		<input class="enter" type="text" id="CatalogID"></input>
  		<br/>
+		* Catalog Name
+ 		<br/>
+ 		<input class="enter" type="text" id="CatalogName"></input>
+ 		<br/>
 		Catalog Description (If not specified, Catalog Name is used.)
  		<br/>
- 		<input class="enter" type="text" id="CatalogDescription"></input>
+		<input class="enter" type="text" id="CatalogDescription"></input>
  		<br/>
- 		* Column units
+		Catalog Description URL 
  		<br/>
- 		<input type="text" id="ColumnUnits"></input>
+ 		<input class="enter" type="text" id="CatalogDescriptionURL"></input>
  		<br/>
- 		 * Start date min (YYYY-MM-DD)
- 		<br/>
- 		<input type="text" id="startmin" class="enter"></input>
- 		<br/>
- 		<div style="display:none;">
-	 		Start dates <span id="guessstartnote" style="display:none"></span>
-	 		<br/> 		
-	 		<textarea id="startdates" class="try"></textarea>
-	 		<br/>
-	 		<br/>
- 		</div> 		
- 		* Stop date max 
- 		<br/>
-	 	<input type="text" id="stopmax" class="enter"></input>
- 		<div style="display:none;">
-	 		Stop dates <span id="guessstopnote" style="display:none"></span>
-	 		<br/> 		
-	 		<textarea id="stopdates" class="try"></textarea>
-	 		<br/> 		
-	 		<br/>
- 		</div>
- 		<br/>
- 		* Datasets (one line per).  Each dataset must have a Dataset ID, [Dataset Description, other info].
+ 		* Dataset information (one line per).  Each dataset line must have a Dataset ID, [Dataset Description, other info].
  		<br>
- 		<textarea class="enter" id="Dataset"></textarea>
+ 		<textarea class="enter" id="Datasets"></textarea>
  		<br/>
- 		* URL template ($1 refers to ID, $2 refers to Dataset Description, etc.  %Y = four-digit year, %m = two-digit month, %d = two-digit day.)
+ 		 * Start Date(s) (YYYY-MM-DD) (one or one per dataset - comma or newline separated)
  		<br/>
- 		<input type="text" id="Template" class="enter"></input>
+		<textarea class="enter" id="StartDates"></textarea>
+ 		<br/>
+ 		* Stop Date(s) (YYYY-MM-DD) (one or one per dataset - comma or newline separated)
+ 		<br/>
+		<textarea class="enter" id="StopDates"></textarea>
+ 		<br/>
+ 		URL template script 
+ 		<textarea class="enter" id="URLTemplateScript"></textarea>
+		<br/>
+ 		URL template expander 
+ 		<input type="text" id="URLTemplateExpander"></input>
  		<input type="button" class="try" value="Expand">
- 		<br/>
- 		* Data line regular expression <input id="trydataregex" type="button" class="guessajax" value="Try">
- 		<br/>
- 		<input type="text" id="LineRegex"></input>
- 		<br/>
-		* Data Line Template <input id="trydatatemplate" type="button" class="guessajax" value="Try">
-  		<input type="text" id="LineTemplate"></input>
- 		<br/>
- 	<hr/>	
+		<br/>
+ 		* URL template ($1 refers to Dataset ID, $2 refers to Dataset Description, etc.  %Y = four-digit year, %m = two-digit month, %d = two-digit day.)
+ 		<input type="text" id="URLTemplate" class="enter"></input>
+ 		<input type="button" class="try" value="Expand">
+ 	<br/>	
  		Data URLs (Generated by expanding $ wildcards for each Dataset and % wildcards for entire timerange.) 
  		<br/>
   		<textarea id="urls" class="try" style="display:none"></textarea>
   		<div id="urls" class="try" style="display:none"></div>
   		Plot configuration file: <input type="text" id="VAP" value="http://tsds.org/tsds/default.vap"></input>
+ 		<br/>  		
+ 		Plot columns: <input type="text" id="PlotColumns"></input>
  		<br/>  		
  		<input id="report0dataurls" type="button" onclick="ajaxRequest(this,'HEAD');" value="HEAD check">
  		<input id="report1dataurls" type="button" onclick="ajaxRequest(this,'GET');" value="GET check (slow)">
@@ -159,13 +196,10 @@
 	 	<span id="report1dataurls_span" style="display:none"><span id="report1dataurls_results"></span></span>
 	 	<span id="report2dataurls_span" style="display:none"><span id="report2dataurls_results"></span><iframe id="report2dataurls_iframe"></iframe></span>
 		<span id="report3dataurls_span" style="display:none"><span id="report3dataurls_results"></span></span>
-		<br/>
- 		<br/>
  		<div id="urlsvalid" style="display:none">
 	 		Valid data urls
 	 		<br/>
 	  		<textarea id="urlsv" class="try"></textarea>
-	 		<br/>
 	 		<br/>
  		</div>
  		<div id="urlsinvalid" style="display:none">
@@ -173,61 +207,286 @@
 	 		<br/>
 	  		<textarea id="urlsi" class="try"></textarea>
 	 		<br/>
-	 		<br/>
  		</div>
  	<hr/>
- 		Column labels for each Dataset ($1 refers to Dataset Description, $2 refers to ID, etc.)
+		* Time Columns <input id="tryTimeColumns" type="button" class="guessajax" value="Try">
+  		<input type="text" id="TimeColumns"></input>
  		<br/>
- 		<input type='text' id="ColumnLabels" class="enter"></input>
- 		<input type="button" class="try" value="Expand">
+		* Time Format <input id="tryTimeFormat" type="button" class="guessajax" value="Try">
+  		<input type="text" id="TimeFormat"></input>
  		<br/>
- 		<textarea class="try"></textarea>
+		* Time Units (if empty, and time is one column, is assumed to be ISO861)<input id="tryTimeUnits" type="button" class="guessajax" value="Try">
+  		<input type="text" id="TimeUnits"></input>
  		<br/>
- 		Column description for each dataset ($1 refers to ID, $2 refers to Dataset Description, etc.)
+		* Time Labels <input id="tryTimeLabels" type="button" class="guessajax" value="Try">
+  		<input type="text" id="TimeLabels"></input>
+  		<br/>
+		<br/>
+ 		* Data Columns <input id="tryDataColumns" type="button" class="guessajax" value="Try">
+  		<input type="text" id="DataColumns"></input>
  		<br/>
- 		<input type="text" id="ColumnLongnames" class="enter"></input>
-		<input type="button" class="try" value="Expand">
+		* Data Column IDs <input id="tryDataIDs" type="button" class="guessajax" value="Try">
+  		<input type="text" id="DataIDs"></input>
  		<br/>
- 		<textarea class="try"></textarea>
+		* Data Column Names <input id="tryDataNames" type="button" class="guessajax" value="Try">
+  		<input type="text" id="DataNames"></input>
  		<br/>
- 		Column groupings for each dataset ($1 refers to ID, $2 refers to Dataset Description, etc.)
+		* Data Column Labels <input id="tryDataLabels" type="button" class="guessajax" value="Try">
+  		<input type="text" id="DataLabels"></input>
  		<br/>
- 		<input type="text" id="ColumnGroupings" class="enter"></input>
-		<input type="button" class="try" value="Expand">
+		* Data Column Values <input id="tryDataValues" type="button" class="guessajax" value="Try">
+  		<input type="text" id="DataValues"></input>
  		<br/>
- 		<textarea class="try"></textarea>
+		* Data Column Types <input id="tryDataTypes" type="button" class="guessajax" value="Try">
+  		<input type="text" id="DataTypes"></input>
  		<br/>
- 		Column group names for each dataset ($1 refers to ID, $2 refers to Dataset Description, etc.)
+		* Data Column Units <input id="tryDataUnits" type="button" class="guessajax" value="Try">
+  		<input type="text" id="DataUnits"></input>
  		<br/>
- 		<input type="text" id="ColumnGroupnames" class="enter"></input>
-		<input type="button" class="try" value="Expand">
+		* Data Column Renderings <input id="tryDataRenderings" type="button" class="guessajax" value="Try">
+  		<input type="text" id="DataRenderings"></input>
  		<br/>
- 		<textarea class="try"></textarea>
+		* Data Column Fill Values <input id="tryDataFillValues" type="button" class="guessajax" value="Try">
+  		<input type="text" id="DataFillValues"></input>
  		<br/>
- 		Column group types for each dataset ($1 refers to ID, $2 refers to Dataset Description, etc.)
  		<br/>
- 		<input type='text' id="ColumnGrouptypes" class="enter"></input>
-		<input type="button" class="try" value="Expand">
+		* Data Column Group IDs <input id="tryDataGroupIDs" type="button" class="guessajax" value="Try">
+  		<input type="text" id="DataGroupIDs"></input>
  		<br/>
- 		<textarea class="try"></textarea>
+		* Data Column Group Names <input id="tryDataGroupNames" type="button" class="guessajax" value="Try">
+  		<input type="text" id="DataGroupNames"></input>
  		<br/>
+		* Data Column Group Labels <input id="tryDataGroupLabels" type="button" class="guessajax" value="Try">
+  		<input type="text" id="DataGroupLabels"></input>
+ 		<br/>
+		<br/>
+ 		* Skip lines <input id="trySkipLines" type="button" class="guessajax" value="Try">
+ 		<br/>
+ 		<input type="text" id="SkipLines"></input>
+ 		<br/>
+ 		* Data line regular expression <input id="tryLineRegEx" type="button" class="guessajax" value="Try">
+ 		<br/>
+ 		<input type="text" id="LineRegEx"></input>
+ 		<br/>
+ 		* Non-data line regular expression <input id="tryCommentCharacter" type="button" class="guessajax" value="Try">
+ 		<br/>
+ 		<input type="text" id="CommentCharacter"></input>
+ 		<br/>
+ 		* Data delimiter <input id="tryDataDelimiter" type="button" class="guessajax" value="Try">
+		<input type="text" id="DataDelimiter"></input>
+ 		<br/>
+ 		* Data line format <input id="tryDataLineFormat" type="button" class="guessajax" value="Try">
+ 		<input type="text" id="DataLineFormat"></input>
+		<br/>
+ 		* IOSP <input id="tryIOSP" type="button" class="guessajax" value="Try">
+ 		<input type="text" id="IOSP"></input>
+	<hr/>
+ 		<div id="catalogdiv" style="display:none">
+			<input id="threddscatalogtry" type="button" onclick="threddsTry();" value="Try"> catalog.thredds:
+			<br/>
+		 	<textarea class="try" id="threddscatalog"></textarea>
+			catalog.xml:
+			<br/>
+		 	<textarea class="try" id="tsdscatalog"></textarea>
+		 	
+			<textarea class="try" id="tsdstemplate" style="display:none">
+			        <catalog>
+			                <name>${CatalogName}</name>
+			                <id>${CatalogID}</id>
+			                <urlgenerator>${urlgenerator}</urlgenerator>
+			                <ncml>
+			                        <generator>http://tsds.net/catalogs/TSDS-ncml.xsl</generator>
+			                        <iosp>${IOSP}</iosp>
+			                        <timecols>${TimeColumns}</timecols>
+			                        <timefmt>${TimeFormat}</timefmt>
+			                </ncml>
+			        </catalog>
+			</textarea>
+
+		 	<textarea class="try" id="threddstemplate" style="display:none">
+				<catalog xmlns="http://www.unidata.ucar.edu/namespaces/thredds/InvCatalog/v1.0" xmlns:xlink="http://www.w3.org/1999/xlink" name="" ID="">
+    					<documentation xlink:href="" xlink:title=""/>
+    					<service name="tss" serviceType="OpenDAP" base=""/>
+		 	        <processing xlink:href="" xlink:title="">
+					</processing>
+					<processing>
+						<dataset id="REGEXP or CSV" columns="" rendering="" _FillValue="" urltemplate="" urlpreprocess="" timecolumns="" timeformat="" timestart="" timeend=""/>
+						<variable id="REGEXP or CSV" columns="" rendering="" _FillValue="" urltemplate="" urlpreprocess="" timecolumns="" timeformat="" timestart="" timeend=""/>
+		 	        <processing>
+		 	        	   
+		 	        </processing>
+					<dataset name="" ID="">
+						<access serviceName="tss" urlPath=""/>
+						<access serviceName="ncml" urlPath=""/>
+						<timeCoverage>
+							<Start></Start>
+							<End></End>
+						</timeCoverage>
+						<groups vocabulary="TSDS-1.0">
+							<group id="" version="" name="" type="" elements="" values=""/>
+						</groups>
+						<variables vocabulary="TSDS-1.0">
+							<variable name="" label="" units="" id="" version="" type="" columns="" delim="" regex="" commentCharacter="" skipLines="" format="" renderings="" fillvalues="" urlgenerator="" urltemplate="" urlpreprocess="" timecolumns="" timeformat="" timestart="" timeend=""/>
+						</variable>
+					</dataset>
+				</catalog>
+		 	</textarea>
+			<br/>
+		</div>
  		<div id="dlscript" style="display:none">
 	 		Download Script
 	 		<br/>
-	  		<textarea id="script" class="try"></textarea>
-	 		<br/>
-	 		<br/>
+	  		<textarea id="script" class="try" ></textarea>
  		</div>
-		<br/> 		
- 		<div style="display:none">
-			<br/>
-			<br/>
-			catalog.thredds:
-			<br/>
-		 	<textarea class="try" id="catalog"></textarea>
-			<br/>
-		</div>
  	</form>
  	</div>
+ 	<script>
+		$(document).ready(function(){
+			$('#catalogdiv').show();
+			var tmp = $.tmpl($('#tsdstemplate').html(),{
+				CatalogName:$('#CatalogName').val(),
+				CatalogID:$('#CatalogName').val(),
+				IOSP:$('#IOSP').val()
+				})[0];
+			$('#tsdscatalog').val(tmp.wholeText);
+			
+			var catalog = $($('#threddstemplate').val());
+			catalog.attr('name',$('#CatalogName').val());
+			catalog.find('documentation').attr("xlink:title",$('#CatalogDescription').val());
+			catalog.find('documentation').attr("xlink:href",$('#CatalogDescriptionURL').val());
+			catalog.attr('ID',$('#CatalogID').val());
+			catalog.find('service').attr('base','http://tsds.org/tsds/'+$('#CatalogID').val())
+			catalog.find('dataset').remove();
+			//console.log(catalog[0].outerHTML);
+
+			var StartDates = $('#StartDates').val().split(',')
+
+			var Datasets   = $('#Datasets').val().split(/\n/g);
+			
+			for (j = 0; j< Datasets.length; j++) {
+				var Dataset    = Datasets[j].split(',');
+	
+				var dataset = $($('#threddstemplate').val()).find('dataset');
+				dataset.attr('ID',Dataset[0]).attr('name',Dataset[0]);
+				dataset.find('access').attr('urlpath',Dataset[0]);
+				dataset.find('start').text(StartDates[0]);
+				dataset.find('end').text(StopDates[0]);
+				dataset.find('variables').remove();
+				dataset.find('groups').remove();
+
+				var DataIDs   = $('#DataIDs').val().split(/,/g);
+				var DataNames = $('#DataNames').val().split(/,/g);
+				var DataLabels = $('#DataLabels').val().split(/,/g);
+				var DataFillValues = $('#DataFillValues').val().split(/,/g);
+				var DataRenderings = $('#DataRenderings').val().split(/,/g);
+				var DataUnits = $('#DataUnits').val().split(/,/g);
+				var DataValues = $('#DataValues').val().split(/,/g);
+
+				for (i = 0;i < DataIDs.length;i++) {
+					DataIDs[i] = DataIDs[i].replace(/\$([0-9])/,"'+Dataset[$1-1]+'");
+					DataNames[i] = DataNames[i].replace(/\$([0-9])/,"'+Dataset[$1-1]+'");
+				}
+
+				var DataGroups       = $("#DataColumns").val().match(/\((.*?)\)/g);
+				var DataGroupElementValues = $("#DataValues").val().match(/\((.*?)\)/g);
+				var DataGroupElements = $("#DataIDs").val().match(/\((.*?)\)/g);
+
+				var DataGroupIDs     = $("#DataGroupIDs").val().split(/,/g);
+				var DataGroupNames   = $("#DataGroupNames").val().split(/,/g);
+				var DataGroupLabels  = $("#DataGroupLabels").val().split(/,/g);
+
+				
+				var groups = $($('#threddstemplate').val()).find('groups');
+				groups.empty();
+
+				if (DataGroups) {
+					for (i = 0;i < DataGroups.length;i++) {
+						var group = $($('#threddstemplate').val()).find('group');					
+	
+						ID = DataGroupIDs[i].replace(/\$([0-9])/,"'+Dataset[$1-1]+'");
+						ID = eval("'" + ID + "'");
+						group.attr('ID',ID);
+	
+						group.attr('values',DataGroupElementValues[i].replace(/\(|\)|\[|\]/g,""));
+	
+						name = DataGroupNames[i].replace(/\$([0-9])/,"'+Dataset[$1-1]+'");
+						name = eval("'" + name + "'");
+						group.attr('name',name);
+						if (DataGroups[i].match(/\)/)) {
+							group.attr('type','vector');
+						} else {
+							group.attr('type','spectrogram');
+						}
+						var elements = DataGroupElements[i].replace(/\(|\)|\[|\]/g,"");
+						elements = elements.replace(/\$([0-9])/g,"'+Dataset[$1-1]+'");
+						elements = eval("'" + elements + "'");
+	
+						group.attr('elements',elements);
+						$(groups).append(group[0].outerHTML);
+					}
+				}
+				
+				var variables = $($('#threddstemplate').val()).find('variables');
+				variables.empty();
+	
+				var variable = $($('#threddstemplate').val()).find('variable');
+	
+				for (i = 0;i < DataIDs.length;i++) {
+	
+					var variable = $($('#threddstemplate').val()).find('variable');
+					
+					ID = DataIDs[i].replace(/\$([0-9])/,"'+Dataset[$1-1]+'");
+					ID = eval("'" + ID + "'");
+					ID = ID.replace(/\(|\)|\[|\]/g,"")
+	
+					name = DataNames[i].replace(/\$([0-9])/,"'+Dataset[$1-1]+'");
+					name = eval("'" + name + "'");
+					name = name.replace(/\(|\)|\[|\]/g,"");
+
+					label = DataLabels[i].replace(/\$([0-9])/,"'+Dataset[$1-1]+'");
+					label = eval("'" + name + "'");
+					label = label.replace(/\(|\)|\[|\]/g,"");
+					
+					fillvalue = DataFillValues[i];
+
+					rendering = DataRenderings[i];
+					
+					unit = DataUnits[i].replace(/\$([0-9])/,"'+Dataset[$1-1]+'");
+					unit = eval("'" + unit + "'");
+					variable.attr('ID',ID).attr('name',ID).attr('name',name).attr('type','scalar').attr('label',label).attr('units',unit).attr('_fillvalue',fillvalue).attr('rendering',rendering);
+					//console.log(variable[0].outerHTML)	
+					$(variables).append(variable[0].outerHTML)
+				}
+				//console.log(variables[0].outerHTML);
+				if (DataGroups)
+					$(dataset).append(groups[0].outerHTML);
+				
+				$(dataset).append(variables[0].outerHTML);
+	
+				// Do this for each dataset
+				$(catalog).append(dataset[0].outerHTML);
+			}
+			console.log(catalog[0].outerHTML);
+			
+			$('#threddscatalog').val(catalog[0].outerHTML);
+			
+			var editor = CodeMirror.fromTextArea(document.getElementById('threddscatalog'), {lineNumbers:true,"mode":"xml", "value": catalog[0].outerHTML.replace(/\s.*\</g,'')});
+			autoFormat();
+			//console.log(cm)
+			function autoFormat() {
+			    var totalLines = editor.lineCount();
+			    var totalChars = editor.getTextArea().value.length;
+			    editor.autoFormatRange({line:0, ch:0}, {line:totalLines, ch:totalChars});
+			}
+
+			
+			$("#DataColumns").val().split(/\(|\)/g)
+				.forEach(function (el,idx,arr) {
+					el = el.replace(/^,|,$/,"");
+					console.log(idx + " " + el);
+				});
+
+		});
+	</script>	
  	</body>
  </html>
