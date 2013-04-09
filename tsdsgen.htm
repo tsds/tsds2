@@ -24,7 +24,7 @@
 
  		<script type="text/javascript" src="asset/checkproxy.js"></script>
  		<script type="text/javascript" src="asset/tsdsgen.js"></script>  		
- 		<script type="text/javascript" src="presets/USGS-RT-1M.js"></script>
+ 		<script type="text/javascript" src="presets/USGS-RT-1M-FRD.js"></script>
 		<!--script type="text/javascript" src="presets/linkcheck-autoplot.js"></script-->
  	</head>
 	<script>
@@ -32,7 +32,9 @@
 		var 	plotoptions      = "width=500&height=100&font=sans-8&format=image%2Fpng&column=10em%2C100%25-3em&row=1em%2C100%25-4em&renderType=&color=%230000ff&fillColor=%23aaaaff&foregroundColor=%23ffffff&backgroundColor=%23000000";
 
 		var DataCache        = "http://datacache.org/dc/sync";
+		// This won't work for localhost. node.js gives Error: getaddrinfo ENOENT.
 		var DataCache        = "http://localhost:8000/sync";
+		//var DataCache        = "http://127.0.0.1:8000/sync";
 
 		var URLTemplateExpander = "";
 		//var URLTemplateExpander = "http://sarahandjeremy.net:8180/AutoplotServlet/ScriptServlet2?fast=on&resourceURI=$resourceURI&timerange=$timerange";
@@ -40,7 +42,8 @@
 		//2010-03-01/2010-03-10
 		
 		var Proxy            = "";
-		var Proxy            = "http://localhost:8002/proxy?url=";
+		var Proxy            = "http://localhost:8888/proxy?url=";
+		//var Proxy            = "http://127.0.0.1:8888/proxy?url=";
 
 		$(document).ready(function(){
 			$('#CatalogName').val(CatalogName);

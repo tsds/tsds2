@@ -1,8 +1,8 @@
 // For Autoplot, for now.
 PlotColumns = 4;
 
-//var URLTemplate        = "http://magweb.cr.usgs.gov/data/magnetometer/$1/OneMinute/$5%Y%m%dvmin.min";
-var URLTemplate        = "http://magweb.cr.usgs.gov/data/magnetometer/$1/OneSecond/$5%Y%m%dvsec.sec";
+var URLTemplate        = "http://magweb.cr.usgs.gov/data/magnetometer/$1/OneMinute/$5%Y%m%dvmin.min";
+//var URLTemplate        = "http://magweb.cr.usgs.gov/data/magnetometer/$1/OneSecond/$5%Y%m%dvsec.sec";
 
 var CatalogName        = "USGS Real Time 1-Minute Magnetometer Measurements";
 var CatalogID          = "USGS/MAG/1M";

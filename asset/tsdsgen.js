@@ -203,8 +203,8 @@ function ajaxReport(el,type) {
 
 		$(el+'_span').show();
 		console.log(el + "_results");
-		var extractData = encodeURI('body.toString().replace(/\-|:/g," ").split("\\n").filter(function(line){return line.search(lineRegExp)!=-1;}).join("\\n") + "\\n"');
-		$(el + "_results").html('<a href="' + _DataCache.replace('source=','&return=stream&extractData='+extractData+'&source=')+encodeURI(urls[0]) +'">Download concatanation of all responses.</a>');
+		//var extractData = encodeURI('body.toString().replace(/\-|:/g," ").split("\\n").filter(function(line){return line.search(lineRegExp)!=-1;}).join("\\n") + "\\n"');
+		$(el + "_results").html('<a href="' + _DataCache.replace('source=','&return=stream&source=')+encodeURI(urls[0]) +'">Download concatanation of all responses.</a>');
 		el = el + "_iframe";
 		// Insert DataCache report URL into iframe.
 		console.log(_DataCache.replace("sync","report") + data);
@@ -291,7 +291,17 @@ function ajaxRequest(el,type) {
 			success: function (data, textStatus, jqXHR) {
 					z = z + 1;
 					Nvalid = Nvalid + 1;
-					if (jqXHR.getResponseHeader('Content-Length') > 0) {
+					//console.log(data);
+					//console.log(jqXHR.getAllResponseHeaders())
+					// See proxy.js - it places Content-Length in Content-Type header
+					// because only Content-Type and Last-Modified headers can be
+					// accessed reliable from jqXHR object.
+					if (jqXHR.getResponseHeader('Content-Type').match(/Content-Length/i)) {
+						var ContentLength = jqXHR.getResponseHeader('Content-Type').replace(/.*:\s+([0-9].*),.*/,'$1');
+					} else {
+						var ContentLength = jqXHR.getResponseHeader('Content-Length')
+					}
+					if (parseInt(ContentLength) > 0) {
 						urlsv[i][j] = urlss[i][j];
 					} else {
 						urlsi[i][j] = urlss[i][j];

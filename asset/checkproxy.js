@@ -3,7 +3,7 @@ function checkproxy(testurl, proxy, report) {
 	console.log("checkproxy.js: Trying unproxied AJAX HEAD request to " + testurl);
 	$(report).text("checkproxy.js: Trying unproxied AJAX HEAD request to " + testurl);
  
- 	console.log(report);
+ 	//console.log(report);
 	$.ajax({
 		type: 'HEAD',
 		async: false,
@@ -27,7 +27,7 @@ function checkproxy(testurl, proxy, report) {
 		
 	if (needproxy && noproxy) {
 		$(report).text("checkproxy.js: Request to " + testurl + " failed. Either that page is not available or a proxy is needed.");
-		$(report).append(" See <a href='http://tsds.org/tsdsgen#Full_functionality'>http://tsds.org/tsdsgen</a> for more information.");
+		$(report).append(" See <a href='http://tsds.org/tsdsgen#Full_functionality'>http://tsds.org/tsdsgen</a> for proxy configuration information.");
 		return false;
 	}
 	if (!needproxy) {
