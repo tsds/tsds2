@@ -1,0 +1,416 @@
+When using this file please acknowledge the SuperMAG collaboration by including the reference:
+  Gjerloev, J. W., A Global Ground-Based Magnetometer Initiative, EOS, 90, 27, 230-231, 2009.
+ 
+JHU/APL assumes no obligation to provide support of any kind with regard to the
+information within this website. This includes no obligation to provide assistance
+in using the information in this file.
+ 
+Comments, questions or suggestions should be directed to:
+
+    Dr. Jesper W. Gjerloev
+    Johns Hopkins University
+    Applied Physics Laboratory
+    11100 Johns Hopkins Road
+    Laurel, Maryland 20723
+    (+1) 240-228-5410
+    Jesper.Gjerloev@jhuapl.edu
+ 
+This file includes:
+
+   IAGA: Three letter IAGA code.  If none is available we use the SuperMAG designated IAGA code.
+   GLON: Geographic longitude (0 to 360 deg).
+   GLAT: Geographic latitude (-90 to 90 deg).
+   NAME: Station name
+
+The file includes information from 385 stations.
+ 
+File generated on: Tue Apr 05 16:23:17 2011
+ 
+ 
+IAGA     GLON     GLAT   STATION-NAME
+-------------------------------------
+SPA       0.00   -90.00  South Pole Station
+B23     316.13   -88.03  m88-316
+B21      28.41   -87.00  m87-028
+B22      68.17   -86.51  m87-068
+B20      95.98   -85.36  m85-096
+B19       2.06   -85.36  m85-002
+B18     336.14   -84.35  m84-336
+B17     347.76   -82.90  m83-348
+B16     347.06   -82.78  m83-347
+B15       2.97   -81.49  m82-003
+B14     337.74   -80.89  m81-338
+B13      77.00   -80.00  m80-077
+B12     335.88   -79.08  m79-336
+VOS     106.87   -78.45  Vostok
+SBA     166.78   -77.85  Scott Base
+MCM     166.67   -77.85  McMurdo Station
+B11     336.58   -77.51  m78-337
+B10      39.71   -77.32  m77-040
+B09      42.99   -74.01  m74-043
+B08     159.03   -72.77  m73-159
+B24      77.77   -71.67  m72-078
+B07      44.28   -70.70  m70-044
+B06      39.40   -69.67  m70-039
+B05      41.32   -69.29  m69-041
+DVS      77.97   -68.58  Davis
+B04      41.08   -68.58  m68-041
+MAW      62.88   -67.61  Mawson
+B03     291.88   -67.57  m67-292
+DRV     140.01   -66.67  Dumont Durville
+MIR      93.02   -66.55  Mirny
+CSY     110.53   -66.28  Casey
+B02     294.00   -66.03  m66-294
+AIA     295.74   -65.25  Faraday Islands
+B01     296.52   -64.82  m65-297
+OHI     302.10   -63.32  OHiggins
+LIV     299.61   -62.66  Livingston Island
+ESC     301.08   -62.18  Escudero
+MCQ     158.95   -54.50  Macquarie Island
+PNT     289.10   -53.20  Puerto Natales
+ENP     289.10   -53.20  Punta Arenas
+PST     302.11   -51.70  Port Stanley
+PAF      70.26   -49.35  Port aux Francias
+CZT      51.87   -46.43  Port Alfred
+EYR     172.40   -43.40  Eyrewell
+TRW     294.68   -43.25  Trelew
+LEM     147.50   -42.30  Lemont
+PAC     286.91   -40.34  Puerto Natales
+OSO     286.91   -40.34  Osorno
+VLD     286.86   -39.48  Valdivia
+AMS      77.57   -37.80  Martin de Vivias
+CNB     149.36   -35.32  Canberra
+ADL     138.65   -34.67  Adelaide
+HER      19.23   -34.43  Hermanus
+KAT     117.62   -33.68  Katanning
+CER     289.40   -33.45  Los Cerrillos
+GNA     116.00   -31.80  Gnangara
+SER     288.87   -30.00  La Serena
+DAL     151.20   -27.18  Dalby
+LMM      40.00   -25.92  Maputo
+HBK      27.71   -25.88  Hartebeesthoek
+BSV     139.21   -25.54  Birdsville
+ASP     133.88   -23.77  Alice Springs
+ANT     289.76   -23.39  Antofagasta
+VSS     316.35   -22.40  Vassouras
+LRM     114.10   -22.22  Learmonth
+EWA     202.00   -21.32  Ewa Beach
+CTA     146.30   -20.10  Charters Towers
+TSU      17.70   -19.22  Tsumeb
+TAN      47.55   -18.92  Antananarivo
+PUT     290.50   -18.30  Putre
+PPT     210.42   -17.57  Pamatai
+ASA     170.70   -14.28  American Samoa
+API     188.22   -13.80  Apia
+KDU     132.47   -12.69  Kakadu
+WEP     141.88   -12.68  Weipa
+DRW     130.90   -12.40  Darwin
+HUA     284.67   -12.05  Huancayo
+ASC     345.62    -7.95  Ascension Island
+WTK     112.63    -7.56  Watukosek
+WEW     143.62    -3.55  Wewak
+BIK     136.05    -1.08  Biak
+KTB     100.32    -0.20  
+PTN     109.25    -0.05  Pontianak
+TND     124.95     1.29  Tondano
+KOU     307.27     2.21  Kourou
+BNG      18.57     4.33  Bangui
+KOR     134.50     7.33  Koror
+AAE      38.77     9.03  Addis Ababa
+YAP     138.50     9.30  Yap
+GUA     144.87    13.59  Guam
+MUT     121.02    14.37  Muntinlupa
+MBO     343.03    14.38  Mbour
+SJG     293.85    18.11  San Juan
+ABG      72.87    18.62  Alibag
+TEO     260.82    19.75  Teoloyucan
+M11     256.90    20.70  Juriquilla
+PHU     105.95    21.03  Phuthuy
+HON     202.00    21.32  Honolulu
+TAM       5.53    22.79  Tamanrasset
+GZH     113.34    23.09  Guangzhou
+M10     260.40    24.80  Linares
+LNP     121.17    25.00  Lunping
+M09     262.20    26.40  Lyford
+CBI     142.30    27.15  Chichijima
+FIT     279.05    28.07  Bullcreek
+MID     182.62    28.21  Midway
+GUI     343.57    28.32  Guimar
+M08     261.39    29.44  San Antonio
+DLR     259.08    29.49  Del Rio
+MLT      30.89    29.52  Misallat
+ELT      34.95    29.67  Eilat
+BSL     270.37    30.35  Bay St Louis
+JAX     278.40    30.35  Jacksonville
+YMK     130.62    31.19  Yamakawa
+KNY     130.88    31.42  Kanoya
+KAG     130.72    31.48  Kagoshima
+BGY      35.09    31.72  Bar Gyora
+TUC     249.27    32.17  Tucson
+M07     263.25    32.98  Richardson
+HTY     139.80    33.12  Hatizyo
+USC     278.54    33.34  U of South Carolina
+ONW     141.47    33.43  Onagawa
+QSB      35.64    33.87  Qsaybeh
+T26     242.15    34.20  San Gabriel
+T27     242.32    34.38  Table Mountain
+M06     262.60    35.00  Purcell
+TUL     264.22    35.92  Tulsa
+LZH     103.85    36.09  Lanzhou
+KAK     140.18    36.23  Kakioka
+DSO     278.60    36.25  Darsky
+SFS     354.06    36.67  San Fernando
+FRN     240.30    37.10  Fresno
+ASH      58.10    37.95  Ashkabad
+FRD     282.63    38.20  Fredericksburg
+M05     263.70    38.50  Americus
+MIZ     141.20    39.11  Mizusawa
+APL     283.12    39.17  Applied Physics Lab
+T16     240.20    39.19  Carson City
+ESA     141.36    39.24  Esashi
+SPT     355.65    39.55  San Pablo Toledo
+TOL     355.95    39.88  Toledo
+BOU     254.77    40.13  Boulder
+T20     281.62    40.18  Loysburg
+BMT     116.20    40.30  Beijing
+EBR       0.49    40.82  Ebro
+ISK      29.06    41.07  Kandilli
+TKT      69.62    41.33  Tashkent
+M04     263.84    41.36  Bennington
+AQU      13.32    42.38  LAquila
+T14     276.10    42.42  Ann Arbor
+MSH     288.52    42.60  Millstone Hill
+PPI     131.73    42.98  Popov Island
+T21     257.41    43.08  Pine Ridge
+AAA      76.92    43.25  Alma Ata
+RIK     143.76    43.48  Rikubetsu
+M03     264.40    43.60  Worthington
+GTF     288.05    43.62  Grafton
+T23     274.86    43.66  Remus
+MMB     144.19    43.91  Memambetsu
+SBL     299.99    43.93  Sable Carrigan
+MSR     142.27    44.37  Moshiri
+GCK      20.77    44.63  Grocka
+CLK     285.00    44.70  Clarkson
+T24     271.40    44.78  Shawano
+T17     287.87    44.95  Derby
+T25     241.07    45.14  Ukiah
+SUA      26.25    45.32  Surlari
+OTT     284.45    45.40  Ottawa
+M02     266.75    45.56  Cambridge
+NKK      62.12    45.77  Novokazalinsk
+T10     264.92    45.87  Osakis
+T18     259.32    46.09  Fort Yates
+T15     275.66    46.24  Bay Mills
+ODE      30.88    46.78  Odessa
+M01     263.55    46.87  Glyndon
+THY      17.54    46.90  Tihany
+YSS     142.72    46.95  Yuzhno Sakhalinsk
+STJ     307.32    47.60  St Johns
+T19     245.33    47.61  Hot Springs
+NCK      16.72    47.63  Nagycenk
+T09     245.79    47.66  Polson
+HRB      18.19    47.86  Hurbanovo
+CLF       2.27    48.02  Chambon la foret
+T12     263.64    48.03  Thief River Falls
+FUR      11.28    48.17  Furstenfeldbruk
+VLO     282.24    48.19  Val-dOr
+NEW     242.88    48.27  Newport
+BFO       8.33    48.33  Black Forest
+VIC     236.58    48.52  Victoria
+BDV      14.02    49.07  Budkov
+T32     277.70    49.40  Kapuskasing
+MZH     117.40    49.60  Manzaoli
+LET     247.13    49.64  Lethbridge
+GLN     262.88    49.65  Glenlea
+T13     256.20    49.69  Weyburn
+T30     285.60    49.80  Chibougamau
+KGD      73.08    49.82  Karaganda
+LVV      23.75    49.90  Lvov
+T05     251.74    50.06  Gull Lake
+DOU       4.60    50.10  Dourbes
+PIN     263.96    50.20  Pinawa
+MAB       5.68    50.30  Manhay
+T03     247.02    50.37  Vulcan
+KIV      30.30    50.72  Kiev
+T43     245.70    50.90  Priddis
+HAD     355.52    50.98  Hartland
+ROT     245.87    51.07  Rothney
+BEL      20.80    51.83  Belsk
+T02     239.97    51.88  Wells Gray
+VAL     349.75    51.93  Valentia
+T06     264.54    52.03  Little Grand Rapids
+NGK      12.68    52.07  Niemegk
+RED     246.16    52.14  Red Deer
+IRT     104.45    52.17  Irkoutsk
+MSK      34.52    52.69  MSK
+SAS     253.60    52.80  Saskatoon
+PTK     158.25    52.94  St Paratunka
+EDM     246.70    53.30  Edmonton
+T28     299.50    53.30  Goose Bay
+T07     247.03    53.35  Ministik Lake
+WNG       9.07    53.75  Wingst
+T37     237.20    53.80  Prince George
+ISL     265.34    53.86  Island Lake
+YOR     358.95    53.95  York
+T33     259.10    54.00  Flin Flon/The Pas
+LAN     357.23    54.01  Lancaster
+MNK      26.52    54.10  Minsk
+HLP      18.82    54.61  Hel
+MEA     246.67    54.62  Meanook
+T36     246.69    54.71  Athabasca
+T11     264.47    54.96  Oxford House
+NVS      82.90    55.03  Novosibirsk
+T42     254.70    55.20  La Ronge
+PBQ     282.25    55.30  Poste de la Baleine
+ESK     356.80    55.32  Eskdalemuir
+SHU     199.54    55.35  Shumagin
+MOS      37.32    55.48  Moscow
+BFE      11.67    55.62  Brorfelde
+KNZ      48.85    55.83  Zaymishche
+RSV      12.45    55.85  Rude Skov
+GIM     265.36    56.38  Gillam
+NAN     298.30    56.40  Nain
+T31     280.80    56.50  Danikiluaq
+FMC     248.79    56.66  Fort McMurray
+T22     226.84    56.83  Petersburg
+SIT     224.67    57.07  Sitka
+CRK     357.36    57.09  Crooktree
+GML     356.32    57.16  Gleenmore Lodge
+T01     265.83    57.72  Back
+BOX      38.97    58.03  Barok
+BOR      38.33    58.03  Borok
+RAL     256.32    58.22  Rabbit Lake
+TAR      26.46    58.26  Tartu
+T29     291.80    58.30  Kuujjuaq
+FVE     243.98    58.37  Fort Vermilion
+FCC     265.92    58.76  Fort Churchill
+T04     248.89    58.77  Fort Chipewyan
+KAR       5.24    59.21  Karmoy 
+LOV      17.83    59.35  Lovo
+KVI      17.63    59.50  Kvistaberg
+HOM     209.53    59.70  Homer
+UPS      17.35    59.90  Uppsala
+LNN      30.70    59.95  Leningrad
+MGD     150.86    59.97  Magadan
+SMI     248.05    60.02  Fort Smith
+YAK     129.72    60.02  Yakutsk
+LER     358.82    60.13  Lerwick
+NUR      24.65    60.50  Nurmajarvi
+T38     224.80    61.00  White Horse
+EKP     265.95    61.11  Eskimo Point
+NAQ     314.56    61.16  Narssarssuaq
+AMU     210.10    61.20  Anchorage
+HLM     210.13    61.24  HLMS
+FSP     238.77    61.76  Fort Simpson
+FHB     310.32    62.00  Paamiut
+FAR     352.98    62.05  Faroes
+DOB       9.11    62.07  Dombas
+HAN      26.65    62.30  Hankasalmi
+T39     209.80    62.30  Trapper Creek
+GAK     214.70    62.30  Gakona
+YKC     245.53    62.47  Yellowknife
+TRP     150.24    62.67  Trapper
+MEK      30.97    62.77  Mekrijaervi
+RAN     267.89    62.82  Rankine Inlet
+T40     204.40    63.00  McGrath
+TLK     209.90    63.30  Talkeetna
+T35     249.10    63.60  Snap Lake
+IQA     291.48    63.75  Iqaluit
+HLL     339.44    63.77  Hella
+DAW     220.89    64.05  Dawson
+CHC     276.80    64.10  Coral Harbour
+GHB     308.27    64.17  Nuuk
+LRV     338.30    64.18  Leirvogur
+CDC     283.40    64.20  Cape Dorset
+BLC     263.97    64.33  Baker Lake
+NOR      13.36    64.37  Nordli
+OUJ      27.23    64.52  Oulujarvi
+ARK      40.50    64.60  Arkhangelsk
+LYC      18.75    64.61  Lycksele
+T34     249.30    64.70  Ekati
+EAG     218.80    64.78  Eagle
+CMO     212.14    64.87  College
+RVK      10.98    64.94  Rorvik
+PKR     212.74    65.08  Poker Flat
+OUL      25.85    65.10  Oulu
+T08     233.31    65.26  Norman Wells
+SKT     307.10    65.42  Maniitsoq
+AMK     322.37    65.60  Tasiilaq
+CNL     248.75    65.75  Contwoyto Lake
+ZYK     150.78    65.75  Zyryanka
+PGC     294.20    66.10  Pangnirtung
+CWE     190.17    66.17  Wellen
+MCR     313.71    66.48  Magic2 Raven
+RPB     273.80    66.50  Repulse Bay
+FYU     214.70    66.57  Fort Yukon
+ZGN     123.26    66.75  Zhigansk
+KOT     197.40    66.88  Kotzebue
+BET     208.32    66.90  Bettles
+PEL      24.08    66.90  Pello
+T41     199.60    67.00  Kiana
+STF     309.28    67.02  Kangerlussuaq
+SOD      26.63    67.37  Sodankyla
+KIR      20.42    67.84  Kiruna
+ATU     306.43    67.93  Attu
+LOZ      35.08    67.97  Lovozero
+MUO      23.53    68.02  Muonio
+LEK      13.54    68.13  Leknes
+ARC     214.43    68.13  Arctic Village
+INK     226.70    68.25  Inuvik
+LOP      33.08    68.25  Lop
+ABK      18.82    68.35  Abisko
+PBC     270.30    68.50  Pelly Bay
+CKA      73.60    68.50  Cape Kamenniy
+IVA      27.29    68.56  Ivalo
+GHC     264.10    68.60  Gjoa Haven
+CPS     180.55    68.88  Cape Schmidt
+KAU      23.05    69.02  Kautokeino
+KIL      20.79    69.02  Kilpisjarvi
+CBB     255.00    69.10  Cambridge Bay
+GDH     306.47    69.25  Godhavn
+AND      16.03    69.30  Andenes
+IGC     278.20    69.30  Igloolik
+NOK      88.10    69.40  NOK
+MAS      23.70    69.46  Masi
+AMD      61.40    69.50  Amderma
+TAL     266.45    69.54  Taloyoak
+TRO      18.94    69.66  Tromso
+KEV      27.01    69.76  Kevo
+ALT      22.96    69.86  Alta
+KAV     216.63    70.07  Kaktovik
+PBK     170.90    70.10  Pebek
+CPY     235.30    70.20  Cape Perry
+JCO     211.20    70.36  Jim Carrigan
+SCO     338.03    70.48  Ittoqqortoormiit
+CY0     291.40    70.50  Clyde River
+SOR      22.22    70.54  Soroya
+CHD     147.89    70.62  Chokurdakh
+UMQ     307.87    70.68  Uummannaq
+BRW     203.25    71.30  Barrow
+TIK     129.00    71.58  Tixie
+SAH     234.74    71.99  Sachs Harbour
+MCW     317.41    72.00  Magic1 west
+MCE     326.10    72.40  Magic1 east
+MCG     321.65    72.60  Magic2 GISP
+UPN     303.85    72.78  Upernavik
+DIK      80.57    73.55  Dixon
+MCN     322.38    73.93  Magic1 north
+DNB     339.78    74.30  Daneborg
+BJN      19.20    74.50  Bear Island
+KUV     302.82    74.57  Kullorsuaq
+RES     265.10    74.70  Resolute Bay
+KTN     137.71    75.94  Kotelnyy
+SVS     294.90    76.02  Savissivik
+MBC     240.00    76.20  Mould Bay
+HOP      25.01    76.51  Hopen Island
+DMH     341.37    76.77  Danmarkshavn
+HRN      15.60    77.00  Hornsund
+THL     290.77    77.47  Qaanag
+CCS     104.28    77.72  Chelyuskin
+LYR      15.82    78.20  Longyearbyen
+NAL      11.95    78.92  New Aalesund
+VIZ      76.98    79.48  Vieze Island
+HIS      58.05    80.62  Heiss Island
+NRD     343.33    81.60  Nord
+ALE     297.50    82.50  Alert
