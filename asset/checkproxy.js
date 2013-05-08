@@ -14,7 +14,7 @@ function checkproxy(testurl, proxy, report) {
 	});
 	
 	if (needproxy) {
-		console.log("checkproxy.js: Trying proxied AJAX HEAD request to " + Proxy + testurl);
+		console.log("checkproxy.js: Trying proxied AJAX HEAD request with " + proxy + testurl);
 		$.ajax({
 				type: 'HEAD',
 				async: false,

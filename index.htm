@@ -24,16 +24,16 @@
 
  		<script type="text/javascript" src="asset/checkproxy.js"></script>
  		<script type="text/javascript" src="asset/tsdsgen.js"></script>  		
- 		<script type="text/javascript" src="presets/USGS-RT-1M-FRD.js"></script>
+ 		<script type="text/javascript" src="presets/USGS-RT-1M.js"></script>
 		<!--script type="text/javascript" src="presets/linkcheck-autoplot.js"></script-->
  	</head>
 	<script>
 		var AutoplotServlet  = "http://autoplot.org/plot/SimpleServlet?";
-		var 	plotoptions      = "width=500&height=100&font=sans-8&format=image%2Fpng&column=10em%2C100%25-3em&row=1em%2C100%25-4em&renderType=&color=%230000ff&fillColor=%23aaaaff&foregroundColor=%23ffffff&backgroundColor=%23000000";
+		var plotoptions      = "width=500&height=100&font=sans-8&format=image%2Fpng&column=10em%2C100%25-3em&row=1em%2C100%25-4em&renderType=&color=%230000ff&fillColor=%23aaaaff&foregroundColor=%23ffffff&backgroundColor=%23000000";
 
 		var DataCache        = "http://datacache.org/dc/sync";
 		// This won't work for localhost. node.js gives Error: getaddrinfo ENOENT.
-		var DataCache        = "http://localhost:8000/sync";
+		//var DataCache        = "http://localhost:8000/sync";
 		//var DataCache        = "http://127.0.0.1:8000/sync";
 
 		var URLTemplateExpander = "";
@@ -43,8 +43,19 @@
 		
 		var Proxy            = "";
 		var Proxy            = "http://localhost:8888/proxy?url=";
-		//var Proxy            = "http://127.0.0.1:8888/proxy?url=";
+		var Proxy            = "http://127.0.0.1:8002/proxy?url=";
+		//var Proxy            = "asset/head.php?url=";
 
+		function threddsTry() {
+			data = "catalog=" + escape($('#threddscatalog2').val());
+			$.ajax({
+				type: 'POST',
+				data: data,
+				url: 'asset/proxy.php', 
+				success: function () {},
+				error: function () {}});
+		}
+		
 		$(document).ready(function(){
 			$('#CatalogName').val(CatalogName);
 			$('#CatalogID').val(CatalogID);
@@ -286,8 +297,13 @@
 	<hr/>
  		<div id="catalogdiv" style="display:none">
 			<input id="threddscatalogtry" type="button" onclick="threddsTry();" value="Try"> catalog.thredds:
-			<br/>
 		 	<textarea class="try" id="threddscatalog"></textarea>
+			<br/>
+			<input id="threddscatalogtry2" type="button" onclick="threddsTry();" value="Try"> catalog.thredds:
+		 	<textarea class="try" id="threddscatalog2"></textarea>
+			
+			<br/>
+		<div id="catalogdiv2" style="display:none">
 			catalog.xml:
 			<br/>
 		 	<textarea class="try" id="tsdscatalog"></textarea>
@@ -310,32 +326,24 @@
 				<catalog xmlns="http://www.unidata.ucar.edu/namespaces/thredds/InvCatalog/v1.0" xmlns:xlink="http://www.w3.org/1999/xlink" name="" ID="">
     					<documentation xlink:href="" xlink:title=""/>
     					<service name="tss" serviceType="OpenDAP" base=""/>
-		 	        <processing xlink:href="" xlink:title="">
-					</processing>
-					<processing>
-						<dataset id="REGEXP or CSV" columns="" rendering="" _FillValue="" urltemplate="" urlpreprocess="" timecolumns="" timeformat="" timestart="" timeend=""/>
-						<variable id="REGEXP or CSV" columns="" rendering="" _FillValue="" urltemplate="" urlpreprocess="" timecolumns="" timeformat="" timestart="" timeend=""/>
-		 	        <processing>
-		 	        	   
-		 	        </processing>
-					<dataset name="" ID="">
-						<access serviceName="tss" urlPath=""/>
-						<access serviceName="ncml" urlPath=""/>
-						<timeCoverage>
-							<Start></Start>
-							<End></End>
-						</timeCoverage>
-						<groups vocabulary="TSDS-1.0">
-							<group id="" version="" name="" type="" elements="" values=""/>
-						</groups>
-						<variables vocabulary="TSDS-1.0">
-							<variable name="" label="" units="" id="" version="" type="" columns="" delim="" regex="" commentCharacter="" skipLines="" format="" renderings="" fillvalues="" urlgenerator="" urltemplate="" urlpreprocess="" timecolumns="" timeformat="" timestart="" timeend=""/>
-						</variable>
+						<dataset name="" ID="">
+							<access serviceName="tss" urlPath=""/>
+							<access serviceName="ncml" urlPath=""/>
+							<timeCoverage>
+								<Start></Start>
+								<End></End>
+							</timeCoverage>
+							<groups vocabulary="TSDS-1.0">
+								<group id="" version="" name="" type="" elements="" values=""/>
+							</groups>
+							<variables vocabulary="TSDS-1.0">
+								<variable name="" label="" units="" id="" version="" type="" columns="" delim="" regex="" commentCharacter="" skipLines="" format="" renderings="" fillvalues="" urlgenerator="" urltemplate="" urlpreprocess="" timecolumns="" timeformat="" timestart="" timeend=""/>
+							</variables>
 					</dataset>
 				</catalog>
 		 	</textarea>
-			<br/>
 		</div>
+		<br/>
  		<div id="dlscript" style="display:none">
 	 		Download Script
 	 		<br/>
@@ -353,36 +361,60 @@
 				})[0];
 			$('#tsdscatalog').val(tmp.wholeText);
 			
-			var catalog = $($('#threddstemplate').val());
-			catalog.attr('name',$('#CatalogName').val());
+			//var catalog = $($('#threddstemplate').val());
+			var catalog = $($.parseXML($('#threddstemplate').val()));
+			var catalog0 = $($.parseXML($('#threddstemplate').val()));
+			catalog.find('catalog').attr('name',$('#CatalogName').val());
 			catalog.find('documentation').attr("xlink:title",$('#CatalogDescription').val());
 			catalog.find('documentation').attr("xlink:href",$('#CatalogDescriptionURL').val());
 			catalog.attr('ID',$('#CatalogID').val());
 			catalog.find('service').attr('base','http://tsds.org/tsds/'+$('#CatalogID').val())
 			catalog.find('dataset').remove();
-			//console.log(catalog[0].outerHTML);
 
-			var StartDates = $('#StartDates').val().split(',')
 
-			var Datasets   = $('#Datasets').val().split(/\n/g);
+			jQuery.xml2str = function(xmlData) {if (window.ActiveXObject) {return xmlData.xml} else {return (new XMLSerializer()).serializeToString(xmlData)}}
+			//console.log($.xml2str(catalog[0]))
+
+			//var dataset = $($('#threddstemplate').val()).find('dataset');			
+			var catalog = $(catalog0[0]).find('catalog');
+			console.log(catalog);
+
+			var dataset = $(catalog0[0]).find('dataset');
+			console.log(dataset);
 			
+			var variables = $(catalog0[0]).find('variables');
+			console.log(variables)
+	
+			var variable = $(catalog0[0]).find('variable');
+			console.log(variable);
+							
+			//var groups = $($('#threddstemplate').val()).find('groups');
+			var groups = $(catalog0[0]).find('groups');
+			console.log(groups)
+			//groups.empty();
+
+			var group = $(catalog0[0]).find('group');					
+			console.log(group)
+			
+			var StartDates = $('#StartDates').val().split(',')
+			var Datasets   = $('#Datasets').val().split(/\n/g);
+
 			for (j = 0; j< Datasets.length; j++) {
 				var Dataset    = Datasets[j].split(',');
 	
-				var dataset = $($('#threddstemplate').val()).find('dataset');
 				dataset.attr('ID',Dataset[0]).attr('name',Dataset[0]);
 				dataset.find('access').attr('urlpath',Dataset[0]);
-				dataset.find('start').text(StartDates[0]);
-				dataset.find('end').text(StopDates[0]);
+				dataset.find('Start').text(StartDates[0]);
+				dataset.find('End').text(StopDates[0]);
 				dataset.find('variables').remove();
 				dataset.find('groups').remove();
 
-				var DataIDs   = $('#DataIDs').val().split(/,/g);
-				var DataNames = $('#DataNames').val().split(/,/g);
+				var DataIDs    = $('#DataIDs').val().split(/,/g);
+				var DataNames  = $('#DataNames').val().split(/,/g);
 				var DataLabels = $('#DataLabels').val().split(/,/g);
 				var DataFillValues = $('#DataFillValues').val().split(/,/g);
 				var DataRenderings = $('#DataRenderings').val().split(/,/g);
-				var DataUnits = $('#DataUnits').val().split(/,/g);
+				var DataUnits  = $('#DataUnits').val().split(/,/g);
 				var DataValues = $('#DataValues').val().split(/,/g);
 
 				for (i = 0;i < DataIDs.length;i++) {
@@ -398,13 +430,9 @@
 				var DataGroupNames   = $("#DataGroupNames").val().split(/,/g);
 				var DataGroupLabels  = $("#DataGroupLabels").val().split(/,/g);
 
-				
-				var groups = $($('#threddstemplate').val()).find('groups');
-				groups.empty();
 
 				if (DataGroups) {
 					for (i = 0;i < DataGroups.length;i++) {
-						var group = $($('#threddstemplate').val()).find('group');					
 	
 						ID = DataGroupIDs[i].replace(/\$([0-9])/,"'+Dataset[$1-1]+'");
 						ID = eval("'" + ID + "'");
@@ -425,18 +453,19 @@
 						elements = eval("'" + elements + "'");
 	
 						group.attr('elements',elements);
-						$(groups).append(group[0].outerHTML);
+						//$(groups).append(group[0].outerHTML);
+						$(groups).append(group[0]);
 					}
 				}
-				
-				var variables = $($('#threddstemplate').val()).find('variables');
-				variables.empty();
-	
-				var variable = $($('#threddstemplate').val()).find('variable');
+				console.log(variables)
+				console.log(variable);
+
+				//var variable = $($('#threddstemplate').val()).find('variable');
 	
 				for (i = 0;i < DataIDs.length;i++) {
 	
-					var variable = $($('#threddstemplate').val()).find('variable');
+					//var variable = $($('#threddstemplate').val()).find('variable');
+					//var variable = $(catalog[0]).find('variable');
 					
 					ID = DataIDs[i].replace(/\$([0-9])/,"'+Dataset[$1-1]+'");
 					ID = eval("'" + ID + "'");
@@ -458,22 +487,33 @@
 					unit = eval("'" + unit + "'");
 					variable.attr('ID',ID).attr('name',ID).attr('name',name).attr('type','scalar').attr('label',label).attr('units',unit).attr('_fillvalue',fillvalue).attr('rendering',rendering);
 					//console.log(variable[0].outerHTML)	
-					$(variables).append(variable[0].outerHTML)
+					//$(variables).append(variable[0].outerHTML)
+					$(variables).append(variable[0])
 				}
+				console.log(variables)
 				//console.log(variables[0].outerHTML);
-				if (DataGroups)
-					$(dataset).append(groups[0].outerHTML);
+				if (DataGroups) {$(dataset).append(groups[0])}
+	
+				//$(dataset).append(groups[0].outerHTML);
 				
-				$(dataset).append(variables[0].outerHTML);
+				//$(dataset).append(variables[0].outerHTML);
+				$(dataset).append(variables[0]);
 	
 				// Do this for each dataset
-				$(catalog).append(dataset[0].outerHTML);
+				//$(catalog).append(dataset[0].outerHTML);
+				$(catalog).append(dataset[0]);
 			}
-			console.log(catalog[0].outerHTML);
+
+			console.log(dataset)
+			//console.log(catalog[0].outerHTML);
+			//console.log($.xml2str(catalog[0]));
+
+			$('#threddscatalog2').val($.xml2str(catalog[0]));
+			$('#threddscatalog').val($.xml2str(catalog[0]));
 			
-			$('#threddscatalog').val(catalog[0].outerHTML);
 			
-			var editor = CodeMirror.fromTextArea(document.getElementById('threddscatalog'), {lineNumbers:true,"mode":"xml", "value": catalog[0].outerHTML.replace(/\s.*\</g,'')});
+			//var editor = CodeMirror.fromTextArea(document.getElementById('threddscatalog'), {lineNumbers:true,"mode":"xml", "value": catalog[0].outerHTML.replace(/\s.*\</g,'')});
+			var editor = CodeMirror.fromTextArea(document.getElementById('threddscatalog'), {lineNumbers:true,"mode":"xml"});
 			autoFormat();
 			//console.log(cm)
 			function autoFormat() {

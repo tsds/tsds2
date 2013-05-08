@@ -31,7 +31,7 @@ function expand() {
 		expandtemplate(options,function (files,headers,options) {
 			Nc = Nc+1;
 			urls[options.k] = files.toString().replace(/,/g,"\n");
-			console.log(Nc)
+			//console.log(Nc)
 			if (Nc == options.N) {
 				$('#urls').show().val(urls.join("\n\n"));
 				$('#urls').scrollLeft(1000);
@@ -178,29 +178,11 @@ function ajaxReport(el,type) {
 	
 		// See if AJAX GET needs Proxy.
 		testurl = urls[0].split(/\n/g).filter(function(element){return element.length})[0];
-		Proxy = checkproxy(DataCache, DataCache, el+'_results');
+		Proxy = checkproxy(DataCache, Proxy, el+'_results');
 		if (Proxy === false) return;
 		
-		if (Proxy === "") {
-			_DataCache = DataCache + "?source=";
-		} else {
-			_DataCache = Proxy + DataCache + "%2Fsource=";
-		}
+		_DataCache = DataCache + "?source=";
 		
-		$.ajax({
-			type: 'HEAD',
-			async: false,
-			timeout: 300,
-			url: _DataCache, 
-			success: function () {
-						console.log("AJAX HEAD request to DataCache worked.");
-					},
-			error: function () {
-						console.log("AJAX HEAD request to DataCache failed.");
-						$(el + "_results").text('Connection to DataCache server ' + _DataCache.replace(/\?.*/,'')	 + ' failed. Cannot continue.');
-					}
-		});
-
 		$(el+'_span').show();
 		console.log(el + "_results");
 		//var extractData = encodeURI('body.toString().replace(/\-|:/g," ").split("\\n").filter(function(line){return line.search(lineRegExp)!=-1;}).join("\\n") + "\\n"');
