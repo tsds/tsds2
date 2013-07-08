@@ -1,10 +1,13 @@
+id="Linkcheck-Autoplot";
+Presets[id] = {};
+
 // For Autoplot, for now.
-PlotColumns = 7;
+Presets[id].PlotColumns = 7;
 
-var CatalogName = "Link Checks for autoplot.org";
-var CatalogID   = "weigel/lc/autoplot";
+Presets[id].CatalogName = "Link Checks for autoplot.org";
+Presets[id].CatalogID   = "weigel/lc/autoplot";
 
-var Datasets 		   = [
+Presets[id].Datasets = [
 						  ["1","http://autoplot.org/AutoplotServlet/SimpleServlet?url=http://www.sarahandjeremy.net/..."],                           
 						  ["2","http://autoplot.org/cache/AutoplotServlet/SimpleServlet?url=http://www.sarahandjeremy.net/..."],
 						  ["3","http://autoplot.org/"],
@@ -24,18 +27,18 @@ var Datasets 		   = [
 						 ];
 
 
-var URLTemplate        = "http://aurora.gmu.edu/log/linkcheck/data/mag/autoplot/$1/%Y%m%d.log";
+Presets[id].URLTemplate = "http://mag.gmu.edu/linkcheck/mag/autoplot/$1/%Y%m%d.log";
 
-var CatalogName = "Link Checks for autoplot.org";
-var CatalogID   = "weigel/lc/autoplot";
+Presets[id].CatalogName = "Link Checks for autoplot.org";
+Presets[id].CatalogID   = "weigel/lc/autoplot";
 
-var CatalogDescription = ""; // Could be a URL or [{title:"",description:""}] or {title:"",description:""}
-var CatalogDescriptionURL = "";
+Presets[id].CatalogDescription = ""; // Could be a URL or [{title:"",description:""}] or {title:"",description:""}
+Presets[id].CatalogDescriptionURL = "";
 
-var StartDates       = ["2012-12-01"];
-var StopDates        = ["2012-12-31"];
+Presets[id].StartDates       = ["2012-12-01"];
+Presets[id].StopDates        = ["2012-12-31"];
 
-var Datasets         = [
+Presets[id].Datasets         = [
 						  ["1","http://autoplot.org/AutoplotServlet/SimpleServlet?url=http://www.sarahandjeremy.net/..."],                           
 						  ["2","http://autoplot.org/cache/AutoplotServlet/SimpleServlet?url=http://www.sarahandjeremy.net/..."],
 						  ["3","http://autoplot.org/"],
@@ -54,41 +57,41 @@ var Datasets         = [
 						  ["16","http://autoplot.org/hudson/"],
 						 ];
 
-var DatasetName        = "$2";
-var DatasetID          = "$1";
-var DatasetDescription = ""; // Could be a URL or [{title:"",description:""}] or {title:"",description:""}
+Presets[id].DatasetName        = "$2";
+Presets[id].DatasetID          = "$1";
+Presets[id].DatasetDescription = ""; // Could be a URL or [{title:"",description:""}] or {title:"",description:""}
 
-var TimeColumns      = "1,2,3,4,5,6";
-var TimeFormat       = "$Y $m $d $H $M $S";
-var TimeUnits        = "Year, Month, Day, Hour, Minute, Second";
-var TimeLabels       = "";
+Presets[id].TimeColumns      = "1,2,3,4,5,6";
+Presets[id].TimeFormat       = "$Y $m $d $H $M $S";
+Presets[id].TimeUnits        = "Year, Month, Day, Hour, Minute, Second";
+Presets[id].TimeLabels       = "";
 
-var ColumnLabels       = ["Year","Month","Day","Hour","Min","Sec","Response time","Response size"];
-var ColumnLongnames    = ColumnLabels;
-var ColumnUnits        = ["Year","Month","Day","h","m","s","ms","byte"];
-var ColumnGroupings    = [];
+Presets[id].ColumnLabels       = ["Year","Month","Day","Hour","Min","Sec","Response time","Response size"];
+Presets[id].ColumnLongnames    = Presets[id].ColumnLabels;
+Presets[id].ColumnUnits        = ["Year","Month","Day","h","m","s","ms","byte"];
+Presets[id].ColumnGroupings    = [];
 
-var DataColumns      = "7,8";
-var DataIDs          = "ResponseTime,ResponseSize";
-var DataNames        = "Response Time,ResponseSize";
-var DataLabels       = "Response Time,ResponseSize";
-var DataValues       = "'',(0.1,0.2,0.3),''";
-var DataTypes        = "d,d";
-//var DataTypes      = "d,(f),f";
-var DataUnits        = "ms,byte";
-//var DataUnits        = "Gregorian,(nT),nT";
-var DataRenderings   = "%d,%d";
-//var DataRenderings   = "%j,(%.2f),%.2f";
-var DataFillValues   = "99999,99999";
+Presets[id].DataColumns      = "7,8";
+Presets[id].DataIDs          = "ResponseTime,ResponseSize";
+Presets[id].DataNames        = "Response Time,ResponseSize";
+Presets[id].DataLabels       = "Response Time,ResponseSize";
+Presets[id].DataValues       = "'',(0.1,0.2,0.3),''";
+Presets[id].DataTypes        = "d,d";
+//Presets[id].DataTypes      = "d,(f),f";
+Presets[id].DataUnits        = "ms,byte";
+//Presets[id].DataUnits        = "Gregorian,(nT),nT";
+Presets[id].DataRenderings   = "%d,%d";
+//Presets[id].DataRenderings   = "%j,(%.2f),%.2f";
+Presets[id].DataFillValues   = "99999,99999";
 
-var DataGroupIDs     = ""
-var DataGroupNames   = ""
-var DataGroupLabels  = ""
+Presets[id].DataGroupIDs     = ""
+Presets[id].DataGroupNames   = ""
+Presets[id].DataGroupLabels  = ""
 
-var SkipLines        = "0";
-var LineRegEx        = "^[0-9]";
-var CommentCharacter = "";
-var DataDelimiter    = "\\s";
-var DataLineFormat   = "";
+Presets[id].SkipLines        = "0";
+Presets[id].LineRegEx        = "^[0-9]";
+Presets[id].CommentCharacter = "";
+Presets[id].DataDelimiter    = "\\s";
+Presets[id].DataLineFormat   = "";
 
-var IOSP             = "lasp.tss.iosp.ColumnarAsciiReader";
+Presets[id].IOSP             = "lasp.tss.iosp.ColumnarAsciiReader";

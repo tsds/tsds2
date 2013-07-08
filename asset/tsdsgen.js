@@ -1,17 +1,4 @@
 function expand() {
-	function expandpercent(tmpstr,Dataset) {
-		
-		if (typeof(Dataset) !== "number") {
-			for (var i=0;i < Dataset.length; i++) {
-				tmpstr = tmpstr.replace(/\$([0-9])/,"'+Dataset[$1-1]+'");
-			}
-			tmpstr = "'" + tmpstr + "'";
-			tmpstr = eval(tmpstr);
-		} else {
-			tmpstr = tmpstr.replace(/\$([0-9])/,Dataset);
-		}
-		return tmpstr;
-	}
 
 	var options   = {};
 	options.start = $("#StartDates").val();
@@ -23,9 +10,10 @@ function expand() {
 
 	var urls = [];
 	var Nc = 0;
-
+	Datasets = $('#Datasets').val().split("\n");
+	//console.log(Datasets)
 	for (var k=0;k<Datasets.length;k++) {
-		options.template = expandpercent($("#URLTemplate").val(),Datasets[k]);
+		options.template = expandpercent($("#URLTemplate").val(),Datasets[k].split(","));
 		options.k = k;
 		options.N = Datasets.length;
 		expandtemplate(options,function (files,headers,options) {
@@ -39,6 +27,19 @@ function expand() {
 		});
 	}
 
+	function expandpercent(tmpstr,Dataset) {
+		
+		if (typeof(Dataset) !== "number") {
+			for (var i=0;i < Dataset.length; i++) {
+				tmpstr = tmpstr.replace(/\$([0-9])/,"'+Dataset[$1-1]+'");
+			}
+			tmpstr = "'" + tmpstr + "'";
+			tmpstr = eval(tmpstr);
+		} else {
+			tmpstr = tmpstr.replace(/\$([0-9])/,Dataset);
+		}
+		return tmpstr;
+	}
 }
 function guessstartstop() {
 	
@@ -177,29 +178,23 @@ function ajaxReport(el,type) {
 	if (type === "report") {
 	
 		// See if AJAX GET needs Proxy.
-		testurl = urls[0].split(/\n/g).filter(function(element){return element.length})[0];
-		Proxy = checkproxy(DataCache, Proxy, el+'_results');
-		if (Proxy === false) return;
+		//testurl = urls[0].split(/\n/g).filter(function(element){return element.length})[0];
+		//Proxy = checkproxy(DataCache, Proxy, el+'_results');
+		//if (Proxy === false) return;
 		
 		_DataCache = DataCache + "?source=";
 		
 		$(el+'_span').show();
-		console.log(el + "_results");
-		//var extractData = encodeURI('body.toString().replace(/\-|:/g," ").split("\\n").filter(function(line){return line.search(lineRegExp)!=-1;}).join("\\n") + "\\n"');
-		$(el + "_results").html('<a href="' + _DataCache.replace('source=','&return=stream&source=')+encodeURI(urls[0]) +'">Download concatanation of all responses.</a>');
-		el = el + "_iframe";
-		// Insert DataCache report URL into iframe.
-		console.log(_DataCache.replace("sync","report") + data);
-		var urlss = new Array();
-		$(el).attr("src",_DataCache.replace("sync","report") + encodeURI(urls[0]));
-		
-		//$(el).load(function () {$(el + "_results").text(_DataCache).show();})
+		$(el + "_results").empty();
+		//$.scrollTo($(el+'_span'));
 		for (var i = 0; i < urls.length; i++) {
-			urlss[i] = urls[i].split(/\n/g).filter(function(element){return element.length});
-			//console.log(urls[i])
-			//$(el).attr("src",_DataCache.replace("sync","report") + urls[i]);
+			$(el + "_results").append($("<a/>",
+					{"href":_DataCache.replace('source=','&return=stream&source=')+encodeURI(urls[i]), 
+					 "text":"Download concatanation of all responses"}));
+			$(el + "_results").append($("<iframe/>",
+					{"id":i,
+					 "src":_DataCache.replace("sync","report") + encodeURI(urls[i])}));
 		}
-		//$(el).attr("src",_DataCache.replace("sync","report") + data);
 	}
 	
 	if (type === "plot") {
@@ -301,8 +296,8 @@ function ajaxRequest(el,type) {
 	urls = $($('#urls')).val().split("\n\n").filter(function(element){return element.length});
 
 	// See if AJAX HEAD requests needs Proxy.  If so, return Proxy.  Otherwise, return "".
-	testurl = urls[0].split(/\n/g).filter(function(element){return element.length})[0];
-	Proxy   = checkproxy(testurl, Proxy, el+'_results');
+	//testurl = urls[0].split(/\n/g).filter(function(element){return element.length})[0];
+	Proxy   = checkproxy("http://www.google.com/", Proxy, el+'_results');
 
 	if (Proxy === false) return;
 

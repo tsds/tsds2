@@ -1,17 +1,19 @@
-// For Autoplot, for now.
-PlotColumns = 4;
+id="USGS-RT-1S";
+Presets[id] = {};
 
-var URLTemplate        = "http://magweb.cr.usgs.gov/data/magnetometer/$1/OneSecond/$5%Y%m%dvsec.sec";
+Presets[id].PlotColumns = 4;
 
-var CatalogName        = "USGS Real Time 1-Second Magnetometer Measurements";
-var CatalogID          = "USGS/MAG/1M";
-var CatalogDescription = ""; // Could be a URL or [{title:"",description:""}] or {title:"",description:""}
-var CatalogDescriptionURL = "";
+Presets[id].URLTemplate        = "http://magweb.cr.usgs.gov/data/magnetometer/$1/OneSecond/$5%Y%m%dvsec.sec";
 
-var StartDates       = ["2012-10-01"];
-var StopDates        = ["2012-10-31"];
+Presets[id].CatalogName        = "USGS Real Time 1-Second Magnetometer Measurements";
+Presets[id].CatalogID          = "USGS/MAG/1M";
+Presets[id].CatalogDescription = ""; // Could be a URL or [{title:"",description:""}] or {title:"",description:""}
+Presets[id].CatalogDescriptionURL = "";
 
-var Datasets         = [
+Presets[id].StartDates       = ["2012-10-01"];
+Presets[id].StopDates        = ["2012-10-31"];
+
+Presets[id].Datasets         = [
 						  ["BDT","BDT one-minute","BDT1m","bdtvmin","bdt","Boulder Test"],                           
 						  ["BOU","BOU one-minute","BOU1m","bouvmin","bou","Boulder"],
 						  ["BRT","BRT one-minute","BRT1m","brtvmin","brt","Barrow Test"],
@@ -31,36 +33,36 @@ var Datasets         = [
 						  ["TUC","TUC one-minute","TUC1m","tucvmin","tuc","Tucson"],
 						 ];
 
-var DatasetName        = "$2";
-var DatasetID          = "$1";
-var DatasetDescription = ""; // Could be a URL or [{title:"",description:""}] or {title:"",description:""}
+Presets[id].DatasetName        = "$2";
+Presets[id].DatasetID          = "$1";
+Presets[id].DatasetDescription = ""; // Could be a URL or [{title:"",description:""}] or {title:"",description:""}
 
-var TimeColumns      = "1,2";
-var TimeFormat       = "$Y-$m-$d,$H:$M:$S";
-var TimeUnits        = "Gregorian,UT";
-var TimeLabels       = "Date,Time";
+Presets[id].TimeColumns      = "1,2";
+Presets[id].TimeFormat       = "$Y-$m-$d,$H:$M:$S";
+Presets[id].TimeUnits        = "Gregorian,UT";
+Presets[id].TimeLabels       = "Date,Time";
 
-var DataColumns      = "3,(4,5,6),7";
-var DataIDs          = "DOY,(H,D,Z),F";
-var DataNames        = "Day of Year,($6 H,$6 D,$6 Z),$6 F";
-var DataLabels       = "DOY,($1H,$1D,$1Z),$1F";
-var DataValues       = "'',(0.1,0.2,0.3),''";
-var DataTypes        = "d,f,f,f,f";
-//var DataTypes      = "d,(f),f";
-var DataUnits        = "Gregorian,nT,nT,nT,nT";
-//var DataUnits        = "Gregorian,(nT),nT";
-var DataRenderings   = "%j,%.2f,%.2f,%.2f,%.2f";
-//var DataRenderings   = "%j,(%.2f),%.2f";
-var DataFillValues   = ",99999.00,99999.00,99999.00,99999.00";
+Presets[id].DataColumns      = "3,(4,5,6),7";
+Presets[id].DataIDs          = "DOY,(H,D,Z),F";
+Presets[id].DataNames        = "Day of Year,($6 H,$6 D,$6 Z),$6 F";
+Presets[id].DataLabels       = "DOY,($1H,$1D,$1Z),$1F";
+Presets[id].DataValues       = "'',(0.1,0.2,0.3),''";
+Presets[id].DataTypes        = "d,f,f,f,f";
+//Presets[id].DataTypes      = "d,(f),f";
+Presets[id].DataUnits        = "Gregorian,nT,nT,nT,nT";
+//Presets[id].DataUnits        = "Gregorian,(nT),nT";
+Presets[id].DataRenderings   = "%j,%.2f,%.2f,%.2f,%.2f";
+//Presets[id].DataRenderings   = "%j,(%.2f),%.2f";
+Presets[id].DataFillValues   = ",99999.00,99999.00,99999.00,99999.00";
 
-var DataGroupIDs     = "$1_HDZ"
-var DataGroupNames   = "Magnetic Field Vector"
-var DataGroupLabels  = ""
+Presets[id].DataGroupIDs     = "$1_HDZ"
+Presets[id].DataGroupNames   = "Magnetic Field Vector"
+Presets[id].DataGroupLabels  = ""
 
-var SkipLines        = "25";
-var LineRegEx        = "^[0-9]";
-var CommentCharacter = "^#";
-var DataDelimiter    = "\\s";
-var DataLineFormat   = "";
+Presets[id].SkipLines        = "25";
+Presets[id].LineRegEx        = "^[0-9]";
+Presets[id].CommentCharacter = "^#";
+Presets[id].DataDelimiter    = "\\s";
+Presets[id].DataLineFormat   = "";
 
-var IOSP             = "lasp.tss.iosp.ColumnarAsciiReader";
+Presets[id].IOSP             = "lasp.tss.iosp.ColumnarAsciiReader";

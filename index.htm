@@ -23,12 +23,19 @@
 		<script src="deps/codemirror-2.3/lib/util/formatting.js"></script>
 
  		<script type="text/javascript" src="asset/checkproxy.js"></script>
- 		<script type="text/javascript" src="asset/tsdsgen.js"></script>  		
+ 		<script type="text/javascript" src="asset/tsdsgen.js"></script>
+		<script type="text/javascript">Presets = {};</script>
  		<script type="text/javascript" src="presets/USGS-RT-1M.js"></script>
-		<!--script type="text/javascript" src="presets/linkcheck-autoplot.js"></script-->
+ 		<script type="text/javascript" src="presets/USGS-RT-1M-FRD.js"></script> 		
+ 		<script type="text/javascript" src="presets/USGS-RT-1S.js"></script>
+ 		<script type="text/javascript" src="presets/CCMC-BATSRUS-4M.js"></script>
+		<script type="text/javascript" src="presets/linkcheck-autoplot.js"></script>
+ 		<script type="text/javascript" src="asset/setpresets.js"></script>
+ 		<script type="text/javascript" src="asset/createcatalog.js"></script>
  	</head>
 	<script>
 		var AutoplotServlet  = "http://autoplot.org/plot/SimpleServlet?";
+		//var AutoplotServlet  = "http://plasma.gmu.edu:8082/AutoplotServlet/SimpleServlet?";
 		var plotoptions      = "width=500&height=100&font=sans-8&format=image%2Fpng&column=10em%2C100%25-3em&row=1em%2C100%25-4em&renderType=&color=%230000ff&fillColor=%23aaaaff&foregroundColor=%23ffffff&backgroundColor=%23000000";
 
 		var DataCache        = "http://datacache.org/dc/sync";
@@ -37,17 +44,14 @@
 		//var DataCache        = "http://127.0.0.1:8000/sync";
 
 		var URLTemplateExpander = "";
-		//var URLTemplateExpander = "http://sarahandjeremy.net:8180/AutoplotServlet/ScriptServlet2?fast=on&resourceURI=$resourceURI&timerange=$timerange";
-		//http://autoplot.org/data/versioning/data_$Y_$m_$d.qds
-		//2010-03-01/2010-03-10
 		
 		var Proxy            = "";
 		var Proxy            = "http://localhost:8888/proxy?url=";
 		var Proxy            = "http://127.0.0.1:8002/proxy?url=";
 		//var Proxy            = "asset/head.php?url=";
-
+		
 		function threddsTry() {
-			data = "catalog=" + escape($('#threddscatalog2').val());
+			data = "catalog=" + escape($('#threddscatalog').val());
 			$.ajax({
 				type: 'POST',
 				data: data,
@@ -56,94 +60,45 @@
 				error: function () {}});
 		}
 		
+		function autoFormat(editor) {
+		    var totalLines = editor.lineCount();
+		    var totalChars = editor.getTextArea().value.length;
+		    editor.autoFormatRange({line:0, ch:0}, {line:totalLines, ch:totalChars});
+		}
+
 		$(document).ready(function(){
-			$('#CatalogName').val(CatalogName);
-			$('#CatalogID').val(CatalogID);
-			if (CatalogDescription == "") {
-				$('#CatalogDescription').val(CatalogName);
-			} else {
-				$('#CatalogDescription').val(CatalogDescription);
+		
+			$("#presets").append("<select id='presetselect' style='height:2.0em;width:100%'/>");
+			$("#presetselect").append("<option id='title'>-Presets-</option>");
+			first = true;
+			for (var i in Presets) {
+				var o = $("<option/>").attr("id",i).html(i);
+				if (first) {o.attr("selected","selected");first=false};
+				$("#presetselect").append(o);
 			}
-			$('#CatalogDescriptionURL').val(CatalogDescriptionURL);
-			
-			// TODO: If only one value duplicate.
-			$('#StartDates').val(StartDates[0]);
-			$('#StopDates').val(StopDates[0]);
-
-			var tmp = JSON.stringify(Datasets).replace(/\],\[/g,"\n").replace("[[","").replace("]]","").replace(/\"/g,"");
-			$('#Datasets').text(tmp);
-
-			$('#URLTemplateExpander').val(URLTemplateExpander);
-			$('#URLTemplate').val(URLTemplate);
-			
-			$('#PlotColumns').val(PlotColumns);
-
-			$('#TimeColumns').val(TimeColumns);
-			$('#TimeFormat').val(TimeFormat);
-			$('#TimeUnits').val(TimeUnits);
-			$('#TimeLabels').val(TimeLabels);
-			
-			$('#DataColumns').val(DataColumns);
-			$('#DataIDs').val(DataIDs);
-			$('#DataNames').val(DataNames);
-			$('#DataLabels').val(DataLabels);
-			$('#DataValues').val(DataValues);
-			$('#DataTypes').val(DataTypes);
-			$('#DataUnits').val(DataUnits);
-			$('#DataRenderings').val(DataRenderings);
-			$('#DataFillValues').val(DataFillValues);
-
-			$('#DataGroupIDs').val(DataGroupIDs);
-			$('#DataGroupNames').val(DataGroupNames);
-			$('#DataGroupLabels').val(DataGroupLabels);
-			//$('#DataGroupTypes').val(JSON.stringify(DataGroupTypes));
-			
-			$('#SkipLines').val(SkipLines);
-			$('#LineRegEx').val(LineRegEx);
-
-			//$('#LineTemplate').val(LineTemplate);
-			$('#LineRegEx').val(LineRegEx);
-			$('#CommentCharacter').val(CommentCharacter);
-			$('#DataDelimiter').val(DataDelimiter);
-			$('#DataLineFormat').val(DataLineFormat);
-			
-			$('#IOSP').val(IOSP);
-
-			expand();
-			//console.log(urls);
-			$('textarea.enter').autosize();
-
-			return;
-			$('input[type=button].try').click(
-				function () {
-					$(this).val('');						
-					$(this).each(function() {expandtemplate2(this)});
-					links();
-				});
-
-
-			if (0) {
-				$('textarea.try').autosize();
+			$("#presetselect").change(function () {
+				var id = $(this).find("option:selected").attr("id");
 				
-				$("textarea.try").toggle(
-								function () {
-									$(this).trigger("oninput"); // Trigger autosize event.
-								},	
-								function () {
-									$(this).height("5.5em")
-								});
-			}
+				// Needed for autosize to work after change.
+				// Otherwise content does not change (at least in Chrome).
+				$("#Datasets").remove(); 
+				$("#ds").after("<textarea class='enter' id='Datasets'>")
 				
-			//setInterval(detectchange,500);
-			setTimeout(
-					function () {
-						$('input[type=button].try').click();
-						//dlscript();
-						//$('input[type=button].try').eq(5).click();
-						// Create THREDDS catalog
-						//catalog($('#Datasets').val().split("\n")); 
-						
-					}, 10);
+				setpresets(Presets[id]);
+				expand();
+				$('#Datasets').autosize();
+				str = createcatalog();
+				$(".CodeMirror").remove();
+				//$('#threddscatalog2').empty().val(str);
+				$('#threddscatalog').empty().val(str);
+				
+				//var editor = CodeMirror.fromTextArea(document.getElementById('threddscatalog'), {lineNumbers:true,"mode":"xml", "value": catalog[0].outerHTML.replace(/\s.*\</g,'')});
+				var editor = CodeMirror.fromTextArea(document.getElementById('threddscatalog'), {lineNumbers:true,"mode":"xml"});
+				autoFormat(editor);
+			})
+			$("#presetselect").trigger("change");
+			$("#DataColumns").val().split(/\(|\)/g).forEach(function (el,idx,arr) {el = el.replace(/^,|,$/,"");console.log(idx + " " + el)});
+			
 
 		});
 
@@ -151,6 +106,8 @@
  	<body>
  	<div id="submiturl"></div>
  	<div style="width:50%">
+ 	<div id="presets"></div>
+ 	
  	<form id="form" action="/" method="post">
  		<input type="submit" class="try" value="Submit">
 	<hr/>
@@ -171,7 +128,7 @@
  		<input class="enter" type="text" id="CatalogDescriptionURL"></input>
  		<br/>
  		* Dataset information (one line per).  Each dataset line must have a Dataset ID, [Dataset Description, other info].
- 		<br>
+ 		<br id="ds">
  		<textarea class="enter" id="Datasets"></textarea>
  		<br/>
  		 * Start Date(s) (YYYY-MM-DD) (one or one per dataset - comma or newline separated)
@@ -206,10 +163,6 @@
 	 	<input id="report2dataurls" type="button" onclick="ajaxReport(this,'report');" value="Report (slow)">
  	 	<input id="report3dataurls" type="button" onclick="ajaxReport(this,'plot');" value="Plots (slow)">
 		<br/>
- 		<span id="report0dataurls_span" style="display:none"><span id="report0dataurls_results"></span></span>
-	 	<span id="report1dataurls_span" style="display:none"><span id="report1dataurls_results"></span></span>
-	 	<span id="report2dataurls_span" style="display:none"><span id="report2dataurls_results"></span><iframe id="report2dataurls_iframe"></iframe></span>
-		<span id="report3dataurls_span" style="display:none"><span id="report3dataurls_results"></span></span>
  		<div id="urlsvalid" style="display:none">
 	 		Valid data urls
 	 		<br/>
@@ -222,6 +175,11 @@
 	  		<textarea id="urlsi" class="try"></textarea>
 	 		<br/>
  		</div>
+		<br/>
+ 		<span id="report0dataurls_span" style="display:none"><span id="report0dataurls_results"></span></span>
+	 	<span id="report1dataurls_span" style="display:none"><span id="report1dataurls_results"></span></span>
+	 	<span id="report2dataurls_span" style="display:none"><span id="report2dataurls_results"></span></span>
+		<span id="report3dataurls_span" style="display:none"><span id="report3dataurls_results"></span></span>
  	<hr/>
 		* Time Columns <input id="tryTimeColumns" type="button" class="guessajax" value="Try">
   		<input type="text" id="TimeColumns"></input>
@@ -299,10 +257,6 @@
 			<input id="threddscatalogtry" type="button" onclick="threddsTry();" value="Try"> catalog.thredds:
 		 	<textarea class="try" id="threddscatalog"></textarea>
 			<br/>
-			<input id="threddscatalogtry2" type="button" onclick="threddsTry();" value="Try"> catalog.thredds:
-		 	<textarea class="try" id="threddscatalog2"></textarea>
-			
-			<br/>
 		<div id="catalogdiv2" style="display:none">
 			catalog.xml:
 			<br/>
@@ -323,20 +277,20 @@
 			</textarea>
 
 		 	<textarea class="try" id="threddstemplate" style="display:none">
-				<catalog xmlns="http://www.unidata.ucar.edu/namespaces/thredds/InvCatalog/v1.0" xmlns:xlink="http://www.w3.org/1999/xlink" name="" ID="">
+				<catalog xmlns:xlink="http://www.w3.org/1999/xlink" name="" id="">
     					<documentation xlink:href="" xlink:title=""/>
     					<service name="tss" serviceType="OpenDAP" base=""/>
-						<dataset name="" ID="">
+						<dataset name="" id="">
 							<access serviceName="tss" urlPath=""/>
 							<access serviceName="ncml" urlPath=""/>
 							<timeCoverage>
 								<Start></Start>
 								<End></End>
 							</timeCoverage>
-							<groups vocabulary="TSDS-1.0">
+							<groups>
 								<group id="" version="" name="" type="" elements="" values=""/>
 							</groups>
-							<variables vocabulary="TSDS-1.0">
+							<variables>
 								<variable name="" label="" units="" id="" version="" type="" columns="" delim="" regex="" commentCharacter="" skipLines="" format="" renderings="" fillvalues="" urlgenerator="" urltemplate="" urlpreprocess="" timecolumns="" timeformat="" timestart="" timeend=""/>
 							</variables>
 					</dataset>
@@ -351,185 +305,5 @@
  		</div>
  	</form>
  	</div>
- 	<script>
-		$(document).ready(function(){
-			$('#catalogdiv').show();
-			var tmp = $.tmpl($('#tsdstemplate').html(),{
-				CatalogName:$('#CatalogName').val(),
-				CatalogID:$('#CatalogName').val(),
-				IOSP:$('#IOSP').val()
-				})[0];
-			$('#tsdscatalog').val(tmp.wholeText);
-			
-			//var catalog = $($('#threddstemplate').val());
-			var catalog = $($.parseXML($('#threddstemplate').val()));
-			var catalog0 = $($.parseXML($('#threddstemplate').val()));
-			catalog.find('catalog').attr('name',$('#CatalogName').val());
-			catalog.find('documentation').attr("xlink:title",$('#CatalogDescription').val());
-			catalog.find('documentation').attr("xlink:href",$('#CatalogDescriptionURL').val());
-			catalog.attr('ID',$('#CatalogID').val());
-			catalog.find('service').attr('base','http://tsds.org/tsds/'+$('#CatalogID').val())
-			catalog.find('dataset').remove();
-
-
-			jQuery.xml2str = function(xmlData) {if (window.ActiveXObject) {return xmlData.xml} else {return (new XMLSerializer()).serializeToString(xmlData)}}
-			//console.log($.xml2str(catalog[0]))
-
-			//var dataset = $($('#threddstemplate').val()).find('dataset');			
-			var catalog = $(catalog0[0]).find('catalog');
-			console.log(catalog);
-
-			var dataset = $(catalog0[0]).find('dataset');
-			console.log(dataset);
-			
-			var variables = $(catalog0[0]).find('variables');
-			console.log(variables)
-	
-			var variable = $(catalog0[0]).find('variable');
-			console.log(variable);
-							
-			//var groups = $($('#threddstemplate').val()).find('groups');
-			var groups = $(catalog0[0]).find('groups');
-			console.log(groups)
-			//groups.empty();
-
-			var group = $(catalog0[0]).find('group');					
-			console.log(group)
-			
-			var StartDates = $('#StartDates').val().split(',')
-			var Datasets   = $('#Datasets').val().split(/\n/g);
-
-			for (j = 0; j< Datasets.length; j++) {
-				var Dataset    = Datasets[j].split(',');
-	
-				dataset.attr('ID',Dataset[0]).attr('name',Dataset[0]);
-				dataset.find('access').attr('urlpath',Dataset[0]);
-				dataset.find('Start').text(StartDates[0]);
-				dataset.find('End').text(StopDates[0]);
-				dataset.find('variables').remove();
-				dataset.find('groups').remove();
-
-				var DataIDs    = $('#DataIDs').val().split(/,/g);
-				var DataNames  = $('#DataNames').val().split(/,/g);
-				var DataLabels = $('#DataLabels').val().split(/,/g);
-				var DataFillValues = $('#DataFillValues').val().split(/,/g);
-				var DataRenderings = $('#DataRenderings').val().split(/,/g);
-				var DataUnits  = $('#DataUnits').val().split(/,/g);
-				var DataValues = $('#DataValues').val().split(/,/g);
-
-				for (i = 0;i < DataIDs.length;i++) {
-					DataIDs[i] = DataIDs[i].replace(/\$([0-9])/,"'+Dataset[$1-1]+'");
-					DataNames[i] = DataNames[i].replace(/\$([0-9])/,"'+Dataset[$1-1]+'");
-				}
-
-				var DataGroups       = $("#DataColumns").val().match(/\((.*?)\)/g);
-				var DataGroupElementValues = $("#DataValues").val().match(/\((.*?)\)/g);
-				var DataGroupElements = $("#DataIDs").val().match(/\((.*?)\)/g);
-
-				var DataGroupIDs     = $("#DataGroupIDs").val().split(/,/g);
-				var DataGroupNames   = $("#DataGroupNames").val().split(/,/g);
-				var DataGroupLabels  = $("#DataGroupLabels").val().split(/,/g);
-
-
-				if (DataGroups) {
-					for (i = 0;i < DataGroups.length;i++) {
-	
-						ID = DataGroupIDs[i].replace(/\$([0-9])/,"'+Dataset[$1-1]+'");
-						ID = eval("'" + ID + "'");
-						group.attr('ID',ID);
-	
-						group.attr('values',DataGroupElementValues[i].replace(/\(|\)|\[|\]/g,""));
-	
-						name = DataGroupNames[i].replace(/\$([0-9])/,"'+Dataset[$1-1]+'");
-						name = eval("'" + name + "'");
-						group.attr('name',name);
-						if (DataGroups[i].match(/\)/)) {
-							group.attr('type','vector');
-						} else {
-							group.attr('type','spectrogram');
-						}
-						var elements = DataGroupElements[i].replace(/\(|\)|\[|\]/g,"");
-						elements = elements.replace(/\$([0-9])/g,"'+Dataset[$1-1]+'");
-						elements = eval("'" + elements + "'");
-	
-						group.attr('elements',elements);
-						//$(groups).append(group[0].outerHTML);
-						$(groups).append(group[0]);
-					}
-				}
-				console.log(variables)
-				console.log(variable);
-
-				//var variable = $($('#threddstemplate').val()).find('variable');
-	
-				for (i = 0;i < DataIDs.length;i++) {
-	
-					//var variable = $($('#threddstemplate').val()).find('variable');
-					//var variable = $(catalog[0]).find('variable');
-					
-					ID = DataIDs[i].replace(/\$([0-9])/,"'+Dataset[$1-1]+'");
-					ID = eval("'" + ID + "'");
-					ID = ID.replace(/\(|\)|\[|\]/g,"")
-	
-					name = DataNames[i].replace(/\$([0-9])/,"'+Dataset[$1-1]+'");
-					name = eval("'" + name + "'");
-					name = name.replace(/\(|\)|\[|\]/g,"");
-
-					label = DataLabels[i].replace(/\$([0-9])/,"'+Dataset[$1-1]+'");
-					label = eval("'" + name + "'");
-					label = label.replace(/\(|\)|\[|\]/g,"");
-					
-					fillvalue = DataFillValues[i];
-
-					rendering = DataRenderings[i];
-					
-					unit = DataUnits[i].replace(/\$([0-9])/,"'+Dataset[$1-1]+'");
-					unit = eval("'" + unit + "'");
-					variable.attr('ID',ID).attr('name',ID).attr('name',name).attr('type','scalar').attr('label',label).attr('units',unit).attr('_fillvalue',fillvalue).attr('rendering',rendering);
-					//console.log(variable[0].outerHTML)	
-					//$(variables).append(variable[0].outerHTML)
-					$(variables).append(variable[0])
-				}
-				console.log(variables)
-				//console.log(variables[0].outerHTML);
-				if (DataGroups) {$(dataset).append(groups[0])}
-	
-				//$(dataset).append(groups[0].outerHTML);
-				
-				//$(dataset).append(variables[0].outerHTML);
-				$(dataset).append(variables[0]);
-	
-				// Do this for each dataset
-				//$(catalog).append(dataset[0].outerHTML);
-				$(catalog).append(dataset[0]);
-			}
-
-			console.log(dataset)
-			//console.log(catalog[0].outerHTML);
-			//console.log($.xml2str(catalog[0]));
-
-			$('#threddscatalog2').val($.xml2str(catalog[0]));
-			$('#threddscatalog').val($.xml2str(catalog[0]));
-			
-			
-			//var editor = CodeMirror.fromTextArea(document.getElementById('threddscatalog'), {lineNumbers:true,"mode":"xml", "value": catalog[0].outerHTML.replace(/\s.*\</g,'')});
-			var editor = CodeMirror.fromTextArea(document.getElementById('threddscatalog'), {lineNumbers:true,"mode":"xml"});
-			autoFormat();
-			//console.log(cm)
-			function autoFormat() {
-			    var totalLines = editor.lineCount();
-			    var totalChars = editor.getTextArea().value.length;
-			    editor.autoFormatRange({line:0, ch:0}, {line:totalLines, ch:totalChars});
-			}
-
-			
-			$("#DataColumns").val().split(/\(|\)/g)
-				.forEach(function (el,idx,arr) {
-					el = el.replace(/^,|,$/,"");
-					console.log(idx + " " + el);
-				});
-
-		});
-	</script>	
  	</body>
  </html>
