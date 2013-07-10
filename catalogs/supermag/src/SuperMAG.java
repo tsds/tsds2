@@ -110,9 +110,10 @@ public class SuperMAG {
         	 if(Integer.parseInt(timeRange[1])==0){
         		   return "";
         	   }
+     		System.out.println(timeRange[2]);
 
-                 dataset+="<groups><group name=\"B_N,B_E,B_Z\" units=\"nT,nT,nT\"></group></groups>";
-                 dataset+="<variables><variable name=\"B_N\" units=\"nT\"></variable><variable name=\"B_E\" units=\"nT\"></variable><variable name=\"B_Z\" units=\"nT\"></variable></variables>";
+                 dataset+="<groups><group id=\"B_NEZ\" names=\"B_N,B_E,B_Z\" units=\"nT,nT,nT\"></group></groups>";
+                 dataset+="<variables><variable id=\"B_N\" name=\"B_N\" label=\"B_N\" units=\"nT\"></variable><variable id=\"B_E\" name=\"B_E\" label=\"B_E\" units=\"nT\"></variable><variable id=\"B_Z\" name=\"B_Z\" label=\"B_Z\" units=\"nT\"></variable></variables>";
         	 dataset+="<timeCoverage>"+"\n"+"<Start>"+timeRange[1]+"-01-01</Start><End>2013-01-31</End>"+"\n"+"</timeCoverage>"+"\n";
         }else{
 	    dataset+="<timeCoverage>"+"\n"+"<Start>2011-12-31</Start><End>2013-01-31</End>"+"\n"+"</timeCoverage>"+"\n";
