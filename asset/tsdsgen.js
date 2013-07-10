@@ -13,7 +13,7 @@ function expand() {
 	Datasets = $('#Datasets').val().split("\n");
 	//console.log(Datasets)
 	for (var k=0;k<Datasets.length;k++) {
-		options.template = expandpercent($("#URLTemplate").val(),Datasets[k].split(","));
+		options.template = expanddollar($("#URLTemplate").val(),Datasets[k].split(","));
 		options.k = k;
 		options.N = Datasets.length;
 		expandtemplate(options,function (files,headers,options) {
@@ -27,20 +27,21 @@ function expand() {
 		});
 	}
 
-	function expandpercent(tmpstr,Dataset) {
-		
-		if (typeof(Dataset) !== "number") {
-			for (var i=0;i < Dataset.length; i++) {
-				tmpstr = tmpstr.replace(/\$([0-9])/,"'+Dataset[$1-1]+'");
-			}
-			tmpstr = "'" + tmpstr + "'";
-			tmpstr = eval(tmpstr);
-		} else {
-			tmpstr = tmpstr.replace(/\$([0-9])/,Dataset);
-		}
-		return tmpstr;
-	}
 }
+function expanddollar(tmpstr,Dataset) {
+	
+	if (typeof(Dataset) !== "number") {
+		for (var i=0;i < Dataset.length; i++) {
+			tmpstr = tmpstr.replace(/\$([0-9])/,"'+Dataset[$1-1]+'");
+		}
+		tmpstr = "'" + tmpstr + "'";
+		tmpstr = eval(tmpstr);
+	} else {
+		tmpstr = tmpstr.replace(/\$([0-9])/,Dataset);
+	}
+	return tmpstr;
+}
+
 function guessstartstop() {
 	
 	urlblocks = $('#urls').val().replace('\n$','').split('\n\n');
@@ -336,29 +337,3 @@ function dlscript(language) {
 	$('#script').val(script).parent().show();
 }
 
-function catalog(DataSet) {
-	
-	// THREDDS Catalog
-	var template0 = '\n <dataset name="$1"><access serviceName="tss" urlPath="$2"/>\n  <access serviceName="ncml" urlPath="$2"/>\n  <variables vocabulary="TSDS-1.0">$VARIABLES</variables>\n  <timeCoverage><Start>$Start</Start><End>$Stop</End></timeCoverage>\n </dataset>\n';
-    var templateV = '\n <variable name="$NAME" label="$LABEL" units="$UNIT" type="scalar" precision="" _FillValue=""/>\n';
-    var templateG = '\n <groups><group name="B_N,B_E,B_Z" units="nT,nT,nT"></group></groups>\n';
-    var ColumnLabels = $('#ColumnLabels').nextAll('textarea').eq(0).val();
-    var ColumnUnits = $('#ColumnUnits').val();
-    var StartDates = $('#StartDates').val();
-    var StopDates = $('#StopDates').val();
-    var template = '';
-	for (i=0;i < DataSet.length;i++) {
-		tmp = DataSet[i].split(/,/g);
-
-		template = template +
-					template0.
-						replace("$1",tmp[1]).
-						replace(/\$2/g,tmp[2]).
-						replace("$Start",StartDates[0]).
-						replace("$Stop",StopDates[0]);
-	}
-	template = '<catalog xmlns="http://www.unidata.ucar.edu/namespaces/thredds/InvCatalog/v1.0" xmlns:xlink="http://www.w3.org/1999/xlink" name="$CatalogName">\n' + template + '</catalog>'
-	template = template.replace("$CatalogName",$('#CatalogName').val());
-	$('#catalog').val('');
-	$('#catalog').val(template);
-}

@@ -127,6 +127,14 @@
  		<br/>
  		<input class="enter" type="text" id="CatalogDescriptionURL"></input>
  		<br/>
+		Dataset Description 
+ 		<br/>
+ 		<input class="enter" type="text" id="DatasetDescription"></input>
+ 		<br/>
+ 		Dataset Description URL 
+ 		<br/>
+ 		<input class="enter" type="text" id="DatasetDescriptionURL"></input>
+ 		<br/>
  		* Dataset information (one line per).  Each dataset line must have a Dataset ID, [Dataset Description, other info].
  		<br id="ds">
  		<textarea class="enter" id="Datasets"></textarea>
@@ -139,12 +147,14 @@
  		<br/>
 		<textarea class="enter" id="StopDates"></textarea>
  		<br/>
+ 		<!-- 
  		URL template script 
  		<textarea class="enter" id="URLTemplateScript"></textarea>
 		<br/>
  		URL template expander 
  		<input type="text" id="URLTemplateExpander"></input>
  		<input type="button" class="try" value="Expand">
+ 		 -->
 		<br/>
  		* URL template ($1 refers to Dataset ID, $2 refers to Dataset Description, etc.  %Y = four-digit year, %m = two-digit month, %d = two-digit day.)
  		<input type="text" id="URLTemplate" class="enter"></input>
@@ -288,10 +298,10 @@
 								<End></End>
 							</timeCoverage>
 							<groups>
-								<group id="" version="" name="" type="" elements="" values=""/>
+								<group/>
 							</groups>
 							<variables>
-								<variable name="" label="" units="" id="" version="" type="" columns="" delim="" regex="" commentCharacter="" skipLines="" format="" renderings="" fillvalues="" urlgenerator="" urltemplate="" urlpreprocess="" timecolumns="" timeformat="" timestart="" timeend=""/>
+								<variable/>
 							</variables>
 					</dataset>
 				</catalog>

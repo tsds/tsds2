@@ -5,6 +5,13 @@ function createcatalog() {
 				$($.parseXML($.xml2str(from[0]))).find('variable').appendTo(to);
 			}
 
+	Datasets = $('#Datasets').val().split("\n");
+	var DatasetTemplates = [];
+	for (var k=0;k<Datasets.length;k++) {
+		DatasetTemplates[k] = expanddollar($("#URLTemplate").val(),Datasets[k].split(","));
+	}
+	//console.log(DatasetTemplates);
+	
 			$('#catalogdiv').show();
 			var tmp = $.tmpl($('#tsdstemplate').html(),{
 				CatalogName:$('#CatalogName').val(),
@@ -38,12 +45,13 @@ function createcatalog() {
 			var StopDates = $('#StopDates').val().split(',')
 			var Datasets   = $('#Datasets').val().split(/\n/g);
 
-			//for (j = 0; j< Datasets.length; j++) {
-			for (j = 0; j<2; j++) {
-				var Dataset    = Datasets[j].split(',');
+			for (j = 0; j< Datasets.length; j++) {
+			//for (j = 0; j<2; j++) {
+				var Dataset = Datasets[j].split(',');
 	
 				dataset.attr('id',Dataset[0]).attr('name',Dataset[0]);
-				dataset.find('access').attr('urlpath',Dataset[0]);
+				dataset.attr('template',DatasetTemplates[j]);
+				dataset.find('access').attr('urlPath',Dataset[0]);
 				dataset.find('Start').text(StartDates[0]);
 				dataset.find('End').text(StopDates[0]);
 				//dataset.find('variables').remove();
@@ -124,7 +132,7 @@ function createcatalog() {
 					
 					unit = DataUnits[i].replace(/\$([0-9])/,"'+Dataset[$1-1]+'");
 					unit = eval("'" + unit + "'");
-					variable.attr('id',ID).attr('name',ID).attr('name',name).attr('type','scalar').attr('label',label).attr('units',unit).attr('_fillvalue',fillvalue).attr('rendering',rendering).attr('columns',columns);
+					variable.attr('id',ID).attr('name',ID).attr('name',name).attr('label',label).attr('units',unit).attr('type','scalar').attr('fillvalue',fillvalue).attr('rendering',rendering).attr('columns',columns);
 					//append(variable,variables)
 					$($.parseXML($.xml2str(variable[0]))).find('variable').appendTo(variables);
 					//console.log($.xml2str(variable[0]))

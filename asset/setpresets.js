@@ -2,12 +2,16 @@ function setpresets(preset) {
 
 				$('#CatalogName').val(preset.CatalogName);
 				$('#CatalogID').val(preset.CatalogID);
+
 				if (preset.CatalogDescription == "") {
 					$('#CatalogDescription').val(preset.CatalogName);
 				} else {
 					$('#CatalogDescription').val(preset.CatalogDescription);
 				}
 				$('#CatalogDescriptionURL').val(preset.CatalogDescriptionURL);
+
+				$('#DatasetDescription').val(preset.DatasetDescription);
+				$('#DatasetDescriptionURL').val(preset.DatasetDescriptionURL);
 				
 				// TODO: If only one value duplicate.
 				$('#StartDates').val(preset.StartDates[0]);
