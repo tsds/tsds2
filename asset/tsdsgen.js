@@ -5,15 +5,19 @@ function expand() {
 	options.stop  = $("#StopDates").val();
 	options.type  = "strftime";
 	options.check = false;
-	options.debug = false;
+	options.debug = true;
 	options.side  = "client";
 
 	var urls = [];
 	var Nc = 0;
 	Datasets = $('#Datasets').val().split("\n");
-	//console.log(Datasets)
+	console.log(Datasets)
+	
 	for (var k=0;k<Datasets.length;k++) {
+//		for (var k=0;k<1;k++) {
 		options.template = expanddollar($("#URLTemplate").val(),Datasets[k].split(","));
+		//console.log(options);
+		
 		options.k = k;
 		options.N = Datasets.length;
 		expandtemplate(options,function (files,headers,options) {

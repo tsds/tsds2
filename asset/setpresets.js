@@ -49,10 +49,10 @@ function setpresets(preset) {
 				//$('#DataGroupTypes').val(preset.JSON.stringify(DataGroupTypes));
 				
 				$('#SkipLines').val(preset.SkipLines);
-				$('#LineRegEx').val(preset.LineRegEx);
+				
 	
 				//$('#LineTemplate').val(preset.LineTemplate);
-				$('#LineRegEx').val(preset.LineRegEx);
+				$('#LineRegex').val(preset.LineRegex);
 				$('#CommentCharacter').val(preset.CommentCharacter);
 				$('#DataDelimiter').val(preset.DataDelimiter);
 				$('#DataLineFormat').val(preset.DataLineFormat);

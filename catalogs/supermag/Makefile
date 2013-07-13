@@ -1,7 +1,7 @@
 CAT=SuperMAG
 DATE=`date` 
 DATE2=`date "+%Y%m%d"`
-RAW=CDAWeb-$(DATE2).raw
+RAW=SuperMAG-$(DATE2).raw
 #URL=http://tsds.org/catalogs/raw/$(RAW)
 URL=http://mag.gmu.edu/tsds/catalogs/raw/$(RAW)
 DIR_AUTOPLOT=/var/www/autoplot/bookmarks

@@ -8,7 +8,7 @@
 /--------------------------------------------------------------*/
 
 // Destination URL: Where this proxy leads to.
-$destinationURL = 'http://tsds.org/tsdsdev/tsdsfe';
+$destinationURL = 'http://tsds.org/tsdsfe/';
 
 // The only domain from which requests are authorized.
 $RequestDomain = 'gmu.edu';

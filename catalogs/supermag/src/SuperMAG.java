@@ -26,9 +26,15 @@ public class SuperMAG {
         HashMap<String, String> table=new HashMap<String,String>();
 		  String inputLine;
 		  
-		  while ((inputLine = in.readLine()) != null){  
+		  while ((inputLine = in.readLine()) != null){ 
+			  //System.err.println("HERE");
+			  //System.err.println(inputLine);
 			  String[] temp=inputLine.split(" ");
-			  table.put(temp[0], temp[1]);
+			  //System.err.println(temp.length);
+			  if (temp.length == 2) {
+				  table.put(temp[0], temp[1]);
+			  }
+			  //System.err.println(temp.length);
 		  }      
 		  in.close();
 		  return table;
@@ -110,11 +116,15 @@ public class SuperMAG {
         	 if(Integer.parseInt(timeRange[1])==0){
         		   return "";
         	   }
-     		System.out.println(timeRange[2]);
-
-                 dataset+="<groups><group id=\"B_NEZ\" names=\"B_N,B_E,B_Z\" units=\"nT,nT,nT\"></group></groups>";
-                 dataset+="<variables><variable id=\"B_N\" name=\"B_N\" label=\"B_N\" units=\"nT\"></variable><variable id=\"B_E\" name=\"B_E\" label=\"B_E\" units=\"nT\"></variable><variable id=\"B_Z\" name=\"B_Z\" label=\"B_Z\" units=\"nT\"></variable></variables>";
-        	 dataset+="<timeCoverage>"+"\n"+"<Start>"+timeRange[1]+"-01-01</Start><End>2013-01-31</End>"+"\n"+"</timeCoverage>"+"\n";
+     		System.err.println(timeRange[0] + "/" + timeRange[1]);
+     			String latlong = " (latitude="+temp[1]+" GEO, longitude="+temp[2]+" GEO)";
+                dataset+="<groups><group id=\"B_N,B_E,B_Z\" names=\"B_N,B_E,B_Z at "+name+"\" label=\""+name+latlong+"\" units=\"nT,nT,nT\"></group></groups>";
+                dataset+="<variables>";
+                dataset+="<variable id=\"B_Z\" name=\"B_N at "+name+"\" label=\"B_Z at "+name+latlong+"\" units=\"nT\" ></variable>";
+                dataset+="<variable id=\"B_Z\" name=\"B_E at "+name+"\" label=\"B_Z at "+name+latlong+"\" units=\"nT\" latitude=\""+temp[1]+" GEO\" longitude=\""+temp[2]+" GEO\"></variable>";
+                dataset+="<variable id=\"B_Z\" name=\"B_Z at "+name+"\" label=\"B_Z at "+name+latlong+"\" units=\"nT\" latitude=\""+temp[1]+" GEO\" longitude=\""+temp[2]+" GEO\"></variable>";
+                dataset+="</variables>";
+        	 dataset+="<timeCoverage>"+"\n"+"<Start>"+timeRange[0]+"-01-01</Start><End>"+timeRange[1]+"-12-31</End>"+"\n"+"</timeCoverage>"+"\n";
         }else{
 	    dataset+="<timeCoverage>"+"\n"+"<Start>2011-12-31</Start><End>2013-01-31</End>"+"\n"+"</timeCoverage>"+"\n";
         }

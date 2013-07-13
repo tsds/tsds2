@@ -12,11 +12,13 @@
  		<script type="text/javascript" src="deps/jquery.scrollTo-min.js"></script>
 		<script type="text/javascript" src="deps/jquery.tmpl.js"></script>
 		<script type="text/javascript" src="deps/jquery.imagesloaded.js"></script>
+		<script type="text/javascript" src="deps/jquery.ba-hashchange-1.3.js"></script>
 
- 		<script type="text/javascript" src="../expandtemplate/deps/strftime.js"></script>
- 		<script type="text/javascript" src="../expandtemplate/deps/sprintf-0.7-beta1.js"></script>	
- 		<script type="text/javascript" src="../expandtemplate/deps/date.js"></script>
- 		<script type="text/javascript" src="../expandtemplate/lib/expandtemplate.js"></script>  		
+
+ 		<script type="text/javascript" src="http://tsds.org/expandtemplate/deps/strftime.js"></script>
+ 		<script type="text/javascript" src="http://tsds.org/expandtemplate/deps/sprintf-0.7-beta1.js"></script>	
+ 		<script type="text/javascript" src="http://tsds.org/expandtemplate/deps/date.js"></script>
+ 		<script type="text/javascript" src="http://tsds.org/expandtemplate/lib/expandtemplate.js"></script>  		
 
 		<script src="deps/codemirror-2.3/lib/codemirror.js"></script>
 		<script src="deps/codemirror-2.3/mode/xml/xml.js"></script>
@@ -25,11 +27,15 @@
  		<script type="text/javascript" src="asset/checkproxy.js"></script>
  		<script type="text/javascript" src="asset/tsdsgen.js"></script>
 		<script type="text/javascript">Presets = {};</script>
- 		<script type="text/javascript" src="presets/USGS-RT-1M.js"></script>
- 		<script type="text/javascript" src="presets/USGS-RT-1M-FRD.js"></script> 		
- 		<script type="text/javascript" src="presets/USGS-RT-1S.js"></script>
- 		<script type="text/javascript" src="presets/CCMC-BATSRUS-4M.js"></script>
-		<script type="text/javascript" src="presets/linkcheck-autoplot.js"></script>
+ 		<script type="text/javascript" src="presets/USGS_RT_PT1M.js"></script>
+ 		<script type="text/javascript" src="presets/USGS_RT_PT1S.js"></script>
+ 		<script type="text/javascript" src="presets/CCMC_BATSRUS_PT4M.js"></script>
+		<script type="text/javascript" src="presets/Autoplot_Linkcheck.js"></script>
+ 		<script type="text/javascript" src="presets/ViRBO_TSX-5_EPHX.js"></script>
+
+ 		<script type="text/javascript" src="presets/NSSDC_DE2_MAG.js"></script>
+ 		<script type="text/javascript" src="presets/Template.js"></script>
+
  		<script type="text/javascript" src="asset/setpresets.js"></script>
  		<script type="text/javascript" src="asset/createcatalog.js"></script>
  	</head>
@@ -52,11 +58,17 @@
 		
 		function threddsTry() {
 			data = "catalog=" + escape($('#threddscatalog').val());
+			//data = escape($('#threddscatalog').val());
 			$.ajax({
 				type: 'POST',
 				data: data,
 				url: 'asset/proxy.php', 
-				success: function () {},
+				success: function () {
+						//$("body").append("<iframe id='iframe' height='100%'/>")
+						//$("#iframe").attr("src","http://tsds.org/tsdsdev/tsdsfe/gui.htm#catalog="+location.hash.replace(/^#/,""));
+						window.open("http://tsds.org/tsdsfe/index.htm#catalog="+location.hash.replace(/^#/,""));
+						//$.scrollTo('#iframe');
+						},
 				error: function () {}});
 		}
 		
@@ -67,27 +79,46 @@
 		}
 
 		$(document).ready(function(){
-		
+
+			$(window).hashchange(function() {
+				$("#presetselect").val(location.hash.replace(/^#/,'').replace(/^\//,"")).trigger('change')
+			});
+					
 			$("#presets").append("<select id='presetselect' style='height:2.0em;width:100%'/>");
-			$("#presetselect").append("<option id='title'>-Presets-</option>");
+			$("#presetselect").append("<option id=''>-Examples-</option>");
 			first = true;
 			for (var i in Presets) {
 				var o = $("<option/>").attr("id",i).html(i);
-				if (first) {o.attr("selected","selected");first=false};
+				if (first) {o.attr("selected","selected");first=false;};
 				$("#presetselect").append(o);
 			}
+
+			if (location.hash != "") {
+				var hash = location.hash;
+				var presetid = hash.replace(/^#/,'').replace(/^\//,"");
+				$("#presetselect").val(presetid);
+			}
+			
+			//$("#presetselect").val("USGS-RT-1S");
+
 			$("#presetselect").change(function () {
 				var id = $(this).find("option:selected").attr("id");
-				
+				location.hash=id;
+
 				// Needed for autosize to work after change.
 				// Otherwise content does not change (at least in Chrome).
+				$("#Datasets").after("<textarea class='required enter' id='Datasets'>")
 				$("#Datasets").remove(); 
-				$("#ds").after("<textarea class='enter' id='Datasets'>")
+
 				
-				setpresets(Presets[id]);
+				
+				setpresets(Presets[id]);				
 				expand();
+				
 				$('#Datasets').autosize();
+				
 				str = createcatalog();
+				
 				$(".CodeMirror").remove();
 				//$('#threddscatalog2').empty().val(str);
 				$('#threddscatalog').empty().val(str);
@@ -106,18 +137,17 @@
  	<body>
  	<div id="submiturl"></div>
  	<div style="width:50%">
+	Examples: 
  	<div id="presets"></div>
  	
- 	<form id="form" action="/" method="post">
+ 	<!-- form id="form" action="/" method="post" -->
  		<input type="submit" class="try" value="Submit">
 	<hr/>
-		* Catalog ID
+		<div class="required">* Catalog ID
+ 		<input class="enter required" type="text" id="CatalogID"></input></div>
  		<br/>
- 		<input class="enter" type="text" id="CatalogID"></input>
- 		<br/>
-		* Catalog Name
- 		<br/>
- 		<input class="enter" type="text" id="CatalogName"></input>
+		<div class="required">* Catalog Name
+ 		<input class="enter required" type="text" id="CatalogName"></input></div>
  		<br/>
 		Catalog Description (If not specified, Catalog Name is used.)
  		<br/>
@@ -134,39 +164,26 @@
  		Dataset Description URL 
  		<br/>
  		<input class="enter" type="text" id="DatasetDescriptionURL"></input>
+ 		<br/><br/>
+ 		<div class="required">* Dataset information (one line per).  Each dataset line must have a Dataset ID, [Dataset Description, other info].
+ 		<textarea class="required enter" id="Datasets"></textarea></div>
  		<br/>
- 		* Dataset information (one line per).  Each dataset line must have a Dataset ID, [Dataset Description, other info].
- 		<br id="ds">
- 		<textarea class="enter" id="Datasets"></textarea>
- 		<br/>
- 		 * Start Date(s) (YYYY-MM-DD) (one or one per dataset - comma or newline separated)
- 		<br/>
-		<textarea class="enter" id="StartDates"></textarea>
- 		<br/>
- 		* Stop Date(s) (YYYY-MM-DD) (one or one per dataset - comma or newline separated)
- 		<br/>
-		<textarea class="enter" id="StopDates"></textarea>
- 		<br/>
- 		<!-- 
- 		URL template script 
- 		<textarea class="enter" id="URLTemplateScript"></textarea>
+ 		<div class="required">* Start Date(s) (YYYY-MM-DD) (one or one per dataset - comma or newline separated)
+		<textarea class="enter required" id="StartDates"></textarea></div>
 		<br/>
- 		URL template expander 
- 		<input type="text" id="URLTemplateExpander"></input>
- 		<input type="button" class="try" value="Expand">
- 		 -->
-		<br/>
- 		* URL template ($1 refers to Dataset ID, $2 refers to Dataset Description, etc.  %Y = four-digit year, %m = two-digit month, %d = two-digit day.)
- 		<input type="text" id="URLTemplate" class="enter"></input>
+ 		<div class="required">* Stop Date(s) (YYYY-MM-DD) (one or one per dataset - comma or newline separated)
+		<textarea class="enter required" id="StopDates"></textarea></div>
+ 		<br/>
+ 		<div class="required">* URL template ($1 refers to Dataset ID, $2 refers to Dataset Description, etc.  %Y = four-digit year, %m = two-digit month, %d = two-digit day.)
+ 		<input type="text" id="URLTemplate" class="enter required"></input></div>
  		<input type="button" class="try" value="Expand">
  	<br/>	
  		Data URLs (Generated by expanding $ wildcards for each Dataset and % wildcards for entire timerange.) 
  		<br/>
   		<textarea id="urls" class="try" style="display:none"></textarea>
   		<div id="urls" class="try" style="display:none"></div>
-  		Plot configuration file: <input type="text" id="VAP" value="http://tsds.org/tsds/default.vap"></input>
  		<br/>  		
- 		Plot columns: <input type="text" id="PlotColumns"></input>
+ 		Plot columns (column to plot for plot button below) <input type="text" id="PlotColumns"></input>
  		<br/>  		
  		<input id="report0dataurls" type="button" onclick="ajaxRequest(this,'HEAD');" value="HEAD check">
  		<input id="report1dataurls" type="button" onclick="ajaxRequest(this,'GET');" value="GET check (slow)">
@@ -191,78 +208,79 @@
 	 	<span id="report2dataurls_span" style="display:none"><span id="report2dataurls_results"></span></span>
 		<span id="report3dataurls_span" style="display:none"><span id="report3dataurls_results"></span></span>
  	<hr/>
-		* Time Columns <input id="tryTimeColumns" type="button" class="guessajax" value="Try">
-  		<input type="text" id="TimeColumns"></input>
- 		<br/>
-		* Time Format <input id="tryTimeFormat" type="button" class="guessajax" value="Try">
+		<div class="required">* Time Columns
+  		<input type="text" id="TimeColumns"></input></div>
+  		<br/>
+		<div class="required">* Time Format (if empty, and time is one column, is assumed to be ISO861)
   		<input type="text" id="TimeFormat"></input>
- 		<br/>
-		* Time Units (if empty, and time is one column, is assumed to be ISO861)<input id="tryTimeUnits" type="button" class="guessajax" value="Try">
+  		</div>
+  		<br/>
+		Time Units
   		<input type="text" id="TimeUnits"></input>
- 		<br/>
-		* Time Labels <input id="tryTimeLabels" type="button" class="guessajax" value="Try">
+		Time Labels
   		<input type="text" id="TimeLabels"></input>
   		<br/>
 		<br/>
- 		* Data Columns <input id="tryDataColumns" type="button" class="guessajax" value="Try">
-  		<input type="text" id="DataColumns"></input>
+ 		<div class="required">* Data Columns
+  		<input type="text" id="DataColumns"></input></div>
  		<br/>
-		* Data Column IDs <input id="tryDataIDs" type="button" class="guessajax" value="Try">
-  		<input type="text" id="DataIDs"></input>
- 		<br/>
-		* Data Column Names <input id="tryDataNames" type="button" class="guessajax" value="Try">
-  		<input type="text" id="DataNames"></input>
- 		<br/>
-		* Data Column Labels <input id="tryDataLabels" type="button" class="guessajax" value="Try">
+		<div class="required">* Data Column IDs
+  		<input type="text" id="DataIDs"></input></div>
+  		<br/>
+		<div class="required">* Data Column Names
+  		<input type="text" id="DataNames"></input></div>
+  		<br/>
+		Data Column Labels
   		<input type="text" id="DataLabels"></input>
  		<br/>
-		* Data Column Values <input id="tryDataValues" type="button" class="guessajax" value="Try">
+		Data Column Values
   		<input type="text" id="DataValues"></input>
  		<br/>
-		* Data Column Types <input id="tryDataTypes" type="button" class="guessajax" value="Try">
+		Data Column Types
   		<input type="text" id="DataTypes"></input>
  		<br/>
-		* Data Column Units <input id="tryDataUnits" type="button" class="guessajax" value="Try">
+		Data Column Units
   		<input type="text" id="DataUnits"></input>
  		<br/>
-		* Data Column Renderings <input id="tryDataRenderings" type="button" class="guessajax" value="Try">
+		Data Column Renderings
   		<input type="text" id="DataRenderings"></input>
  		<br/>
-		* Data Column Fill Values <input id="tryDataFillValues" type="button" class="guessajax" value="Try">
+		Data Column Fill Values
   		<input type="text" id="DataFillValues"></input>
  		<br/>
  		<br/>
-		* Data Column Group IDs <input id="tryDataGroupIDs" type="button" class="guessajax" value="Try">
-  		<input type="text" id="DataGroupIDs"></input>
+		<div class="required">* Data Column Group IDs
+  		<input type="text" id="DataGroupIDs"></input></div>
  		<br/>
-		* Data Column Group Names <input id="tryDataGroupNames" type="button" class="guessajax" value="Try">
-  		<input type="text" id="DataGroupNames"></input>
+		<div class="required">* Data Column Group Names
+  		<input type="text" id="DataGroupNames"></input></div>
  		<br/>
-		* Data Column Group Labels <input id="tryDataGroupLabels" type="button" class="guessajax" value="Try">
+		Data Column Group Labels
   		<input type="text" id="DataGroupLabels"></input>
  		<br/>
 		<br/>
- 		* Skip lines <input id="trySkipLines" type="button" class="guessajax" value="Try">
+ 		Skip lines
  		<br/>
  		<input type="text" id="SkipLines"></input>
  		<br/>
- 		* Data line regular expression <input id="tryLineRegEx" type="button" class="guessajax" value="Try">
+ 		Data line regular expression
  		<br/>
- 		<input type="text" id="LineRegEx"></input>
+ 		<input type="text" id="LineRegex"></input>
  		<br/>
- 		* Non-data line regular expression <input id="tryCommentCharacter" type="button" class="guessajax" value="Try">
+ 		Comment character
  		<br/>
  		<input type="text" id="CommentCharacter"></input>
  		<br/>
- 		* Data delimiter <input id="tryDataDelimiter" type="button" class="guessajax" value="Try">
+ 		Data delimiter
 		<input type="text" id="DataDelimiter"></input>
  		<br/>
- 		* Data line format <input id="tryDataLineFormat" type="button" class="guessajax" value="Try">
+ 		Data line format
  		<input type="text" id="DataLineFormat"></input>
 		<br/>
- 		* IOSP <input id="tryIOSP" type="button" class="guessajax" value="Try">
+ 		IOSP
  		<input type="text" id="IOSP"></input>
 	<hr/>
+	</div>
  		<div id="catalogdiv" style="display:none">
 			<input id="threddscatalogtry" type="button" onclick="threddsTry();" value="Try"> catalog.thredds:
 		 	<textarea class="try" id="threddscatalog"></textarea>
@@ -290,7 +308,8 @@
 				<catalog xmlns:xlink="http://www.w3.org/1999/xlink" name="" id="">
     					<documentation xlink:href="" xlink:title=""/>
     					<service name="tss" serviceType="OpenDAP" base=""/>
-						<dataset name="" id="">
+						<dataset name="">
+							<documentation xlink:href="" xlink:title=""/>
 							<access serviceName="tss" urlPath=""/>
 							<access serviceName="ncml" urlPath=""/>
 							<timeCoverage>
@@ -313,7 +332,7 @@
 	 		<br/>
 	  		<textarea id="script" class="try" ></textarea>
  		</div>
- 	</form>
- 	</div>
+ 	<!-- /form-->
+ 	
  	</body>
  </html>
