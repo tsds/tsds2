@@ -5,7 +5,7 @@ function expand() {
 	options.stop  = $("#StopDates").val();
 	options.type  = "strftime";
 	options.check = false;
-	options.debug = true;
+	options.debug = false;
 	options.side  = "client";
 
 	var urls = [];
