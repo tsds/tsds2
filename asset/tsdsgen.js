@@ -11,7 +11,8 @@ function expand() {
 	var urls = [];
 	var Nc = 0;
 	Datasets = $('#Datasets').val().split("\n");
-	console.log(Datasets)
+	
+	if (options.debug) console.log(Datasets)
 	
 	for (var k=0;k<Datasets.length;k++) {
 //		for (var k=0;k<1;k++) {
