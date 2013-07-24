@@ -46,9 +46,10 @@ $(CAT).autoplot: src/$(CAT).class $(CAT)TimeRanges.txt
 $(CAT).thredds: src/$(CAT).class $(CAT)TimeRanges.txt
 	mkdir -p $(DIR_TSDS)/raw
 	cp $(CAT).raw $(DIR_TSDS)/raw/$(RAW)
-	java -cp src $(CAT) $(CAT).raw $(CAT)TimeRanges.txt thredds > $(CAT).thredds
+	java -cp src $(CAT) $(CAT).raw $(CAT)TimeRanges.txt thredds > $(CAT).thredds 2> $(CAT).txt
 	mkdir -p $(DIR_TSDS)/archive
 	cp $(CAT).thredds $(DIR_TSDS)/archive/$(CAT)-$(DATE2).thredds; ln -f $(DIR_TSDS)/archive/$(CAT)-$(DATE2).thredds $(DIR_TSDS)/$(CAT).thredds
+	cp $(CAT).txt $(DIR_TSDS)/archive/$(CAT)-$(DATE2).txt; ln -f $(DIR_TSDS)/archive/$(CAT)-$(DATE2).txt $(DIR_TSDS)/$(CAT).txt
 
 clean:
 	- rm -f *.raw
