@@ -18,6 +18,12 @@
 <%@page trimDirectiveWhitespaces="true" %>
 
 <%
+
+	// TODO: Check that 
+	// request.getSession().getServletContext().getRealPath("/") + "../TSDS/datasets/archive/
+	// request.getSession().getServletContext().getRealPath("/") + "../TSDS/datasets/queries/
+	// exists and are writeable.
+	
 	String list        = request.getParameter("list");
 	String catalog     = request.getParameter("catalog");
 	System.out.println(catalog);
@@ -54,9 +60,6 @@
 
 	String resp       = request.getParameter("return");
 
-	
-	String xslttransform = "http://virbo.org/exist/servlet/db/virbo/xq/xsltransformCache3.xql";
-
 	if (debug == null || debug.isEmpty()) {
 		debug = "false";
 	}
@@ -69,6 +72,15 @@
 		attach = "false";
 	}
 	
+	// Read TSDSFE properties
+	Properties prop = new Properties();
+	String propfname = getServletContext().getRealPath("/") + "/tsdsfe.properties";
+	FileInputStream pin = new FileInputStream(propfname);
+	prop.load(pin);
+	pin.close();
+
+	String xslttransform = prop.getProperty("xslttransform");
+
 	// Try to connect to metadata server that performs xslt transforms.
     try {
         HttpURLConnection.setFollowRedirects(false);
@@ -86,13 +98,6 @@
       catch (Exception e) {
          e.printStackTrace();
       }
-
-	// Read TSDSFE properties
-	Properties prop = new Properties();
-	String propfname = getServletContext().getRealPath("/") + "/tsdsfe.properties";
-	FileInputStream pin = new FileInputStream(propfname);
-	prop.load(pin);
-	pin.close();
 
 	// Read DataCache server URL
 	String dcserver = prop.getProperty("dcserver"); 		
@@ -649,7 +654,7 @@
 		out.println("<b>dcsubdir: </b> " + dcsubdir);out.flush();
 	}
 
-	// Location to cache TSDS responses.
+	// Location to cached TSDS responses.
 	String tsdsfedcDir = request.getRemoteAddr();
 	if (debug.equals("true")) {
 		out.println("<b>tsdsfedcDir: </b> " + tsdsfedcDir);out.flush();
@@ -911,7 +916,7 @@
 		String code = ss.hasNext() ? ss.next() : "";
 
 		code = code.replace("__QUERYSTRING__","catalog="+catalog+"&dataset="+dataset+"&parameters="+parameters+"&version="+version+"&start="+start+"&stop="+stop);
-		code = code.replace("__SERVER__",tsdsfe);
+		code = code.replace("__SERVER__",tsdsfe+"/");
 		if (debug.equals("true")) {
 			out.println("<b>Response will be this code: </b>\n" + code);
 		} else {
@@ -940,13 +945,17 @@
 	String qid = requestid0md5;
 
 	// Location to place the archive NcML file (if needed).
-	String fnamearchive = getServletContext().getRealPath("/") + "/archive/" + qid + ".ncml";
+	//String fnamearchive = getServletContext().getRealPath("/") + "/archive/" + qid + ".ncml";
+	String fnamearchive = request.getSession().getServletContext().getRealPath("/") + "../TSDS/datasets/archive/" + qid + ".ncml";
 	File fa = new File(fnamearchive);
 	
 	// Location to place the query NcML file.
-	String fname = getServletContext().getRealPath("/") + "/queries/" + qid + ".ncml";
+	//String fname = getServletContext().getRealPath("/") + "/queries/" + qid + ".ncml";
+	String fname = request.getSession().getServletContext().getRealPath("/") + "../TSDS/datasets/queries/" + qid + ".ncml";
 	File f = new File(fname);
 
+	System.out.println("----------------");
+	System.out.println(fname);
 	String fnamesave = "";
 	if (archive == true) {
 		fnamesave = fnamearchive;
@@ -1271,8 +1280,10 @@
 	String durl = "";
 	if (archive == true) {
 		durl = tsds + "/archive/" + qid + "."+output+"?time," + parameters;
+		durl = durl + "&time>="+start+"&time<="+stop;
 	} else {
 		durl = tsds +"/queries/" + qid + "."+output+"?time," + parameters;
+		durl = durl + "&time>="+start+"&time<="+stop;
 	}
 	if (constraint != null && !constraint.isEmpty()) {
 		durl = durl + "&" + constraint; 
@@ -1428,7 +1439,7 @@
 
 		if (debug.equals("true")) {
 			if (jo2.get("isFromCache").toString() == "true") {
-				out.println("<b>Request was found in syncsubmit cache. </b>");out.flush();
+				out.println("<b>Request was found in datacache cache. </b>");out.flush();
 				if (!f3.exists()) {
 					out.println("<b>... but request was not found at :</b> "+fname3 + " <b>Is "+dcdir+" not mounted?</b>");out.flush();
 				} else {
