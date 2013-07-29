@@ -11,8 +11,6 @@ function createcatalog() {
 	//console.log(DatasetTemplates);
 	
 	$('#catalogdiv').show();
-	//var tmp = $.tmpl($('#tsdstemplate').html(), {CatalogName:$('#CatalogName').val(), CatalogID:$('#CatalogName').val(), IOSP:$('#IOSP').val()})[0];
-	//$('#tsdscatalog').val(tmp.wholeText);
 			
 	var catalog = $($.parseXML($('#threddstemplate').val())).find('catalog');
 	var catalog0 = $($.parseXML($('#threddstemplate').val())).find('catalog');
@@ -30,8 +28,10 @@ function createcatalog() {
 	var variable = $(catalog0[0]).find('variable');
 	var groups = $(catalog0[0]).find('groups');
 	var group = $(catalog0[0]).find('group');	
-	var StartDates = $('#StartDates').val().split(',')
-	var StopDates = $('#StopDates').val().split(',')
+	var StartDates = $('#StartDates').val().split(',');
+	var StopDates = $('#StopDates').val().split(',');
+	var StopDates = $('#StopDates').val().split(',');
+	var DataReader = $('#DataReader').val();
 	var Datasets   = $('#Datasets').val().split(/\n/g);
 	var TimeColumns = $('#TimeColumns').val();
 	var TimeFormat = $('#TimeFormat').val();
@@ -71,7 +71,15 @@ function createcatalog() {
 		var DataValues     = $('#DataValues').val().split(/,/g);
 		
 		var lineregex      = $('#LineRegex').val();
-
+		
+		String.prototype.repeat = function(times) {return (new Array(times + 1)).join(this);};
+		
+		for (i = 0;i < DataFillValues.length;i++) {
+			DataFillValues[i] = DataFillValues[i].replace(/i([0-9].*)/,function (match,p1) {return "9".repeat(parseInt(p1))});
+			DataFillValues[i] = DataFillValues[i].replace(/f([0-9].*)\.([0-9].*)/,function (match,p1,p2) {return "9".repeat(parseInt(p1-p2-1))+"."+"9".repeat(parseInt(p2))});
+			DataFillValues[i] = DataFillValues[i].replace(/e([0-9].*)\.([0-9].*)/,function (match,p1,p2) {return "9."+"9".repeat(parseInt(p2))+"e+"+"09"});
+			//console.log(DataFillValues[i]);
+		}
 		for (i = 0;i < DataIDs.length;i++) {
 			DataIDs[i] = DataIDs[i].replace(/\$([0-9])/,"'+Dataset[$1-1]+'");
 			DataNames[i] = DataNames[i].replace(/\$([0-9])/,"'+Dataset[$1-1]+'");
@@ -113,6 +121,9 @@ function createcatalog() {
 		}
 		variables.empty();
 		
+		// Lengths should match.
+		console.log(DataUnits.length)
+		console.log(DataIDs.length)
 		for (i = 0;i < DataIDs.length;i++) {
 			ID = DataIDs[i].replace(/\$([0-9])/,"'+Dataset[$1-1]+'");
 			ID = eval("'" + ID + "'");

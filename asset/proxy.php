@@ -8,10 +8,10 @@
 /--------------------------------------------------------------*/
 
 // Destination URL: Where this proxy leads to.
-$destinationURL = 'http://tsds.org/tsdsfe/';
+$destinationURL = 'http://tsds.org/get/';
 
 // The only domain from which requests are authorized.
-$RequestDomain = 'gmu.edu';
+$RequestDomain = 'tsds.org';
 
 // That's it for configuration!
 
@@ -59,7 +59,7 @@ if($domainName == $RequestDomain) {
  
   } else {
 
-    echo "HTTP Referer is not recognized. Cancelling all actions";
+    echo "Domain name of request (".$domainName.") is not equal to allowed request domain (".$RequestDomain.").";
 
   }
 

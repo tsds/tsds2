@@ -21,16 +21,12 @@ Presets[id].StopDates        = [""];
 Presets[id].DatasetName        = "$2";
 Presets[id].DatasetID          = "$1";
 Presets[id].DatasetDescription = "";
+Presets[id].DatasetDescriptionURL = "";
 
 Presets[id].TimeColumns      = "";
 Presets[id].TimeFormat       = "";
 Presets[id].TimeUnits        = "";
 Presets[id].TimeLabels       = "";
-
-Presets[id].ColumnLabels       = ""; 
-Presets[id].ColumnLongnames    = Presets[id].ColumnLabels;
-Presets[id].ColumnUnits        = [""];
-Presets[id].ColumnGroupings    = [];
 
 Presets[id].DataColumns      = ""
 Presets[id].DataLabels       = "";
@@ -48,9 +44,9 @@ Presets[id].DataGroupNames   = ""
 Presets[id].DataGroupLabels  = ""
 
 Presets[id].SkipLines        = "0";
-Presets[id].LineRegEx        = "^[0-9]";
+Presets[id].LineRegex        = "^[0-9]";
 Presets[id].CommentCharacter = "";
 Presets[id].DataDelimiter    = "\\s";
 Presets[id].DataLineFormat   = "";
 
-Presets[id].IOSP             = "lasp.tss.iosp.ColumnarAsciiReader";
+Presets[id].DataReader       = "lasp.tss.iosp.ColumnarAsciiReader";

@@ -2,7 +2,7 @@
  <html>
  	<head>
  		<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
- 		<title>TSDS Generator</title>
+ 		<title>TSDS Catalog Creator</title>
 		<link rel="stylesheet" href="deps/codemirror-2.3/lib/codemirror.css">		
  		<link rel="stylesheet" type="text/css" href="asset/main.css">
  		<link rel="icon" type="image/ico" href="asset/favicon.ico"/>
@@ -32,6 +32,8 @@
 		<script type="text/javascript">Presets = {};</script>
  		<script type="text/javascript" src="presets/USGS_RT_PT1M.js"></script>
  		<script type="text/javascript" src="presets/USGS_RT_PT1S.js"></script>
+ 		<script type="text/javascript" src="presets/NSSDC_ISIS-1.js"></script>
+ 		<script type="text/javascript" src="presets/NSSDC_ISIS-2.js"></script>
  		<script type="text/javascript" src="presets/CCMC_BATSRUS_PT4M.js"></script>
 		<script type="text/javascript" src="presets/Autoplot_Linkcheck.js"></script>
  		<script type="text/javascript" src="presets/ViRBO_TSX-5_EPHX.js"></script>
@@ -57,8 +59,9 @@
 		
 		function setpresets(preset) {
 			for (var key in preset) {
-			if (key !== "Datasets")
-				$('#'+key).val(preset[key]);
+				//console.log(key + ": " + preset[key]);
+				if (key !== "Datasets")
+					$('#'+key).val(preset[key]);
 			}
 			$('#Datasets').text(JSON.stringify(preset.Datasets).replace(/\],\[/g,"\n").replace("[[","").replace("]]","").replace(/\"/g,""));
 		}
@@ -71,7 +74,7 @@
 				data: data,
 				url: 'asset/proxy.php', 
 				success: function () {
-						window.open("http://tsds.org/tsdsfe/index.htm#catalog="+location.hash.replace(/^#/,""));
+						window.open("http://tsds.org/get/#catalog="+location.hash.replace(/^#/,""));
 						//$("body").append("<iframe id='iframe' height='100%'/>")
 						//$("#iframe").attr("src","http://tsds.org/tsdsdev/tsdsfe/gui.htm#catalog="+location.hash.replace(/^#/,""));
 						//$.scrollTo('#iframe');
@@ -144,7 +147,7 @@
 				$("#Datasets").after("<textarea class='required enter' id='Datasets'>")
 				$("#Datasets").remove(); 
 
-				setpresets(Presets[id]);				
+				setpresets(Presets[id]);
 				expand();
 				
 				$('#Datasets').autosize();
@@ -251,9 +254,6 @@
   		<input type="text" id="TimeLabels"></input>
   		<br/>
 		<br/>
-		<div class="required">* Data Reader
-  		<input type="text" id="DataReader"></input></div>
- 		<br/>
  		<div class="required">* Data Columns
   		<input type="text" id="DataColumns"></input></div>
  		<br/>
@@ -310,8 +310,10 @@
  		Data line format
  		<input type="text" id="DataLineFormat"></input>
 		<br/>
- 		IOSP
- 		<input type="text" id="IOSP"></input>
+		<div class="required">* Data Reader
+  		<input type="text" id="DataReader"></input></div>
+ 		<br/>
+		
 	<hr/>
 	</div>
  	<div id="catalogdiv" style="display:none">

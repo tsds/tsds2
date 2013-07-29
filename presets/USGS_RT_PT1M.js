@@ -39,6 +39,7 @@ Presets[id].DatasetName        = "$2";
 Presets[id].DatasetID          = "$1";
 Presets[id].DatasetDescription = "Real-time ground magnetometer measurements from USGS."; 
 Presets[id].DatasetDescriptionURL = "http://geomag.usgs.gov/products/";
+
 Presets[id].TimeColumns      = "1,2";
 Presets[id].TimeFormat       = "$Y-$m-$d,$H:$M:$S.$(millis)";
 Presets[id].TimeUnits        = "Gregorian,UT";
@@ -64,4 +65,4 @@ Presets[id].CommentCharacter = "^#";
 Presets[id].DataDelimiter    = "\\s";
 Presets[id].DataLineFormat   = "";
 
-Presets[id].IOSP             = "lasp.tss.iosp.ColumnarAsciiReader";
+Presets[id].DataReader       = "lasp.tss.iosp.ColumnarAsciiReader";
