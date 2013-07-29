@@ -54,6 +54,7 @@ function createcatalog() {
 		dataset.attr('urltemplate',DatasetTemplates[j]);
 		dataset.attr('timeformat',TimeFormat);
 		dataset.attr('timecolumns',TimeColumns);
+		dataset.attr('datareader',DataReader);
 		dataset.find('access').attr('urlPath',Dataset[0]);
 		dataset.find('Start').text(StartDates[0]);
 		dataset.find('End').text(StopDates[0]);
