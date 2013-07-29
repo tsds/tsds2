@@ -13,6 +13,7 @@
 		<script type="text/javascript" src="deps/jquery.tmpl.js"></script>
 		<script type="text/javascript" src="deps/jquery.imagesloaded.js"></script>
 		<script type="text/javascript" src="deps/jquery.ba-hashchange-1.3.js"></script>
+		<script type="text/javascript" src="deps/jquery.parsequerystring.js"></script>
 
 
  		<script type="text/javascript" src="http://tsds.org/et/deps/strftime.js"></script>
@@ -26,18 +27,16 @@
 
  		<script type="text/javascript" src="asset/checkproxy.js"></script>
  		<script type="text/javascript" src="asset/tsdsgen.js"></script>
+ 		<script type="text/javascript" src="asset/createcatalog.js"></script>
+
 		<script type="text/javascript">Presets = {};</script>
  		<script type="text/javascript" src="presets/USGS_RT_PT1M.js"></script>
  		<script type="text/javascript" src="presets/USGS_RT_PT1S.js"></script>
  		<script type="text/javascript" src="presets/CCMC_BATSRUS_PT4M.js"></script>
 		<script type="text/javascript" src="presets/Autoplot_Linkcheck.js"></script>
  		<script type="text/javascript" src="presets/ViRBO_TSX-5_EPHX.js"></script>
-
  		<script type="text/javascript" src="presets/NSSDC_DE2_MAG.js"></script>
  		<script type="text/javascript" src="presets/Template.js"></script>
-
- 		<script type="text/javascript" src="asset/setpresets.js"></script>
- 		<script type="text/javascript" src="asset/createcatalog.js"></script>
  	</head>
 	<script>
 		var AutoplotServlet  = "http://autoplot.org/plot/SimpleServlet?";
@@ -56,6 +55,14 @@
 		var Proxy            = "http://127.0.0.1:8002/proxy?url=";
 		//var Proxy            = "asset/head.php?url=";
 		
+		function setpresets(preset) {
+			for (var key in preset) {
+			if (key !== "Datasets")
+				$('#'+key).val(preset[key]);
+			}
+			$('#Datasets').text(JSON.stringify(preset.Datasets).replace(/\],\[/g,"\n").replace("[[","").replace("]]","").replace(/\"/g,""));
+		}
+
 		function threddsTry() {
 			data = "catalog=" + escape($('#threddscatalog').val());
 			//data = escape($('#threddscatalog').val());
@@ -64,9 +71,9 @@
 				data: data,
 				url: 'asset/proxy.php', 
 				success: function () {
+						window.open("http://tsds.org/tsdsfe/index.htm#catalog="+location.hash.replace(/^#/,""));
 						//$("body").append("<iframe id='iframe' height='100%'/>")
 						//$("#iframe").attr("src","http://tsds.org/tsdsdev/tsdsfe/gui.htm#catalog="+location.hash.replace(/^#/,""));
-						window.open("http://tsds.org/tsdsfe/index.htm#catalog="+location.hash.replace(/^#/,""));
 						//$.scrollTo('#iframe');
 						},
 				error: function () {}});
@@ -80,38 +87,63 @@
 
 		$(document).ready(function(){
 
-			$(window).hashchange(function() {
-				$("#presetselect").val(location.hash.replace(/^#/,'').replace(/^\//,"")).trigger('change')
+			$("#DataColumns").val().split(/\(|\)/g).forEach(function (el,idx,arr) {
+				el = el.replace(/^,|,$/,"");
+				//console.log(idx + " " + el)
 			});
+
+			$(window).hashchange(function() {
+				//console.log("Hash has changed");
+				//$("#presetselect").val(location.hash.replace(/^#/,'').replace(/^\//,"")).trigger('change')
+			});
+
+			qs = $.parseQueryString();
+			console.log(qs)
+			
+			var qscatalog = false;
+			if (typeof(qs["CatalogID"]) !== "undefined") {
+				qscatalog = true;
+				console.log("--")
+				console.log(qs);
+				Presets[qs["CatalogID"]] = {};
+				Presets[qs["CatalogID"]].CatalogID = qs["CatalogID"];
+				Presets[qs["CatalogID"]].CatalogName = qs["CatalogID"];
+				console.log(Presets)
+			} else {
+				$("#presetselect").val(location.hash.replace(/^#/,'').replace(/^\//,"")).trigger('change');
+			}
 					
 			$("#presets").append("<select id='presetselect' style='height:2.0em;width:100%'/>");
 			$("#presetselect").append("<option id=''>-Examples-</option>");
 			first = true;
 			for (var i in Presets) {
 				var o = $("<option/>").attr("id",i).html(i);
-				if (first) {o.attr("selected","selected");first=false;};
 				$("#presetselect").append(o);
 			}
-
-			if (location.hash != "") {
+			$('#presetselect').find('option:eq(1)').attr('selected', true).trigger("change");
+						
+			if (location.hash !== "" && !qscatalog) {
+				console.log("Setting hash to id.")
 				var hash = location.hash;
 				var presetid = hash.replace(/^#/,'').replace(/^\//,"");
-				$("#presetselect").val(presetid);
+				$("#presetselect").val(presetid).trigger("change");	
 			}
-			
-			//$("#presetselect").val("USGS-RT-1S");
+			if (qscatalog) {
+				presetid = qs["CatalogID"];
+				$("#presetselect").val(presetid).trigger("change");	
+			}
 
 			$("#presetselect").change(function () {
-				var id = $(this).find("option:selected").attr("id");
-				location.hash=id;
+				var id = $("#presetselect").val();
+				if (!qscatalog) {
+					location.hash=id;
+				}
 
 				// Needed for autosize to work after change.
 				// Otherwise content does not change (at least in Chrome).
 				$("#Datasets").after("<textarea class='required enter' id='Datasets'>")
 				$("#Datasets").remove(); 
 
-				
-				
 				setpresets(Presets[id]);				
 				expand();
 				
@@ -128,8 +160,6 @@
 				autoFormat(editor);
 			})
 			$("#presetselect").trigger("change");
-			$("#DataColumns").val().split(/\(|\)/g).forEach(function (el,idx,arr) {el = el.replace(/^,|,$/,"");console.log(idx + " " + el)});
-			
 
 		});
 
@@ -221,6 +251,9 @@
   		<input type="text" id="TimeLabels"></input>
   		<br/>
 		<br/>
+		<div class="required">* Data Reader
+  		<input type="text" id="DataReader"></input></div>
+ 		<br/>
  		<div class="required">* Data Columns
   		<input type="text" id="DataColumns"></input></div>
  		<br/>
@@ -281,58 +314,38 @@
  		<input type="text" id="IOSP"></input>
 	<hr/>
 	</div>
- 		<div id="catalogdiv" style="display:none">
-			<input id="threddscatalogtry" type="button" onclick="threddsTry();" value="Try"> catalog.thredds:
-		 	<textarea class="try" id="threddscatalog"></textarea>
-			<br/>
-		<div id="catalogdiv2" style="display:none">
-			catalog.xml:
-			<br/>
-		 	<textarea class="try" id="tsdscatalog"></textarea>
-		 	
-			<textarea class="try" id="tsdstemplate" style="display:none">
-			        <catalog>
-			                <name>${CatalogName}</name>
-			                <id>${CatalogID}</id>
-			                <urlgenerator>${urlgenerator}</urlgenerator>
-			                <ncml>
-			                        <generator>http://tsds.net/catalogs/TSDS-ncml.xsl</generator>
-			                        <iosp>${IOSP}</iosp>
-			                        <timecols>${TimeColumns}</timecols>
-			                        <timefmt>${TimeFormat}</timefmt>
-			                </ncml>
-			        </catalog>
-			</textarea>
-
-		 	<textarea class="try" id="threddstemplate" style="display:none">
-				<catalog xmlns:xlink="http://www.w3.org/1999/xlink" name="" id="">
-    					<documentation xlink:href="" xlink:title=""/>
-    					<service name="tss" serviceType="OpenDAP" base=""/>
-						<dataset name="">
-							<documentation xlink:href="" xlink:title=""/>
-							<access serviceName="tss" urlPath=""/>
-							<access serviceName="ncml" urlPath=""/>
-							<timeCoverage>
-								<Start></Start>
-								<End></End>
-							</timeCoverage>
-							<groups>
-								<group/>
-							</groups>
-							<variables>
-								<variable/>
-							</variables>
-					</dataset>
-				</catalog>
-		 	</textarea>
-		</div>
+ 	<div id="catalogdiv" style="display:none">
+		<input id="threddscatalogtry" type="button" onclick="threddsTry();" value="Try"> catalog.thredds:
+	 	<textarea class="try" id="threddscatalog"></textarea>
 		<br/>
- 		<div id="dlscript" style="display:none">
-	 		Download Script
-	 		<br/>
-	  		<textarea id="script" class="try" ></textarea>
- 		</div>
- 	<!-- /form-->
- 	
+		<textarea class="try" id="threddstemplate" style="display:none">
+			<catalog xmlns:xlink="http://www.w3.org/1999/xlink" name="" id="">
+    				<documentation xlink:href="" xlink:title=""/>
+    				<service name="tss" serviceType="OpenDAP" base=""/>
+					<dataset name="">
+						<documentation xlink:href="" xlink:title=""/>
+						<access serviceName="tss" urlPath=""/>
+						<access serviceName="ncml" urlPath=""/>
+						<timeCoverage>
+							<Start></Start>
+							<End></End>
+						</timeCoverage>
+						<groups>
+							<group/>
+						</groups>
+						<variables>
+							<variable/>
+						</variables>
+				</dataset>
+			</catalog>
+		 </textarea>
+	</div>
+	<br/>
+
+ 	<div id="dlscript" style="display:none">
+		Download Script
+	 	<br/>
+	  	<textarea id="script" class="try" ></textarea>
+ 	</div> 	
  	</body>
  </html>

@@ -5,13 +5,14 @@ function expand() {
 	options.stop  = $("#StopDates").val();
 	options.type  = "strftime";
 	options.check = false;
-	options.debug = true;
+	options.debug = false;
 	options.side  = "client";
 
 	var urls = [];
 	var Nc = 0;
 	Datasets = $('#Datasets').val().split("\n");
-	console.log(Datasets)
+	
+	if (options.debug) console.log(Datasets)
 	
 	for (var k=0;k<Datasets.length;k++) {
 //		for (var k=0;k<1;k++) {
