@@ -38,7 +38,7 @@ Presets[id].Datasets         = [
 Presets[id].DatasetName        = "$2";
 Presets[id].DatasetID          = "$1";
 Presets[id].DatasetDescription = "Real-time ground magnetometer measurements from USGS."; 
-Presets[id].DatasetDescriptionURL = "http://geomag.usgs.gov/products/";
+Presets[id].DatasetDescriptionURL = "http://geomag.usgs.gov/products/downloads.php";
 
 Presets[id].TimeColumns      = "1,2";
 Presets[id].TimeFormat       = "$Y-$m-$d,$H:$M:$S.$(millis)";
