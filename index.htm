@@ -32,7 +32,14 @@
 		<script type="text/javascript">Presets = {};</script>
  		<script type="text/javascript" src="presets/USGS_RT_PT1M.js"></script>
  		<script type="text/javascript" src="presets/USGS_RT_PT1S.js"></script>
- 		<script type="text/javascript" src="presets/NSSDC_ISIS-1.js"></script>
+ 		<script type="text/javascript" src="presets/SWPC_AK_2DayFile.js"></script>
+ 		<script type="text/javascript" src="presets/SWPC_AK.js"></script>
+ 		<script type="text/javascript" src="presets/Kyoto_RT_Dst_PT1H.js"></script>
+ 		<script type="text/javascript" src="presets/USGS_RT_Dst_PT1H.js"></script>
+ 		<script type="text/javascript" src="presets/USGS_RT_Dst_PT1M.js"></script>
+ 		<script type="text/javascript" src="presets/NGDC_GOES_5-11_SEM.js"></script>
+ 		<script type="text/javascript" src="presets/NGDC_GOES13_SEM_XRS.js"></script>
+ 		<!-- script type="text/javascript" src="presets/NSSDC_ISIS-1.js"></script-->
  		<script type="text/javascript" src="presets/NSSDC_ISIS-2.js"></script>
  		<script type="text/javascript" src="presets/CCMC_BATSRUS_PT4M.js"></script>
 		<script type="text/javascript" src="presets/Autoplot_Linkcheck.js"></script>
@@ -69,17 +76,20 @@
 		function threddsTry() {
 			data = "catalog=" + escape($('#threddscatalog').val());
 			//data = escape($('#threddscatalog').val());
+			console.log("Trying catalog");
 			$.ajax({
 				type: 'POST',
 				data: data,
-				url: 'asset/proxy.php', 
+				url: 'http://tsds.org/get/',
+//				url: 'asset/proxy.php', 
 				success: function () {
+						console.log("Opening" + "http://tsds.org/get/#catalog="+location.hash.replace(/^#/,""));
 						window.open("http://tsds.org/get/#catalog="+location.hash.replace(/^#/,""));
 						//$("body").append("<iframe id='iframe' height='100%'/>")
 						//$("#iframe").attr("src","http://tsds.org/tsdsdev/tsdsfe/gui.htm#catalog="+location.hash.replace(/^#/,""));
 						//$.scrollTo('#iframe');
 						},
-				error: function () {}});
+				error: function () {console.log("Proxy error");}});
 		}
 		
 		function autoFormat(editor) {
@@ -219,9 +229,11 @@
  		Plot columns (column to plot for plot button below) <input type="text" id="PlotColumns"></input>
  		<br/>  		
  		<input id="report0dataurls" type="button" onclick="ajaxRequest(this,'HEAD');" value="HEAD check">
+ 		<!-- 
  		<input id="report1dataurls" type="button" onclick="ajaxRequest(this,'GET');" value="GET check (slow)">
 	 	<input id="report2dataurls" type="button" onclick="ajaxReport(this,'report');" value="Report (slow)">
  	 	<input id="report3dataurls" type="button" onclick="ajaxReport(this,'plot');" value="Plots (slow)">
+ 	 	 -->
 		<br/>
  		<div id="urlsvalid" style="display:none">
 	 		Valid data urls
@@ -321,7 +333,7 @@
 	 	<textarea class="try" id="threddscatalog"></textarea>
 		<br/>
 		<textarea class="try" id="threddstemplate" style="display:none">
-			<catalog xmlns:xlink="http://www.w3.org/1999/xlink" name="" id="">
+			<catalog id="" name="" xmlns:xlink="http://www.w3.org/1999/xlink">
     				<documentation xlink:href="" xlink:title=""/>
     				<service name="tss" serviceType="OpenDAP" base=""/>
 					<dataset name="">

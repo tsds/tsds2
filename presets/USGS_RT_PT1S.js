@@ -48,14 +48,14 @@ Presets[id].DataColumns      = "3,(4,5,6),7";
 Presets[id].DataIDs          = "DOY,(H,D,Z),F";
 Presets[id].DataNames        = "Day of Year,($6 H,$6 D,$6 Z),$6 F";
 Presets[id].DataLabels       = "DOY,($1H,$1D,$1Z),$1F";
-Presets[id].DataValues       = "'',(0.1,0.2,0.3),''";
+Presets[id].DataValues       = "";
 Presets[id].DataTypes        = "d,f,f,f,f";
 Presets[id].DataUnits        = "Gregorian,nT,nT,nT,nT";
 Presets[id].DataRenderings   = "%j,%.2f,%.2f,%.2f,%.2f";
 Presets[id].DataFillValues   = ",99999.00,99999.00,99999.00,99999.00";
 
-Presets[id].DataGroupIDs     = "$1_HDZ"
-Presets[id].DataGroupNames   = "Magnetic Field Vector"
+Presets[id].DataGroupIDs     = "HDZ"
+Presets[id].DataGroupNames   = "HDZ components"
 Presets[id].DataGroupLabels  = ""
 
 Presets[id].SkipLines        = "25";

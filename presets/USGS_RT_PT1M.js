@@ -55,8 +55,8 @@ Presets[id].DataUnits        = "Gregorian,nT,nT,nT,nT";
 Presets[id].DataRenderings   = "%j,%.2f,%.2f,%.2f,%.2f";
 Presets[id].DataFillValues   = ",99999.00,99999.00,99999.00,99999.00";
 
-Presets[id].DataGroupIDs     = "$1_HDZ"
-Presets[id].DataGroupNames   = "Magnetic Field Vector"
+Presets[id].DataGroupIDs     = "HDZ"
+Presets[id].DataGroupNames   = "HDZ components"
 Presets[id].DataGroupLabels  = ""
 
 Presets[id].SkipLines        = "25";

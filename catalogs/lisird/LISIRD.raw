@@ -69,16 +69,16 @@
   <dataset name="SORCE Magnesium II Core-to-Wing Index" >
     <access serviceName="tss" urlPath="sorce_mg_index" />
   </dataset>
-  <dataset name="American Sunspot Numbers">
+  <!--dataset name="American Sunspot Numbers">
     <access serviceName="tss" urlPath="american_sunspot_number" />
-  </dataset>
+  </dataset-->
   <dataset name="International Sunspot Numbers">
     <access serviceName="tss" urlPath="international_sunspot_number" />
   </dataset>
   <dataset name="San Fernando Observatory/CSUN Sunspot Indices">
     <access serviceName="tss" urlPath="sfo_sunspot_indices" />
   </dataset>
-  <dataset name="Solar Radio Flux at 10.7cm - from NOAA" >
+  <dataset name="Solar Radio Flux at 10.7cm - Merged" >
     <access serviceName="tss" urlPath="noaa_radio_flux" />
   </dataset>
   <dataset name="Solar Radio Flux at 10.7cm - Observed" >

@@ -14,11 +14,14 @@ function createcatalog() {
 			
 	var catalog = $($.parseXML($('#threddstemplate').val())).find('catalog');
 	var catalog0 = $($.parseXML($('#threddstemplate').val())).find('catalog');
-	catalog.find('catalog').attr('name',$('#CatalogName').val());
+	//catalog.find('catalog').attr('name',$('#CatalogName').val());
 			
 	catalog.find('documentation').attr("xlink:title",$('#CatalogDescription').val());
 	catalog.find('documentation').attr("xlink:href",$('#CatalogDescriptionURL').val());
 	catalog.attr('id',$('#CatalogID').val());
+	catalog.attr('name',$('#CatalogName').val());
+	console.log($('#CatalogName').val())
+
 	catalog.find('service').attr('base','http://tsds.org/tsds/'+$('#CatalogID').val())
 	catalog.find('dataset').remove();
 
@@ -37,7 +40,16 @@ function createcatalog() {
 	var TimeFormat = $('#TimeFormat').val();
 			
 	// Convert to Java's Simple Date Format, which TSDS uses.
-	TimeFormat = TimeFormat.replace('$Y','yyyy').replace('$m','MM').replace('$d','dd').replace('$H','HH').replace('$j','D').replace('$M','mm').replace('$S','ss').replace("$(millis)","S");
+	TimeFormat = TimeFormat
+					.replace('$Y','yyyy')
+					.replace('$y','yy')
+					.replace('$m','MM')
+					.replace('$d','dd')
+					.replace('$H','HH')
+					.replace('$j','D')
+					.replace('$M','mm')
+					.replace('$S','ss')
+					.replace("$(millis)","S");
 	// TODO: use delimiter
 	TimeFormat = TimeFormat.replace(',',' '); 
 
@@ -112,18 +124,21 @@ function createcatalog() {
 				} else {
 					group.attr('type','spectrogram');
 				}
+
 				var elements = DataGroupElements[i].replace(/\(|\)|\[|\]/g,"");
 				elements = elements.replace(/\$([0-9])/g,"'+Dataset[$1-1]+'");
 				elements = eval("'" + elements + "'");
 
-				group.attr('elements',elements);
+				//group.attr('elements',elements);
+				
+				group.attr('id',elements);
 			}
 		}
 		variables.empty();
 		
 		// Lengths should match.
-		console.log(DataUnits.length)
-		console.log(DataIDs.length)
+		//console.log(DataUnits.length)
+		//console.log(DataIDs.length)
 		for (i = 0;i < DataIDs.length;i++) {
 			ID = DataIDs[i].replace(/\$([0-9])/,"'+Dataset[$1-1]+'");
 			ID = eval("'" + ID + "'");
@@ -142,8 +157,12 @@ function createcatalog() {
 			rendering = DataRenderings[i];
 			columns = DataColumns[i];
 			
-			unit = DataUnits[i].replace(/\$([0-9])/,"'+Dataset[$1-1]+'");
-			unit = eval("'" + unit + "'");
+			if (DataUnits.length == 1 && DataUnits[0] === "") {
+				unit = "";
+			} else {
+				unit = DataUnits[i].replace(/\$([0-9])/,"'+Dataset[$1-1]+'");
+				unit = eval("'" + unit + "'");
+			}
 			variable.attr('id',ID).attr('name',ID).attr('name',name).attr('label',label).attr('units',unit).attr('type','scalar').attr('fillvalue',fillvalue).attr('rendering',rendering).attr('columns',columns).attr('lineregex',lineregex);
 			$($.parseXML($.xml2str(variable[0]))).find('variable').appendTo(variables);
 		}

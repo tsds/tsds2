@@ -1,6 +1,6 @@
 <catalog xmlns="http://www.unidata.ucar.edu/namespaces/thredds/InvCatalog/v1.0" xmlns:xlink="http://www.w3.org/1999/xlink" name="SSCWeb Catalog">
     <service name="tss" serviceType="OpenDAP" base="http://tsds.org/tsdsdev/sscweb/"/>
-    <documentation xlink:href="" xlink:title="Catalog generation date: Wed Jul 10 09:34:06 EDT 2013 "/>
+    <documentation xlink:href="" xlink:title="Catalog generation date: Thu Aug  1 10:04:34 EDT 2013 "/>
     <documentation xlink:href="http://sscweb.gsfc.nasa.gov/WebServices/" xlink:title="Catalog derived from http://sscweb.gsfc.nasa.gov/WebServices/"/>
     <documentation xlink:href="http://tsds.org/code#SSCWeb" xlink:title="Catalog generation software"/>
     <dataset name="ACE" ID="ace">
@@ -8,7 +8,7 @@
         <access serviceName="ncml" urlPath="ace"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -25,7 +25,7 @@
         <access serviceName="ncml" urlPath="active"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -42,7 +42,7 @@
         <access serviceName="ncml" urlPath="aim"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -59,7 +59,7 @@
         <access serviceName="ncml" urlPath="akebono"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -76,7 +76,7 @@
         <access serviceName="ncml" urlPath="alouette1"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -93,7 +93,7 @@
         <access serviceName="ncml" urlPath="alouette2"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -110,7 +110,7 @@
         <access serviceName="ncml" urlPath="apex"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -127,7 +127,7 @@
         <access serviceName="ncml" urlPath="aqua"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -144,7 +144,7 @@
         <access serviceName="ncml" urlPath="ariel4"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -161,7 +161,7 @@
         <access serviceName="ncml" urlPath="artemisp1"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -178,7 +178,7 @@
         <access serviceName="ncml" urlPath="artemisp1pred"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -195,7 +195,7 @@
         <access serviceName="ncml" urlPath="artemisp2"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -212,7 +212,7 @@
         <access serviceName="ncml" urlPath="artemisp2pred"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -229,7 +229,7 @@
         <access serviceName="ncml" urlPath="astrid2"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -246,7 +246,7 @@
         <access serviceName="ncml" urlPath="aura"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -263,7 +263,7 @@
         <access serviceName="ncml" urlPath="calipso"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -280,7 +280,7 @@
         <access serviceName="ncml" urlPath="cce"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -297,7 +297,7 @@
         <access serviceName="ncml" urlPath="cceold"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -314,7 +314,7 @@
         <access serviceName="ncml" urlPath="champ"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -331,7 +331,7 @@
         <access serviceName="ncml" urlPath="chandra"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -348,7 +348,7 @@
         <access serviceName="ncml" urlPath="chibism"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -365,7 +365,7 @@
         <access serviceName="ncml" urlPath="cloudsat"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -382,7 +382,7 @@
         <access serviceName="ncml" urlPath="cluster1"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -399,7 +399,7 @@
         <access serviceName="ncml" urlPath="cluster2"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -416,7 +416,7 @@
         <access serviceName="ncml" urlPath="cluster3"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -433,7 +433,7 @@
         <access serviceName="ncml" urlPath="cluster4"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -450,7 +450,7 @@
         <access serviceName="ncml" urlPath="cnofs"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -467,7 +467,7 @@
         <access serviceName="ncml" urlPath="crres"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -484,7 +484,7 @@
         <access serviceName="ncml" urlPath="csswe"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -501,7 +501,7 @@
         <access serviceName="ncml" urlPath="de1"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -518,7 +518,7 @@
         <access serviceName="ncml" urlPath="de2"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -535,7 +535,7 @@
         <access serviceName="ncml" urlPath="demeter"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -552,7 +552,7 @@
         <access serviceName="ncml" urlPath="dmea"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -569,7 +569,7 @@
         <access serviceName="ncml" urlPath="dmspf10"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -586,7 +586,7 @@
         <access serviceName="ncml" urlPath="dmspf11"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -603,7 +603,7 @@
         <access serviceName="ncml" urlPath="dmspf12"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -620,7 +620,7 @@
         <access serviceName="ncml" urlPath="dmspf13"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -637,7 +637,7 @@
         <access serviceName="ncml" urlPath="dmspf14"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -654,7 +654,7 @@
         <access serviceName="ncml" urlPath="dmspf15"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -671,7 +671,7 @@
         <access serviceName="ncml" urlPath="dmspf16"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -688,7 +688,7 @@
         <access serviceName="ncml" urlPath="dmspf17"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -705,7 +705,7 @@
         <access serviceName="ncml" urlPath="dmspf18"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -722,7 +722,7 @@
         <access serviceName="ncml" urlPath="dmspf8"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -739,7 +739,7 @@
         <access serviceName="ncml" urlPath="dmspf9"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -756,7 +756,7 @@
         <access serviceName="ncml" urlPath="doublestar1"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -773,7 +773,7 @@
         <access serviceName="ncml" urlPath="doublestar2"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -790,7 +790,7 @@
         <access serviceName="ncml" urlPath="equators"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -807,7 +807,7 @@
         <access serviceName="ncml" urlPath="explorer45"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -824,7 +824,7 @@
         <access serviceName="ncml" urlPath="fast"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -841,7 +841,7 @@
         <access serviceName="ncml" urlPath="freja"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -858,7 +858,7 @@
         <access serviceName="ncml" urlPath="gcomw1"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -875,7 +875,7 @@
         <access serviceName="ncml" urlPath="genesis"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -892,7 +892,7 @@
         <access serviceName="ncml" urlPath="geotail"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -909,7 +909,7 @@
         <access serviceName="ncml" urlPath="gms3"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -926,7 +926,7 @@
         <access serviceName="ncml" urlPath="goes10"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -943,7 +943,7 @@
         <access serviceName="ncml" urlPath="goes11"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -960,7 +960,7 @@
         <access serviceName="ncml" urlPath="goes12"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -977,7 +977,7 @@
         <access serviceName="ncml" urlPath="goes13"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -994,7 +994,7 @@
         <access serviceName="ncml" urlPath="goes14"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -1011,7 +1011,7 @@
         <access serviceName="ncml" urlPath="goes15"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -1028,7 +1028,7 @@
         <access serviceName="ncml" urlPath="goes6"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -1045,7 +1045,7 @@
         <access serviceName="ncml" urlPath="goes7"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -1062,7 +1062,7 @@
         <access serviceName="ncml" urlPath="goes8"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -1079,7 +1079,7 @@
         <access serviceName="ncml" urlPath="goes9"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -1096,7 +1096,7 @@
         <access serviceName="ncml" urlPath="grace1"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -1113,7 +1113,7 @@
         <access serviceName="ncml" urlPath="grace2"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -1130,7 +1130,7 @@
         <access serviceName="ncml" urlPath="hawkeye"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -1147,7 +1147,7 @@
         <access serviceName="ncml" urlPath="hinode"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -1164,7 +1164,7 @@
         <access serviceName="ncml" urlPath="image"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -1181,7 +1181,7 @@
         <access serviceName="ncml" urlPath="imp7"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -1198,7 +1198,7 @@
         <access serviceName="ncml" urlPath="imp8"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -1215,7 +1215,7 @@
         <access serviceName="ncml" urlPath="interballaurora"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -1232,7 +1232,7 @@
         <access serviceName="ncml" urlPath="interballtail"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -1249,7 +1249,7 @@
         <access serviceName="ncml" urlPath="irm"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -1266,7 +1266,7 @@
         <access serviceName="ncml" urlPath="isee1"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -1283,7 +1283,7 @@
         <access serviceName="ncml" urlPath="isee1old"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -1300,7 +1300,7 @@
         <access serviceName="ncml" urlPath="isee2"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -1317,7 +1317,7 @@
         <access serviceName="ncml" urlPath="isee3"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -1334,7 +1334,7 @@
         <access serviceName="ncml" urlPath="isis1"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -1351,7 +1351,7 @@
         <access serviceName="ncml" urlPath="isis2"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -1368,7 +1368,7 @@
         <access serviceName="ncml" urlPath="iss"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -1385,7 +1385,7 @@
         <access serviceName="ncml" urlPath="issb"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -1402,7 +1402,7 @@
         <access serviceName="ncml" urlPath="jason2"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -1419,7 +1419,7 @@
         <access serviceName="ncml" urlPath="lanl01"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -1436,7 +1436,7 @@
         <access serviceName="ncml" urlPath="lanl02"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -1453,7 +1453,7 @@
         <access serviceName="ncml" urlPath="lanl89"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -1470,7 +1470,7 @@
         <access serviceName="ncml" urlPath="lanl90"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -1487,7 +1487,7 @@
         <access serviceName="ncml" urlPath="lanl91"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -1504,7 +1504,7 @@
         <access serviceName="ncml" urlPath="lanl94"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -1521,7 +1521,7 @@
         <access serviceName="ncml" urlPath="lanl97"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -1538,7 +1538,7 @@
         <access serviceName="ncml" urlPath="microlab1"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -1555,7 +1555,7 @@
         <access serviceName="ncml" urlPath="mir"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -1572,7 +1572,7 @@
         <access serviceName="ncml" urlPath="moon"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -1589,7 +1589,7 @@
         <access serviceName="ncml" urlPath="moonapollo"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -1606,7 +1606,7 @@
         <access serviceName="ncml" urlPath="moonold"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -1623,7 +1623,7 @@
         <access serviceName="ncml" urlPath="msx"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -1640,7 +1640,7 @@
         <access serviceName="ncml" urlPath="noaa10"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -1657,7 +1657,7 @@
         <access serviceName="ncml" urlPath="noaa12"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -1674,7 +1674,7 @@
         <access serviceName="ncml" urlPath="noaa14"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -1691,7 +1691,7 @@
         <access serviceName="ncml" urlPath="noaa15"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -1708,7 +1708,7 @@
         <access serviceName="ncml" urlPath="noaa16"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -1725,7 +1725,7 @@
         <access serviceName="ncml" urlPath="noaa17"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -1742,7 +1742,7 @@
         <access serviceName="ncml" urlPath="noaa18"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -1759,7 +1759,7 @@
         <access serviceName="ncml" urlPath="noaa19"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -1776,7 +1776,7 @@
         <access serviceName="ncml" urlPath="noaa5"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -1793,7 +1793,7 @@
         <access serviceName="ncml" urlPath="noaa6"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -1810,7 +1810,7 @@
         <access serviceName="ncml" urlPath="noaa7"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -1827,7 +1827,7 @@
         <access serviceName="ncml" urlPath="noaa8"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -1844,7 +1844,7 @@
         <access serviceName="ncml" urlPath="oersted"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -1861,7 +1861,7 @@
         <access serviceName="ncml" urlPath="ogo5"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -1878,7 +1878,7 @@
         <access serviceName="ncml" urlPath="ogo6"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -1895,7 +1895,7 @@
         <access serviceName="ncml" urlPath="ohzora"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -1912,7 +1912,7 @@
         <access serviceName="ncml" urlPath="parasol"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -1929,7 +1929,7 @@
         <access serviceName="ncml" urlPath="polar"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -1946,7 +1946,7 @@
         <access serviceName="ncml" urlPath="rbspa"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -1963,7 +1963,7 @@
         <access serviceName="ncml" urlPath="rbspapred"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -1980,7 +1980,7 @@
         <access serviceName="ncml" urlPath="rbspb"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -1997,7 +1997,7 @@
         <access serviceName="ncml" urlPath="rbspbpred"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -2014,7 +2014,7 @@
         <access serviceName="ncml" urlPath="reimei"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -2031,7 +2031,7 @@
         <access serviceName="ncml" urlPath="rhessi"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -2048,7 +2048,7 @@
         <access serviceName="ncml" urlPath="rocsat1"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -2065,7 +2065,7 @@
         <access serviceName="ncml" urlPath="rosetta"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -2082,7 +2082,7 @@
         <access serviceName="ncml" urlPath="sampex"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -2099,7 +2099,7 @@
         <access serviceName="ncml" urlPath="scatha"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -2116,7 +2116,7 @@
         <access serviceName="ncml" urlPath="snoe"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -2133,7 +2133,7 @@
         <access serviceName="ncml" urlPath="soho"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -2150,7 +2150,7 @@
         <access serviceName="ncml" urlPath="sputnik1"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -2167,7 +2167,7 @@
         <access serviceName="ncml" urlPath="st5a"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -2184,7 +2184,7 @@
         <access serviceName="ncml" urlPath="st5b"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -2201,7 +2201,7 @@
         <access serviceName="ncml" urlPath="st5c"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -2218,7 +2218,7 @@
         <access serviceName="ncml" urlPath="stereoa"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -2235,7 +2235,7 @@
         <access serviceName="ncml" urlPath="stereob"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -2252,7 +2252,7 @@
         <access serviceName="ncml" urlPath="tatiana1"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -2269,7 +2269,7 @@
         <access serviceName="ncml" urlPath="tatiana2"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -2286,7 +2286,7 @@
         <access serviceName="ncml" urlPath="themisa"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -2303,7 +2303,7 @@
         <access serviceName="ncml" urlPath="themisapred"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -2320,7 +2320,7 @@
         <access serviceName="ncml" urlPath="themisb"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -2337,7 +2337,7 @@
         <access serviceName="ncml" urlPath="themisbpred"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -2354,7 +2354,7 @@
         <access serviceName="ncml" urlPath="themisc"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -2371,7 +2371,7 @@
         <access serviceName="ncml" urlPath="themiscpred"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -2388,7 +2388,7 @@
         <access serviceName="ncml" urlPath="themisd"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -2405,7 +2405,7 @@
         <access serviceName="ncml" urlPath="themisdpred"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -2422,7 +2422,7 @@
         <access serviceName="ncml" urlPath="themise"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -2439,7 +2439,7 @@
         <access serviceName="ncml" urlPath="themisepred"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -2456,7 +2456,7 @@
         <access serviceName="ncml" urlPath="timed"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -2473,7 +2473,7 @@
         <access serviceName="ncml" urlPath="trace"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -2490,7 +2490,7 @@
         <access serviceName="ncml" urlPath="twins1"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -2507,7 +2507,7 @@
         <access serviceName="ncml" urlPath="twins2"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -2524,7 +2524,7 @@
         <access serviceName="ncml" urlPath="uars"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -2541,7 +2541,7 @@
         <access serviceName="ncml" urlPath="viking"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -2558,7 +2558,7 @@
         <access serviceName="ncml" urlPath="wind"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>
@@ -2575,7 +2575,7 @@
         <access serviceName="ncml" urlPath="yohkoh"/>
         <documentation xlink:href="http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1" xlink:title="Description of ephemeris calculations"/>
         <groups vocabulary="TSDS-1.0">
-            <group id="XYZ_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
+            <group id="X_GEI,Y_GEI,Z_GEI" name="X_GEI,Y_GEI,Z_GEI" labels="X_GEI,Y_GEI,Z_GEI" elements="X_GEI,Y_GEI,Z_GEI" units="R_E" type="vector"/>
         </groups>
         <variables vocabulary="TSDS-1.0">
             <variable id="X_GEI" name="X_GEI" label="X_GEI" units="R_E" type="scalar" precision="" _FillValue=""/>

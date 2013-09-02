@@ -22,7 +22,7 @@ Presets[id].DatasetDescription = "Data from the Cylindrical Electrostatic Probe 
 Presets[id].DatasetDescriptionURL = "http://spdf.gsfc.nasa.gov/pub/data/isis/plasma_cep/isis1/00readme.txt";
 
 Presets[id].TimeColumns      = "1,2,3,4,5";
-Presets[id].TimeFormat       = "$Y $j $H $M $S";
+Presets[id].TimeFormat       = "$Y $d $H $M $S";
 Presets[id].TimeUnits        = "";
 Presets[id].TimeLabels       = "";
 
