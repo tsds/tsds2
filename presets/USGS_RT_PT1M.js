@@ -14,6 +14,15 @@ Presets[id].CatalogDescriptionURL = "http://magweb.cr.usgs.gov/data/magnetometer
 
 Presets[id].StartDates       = ["2013-05-02"];
 Presets[id].StopDates        = ["2013-07-10"];
+Presets[id].Cadence          = ["PT1M"];
+
+//ParameterType (one for each variable)
+//Field.{Current,Electric,Electromagnetic,Gyrofrequency,Magnetic,PlasmaFrequency,Potential,PoyntingFlux}
+//Particle.{Aerosol,Alpha Particle,Atom,Dust,Electron,Ion,Molecule,Neutron,Proton}.{Arrival Direction,Atomic Number Detected,Average Charge State,Charge State,Count Rate,Counts,Energy,Energy Density,Energy Flux,Flow Speed,Flow Velocity,Fluence,Gyrofrequency,Heat Flux,Mass,Mass Density,Mass Number,Number Density,Number Flux,Phase-Space Density,Plasma Frequency,Pressure,Sonic Mach Number,Sound Speed,Temperature,Thermal Speed,Velocity}
+//Wave.{Electromagnetic,Electrostatic,Hydrodynamic,MHD,Photon,Plasma Waves}.{AC-Electric Field,AC-Magnetic Field,Absorption,Doppler Frequency,Emissivity,Energy Flux,Equivalent Width,Frequency,Gyrofrequency,Intensity,Line Depth,Magnetic Field,Mode Amplitude,Plasma Frequency,Polarization,Poynting Flux,Propagation Time,Stoke's Parameters,Velocity,Wavelength}
+//Mixed.{Akasofu Epsilon,Alfven Mach Number,Alfven Velocity,Frequency-To-Gyrofrequency Rat,Magnetosonic Mach Number,Other,Plasma Beta,Total Pressure,V Cross B}.
+//Support.{Instrument Mode,Other,Positional,Temporal,Velocity}
+//ParameterInfoURL = template.  Given dataset ID, returns id, name, label, units, fillvalue, type, ParameterType.
 
 Presets[id].Datasets         = [
 						  ["BDT","BDT one-minute","BDT1m","bdtvmin","bdt","Boulder Test"],                           
@@ -39,6 +48,18 @@ Presets[id].DatasetName        = "$2";
 Presets[id].DatasetID          = "$1";
 Presets[id].DatasetDescription = "Real-time ground magnetometer measurements from USGS."; 
 Presets[id].DatasetDescriptionURL = "http://geomag.usgs.gov/products/downloads.php";
+
+Presets[id].RepositoryID     = "";
+Presets[id].RepositoryAvailability     = "";
+Presets[id].RepositoryAccessRights     = "";
+Presets[id].RepositoryURL     = "";
+Presets[id].RepositoryFormat     = "";
+Presets[id].RepositoryEncoding     = "";
+
+Presests[id].InstrumentIDs    = "";
+Presests[id].MeasurementTypes = "";
+
+Presets[id].ObservedRegions = "";
 
 Presets[id].TimeColumns      = "1,2";
 Presets[id].TimeFormat       = "$Y-$m-$d,$H:$M:$S.$(millis)";
