@@ -119,6 +119,10 @@ function createcatalog() {
 				name = eval("'" + name + "'");
 				group.attr('name',name);
 
+				label = DataGroupLabels[i].replace(/\$([0-9])/,"'+Dataset[$1-1]+'");
+				label = eval("'" + label + "'");
+				group.attr('label',label);
+
 				if (DataGroups[i].match(/\)/)) {
 					group.attr('type','vector');
 				} else {
