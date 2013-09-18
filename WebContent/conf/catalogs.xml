@@ -10,6 +10,7 @@
 			<iosp>lasp.tss.iosp.ColumnarAsciiReader</iosp>
 			<timecols>1,2,3</timecols>
 			<timefmt>yyyy D HH:mm</timefmt>
+			<fillvalue>1e31</fillvalue>
 		</ncml>
 		<tsdsfecatalog>http://tsds.net/catalogs/SSCWeb-tsdsfe.xml</tsdsfecatalog>
 		<thredds>
@@ -29,6 +30,7 @@
 			<iosp>lasp.tss.iosp.ColumnarAsciiReader</iosp>
 			<timecols>1,2</timecols>
 			<timefmt>dd-MM-yyyy HH:mm:ss.S</timefmt>
+			<fillvalue>1e31</fillvalue>
 		</ncml>		
 		<tsdsfecatalog>http://tsds.net/catalogs/CDAWeb-tsdsfe.xml</tsdsfecatalog>
 	</catalog>

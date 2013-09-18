@@ -167,6 +167,7 @@
 		}		
 	}
 	System.out.println(posted);
+	System.out.println(catalogxml);
 	// URL reference to catalog.
 	if (catalog.toLowerCase().startsWith("http://") || posted) {
 		
@@ -211,6 +212,13 @@
 			}
 			FileUtils.forceMkdir(new File(uploaddir));
 			FileUtils.writeStringToFile(new File(uploaddir + "/" + catalogfname),catalogxml);
+
+			// When using Tomcat in Eclipse and uploading to a workspace directory, this is needed
+			// (otherwise a manual F5 on the uploads directory is needed to trigger copy into servlet container)
+			uploaddir = getServletContext().getRealPath("/") + "uploads/";
+			FileUtils.forceMkdir(new File(uploaddir));
+			FileUtils.writeStringToFile(new File(uploaddir + "/" + catalogfname),catalogxml);
+
 		}
 
 		// Update or create all.thredds for uploads
@@ -222,6 +230,8 @@
 			alluploadedfname = uploaddir + "/" + "all.thredds";
 		} else {
 			alluploadedfname = uploaddir + "/" + alluploaded;
+			
+			
 		}
 		
 		String alluploadedxml = "";
@@ -278,6 +288,12 @@
 					out.println("<b>Writing:</b> " + alluploadedfname);out.flush();
 				}
 				FileUtils.writeStringToFile(new File(alluploadedfname),alluploadedxml);
+				
+				// When using Tomcat in Eclipse and uploading to a workspace directory, this is needed
+				// (otherwise a manual F5 on the uploads directory is needed to trigger copy into servlet container)
+				String alluploadeddname = getServletContext().getRealPath("/") + "uploads/";
+				FileUtils.writeStringToFile(new File(alluploadedfname),alluploadedxml);
+				
 			}
 		}
 		
@@ -360,7 +376,7 @@
 	if (dataset.equals(".*")) {
 		
 		// Get list of all datasets nodes in catalog with an ID attribute.  Return a comma-separated list of IDs.
-		URL url01 = new URL(xslttransform + "?xml="+catalogthredds+"&xpath=//*[local-name()='dataset'][count(@*[local-name()='ID'])>0]/concat('{value:\"',@*[local-name()='ID'],'\",label:\"',@*[local-name()='label'],'\"}',',')");
+		URL url01 = new URL(xslttransform + "?xml="+catalogthredds+"&xpath=//*[local-name()='dataset'][count(@*[local-name()='ID'])>0]/concat('{value:\"',@*[local-name()='ID'],'\",label:\"',@*[local-name()='label'],'\",name:\"',@*[local-name()='name'],'\"},')");
 		if (debug.equals("true")) {
 			out.println("<b>Resuesting: </b>" + url01);out.flush();
 		}
@@ -372,7 +388,7 @@
 		// Get a list of all datasets, even if no ID attribute.
 		// TODO: Assume ID=name when ID='' or no ID attribute and use this for value.
 		if (datasetlist.replaceAll(",","").equals("")) {
-			url01 = new URL(xslttransform + "?xml="+catalogthredds+"&xpath=//*[local-name()='dataset']/concat('{value:\"',@*[local-name()='ID'],'\",label:\"',@*[local-name()='label'],'\"}',',')");
+			url01 = new URL(xslttransform + "?xml="+catalogthredds+"&xpath=//*[local-name()='dataset']/concat('{value:\"',@*[local-name()='ID'],'\",label:\"',@*[local-name()='label'],'\",name:\"',@*[local-name()='name'],'\"},')");
 			if (debug.equals("true")) {
 				out.println("<b>Resuesting: </b>" + url01);out.flush();
 			}
@@ -431,11 +447,11 @@
 		if (debug.equals("true")) {
 			out.println("<b>Response: </b> " + stopavailable);out.flush();
 		}
-		// Use start + 20 days for now.
+		// Use start + 5 days for now.
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		Calendar c = Calendar.getInstance();
 		c.setTime(sdf.parse(start));
-		c.add(Calendar.DATE, 20);
+		c.add(Calendar.DATE, 2);
 		stopavailable = sdf.format(c.getTime());
 		out.println(stopavailable.substring(0,10));
 		return;
@@ -489,15 +505,15 @@
 	String parameterslist = "";
 	String groupslist = "";
 	if (parameters.equals(".*")) {
-		URL url03 = new URL(xslttransform + "?xml="+catalogthredds+"&xpath=//*[local-name()='dataset'%20and%20@ID='"+dataset+"']//*[local-name()='variable']/concat('{value:\"',@*[local-name()='id'],'\",label:\"',@*[local-name()='label'],'\"},')");
+		URL url03 = new URL(xslttransform + "?xml="+catalogthredds+"&xpath=//*[local-name()='dataset'%20and%20@ID='"+dataset+"']//*[local-name()='variable']/concat('{value:\"',@*[local-name()='id'],'\",label:\"',@*[local-name()='label'],'\",name:\"',@*[local-name()='name'],'\"},')");
 		if (debug.equals("true")) {
-			out.println("<b>Resuesting: </b>" + url03);out.flush();
+			out.println("<b>-Resuesting: </b>" + url03);out.flush();
 		}
 		parameterslist = IOUtils.toString(url03);
 		if (debug.equals("true")) {
 			out.println("<b>Response: </b> " + parameterslist);out.flush();
 		}
-		url03 = new URL(xslttransform + "?xml="+catalogthredds+"&xpath=//*[local-name()='dataset'%20and%20@ID='"+dataset+"']//*[local-name()='group']/concat('{value:\"',@*[local-name()='id'],'\",label:\"',@*[local-name()='label'],'\"},')");
+		url03 = new URL(xslttransform + "?xml="+catalogthredds+"&xpath=//*[local-name()='dataset'%20and%20@ID='"+dataset+"']//*[local-name()='group']/concat('{value:\"',@*[local-name()='id'],'\",label:\"',@*[local-name()='label'],'\",name:\"',@*[local-name()='name'],'\"},')");
 		if (debug.equals("true")) {
 			out.println("<b>Resuesting: </b>" + url03);out.flush();
 		}
@@ -505,6 +521,7 @@
 		if (debug.equals("true")) {
 			out.println("<b>Response: </b> " + parameterslist);out.flush();
 		}
+		// TODO: Get columns by looking up variable ids in variable list.
 		//System.out.println(groupslist);
 		if (groupslist.matches("\\{value:\"\",label:\"\"\\},") && parameterslist.matches("\\{value:\"\",label:\"\"\\},")) {
 			url03 = new URL(xslttransform + "?xml="+catalogthredds+"&xpath=//*[local-name()='dataset'%20and%20@ID='"+dataset+"']//*[local-name()='access'%20and%20@serviceName='tss']/concat('{value:\"',@*[local-name()='urlPath'],'\",label:\"',@*[local-name()='urlPath'],'\"},')");
@@ -764,11 +781,11 @@
 	}
 	String fillvalue = IOUtils.toString(url05d);
 	if (debug.equals("true")) {
-		out.println("<b>Response: </b> " + timefmt);out.flush();
+		out.println("<b>Response: </b> " + fillvalue);out.flush();
 	}
 
  	// Read THREDDS catalogs and extract information that may not be available in catalogs.xml.
- 	String concatstr = "concat(@*[local-name()='id'],'_,_',@*[local-name()='name'],'_,_',@*[local-name()='label'],'_,_',@*[local-name()='units'],'_,_',@*[local-name()='type'],'_,_',@*[local-name()='rendering'],'_,_',@*[local-name()='fillvalue'],'_,_',@*[local-name()='urlgenerator'],'_,_',@*[local-name()='urltemplate'],'_,_',@*[local-name()='urlpreprocess'],'_,_',@*[local-name()='timecolumns'],'_,_',@*[local-name()='timeformat'],'_,_',@*[local-name()='timestart'],'_,_',@*[local-name()='timeend'],'_,_',@*[local-name()='columns'],'_,_',@*[local-name()='lineregex'])";
+ 	String concatstr = "concat(@*[local-name()='id'],'_,_',@*[local-name()='name'],'_,_',@*[local-name()='label'],'_,_',@*[local-name()='units'],'_,_',@*[local-name()='type'],'_,_',@*[local-name()='format'],'_,_',@*[local-name()='fillvalue'],'_,_',@*[local-name()='urlgenerator'],'_,_',@*[local-name()='urltemplate'],'_,_',@*[local-name()='urlpreprocess'],'_,_',@*[local-name()='timecolumns'],'_,_',@*[local-name()='timeformat'],'_,_',@*[local-name()='timestart'],'_,_',@*[local-name()='timeend'],'_,_',@*[local-name()='columns'],'_,_',@*[local-name()='lineregex'])";
 	String[] varprops = {};
 	
 	// TODO: Create string with all keys and use to populate hashmap and url05.
@@ -785,48 +802,33 @@
 	}
 
 	varprops = varinfo.split("_,_",-1);
-	HashMap<String,String> hm1 = new HashMap<String,String>();
-	hm1.put("id",varprops[0]);
-	hm1.put("name",varprops[1]);
-	hm1.put("label",varprops[2]);
-	hm1.put("units",varprops[3]);
-	hm1.put("type",varprops[4]);
-	hm1.put("rendering",varprops[5]);
-	hm1.put("fillvalue",varprops[6]);
-	hm1.put("urlgenerator",varprops[7]);
-	hm1.put("urltemplate",varprops[8]);
-	hm1.put("urlpreprocess",varprops[9]);
-	hm1.put("timecolumns",varprops[10]);
-	hm1.put("timeformat",varprops[11]);
-	hm1.put("timestart",varprops[12]);
-	hm1.put("timeend",varprops[13]);
-	hm1.put("columns",varprops[14]);
-	hm1.put("lineregex",varprops[15]);
 
-	//timecols = varprops[10];
-	//timefmt  = varprops[11];
 	String names = varprops[1];
-	String columns = varprops[14];
 	String units = varprops[3];
-	String lineregex = varprops[15];
-
-	String timecolumns = varprops[10];
-	String timeformat = varprops[11];
 	
 	if (fillvalue.length() == 0) {
 		fillvalue = varprops[6];
 	}
-	
-	String urltemplate = varprops[8];
-	iosp = "lasp.tss.iosp.ColumnarAsciiReader";
-	System.out.println(urltemplate);
 
 	if (urlgenerator.length() == 0) {
 		urlgenerator = varprops[7];
 	}
+
+	String urltemplate = varprops[8];
+
 	if (urlpreprocess.length() == 0) {
 		urlpreprocess = varprops[9];
 	}
+
+	String timecolumns = varprops[10];
+	String timeformat = varprops[11];
+
+	String columns = varprops[14];
+	String lineregex = varprops[15];
+	
+	iosp = "lasp.tss.iosp.ColumnarAsciiReader";
+	System.out.println(urltemplate);
+
 	if (dcsubdir.length() == 0) {
 		dcsubdir = urltemplate.split("/")[2];
 		if (debug.equals("true")) {
@@ -844,49 +846,20 @@
 	}
 	varprops = varinfo.split("_,_",-1);
 
-	HashMap<String,String> hm3 = new HashMap<String,String>();
-	hm3.put("id",varprops[0]);
-	hm3.put("name",varprops[1]);
-	hm3.put("label",varprops[2]);
-	hm3.put("units",varprops[3]);
-	hm3.put("type",varprops[4]);
-	hm3.put("rendering",varprops[5]);
-	hm3.put("fillvalue",varprops[6]);
-	hm3.put("urlgenerator",varprops[7]);
-	hm3.put("urltemplate",varprops[8]); 
-	hm3.put("urlpreprocess",varprops[9]);
-	hm3.put("timecolumns",varprops[9]);
-	hm3.put("timeformat",varprops[11]);
-	hm3.put("timestart",varprops[12]);
-	hm3.put("timeend",varprops[13]);
-	hm3.put("columns",varprops[14]);
-	hm1.put("lineregex",varprops[15]);
-
 	columns = varprops[14];
-	if (varprops[9].length() != 0) {
-		timecolumns = varprops[9];
-	}
-	if (varprops[10].length() != 0) {
-		timeformat = varprops[10];
-	}
 
 	if (varprops[1].length() != 0) {
 		names = varprops[1];
 	}
-	if (varprops[6].length() != 0) {
-		fillvalue = varprops[6];
-	}
-	if (varprops[10].length() != 0) {
-		timecolumns = varprops[10];
-	}
-	if (varprops[11].length() != 0) {
-		timeformat = varprops[11];
-	}
-	if (varprops[15].length() != 0) {
-		lineregex = varprops[15];
-	}
 	if (varprops[3].length() != 0) {
 		units = varprops[3];
+	}
+	String format = "";
+	if (varprops[5].length() != 0) {
+		format = varprops[5];
+	}
+	if (varprops[6].length() != 0) {
+		fillvalue = varprops[6];
 	}
 	if (varprops[7].length() != 0) {
 		urlgenerator = varprops[7];
@@ -896,6 +869,25 @@
 	}
 	if (varprops[9].length() != 0) {
 		urlpreprocess = varprops[9];
+	}
+	if (varprops[10].length() != 0) {
+		timecolumns = varprops[9];
+	}
+	if (varprops[11].length() != 0) {
+		timeformat = varprops[10];
+	}
+	
+//	if (varprops[12].length() != 0) {
+//		timestart = varprops[12];
+//	}
+//	if (varprops[13].length() != 0) {
+//		timeend = varprops[13];
+//	}
+	if (varprops[13].length() != 0) {
+		timeformat = varprops[11];
+	}
+	if (varprops[15].length() != 0) {
+		lineregex = varprops[15];
 	}
 
 	if (debug.equals("true")) {
@@ -1012,7 +1004,7 @@
 		String poststr = "";
 	    if (urltemplate.length() == 0) {
 			// Generate list of URLs to send to DataCache
-			String listuri = xslttransform + "?xslt="+urlgenerator+"&dataset="+dataset+"&parameters="+URLEncoder.encode(parameters)+"&start="+start+"&stop="+stop+"&urltemplate="+URLEncoder.encode(urltemplate)+"&urlpreprocess="+URLEncoder.encode(urlpreprocess);
+			String listuri = xslttransform + "?xslt="+urlgenerator+"&dataset="+dataset+"&parameters="+URLEncoder.encode(parameters)+"&start="+start+"&stop="+stop+"&urltemplate="+URLEncoder.encode(urltemplate.replace("&amp;","&"))+"&urlpreprocess="+URLEncoder.encode(urlpreprocess);
 			
 			if (archive == true && !fa.exists()) {
 				if (debug.equals("true")) {
@@ -1027,7 +1019,15 @@
 	
 			URL url0 = new URL(listuri);
 			urilist = IOUtils.toString(url0);
-	
+
+			// Return list of URIs
+			if (resp.equals("urilist")) {
+				response.setContentType("text/plain");
+				out.println(urilist);
+				System.out.println("Returning URI list");
+				return;
+			}
+
 			if (debug.equals("true")) {
 				out.println("<b>Response: </b>\n<textarea rows=10 style='width:100%'>" + urilist + "</textarea>");out.flush();
 			}
@@ -1051,7 +1051,7 @@
 			poststr = "includeMeta=true&source="+URLEncoder.encode(URLDecoder.decode(urilist,"UTF-8"),"UTF-8");
 
 	    } else {
-	    	poststr = "includeMeta=true&timeRange="+start+"/"+stop+"&template="+urltemplate;
+	    	poststr = "includeMeta=true&timeRange="+start+"/"+stop+"&template="+URLEncoder.encode(urltemplate.replace("&amp;","&"));
 	    }
 
 		if (updateData.equals("true")) {
@@ -1070,6 +1070,7 @@
 			}
 		}
 
+
 		if (debug.equals("true")) {
 			out.println("<b>Posting to " + dcserver + ": </b>" + poststr);out.flush();
 		}
@@ -1081,10 +1082,12 @@
 		OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
 		wr.write(poststr);
 		wr.flush();
+
 		
 		// Read response from DataCache.
 		InputStreamReader is = new InputStreamReader(conn.getInputStream());
 		java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
+
 		String json = s.hasNext() ? s.next() : "";
 		if (debug.equals("true")) {
 			out.println("<b>Response: </b>\n<textarea rows=10 style='width:100%'>" + json + "</textarea>");out.flush();
@@ -1102,6 +1105,13 @@
 			if (jo.containsKey("metaJson")) {
 				out.println("<b>First metaJson</b>: " + jo.get("metaJson"));out.flush();
 			}	
+		}
+
+		if (resp.equals("report")) {
+			response.setContentType("text/plain");
+			out.println(json);
+			System.out.println("Returning DataCache report");
+			return;
 		}
 
 		// Create an XML list of files from JSON to post to xml2ncml.
@@ -1232,7 +1242,8 @@
 
 		// Post list of files along with other needed NcML information to NcML generator XSLT.
 		String xml2ncml = xslttransform + "?xslt="+ncmlgenerator+"&qid="+qid+"&requestid="+requestid+"&path=file://"+dcdir+"/"+dcsubdir+"&query="+tsdsfe+"?"+URLEncoder.encode(requestid0,"UTF-8");
-		xml2ncml = xml2ncml + "&iosp="+iosp+"&timecols="+timecols+"&timefmt="+URLEncoder.encode(timefmt,"UTF-8")+"&groupname="+URLEncoder.encode(groupname,"UTF-8")+"&variablenames="+URLEncoder.encode(variablenames,"UTF-8")+"&variablelong_names="+URLEncoder.encode(variablelong_names,"UTF-8")+"&variablecols="+variablecols+"&units="+URLEncoder.encode(variableunits,"UTF-8")+"&fillvalue="+fillvalue;
+		xml2ncml = xml2ncml + "&iosp="+iosp+"&timecols="+timecols+"&timefmt="+URLEncoder.encode(timefmt,"UTF-8")+"&groupname="+URLEncoder.encode(groupname,"UTF-8")+"&variablenames="+URLEncoder.encode(variablenames,"UTF-8")+"&variablelong_names="+URLEncoder.encode(variablelong_names,"UTF-8")+"&variablecols="+variablecols+"&units="+URLEncoder.encode(variableunits,"UTF-8")+"&fillvalue="+URLEncoder.encode(fillvalue,"UTF-8")+"&format="+URLEncoder.encode(format,"UTF-8");
+		System.out.println("HERE"+URLEncoder.encode(fillvalue+"","UTF-8"));
 		if (debug.equals("true")) {
 			out.println("<b>Posting XML list of files from DataCache to: </b>" + xml2ncml);out.flush();
 		}
@@ -1276,6 +1287,7 @@
 		}
 	}
 	
+//	if (false) {
 	String durla = "";
 	String durl = "";
 	if (archive == true) {
@@ -1468,6 +1480,8 @@
 					// Read file from disk and stream
 					InputStream in = new FileInputStream(fname3);
 					IOUtils.copy(in,os);
+					in.close();
+					os.close();
 					return;
 				} else {
 					out.println("<b>Streaming </b>: " + fname3);out.flush();					
@@ -1487,6 +1501,7 @@
 					URLConnection conn3 = url3.openConnection();
 					InputStreamReader is3 = new InputStreamReader(conn3.getInputStream());
 					IOUtils.copy(is3,os);
+					is3.close();
 					return;
 				} else {
 					out.println("<b>Streaming: </b> <a href='"+rurl+"'>"+rurl+"</a>");out.flush();					
@@ -1515,6 +1530,7 @@
 	if (debug.equals("true")) {
 		out.println("</pre></body></html>");out.flush();
 	}
+//	}
 
 %>
 	

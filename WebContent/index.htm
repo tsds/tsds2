@@ -80,9 +80,10 @@
 			function selected(name) {
 				console.log("selected: " + name);
 				if (location.hash !== "") {
+					var qs = $.parseQueryString();
 					//console.log(location.hash);
 					//console.log("using hash value for " + name + "=" + qs[name]);
-					//if (qs[name]) return qs[name];
+					if (qs[name]) return qs[name];
 				}
 					
 				return $("span[name='"+name+"']").attr('value');
@@ -94,6 +95,7 @@
 					info = tsdsfeajax(i,"?catalog="+selected('catalog'));
 					$('#cataloginfo').html("<b>Catalog information:</b>");
 					$('#datasetinfo').html("");
+					$('#parameterinfo').html("");
 					$('#outputinfo').hide();
 					$('#dldiv').hide();
 					$('#previewdatadiv').hide();
@@ -112,6 +114,7 @@
 							$('#catalogtinfo ul').append('<li style=""><a href="'+info[j].link+'">'+info[j].link+'</a></li>');
 						} 
 					}
+					window.location.hash="catalog="+selected('catalog');
 					//updatehash(i,"catalog");	
 					
 				};
@@ -138,13 +141,15 @@
 
 				//console.log("--" + qs["dataset"])
 				//console.log($("#dataset"));
-				console.log("yyyyy");
 				console.log(list);
 				for (var k = 0; k < list.length; k++) {
+					if (list[k].label === "") {
+						list[k].label = list[k].name;
+					}
 					if (list[k].label.length > 60) {
 						list[k].label = list[k].value + ": " + list[k].label.substring(0,60) + " ...";
 					} else if (list[k].label === "") {
-						list[k].label = list[k].value;						
+						list[k].label = list[k].value  + ": (no label or name in catalog)";						
 					} else {
 						list[k].label = list[k].value + ": " + list[k].label;
 					}
@@ -169,6 +174,9 @@
 			function stoptime(i) {
 				stoptime.onselect = function () {
 					//updatehash(i,"stop");
+					$("#outputinfo").show();
+					preview();
+					
 				}
 				return tsdsfeajax(i,"?catalog="+selected('catalog')+"&dataset="+selected('dataset')+"&stop=.*");
 			}
@@ -200,8 +208,6 @@
 					} else {
 						$('#parameterinfo ul').append('<li style="">'+info+'</li>');
 					}				
-					$("#outputinfo").show();
-					preview();
 					//updatehash(i,"parameters");
 				};
 
@@ -225,7 +231,7 @@
 					dorequest();
 					//updatehash(i,"output");
 				}
-				values = [{label:"Data (style 1)", value:"iso"},{label:"Data (style 2)",value:"asc"},{label:"Data (style 3)",value:"dat"},{label:"IDL (script)",value:"idl"},{label:"MATLAB (script)",value:"matlab"},{label:"Debug",value:"debug"}];
+				values = [{label:"Data (style 1)", value:"txt"},{label:"Data (style 2)",value:"asc"},{label:"Data (style 3)",value:"dat"},{label:"IDL (script)",value:"idl"},{label:"MATLAB (script)",value:"matlab"},{label:"Debug",value:"debug"}];
 				return values;
 			}
 			
@@ -234,27 +240,46 @@
 				$('#dldiv').hide();
 				show1pdplots();
 			}
+
+			function triggerselect() {
+				// Set inital values of drop-downs based on hash.
+				if (location.hash !== "") {
+					qs = $.parseQueryString();
+					console.log("Initial query string");
+					for (var id in qs) {
+						console.log("id="+id);
+						$("#"+id).val(qs[id]).data("autocomplete")._trigger("select",event,{item:qs[id]});
+					}
+				}
+			}				
 			
 			function tests(i) {
-				var LIST = new Object();
 				var list = new Array();
-				list[0] = {label:"SSCWeb",value:"sscweb"};
-				list[1] = {label:"CDAWeb",value:"cdaweb"};
-				list[2] = {label:"SuperMAG",value:"supermag"};
-				list[3] = {label:"SPIDR",value:"spidr"};
+				list[0] = {label:"SSCWeb",value:"sscweb",url:"catalog=sscweb&dataset=ace&parameters=X_GEI,Y_GEI,Z_GEI&start=1997-08-26&stop=1997-09-05"};
+				list[1] = {label:"CDAWeb",value:"cdaweb",url:"catalog=cdaweb&dataset=A1_K0_MPA&parameters=dens_lop&start=2001-08-31&stop=2001-09-10"};
+				list[2] = {label:"SuperMAG",value:"supermag",url:"catalog=supermag&dataset=AAA&parameters=B_N,B_E,B_Z&start=2008-01-01&stop=2008-01-11"};
+				list[3] = {label:"SPIDR",value:"spidr",url:"catalog=spidr&dataset=amie_ae&parameters=amie_ae&version=0&start=1991-01-01&stop=1991-01-11"};
+				list[4] = {label:"USGS 1-minute",value:"usgs1m",url:"catalog=USGS/RT/PT1M&dataset=BRW&start=2013-05-02&stop=2013-05-05&parameters=H"};
+				list[5] = {label:"USGS 1-second",value:"usgs1s",url:"catalog=USGS/RT/PT1S&dataset=BRW&start=2013-05-02&stop=2013-05-05&parameters=H"};
+				list[6] = {label:"ISIS-2",value:"ISIS-2",url:"catalog=NSSDC/ISIS-2&dataset=CEP&start=1971-04-14&stop=1971-04-16&parameters=L_value"};
+				list[7] = {label:"TSX-5",value:"TSX-5",url:"catalog=ViRBO/TSX-5/EPHX&dataset=ephx&start=2000-08-15&stop=2000-08-17&parameters=PitchAngle"};
+				list[8] = {label:"Linkcheck",value:"Linkcheck",url:"catalog=Autoplot/Linkcheck&dataset=1&start=2012-12-07&stop=2012-12-09&parameters=ResponseTime"};
+				//				list[5] = {label:"ISIS-1",value:"ISIS-1",url:"catalog=NSSDC/ISIS-1&dataset=CEP&start=1969-01-30&stop=1969-02-19&parameters=Altitude"};
 
-				LIST["sscweb"]   = "catalog=sscweb&dataset=ace&parameters=X_GEI,Y_GEI,Z_GEI&start=1997-08-26&stop=1997-09-05";
-				LIST["cdaweb"]   = "catalog=cdaweb&dataset=A1_K0_MPA&parameters=dens_lop&start=2001-08-31&stop=2001-09-10";
-				LIST["supermag"] = "catalog=supermag&dataset=AAA&parameters=B_N,B_E,B_Z&start=2008-01-01&stop=2008-01-11";
-				LIST["spidr"]    = "catalog=spidr&dataset=amie_ae&parameters=amie_ae&version=0&start=1991-01-01&stop=1991-01-11";
 				
 				tests.onselect = function () {
 					console.log('test selected');
 					vid = $("#dropdownstest0").attr('value');
 					console.log(vid);
-					location.hash = LIST[vid];
+					var k = 0;
+					while (true) {
+						if (list[k].value === vid) {break} else {k = k+1}
+					}
+					location.hash = list[k].url;
 					preview();
 					$('#outputinfo').hide();
+
+					triggerselect();
 
 				};
 				
@@ -330,12 +355,13 @@
 				var i = 0;
 				while (i < Ndays) {
 					turl = "?catalog="+selected('catalog')+"&dataset="+selected('dataset')+"&parameters="+selected('parameters')+"&start="+START_date.toString('yyyy-MM-dd')+"&stop="+STOP_date.toString('yyyy-MM-dd')+"&out=asc";
-					url = TSDSFE+"/tsdsfe.jyds?catalog="+selected('catalog')+"&dataset="+selected('dataset')+"&parameters="+selected('parameters')+"&timerange="+START_date.toString('yyyy-MM-dd')+"&out=asc&fill="+fills;				
-					var aurl = "http://autoplot.org/plot/SimpleServlet?&drawGrid=true&plot.xaxis.drawTickLabels=true&width=800&height=200&url=" + encodeURIComponent(url);
+					url = TSDSFE+"/tsdsfe.jyds?catalog="+selected('catalog')+"&dataset="+selected('dataset')+"&parameters="+selected('parameters')+"&timerange="+START_date.toString('yyyy-MM-dd')+"&fill="+fills;				
+					var aurl = "http://autoplot.org/plot/SimpleServlet?&drawGrid=true&plot.xaxis.drawTickLabels=true&width=800&height=200&url=vap+jyds:" + encodeURIComponent(url);
 					START_date.addDays(1);
 					STOP_date.addDays(1);
 
 					console.log(aurl);
+					//links = "<a href='http://autoplot.org/autoplot.jnlp?open=vap+jyds:"+encodeURIComponent(url)+"'>View in Autoplot</a>"
 					links = "<a href='http://autoplot.org/autoplot.jnlp?open=vap+jyds:"+url+"'>View in Autoplot</a>"
 					links = links + " | <a style='text-decoration:underline;cursor:pointer' onclick='viewdata("+i+")'>View Data</a>";
 					//links = links + ' | <a target="blank" href="'+turl+'">View Data</a>';
@@ -412,18 +438,12 @@
 
 				function callback() {}
 				
-				dropdown2(["catalog","dataset","start","stop","parameters","outputs"],["Catalog","Dataset","Start","Stop","Parameters","Output"],[catalogs,datasets,starttime,stoptime,parameters,outputs],"#dropdowns",0,"",callback);
+				dropdown2(["catalog","dataset","parameters","start","stop","outputs"],["Catalog","Datasets","Parameters","Start","Stop","Output"],[catalogs,datasets,parameters,starttime,stoptime,outputs],"#dropdowns",0,"",callback);
 
 				dropdown2(["tests"],["Tests"],[tests],"#dropdownstest");
 
-				// Set inital values of drop-downs based on hash.
-				if (location.hash !== "") {
-					qs = $.parseQueryString();
-					console.log("Initial query string");
-					console.log(qs);
-					for (var id in qs)
-						$("#"+id).val(qs[id]).data("autocomplete")._trigger("select",event,{item:qs[id]});
-				}				
+
+				triggerselect();
 					
 				//preview();
 				
@@ -490,6 +510,7 @@
  	<body>	
  		<div style="float:left;width:10em;margin-right:10px;">
  			
+			<button type="button" onclick="window.location=window.location.pathname">Clear</button>
 			<div title="Show preview images of data when a parameter is selected"><input id="previewimgcheckbox" type="checkbox" value=""/>&nbsp;Show preview plots</div>
 			<span id="dropdowns0"></span>
 			<span id="dropdowns1" style="display:none"></span>

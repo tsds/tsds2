@@ -23,7 +23,7 @@ drtr  = DatumRangeUtil.parseTimeRange(tr)
 start = tf.format( drtr.min(), None )
 stop  = tf.format( drtr.max(), None )
 
-surl = server + "?" + "catalog=" + catalog + "&dataset=" + dataset + "&parameters=" + parameters + "&start=" + start + "&stop=" + stop + "&out=asc&stream=true&filter=format_time(yyyy'-'MM'-'dd'T'HH':'mm':'ss.S)"
+surl = server + "?" + "catalog=" + catalog + "&dataset=" + dataset + "&parameters=" + parameters + "&start=" + start + "&stop=" + stop + "&out=txt&stream=true"
 print surl
 
 # note the server may provide a valid but html response.
