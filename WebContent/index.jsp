@@ -513,7 +513,7 @@
 		if (debug.equals("true")) {
 			out.println("<b>Response: </b> " + parameterslist);out.flush();
 		}
-		url03 = new URL(xslttransform + "?xml="+catalogthredds+"&xpath=//*[local-name()='dataset'%20and%20@ID='"+dataset+"']//*[local-name()='group']/concat('{value:\"',@*[local-name()='id'],'\",label:\"',@*[local-name()='label'],'\",name:\"',@*[local-name()='name'],'\"},')");
+		url03 = new URL(xslttransform + "?xml="+catalogthredds+"&xpath=//*[local-name()='dataset'%20and%20@ID='"+dataset+"']//*[local-name()='group']/concat('{value:\"',@*[local-name()='elements'],'\",label:\"',@*[local-name()='label'],'\"},')");
 		if (debug.equals("true")) {
 			out.println("<b>Resuesting: </b>" + url03);out.flush();
 		}
