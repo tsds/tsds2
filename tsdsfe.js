@@ -26,24 +26,26 @@ function catalog(options, cb) {
 			var catalogRefs = result["catalog"]["catalogRef"];
 			if (debug) console.log("Found " + catalogRefs.length + " catalogRef nodes.");
 
-			console.log(options)
 			for (var i = 0;i < catalogRefs.length;i++) {
 				resp[i] = {};
 				resp[i].value = catalogRefs[i]["$"]["ID"];
 				resp[i].label = catalogRefs[i]["$"]["name"] || catalogRefs[i]["$"]["ID"];
 				resp[i].href  = catalogRefs[i]["$"]["xlink:href"];
 
-				if (options.catalog.substring(0,1) === "^") {
-					if (!catalogRefs[i]["$"]["ID"].match(options.catalog)) {
-						delete resp[i];
-					}	
-				} else {
-					if (!catalogRefs[i]["$"]["ID"] === options.catalog) {
-						delete resp[i];
+				//console.log(catalogRefs[i]["$"]["ID"])
+				if (options.parameters !== "^.*") {	
+					if (options.catalog.substring(0,1) === "^") {
+						if (!(catalogRefs[i]["$"]["ID"].match(options.catalog))) {
+							delete resp[i];
+						}	
+					} else {
+						if (!(catalogRefs[i]["$"]["ID"] === options.catalog)) {
+							delete resp[i];
+						}
 					}
 				}
+
 			}
-			console.log('Done');
 			
 			if (options.dataset === "") {
 				cb(resp.filter(function(n){return n}));
@@ -56,7 +58,6 @@ function catalog(options, cb) {
 
 function dataset(options,resp,cb) {
 
-	console.log(resp)
 	var parser = new xml2js.Parser();
 	var j = 0;
 	var N = resp.length;
@@ -79,18 +80,22 @@ function dataset(options,resp,cb) {
 					while (parents.length < datasets.length) {parents = parents.concat(parent)}
 
 					if (j == N) {
-						for (var i = 0;i < datasets.length;i++) {
 
+						for (var i = 0;i < datasets.length;i++) {
 							dresp[i]          = {};
 							dresp[i].value    = datasets[i]["$"]["ID"];
 							dresp[i].label    = datasets[i]["$"]["name"] || datasets[i]["$"]["ID"];
 							dresp[i].catalog  = parents[i];
 
-							if (!options.dataset === "^.*") {
+							if (options.dataset !== "^.*") {	
 								if (options.catalog.substring(0,1) === "^") {
-									delete datasets[i];
+									if (!(datasets[i]["$"]["ID"].match(options.dataset))) {
+										delete dresp[i];
+									}	
 								} else {
-									delete datasets[i];
+									if (!(datasets[i]["$"]["ID"] === options.dataset)) {
+										delete dresp[i];
+									}
 								}
 							}
 						}
@@ -119,6 +124,12 @@ function parameter(options,datasets,catalogs,cb) {
 	for (var i = 0;i < datasets.length;i++) {
 		parameters = parameters.concat(datasets[i].variables[0].variable);
 		var parent = datasets[i]["$"];
+
+		var timeCoverage = datasets[i].timeCoverage;
+		if (timeCoverage) {
+			parent.start = timeCoverage[0].Start[0];
+			parent.stop  = timeCoverage[0].End[0];
+		}
 		var cat = catalogs[i];
 		while (parents.length < parameters.length) {
 			parents.push(parent)
@@ -136,22 +147,12 @@ function parameter(options,datasets,catalogs,cb) {
 			resp[i].dataset   = parents[i]["ID"];
 			resp[i].parameter = resp[i].value;
 			resp[i].dd        = parameters[i]["$"];
-			
-			if (!('urltemplate' in resp[i].dd)) {
-				resp[i].dd.urltemplate = parents[i]["urltemplate"];
-			}
-			if (!('timeformat' in resp[i].dd)) {
-				resp[i].dd.timeformat = parents[i]["timeformat"];
-			}
-			if (!('timecolumns' in resp[i].dd)) {
-				resp[i].dd.timecolumns = parents[i]["timecolumns"];
-			}
-			if (!('start' in resp[i].dd)) {
-				resp[i].dd.start = parents[i]["timeCoverage"];
-			}
-			if (!('stop' in resp[i].dd)) {
-				resp[i].dd.stop = parents[i]["timeCoverage"];
-			}
+						
+			if (!('urltemplate' in resp[i].dd)) {resp[i].dd.urltemplate = parents[i]["urltemplate"]}
+			if (!('timeformat' in resp[i].dd)) {resp[i].dd.timeformat = parents[i]["timeformat"]}
+			if (!('timecolumns' in resp[i].dd)) {resp[i].dd.timecolumns = parents[i]["timecolumns"]}
+			if (!('start' in resp[i].dd)) {resp[i].dd.start = parents[i]["start"]}
+			if (!('stop' in resp[i].dd)) {resp[i].dd.stop = parents[i]["stop"]}
 
 			if (options.parameters !== "^.*") {				
 				if (options.parameters.substring(0,1) === "^") {
@@ -173,7 +174,11 @@ function parameter(options,datasets,catalogs,cb) {
 
 function handleRequest(req, res) {
 	var options = parseOptions(req);
-	catalog(options, function (data) {res.send(data)});
+	console.log("Handling " + req.originalUrl)
+	catalog(options, function (data) {
+		res.send(data);
+		if (debug) console.log("Sent response.");
+	});
 }
 
 function parseOptions(req) {
@@ -189,7 +194,6 @@ function parseOptions(req) {
 	options.start      = req.query.start      || req.body.start      || "";
 	options.stop       = req.query.stop       || req.body.stop       || "";
 	
-	console.log(options)
 	return options;
 
 }
