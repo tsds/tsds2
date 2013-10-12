@@ -1,15 +1,31 @@
+var debug   = true;
+
 var fs      = require('fs');
-var http    = require('http'); http.globalAgent.maxSockets = 100;  // Most Apache servers have this set at 100.
 var request = require("request");
 var	express = require('express');
 var	app     = express().use(express.bodyParser());
 var	server  = require("http").createServer(app);
 var qs      = require('querystring');
-var fs      = require('fs');
 var xml2js  = require('xml2js');
 var port    = process.argv[2] || 8004;
+var http    = require('http');
+var url     = require('url');
 
-var debug = true;
+http.globalAgent.maxSockets = 100;  // Most Apache servers have this set at 100.
+
+//var plugin = require('./plugin.js');
+
+line       = "2001 01 02 0233 1 442 3 4 5 6";
+timeformat = "yyyy MM dd HHmm s SSS";
+timecols   = "1,2,3,4,5,6";
+timeformat = "yyyy MM dd";
+timecols   = "1,2,3";
+
+//console.log(plugin.extractLine(line,timeformat,timecols))
+
+app.get('/', function (req, res) {handleRequest(req,res)});server.listen(port);
+
+if (process.argv[3]) {request("http://localhost:"+port+"/?"+process.argv[3], function (error, response, body) {console.log(body)})}
 
 function catalog(options, cb) {
 
@@ -33,7 +49,7 @@ function catalog(options, cb) {
 				resp[i].href  = catalogRefs[i]["$"]["xlink:href"];
 
 				//console.log(catalogRefs[i]["$"]["ID"])
-				if (options.parameters !== "^.*") {	
+				if (options.catalog !== "^.*") {	
 					if (options.catalog.substring(0,1) === "^") {
 						if (!(catalogRefs[i]["$"]["ID"].match(options.catalog))) {
 							delete resp[i];
@@ -46,9 +62,9 @@ function catalog(options, cb) {
 				}
 
 			}
-			
+
 			if (options.dataset === "") {
-				cb(resp.filter(function(n){return n}));
+				cb(200,resp.filter(function(n){return n}));
 			} else {
 				dataset(options,resp.filter(function(n){return n}),cb);
 			}
@@ -76,7 +92,6 @@ function dataset(options,resp,cb) {
 					var tmparr = result["catalog"]["dataset"];
 					datasets = datasets.concat(tmparr);
 					
-					//console.log(datasets)
 					while (parents.length < datasets.length) {parents = parents.concat(parent)}
 
 					if (j == N) {
@@ -88,22 +103,24 @@ function dataset(options,resp,cb) {
 							dresp[i].catalog  = parents[i];
 
 							if (options.dataset !== "^.*") {	
-								if (options.catalog.substring(0,1) === "^") {
+								if (options.dataset.substring(0,1) === "^") {
 									if (!(datasets[i]["$"]["ID"].match(options.dataset))) {
 										delete dresp[i];
+										delete datasets[i];
 									}	
 								} else {
 									if (!(datasets[i]["$"]["ID"] === options.dataset)) {
 										delete dresp[i];
+										delete datasets[i];
 									}
 								}
 							}
 						}
 
 						if (options.parameters === "") {
-							cb(dresp.filter(function(n){return n}));
+							cb(200,dresp.filter(function(n){return n}));
 						} else {
-							parameter(options,datasets,parents,cb);						
+							parameter(options,datasets.filter(function(n){return n}),parents,cb);						
 						}						
 					}
 				})
@@ -156,27 +173,74 @@ function parameter(options,datasets,catalogs,cb) {
 
 			if (options.parameters !== "^.*") {				
 				if (options.parameters.substring(0,1) === "^") {
-					if (!parameters[i]["$"]["id"].match(options.parameters)) {
+					if (!(parameters[i]["$"]["id"].match(options.parameters))) {
 						delete resp[i];
 					}
 				} else  {				
-					if (!parameters[i]["$"]["id"] === options.parameters) {
+					if (!(parameters[i]["$"]["id"] === options.parameters)) {
 						delete resp[i];
 					}
 				}
 			}
-		}							
+		}
+		resp = resp.filter(function(n){return n});
 
-		cb(resp.filter(function(n){return n}));
+		// TODO: Do this for each part of resp.  Concatenate output.
+		if (options.start || options.stop) {
+			start = options.start || resp[0].dd.start;
+			stop  = options.stop  || resp[0].dd.stop;
+			if (Date.parse(options.start) < Date.parse(resp[0].dd.start)) {start = resp[0].dd.start}
+			if (Date.parse(options.stop) > Date.parse(resp[0].dd.stop)) {stop = resp[0].dd.stop}
+			console.log("template="+resp[0].dd.urltemplate+"&timeRange="+start+"/"+stop);
 
+			var dc = "http://localhost:7999/sync/?template="+resp[0].dd.urltemplate+"&timeRange="+start+"/"+stop;
+			console.log(dc)
 
+			if (options.return === "urilist") {
+				cb(0,dc+"&return=urilist");
+			}
+			if (options.return === "urilistflat") {
+				cb(0,dc+"&return=urilistflat");
+			}
+			// If more than one resp, this won't work.
+			if (options.return === "redirect") {
+				cb(302,dc);
+			}
+			if (options.return === "stream") {				 
+				dc = dc+"&return=stream&lineRegExp="+resp[0].dd.lineregex + "&timecolumns="+resp[0].dd.timecolumns+"&timeformat="+resp[0].dd.timeformat+"&lineFormatter=formattedTime&outformat="+options.outformat;
+				cb(0,dc)
+			}
+			// If more than one resp, this won't work.
+			if (options.attach === "true") {
+			}
+		} else {
+			console.log("here")
+			cb(200,resp);
+		}
+		
 }
 
 function handleRequest(req, res) {
 	var options = parseOptions(req);
 	console.log("Handling " + req.originalUrl)
-	catalog(options, function (data) {
-		res.send(data);
+	catalog(options, function (status, data) {
+		if (status == 0) {
+			console.log("Streaming "+data)
+			http.get(url.parse(data), function(res0) {				 
+			    var data = [];
+			    res0.on('data', function(chunk) {
+			        res.write(chunk);
+			    }).on('end', function() {
+			    	res.end();
+			    })
+			}).on('error', function () {
+		    	res.send(502);
+		    });
+		} else if (status == 301) {
+			res.redirect(301,data);
+		} else {
+			res.send(status,data);
+		}
 		if (debug) console.log("Sent response.");
 	});
 }
@@ -188,15 +252,15 @@ function parseOptions(req) {
 	function s2i(str) {return parseInt(str)}
 
 	options.all        = req.query.all        || req.query.body      || "/uploads/all.thredds";
-	options.catalog    = req.query.catalog    || req.body.catalog    || ".*";
+	options.catalog    = req.query.catalog    || req.body.catalog    || "^.*";
 	options.dataset    = req.query.dataset    || req.body.dataset    || "";
 	options.parameters = req.query.parameters || req.body.parameters || "";
 	options.start      = req.query.start      || req.body.start      || "";
 	options.stop       = req.query.stop       || req.body.stop       || "";
+	options.return     = req.query.return     || req.body.return     || "redirect";
+	options.attach     = req.query.attach     || req.body.attach     || "";
+	options.outformat  = req.query.outformat  || req.body.outformat  || "0";
 	
 	return options;
 
 }
-
-app.get('/', function (req, res) {handleRequest(req,res)});
-server.listen(port);
