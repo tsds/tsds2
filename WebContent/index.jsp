@@ -1204,7 +1204,7 @@
 			if (!emsg.equals("false")) {
 				if (archive == true && updateData.equals("true")) {
 					if (debug.equals("true")) {
-						out.println("<b>Errror. One of the granules returned an error.  Responding with 400.</b>");out.flush();
+						out.println("<b>Error. One of the granules returned an error.  Responding with 400.</b>");out.flush();
 					} else {
 						response.sendError(400, "One of the granules returned an error.");
 						return;
