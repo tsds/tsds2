@@ -14,6 +14,7 @@ var url     = require('url');
 http.globalAgent.maxSockets = 100;  // Most Apache servers have this set at 100.
 
 //var plugin = require('./plugin.js');
+var DC = "http://localhost:7999/sync/";
 
 line       = "2001 01 02 0233 1 442 3 4 5 6";
 timeformat = "yyyy MM dd HHmm s SSS";
@@ -22,10 +23,53 @@ timeformat = "yyyy MM dd";
 timecols   = "1,2,3";
 
 //console.log(plugin.extractLine(line,timeformat,timecols))
+app.use("/tsdsfe2/js", express.static(__dirname + "/js"));
+app.use("/tsdsfe2/css", express.static(__dirname + "/css"));
+app.use("/tsdsfe2/scripts", express.static(__dirname + "/scripts"));
+app.use("/js", express.static(__dirname + "/js"));
+app.use("/css", express.static(__dirname + "/css"));
+app.use("/scripts", express.static(__dirname + "/scripts"));
 
-app.get('/', function (req, res) {handleRequest(req,res)});server.listen(port);
+app.get('/tsdsfe.jyds', function (req, res) {
+	if (Object.keys(req.query).length === 0) {
+		res.contentType("text/plain");
+		res.send(fs.readFileSync(__dirname+"/scripts/tsdsfe.jyds"));
+		return;
+	}
+});
 
-if (process.argv[3]) {request("http://localhost:"+port+"/?"+process.argv[3], function (error, response, body) {console.log(body)})}
+app.get('/tsdsfe2/tsdsfe.jyds', function (req, res) {
+	if (Object.keys(req.query).length === 0) {
+		res.contentType("text/plain");
+		res.send(fs.readFileSync(__dirname+"/scripts/tsdsfe.jyds"));
+		return;
+	}
+});
+
+
+app.get('/', function (req, res) {
+	if (Object.keys(req.query).length === 0) {
+		res.contentType("html");
+		res.send(fs.readFileSync(__dirname+"/index.htm"));
+		return;
+	}
+	handleRequest(req,res);
+
+});
+
+app.get('/tsdsfe2', function (req, res) {
+	if (Object.keys(req.query).length === 0) {
+		res.contentType("html");
+		res.send(fs.readFileSync(__dirname+"/index.htm"));
+		return;
+	}
+	handleRequest(req,res);
+
+});
+
+server.listen(port);
+
+if (process.argv[3]) {request("http://localhost:"+port+"/?"+process.argv[3], function (error, response, body) {console.log(body);});}
 
 function catalog(options, cb) {
 
@@ -36,37 +80,56 @@ function catalog(options, cb) {
 	var resp = [];
 
 	var data = fs.readFileSync(fname);
-
+	
 	parser.parseString(data, function (err, result) {
-			//var catalogRefs = JSON.stringify(result["catalog"]["catalogRef"]);
+		console.log(result)
+		//var catalogRefs = JSON.stringify(result["catalog"]["catalogRef"]);
 			var catalogRefs = result["catalog"]["catalogRef"];
 			if (debug) console.log("Found " + catalogRefs.length + " catalogRef nodes.");
 
+			var k = 0;
 			for (var i = 0;i < catalogRefs.length;i++) {
+
 				resp[i] = {};
 				resp[i].value = catalogRefs[i]["$"]["ID"];
 				resp[i].label = catalogRefs[i]["$"]["name"] || catalogRefs[i]["$"]["ID"];
 				resp[i].href  = catalogRefs[i]["$"]["xlink:href"];
 
-				//console.log(catalogRefs[i]["$"]["ID"])
-				if (options.catalog !== "^.*") {	
+				if (options.catalog !== "^.*") {        
 					if (options.catalog.substring(0,1) === "^") {
 						if (!(catalogRefs[i]["$"]["ID"].match(options.catalog))) {
 							delete resp[i];
-						}	
+						}        
 					} else {
 						if (!(catalogRefs[i]["$"]["ID"] === options.catalog)) {
 							delete resp[i];
 						}
 					}
 				}
-
 			}
+			
+			resp = resp.filter(function(n){return n})
 
 			if (options.dataset === "") {
-				cb(200,resp.filter(function(n){return n}));
+				if (resp.length == 1 && options.catalog.substring(0,1) !== "^") {
+					console.log("Fetching " + resp[0].href);
+					request(resp[0].href, function (error, response, body) {
+						if (!error && response.statusCode == 200) {
+							parser.parseString(body, function (err, result) {
+								console.log(result["catalog"]["documentation"]);
+								for (var k = 0; k < result["catalog"]["documentation"].length;k++) {
+									resp[k].title = result["catalog"]["documentation"][k]["$"]["xlink:title"];
+									resp[k].link  = result["catalog"]["documentation"][k]["$"]["xlink:href"];
+								}
+								cb(200,resp);
+							})
+						}
+					})
+				} else {
+					cb(200,resp);
+				}
 			} else {
-				dataset(options,resp.filter(function(n){return n}),cb);
+				dataset(options,resp,cb);
 			}
 		});
 
@@ -112,13 +175,26 @@ function dataset(options,resp,cb) {
 									if (!(datasets[i]["$"]["ID"] === options.dataset)) {
 										delete dresp[i];
 										delete datasets[i];
+									} else {
+										var z = i;
 									}
 								}
 							}
 						}
 
+						console.log(datasets)
 						if (options.parameters === "") {
-							cb(200,dresp.filter(function(n){return n}));
+							dresp = dresp.filter(function(n){return n;});
+							console.log(datasets)
+							if (dresp.length == 1 && options.dataset.substring(0,1) !== "^") {
+								for (var k = 0; k < datasets[z]["documentation"].length;k++) {
+									dresp[k].title = datasets[z]["documentation"][k]["$"]["xlink:title"];
+									dresp[k].link  = datasets[z]["documentation"][k]["$"]["xlink:href"];
+								}
+								cb(200,dresp);
+							} else {
+								cb(200,dresp.filter(function(n){return n}));
+							}
 						} else {
 							parameter(options,datasets.filter(function(n){return n}),parents,cb);						
 						}						
@@ -168,6 +244,7 @@ function parameter(options,datasets,catalogs,cb) {
 			if (!('urltemplate' in resp[i].dd)) {resp[i].dd.urltemplate = parents[i]["urltemplate"]}
 			if (!('timeformat' in resp[i].dd)) {resp[i].dd.timeformat = parents[i]["timeformat"]}
 			if (!('timecolumns' in resp[i].dd)) {resp[i].dd.timecolumns = parents[i]["timecolumns"]}
+			if (!('columns' in resp[i].dd)) {resp[i].dd.columns = parents[i]["columns"]}
 			if (!('start' in resp[i].dd)) {resp[i].dd.start = parents[i]["start"]}
 			if (!('stop' in resp[i].dd)) {resp[i].dd.stop = parents[i]["stop"]}
 
@@ -185,16 +262,26 @@ function parameter(options,datasets,catalogs,cb) {
 		}
 		resp = resp.filter(function(n){return n});
 
+		var columns = resp[0].dd.timecolumns + "," + resp[0].dd.columns;
+		
 		// TODO: Do this for each part of resp.  Concatenate output.
 		if (options.start || options.stop) {
 			start = options.start || resp[0].dd.start;
 			stop  = options.stop  || resp[0].dd.stop;
 			if (Date.parse(options.start) < Date.parse(resp[0].dd.start)) {start = resp[0].dd.start}
 			if (Date.parse(options.stop) > Date.parse(resp[0].dd.stop)) {stop = resp[0].dd.stop}
-			console.log("template="+resp[0].dd.urltemplate+"&timeRange="+start+"/"+stop);
+			//console.log("template="+resp[0].dd.urltemplate+"&timeRange="+start+"/"+stop);
 
-			var dc = "http://localhost:7999/sync/?template="+resp[0].dd.urltemplate+"&timeRange="+start+"/"+stop;
-			console.log(dc)
+			var urltemplate = url.parse(resp[0].dd.urltemplate,true);
+			//console.log(urltemplate)
+			console.log(options)
+			if (urltemplate.query.plugin) {
+				args = "plugin="+urltemplate.query.plugin;
+			}
+			if (urltemplate.query.source) {
+				args = args + "&template="+urltemplate.query.source;
+			}
+			var dc = DC+"?"+args+"&timeRange="+start+"/"+stop;
 
 			if (options.return === "urilist") {
 				cb(0,dc+"&return=urilist");
@@ -206,8 +293,29 @@ function parameter(options,datasets,catalogs,cb) {
 			if (options.return === "redirect") {
 				cb(302,dc);
 			}
+			// If more than one resp, this won't work.
+			if (options.return === "jyds") {
+				cb(0,"http://localhost:"+port+"/tsdsfe.jyds");
+			}
+			// If more than one resp, this won't work.
+			if (options.return === "dd") {
+				cb(0,JSON.stringify(resp[0].dd));
+			}
+
 			if (options.return === "stream") {				 
-				dc = dc+"&return=stream&lineRegExp="+resp[0].dd.lineregex + "&timecolumns="+resp[0].dd.timecolumns+"&timeformat="+resp[0].dd.timeformat+"&lineFormatter=formattedTime&outformat="+options.outformat;
+				dc = dc+"&forceUpdate=true&forceWrite=true&return=stream"
+					+"&lineRegExp="+ resp[0].dd.lineregex
+					+"&timecolumns="+resp[0].dd.timecolumns
+					+"&timeformat="+resp[0].dd.timeformat
+					+"&streamFilterReadColumns="+columns
+					+"&lineFormatter=formattedTime&outformat="+options.outformat
+					+"&streamFilterComputeFunction="+options.filter
+					+"&streamFilterComputeWindow="+options.filterWindow
+					+"&streamOrder=true"
+					;
+				
+				//dc = dc+"&return=stream&lineRegExp="+resp[0].dd.lineregex + "&timecolumns="+resp[0].dd.timecolumns+"&timeformat="+resp[0].dd.timeformat+"&streamFilterReadColumns="+columns+"&lineFormatter=formattedTime&outformat="+options.outformat;
+				console.log(dc)
 				cb(0,dc)
 			}
 			// If more than one resp, this won't work.
@@ -225,7 +333,12 @@ function handleRequest(req, res) {
 	console.log("Handling " + req.originalUrl)
 	catalog(options, function (status, data) {
 		if (status == 0) {
-			console.log("Streaming "+data)
+			if (!data.match(/^http/)) {
+				console.log("Sending "+data)				
+				res.send(data);
+				return;
+			}
+			console.log("Streaming from "+data)
 			http.get(url.parse(data), function(res0) {				 
 			    var data = [];
 			    res0.on('data', function(chunk) {
@@ -257,9 +370,11 @@ function parseOptions(req) {
 	options.parameters = req.query.parameters || req.body.parameters || "";
 	options.start      = req.query.start      || req.body.start      || "";
 	options.stop       = req.query.stop       || req.body.stop       || "";
-	options.return     = req.query.return     || req.body.return     || "redirect";
+	options.return     = req.query.return     || req.body.return     || "stream";
 	options.attach     = req.query.attach     || req.body.attach     || "";
 	options.outformat  = req.query.outformat  || req.body.outformat  || "0";
+	options.filter     = req.query.filter     || req.body.filter     || "";
+	options.filterWindow = req.query.filterWindow     || req.body.filterWindow     || "0";
 	
 	return options;
 
