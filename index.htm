@@ -17,8 +17,8 @@
 		
 		<script type="text/javascript" src="js/dropdown2.js"></script>
 		<script>
-			TSDSFE = "http://tsds.org/get2/";
-			//TSDSFE = "http://localhost:8004/";
+			//TSDSFE = "http://tsds.org/get2/";
+			TSDSFE = "http://localhost:8004/";
 			function tsdsfeajax(i,url) {
 				url = TSDSFE + url;
 				$('#status').show();
@@ -369,7 +369,7 @@
 				while (i < Ndays) {
 					turl = "?catalog="+selected('catalog')+"&dataset="+selected('dataset')+"&parameters="+selected('parameters')+"&start="+START_date.toString('yyyy-MM-dd')+"&stop="+STOP_date.toString('yyyy-MM-dd');
 					// Need to use script from tomcat directory because autoplot wants directory listing.
-					url = TSDSFE + "/tsdsfe.jyds?catalog="+selected('catalog')+"&dataset="+selected('dataset')+"&parameters="+selected('parameters')+"&timerange="+START_date.toString('yyyy-MM-dd')+"&fill="+fills+"&labels="+labels;				
+					url = TSDSFE + "tsdsfe.jyds?server="+TSDSFE+"&catalog="+selected('catalog')+"&dataset="+selected('dataset')+"&parameters="+selected('parameters')+"&timerange="+START_date.toString('yyyy-MM-dd')+"&fill="+fills+"&labels="+labels;				
 					var aurl = "http://autoplot.org/plot/SimpleServlet?&drawGrid=true&plot.xaxis.drawTickLabels=true&width=800&height=200&url=vap+jyds:" + encodeURIComponent(url);
 					START_date.addDays(1);
 					STOP_date.addDays(1);

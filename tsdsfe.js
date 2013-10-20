@@ -26,9 +26,11 @@ timecols   = "1,2,3";
 app.use("/tsdsfe2/js", express.static(__dirname + "/js"));
 app.use("/tsdsfe2/css", express.static(__dirname + "/css"));
 app.use("/tsdsfe2/scripts", express.static(__dirname + "/scripts"));
+app.use("/tsdsfe2/uploads", express.static(__dirname + "/uploads"));
 app.use("/js", express.static(__dirname + "/js"));
 app.use("/css", express.static(__dirname + "/css"));
 app.use("/scripts", express.static(__dirname + "/scripts"));
+app.use("/uploads", express.static(__dirname + "/uploads"));
 
 app.get('/tsdsfe.jyds', function (req, res) {
 	if (Object.keys(req.query).length === 0) {
@@ -123,6 +125,8 @@ function catalog(options, cb) {
 								}
 								cb(200,resp);
 							})
+						} else {
+							console.log("error")
 						}
 					})
 				} else {
@@ -330,7 +334,20 @@ function parameter(options,datasets,catalogs,cb) {
 
 function handleRequest(req, res) {
 	var options = parseOptions(req);
-	console.log("Handling " + req.originalUrl)
+
+	console.log("Handling " + req.originalUrl);
+	if (options.catalog.split(",").length > 1) {
+		//console.log(options.catalog.split(",")[0]);
+		//xreq.query = options.query;
+		//xreq.query.catalog = options.catalog.split(",")[0];
+		//xreq.query.dataset = options.dataset.split(",")[0];
+		//xreq.query.parameters = options.parameters.split(",")[0];
+		//xreq.query.start = options.start.split(",")[0];
+		//xreq.query.stop = options.stop.split(",")[0];
+		// for (var i=0;i<options.catalog.split(",")[0];i++) handleRequest(xreq,res);
+		//return;
+	}
+		
 	catalog(options, function (status, data) {
 		if (status == 0) {
 			if (!data.match(/^http/)) {

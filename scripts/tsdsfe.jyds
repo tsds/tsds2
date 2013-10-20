@@ -1,3 +1,4 @@
+###################################################
 # title: tsds client
 # label: tsds client
 tr         = getParam( 'timerange', '1997-08-26//1997-09-05', 'timerange to load' )
@@ -42,12 +43,12 @@ try:
    from org.das2.datum import EnumerationUnits
    from org.virbo.dataset import DDataSet
    if ( 1 ):
-      ll= line1.split(' ') 
+      ll= labels.split(',') 
       eu= EnumerationUnits.create('default')
-      lenll= len(ll)-1
+      lenll= len(ll) 
       llds= DDataSet.createRank1(lenll)
       for i in xrange(lenll):
-         llds[i]= eu.createDatum( ll[i+1] ).doubleValue(eu)
+         llds[i]= eu.createDatum( ll[i] ).doubleValue(eu)
       llds.putProperty( QDataSet.UNITS, eu )
       result= getDataSet( 'vap+dat:file://'+f.toString()+'?bundle=1:&depend0=field0' )
       result.putProperty( QDataSet.DEPEND_1, llds )
@@ -63,4 +64,3 @@ except org.virbo.datasource.HtmlResponseIOException,ex:
    #raise java.io.FileNotFoundException('Data Set is Empty')
 except java.lang.IllegalArgumentException, ex:
    raise org.das2.dataset.NoDataInIntervalException('No data in interval')
-
