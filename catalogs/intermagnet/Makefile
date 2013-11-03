@@ -7,8 +7,16 @@ URL=http://mag.gmu.edu/tsds/catalogs/raw/$(RAW)
 DIR_AUTOPLOT=/var/www/autoplot/bookmarks
 DIR_TSDS=/var/www/tsds/catalogs
 
-all: $(CAT).thredds
+all: $(CAT).thredds update
 
+update:
+	node update.js 0 PT1M
+	node update.js 0 PT1S
+
+mirror:
+	node mirror.js 0 PT1M
+	node mirror.js 0 PT1S
+	
 #TODO.  Also create thredds.
 $(CAT).json:
 	node app.js "json" > $(CAT).json

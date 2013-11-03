@@ -1,2 +1,0 @@
-# This log contains the list of files requested
-# Date of the request : 2013-10-29 01:51:55 UT
