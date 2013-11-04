@@ -1,0 +1,39 @@
+<catalog xmlns:xlink="http://www.w3.org/1999/xlink" id="SuperMAG" name="SuperMAG">
+<documentation xlink:href="http://mag.gmu.edu/catalogs/SuperMAG.txt" xlink:title="Catalog based on http://mag.gmu.edu/catalogs/SuperMAG.txt"/>
+<service name="tss" serviceType="OpenDAP" base="http://tsds.org/tsds/SuperMAG"/>
+
+<dataset name="Baker Lake" ID="BLC" urltemplate="http://supermag.jhuapl.edu/script/download.mag?cli=weigel+$Y$m$d+00%3A00+24%3A00+-s+BLC+-delta%20none+-baseline+all+-imfgsm" timeformat="yyyy MM dd HH mm ss" timecolumns="1,2,3,4,5,6" urlprocessor="supermag" datareader="lasp.tss.iosp.ColumnarAsciiReader">
+<documentation xlink:href="http://supermag.jhuapl.edu/info/coordinates.html" xlink:title="Coordinate system information"/>
+<access serviceName="tss" urlPath="BLC"/>
+<access serviceName="ncml" urlPath="BLC"/>
+<timeCoverage>
+<Start>1980-01-01</Start>
+<End>1980-01-10</End>
+</timeCoverage>
+<groups>
+<group/>
+</groups>
+<variables>
+<variable id="N" name="B_North GEO" label="B_North GEO" units="nT" type="scalar" fillvalue="999999" format="%d" columns="7" lineregex=""/>
+<variable id="E" name="B_East GEO" label="B_East GEO" units="nT" type="scalar" fillvalue="999999" format="%d" columns="8" lineregex=""/>
+<variable id="Z" name="B_Vertical GEO" label="B_Vertical GEO" units="nT" type="scalar" fillvalue="999999" format="%d" columns="9" lineregex=""/>
+</variables>
+</dataset>
+<dataset name="College" ID="CMO" urltemplate="http://supermag.jhuapl.edu/script/download.mag?cli=weigel+$Y$m$d+00%3A00+24%3A00+-s+CMO+-delta%20none+-baseline+all+-imfgsm" timeformat="yyyy MM dd HH mm ss" timecolumns="1,2,3,4,5,6" urlprocessor="supermag" datareader="lasp.tss.iosp.ColumnarAsciiReader">
+<documentation xlink:href="http://supermag.jhuapl.edu/info/coordinates.html" xlink:title="Coordinate system information"/>
+<access serviceName="tss" urlPath="CMO"/>
+<access serviceName="ncml" urlPath="CMO"/>
+<timeCoverage>
+<Start>1980-01-01</Start>
+<End>1980-01-10</End>
+</timeCoverage>
+<groups>
+<group/>
+</groups>
+<variables>
+<variable id="N" name="B_North GEO" label="B_North GEO" units="nT" type="scalar" fillvalue="999999" format="%d" columns="7" lineregex=""/>
+<variable id="E" name="B_East GEO" label="B_East GEO" units="nT" type="scalar" fillvalue="999999" format="%d" columns="8" lineregex=""/>
+<variable id="Z" name="B_Vertical GEO" label="B_Vertical GEO" units="nT" type="scalar" fillvalue="999999" format="%d" columns="8" lineregex=""/>
+</variables>
+</dataset>
+</catalog>
