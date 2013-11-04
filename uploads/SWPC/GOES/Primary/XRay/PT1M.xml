@@ -7,11 +7,12 @@
 						<access serviceName="tss" urlPath="Gp_xr"/>
 						<access serviceName="ncml" urlPath="Gp_xr"/>
 						<timeCoverage>
-							<Start>2013-06-30</Start>
-							<End>2013-09-04</End>
+							<Start>-P2M</Start>
+							<End>P1D</End>
 						</timeCoverage>
 						<groups>
 							<group/>
 						</groups>
-						<variables><variable id="Short" name="Xray flux; 0.05-0.4 nanometer" label="Xray flux; 0.05-0.4 nanometer" units="W/m^2" type="scalar" fillvalue="-1.00e+05" format="%.2e" columns="7" lineregex="^[0-9]"/><variable id="Long" name="Xray flux; 0.1-0.8 nanometer" label="Xray flux; 0.1-0.8 nanometer" units="W/m^2" type="scalar" fillvalue="-1.00e+05" format="%.2e" columns="8" lineregex="^[0-9]"/></variables>
+						<variables><variable id="Short" name="Xray flux; 0.05-0.4 nanometer" label="Xray flux; 0.05-0.4 nanometer" units="W/m^2" type="scalar" fillvalue="-1.00e+05" format="%.2e" columns="7" lineregex="^[0-9]"/>
+						<variable id="Long" name="Xray flux; 0.1-0.8 nanometer" label="Xray flux; 0.1-0.8 nanometer" units="W/m^2" type="scalar" fillvalue="-1.00e+05" format="%.2e" columns="8" lineregex="^[0-9]"/></variables>
 				</dataset></catalog>

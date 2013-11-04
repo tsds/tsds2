@@ -7,8 +7,8 @@
 						<access serviceName="tss" urlPath="AK"/>
 						<access serviceName="ncml" urlPath="AK"/>
 						<timeCoverage>
-							<Start>2013-08-18</Start>
-							<End>2013-08-19</End>
+							<Start>-PT2D</Start>
+							<End>PT0D</End>
 						</timeCoverage>
 						<groups>
 							<group/>

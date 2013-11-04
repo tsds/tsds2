@@ -9,10 +9,11 @@ start      = getParam( 'start', '1997-08-26', 'start' )
 stop       = getParam( 'stop', '1997-09-01', 'stop' )
 server     = getParam( 'server', 'http://tsds.org/get2/' )
 units      = getParam( 'units', 'R_E' )
+usecache   = getParam( 'usecache', 'true' )
 labels     = getParam( 'labels', '' )
 title      = getParam( 'title', 'def' )
-fill       = getParam( 'fill', '-1e31')
-fill       = float(fill)
+fills      = getParam( 'fills', '-1e31')
+fills      = float(fills)
 
 if ( title=='def' ):
   title= 'catalog: ' + catalog + ' | dataset: ' + dataset #+ ' | parameters: ' + parameters
@@ -24,7 +25,7 @@ drtr  = DatumRangeUtil.parseTimeRange(tr)
 start = tf.format( drtr.min(), None )
 stop  = tf.format( drtr.max(), None )
 
-surl = server + "?" + "catalog=" + catalog + "&dataset=" + dataset + "&parameters=" + parameters + "&start=" + start + "&stop=" + stop + "&out=txt&stream=true"
+surl = server + "?" + "catalog=" + catalog + "&dataset=" + dataset + "&parameters=" + parameters + "&start=" + start + "&stop=" + stop + "&outformat=1&stream=true&usecache="+usecache
 print surl
 
 # note the server may provide a valid but html response.
@@ -55,7 +56,7 @@ try:
    else:
       result= getDataSet( 'vap+dat:file://'+f.toString() )
    result.putProperty( QDataSet.TITLE, title )
-   result.putProperty( QDataSet.FILL_VALUE, fill )   
+   result.putProperty( QDataSet.FILL_VALUE, fills )   
    result.putProperty( QDataSet.UNITS, SemanticOps.lookupUnits(units) )
    result.putProperty( QDataSet.LABEL, labels )
 

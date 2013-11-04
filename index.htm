@@ -14,11 +14,12 @@
 		<script type="text/javascript" src="js/deps/jquery.query-2.1.3.js"></script>
 		<script type="text/javascript" src="js/deps/jquery.ba-hashchange-1.3.js"></script>
 		<script type="text/javascript" src="js/jquery.scrollTo-min.js"></script>
-		
+		<script type="text/javascript" src="http://tsds.org/et/lib/expandtemplate.js"></script>
 		<script type="text/javascript" src="js/dropdown2.js"></script>
 		<script>
 			//TSDSFE = "http://tsds.org/get2/";
-			TSDSFE = "http://localhost:8004/";
+			TSDSFE = location.href.split("#")[0];
+			AUTOPLOT = "http://autoplot.org/plot/dev/SimpleServlet"
 			function tsdsfeajax(i,url) {
 				url = TSDSFE + url;
 				$('#status').show();
@@ -38,8 +39,8 @@
 						} else {			
 							eval("ret=" + data);
 						}
-						$('#status').html("Received <a target='_blank' href='" + url + "'>"+url+"</a>");
-						//setTimeout(function () {$('#status').html("")}, 1000);
+						$('#status').html("Received <a target='_blank' href='" + url + "'>"+url.replace("&para","&#38;para")+"</a>");
+						setTimeout(function () {$('#status').html("")}, 3000);
 					},
 					error: function (xhr, textStatus, errorThrown) {
 						$('#status'+i).text('x');
@@ -50,10 +51,8 @@
 			}
 			
 			function getdas(attr) {
-				var START_date = Date.parse(selected('start'));
-				var STOP_date  = Date.parse(selected('start')).addDays(1);
 				
-				turl = "?catalog="+selected('catalog')+"&dataset="+selected('dataset')+"&parameters="+selected('parameters')+"&start="+START_date.toString('yyyy-MM-dd')+"&stop="+STOP_date.toString('yyyy-MM-dd')+"&return=dd";
+				turl = "?catalog="+selected('catalog')+"&dataset="+selected('dataset')+"&parameters="+selected('parameters')+"&return=dd";
 				console.log("getdas: requesting " + turl);
 				
 				$.ajax({
@@ -88,35 +87,38 @@
 					
 				return $("span[name='"+name+"']").attr('value');
 			}
+
+			function hidedivs() {
+				$('#datasetinfo').html("");$('#parameterinfo').html("");$('#outputinfo').hide();$('#datadiv').hide();$('#previewimgdiv').hide();$('#overviewdiv').hide();
+			}
 			
 			function catalogs(i) {
 				catalogs.onselect = function () {
 					//$('#status').text('Retrieving dataset list');
 					info = tsdsfeajax(i,"?catalog="+selected('catalog'));
-					$('#cataloginfo').html("<b>Catalog information:</b>");
-					$('#datasetinfo').html("");
-					$('#parameterinfo').html("");
-					$('#outputinfo').hide();
-					$('#dldiv').hide();
-					$('#previewdatadiv').hide();
-					$('#previewimgdiv').hide();
-					$('#debugdiv').hide();
-					$('#dllinkdiv').hide();
-					$('#cataloginfo').show();
-					$('#overviewdiv').hide();
-					
-					$('#cataloginfo').append('<ul style="list-style-position: outside;">');
-					for (j = 0;j < info.length;j++) {
-						console.log("info:" + info[j].title);
-						if (!(info[j].title === "") && !(info[j].link === "")) {
-							$('#cataloginfo ul').append('<li style=""><a href="'+info[j].link+'">'+info[j].title+'</a></li>');
-						} else if ((info[j].title === "") && !(info[j].link === "")) {
-							$('#catalogtinfo ul').append('<li style=""><a href="'+info[j].link+'">'+info[j].link+'</a></li>');
-						} 
+					catalog.info = info;
+					$('#cataloginfo').html("<b>Catalog information:</b>");					
+
+					$('#cataloginfo').append('<ul style="list-style-position: outside;">');					
+					if (info.length > 0) {
+						for (j = 0;j < info.length;j++) {
+							console.log("info:" + info[j].title);
+							if (!(info[j].title === "") && !(info[j].link === "")) {
+								$('#cataloginfo ul').append('<li style=""><a href="'+info[j].link+'">'+info[j].title+'</a></li>');
+							} else if ((info[j].title === "") && !(info[j].link === "")) {
+								$('#catalogtinfo ul').append('<li style=""><a href="'+info[j].link+'">'+info[j].link+'</a></li>');
+							} 
+						}
+					} else {
+						$('#cataloginfo ul').append('<li style="">Catalog <b>' + selected("catalog") + '</b> was not found in <a href="' + TSDSFE + '?catalogs=^.*">catalog list</a></li>');
 					}
+					$('#catalogtinfo ul').append('</ul>');
+
 					//window.location.hash="catalog="+selected('catalog');
 					//updatehash(i,"catalog");	
-					
+
+					$('#cataloginfo').show();
+					hidedivs();
 				};
 						
 				return tsdsfeajax(i,"?catalog=^.*");
@@ -125,16 +127,28 @@
 			function datasets(i) {
 				datasets.onselect = function () {
 					info = tsdsfeajax(i,"?catalog="+selected('catalog')+"&dataset="+selected('dataset'));
+					datasets.info = info;
 					$('#datasetinfo').html("<b>Dataset documentation:</b>")
 					$('#datasetinfo').show();					
 					$('#datasetinfo').append('<ul style="list-style-position: outside;">');
-					for (j = 0;j < info.length;j++) {
-						if (!(info[j].title === "") && !(info[j].link === "")) {
-							$('#datasetinfo ul').append('<li style=""><a href="'+info[j].link+'">'+info[j].title+'</a></li>');
-						} else if ((info[j].title === "") && !(info[j].link === "")) {
-							$('#datasetinfo ul').append('<li style=""><a href="'+info[j].link+'">'+info[j].link+'</a></li>');
+					if (info.length > 0) {
+						for (j = 0;j < info.length;j++) {
+							if (!(info[j].title === "") && !(info[j].link === "")) {
+								$('#datasetinfo ul').append('<li style=""><a href="'+info[j].link+'">'+info[j].title+'</a></li>');
+							} else if ((info[j].title === "") && !(info[j].link === "")) {
+								$('#datasetinfo ul').append('<li style=""><a href="'+info[j].link+'">'+info[j].link+'</a></li>');
+							}
+						}
+					} else {
+						if (catalog.info.length > 0) { 
+							$('#datasetinfo ul').append('<li style="">Dataset <b>' + selected("dataset") + '</b> was not found in <a href="' + TSDSFE + '?catalog='+selected('catalog')+'&dataset=^.*">catalog list</a></li>');
+						} else {
+							$('#datasetinfo').hide();
 						}
 					}
+					$('#datasetinfo ul').append('</ul>');
+					$('#parameterinfo').html("");$('#outputinfo').hide();$('#datadiv').hide();$('#previewimgdiv').hide();$('#overviewdiv').hide();
+					
 					//updatehash(i,"dataset");	
 				};
 				list = tsdsfeajax(i,"?catalog="+selected('catalog')+"&dataset=^.*");
@@ -167,31 +181,37 @@
 			function starttime(i) {
 				starttime.onselect = function () {
 					//updatehash(i,"start");
+					$('#datadiv').hide();	$('#outputinfo').hide();
 				};
 
 				info = tsdsfeajax(i,"?catalog="+selected('catalog')+"&dataset="+selected('dataset')+"&parameters="+selected('parameters'));
 				var list = [];
 				list[0] = {};
-				list[0].label = info[0].dd.start;
-				list[0].value = info[0].dd.start;
+
+				list[0].label = "-P3D";
+				list[0].value = "-P3D";
 				
+				//list[0].label = info[0].dd.start;
+				//list[0].value = info[0].dd.start;
+
 				return list;
 			}
 			
 			function stoptime(i) {
 				stoptime.onselect = function () {
-					//updatehash(i,"stop");
-					//$("#outputinfo").show();
 					preview();
-					
+					$('#datadiv').hide();	$('#outputinfo').hide();				
 				}
+
 				// No need to do this again ...
 				info = tsdsfeajax(i,"?catalog="+selected('catalog')+"&dataset="+selected('dataset')+"&parameters="+selected('parameters'));
 				var list = [];
 				list[0] = {};
-				
-				list[0].label = Date.parse(selected('start')).addDays(1).toISOString().substring(0,10);
-				list[0].value = Date.parse(selected('start')).addDays(1).toISOString().substring(0,10);
+
+				console.log(selected('start'))
+
+				list[0].label = info[0].dd.stop;
+				list[0].value = info[0].dd.stop;
 				
 				return list;
 			}
@@ -202,27 +222,29 @@
 					console.log('parameters selected');
 					console.log(parameters.list);
 					// http://stackoverflow.com/questions/5579678/jquery-how-to-find-an-object-by-attribute-in-an-array
-					var findparameter = function() {
-						var sel = selected('parameters');
-					    for (var i = 0, len = parameters.list.length; i < len; i++) {
-					        if (parameters.list[i]["value"] === sel && parameters.list[i]["label"] !== sel)
-					            return parameters.list[i]["label"];
 
-					    }
+					$('#datadiv').hide();					
+					var das = getdas();
 
-					    return ""; // The object was not found
 
-					}
-
-					var info = findparameter();
-					$('#parameterinfo').html("<b>Parameter label:</b>")
+					$('#parameterinfo').html("<b>Parameter information:</b>")
 					$('#parameterinfo').show();					
 					$('#parameterinfo').append('<ul style="list-style-position: outside;">');
-					if (info === "") {
-						$('#parameterinfo ul').append('<li style="">No parameter label in catalog.</li>');
+
+					if (das.length > 0) {
+						var range = das[0].dd.start + " through " + das[0].dd.stop;
+						var fills  = das[0].dd.fillvalue;
+						var units  = das[0].dd.units;
+						var labels = das[0].dd.label;	
+						$('#parameterinfo ul').append('<li style="">Labels: '+labels+'</li>');
+						$('#parameterinfo ul').append('<li style="">Units: ' +units+'</li>');
+						$('#parameterinfo ul').append('<li style="">Fills: ' +fills+'</li>');
+						$('#parameterinfo ul').append('<li style="">Availability: ' +range+'</li>');
 					} else {
-						$('#parameterinfo ul').append('<li style="">'+info+'</li>');
-					}				
+						$('#parameterinfo ul').append('<li style="">Parameter <b>' + selected("parameters") + '</b> was not found in <a href="' + TSDSFE + '?catalog='+selected('catalog')+'&dataset='+selected('dataset')+'&parameters=^.*">dataset list</a></li>');
+						
+					}
+					$('#parameterinfo').append('</ul>');				
 					//updatehash(i,"parameters");
 				};
 
@@ -253,7 +275,17 @@
 			function preview() {
 				$('#outputinfo').show();
 				$('#dldiv').hide();
-				show1pdplots();
+				//location.hash = location.hash.replace("&outformat=0","");
+				if (!$("#usecache").is(":checked") && !location.hash.match("usecache=false")) {
+					location.hash = location.hash + "&usecache=false";
+				}  
+				
+				if (!$("#previewimgcheckbox").is(":checked") && !location.hash.match("preview=false")) {
+					location.hash = location.hash + "&preview=false";
+				} else {
+					show1pdplots();
+				}  
+				
 			}
 
 			function triggerselect() {
@@ -261,9 +293,23 @@
 				if (location.hash !== "") {
 					qs = $.parseQueryString();
 					console.log("Initial query string");
+					console.log(qs);
+					if (false) {
+						var ids = ["catalog","dataset","parameters","start","stop","outformat"];
+						for (var i=0;ids.length;i++) {
+							if (typeof(qs[ids[i]]) !== "undefined") {
+								console.log(qs[ids[i]]) 
+								if ($("#"+id).length > 0) {
+									$("#"+id).val(qs[ids[i]]).data("autocomplete")._trigger("select",event,{item:qs[ids[i]]})
+								}
+							}
+						}
+					}					
+					if (true) {
 					for (var id in qs) {
 						console.log("id="+id);
 						$("#"+id).val(qs[id]).data("autocomplete")._trigger("select",event,{item:qs[id]});
+					}
 					}
 				}
 			}				
@@ -272,13 +318,16 @@
 				var list = new Array();
 				list[0] = {label:"SSCWeb",value:"sscweb",url:"catalog=sscweb&dataset=ace&parameters=X_GEI,Y_GEI,Z_GEI&start=1997-08-26&stop=1997-09-05"};
 				list[1] = {label:"CDAWeb",value:"cdaweb",url:"catalog=cdaweb&dataset=A1_K0_MPA&parameters=dens_lop&start=2001-08-31&stop=2001-09-10"};
-				list[2] = {label:"SuperMAG",value:"supermag",url:"catalog=supermag&dataset=AAA&parameters=B_N,B_E,B_Z&start=2008-01-01&stop=2008-01-11"};
+				list[2] = {label:"SuperMAG",value:"supermag",url:"catalog=supermag&dataset=BLC&parameters=N&start=-PT3D&stop=1980-01-10"};
 				list[3] = {label:"SPIDR",value:"spidr",url:"catalog=spidr&dataset=amie_ae&parameters=amie_ae&version=0&start=1991-01-01&stop=1991-01-11"};
-				list[4] = {label:"USGS 1-minute",value:"usgs1m",url:"catalog=USGS/RT/PT1M&dataset=BRW&start=2013-05-02&stop=2013-05-05&parameters=H"};
-				list[5] = {label:"USGS 1-second",value:"usgs1s",url:"catalog=USGS/RT/PT1S&dataset=BRW&start=2013-05-02&stop=2013-05-05&parameters=H"};
-				list[6] = {label:"ISIS-2",value:"ISIS-2",url:"catalog=NSSDC/ISIS-2&dataset=CEP&start=1971-04-14&stop=1971-04-16&parameters=L_value"};
-				list[7] = {label:"TSX-5",value:"TSX-5",url:"catalog=ViRBO/TSX-5/EPHX&dataset=ephx&start=2000-08-15&stop=2000-08-17&parameters=PitchAngle"};
-				list[8] = {label:"Linkcheck",value:"Linkcheck",url:"catalog=Autoplot/Linkcheck&dataset=1&start=2012-12-07&stop=2012-12-09&parameters=ResponseTime"};
+				list[4] = {label:"USGS 1-minute",value:"usgs1m",url:"catalog=USGS/RT/PT1M&dataset=BRW&parameters=H&start=2013-05-02&stop=2013-05-05"};
+				list[5] = {label:"USGS 1-second",value:"usgs1s",url:"catalog=USGS/RT/PT1S&dataset=BRW&parameters=H&start=2013-05-02&stop=2013-05-05"};
+				list[6] = {label:"SWPC AK/2DayFile",value:"SWPC AK/2DayFile",url:"catalog=SWPC/AK/2DayFile&dataset=AK&parameters=BoulderK&start=-PT2D&stop=PT0D&outformat=0"};
+				list[7] = {label:"SWPC AK",value:"SWPC AK",url:"catalog=SWPC/AK&dataset=AK&parameters=BoulderK&start=-PT5D&stop=-PT2D&outformat=0"};
+				list[8] = {label:"Linkcheck",value:"Linkcheck",url:"catalog=Autoplot/Linkcheck&dataset=1&parameters=ResponseTime&start=2012-12-07&stop=2012-12-09"};
+
+				//list[6] = {label:"ISIS-2",value:"ISIS-2",url:"catalog=NSSDC/ISIS-2&dataset=CEP&parameters=L_value&start=1971-04-14&stop=1971-04-16"};
+				//list[7] = {label:"TSX-5",value:"TSX-5",url:"catalog=ViRBO/TSX-5/EPHX&dataset=ephx&parameters=PitchAngle&start=2000-08-15&stop=2000-08-17"};
 				//				list[5] = {label:"ISIS-1",value:"ISIS-1",url:"catalog=NSSDC/ISIS-1&dataset=CEP&start=1969-01-30&stop=1969-02-19&parameters=Altitude"};
 
 				
@@ -303,7 +352,8 @@
 				return list;
 			}
 
-			function imgloaded() {
+			function imgloaded(i) {
+				$('i').attr('id',i).hide();
 				imgloaded.loaded = imgloaded.loaded + 1;
 				$('#status').text(imgloaded.loaded + ' of ' + imgloaded.Ndays + ' images loaded ');
 				if (imgloaded.loaded = imgloaded.Ndays) {
@@ -313,79 +363,81 @@
 
 			function viewdata(id) {
 				var src = $("iframe[id="+id+"]").attr("data");
-				$("a[id="+id+"]").attr("href",TSDSFE+src);
-				$("a[id="+id+"]").text(TSDSFE+src);
+				$($("a[id="+id+"]")[1]).attr("href",TSDSFE+src);
+				$($("a[id="+id+"]")[1]).text(TSDSFE+src);
 
 				$("iframe[id="+id+"]").attr("src",src).show();
 				//$.scrollTo($("iframe[id="+id+"]"));
 			}
+			function imgclicked(i) {
+				window.location =$("a[id="+i+"]").attr('href');
+			}
 
 			function show1pdplots() {
 
-				var START_ms   = new Date(Date.parse( selected('start')));
-				var STOP_ms    = new Date(Date.parse( selected('stop')));
-				var Ndays      = Math.round((STOP_ms.valueOf()-START_ms.valueOf())/(1000*24*60*60));
-				var START_date = Date.parse(selected('start'));
-				var STOP_date  = Date.parse(selected('start')).addDays(1);
+				var timeRange  = expandISO8601Duration(selected('start')+"/"+selected('stop'));
+				var START_date = new Date(timeRange.split("/")[0]);
+				var STOP_date  = new Date(timeRange.split("/")[1]);
+				var START_ms   = START_date.getTime();
+				var STOP_ms    = STOP_date.getTime();
+				var Ndays      = Math.round((STOP_ms-START_ms)/(1000*24*60*60));
 
 				$('#status').text('Requesting parameter metadata.');
 				das = getdas();
+				console.log("das");
 				console.log(das);
 				
 				Units = new Array();
 				Fills = new Array();
 				k = 0;
 
-				Fills[0] = das.fillvalue;
-				Units[0] = das.units;
-				labels   = das.label;
-				
-				console.log(Fills);
 				// For now assume all parameters have same units.
 				// When tsdsfe.jyds and servlet understand http://tsds.org/dd, will use that notation.				
-				if (Units.length > 1) {
-					units = Units[1];
-				} else {
-					units = '';
-				}
-				if (Fills.length > 0) {
-					fills = "" + Fills[0]; // Convert to string type if needed.
-				} else {
-					fills = '-1e31';
-				}
-
+				
+				fills  = das[0].dd.fillvalue;
+				units  = das[0].dd.units;
+				labels = das[0].dd.label;
 				fills.replace("e+","e"); // So no need to decode fill value.
-				
-				console.log(typeof(fills))
-				
-				$('#status').text('Requesting ' + Ndays + ' images');
+
+				if (Ndays == 1) {
+					$('#status').text('Requesting 1 image.');
+				} else {
+					$('#status').text('Requesting ' + Ndays + ' images.');
+				}
 				$("#previewimgdiv").show();	
 				$('#previewimg').html("");
 
 				imgloaded.Ndays = Ndays;
 				imgloaded.loaded = 0;
 
+				var START_date = new Date(expandISO8601Duration(selected('stop')))
+				START_date.addDays(-1);
+
 				var i = 0;
+				if (Ndays > 10) Ndays = 10;
 				while (i < Ndays) {
-					turl = "?catalog="+selected('catalog')+"&dataset="+selected('dataset')+"&parameters="+selected('parameters')+"&start="+START_date.toString('yyyy-MM-dd')+"&stop="+STOP_date.toString('yyyy-MM-dd');
-					// Need to use script from tomcat directory because autoplot wants directory listing.
-					url = TSDSFE + "tsdsfe.jyds?server="+TSDSFE+"&catalog="+selected('catalog')+"&dataset="+selected('dataset')+"&parameters="+selected('parameters')+"&timerange="+START_date.toString('yyyy-MM-dd')+"&fill="+fills+"&labels="+labels;				
-					var aurl = "http://autoplot.org/plot/SimpleServlet?&drawGrid=true&plot.xaxis.drawTickLabels=true&width=800&height=200&url=vap+jyds:" + encodeURIComponent(url);
+					var START_dateISO = START_date.toISOString().replace(/T.*/,"");
+					var STOP_dateISO  = STOP_date.toISOString().replace(/T.*/,"");
+						
+					turl = "?catalog="+selected('catalog')+"&dataset="+selected('dataset')+"&parameters="+selected('parameters')+"&start="+START_dateISO+"&stop="+STOP_dateISO;
+					url = TSDSFE + "tsdsfe.jyds?server="+TSDSFE+"&catalog="+selected('catalog')+"&dataset="+selected('dataset')+"&parameters="+selected('parameters')+"&timerange="+START_dateISO;
+					if (labels !== "") url = url + "&labels="+labels;
+					if (units !== "")  {url = url + " ["+units+"]" +"&units="+units;}
+					if (fills !== "")  url = url + "&fills="+fills;
+					var aurl = AUTOPLOT + "?drawGrid=true&plot.xaxis.drawTickLabels=true&width=800&height=200&url=vap+jyds:" + encodeURIComponent(url);
 					START_date.addDays(1);
 					STOP_date.addDays(1);
 
 					console.log(aurl);
-					//links = "<a href='http://autoplot.org/autoplot.jnlp?open=vap+jyds:"+encodeURIComponent(url)+"'>View in Autoplot</a>"
-					links = "<a href='http://autoplot.org/autoplot.jnlp?open=vap+jyds:"+url+"'>View in Autoplot</a>"
-					links = links + " | <a style='text-decoration:underline;cursor:pointer' onclick='viewdata("+i+")'>View Data</a>";
-					//links = links + ' | <a target="blank" href="'+turl+'">View Data</a>';
-					$("#previewimg").append("<div style='position:relative'><img onload='imgloaded()' id='" + i + "' style='z-index: -1' src='"+aurl+"'></img><div style='position:absolute;left:0px;top:0px;font-size:8pt'>"+links+"</div></div>");
-					$("#previewimg").append("<div style='position:relative'><a target='_blank' style='font-size:8pt' id='" + i + "'></a><iframe width='98%' id='" + i + "' data='"+turl+"' style='display:none'></iframe></div>");
+					links = "<a id='" + i + "' href='http://autoplot.org/autoplot.jnlp?open=vap+jyds:"+url+"'>View in Autoplot</a>"
+					links = links + " | <a style='text-decoration:underline;cursor:pointer' onclick='viewdata("+i+")'>View Data</a> | <i id='"+i+"'>Requesting image</i>";
+					$("#previewimg").append("<div style='position:relative'><img onclick='imgclicked("+i+")' onload='imgloaded("+i+")' id='" + i + "' style='z-index: -1' src='"+aurl+"'></img><div style='position:absolute;left:0px;top:0px;font-size:8pt'>"+links+"</div></div>");
+					$("#previewimg").append("<div style='position:relative'><font size='-1'><a style='' id='" + i + "'></a></font><iframe width='98%' id='" + i + "' data='"+turl+"' style='display:none'></iframe></div>");
 
 					//$("#img[id="+i+"]").click(function () {$(this).append("Hello")});
 					i = i + 1;
 				}
-				$('#previewimg img').click(function(){window.location=$(this).attr('jnlp')});
+				//$('#previewimg img').click(function(){window.location=$(this).attr('jnlp')});
 			}
 
 			function dorequest() {
@@ -406,6 +458,10 @@
 					if (selected('outformat') !== "0") { 
 						url = url + "&outformat="+selected('outformat');
 					}
+					if (!$("#usecache").is(":checked")) {
+						url = url + "&usecache=false";
+					}  
+
 					$("#datadiv").show();
 					$("#datadiv > iframe").attr("src",url);
 					$("#datadiv > div > a").attr("href",url);
@@ -449,9 +505,18 @@
 				})( jQuery );
 
 				//$('#debug').each(function(){ this.checked = false; });
-				$('#previewimgcheckbox').each(function(){ this.checked = true; });
-				$('#previewdatacheckbox').each(function(){ this.checked = true; });
-
+				
+				if (location.hash.match("usecache=false")) {
+					$('#usecache').each(function(){ this.checked = false; });
+				} else {
+					$('#usecache').each(function(){ this.checked = true; });
+				}
+				if (location.hash.match("preview=false")) {
+					$('#previewimgcheckbox').each(function(){ this.checked = true; });
+				} else {
+					$('#previewimgcheckbox').each(function(){ this.checked = true; });
+				}
+				
 				function callback() {}
 				
 				dropdown2(["catalog","dataset","parameters","start","stop","outformat"],["Catalog","Datasets","Parameters","Start","Stop","Output"],[catalogs,datasets,parameters,starttime,stoptime,outformat],"#dropdowns",0,"",callback);
@@ -523,13 +588,15 @@
 		
 	</head>
 
- 	<body>	
- 		
- 		<div style="text-align:center;position:absolute;top:0;left:12em;"><span id="status" style="background-color:yellow;text-align:center"></span></div>
+ 	<body>	 		
+ 	
+ 		<div style="text-align:center;position:absolute;top:0;left:12em;"><font size="-2"><span id="status" style="background-color:yellow;text-align:center"></span></font></div>
  	
  		<div style="float:left;width:10em;margin-right:10px;margin-top:0em;">
- 			
-			<div title="Show preview images of data when a parameter is selected"><input id="previewimgcheckbox" type="checkbox" value=""/>&nbsp;Show preview plots</div>
+ 			<font size="-1">		
+				<div title="Show preview images of data when a parameter is selected."><input id="previewimgcheckbox" type="checkbox" value=""/>&nbsp;Show preview plots</div>
+				<div title="For fastest response time, use cached data.  Disable this for data that change frequently."><input id="usecache" type="checkbox" value=""/>&nbsp;Use cached data if avail.</div>
+			</font>
 			<span id="dropdowns0"></span>
 			<span id="dropdowns1" style="display:none"></span>
 			<span id="dropdowns2" style="display:none"></span>
@@ -552,7 +619,7 @@
 		
 		<br/>
 	
-		<div id="infodiv" style="margin-left:12em;;margin-top:1em;">		
+		<div id="infodiv" style="margin-left:12em;;margin-top:0em;">		
 			<div id="dldiv" style="background-color:white;display:none;">
 				<div><b>Download script:</b></div>
 				<iframe id="dlframe" style="width:95%;height:20em;"></iframe>
@@ -568,12 +635,11 @@
 			<div id="outputinfo" style="display:none;width:95%">
 				<b>Output options:</b>
 				<ul>
-					<li>Data (style 1) - Space-separated values with <a href="http://www.w3.org/TR/NOTE-datetime">ISO8601</a> timestamps (e.g., <code>2000-01-01T00:00:00.0 1.1 9.0)</code></li>
-					<li>Data (style 2) - Comma-separated values with timestamps in same format as original (if original had formatted time). First line is header.</li>
-					<li>Data (style 3) - Space-separated values with timestamps in same format as original (if original had formatted time). No header.</li>
+					<li>0: Native (if original was ASCII)</code></li>
+					<li>1: Space-separated values with <a href="http://www.w3.org/TR/NOTE-datetime">ISO8601</a> timestamps (e.g., <code>2000-01-01T00:00:00.0 1.1 9.0)</code></li>
+					<li>2: Space-separated values with Year Month Day Hour Minute FractionalSection timestamps (e.g., <code>2000 1 1 0 0 0.0 1.1 9.0)</code></li>
 					<li>IDL (script) - A script that when executed in IDL, creates a data array <code>D</code> and label array <code>L</code>.</li>
 					<li>MATLAB (script) - A script that when executed in MATLAB, creates a data array <code>D</code> and label array <code>L</code>.</li>
-					<li>Debug - show processing steps.</li>
 				</ul>
 			</div>			
 		</div>
