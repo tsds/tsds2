@@ -7,15 +7,10 @@ tests[j].url = "catalog=^.*"
 j = j+1;;
 tests[j] = {};
 tests[j].url = "catalog=^SWPC.*&dataset=^.*";
-tests[j].test = function (data) {return JSON.parse(data).length > 3};
-tests[j].log  = 'console.log("    Should be > 3: " + len);console.log("    Result: " + ret)';
 
 j = j+1;;
 tests[j] = {};
 tests[j].url = "catalog=^SWPC.*&dataset=AK"
-tests[j].test = function (data) {len = JSON.parse(data).length;ret=len>1;eval(tests[0].log);return ret};
-tests[j].log  = 'console.log("    Should be > 1: " + len);console.log("    Result: " + ret)';
-
 
 j = j+1;;
 tests[j] = {};
@@ -100,5 +95,3 @@ tests[j].url = "catalog=SWPC/AK/2DayFile&dataset=AK&parameters=BoulderK&start=-P
 j = j+1;;
 tests[j] = {};
 tests[j].url = "catalog=SWPC/AK/2DayFile&dataset=AK&parameters=BoulderK&start=-P10D&stop=-P9D"
-tests[j].test = function (data) {ret = data.length == 0;eval(tests[j].log);return ret};
-tests[j].log  = 'console.log("    Should be zero: " + data.length);console.log("    Result: " + data.length)';

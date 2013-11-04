@@ -6,22 +6,23 @@
 var N    = 10;
 var port = 8004;
 
-var fs      = require("fs");
-var sys     = require('sys');
-var exec    = require('child_process').exec;
-var spawn   = require('child_process').spawn;
-var request = require("request");
-var	express = require('express');
-var http    = require('http');
-var url     = require('url');
-var zlib    = require('zlib');
+var fs       = require("fs");
+var sys      = require('sys');
+var exec     = require('child_process').exec;
+var spawn    = require('child_process').spawn;
+var request  = require("request");
+var	express  = require('express');
+var http     = require('http');
+var url      = require('url');
+var zlib     = require('zlib');
+var execSync = require("exec-sync");
 
 eval(fs.readFileSync('./test/tests.js','utf8'));
 
 function s2b(str) {if (str === "true") {return true} else {return false}}
 function s2i(str) {return parseInt(str)}
 
-var tn      = s2i(process.argv[2] || "0");							// Start test Number
+var tn      = s2i(process.argv[2] || "1");							// Start test Number
 
 /*
 var sync    = s2b(process.argv[2] || "true");						// Do runs for test sequentially
@@ -33,6 +34,8 @@ var server  = process.argv[6]     || "http://localhost:"+port+"/";	// DataCache 
 var Ntests = 2;
 var alltests = true;
 
+runtest(0,tn);
+
 function gettests(m) {
 
 	var xtests = [];
@@ -41,29 +44,26 @@ function gettests(m) {
 	for (var z = 0;z<tests.length;z++) {
 		xtests[z] = {};
 		xtests[z].test = tests[z].test || "";
-		if (m == 0) {
+		if (m == 1) {
 			xtests[z].url = server + "?usecache=false&" + tests[z].url;
 		}
-		if (m == 1) {
+		if (m == 2) {
 			xtests[z].url = server + "?" + tests[z].url;
-		}
-		if (typeof(tests[z].test) === "undefined") {
-			xtests[z].test = function (data) {len=data.length;ret=len>0;eval(tests[0].log);return ret};
-			xtests[z].log  = 'console.log("    Should be > 0: " + len);console.log("    Result: " + ret)';
 		}
 	}
 	return xtests;
 }
-runtest(0,tn);
 
 function diff(f1,f2) {
-		child = exec('diff ' + f1 + ' ' + f2, function (error, stdout, stderr) {
+		var ret = "";
+		execSync('diff ' + f1 + ' ' + f2, function (error, stdout, stderr) {
+			var ret = stdout;
 			if (stdout.length > 0) {
-				console.log("Writing to stdout");
-				console.error("difference between " + f1 + " and " + f2 + ":");
+				console.log("     Difference between " + f1 + " and " + f2 + ":" + ret);
 				console.error(stdout);
 			}
 		});
+		return ret;
 }
 
 function command(jj,m) {
@@ -72,7 +72,6 @@ function command(jj,m) {
 	var fname = "test/output/out." + jj + "." + m;
 	if (xtests[jj].url.match("stop") && !xtests[jj].url.match("urilist")) {
 		com = 'curl -s -g "' + xtests[jj].url + '" | gunzip > ' + fname;
-		//com = 'curl -s -g "' + xtests[jj].url + '"  > ' + fname;
 	} else {
 		com = 'curl -s -g "' + xtests[jj].url + '"  > ' + fname;
 	}
@@ -86,19 +85,17 @@ function runtest(jj,m) {
 	var xtests = gettests(m);
 	var xcom = command(jj,m);
 
+	console.log("\nTest "+jj)
 	console.log("Executing "+xcom)
 	
 	var fname = "test/output/out." + jj + "." + m;
 	child = exec(xcom, function (error, stdout, stderr) {
     	console.log("Reading "+fname);
     	data = fs.readFileSync(fname);
-	    console.log("Request "+jj+" completed.  Running test\n    "+xtests[jj].test);
-
-	    ret = xtests[jj].test(data);
-    	console.log(stdout)
-    	
-		if (ret) {
-			console.log("Test "+jj+" passed.\n")
+	    console.log("Request "+jj+" completed.  Comparing output.");
+    	ret = diff("test/output/out." + jj + ".0","test/output/out." + jj + "." + m);
+		if (ret.length == 0) {
+			console.log("PASS: test/output/out." + jj + ".0" + " and test/output/out." + jj + "." + m + " are identical")
 			runtest.sum = runtest.sum+1;
 		} else {
 			runtest.fails[runtest.f] = {};
@@ -108,12 +105,13 @@ function runtest(jj,m) {
 
 			runtest.f = runtest.f+1;
 
-			console.log("Test "+jj+" failed.\n")
+			console.log("FAIL.\n")
 		}
 
     	if (jj < xtests.length-1) {
 			runtest(jj+1,m);
 		} else {
+			console.log("")
 			console.log(runtest.sum + "/" + tests.length + " tests passed.");
 			if (runtest.fails.length > 0) {
 				console.log("\nFailures:");
