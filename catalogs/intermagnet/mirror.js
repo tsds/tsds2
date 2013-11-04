@@ -44,6 +44,11 @@ function get(urls,files) {
 		options.start    = list[k].split(" ")[1];
 		options.stop     = list[k].split(" ")[2];
 		
+		if (new Date(options.stop).getTime() < new Date(options.start).getTime()) {
+			options.start    = list[k].split(" ")[2];
+			options.stop     = list[k].split(" ")[1];			
+		}
+		console.log(options);
 		filesa = expandtemplate(options);
 
 		z = 0;
@@ -152,7 +157,7 @@ function get(urls,files) {
 				if (!fs.existsSync(f1) && !fs.existsSync(f2)) {
 					console.log(files.length + " 2. Did not find " + f1);
 					console.log(files.length + " 2. Did not find " + f2);
-					console.log(files.length + " Failxxxxx  Writing ./data/"+files[0]+".x");
+					console.log(files.length + " Failxxxxx.");
 					//fs.writeFileSync("./data/"+files[0]+".x","");
 				} else {
 					console.log(files.length + " Success!!!!!  Done downloading.");
