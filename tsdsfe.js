@@ -72,6 +72,8 @@ function handleRequest(req, res) {
 	var Nc = 0;
 	var N  = options.catalog.split(";").length;
 
+    res.writeHeader(200, {"Content-Type": "text/plain"}); 
+
 	if (N > 1) {
 		var catalogs   = options.catalog.split(";");
 		var datasets   = options.dataset.split(";");
@@ -124,11 +126,10 @@ function handleRequest(req, res) {
 
 			if (debug) console.log("Streaming from\n"+data)
 			http.get(url.parse(data), function(res0) {
-				util.pump(res0,res);
-				return;
+				//util.pump(res0,res);
+				//return;
 			    var data = [];
 			    console.log(res0.headers)
-			    res.writeHeader(200, {"Content-Type": "text/plain"}); 
 			    //res.setHeader('Content-Disposition','attachment; filename='+res0.headers['content-disposition']);
 			    res0
 			    .on('data', function(chunk) {
@@ -149,7 +150,7 @@ function handleRequest(req, res) {
 				    		res.end();
 				    	} else {
 				    		console.log("Calling catalog with Nc="+Nc);
-							//catalog(Options[Nc], stream);
+							catalog(Options[Nc], stream);
 				    	}
 			    })
 			}).on('error', function () {
@@ -469,7 +470,7 @@ function parameter(options,datasets,catalogs,cb) {
 					+"&streamFilterComputeFunction="+options.filter
 					+"&streamFilterComputeWindow="+options.filterWindow
 					+"&streamOrder=true"
-					+"&streamGzip=true"
+					+"&streamGzip=false"
 					;
 
 				if (!options.usecache) dc = dc+"&forceUpdate=true&forceWrite=true"

@@ -31,10 +31,13 @@ var n       = s2i(process.argv[5] || "5");							// Number of runs per test
 */
 var server  = process.argv[6]     || "http://localhost:"+port+"/";	// DataCache server to test
 
-var Ntests = 2;
+var Ntests   = 2;
 var alltests = true;
 
-runtest(0,tn);
+var Ntests   = 1;
+var alltests = false;
+
+runtest(tn,1);
 
 function gettests(m) {
 
@@ -55,15 +58,14 @@ function gettests(m) {
 }
 
 function diff(f1,f2) {
-		var ret = "";
-		execSync('diff ' + f1 + ' ' + f2, function (error, stdout, stderr) {
-			var ret = stdout;
-			if (stdout.length > 0) {
-				console.log("     Difference between " + f1 + " and " + f2 + ":" + ret);
-				console.error(stdout);
-			}
-		});
-		return ret;
+		var result = execSync('diff ' + f1 + ' ' + f2);
+		if (result.length > 0) {
+			console.log("Difference between " + f1 + " and " + f2 + ":");
+			console.log(result);
+			return false;
+		} else {
+			return true;
+		}
 }
 
 function command(jj,m) {
@@ -71,17 +73,16 @@ function command(jj,m) {
 	var com = "";
 	var fname = "test/output/out." + jj + "." + m;
 	if (xtests[jj].url.match("stop") && !xtests[jj].url.match("urilist")) {
-		com = 'curl -s -g "' + xtests[jj].url + '" | gunzip > ' + fname;
+		//com = 'curl -s -g "' + xtests[jj].url + '" | gunzip > ' + fname;
+		com = 'curl -s -g "' + xtests[jj].url + '" > ' + fname;
 	} else {
 		com = 'curl -s -g "' + xtests[jj].url + '"  > ' + fname;
 	}
 	return com + " ; head "+fname;
 }
 
-
-
 function runtest(jj,m) {
-	if (jj == 0) {runtest.fails = [];runtest.f=0;runtest.sum = 0;}
+	if (typeof(runtest.fails) === "undefined") {runtest.fails = [];runtest.f=0;runtest.sum = 0;}
 	var xtests = gettests(m);
 	var xcom = command(jj,m);
 
@@ -92,27 +93,30 @@ function runtest(jj,m) {
 	child = exec(xcom, function (error, stdout, stderr) {
     	console.log("Reading "+fname);
     	data = fs.readFileSync(fname);
-	    console.log("Request "+jj+" completed.  Comparing output.");
-    	ret = diff("test/output/out." + jj + ".0","test/output/out." + jj + "." + m);
-		if (ret.length == 0) {
-			console.log("PASS: test/output/out." + jj + ".0" + " and test/output/out." + jj + "." + m + " are identical")
+    	if (xtests[jj].test) {
+    	    console.log("Request "+jj+" completed.  Running test.");
+    		ret = xtests[jj].test(data);
+    	} else {
+    	    console.log("Request "+jj+" completed.  Comparing output.");
+    		ret = diff("test/output0/out." + jj + ".0","test/output/out." + jj + "." + m);
+    	}
+		if (ret == true) {
 			runtest.sum = runtest.sum+1;
+			console.log("PASS.\n");
 		} else {
 			runtest.fails[runtest.f] = {};
 			runtest.fails[runtest.f].url  = xtests[jj].url; 
 			runtest.fails[runtest.f].test = xtests[jj].test.toString();
 			runtest.fails[runtest.f].N    = jj;
-
 			runtest.f = runtest.f+1;
-
-			console.log("FAIL.\n")
+			console.log("FAIL.\n");
 		}
 
-    	if (jj < xtests.length-1) {
+    	if (jj < xtests.length-1 && alltests)  {
 			runtest(jj+1,m);
 		} else {
 			console.log("")
-			console.log(runtest.sum + "/" + tests.length + " tests passed.");
+			if (alltests) console.log(runtest.sum + "/" + tests.length + " tests passed.");
 			if (runtest.fails.length > 0) {
 				console.log("\nFailures:");
 			}
