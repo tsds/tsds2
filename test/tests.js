@@ -23,6 +23,8 @@ tests[6].url = "catalog=SWPC/GOES/Primary/Particle/PT1M&dataset=Gp_particles&par
 
 tests[7] = {};
 tests[7].url = "catalog=SWPC/GOES/Primary/Particle/PT1M&dataset=Gp_particles&parameters=E_gt_4.0&start=-PT3D&stop=-PT1D&return=urilistflat";
+tests[7].test = function (data) {var len = data.toString().split("\n").length;eval(tests[7].log);if (len == 2) {return true;} else {return false} };
+tests[7].log  = 'console.log("File should have 2 rows.  Found: " + len );';
 
 tests[8] = {};
 tests[8].url = "catalog=SWPC/GOES/Primary/Particle/PT1M&dataset=Gp_particles&parameters=E_gt_4.0&start=-PT3D&stop=-PT1D";
