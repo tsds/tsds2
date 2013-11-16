@@ -1,6 +1,3 @@
-var debug        = true;
-var debugcatalog = false;
-
 var fs      = require('fs');
 var request = require("request");
 var	express = require('express');
@@ -8,40 +5,36 @@ var	app     = express().use(express.bodyParser());
 var	server  = require("http").createServer(app);
 var qs      = require('querystring');
 var xml2js  = require('xml2js');
-var port    = process.argv[2] || 8004;
-var http    = require('http');
 var url     = require('url');
 var util    = require('util');
-
+var http    = require('http');
 http.globalAgent.maxSockets = 100;  // Most Apache servers have this set at 100.
 
-//var plugin = require('./plugin.js');
-var DC = "http://localhost:7999/sync/";
+var port = process.argv[2] || 8004;
+var DC   = process.argv[3] || "http://localhost:7999/sync/";
 
-//console.log(plugin.extractLine(line,timeformat,timecols))
+var debug        = true;
+var debugcatalog = false;
+
+// Can this prefix be determined automatically by requesting / ?
 app.use("/tsdsfe2/js", express.static(__dirname + "/js"));
 app.use("/tsdsfe2/css", express.static(__dirname + "/css"));
 app.use("/tsdsfe2/scripts", express.static(__dirname + "/scripts"));
 app.use("/tsdsfe2/uploads", express.static(__dirname + "/uploads"));
+
 app.use("/js", express.static(__dirname + "/js"));
 app.use("/css", express.static(__dirname + "/css"));
 app.use("/scripts", express.static(__dirname + "/scripts"));
 app.use("/uploads", express.static(__dirname + "/uploads"));
 
 app.get('/tsdsfe.jyds', function (req, res) {
-	if (Object.keys(req.query).length === 0) {
 		res.contentType("text/plain");
 		res.send(fs.readFileSync(__dirname+"/scripts/tsdsfe.jyds"));
-		return;
-	}
 });
 
 app.get('/tsdsfe2/tsdsfe.jyds', function (req, res) {
-	if (Object.keys(req.query).length === 0) {
 		res.contentType("text/plain");
 		res.send(fs.readFileSync(__dirname+"/scripts/tsdsfe.jyds"));
-		return;
-	}
 });
 
 app.get('/', function (req, res) {
@@ -117,7 +110,7 @@ function handleRequest(req, res) {
 	    		if (Nc == N) {
 		    		res.end();
 		    	} else {
-					catalog(Options[Nc], stream);
+				catalog(Options[Nc], stream);
 		    	}
 				return;
 			}
@@ -152,9 +145,7 @@ function handleRequest(req, res) {
 							//catalog(Options[Nc], stream);
 				    	}
 			    })
-			}).on('error', function () {
-		    	res.send(502);
-		    });
+			}).on('error', function () {res.send(502);});
 		} else if (status == 301) {
 			res.redirect(301,data);
 		} else {
@@ -238,6 +229,7 @@ function catalog(options, cb) {
 			if (options.dataset === "") {
 				
 				if (resp.length == 1 && options.catalog.substring(0,1) !== "^") {
+					// Return catalog information.
 					if (debug) console.log("Fetching " + resp[0].href);
 					request(resp[0].href, function (error, response, body) {
 						if (!error && response.statusCode == 200) {
@@ -254,6 +246,7 @@ function catalog(options, cb) {
 						}
 					})
 				} else {
+					// Return catalogs with names that match regular expression.					
 					cb(200,resp);
 				}
 
@@ -356,131 +349,126 @@ function parameter(options,datasets,catalogs,cb) {
 		while (parents.length < parameters.length) {
 			parents.push(parent)
 			cats.push(cat);
-			//console.log(parents.length)
 		}
 	}							
 
 	for (var i = 0;i < parameters.length;i++) {
 			
-			resp[i]           = {};
-			resp[i].value     = parameters[i]["$"]["id"];
-			resp[i].label     = parameters[i]["$"]["name"] || parameters[i]["$"]["id"];
-			resp[i].catalog   = cats[i];
-			resp[i].dataset   = parents[i]["ID"];
-			resp[i].parameter = resp[i].value;
-			resp[i].dd        = parameters[i]["$"];
+		resp[i]           = {};
+		resp[i].value     = parameters[i]["$"]["id"];
+		resp[i].label     = parameters[i]["$"]["name"] || parameters[i]["$"]["id"];
+		resp[i].catalog   = cats[i];
+		resp[i].dataset   = parents[i]["ID"];
+		resp[i].parameter = resp[i].value;
+		resp[i].dd        = parameters[i]["$"];
 
-			if (!('urltemplate' in resp[i].dd))  {resp[i].dd.urltemplate = parents[i]["urltemplate"]}
-			if (!('urlsouce' in resp[i].dd))     {resp[i].dd.urlsource = parents[i]["urlsource"]}
-			if (!('urlprocessor' in resp[i].dd)) {resp[i].dd.urlprocessor = parents[i]["urlprocessor"]}
-			if (!('timeformat' in resp[i].dd))   {resp[i].dd.timeformat = parents[i]["timeformat"]}
-			if (!('timecolumns' in resp[i].dd))  {resp[i].dd.timecolumns = parents[i]["timecolumns"]}
-			if (!('columns' in resp[i].dd))      {resp[i].dd.columns = parents[i]["columns"]}
-			if (!('start' in resp[i].dd))        {resp[i].dd.start = parents[i]["start"]}
-			if (!('stop' in resp[i].dd))         {resp[i].dd.stop = parents[i]["stop"]}
+		if (!('urltemplate' in resp[i].dd))  {resp[i].dd.urltemplate = parents[i]["urltemplate"]}
+		if (!('urlsouce' in resp[i].dd))     {resp[i].dd.urlsource = parents[i]["urlsource"]}
+		if (!('urlprocessor' in resp[i].dd)) {resp[i].dd.urlprocessor = parents[i]["urlprocessor"]}
+		if (!('timeformat' in resp[i].dd))   {resp[i].dd.timeformat = parents[i]["timeformat"]}
+		if (!('timecolumns' in resp[i].dd))  {resp[i].dd.timecolumns = parents[i]["timecolumns"]}
+		if (!('columns' in resp[i].dd))      {resp[i].dd.columns = parents[i]["columns"]}
+		if (!('start' in resp[i].dd))        {resp[i].dd.start = parents[i]["start"]}
+		if (!('stop' in resp[i].dd))         {resp[i].dd.stop = parents[i]["stop"]}
 
-			if (options.parameters !== "^.*") {				
-				if (options.parameters.substring(0,1) === "^") {
-					if (!(parameters[i]["$"]["id"].match(options.parameters))) {
-						delete resp[i];
-					}
-				} else  {				
-					if (!(parameters[i]["$"]["id"] === options.parameters)) {
-						delete resp[i];
-					}
+		if (options.parameters !== "^.*") {				
+			if (options.parameters.substring(0,1) === "^") {
+				if (!(parameters[i]["$"]["id"].match(options.parameters))) {
+					delete resp[i];
+				}
+			} else  {				
+				if (!(parameters[i]["$"]["id"] === options.parameters)) {
+					delete resp[i];
 				}
 			}
-	}
-	
-		resp = resp.filter(function(n){return n});
-		if (typeof(resp[0]) === "undefined") {cb(200,"[]");return;}
-
-		var columns = resp[0].dd.timecolumns + "," + resp[0].dd.columns;
-
-		if (options.start || options.stop) {
-			start = options.start || resp[0].dd.start;
-			stop  = options.stop  || resp[0].dd.stop;
-			console.log("Requested start :" + Date.parse(options.start));
-			console.log("DD start        :" + Date.parse(resp[0].dd.start));
-			console.log("Requested stop  :" + Date.parse(options.stop));
-			console.log("DD stop         :" + Date.parse(resp[0].dd.stop));
-
-			
-			if (Date.parse(stop) < Date.parse(start)) {
-				cb(500,"Stop time is before than start time");
-				return;
-			}
-			if (Date.parse(start) > Date.parse(stop)) {
-				cb(500,"Start time is later than stop time");
-				return;
-			}
-			
-			//console.log("template="+resp[0].dd.urltemplate+"&timeRange="+start+"/"+stop);
-
-			var urltemplate  = resp[0].dd.urltemplate;
-			var urlprocessor = resp[0].dd.urlprocessor;
-			var urlsource    = resp[0].dd.urlsource;
-							
-			//console.log("urlprocessor: " + resp[0].dd.urlprocessor)
-			var args = "";
-			if (urlprocessor) {
-				args = "&plugin="+urlprocessor;
-			}
-			if (urltemplate) {
-				args = args + "&template="+urltemplate;
-			} 
-			if (urlsource) {
-				args = args + "&source="+urlsource;
-			}
-
-			if (args) {
-				var dc = DC+"?"+args+"&timeRange="+start+"/"+stop;
-			} else {
-				var dc = DC+"?timeRange="+start+"/"+stop;
-			}
-			
-			if (options.return === "urilist") {
-				cb(0,dc+"&return=urilist");
-			}
-			if (options.return === "urilistflat") {
-				cb(0,dc+"&return=urilistflat");
-			}
-			// If more than one resp, this won't work.
-			if (options.return === "redirect") {
-				cb(302,dc);
-			}
-			// If more than one resp, this won't work.
-			if (options.return === "jyds") {
-				cb(0,"http://localhost:"+port+"/tsdsfe.jyds");
-			}
-			// If more than one resp, this won't work.
-			if (options.return === "dd") {
-				cb(0,JSON.stringify(resp[0].dd));
-			}
-
-			if (options.return === "stream") {				 
-				dc = dc
-					+"&return=stream"
-					+"&lineRegExp="+ resp[0].dd.lineregex
-					+"&timecolumns="+resp[0].dd.timecolumns
-					+"&timeformat="+resp[0].dd.timeformat
-					+"&streamFilterReadColumns="+columns
-					+"&streamFilterTimeFormat="+options.outformat
-					+"&streamFilterComputeFunction="+options.filter
-					+"&streamFilterComputeWindow="+options.filterWindow
-					+"&streamOrder=true"
-					+"&streamGzip=true"
-					;
-
-				if (!options.usecache) dc = dc+"&forceUpdate=true&forceWrite=true"
-
-				//dc = dc+"&return=stream&lineRegExp="+resp[0].dd.lineregex + "&timecolumns="+resp[0].dd.timecolumns+"&timeformat="+resp[0].dd.timeformat+"&streamFilterReadColumns="+columns+"&lineFormatter=formattedTime&outformat="+options.outformat;
-				//console.log(dc)
-				cb(0,dc)
-			}
-		} else {
-			cb(200,resp);
 		}
 		
-}
+	}
+	
+	resp = resp.filter(function(n){return n});
+	if (typeof(resp[0]) === "undefined") {cb(200,"[]");return;}
 
+	var columns = resp[0].dd.timecolumns + "," + resp[0].dd.columns;
+
+	if (options.start || options.stop) {
+		start = options.start || resp[0].dd.start;
+		stop  = options.stop  || resp[0].dd.stop;
+		console.log("Requested start :" + Date.parse(options.start));
+		console.log("DD start        :" + Date.parse(resp[0].dd.start));
+		console.log("Requested stop  :" + Date.parse(options.stop));
+		console.log("DD stop         :" + Date.parse(resp[0].dd.stop));
+
+		if (Date.parse(stop) < Date.parse(start)) {
+			cb(500,"Stop time is before than start time");
+			return;
+		}
+		if (Date.parse(start) > Date.parse(stop)) {
+			cb(500,"Start time is later than stop time");
+			return;
+		}
+		
+		var urltemplate  = resp[0].dd.urltemplate;
+		var urlprocessor = resp[0].dd.urlprocessor;
+		var urlsource    = resp[0].dd.urlsource;
+						
+		var args = "";
+		if (urlprocessor) {
+			args = "&plugin="+urlprocessor;
+		}
+		if (urltemplate) {
+			args = args + "&template="+urltemplate;
+		} 
+		if (urlsource) {
+			args = args + "&source="+urlsource;
+		}
+
+		if (args) {
+			var dc = DC+"?"+args+"&timeRange="+start+"/"+stop;
+		} else {
+			var dc = DC+"?timeRange="+start+"/"+stop;
+		}
+		
+		if (options.return === "urilist") {
+			cb(0,dc+"&return=urilist");
+		}
+		if (options.return === "urilistflat") {
+			cb(0,dc+"&return=urilistflat");
+		}
+		// If more than one resp, this won't work.
+		if (options.return === "redirect") {
+			cb(302,dc);
+		}
+		// If more than one resp, this won't work.
+		if (options.return === "jyds") {
+			cb(0,"http://localhost:"+port+"/tsdsfe.jyds");
+		}
+		// If more than one resp, this won't work.
+		if (options.return === "dd") {
+			cb(0,JSON.stringify(resp[0].dd));
+		}
+
+		if (options.return === "stream") {				 
+			dc = dc
+				+"&return=stream"
+				+"&lineRegExp="+ resp[0].dd.lineregex
+				+"&timecolumns="+resp[0].dd.timecolumns
+				+"&timeformat="+resp[0].dd.timeformat
+				+"&streamFilterReadColumns="+columns
+				+"&streamFilterTimeFormat="+options.outformat
+				+"&streamFilterComputeFunction="+options.filter
+				+"&streamFilterComputeWindow="+options.filterWindow
+				+"&streamOrder=true"
+				+"&streamGzip=false"
+				;
+
+			if (!options.usecache) dc = dc+"&forceUpdate=true&forceWrite=true"
+
+			//dc = dc+"&return=stream&lineRegExp="+resp[0].dd.lineregex + "&timecolumns="+resp[0].dd.timecolumns+"&timeformat="+resp[0].dd.timeformat+"&streamFilterReadColumns="+columns+"&lineFormatter=formattedTime&outformat="+options.outformat;
+			//console.log(dc)
+			cb(0,dc)
+		}
+	} else {
+		cb(200,resp);
+	}
+		
+}

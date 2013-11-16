@@ -93,9 +93,9 @@ function runtest(jj,m) {
     	console.log("Reading "+fname);
     	data = fs.readFileSync(fname);
 	    console.log("Request "+jj+" completed.  Comparing output.");
-    	ret = diff("test/output/out." + jj + ".0","test/output/out." + jj + "." + m);
+    		ret = diff("test/output0/out." + jj + ".0","test/output/out." + jj + "." + m);
 		if (ret.length == 0) {
-			console.log("PASS: test/output/out." + jj + ".0" + " and test/output/out." + jj + "." + m + " are identical")
+			console.log("PASS: test/output0/out." + jj + ".0" + " and test/output/out." + jj + "." + m + " are identical")
 			runtest.sum = runtest.sum+1;
 		} else {
 			runtest.fails[runtest.f] = {};
