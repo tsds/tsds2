@@ -1,0 +1,9 @@
+// TODO: Allow query like
+// catalog=supermag,intermagnet&timeRange=2008-01-01/2008-12-31
+// return list of URIs to hit.
+
+// Implementation:
+// Generate table of 
+// catalog,dataset,parameter,start,stop
+// This will be needed for autocomplete.
+// catalog=^.*

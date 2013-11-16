@@ -72,6 +72,7 @@ function handleRequest(req, res) {
 	var Nc = 0;
 	var N  = options.catalog.split(";").length;
 
+
     res.writeHeader(200, {"Content-Type": "text/plain"}); 
 
 	if (N > 1) {
