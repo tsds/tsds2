@@ -1,4 +1,4 @@
-var debug        = true;
+var debug        = false;
 var debugcatalog = false;
 
 var fs      = require('fs');
@@ -72,7 +72,6 @@ function handleRequest(req, res) {
 	var Nc = 0;
 	var N  = options.catalog.split(";").length;
 
-
     res.writeHeader(200, {"Content-Type": "text/plain"}); 
 
 	if (N > 1) {
@@ -102,8 +101,8 @@ function handleRequest(req, res) {
 	catalog(options, stream);
 
 	function stream(status, data) {
-		console.log("Stream called.")
-		console.log(Options);
+		if (debug) console.log("Stream called.")
+		if (debug) console.log(Options);
 		// If more than one resp, this won't work.
 
 		if (options.attach === "true") {
@@ -120,7 +119,7 @@ function handleRequest(req, res) {
 	    		if (Nc == N) {
 		    		res.end();
 		    	} else {
-					catalog(Options[Nc], stream);
+				catalog(Options[Nc], stream);
 		    	}
 				return;
 			}
@@ -130,28 +129,28 @@ function handleRequest(req, res) {
 				//util.pump(res0,res);
 				//return;
 			    var data = [];
-			    console.log(res0.headers)
+			    if (debug) console.log(res0.headers)
 			    //res.setHeader('Content-Disposition','attachment; filename='+res0.headers['content-disposition']);
 			    res0
 			    .on('data', function(chunk) {
 			        res.write(chunk);
 			        data = data+chunk;
 			        //if(!flushed) res0.pause();
-			        console.log("Got and wrote chunk of size "+chunk.length);
+			        if (debug) console.log("Got and wrote chunk of size "+chunk.length);
 			        //console.log(data)
 			    })
 			    .on('end', function() {
-				    	console.log('got end.');
+				    	if (debug) console.log('got end.');
 				    	Nc = Nc + 1;
 				    	//if (N > 1) res.write("\n");
 			    		if (Nc == N) {
-			    			console.log("Sending res.end().");
+			    			if (debug) console.log("Sending res.end().");
 			    			//res.write("\n")
 			    			//console.log(data)
 				    		res.end();
 				    	} else {
-				    		console.log("Calling catalog with Nc="+Nc);
-							catalog(Options[Nc], stream);
+				    		if (debug) console.log("Calling catalog with Nc="+Nc);
+						catalog(Options[Nc], stream);
 				    	}
 			    })
 			}).on('error', function () {
@@ -195,7 +194,6 @@ function parseOptions(req) {
 	options.usecache     = s2b(req.query.usecache || req.body.usecache     || "true");
 	
 	return options;
-
 }
 
 function catalog(options, cb) {
@@ -380,6 +378,7 @@ function parameter(options,datasets,catalogs,cb) {
 			if (!('columns' in resp[i].dd))      {resp[i].dd.columns = parents[i]["columns"]}
 			if (!('start' in resp[i].dd))        {resp[i].dd.start = parents[i]["start"]}
 			if (!('stop' in resp[i].dd))         {resp[i].dd.stop = parents[i]["stop"]}
+			if (!('fillvalue' in resp[i].dd))    {resp[i].dd.stop = parents[i]["fillvalue"]}
 
 			if (options.parameters !== "^.*") {				
 				if (options.parameters.substring(0,1) === "^") {
@@ -402,10 +401,10 @@ function parameter(options,datasets,catalogs,cb) {
 		if (options.start || options.stop) {
 			start = options.start || resp[0].dd.start;
 			stop  = options.stop  || resp[0].dd.stop;
-			console.log("Requested start :" + Date.parse(options.start));
-			console.log("DD start        :" + Date.parse(resp[0].dd.start));
-			console.log("Requested stop  :" + Date.parse(options.stop));
-			console.log("DD stop         :" + Date.parse(resp[0].dd.stop));
+			if (debug) console.log("Requested start :" + Date.parse(options.start));
+			if (debug) console.log("DD start        :" + Date.parse(resp[0].dd.start));
+			if (debug) console.log("Requested stop  :" + Date.parse(options.stop));
+			if (debug) console.log("DD stop         :" + Date.parse(resp[0].dd.stop));
 
 			
 			if (Date.parse(stop) < Date.parse(start)) {
@@ -470,6 +469,7 @@ function parameter(options,datasets,catalogs,cb) {
 					+"&streamFilterTimeFormat="+options.outformat
 					+"&streamFilterComputeFunction="+options.filter
 					+"&streamFilterComputeWindow="+options.filterWindow
+					+"&streamFilterExcludeColumnValues="+resp[0].dd.fillvalue
 					+"&streamOrder=true"
 					+"&streamGzip=false"
 					;

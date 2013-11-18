@@ -34,8 +34,8 @@ var server  = process.argv[6]     || "http://localhost:"+port+"/";	// DataCache 
 var Ntests   = 2;
 var alltests = true;
 
-var Ntests   = 1;
-var alltests = false;
+//var Ntests   = 1;
+//var alltests = false;
 
 runtest(tn,1);
 
