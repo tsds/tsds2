@@ -1,20 +1,21 @@
-TODO: In TSDSFE, report approximate cadence.
+TODO: In TSDSFE, report approximate cadence by checking first result.  This result should also be used
+as a check on if service is working.
+
 TODO: How to handle requests for start before available start time?  Same for stop.
 
-Given parameter,start/stop,ppd with parameter a scalar time series,
+Given parameter,start/stop,dt with parameter a scalar time series,
 
-If request for parameter,start/stop,ppd with timerange in existing range of
-parameter_start_stop_ppd.bin, subset it and send data.
+If request for parameter,start/stop,dt with timerange in existing range of
+parameter_start_stop_dt.bin, subset it and send data.
 
-If not, request timeRange=start/stop&streamFilterStreamFunction=regrid(ppd) and
-write parameter_start_stop_ppd.bin + tsml. Constraint is that ppd must be an integer,
-which constrains dt.
+If not, request timeRange=start/stop&streamFilterStreamFunction=regrid(start/stop,dt) and
+write parameter_start_stop_dt.bin + tsml.
 
-If another request for parameter,start/stop,ppd with timerange in existing range,
+If another request for parameter,start/stop,dt with timerange in existing range,
 streamsubset of existing file (and write cache of subset?).
 
 If another request with timerange that ends after existing range,
-timeRange=stop/stopnew&streamFilterStreamFunction=regrid(ppd)
+timeRange=stop/stopnew&streamFilterStreamFunction=regrid(start/stopnew,dt)
 and then concatenate and rename existing bin file
 
 TODO: Deal with timerange before existing timerange?
