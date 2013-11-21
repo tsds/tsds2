@@ -3,22 +3,22 @@ as a check on if service is working.
 
 TODO: How to handle requests for start before available start time?  Same for stop.
 
+TODO: Deal with timerange before existing timerange?
+
 Given parameter,start/stop,dt with parameter a scalar time series,
 
-If request for parameter,start/stop,dt with timerange in existing range of
+* If request for parameter,start/stop,dt with timerange in existing range of
 parameter_start_stop_dt.bin, subset it and send data.
 
-If not, request timeRange=start/stop&streamFilterStreamFunction=regrid(start/stop,dt) and
+* If not, request timeRange=start/stop&streamFilterStreamFunction=regrid(start/stop,dt) and
 write parameter_start_stop_dt.bin + tsml.
 
-If another request for parameter,start/stop,dt with timerange in existing range,
+* If another request for parameter,start/stop,dt with timerange in existing range,
 streamsubset of existing file (and write cache of subset?).
 
-If another request with timerange that ends after existing range,
+* If another request with timerange that ends after existing range,
 timeRange=stop/stopnew&streamFilterStreamFunction=regrid(start/stopnew,dt)
 and then concatenate and rename existing bin file
-
-TODO: Deal with timerange before existing timerange?
 
 var http = require('http');
 var fs   = require('fs');
