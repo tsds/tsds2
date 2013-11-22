@@ -1,4 +1,4 @@
-var debug        = false;
+var debug        = true;
 var debugcatalog = false;
 
 var fs      = require('fs');
@@ -12,6 +12,9 @@ var port    = process.argv[2] || 8004;
 var http    = require('http');
 var url     = require('url');
 var util    = require('util');
+
+var AUTOPLOT = "http://autoplot.org/plot/dev/SimpleServlet";
+var TSDSFE = "http://localhost:"+port+"/"
 
 http.globalAgent.maxSockets = 100;  // Most Apache servers have this set at 100.
 
@@ -72,7 +75,7 @@ function handleRequest(req, res) {
 	var Nc = 0;
 	var N  = options.catalog.split(";").length;
 
-    res.writeHeader(200, {"Content-Type": "text/plain"}); 
+    res.setHeader("Content-Type","text/plain"); 
 
 	if (N > 1) {
 		var catalogs   = options.catalog.split(";");
@@ -113,64 +116,70 @@ function handleRequest(req, res) {
 			if (!data.match(/^http/)) {
 				if (debug) console.log("Sending "+data)				
 				res.write(data);
-	    		Nc = Nc + 1;
-	    		if (N > 1) res.write("\n");
+	    			Nc = Nc + 1;
+	    			if (N > 1) res.write("\n");
 
-	    		if (Nc == N) {
-		    		res.end();
-		    	} else {
-				catalog(Options[Nc], stream);
-		    	}
+	    			if (Nc == N) {
+		    			res.end();
+		    		} else {
+					catalog(Options[Nc], stream);
+		    		}
 				return;
 			}
 
 			if (debug) console.log("Streaming from\n"+data)
-			http.get(url.parse(data), function(res0) {
-				//util.pump(res0,res);
-				//return;
-			    var data = [];
-			    if (debug) console.log(res0.headers)
-			    //res.setHeader('Content-Disposition','attachment; filename='+res0.headers['content-disposition']);
-			    res0
-			    .on('data', function(chunk) {
-			        res.write(chunk);
-			        data = data+chunk;
-			        //if(!flushed) res0.pause();
-			        if (debug) console.log("Got and wrote chunk of size "+chunk.length);
-			        //console.log(data)
-			    })
-			    .on('end', function() {
-				    	if (debug) console.log('got end.');
-				    	Nc = Nc + 1;
-				    	//if (N > 1) res.write("\n");
-			    		if (Nc == N) {
-			    			if (debug) console.log("Sending res.end().");
-			    			//res.write("\n")
-			    			//console.log(data)
-				    		res.end();
-				    	} else {
-				    		if (debug) console.log("Calling catalog with Nc="+Nc);
-						catalog(Options[Nc], stream);
-				    	}
-			    })
-			}).on('error', function () {
-		    	res.send(502);
-		    });
-		} else if (status == 301) {
-			res.redirect(301,data);
-		} else {
-			res.write(JSON.stringify(data));
-    		Nc = Nc + 1;
-    		if (N > 1) res.write("\n");
-    		if (Nc == N) {
-	    		res.end();
-	    	} else {
-				catalog(Options[Nc], stream);
-	    	}
-		}
-		if (debug) console.log("Sent response.");
-	}
+				http.get(data, function(res0) {
+				//http.get(url.parse(data), function(res0) {
+					//util.pump(res0,res);return;
+			    		var data = [];
+			    		if (debug) console.log(res0.headers)
+			    		//res.setHeader('Content-Disposition','attachment; filename='+res0.headers['content-disposition']);
+					if (res0.headers["content-type"])
+			    			res.setHeader('Content-Type',res0.headers["content-type"]);
+			    		if (res0.headers["content-length"])
+				    		res.setHeader('Content-Length',res0.headers["content-length"]);
+			    		if (res0.headers["expires"])
+				    		res.setHeader('Expires',res0.headers["expires"]);
 
+			    		res0
+			    			.on('data', function(chunk) {
+			        			res.write(chunk);
+			        			data = data+chunk;
+			        			//if(!flushed) res0.pause();
+			        			if (debug) console.log("Got chunk of size "+chunk.length);
+			        			//console.log(data)
+			    			})
+			    			.on('end', function() {
+				    			if (debug) console.log('got end.');
+				    			Nc = Nc + 1;
+				    			//if (N > 1) res.write("\n");
+			    				if (Nc == N) {
+			    				if (debug) console.log("Sending res.end().");
+			    				//res.write("\n")
+			    				//console.log(data)
+				    			res.end();
+				    		} else {
+				    			if (debug) console.log("Calling catalog with Nc="+Nc);
+							catalog(Options[Nc], stream);
+				    		}
+			    		})
+				}).on('error', function () {
+		    			res.send(502);
+		    		});
+			} else if (status == 301) {
+				res.redirect(301,data);
+			} else {
+				res.write(JSON.stringify(data));
+    				Nc = Nc + 1;
+    				if (	N > 1) res.write("\n");
+    				if (Nc == N) {
+	    				res.end();
+	    			} else {
+					catalog(Options[Nc], stream);
+	    			}
+			}
+			if (debug) console.log("Sent response.");
+		}		
 }
 
 
@@ -362,105 +371,117 @@ function parameter(options,datasets,catalogs,cb) {
 
 	for (var i = 0;i < parameters.length;i++) {
 			
-			resp[i]           = {};
-			resp[i].value     = parameters[i]["$"]["id"];
-			resp[i].label     = parameters[i]["$"]["name"] || parameters[i]["$"]["id"];
-			resp[i].catalog   = cats[i];
-			resp[i].dataset   = parents[i]["ID"];
-			resp[i].parameter = resp[i].value;
-			resp[i].dd        = parameters[i]["$"];
+		resp[i]           = {};
+		resp[i].value     = parameters[i]["$"]["id"];
+		resp[i].label     = parameters[i]["$"]["name"] || parameters[i]["$"]["id"];
+		resp[i].units     = parameters[i]["$"]["units"];
+		resp[i].fill      = parameters[i]["$"]["fillvalue"];
+		resp[i].catalog   = cats[i];
+		resp[i].dataset   = parents[i]["ID"];
+		resp[i].parameter = resp[i].value;
+		resp[i].dd        = parameters[i]["$"];
 
-			if (!('urltemplate' in resp[i].dd))  {resp[i].dd.urltemplate = parents[i]["urltemplate"]}
-			if (!('urlsouce' in resp[i].dd))     {resp[i].dd.urlsource = parents[i]["urlsource"]}
-			if (!('urlprocessor' in resp[i].dd)) {resp[i].dd.urlprocessor = parents[i]["urlprocessor"]}
-			if (!('timeformat' in resp[i].dd))   {resp[i].dd.timeformat = parents[i]["timeformat"]}
-			if (!('timecolumns' in resp[i].dd))  {resp[i].dd.timecolumns = parents[i]["timecolumns"]}
-			if (!('columns' in resp[i].dd))      {resp[i].dd.columns = parents[i]["columns"]}
-			if (!('start' in resp[i].dd))        {resp[i].dd.start = parents[i]["start"]}
-			if (!('stop' in resp[i].dd))         {resp[i].dd.stop = parents[i]["stop"]}
-			if (!('fillvalue' in resp[i].dd))    {resp[i].dd.stop = parents[i]["fillvalue"]}
+		if (!('urltemplate' in resp[i].dd))  {resp[i].dd.urltemplate = parents[i]["urltemplate"]}
+		if (!('urlsouce' in resp[i].dd))     {resp[i].dd.urlsource = parents[i]["urlsource"]}
+		if (!('urlprocessor' in resp[i].dd)) {resp[i].dd.urlprocessor = parents[i]["urlprocessor"]}
+		if (!('timeformat' in resp[i].dd))   {resp[i].dd.timeformat = parents[i]["timeformat"]}
+		if (!('timecolumns' in resp[i].dd))  {resp[i].dd.timecolumns = parents[i]["timecolumns"]}
+		if (!('columns' in resp[i].dd))      {resp[i].dd.columns = parents[i]["columns"]}
+		if (!('start' in resp[i].dd))        {resp[i].dd.start = parents[i]["start"]}
+		if (!('stop' in resp[i].dd))         {resp[i].dd.stop = parents[i]["stop"]}
+		if (!('fillvalue' in resp[i].dd))    {resp[i].dd.fillvalue = parents[i]["fillvalue"]}
 
-			if (options.parameters !== "^.*") {				
-				if (options.parameters.substring(0,1) === "^") {
-					if (!(parameters[i]["$"]["id"].match(options.parameters))) {
-						delete resp[i];
-					}
-				} else  {				
-					if (!(parameters[i]["$"]["id"] === options.parameters)) {
-						delete resp[i];
-					}
+		if (options.parameters !== "^.*") {				
+			if (options.parameters.substring(0,1) === "^") {
+				if (!(parameters[i]["$"]["id"].match(options.parameters))) {
+					delete resp[i];
+				}
+			} else  {				
+				if (!(parameters[i]["$"]["id"] === options.parameters)) {
+					delete resp[i];
 				}
 			}
+		}
 	}
 	
-		resp = resp.filter(function(n){return n});
-		if (typeof(resp[0]) === "undefined") {cb(200,"[]");return;}
+	resp = resp.filter(function(n){return n});
+	if (typeof(resp[0]) === "undefined") {cb(200,"[]");return;}
 
-		var columns = resp[0].dd.timecolumns + "," + resp[0].dd.columns;
+	var columns = resp[0].dd.timecolumns + "," + resp[0].dd.columns;
 
-		if (options.start || options.stop) {
-			start = options.start || resp[0].dd.start;
-			stop  = options.stop  || resp[0].dd.stop;
-			if (debug) console.log("Requested start :" + Date.parse(options.start));
-			if (debug) console.log("DD start        :" + Date.parse(resp[0].dd.start));
-			if (debug) console.log("Requested stop  :" + Date.parse(options.stop));
-			if (debug) console.log("DD stop         :" + Date.parse(resp[0].dd.stop));
+	if (options.start || options.stop) {
+		start = options.start || resp[0].dd.start;
+		stop  = options.stop  || resp[0].dd.stop;
 
+		if (debug) console.log("Requested start :" + Date.parse(options.start));
+		if (debug) console.log("DD start        :" + Date.parse(resp[0].dd.start));
+		if (debug) console.log("Requested stop  :" + Date.parse(options.stop));
+		if (debug) console.log("DD stop         :" + Date.parse(resp[0].dd.stop));
+
+		var urltemplate  = resp[0].dd.urltemplate;
+		var urlprocessor = resp[0].dd.urlprocessor;
+		var urlsource    = resp[0].dd.urlsource;
 			
-			if (Date.parse(stop) < Date.parse(start)) {
-				cb(500,"Stop time is before than start time");
-				return;
-			}
-			if (Date.parse(start) > Date.parse(stop)) {
-				cb(500,"Start time is later than stop time");
-				return;
-			}
+		if (Date.parse(stop) < Date.parse(start)) {
+			cb(500,"Stop time is before than start time");
+			return;
+		}
+		if (Date.parse(start) > Date.parse(stop)) {
+			cb(500,"Start time is later than stop time");
+			return;
+		}
+
+		var args = "";
+		if (urlprocessor) {
+			args = "&plugin="+urlprocessor;
+		}
+		if (urltemplate) {
+			args = args + "&template="+urltemplate;
+		} 
+		if (urlsource) {
+			args = args + "&source="+urlsource;
+		}
+
+		if (args) {
+			var dc = DC+"?"+args+"&timeRange="+start+"/"+stop;
+		} else {
+			var dc = DC+"?timeRange="+start+"/"+stop;
+		}
 			
-			//console.log("template="+resp[0].dd.urltemplate+"&timeRange="+start+"/"+stop);
-
-			var urltemplate  = resp[0].dd.urltemplate;
-			var urlprocessor = resp[0].dd.urlprocessor;
-			var urlsource    = resp[0].dd.urlsource;
-							
-			//console.log("urlprocessor: " + resp[0].dd.urlprocessor)
-			var args = "";
-			if (urlprocessor) {
-				args = "&plugin="+urlprocessor;
-			}
-			if (urltemplate) {
-				args = args + "&template="+urltemplate;
-			} 
-			if (urlsource) {
-				args = args + "&source="+urlsource;
-			}
-
-			if (args) {
-				var dc = DC+"?"+args+"&timeRange="+start+"/"+stop;
-			} else {
-				var dc = DC+"?timeRange="+start+"/"+stop;
-			}
-			
-			if (options.return === "urilist") {
-				cb(0,dc+"&return=urilist");
-			}
-			if (options.return === "urilistflat") {
-				cb(0,dc+"&return=urilistflat");
-			}
+		if (options.return === "urilist") {
+			cb(0,dc+"&return=urilist");
+		}
+		if (options.return === "urilistflat") {
+			cb(0,dc+"&return=urilistflat");
+		}
+		if (options.return === "redirect") {
 			// If more than one resp, this won't work.
-			if (options.return === "redirect") {
-				cb(302,dc);
-			}
+			cb(302,dc);
+		}
+		if (options.return === "png") {
 			// If more than one resp, this won't work.
-			if (options.return === "jyds") {
-				cb(0,"http://localhost:"+port+"/tsdsfe.jyds");
-			}
-			// If more than one resp, this won't work.
-			if (options.return === "dd") {
-				cb(0,JSON.stringify(resp[0].dd));
-			}
 
-			if (options.return === "stream") {				 
-				dc = dc
+			turl = "?catalog="+resp[0].catalog+"&dataset="+resp[0].dataset+"&parameters="+resp[0].parameter+"&start="+start+"&stop="+stop;
+			url = TSDSFE + "tsdsfe.jyds?server="+TSDSFE+"&catalog="+resp[0].catalog+"&dataset="+resp[0].dataset+"&parameters="+resp[0].parameter+"&timerange="+start+"/"+stop;
+			if (resp[0].label !== "") url = url + "&labels="+resp[0].label;
+			if (resp[0].units !== "")  {url = url + " ["+resp[0].units+"]" +"&units="+resp[0].units;}
+			if (resp[0].fill !== "")  url = url + "&fills="+resp[0].fill;
+			var aurl = AUTOPLOT + "?drawGrid=true&plot.xaxis.drawTickLabels=true&width=800&height=200&url=vap+jyds:" + encodeURIComponent(url);	
+			console.log(aurl);
+			console.log(typeof(aurl))
+			cb(0,aurl);
+		}
+		if (options.return === "jyds") {
+			// If more than one resp, this won't work.
+			cb(0,"http://localhost:"+port+"/tsdsfe.jyds");
+		}
+		if (options.return === "dd") {
+			// If more than one resp, this won't work.
+			cb(0,JSON.stringify(resp[0].dd));
+		}
+
+		if (options.return === "stream") {				 
+			dc = dc
 					+"&return=stream"
 					+"&lineRegExp="+ resp[0].dd.lineregex
 					+"&timecolumns="+resp[0].dd.timecolumns
@@ -474,15 +495,14 @@ function parameter(options,datasets,catalogs,cb) {
 					+"&streamGzip=false"
 					;
 
-				if (!options.usecache) dc = dc+"&forceUpdate=true&forceWrite=true"
+			if (!options.usecache) dc = dc+"&forceUpdate=true&forceWrite=true"
 
-				//dc = dc+"&return=stream&lineRegExp="+resp[0].dd.lineregex + "&timecolumns="+resp[0].dd.timecolumns+"&timeformat="+resp[0].dd.timeformat+"&streamFilterReadColumns="+columns+"&lineFormatter=formattedTime&outformat="+options.outformat;
-				//console.log(dc)
-				cb(0,dc)
-			}
-		} else {
-			cb(200,resp);
+			//dc = dc+"&return=stream&lineRegExp="+resp[0].dd.lineregex + "&timecolumns="+resp[0].dd.timecolumns+"&timeformat="+resp[0].dd.timeformat+"&streamFilterReadColumns="+columns+"&lineFormatter=formattedTime&outformat="+options.outformat;
+			//console.log(dc)
+			cb(0,dc)
 		}
+	} else {
+		cb(200,resp);
+	}
 		
 }
-

@@ -419,17 +419,12 @@
 					var START_dateISO = START_date.toISOString().replace(/T.*/,"");
 					var STOP_dateISO  = STOP_date.toISOString().replace(/T.*/,"");
 						
-					turl = "?catalog="+selected('catalog')+"&dataset="+selected('dataset')+"&parameters="+selected('parameters')+"&start="+START_dateISO+"&stop="+STOP_dateISO;
-					url = TSDSFE + "tsdsfe.jyds?server="+TSDSFE+"&catalog="+selected('catalog')+"&dataset="+selected('dataset')+"&parameters="+selected('parameters')+"&timerange="+START_dateISO;
-					if (labels !== "") url = url + "&labels="+labels;
-					if (units !== "")  {url = url + " ["+units+"]" +"&units="+units;}
-					if (fills !== "")  url = url + "&fills="+fills;
-					var aurl = AUTOPLOT + "?drawGrid=true&plot.xaxis.drawTickLabels=true&width=800&height=200&url=vap+jyds:" + encodeURIComponent(url);
+					aurl = "?catalog="+selected('catalog')+"&dataset="+selected('dataset')+"&parameters="+selected('parameters')+"&start="+START_dateISO+"&stop="+STOP_dateISO+"&return=png";
 					START_date.addDays(1);
 					STOP_date.addDays(1);
 
 					console.log(aurl);
-					links = "<a id='" + i + "' href='http://autoplot.org/autoplot.jnlp?open=vap+jyds:"+url+"'>View in Autoplot</a>"
+					links = "<a id='" + i + "' href='http://autoplot.org/autoplot.jnlp?open=vap+jyds:"+aurl+"'>View in Autoplot</a>"
 					links = links + " | <a style='text-decoration:underline;cursor:pointer' onclick='viewdata("+i+")'>View Data</a> | <i id='"+i+"'>Requesting image</i>";
 					$("#previewimg").append("<div style='position:relative'><img onclick='imgclicked("+i+")' onload='imgloaded("+i+")' id='" + i + "' style='z-index: -1' src='"+aurl+"'></img><div style='position:absolute;left:0px;top:0px;font-size:8pt'>"+links+"</div></div>");
 					$("#previewimg").append("<div style='position:relative'><font size='-1'><a style='' id='" + i + "'></a></font><iframe width='98%' id='" + i + "' data='"+turl+"' style='display:none'></iframe></div>");

@@ -48,23 +48,23 @@ tests[11].log  = 'console.log("File should have 577 rows.  Found: " + len );';
 
 tests[12] = {};
 tests[12].url = "catalog=USGS/RT/PT1M&dataset=BDT&parameters=H&start=-P3D&stop=P0D";
-tests[12].test = function (data) {var len = data.toString().split("\n").length;eval(tests[12].log);if (len == 2881) {return true;} else {return false} };
-tests[12].log  = 'console.log("File should have 2881 rows.  Found: " + len );';
+tests[12].test = function (data) {var len = data.toString().split("\n").length;eval(tests[12].log);if (len == 4321) {return true;} else {return false} };
+tests[12].log  = 'console.log("File should have 4321 rows.  Found: " + len );';
 
 tests[13] = {};
 tests[13].url = "catalog=USGS/RT/PT1M&dataset=BDT&parameters=H&start=-P3D&stop=P0D&outformat=0";
-tests[13].test = function (data) {var len = data.toString().split("\n").length;eval(tests[13].log);if (len == 2881) {return true;} else {return false} };
-tests[13].log  = 'console.log("File should have 2881 rows.  Found: " + len );';
+tests[13].test = function (data) {var len = data.toString().split("\n").length;eval(tests[13].log);if (len == 4321) {return true;} else {return false} };
+tests[13].log  = 'console.log("File should have 4321 rows.  Found: " + len );';
 
 tests[14] = {};
 tests[14].url = "catalog=USGS/RT/PT1M&dataset=BDT&parameters=H&start=-P3D&stop=P0D&outformat=1";
-tests[14].test = function (data) {var len = data.toString().split("\n").length;eval(tests[14].log);if (len == 2881) {return true;} else {return false} };
-tests[14].log  = 'console.log("File should have 2881 rows.  Found: " + len );';
+tests[14].test = function (data) {var len = data.toString().split("\n").length;eval(tests[14].log);if (len == 4321) {return true;} else {return false} };
+tests[14].log  = 'console.log("File should have 4321 rows.  Found: " + len );';
 
 tests[15] = {};
 tests[15].url = "catalog=USGS/RT/PT1M&dataset=BDT&parameters=H&start=-P3D&stop=P0D&outformat=2";
-tests[15].test = function (data) {var len = data.toString().split("\n").length;eval(tests[15].log);if (len == 2881) {return true;} else {return false} };
-tests[15].log  = 'console.log("File should have 2881 rows.  Found: " + len );';
+tests[15].test = function (data) {var len = data.toString().split("\n").length;eval(tests[15].log);if (len == 4321) {return true;} else {return false} };
+tests[15].log  = 'console.log("File should have 4321 rows.  Found: " + len );';
 
 tests[16] = {};
 tests[16].url = "catalog=SWPC/AK/2DayFile&dataset=AK&parameters=BoulderK&start=-P2D&stop=P1D";
