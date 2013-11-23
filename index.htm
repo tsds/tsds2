@@ -11,6 +11,7 @@
   		<script type="text/javascript" src="js/deps/jquery-ui-1.9.2.js"></script>
 		<script type="text/javascript" src="js/deps/jquery-simulate-0.0.1.js"></script>
 		<script type="text/javascript" src="js/deps/date.js"></script>
+		<!-- http://benalman.com/projects/jquery-url-utils-plugin/ -->
 		<script type="text/javascript" src="js/deps/jquery.query-2.1.3.js"></script>
 		<script type="text/javascript" src="js/deps/jquery.ba-hashchange-1.3.js"></script>
 		<script type="text/javascript" src="js/jquery.scrollTo-min.js"></script>
@@ -23,7 +24,16 @@
 			function tsdsfeajax(i,url) {
 				url = TSDSFE + url;
 				$('#status').show();
+				if (typeof(tsdsfeajax.cache) === "undefined") {
+					tsdsfeajax.cache = {};
+				}
+				if (tsdsfeajax.cache[url]) {
+					console.log("tsdsfeajax: Cache hit");
+					return $.parseJSON(tsdsfeajax.cache[url]);
+				}
 				$('#status').html("Requesting " + url);
+				console.log("Requesting " + url);
+
 				$.ajax({
 					type: "GET",
 					url: url,
@@ -33,11 +43,12 @@
 						console.log("Loaded data for "+i);
 						//$('#status'+i).hide();
 						$('#ready'+i).show();
-						console.log("data="+data);
+						//console.log("data="+data);
 						if (!data.match(/^\s*\[/)) {
-							ret = data.replace(/,$/,"").replace(/\n/,'').split(",");
-						} else {			
-							eval("ret=" + data);
+							console.log("here")
+							xret = data.replace(/,$/,"").replace(/\n/,'').split(",");
+						} else {
+							xret = data;
 						}
 						$('#status').html("Received <a target='_blank' href='" + url + "'>"+url.replace("&para","&#38;para")+"</a>");
 						setTimeout(function () {$('#status').html("")}, 3000);
@@ -46,8 +57,8 @@
 						$('#status'+i).text('x');
 					}
 				});
-				//console.log(ret);
-				return ret;				
+				tsdsfeajax.cache[url] = xret;
+				return $.parseJSON(xret);				
 			}
 			
 			function getdas(attr) {
@@ -94,6 +105,7 @@
 			
 			function catalogs(i) {
 				catalogs.onselect = function () {
+					console.log("catalogs.onselect called");
 					//$('#status').text('Retrieving dataset list');
 					info = tsdsfeajax(i,"?catalog="+selected('catalog'));
 					catalog.info = info;
@@ -102,7 +114,7 @@
 					$('#cataloginfo').append('<ul style="list-style-position: outside;">');					
 					if (info.length > 0) {
 						for (j = 0;j < info.length;j++) {
-							console.log("info:" + info[j].title);
+							console.log("Info: " + info[j].title);
 							if (!(info[j].title === "") && !(info[j].link === "")) {
 								$('#cataloginfo ul').append('<li style=""><a href="'+info[j].link+'">'+info[j].title+'</a></li>');
 							} else if ((info[j].title === "") && !(info[j].link === "")) {
@@ -120,14 +132,13 @@
 					$('#cataloginfo').show();
 					hidedivs();
 				};
-						
+
 				return tsdsfeajax(i,"?catalog=^.*");
 			}
 			
 			function datasets(i) {
 				datasets.onselect = function () {
 					info = tsdsfeajax(i,"?catalog="+selected('catalog')+"&dataset="+selected('dataset'));
-					datasets.info = info;
 					$('#datasetinfo').html("<b>Dataset documentation:</b>")
 					$('#datasetinfo').show();					
 					$('#datasetinfo').append('<ul style="list-style-position: outside;">');
@@ -151,11 +162,15 @@
 					
 					//updatehash(i,"dataset");	
 				};
-				list = tsdsfeajax(i,"?catalog="+selected('catalog')+"&dataset=^.*");
 
+				var list = null;
+				delete list;
+				console.log("List before")
+				list = tsdsfeajax(i,"?catalog="+selected('catalog')+"&dataset=^.*");
+				
 				//console.log("--" + qs["dataset"])
 				//console.log($("#dataset"));
-				console.log(list);
+				//console.log(list);
 				for (var k = 0; k < list.length; k++) {
 					if (list[k].label === "") {
 						list[k].label = list[k].name;
@@ -165,6 +180,7 @@
 					} else if (list[k].label === "") {
 						list[k].label = list[k].value  + ": (no label or name in catalog)";						
 					} else {
+						//console.log("Setting list["+k+"].label");
 						list[k].label = list[k].value + ": " + list[k].label;
 					}
 				}
@@ -180,7 +196,6 @@
 			
 			function starttime(i) {
 				starttime.onselect = function () {
-					//updatehash(i,"start");
 					$('#datadiv').hide();	$('#outputinfo').hide();
 				};
 
@@ -290,28 +305,12 @@
 
 			function triggerselect() {
 				// Set inital values of drop-downs based on hash.
-				if (location.hash !== "") {
 					qs = $.parseQueryString();
-					console.log("Initial query string");
-					console.log(qs);
-					if (false) {
-						var ids = ["catalog","dataset","parameters","start","stop","outformat"];
-						for (var i=0;ids.length;i++) {
-							if (typeof(qs[ids[i]]) !== "undefined") {
-								console.log(qs[ids[i]]) 
-								if ($("#"+id).length > 0) {
-									$("#"+id).val(qs[ids[i]]).data("autocomplete")._trigger("select",event,{item:qs[ids[i]]})
-								}
-							}
-						}
-					}					
-					if (true) {
+					console.log("Initial query string: " + JSON.stringify(qs));		
 					for (var id in qs) {
-						console.log("id="+id);
+						console.log("Triggering select for drop-down with id = "+id);
 						$("#"+id).val(qs[id]).data("autocomplete")._trigger("select",event,{item:qs[id]});
 					}
-					}
-				}
 			}				
 			
 			function tests(i) {
@@ -376,8 +375,9 @@
 			function show1pdplots() {
 
 				var timeRange  = expandISO8601Duration(selected('start')+"/"+selected('stop'));
-				var START_date = new Date(timeRange.split("/")[0]);
-				var STOP_date  = new Date(timeRange.split("/")[1]);
+				//alert(timeRange);
+				var START_date = new Date(timeRange.split("/")[0].substring(0,10)+"T00:00:00.000Z");
+				var STOP_date  = new Date(timeRange.split("/")[1].substring(0,10)+"T23:59:59.999Z");
 				var START_ms   = START_date.getTime();
 				var STOP_ms    = STOP_date.getTime();
 				var Ndays      = Math.round((STOP_ms-START_ms)/(1000*24*60*60));
@@ -394,11 +394,11 @@
 				// For now assume all parameters have same units.
 				// When tsdsfe.jyds and servlet understand http://tsds.org/dd, will use that notation.				
 				
-				fills  = das[0].dd.fillvalue;
+				fills  = das[0].dd.fillvalue.replace("e+","e"); // So no need to encode fill value.
 				units  = das[0].dd.units;
 				labels = das[0].dd.label;
-				fills.replace("e+","e"); // So no need to decode fill value.
-
+				units = units.replace(/\^/g,"**");
+				
 				if (Ndays == 1) {
 					$('#status').text('Requesting 1 image.');
 				} else {
@@ -409,22 +409,32 @@
 
 				imgloaded.Ndays = Ndays;
 				imgloaded.loaded = 0;
-
-				var START_date = new Date(expandISO8601Duration(selected('stop')))
-				START_date.addDays(-1);
-
+				var STOP_date  = new Date(timeRange.split("/")[0].substring(0,10)+"T00:00:00.000Z");
+				STOP_date.addDays(1)
 				var i = 0;
 				if (Ndays > 10) Ndays = 10;
 				while (i < Ndays) {
 					var START_dateISO = START_date.toISOString().replace(/T.*/,"");
 					var STOP_dateISO  = STOP_date.toISOString().replace(/T.*/,"");
-						
-					aurl = "?catalog="+selected('catalog')+"&dataset="+selected('dataset')+"&parameters="+selected('parameters')+"&start="+START_dateISO+"&stop="+STOP_dateISO+"&return=png";
+
+					 turl = "?catalog="+selected('catalog')+"&dataset="+selected('dataset')+"&parameters="+selected('parameters')+"&start="+START_dateISO+"&stop="+STOP_dateISO;
+					 url = TSDSFE + "tsdsfe.jyds?server="+TSDSFE+"&catalog="+selected('catalog')+"&dataset="+selected('dataset')+"&parameters="+selected('parameters')+"&timerange="+START_dateISO;
+					 if (labels !== "") url = url + "&labels="+labels;
+					 if (units !== "")  {url = url + " ["+units+"]" +"&units="+units;}
+					 if (fills !== "")  url = url + "&fills="+fills;
+					 var aurl = AUTOPLOT + "?drawGrid=true&plot.xaxis.drawTickLabels=true&width=800&height=200&url=vap+jyds:" + encodeURIComponent(url);
+										
+					//aurl = "?catalog="+selected('catalog')+"&dataset="+selected('dataset')+"&parameters="+selected('parameters')+"&start="+START_dateISO+"&stop="+STOP_dateISO+"&return=png";
 					START_date.addDays(1);
 					STOP_date.addDays(1);
+							//aurl = "?catalog="+selected('catalog')+"&dataset="+selected('dataset')+
+					//		"&parameters="+selected('parameters')+"&start="+START_dateISO+"&stop="+STOP_dateISO;;
 
-					console.log(aurl);
-					links = "<a id='" + i + "' href='http://autoplot.org/autoplot.jnlp?open=vap+jyds:"+aurl+"'>View in Autoplot</a>"
+					console.log(url)
+					console.log(aurl)
+					START_date.addDays(1);
+					STOP_date.addDays(1);
+					links = "<a id='" + i + "' href='http://autoplot.org/autoplot.jnlp?open=vap+jyds:"+url+"'>View in Autoplot</a>";
 					links = links + " | <a style='text-decoration:underline;cursor:pointer' onclick='viewdata("+i+")'>View Data</a> | <i id='"+i+"'>Requesting image</i>";
 					$("#previewimg").append("<div style='position:relative'><img onclick='imgclicked("+i+")' onload='imgloaded("+i+")' id='" + i + "' style='z-index: -1' src='"+aurl+"'></img><div style='position:absolute;left:0px;top:0px;font-size:8pt'>"+links+"</div></div>");
 					$("#previewimg").append("<div style='position:relative'><font size='-1'><a style='' id='" + i + "'></a></font><iframe width='98%' id='" + i + "' data='"+turl+"' style='display:none'></iframe></div>");
@@ -484,7 +494,7 @@
 				});
 			
 			$(function() {
-				
+
 				// See Harris' post at http://stackoverflow.com/questions/426258/how-do-i-check-a-checkbox-with-jquery-or-javascript
 				(function( $ ) {
 				    $.fn.checked = function(value) {
@@ -503,31 +513,42 @@
 				
 				if (location.hash.match("usecache=false")) {
 					$('#usecache').each(function(){ this.checked = false; });
+					if (location.hash === "") {
+						var qs = {};
+					} else {
+						var qs = $.parseQueryString();
+					}
+					qs["usecache"]="false";
+					location.hash=JSON.stringify(qs);
 				} else {
 					$('#usecache').each(function(){ this.checked = true; });
+					if (location.hash === "") {
+						var qs = {};
+					} else {
+						var qs = $.parseQueryString();
+					}
+					qs["usecache"]="true";
+					//location.hash=decodeURIComponent($.param(qs));
+					//alert("--Setting");
 				}
+				
 				if (location.hash.match("preview=false")) {
 					$('#previewimgcheckbox').each(function(){ this.checked = true; });
 				} else {
 					$('#previewimgcheckbox').each(function(){ this.checked = true; });
 				}
 				
-				function callback() {}
-				
-				dropdown2(["catalog","dataset","parameters","start","stop","outformat"],["Catalog","Datasets","Parameters","Start","Stop","Output"],[catalogs,datasets,parameters,starttime,stoptime,outformat],"#dropdowns",0,"",callback);
 
-				dropdown2(["tests"],["Tests"],[tests],"#dropdownstest");
+				//dropdown2(["catalog"],["Catalog"],[catalogs],"#dropdowns",0,"",function () {});
+				dropdown2(["catalog","dataset","parameters","start","stop","outformat"],["Catalog","Datasets","Parameters","Start","Stop","Output"],[catalogs,datasets,parameters,starttime,stoptime,outformat],"#dropdowns",0,"");
 
+				//dropdown2(["tests"],["Tests"],[tests],"#dropdownstest");
 
-				triggerselect();
-					
+				if (location.hash !== "") {
+					triggerselect();
+				}			
 				//preview();
 				
-				//if (location.hash) {
-				//	qs = $.parseQueryString();
-				//	$("#catalog").val(qs["catalog"]).data("autocomplete")._trigger("select",event,{item:qs["catalog"]});
-				//	console.log("Setting catalog to " + qs["catalog"]);
-				//}
 				return;
 				console.log("Binding hashchange");
 				//$(window).hashchange.byurledit = false;

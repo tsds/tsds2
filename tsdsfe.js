@@ -1,6 +1,9 @@
 var debug        = true;
 var debugcatalog = false;
 
+var AUTOPLOT = "http://autoplot.org/plot/dev/SimpleServlet";
+var TSDSFE = "http://tsds.org/get2/";
+
 var fs      = require('fs');
 var request = require("request");
 var	express = require('express');
@@ -12,9 +15,6 @@ var port    = process.argv[2] || 8004;
 var http    = require('http');
 var url     = require('url');
 var util    = require('util');
-
-var AUTOPLOT = "http://autoplot.org/plot/dev/SimpleServlet";
-var TSDSFE = "http://localhost:"+port+"/"
 
 http.globalAgent.maxSockets = 100;  // Most Apache servers have this set at 100.
 
