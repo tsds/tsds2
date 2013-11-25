@@ -25,14 +25,18 @@ for (var i = 0;i<lista.length;i++) {
 	}
 }
 
+var listf = [];
+listg = listg.filter(function(n){return n}); // Remove undefined elements. 
 for (var i = 0;i<listg.length;i++) {
 	//console.log("--" + listg[i]);
-	if (typeof(listg[i]) !== "undefined") {
-		gzipBuffer = fs.readFileSync(listg[i]);
-		unz(i);
-	}
+	gzipBuffer = fs.readFileSync(listg[i]);
+	unz(i,listg.length,function () {
+		console.log("var list = " + JSON.stringify(listf));
+	});
 }
-function unz(i) {
+function unz(i,N,cb) {
+		if (typeof(unz.N) === "undefined") unz.N = 0;
+		
 		zlib.gunzip(gzipBuffer, function(err, result) {
 	    		if (err) return console.error(err);
 	    		var file = result.toString().split(/\n|\r\n/);
@@ -43,6 +47,12 @@ function unz(i) {
 	    		var lat = file.filter(function(line){return line.search(/^ Geodetic Latitude/)!=-1;}).join("").replace(" Geodetic Latitude","");
 	    		var long = file.filter(function(line){return line.search(/^ Geodetic Longitude/)!=-1;}).join("").replace(" Geodetic Longitude","");
 	    		var meta = lista[i].replace(/ /g,",") + "," + coordsys + "," + lat + "," + long + "," + source + "," + name;
-	    		console.log(meta.replace(/\s{2,}|\||^M/g,""));
+	    		var line = meta.replace(/\s{2,}|\||^M/g,"");
+	    		//console.log(line);
+	    		listf[i] = line;
+	    		unz.N = unz.N+1;
+			process.stderr.write(unz.N+ "/" + N+"\n");
+	    		if (unz.N === N) cb();
+
 		});
 }
