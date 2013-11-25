@@ -149,6 +149,7 @@
 			}
 
 			$("#presetselect").change(function () {
+
 				var id = $("#presetselect").val();
 				if (!qscatalog) {
 					location.hash=id;
@@ -161,11 +162,10 @@
 
 				setpresets(Presets[id]);
 				expand();
-				
 				$('#Datasets').autosize();
 				
 				str = createcatalog();
-				
+
 				$(".CodeMirror").remove();
 				//$('#threddscatalog2').empty().val(str);
 				$('#threddscatalog').empty().val(str);
