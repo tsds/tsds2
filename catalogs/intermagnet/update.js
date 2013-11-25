@@ -3,12 +3,12 @@ var fs      = require('fs');
 var exec    = require('child_process').exec;
 var spawn   = require('child_process').spawn;
 
-var cadence = process.argv[3] || "PT1M";
-var expandtemplate = require("tsdset").expandtemplate;
+var expandtemplate        = require("tsdset").expandtemplate;
 var expandISO8601Duration = require("tsdset").expandISO8601Duration;
 
-// Need to urls with and without filename having .gz extension.  Early files were compresses inside
-// of the zip.  
+var cadence = process.argv[2] || "PT1M";
+var k       = parseInt(process.argv[3]) || 0;
+
 if (cadence.match("PT1M")) {
 	var urlo = "http://intermagnet.org/data-donnee/download-2-eng.php?rate=minute&type=variation&format=IAGA2002&from_year=$Y&from_month=$m&from_day=$d&to_year=$Y&to_month=$m&to_day=$d&filter_region%5B%5D=America&filter_region%5B%5D=Asia&filter_region%5B%5D=Europe&filter_region%5B%5D=Pacific&filter_region%5B%5D=Africa&filter_lat%5B%5D=NH&filter_lat%5B%5D=NM&filter_lat%5B%5D=E&filter_lat%5B%5D=SM&filter_lat%5B%5D=SH&select_all%5B%5D=TLC&select%5B%5D=TLClc$Y$m$dvmin.min.gz&email=rweigel%40gmu.edu&accept=accept"; 
 } else {
@@ -18,7 +18,6 @@ if (cadence.match("PT1M")) {
 var lines = fs.readFileSync("INTERMAGNET_"+cadence+".txt");
 var list  = lines.toString().split("\n");
 
-var k = parseInt(process.argv[2])
 get(k);
 
 function get(urls,files) {
@@ -47,9 +46,9 @@ function get(urls,files) {
 	// if (urls.length == 0) {get(k+1);return;}
 	// Instead, do this:
 	function getmore() {
-		var com = "node update.js " + (k+1);
+		var com = "node update.js " + cadence + " " + (k+1);
 		console.log("Executing " + com);
-		child = exec(com, {maxBuffer:10000*1024},function (error, stdout, stderr) {
+		child = exec(com, {maxBuffer:30000*1024},function (error, stdout, stderr) {
 			console.log(error);
 		})
 		child.stdout.on('data', function (data) {
@@ -62,22 +61,21 @@ function get(urls,files) {
 		return;
 	}
 	
-	if (fs.existsSync("./data/"+files[0]) || fs.existsSync("./data/"+files[0].replace(".gz","")) || fs.existsSync("./data/"+files[0].replace(".gz","")+".x")) {
+	var TLC = files[0].substring(0,3).toUpperCase();
+	if (fs.existsSync("./data/"+TLC+"/"+cadence+"/"+files[0]) || fs.existsSync("./data/"+TLC+"/"+cadence+"/"+files[0].replace(".gz","")) || fs.existsSync("./data/"+TLC+"/"+cadence+"/"+files[0].replace(".gz","")+".x")) {
 	 	if (fs.existsSync("./data/"+files[0].replace(".gz","")+".x")) {
-			console.log(files.length + " File ./data/" + files[0].replace(".gz","") + ".x exists.  Not attempting re-download.");
+			console.log(files.length + " File ./data/"+TLC+"/"+cadence+"/"+files[0].replace(".gz","") + ".x exists.  Not attempting re-download.");
 	 	} else {
-			console.log(files.length + " File ./data/" + files[0] + " exists.  Not re-downloading.");
+			console.log(files.length + " File ./data/"+TLC+"/"+cadence+"/"+files[0] + " exists.  Not re-downloading.");
 		}
 		urls.shift();
 		files.shift();
 		get(urls,files);
 		return; 
 	}
-	console.log(files.length + " Requesting: " + urls[0].replace(/%5B%5D/g,"[]").replace(/%40/g,"@"));
-	//console.log(files.length + " To     : " + urls[0].split("?")[0]);
 
-	console.log(files.length + " File   : " + files[0]);
-//	request.post({url:urls[0].split("?")[0],body:encodeURI(urls[0].split("?")[1].replace(/%5B%5D/g,"[]").replace(/%40/g,"@"))}, function (error, response, body) {
+	console.log(files.length + " Requesting: " + urls[0].replace(/%5B%5D/g,"[]").replace(/%40/g,"@"));
+	console.log(files.length + " File   : " +TLC+"/"+cadence+"/"+files[0]);
 
 	request.get(urls[0].replace(/%5B%5D/g,"[]").replace(/%40/g,"@"), function (error, response, body) {
 		if (error) {
@@ -89,10 +87,12 @@ function get(urls,files) {
 			zipfile = "http://www.intermagnet.org/" + str;			
 			fname = zipfile.replace(/.*products\/\/(.*)/,"$1");
 			console.log(files.length + " Downloading "+zipfile);
-			var dir = "./data/";//+files[0].substring(0,3)+"/";
-			child = exec(" mkdir -p " + dir + "; curl " + zipfile + " > "+dir+fname+";cd "+dir+";unzip -o "+fname, function (error, stdout, stderr) {
-				f1 = "./data/"+files[0].replace(".gz","");
-				f2 = "./data/"+files[0].replace(".gz","") + ".gz";
+			console.log(fname);
+
+			var dir = "./data/"+TLC+"/"+cadence;
+			child = exec(" mkdir -p " + dir + "; curl " + zipfile + " > "+dir+"/"+fname+";cd "+dir+";unzip -o "+fname+";rm -f "+fname, function (error, stdout, stderr) {
+				f1 = "./data/"+TLC+"/"+cadence+"/"+files[0].replace(".gz","");
+				f2 = "./data/"+TLC+"/"+cadence+"/"+files[0].replace(".gz","") + ".gz";
 				if (!fs.existsSync(f1) && !fs.existsSync(f2)) {
 					console.log(files.length + " 1. Did not find " + f1);
 					console.log(files.length + " 1. Did not find " + f2);
@@ -106,19 +106,23 @@ function get(urls,files) {
 					}
 				}
 	
-				f1 = "./data/"+files[0].replace(".gz","");
-				f2 = "./data/"+files[0].replace(".gz","") + ".gz";
+				f1 = "./data/"+TLC+"/"+cadence+"/"+files[0].replace(".gz","");
+				f2 = "./data/"+TLC+"/"+cadence+"/"+files[0].replace(".gz","") + ".gz";
 				if (!fs.existsSync(f1) && !fs.existsSync(f2)) {
 					console.log(files.length + " 2. Did not find " + f1);
 					console.log(files.length + " 2. Did not find " + f2);
-					console.log(files.length + " Fail.  Writing ./data/"+files[0]+".x");
-					fs.writeFileSync("./data/"+files[0]+".x","");
+					console.log(files.length + " Fail.  Writing ./data/"+TLC+"/"+cadence+"/"+files[0]+".x");
+					fs.writeFileSync("./data/"+TLC+"/"+cadence+"/"+files[0]+".x","");
 				} else {
-					console.log(files.length + " Success!!!!!  Done downloading.");
+					if (fs.existsSync(f1)) {
+						console.log(files.length + " Success!!!!! "+f1+" found. Done downloading.");
+					}
+					if (fs.existsSync(f1)) {
+						console.log(files.length + " Success!!!!! "+f1+" found.   Done downloading.");
+					}
 				}
 				urls.shift();
 				files.shift();
-				console.log(files.length + " Files remaining: " + files.length);
 				console.log("______________________");
 
 				if (urls.length == 0) getmore(k);

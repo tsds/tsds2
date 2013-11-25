@@ -1,8 +1,9 @@
 function expand() {
 
 	var options   = {};
-	options.start = $("#StartDates").val();
-	options.stop  = $("#StopDates").val();
+	var starts = $("#StartDates").val().split(",");
+	var stops  = $("#StopDates").val().split(",");
+
 	options.type  = "strftime";
 	options.check = false;
 	options.debug = false;
@@ -15,23 +16,36 @@ function expand() {
 	if (options.debug) console.log(Datasets)
 	
 	for (var k=0;k<Datasets.length;k++) {
-//		for (var k=0;k<1;k++) {
+		if (starts.length > 1) {
+			options.timeRange = starts[k]+"/"+stops[k];
+		} else {
+			options.timeRange = starts[0]+"/"+stops[0];
+		}
+
 		options.template = expanddollar($("#URLTemplate").val(),Datasets[k].split(","));
-		//console.log(options);
-		
+		//console.log(options)
 		options.k = k;
 		options.N = Datasets.length;
+		$('#urls').show().val("Computing URLs ...");
 		expandtemplate(options,function (files,headers,options) {
 			Nc = Nc+1;
 			urls[options.k] = files.toString().replace(/,/g,"\n");
-			//console.log(Nc)
+			console.log("Dataset " + Nc + " has " + files.length + " urls.")
 			if (Nc == options.N) {
-				$('#urls').show().val(urls.join("\n\n"));
+				//console.log(urls.length);
+				//console.log("Setting " + urls.length + " urls.");
+				if (urls.length > 1) {
+					console.log("Too many URLs.  Setting first group.");
+					$('#urls').show().val(urls[0]);
+				} else {
+					$('#urls').show().val(urls.join("\n\n"));
+				}
+					
 				$('#urls').scrollLeft(1000);
+				console.log("Done.");
 			}
 		});
 	}
-
 }
 function expanddollar(tmpstr,Dataset) {
 	

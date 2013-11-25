@@ -1,4 +1,5 @@
-CAT=INTERMAGNET
+CADENCE=PT1S
+CAT=INTERMAGNET_$(CADENCE)
 DATE=`date` 
 DATE2=`date "+%Y%m%d"`
 RAW=$(CAT)-$(DATE2).raw
@@ -7,19 +8,24 @@ URL=http://mag.gmu.edu/tsds/catalogs/raw/$(RAW)
 DIR_AUTOPLOT=/var/www/autoplot/bookmarks
 DIR_TSDS=/var/www/tsds/catalogs
 
-all: $(CAT).thredds update
+all:
+	make update CADENCE=PT1M 
+	make update CADENCE=PT1S
 
-update:
-	node update.js 0 PT1M
-	node update.js 0 PT1S
+# Makes one request for each data and each station.  If
+# not found, writes ".x" file.
+update: $(CAT).json
+	node update.js $(CADENCE)
 
-mirror:
-	node mirror.js 0 PT1M
-	node mirror.js 0 PT1S
+mirror: $(CAT).json
+	node mirror.js $(CADENCE)
+	cd data; find . -name "min.min" | xargs gzip --fast {}
+	cd data; find . -name "sec.sec" | xargs gzip --fast {}
+	node metadata.js $(CADENCE) > INTERMAGNET_$(CADENCE).json
 	
-#TODO.  Also create thredds.
+#TODO.  Create thredds.
 $(CAT).json:
-	node app.js "json" > $(CAT).json
+	node catalog.js $(CADENCE)
 
 $(CAT).thredds:
 	node app.js "thredds" > $(CAT).thredds

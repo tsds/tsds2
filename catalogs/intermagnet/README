@@ -1,6 +1,3 @@
-mirror.js makes requests for 60 days of data.
-updates.js makes one request for one day of data from one magnetometer.
-
 This catalog must be mirrored because API creates a temporary file that
 is based on the timestamp (down to the second) of the request.  If two requests
 are made in the same second, the first temporary file is over-written on their server.

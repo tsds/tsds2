@@ -3,25 +3,24 @@ var fs      = require('fs');
 var exec    = require('child_process').exec;
 var spawn   = require('child_process').spawn;
 
-var cadence = process.argv[3] || "PT1M";
-var expandtemplate = require("tsdset").expandtemplate;
+var expandtemplate        = require("tsdset").expandtemplate;
 var expandISO8601Duration = require("tsdset").expandISO8601Duration;
 
-// Need to urls with and without filename having .gz extension.  Early files were compresses inside
-// of the zip.  
-var urlo1 = "http://intermagnet.org/data-donnee/download-2-eng.php?rate=minute&type=variation&format=IAGA2002&from_year=$Y&from_month=$m&from_day=$d&to_year=$Y&to_month=$m&to_day=$d&filter_region%5B%5D=America&filter_region%5B%5D=Asia&filter_region%5B%5D=Europe&filter_region%5B%5D=Pacific&filter_region%5B%5D=Africa&filter_lat%5B%5D=NH&filter_lat%5B%5D=NM&filter_lat%5B%5D=E&filter_lat%5B%5D=SM&filter_lat%5B%5D=SH&select_all%5B%5D=TLC";
-var urlo3 = "&email=rweigel%40gmu.edu&accept=accept"; 
-var Nd = 180;
-var sleepint = 0;
-if (cadence.match("PT1S")) {
-	urlo1.replace("rate=minute","rate=second");
-	var Nd = 50;
+var cadence = process.argv[2] || "PT1M";
+var k       = parseInt(process.argv[3]) || 0;
+
+var sleepint = 1000;
+if (cadence.match("PT1M")) {
+	var urlo = "http://intermagnet.org/data-donnee/download-2-eng.php?rate=minute&type=variation&format=IAGA2002&from_year=$Y&from_month=$m&from_day=$d&to_year=$Y&to_month=$m&to_day=$d&filter_region%5B%5D=America&filter_region%5B%5D=Asia&filter_region%5B%5D=Europe&filter_region%5B%5D=Pacific&filter_region%5B%5D=Africa&filter_lat%5B%5D=NH&filter_lat%5B%5D=NM&filter_lat%5B%5D=E&filter_lat%5B%5D=SM&filter_lat%5B%5D=SH&select_all%5B%5D=TLC"; 
+	var Nd   = parseInt(process.argv[4]) || 180;
+} else {
+	var urlo = "http://intermagnet.org/data-donnee/download-2-eng.php?rate=second&type=variation&format=IAGA2002&from_year=$Y&from_month=$m&from_day=$d&to_year=$Y&to_month=$m&to_day=$d&filter_region%5B%5D=America&filter_region%5B%5D=Asia&filter_region%5B%5D=Europe&filter_region%5B%5D=Pacific&filter_region%5B%5D=Africa&filter_lat%5B%5D=NH&filter_lat%5B%5D=NM&filter_lat%5B%5D=E&filter_lat%5B%5D=SM&filter_lat%5B%5D=SH&select_all%5B%5D=TLC"; 
+	var Nd   = parseInt(process.argv[4]) || 50;
 }
 
 var lines = fs.readFileSync("INTERMAGNET_"+cadence+".txt");
 var list  = lines.toString().split("\n");
 
-var k = parseInt(process.argv[2])
 get(k);
 
 function get(urls,files) {
@@ -34,10 +33,14 @@ function get(urls,files) {
 		var starts = [];
 		var stops  = [];
 		
-		TLC       = list[k].split(" ")[0];
+		TLC = list[k].split(" ")[0];
 		
 		var options      = {};
-		options.template = "&select%5B%5D=TLClc$Y$m$dvmin.min.gz".replace("TLClc",TLC.toLowerCase());
+		if (cadence.match("PT1M")) {
+			options.template = "&select%5B%5D=TLClc$Y$m$dvmin.min.gz".replace("TLClc",TLC.toLowerCase());
+		} else {
+			options.template = "&select%5B%5D=TLClc$Y$m$dvsec.sec.gz".replace("TLClc",TLC.toLowerCase());
+		}
 		options.check    = false;
 		options.side     = "server";
 		options.type     = "strftime";
@@ -71,7 +74,7 @@ function get(urls,files) {
 		filesc[z-1] = filesc[z-1].replace(/undefined/g,"");
 		
 		for (var j = 0;j<filesc.length;j++) {
-			urls[j] = urlo1+filesc[j]+urlo3;
+			urls[j] = urlo+filesc[j]+"&email=rweigel%40gmu.edu&accept=accept";
 
 			urls[j] = urls[j]
 						.replace("from_year=$Y","from_year="+starts[j].substring(0,4))
@@ -84,15 +87,17 @@ function get(urls,files) {
 		}
 	}	
 
-	if (k == list.length-1) return;
-
+	if (k == list.length-1) {
+		console.log("k == " + list.length-1+" returning.");
+		return;
+	}
 	// The following leads to maximum call stack problems (even after increasing --max-stack-size)
 	// if (urls.length == 0) {get(k+1);return;}
 	// Instead, do this:
 	function getmore() {
-		var com = "node mirror.js " + (k+1);
+		var com = "node mirror.js " + cadence + " " + (k+1);
 		console.log("Executing " + com);
-		child = exec(com, {maxBuffer:10000*1024},function (error, stdout, stderr) {
+		child = exec(com, {maxBuffer:30000*1024},function (error, stdout, stderr) {
 			console.log(error);
 		})
 		child.stdout.on('data', function (data) {
@@ -105,11 +110,19 @@ function get(urls,files) {
 		return;
 	}
 	
-	if (fs.existsSync("./data/"+files[0]) || fs.existsSync("./data/"+files[0].replace(".gz","")) || fs.existsSync("./data/"+files[0].replace(".gz",".x"))) {
-	 	if (fs.existsSync("./data/"+files[0].replace(".gz","")+".x")) {
-			console.log(files.length + " File ./data/" + files[0].replace(".gz","") + ".x exists.  Not attempting re-download.");
+	var TLC = files[0].substring(0,3).toUpperCase();
+
+	var chk = false;
+	if (Nd == 1)
+		var chk = fs.existsSync("./data/"+TLC+"/"+cadence+"/"+files[0].replace(".gz",".x"));
+		
+	if (chk || fs.existsSync("./data/"+TLC+"/"+cadence+"/"+files[0]) || fs.existsSync("./data/"+TLC+"/"+cadence+"/"+files[0].replace(".gz","")) ) {
+
+	 	if (fs.existsSync("./data/"+TLC+"/"+cadence+"/"+files[0].replace(".gz","")+".x")) {
+			if (Nd == 1)
+				console.log(files.length + " File ./data/"+TLC+"/"+cadence+"/"+files[0].replace(".gz","") + ".x exists.  Not attempting re-download.");
 	 	} else {
-			console.log(files.length + " File ./data/" + files[0] + " exists.  Not re-downloading.");
+			console.log(files.length + " File ./data/"+TLC+"/"+cadence+"/"+files[0] + " exists.  Not re-downloading.");
 		}
 		urls.shift();
 		files.shift();
@@ -117,7 +130,7 @@ function get(urls,files) {
 		return; 
 	}
 	console.log(files.length + " Requesting: " + urls[0].replace(/%5B%5D/g,"[]").replace(/%40/g,"@"));
-	console.log(files.length + " File: " + files[0]);
+	console.log(files.length + " File: "+TLC+"/"+cadence+"/"+files[0]);
 	
 	request.get(urls[0].replace(/%5B%5D/g,"[]").replace(/%40/g,"@"), function (error, response, body) {
 
@@ -130,10 +143,11 @@ function get(urls,files) {
 			zipfile = "http://www.intermagnet.org/" + str;
 			fname = zipfile.replace(/.*products\/\/(.*)/,"$1");
 
-			f1 = "./data/"+files[0].replace(".gz","");
-			f2 = "./data/"+files[0].replace(".gz","") + ".gz";
+			f1 = "./data/"+TLC+"/"+cadence+"/"+files[0].replace(".gz","");
+			f2 = "./data/"+TLC+"/"+cadence+"/"+files[0].replace(".gz","") + ".gz";
 
-			var com = "bash mirror.sh " + fname;
+			var dir = "./data/"+TLC+"/"+cadence+"/";
+			var com = " mkdir -p " + dir + "; curl " + zipfile + " > "+dir+fname+";cd "+dir+";unzip -o "+fname+";rm -f "+fname;
 			console.log(files.length + " Evaluating "+com);
 			child = exec(com, function (error, stdout, stderr) {
 				if (error) console.log(error);
@@ -152,13 +166,15 @@ function get(urls,files) {
 					}
 				}
 	
-				f1 = "./data/"+files[0].replace(".gz","");
-				f2 = "./data/"+files[0].replace(".gz","") + ".gz";
+				f1 = "./data/"+TLC+"/"+cadence+"/"+files[0].replace(".gz","");
+				f2 = "./data/"+TLC+"/"+cadence+"/"+files[0].replace(".gz","") + ".gz";
+
 				if (!fs.existsSync(f1) && !fs.existsSync(f2)) {
 					console.log(files.length + " 2. Did not find " + f1);
 					console.log(files.length + " 2. Did not find " + f2);
-					console.log(files.length + " Failxxxxx.");
-					//fs.writeFileSync("./data/"+files[0]+".x","");
+					console.log(files.length + " Fail.  Writing ./data/"+TLC+"/"+cadence+"/"+files[0]+".x");
+					if (Nd == 1)
+						fs.writeFileSync("./data/"+TLC+"/"+cadence+"/"+files[0]+".x","");
 				} else {
 					console.log(files.length + " Success!!!!!  Done downloading.");
 				}

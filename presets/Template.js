@@ -1,4 +1,3 @@
-
 id="Template";
 Presets[id] = {};
 

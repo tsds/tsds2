@@ -110,8 +110,8 @@ public class SuperMAG {
 
         String dataset="<dataset name=\""+name+"\" ID=\""+temp[0]+"\">"+"\n"+"<access serviceName=\"tss\" urlPath=\""+temp[0]+"\"> </access>"+"\n";
         dataset+="<access serviceName=\"ncml\" urlPath=\""+temp[0]+"\"> </access>"+"\n";
-        dataset+="<geospatialCoverage><northsouth><start>"+temp[1]+"</start><size>0</size><units>degrees_north</units></northsouth><eastwest><start>"+temp[2]+"</start><size>0</size><units>degrees_east</units></eastwest></geospatialCoverage>";
-        dataset+="<documentation xlink:href=\"http://supermag.jhuapl.edu/info/coordinates.html\" xlink:title=\"Coordinate system information\"/>";
+        dataset+="<geospatialCoverage><northsouth><start>"+temp[1]+"</start><size>0</size><units>degrees_north</units></northsouth><eastwest><start>"+temp[2]+"</start><size>0</size><units>degrees_east</units></eastwest></geospatialCoverage>\n";
+        dataset+="<documentation xlink:href=\"http://supermag.jhuapl.edu/info/coordinates.html\" xlink:title=\"Coordinate system information\"/>\n";
 		dataset+="<documentation xlink:href=\"http://supermag.uib.no/info/rulesoftheroad.html/\" xlink:title=\"Acknowledging SuperMAG's data providers\"/>"+"\n";        
 		dataset+="<documentation xlink:href=\"http://supermag.uib.no/info/acknowledgement.html/\" xlink:title=\"Acknowledging the SuperMAG data service\"/>"+"\n";        
 
@@ -127,12 +127,12 @@ public class SuperMAG {
 
      		//System.err.println(timeRange[0] + "/" + timeRange[1]);
      			String latlong = " (latitude="+temp[1]+" GEO, longitude="+temp[2]+" GEO)";
-                dataset+="<groups><group id=\"B_N,B_E,B_Z\" names=\"B_N,B_E,B_Z at "+name+"\" label=\""+name+latlong+"\" units=\"nT,nT,nT\"></group></groups>";
-                dataset+="<variables>";
-                dataset+="<variable id=\"B_N\" name=\"B_N at "+name+"\" label=\"B_N at "+name+latlong+"\" units=\"nT\" ></variable>";
-                dataset+="<variable id=\"B_E\" name=\"B_E at "+name+"\" label=\"B_E at "+name+latlong+"\" units=\"nT\" latitude=\""+temp[1]+" GEO\" longitude=\""+temp[2]+" GEO\"></variable>";
-                dataset+="<variable id=\"B_Z\" name=\"B_Z at "+name+"\" label=\"B_Z at "+name+latlong+"\" units=\"nT\" latitude=\""+temp[1]+" GEO\" longitude=\""+temp[2]+" GEO\"></variable>";
-                dataset+="</variables>";
+                dataset+="<groups><group id=\"B_N,B_E,B_Z\" names=\"B_N,B_E,B_Z at "+name+"\" label=\""+name+latlong+"\" units=\"nT,nT,nT\"></group></groups>\n";
+                dataset+="<variables>\n";
+                dataset+="<variable id=\"B_N\" name=\"B_N at "+name+"\" label=\"B_N at "+name+latlong+"\" units=\"nT\"  latitude=\""+temp[1]+" GEO\" longitude=\""+temp[2]+" GEO\" type=\"scalar\" fillvalue=\"999999\" format=\"%d\" columns=\"7\"></variable>\n";
+                dataset+="<variable id=\"B_E\" name=\"B_E at "+name+"\" label=\"B_E at "+name+latlong+"\" units=\"nT\" latitude=\""+temp[1]+" GEO\" longitude=\""+temp[2]+" GEO\" type=\"scalar\" fillvalue=\"999999\" format=\"%d\" columns=\"8\"></variable>\n";
+                dataset+="<variable id=\"B_Z\" name=\"B_Z at "+name+"\" label=\"B_Z at "+name+latlong+"\" units=\"nT\" latitude=\""+temp[1]+" GEO\" longitude=\""+temp[2]+" GEO\" type=\"scalar\" fillvalue=\"999999\" format=\"%d\" columns=\"9\"></variable>\n";
+                dataset+="</variables>\n";
         	 dataset+="<timeCoverage>"+"\n"+"<Start>"+timeRange[0]+"-01-01</Start><End>"+timeRange[1]+"-12-31</End>"+"\n"+"</timeCoverage>"+"\n";
         }else{
         	dataset+="<timeCoverage>"+"\n"+"<Start>2011-12-31</Start><End>2013-01-31</End>"+"\n"+"</timeCoverage>"+"\n";
