@@ -12,12 +12,14 @@ var starts = "";
 var stops  = "";
 var c = "";
 Presets[id].Datasets = [];
-for (var i = 0;i< list.length;i++) {
-	Presets[id].Datasets[i] = [list[i].split(" ")[0]+","+list[i].split(" ")[0].toLowerCase()];
+//for (var i = 0;i< list.length;i++) {
+for (var i = 0;i<29;i++) {
+	list2 = list[i].split(",").splice(3);
+	Presets[id].Datasets[i] = [list[i].split(",")[0]+","+list[i].split(",")[0].toLowerCase()].concat(list2);
 	if (i > 0) c=",";
-	starts = starts + c + list[i].split(" ")[1];
-	stops = stops + c + list[i].split(" ")[2];
-
+	console.log(Presets[id].Datasets[i])
+	starts = starts + c + list[i].split(",")[1];
+	stops = stops + c + list[i].split(",")[2];
 }
 
 Presets[id].StartDates = [starts];

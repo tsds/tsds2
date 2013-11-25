@@ -49,9 +49,9 @@ function unz(i,N,cb) {
 	    		var meta = lista[i].replace(/ /g,",") + "," + coordsys + "," + lat + "," + long + "," + source + "," + name;
 	    		var line = meta.replace(/\s{2,}|\||^M/g,"");
 	    		//console.log(line);
-	    		listf[i] = line;
+	    		listf[i] = line.replace("'","\'");
 	    		unz.N = unz.N+1;
-			process.stderr.write(unz.N+ "/" + N+"\n");
+	    		process.stderr.write(unz.N+ "/" + N+"\n");
 	    		if (unz.N === N) cb();
 
 		});
