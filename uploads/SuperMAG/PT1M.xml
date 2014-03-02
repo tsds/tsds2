@@ -1,39 +1,40 @@
 <catalog xmlns:xlink="http://www.w3.org/1999/xlink" id="SuperMAG" name="SuperMAG">
 <documentation xlink:href="http://mag.gmu.edu/catalogs/SuperMAG.txt" xlink:title="Catalog based on http://mag.gmu.edu/catalogs/SuperMAG.txt"/>
-<service name="tss" serviceType="OpenDAP" base="http://tsds.org/tsds/SuperMAG"/>
 
-<dataset name="Baker Lake" ID="BLC" urltemplate="http://supermag.jhuapl.edu/script/download.mag?cli=weigel+$Y$m$d+00%3A00+24%3A00+-s+BLC+-delta%20none+-baseline+all+-imfgsm" timeformat="yyyy MM dd HH mm ss" timecolumns="1,2,3,4,5,6" urlprocessor="supermag" datareader="lasp.tss.iosp.ColumnarAsciiReader">
-<documentation xlink:href="http://supermag.jhuapl.edu/info/coordinates.html" xlink:title="Coordinate system information"/>
-<access serviceName="tss" urlPath="BLC"/>
-<access serviceName="ncml" urlPath="BLC"/>
+<dataset name="Baker Lake" ID="BLC" timecolumns="1,2,3,4,5,6" timeformat="$Y,$m,$d,$H,$M,$S" datareader="lasp.tss.iosp.ColumnarAsciiReader" urltemplate="http://supermag.jhuapl.edu/mag/lib/services/%3Fservice=mag%26user=weigel%26start=$Y-$m-$dT00:00:00.000Z%26interval=23%3A59%26stations=BLC%26delta=none%26baseline=all%26format=ascii%26options=%2Bimfgsm%2Bsza">
+<documentation xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://supermag.jhuapl.edu/info/coordinates.html" xlink:title="Coordinate system information"/>
 <timeCoverage>
-<Start>1980-01-01</Start>
-<End>1980-01-10</End>
+<Start>
+1990-01-01
+</Start>
+<End>
+1990-01-10
+</End>
 </timeCoverage>
-<groups>
-<group/>
-</groups>
+<groups/>
 <variables>
-<variable id="N" name="B_North GEO" label="B_North GEO" units="nT" type="scalar" fillvalue="999999" format="%d" columns="7" lineregex=""/>
-<variable id="E" name="B_East GEO" label="B_East GEO" units="nT" type="scalar" fillvalue="999999" format="%d" columns="8" lineregex=""/>
-<variable id="Z" name="B_Vertical GEO" label="B_Vertical GEO" units="nT" type="scalar" fillvalue="999999" format="%d" columns="9" lineregex=""/>
+<variable id="B_N" name="B North GEO" label="B North GEO" units="nT" type="scalar" fillvalue="999999" rendering="%.1f" columns="8" lineregex=""/>
+<variable id="B_E" name="B East GEO" label="B East GEO" units="nT" type="scalar" fillvalue="999999" rendering="%.1f" columns="9" lineregex=""/>
+<variable id="B_Z" name="B Vertical GEO" label="B Vertical GEO" units="nT" type="scalar" fillvalue="999999" rendering="%.1f" columns="10" lineregex=""/>
+<variable id="SZA" name="Solar Zenith Angle" label="Solar Zenith Angle" units="deg" type="scalar" fillvalue="999999" rendering="%.2f" columns="11" lineregex=""/>
 </variables>
 </dataset>
-<dataset name="College" ID="CMO" urltemplate="http://supermag.jhuapl.edu/script/download.mag?cli=weigel+$Y$m$d+00%3A00+24%3A00+-s+CMO+-delta%20none+-baseline+all+-imfgsm" timeformat="yyyy MM dd HH mm ss" timecolumns="1,2,3,4,5,6" urlprocessor="supermag" datareader="lasp.tss.iosp.ColumnarAsciiReader">
-<documentation xlink:href="http://supermag.jhuapl.edu/info/coordinates.html" xlink:title="Coordinate system information"/>
-<access serviceName="tss" urlPath="CMO"/>
-<access serviceName="ncml" urlPath="CMO"/>
+<dataset name="College" ID="CMO" timecolumns="1,2,3,4,5,6" timeformat="$Y,$m,$d,$H,$M,$S" datareader="lasp.tss.iosp.ColumnarAsciiReader" urltemplate="http://supermag.jhuapl.edu/mag/lib/services/%3Fservice=mag%26user=weigel%26start=$Y-$m-$dT00:00:00.000Z%26interval=23%3A59%26stations=CMO%26delta=none%26baseline=all%26format=ascii%26options=%2Bimfgsm%2Bsza">
+<documentation xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://supermag.jhuapl.edu/info/coordinates.html" xlink:title="Coordinate system information"/>
 <timeCoverage>
-<Start>1980-01-01</Start>
-<End>1980-01-10</End>
+<Start>
+1990-01-01
+</Start>
+<End>
+1990-01-10
+</End>
 </timeCoverage>
-<groups>
-<group/>
-</groups>
+<groups/>
 <variables>
-<variable id="N" name="B_North GEO" label="B_North GEO" units="nT" type="scalar" fillvalue="999999" format="%d" columns="7" lineregex=""/>
-<variable id="E" name="B_East GEO" label="B_East GEO" units="nT" type="scalar" fillvalue="999999" format="%d" columns="8" lineregex=""/>
-<variable id="Z" name="B_Vertical GEO" label="B_Vertical GEO" units="nT" type="scalar" fillvalue="999999" format="%d" columns="8" lineregex=""/>
+<variable id="B_N" name="B North GEO" label="B North GEO" units="nT" type="scalar" fillvalue="999999" rendering="%.1f" columns="8" lineregex=""/>
+<variable id="B_E" name="B East GEO" label="B East GEO" units="nT" type="scalar" fillvalue="999999" rendering="%.1f" columns="9" lineregex=""/>
+<variable id="B_Z" name="B Vertical GEO" label="B Vertical GEO" units="nT" type="scalar" fillvalue="999999" rendering="%.1f" columns="10" lineregex=""/>
+<variable id="SZA" name="Solar Zenith Angle" label="Solar Zenith Angle" units="deg" type="scalar" fillvalue="999999" rendering="%.2f" columns="11" lineregex=""/>
 </variables>
 </dataset>
 </catalog>

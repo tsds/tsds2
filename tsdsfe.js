@@ -15,7 +15,8 @@ var port    = process.argv[2] || 8004;
 var http    = require('http');
 var url     = require('url');
 var util    = require('util');
-
+var crypto  = require("crypto");
+var expandISO8601Duration = require("tsdset").expandISO8601Duration;
 http.globalAgent.maxSockets = 100;  // Most Apache servers have this set at 100.
 
 //var plugin = require('./plugin.js');
@@ -67,15 +68,40 @@ app.get('/tsdsfe2', function (req, res) {
 
 server.listen(port);
 
+var DCcache = {};
+
 function handleRequest(req, res) {
 	var options = parseOptions(req);
 
 	if (debug) console.log("Handling " + req.originalUrl);
 
+	//console.log(req)
+	var urlsig = crypto.createHash("md5").update(req.originalUrl).digest("hex");
+	//console.log(urlsig);
+
+	options.urlsignature = urlsig;
+	
+	var cdir  = __dirname+"/cache/";
+	var cfile = cdir+urlsig+".json";
+
+	if (options.usemetadatacache && fs.existsSync(cfile)) {
+		console.log("Using cache.");
+		fs.createReadStream(cfile).pipe(res);
+		return;
+	}
+
 	var Nc = 0;
 	var N  = options.catalog.split(";").length;
 
+	console.log(DCcache)
+	if (options.usemetadatacache && typeof(DCcache[urlsig]) !== "undefined") {
+		console.log("Using cached DataCacheURL: "+DCcache[urlsig]);
+		stream(0,DCcache[urlsig]);
+		return;
+	}
+
     res.setHeader("Content-Type","text/plain"); 
+
 
 	if (N > 1) {
 		var catalogs   = options.catalog.split(";");
@@ -100,12 +126,12 @@ function handleRequest(req, res) {
 		catalog(Options[0], stream);
 		return;
 	}
-		
+	
 	catalog(options, stream);
 
 	function stream(status, data) {
 		if (debug) console.log("Stream called.")
-		if (debug) console.log(Options);
+		//if (debug) console.log(options);
 		// If more than one resp, this won't work.
 
 		if (options.attach === "true") {
@@ -114,72 +140,81 @@ function handleRequest(req, res) {
 
 		if (status == 0) {
 			if (!data.match(/^http/)) {
-				if (debug) console.log("Sending "+data)				
+				if (debug) console.log("Sending "+data);				
 				res.write(data);
-	    			Nc = Nc + 1;
-	    			if (N > 1) res.write("\n");
-
-	    			if (Nc == N) {
-		    			res.end();
-		    		} else {
-					catalog(Options[Nc], stream);
-		    		}
+				
+	    		Nc = Nc + 1;
+	    		if (N > 1) res.write("\n");
+    			if (Nc == N) {
+	    			res.end();
+	    		} else {
+	    			catalog(Options[Nc], stream);
+	    		}
 				return;
 			}
 
 			if (debug) console.log("Streaming from\n"+data)
-				http.get(data, function(res0) {
-				//http.get(url.parse(data), function(res0) {
-					//util.pump(res0,res);return;
-			    		var data = [];
-			    		if (debug) console.log(res0.headers)
-			    		//res.setHeader('Content-Disposition','attachment; filename='+res0.headers['content-disposition']);
-					if (res0.headers["content-type"])
-			    			res.setHeader('Content-Type',res0.headers["content-type"]);
-			    		if (res0.headers["content-length"])
-				    		res.setHeader('Content-Length',res0.headers["content-length"]);
-			    		if (res0.headers["expires"])
-				    		res.setHeader('Expires',res0.headers["expires"]);
+			http.get(data, function(res0) {
+			//http.get(url.parse(data), function(res0) {
+				//util.pump(res0,res);return;
+		    	var data = [];
+		    	if (debug) console.log(res0.headers)
+		    	//res.setHeader('Content-Disposition','attachment; filename='+res0.headers['content-disposition']);
+				if (res0.headers["content-type"])
+		    			res.setHeader('Content-Type',res0.headers["content-type"]);
+		    		if (res0.headers["content-length"])
+			    		res.setHeader('Content-Length',res0.headers["content-length"]);
+		    		if (res0.headers["expires"])
+			    		res.setHeader('Expires',res0.headers["expires"]);
 
-			    		res0
-			    			.on('data', function(chunk) {
-			        			res.write(chunk);
-			        			data = data+chunk;
-			        			//if(!flushed) res0.pause();
-			        			if (debug) console.log("Got chunk of size "+chunk.length);
-			        			//console.log(data)
-			    			})
-			    			.on('end', function() {
-				    			if (debug) console.log('got end.');
-				    			Nc = Nc + 1;
-				    			//if (N > 1) res.write("\n");
-			    				if (Nc == N) {
-			    				if (debug) console.log("Sending res.end().");
-			    				//res.write("\n")
-			    				//console.log(data)
-				    			res.end();
-				    		} else {
-				    			if (debug) console.log("Calling catalog with Nc="+Nc);
-							catalog(Options[Nc], stream);
-				    		}
-			    		})
-				}).on('error', function () {
-		    			res.send(502);
-		    		});
-			} else if (status == 301) {
-				res.redirect(301,data);
-			} else {
-				res.write(JSON.stringify(data));
-    				Nc = Nc + 1;
-    				if (	N > 1) res.write("\n");
-    				if (Nc == N) {
-	    				res.end();
-	    			} else {
-					catalog(Options[Nc], stream);
-	    			}
+		    		res0
+		    			.on('data', function(chunk) {
+		        			res.write(chunk);
+		        			data = data+chunk;
+		        			//if(!flushed) res0.pause();
+		        			if (debug) console.log("Got chunk of size "+chunk.length);
+		        			//console.log(data)
+		    			})
+		    			.on('end', function() {
+			    			if (debug) console.log('got end.');
+			    			Nc = Nc + 1;
+			    			//if (N > 1) res.write("\n");
+		    				if (Nc == N) {
+		    				if (debug) console.log("Sending res.end().");
+		    				//res.write("\n")
+		    				//console.log(data)
+			    			res.end();
+			    		} else {
+			    			if (debug) console.log("Calling catalog with Nc="+Nc);
+			    			catalog(Options[Nc], stream);
+			    		}
+		    		})
+			}).on('error', function () {
+	    		res.send(502);
+	    	});
+		} else if (status == 301) {
+			res.redirect(301,data);
+		} else {
+			console.log("Sending JSON.")
+			res.write(JSON.stringify(data));
+			
+			if (!fs.existsSync(cdir)) {
+				fs.mkdirSync(cdir);
 			}
-			if (debug) console.log("Sent response.");
-		}		
+			fs.writeFile(cfile,JSON.stringify(data),function (err) {
+				console.log("Wrote "+cfile);
+			});
+
+			Nc = Nc + 1;
+    		if (N > 1) res.write("\n");
+    		if (Nc == N) {
+	    		res.end();
+	    	} else {
+	    		catalog(Options[Nc], stream);
+	    	}
+		}
+		if (debug) console.log("Sent response.");
+	}		
 }
 
 
@@ -193,6 +228,7 @@ function parseOptions(req) {
 	options.catalog      = req.query.catalog      || req.body.catalog      || "^.*";
 	options.dataset      = req.query.dataset      || req.body.dataset      || "";
 	options.parameters   = req.query.parameters   || req.body.parameters   || "";
+	options.groups       = req.query.groups       || req.body.groups       || "";
 	options.start        = req.query.start        || req.body.start        || "";
 	options.stop         = req.query.stop         || req.body.stop         || "";
 	options.return       = req.query.return       || req.body.return       || "stream";
@@ -201,6 +237,10 @@ function parseOptions(req) {
 	options.filter       = req.query.filter       || req.body.filter       || "";
 	options.filterWindow = req.query.filterWindow || req.body.filterWindow || "0";
 	options.usecache     = s2b(req.query.usecache || req.body.usecache     || "true");
+	options.usemetadatacache = s2b(req.query.usemetadatacache || req.body.usemetadatacache     || "false");
+	
+	// Not implemented.
+	//options.useimagecache = s2b(req.query.useimagecache || req.body.useimagecache     || "true");
 	
 	return options;
 }
@@ -220,10 +260,10 @@ function catalog(options, cb) {
 		//var catalogRefs = JSON.stringify(result["catalog"]["catalogRef"]);
 			var catalogRefs = result["catalog"]["catalogRef"];
 			if (debug) console.log("Found " + catalogRefs.length + " catalogRef nodes.");
-
+			//console.log(options.catalog)
 			var k = 0;
 			for (var i = 0;i < catalogRefs.length;i++) {
-
+				//console.log(catalogRefs[i]["$"]["ID"])
 				resp[i] = {};
 				resp[i].value = catalogRefs[i]["$"]["ID"];
 				resp[i].label = catalogRefs[i]["$"]["name"] || catalogRefs[i]["$"]["ID"];
@@ -280,7 +320,6 @@ function dataset(options,resp,cb) {
 	var j = 0;
 	var N = resp.length;
 	if (N == 0) {cb(200,"[]");return;}
-
 	var datasets = [];
 	var parents = [];
 	var dresp = [];
@@ -289,30 +328,31 @@ function dataset(options,resp,cb) {
 		request(resp[i].href, function (error, response, body) {
 			if (!error && response.statusCode == 200) {
 				parser.parseString(body, function (err, result) {
+					if (debug) console.log("Done fetching and parsing.");
+
 					j = j+1;
 
-					var parent = result["catalog"]["$"]["id"];
+					var parent = result["catalog"]["$"]["id"] || result["catalog"]["$"]["ID"];
 					var tmparr = result["catalog"]["dataset"];
 					datasets = datasets.concat(tmparr);
-					
 					while (parents.length < datasets.length) {parents = parents.concat(parent)}
 
 					if (j == N) {
 
 						for (var i = 0;i < datasets.length;i++) {
 							dresp[i]          = {};
-							dresp[i].value    = datasets[i]["$"]["ID"];
-							dresp[i].label    = datasets[i]["$"]["name"] || datasets[i]["$"]["ID"];
+							dresp[i].value    = datasets[i]["$"]["id"] || datasets[i]["$"]["ID"];
+							dresp[i].label    = datasets[i]["$"]["name"] || dresp[i].value;
 							dresp[i].catalog  = parents[i];
 
 							if (options.dataset !== "^.*") {	
 								if (options.dataset.substring(0,1) === "^") {
-									if (!(datasets[i]["$"]["ID"].match(options.dataset))) {
+									if (!(dresp[i].value.match(options.dataset))) {
 										delete dresp[i];
 										delete datasets[i];
 									}	
 								} else {
-									if (!(datasets[i]["$"]["ID"] === options.dataset)) {
+									if (!(dresp[i].value === options.dataset)) {
 										delete dresp[i];
 										delete datasets[i];
 									} else {
@@ -321,13 +361,17 @@ function dataset(options,resp,cb) {
 								}
 							}
 						}
-						if (debugcatalog) console.log(datasets)
-						if (options.parameters === "") {
+						if (options.parameters === "" && !(options.groups === "^.*")) {
 							dresp = dresp.filter(function(n){return n;});
 							if (dresp.length == 1 && options.dataset.substring(0,1) !== "^") {
-								for (var k = 0; k < datasets[z]["documentation"].length;k++) {
-									dresp[k].title = datasets[z]["documentation"][k]["$"]["xlink:title"];
-									dresp[k].link  = datasets[z]["documentation"][k]["$"]["xlink:href"];
+								if (typeof(datasets[z]["documentation"]) !== "undefined") {
+									for (var k = 0; k < datasets[z]["documentation"].length;k++) {
+										dresp[k].title = datasets[z]["documentation"][k]["$"]["xlink:title"];
+										dresp[k].link  = datasets[z]["documentation"][k]["$"]["xlink:href"];
+									}
+								} else {
+									dresp[0].title = "No dataset documentation in catalog";
+									dresp[0].link  = "";									
 								}
 								cb(200,dresp);
 							} else {
@@ -346,6 +390,10 @@ function dataset(options,resp,cb) {
 }
 
 function parameter(options,datasets,catalogs,cb) {
+
+	if (options.groups === "^.*") {
+		options.parameters = "^.*";
+	}
 
 	var parameters = [];
 	var parents = [];
@@ -368,19 +416,19 @@ function parameter(options,datasets,catalogs,cb) {
 			//console.log(parents.length)
 		}
 	}							
-
+		
 	for (var i = 0;i < parameters.length;i++) {
 			
 		resp[i]           = {};
-		resp[i].value     = parameters[i]["$"]["id"];
-		resp[i].label     = parameters[i]["$"]["name"] || parameters[i]["$"]["id"];
+		resp[i].value     = parameters[i]["$"]["id"] || parameters[i]["$"]["ID"];
+		resp[i].label     = parameters[i]["$"]["name"] || resp[i].value;
 		resp[i].units     = parameters[i]["$"]["units"];
 		resp[i].fill      = parameters[i]["$"]["fillvalue"];
 		resp[i].catalog   = cats[i];
-		resp[i].dataset   = parents[i]["ID"];
+		resp[i].dataset   = parents[i]["id"] || parents[i]["ID"];
 		resp[i].parameter = resp[i].value;
 		resp[i].dd        = parameters[i]["$"];
-
+		
 		if (!('urltemplate' in resp[i].dd))  {resp[i].dd.urltemplate = parents[i]["urltemplate"]}
 		if (!('urlsouce' in resp[i].dd))     {resp[i].dd.urlsource = parents[i]["urlsource"]}
 		if (!('urlprocessor' in resp[i].dd)) {resp[i].dd.urlprocessor = parents[i]["urlprocessor"]}
@@ -396,18 +444,62 @@ function parameter(options,datasets,catalogs,cb) {
 				if (!(parameters[i]["$"]["id"].match(options.parameters))) {
 					delete resp[i];
 				}
-			} else  {				
-				if (!(parameters[i]["$"]["id"] === options.parameters)) {
+			} else  {
+				if (options.parameters.search(resp[i].value) == -1) {
+					//console.log("Deleting "+parameters[i]["$"]["id"])
 					delete resp[i];
+				} else {
+					console.log("Keeping "+resp[i].value)
 				}
 			}
 		}
 	}
-	
 	resp = resp.filter(function(n){return n});
+	//console.log(resp[0])
+	
+	if (options.groups === "^.*") {
+		var parinfo = {};
+
+		for (i = 0;i<resp.length;i++) {
+			parinfo[resp[i].value] = {};
+			parinfo[resp[i].value].columns = resp[i].dd.columns;
+			parinfo[resp[i].value].units = resp[i].dd.units;
+		}
+
+		var ddresp = [];
+
+		for (j=0;j< datasets[0].groups[0].group.length;j++) {
+			ddresp[j] = {};
+			ddresp[j].dd = {};
+
+			var groups = datasets[0].groups[0].group[j]["$"].id.split(",");
+			var groupcols = [];
+			var groupunits = [];
+			for (i=0;i<groups.length;i++) {
+				groupcols[i] = parinfo[groups[i]].columns;
+				groupunits[i] = parinfo[groups[i]].units;
+			}
+			datasets[0].groups[0].group[j]["$"].columns = groupcols.join(",");
+			datasets[0].groups[0].group[j]["$"].units = groupunits.join(",");
+			ddresp[j].dd.columns =  groupcols.join(",");
+			ddresp[j].dd.id =  groups.join(",");
+			ddresp[j].dd.label =  datasets[0].groups[0].group[j]["$"].label;
+
+		}
+		console.log(datasets[0].groups[0].group);
+		console.log(ddresp);
+
+		// Get JSON for group list
+		cb(200,ddresp);
+		return;
+	}
+	
 	if (typeof(resp[0]) === "undefined") {cb(200,"[]");return;}
 
-	var columns = resp[0].dd.timecolumns + "," + resp[0].dd.columns;
+	var columns = resp[0].dd.timecolumns;
+	for (var z = 0;z<resp.length;z++) {
+		columns = columns + "," + resp[z].dd.columns;
+	}
 
 	if (options.start || options.stop) {
 		start = options.start || resp[0].dd.start;
@@ -423,11 +515,11 @@ function parameter(options,datasets,catalogs,cb) {
 		var urlsource    = resp[0].dd.urlsource;
 			
 		if (Date.parse(stop) < Date.parse(start)) {
-			cb(500,"Stop time is before than start time");
+			cb(500,"Stop time is before than start time.");
 			return;
 		}
 		if (Date.parse(start) > Date.parse(stop)) {
-			cb(500,"Start time is later than stop time");
+			cb(500,"Start time is later than stop time.");
 			return;
 		}
 
@@ -458,15 +550,22 @@ function parameter(options,datasets,catalogs,cb) {
 			// If more than one resp, this won't work.
 			cb(302,dc);
 		}
-		if (options.return === "png") {
+		if (options.return === "png" || options.return === "pdf" || options.return === "svg") {
 			// If more than one resp, this won't work.
 
-			turl = "?catalog="+resp[0].catalog+"&dataset="+resp[0].dataset+"&parameters="+resp[0].parameter+"&start="+start+"&stop="+stop;
+			var format = "image/png";
+			if (options.return === "pdf") {format = "application/pdf"}
+			if (options.return === "svg") {format = "image/svg%2Bxml"}
+			
+			var tmp = expandISO8601Duration(start+"/"+stop,{debug:false})
+			console.log(tmp);
+			start = tmp.split("/")[0].substring(0,10);
+			stop = tmp.split("/")[1].substring(0,10);
 			url = TSDSFE + "tsdsfe.jyds?server="+TSDSFE+"&catalog="+resp[0].catalog+"&dataset="+resp[0].dataset+"&parameters="+resp[0].parameter+"&timerange="+start+"/"+stop;
 			if (resp[0].label !== "") url = url + "&labels="+resp[0].label;
 			if (resp[0].units !== "")  {url = url + " ["+resp[0].units+"]" +"&units="+resp[0].units;}
 			if (resp[0].fill !== "")  url = url + "&fills="+resp[0].fill;
-			var aurl = AUTOPLOT + "?drawGrid=true&plot.xaxis.drawTickLabels=true&width=800&height=200&url=vap+jyds:" + encodeURIComponent(url);	
+			var aurl = AUTOPLOT + "?drawGrid=true&format="+format+"&plot.xaxis.drawTickLabels=true&width=800&height=200&url=vap+jyds:" + encodeURIComponent(url);	
 			console.log(aurl);
 			console.log(typeof(aurl))
 			cb(0,aurl);
@@ -476,14 +575,28 @@ function parameter(options,datasets,catalogs,cb) {
 			cb(0,"http://localhost:"+port+"/tsdsfe.jyds");
 		}
 		if (options.return === "dd") {
-			// If more than one resp, this won't work.
-			cb(0,JSON.stringify(resp[0].dd));
+			ddresp = [];
+			for (var z = 0;z<resp.length;z++) {
+				ddresp[z] = resp[z].dd;
+				ddresp[z].urltemplate = "";
+				if (options.outformat === "1") {
+					ddresp[z].columns = "" + (z+2);
+					ddresp[z].timeformat = "ISO8601";
+					ddresp[z].timecolumns = ""+1;
+				}
+				if (options.outformat === "2") {
+					ddresp[z].columns = "" + (z+7);
+					ddresp[z].timeformat = "YYYY mm DD HH MM SS.SSS";
+					ddresp[z].timecolumns = "1,2,3,4,5,6";
+				}
+			}
+			cb(0,JSON.stringify(ddresp));
 		}
-
+		
 		if (options.return === "stream") {				 
 			dc = dc
 					+"&return=stream"
-					+"&lineRegExp="+ resp[0].dd.lineregex
+					+"&lineRegExp="+(resp[0].dd.lineregex || ".")
 					+"&timecolumns="+resp[0].dd.timecolumns
 					+"&timeformat="+resp[0].dd.timeformat
 					+"&streamFilterReadColumns="+columns
@@ -496,6 +609,8 @@ function parameter(options,datasets,catalogs,cb) {
 					;
 
 			if (!options.usecache) dc = dc+"&forceUpdate=true&forceWrite=true"
+
+			DCcache[options.urlsignature] = dc;
 
 			//dc = dc+"&return=stream&lineRegExp="+resp[0].dd.lineregex + "&timecolumns="+resp[0].dd.timecolumns+"&timeformat="+resp[0].dd.timeformat+"&streamFilterReadColumns="+columns+"&lineFormatter=formattedTime&outformat="+options.outformat;
 			//console.log(dc)

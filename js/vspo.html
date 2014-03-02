@@ -1,0 +1,187 @@
+
+<html>
+<head>
+	<title></title>
+	<script type="text/javascript" src="deps/jquery-1.8.3.min.js"></script>
+	
+	<script>
+
+	$(document).ready(function () {
+		$("#loading1").hide();
+		$("#loading2").hide();
+
+		$("#scselect").change(function () {
+			
+			var sc = $("#scselect").val() || "ace";
+			var sct = $("#scselect option:selected").text() || "ACE"; // TODO: Autoselect first item in list.
+			$("head title").text(sct+" Ephemeris");
+			$("h2").text(sct+" Spacecraft Ephemeris");
+
+			getinfo(sc);	
+
+			$("#loading1").show();
+			$("#loadingt").show();
+			$("#start").text("");
+			$("#stop").text("");
+			$("input[name=start]").attr("value","");
+			$("input[name=end]").attr("value","");
+			$.getJSON("http://tsds.org/get2/?catalog=SSCWeb&dataset=^.*",
+					function(jsonData){  
+				    	$.each(jsonData, function(i,j){ 
+				      		$('#scselect').append(
+				        	$('<option></option>').val(j.value).html(j.label)
+				      	)})
+				      	$("#loading0").hide();
+					});
+		});
+		
+		$("#scselect").trigger("change");
+		
+	});
+
+	function getinfo(sc) {
+		console.log("---"+sc);
+		$("#loading1").show();
+		$("#loading2").show();
+		$("#listing1").nextAll().remove()
+		$("#listing2").nextAll().remove()
+		$.ajax({
+				type: "GET",
+				url: "http://tsds.org/get2/?catalog=SSCWeb&dataset="+sc+"&parameters=^.*",
+				async: true,
+				dataType: "text",
+				success: function (data,textStatus, jqXHR) {createtable1($.parseJSON(data))},
+				error: function (xhr, textStatus, errorThrown) {}
+		});
+
+		$.ajax({
+				type: "GET",
+				url: "http://tsds.org/get2/?catalog=SSCWeb&dataset="+sc+"&groups=^.*",
+				async: true,
+				dataType: "text",
+				success: function (groups,textStatus, jqXHR) {createtable2($.parseJSON(groups))},
+				error: function (xhr, textStatus, errorThrown) {}
+			});
+	}
+	
+	function createtable2(groups) {
+		
+		for (j=groups.length-1;j>-1;j--) {
+			var el = '<tr id="'+j+'" class="darkcell"><td align="left" width="20%"><input type="checkbox" id='+groups[j].dd.id+' name="vc'+j+'"  />'+groups[j].dd.id+'<input type="hidden" name="var'+j+'" value="'+j+'" /></td>';
+			el     = el + '<td align="left" width="80%">'+groups[j].dd.label+'</td></tr>'
+			$('#listing2').after(el);
+		}
+		$("#loading2").hide();
+	}
+	
+	function createtable1(data) {
+		$("#start").text(data[0].dd.start.replace(/\n/g,"").substring(0,10));
+		$("#stop").text(data[0].dd.stop.replace(/\n/g,"").substring(0,10));
+		$("input[name=start]").attr("value",$("#start").text());
+		$("#loadingt").hide();
+		a = new Date($("#start").text());
+		b = new Date(a.valueOf() + 86400*1000*5);
+		var stop = b.toISOString().substring(0,10);
+		sc = $("#scselect").val();
+
+		$("input[name=end]").attr("value",stop);
+		for (j=data.length-1;j>-1;j--) {
+			//console.log("Creating table row "+(j+1));
+			var el = '<tr id="'+j+'" class="darkcell"><td align="left" width="20%"><input type="checkbox" id='+data[j].dd.id+' name="vc'+j+'"  />'+data[j].dd.id+'<input type="hidden" name="var'+j+'" value="'+j+'" /></td>';
+			el     = el + '<td align="left" width="80%">'+data[j].dd.label+'</td></tr>'
+			$('#listing1').after(el);
+		}
+		$("#loading1").hide();
+	}
+
+	function getASCII(ln) {
+		sc = $("#scselect").val();
+		var parameters = [];
+		$("#listing"+ln).parent().find("input:checked").each( function (i,el) {parameters[i] = $(el).attr('id')});
+
+		var start = $("#start").text();
+		var stop  = $("input[name=end]").attr("value");
+
+		if (parameters.length > 0) {
+			var qs = "http://tsds.org/get2/?catalog=SSCWeb&dataset="+sc+"&parameters="+parameters.join(",")+"&start="+start+"&stop="+stop+"&outformat=1";
+			$("#dllink"+ln).attr("href",qs).text(qs);
+		} else {
+			$("#dllink"+ln).text("Select at least one parameter.");
+		}
+		
+	}
+	function getPlot(ln,type) {
+		sc = $("#scselect").val();
+		
+		var parameters = [];
+		$("#listing"+ln).parent().find("input:checked").each( function (i,el) {parameters[i] = $(el).attr('id')});
+
+		var start = $("#start").text();
+		var stop  = $("input[name=end]").attr("value");
+
+		if (ln == 2) {
+			parameters = parameters[0].split(",");
+		}
+		if (parameters.length > 0) {
+			for (var i=0;i<parameters.length;i++) {
+				var qs = "http://tsds.org/get2/?catalog=SSCWeb&dataset="+sc+"&parameters="+parameters[i]+"&start="+start+"&stop="+stop+"&return="+type;
+				if (type === 'png') { 
+					$("#dllink"+ln).after("<div><a href='"+qs+"'>"+qs+"</a></div><div><img src='"+qs+"'></img></div>");
+				} else {
+					$("#dllink"+ln).after("<div><a href='"+qs+"'>"+qs+"</a></div>");
+				}
+			}
+		} else {
+			$("#dllink"+ln).text("Select at least one parameter.");
+		}
+
+	}
+	</script>
+</head>
+
+
+<body style="background-color:#fff;">
+	<h2></h2>
+	<p>
+		 <img id="loading0" src="../css/ajax-loader.gif"></img><b>Spacecraft:</b><br/><select id="scselect"></select>
+	</p>
+	<img id="loadingt" src="../css/ajax-loader.gif"></img><b>Time span:</b><br />Valid format is YYYY-MM-dd.  If the end date is omitted, it will default to 5 days after the start date.
+	<br /><br />                                          
+	Available start date: <span id="start">1997-08-27</span>,&nbsp;&nbsp; Available end date: <span id="stop">2014-01-09</span>.
+	<br />
+	Requested data range - from: <input type="text" name="start" value="" size="16" maxlength="16"/>&nbsp;&nbsp;&nbsp; to: <input type="text" name="end" value="" size="16" maxlength="16"/>
+	<br /><br />
+	
+	<div style="">
+		<table width="100%">
+			<tr>
+				<td class="titlebar" align="left" width="20%"><img id="loading2" src="../css/ajax-loader.gif"></img><b>Parameter group name</b></td>
+				<td class="titlebar" align="left" width="80%" colspan="2"><b>Description</b></td>
+			</tr>
+ 			<tr id="listing2"></tr>
+		</table>
+	</div>
+	<a id="dllink2"></a>
+	<br/>
+	<input class="button" type="button" onclick="getASCII(2)" value="Download ASCII"/>
+	<input class="button" type="button" onclick="getPlot(2,'png')" value="Plot Data"/>
+	<input class="button" type="button" onclick="getPlot(2,'pdf')" value="Get PDF Plot"/>
+	<input class="button" type="button" onclick="getPlot(2,'svg')" value="Get SVG Plot"/>
+	<div style="">
+		<table width="100%">
+			<tr>
+				<td class="titlebar" align="left"><img id="loading1" src="../css/ajax-loader.gif"></img><b>Parameter name</b></td>
+				<td class="titlebar" align="left" colspan="2"><b>Description</b></td>
+			</tr>
+ 			<tr id="listing1">
+ 			</tr>
+		</table>
+	</div>
+	<a id="dllink1"></a>
+	<br/>
+	<input class="button" type="button" onclick="getASCII(1)" value="Download ASCII"/>
+	<input class="button" type="button" onclick="getPlot(1,'png')" value="Plot Data"/>
+	<input class="button" type="button" onclick="getPlot(1,'pdf')" value="Get PDF Plot"/>
+	<input class="button" type="button" onclick="getPlot(1,'svg')" value="Get SVG Plot"/>
+</body>
+</html>
