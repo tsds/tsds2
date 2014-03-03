@@ -180,7 +180,8 @@ function dropdown2(ids, names, funs, after, i, selected, callback) {
 		    }
 	});
 
-	console.log(list)
+	//console.log(list);
+	
 	if (list.length == 1) {
 		console.log("dropdowns2: Triggering select on "+ids[i]);
 		$('input[id=' + ids[i] + ']').val(list[0].value).data("autocomplete")._trigger("select",event,{item:list[0].value});

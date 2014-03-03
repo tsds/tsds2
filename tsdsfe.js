@@ -2,7 +2,8 @@ var debug        = true;
 var debugcatalog = false;
 
 var AUTOPLOT = "http://autoplot.org/plot/dev/SimpleServlet";
-var TSDSFE = "http://tsds.org/get2/";
+//var TSDSFE = "http://tsds.org/get2/";
+var TSDSFE = "http://localhost:8004/";
 
 var fs      = require('fs');
 var request = require("request");
@@ -22,49 +23,56 @@ http.globalAgent.maxSockets = 100;  // Most Apache servers have this set at 100.
 //var plugin = require('./plugin.js');
 var DC = "http://localhost:7999/sync/";
 
-//console.log(plugin.extractLine(line,timeformat,timecols))
-app.use("/tsdsfe2/js", express.static(__dirname + "/js"));
-app.use("/tsdsfe2/css", express.static(__dirname + "/css"));
-app.use("/tsdsfe2/scripts", express.static(__dirname + "/scripts"));
-app.use("/tsdsfe2/uploads", express.static(__dirname + "/uploads"));
-app.use("/js", express.static(__dirname + "/js"));
-app.use("/css", express.static(__dirname + "/css"));
-app.use("/scripts", express.static(__dirname + "/scripts"));
-app.use("/uploads", express.static(__dirname + "/uploads"));
+if (0) {
+	app.use("/tsdsfe2/js", express.static(__dirname + "/js"));
+	app.use("/tsdsfe2/css", express.static(__dirname + "/css"));
+	app.use("/tsdsfe2/scripts", express.static(__dirname + "/scripts"));
+	app.use("/tsdsfe2/uploads", express.static(__dirname + "/uploads"));
+} else {
+	app.use("/js", express.static(__dirname + "/js"));
+	app.use("/css", express.static(__dirname + "/css"));
+	app.use("/scripts", express.static(__dirname + "/scripts"));
+	app.use("/uploads", express.static(__dirname + "/uploads"));
+}
 
-app.get('/tsdsfe.jyds', function (req, res) {
-	if (Object.keys(req.query).length === 0) {
-		res.contentType("text/plain");
-		res.send(fs.readFileSync(__dirname+"/scripts/tsdsfe.jyds"));
-		return;
-	}
-});
 
-app.get('/tsdsfe2/tsdsfe.jyds', function (req, res) {
-	if (Object.keys(req.query).length === 0) {
-		res.contentType("text/plain");
-		res.send(fs.readFileSync(__dirname+"/scripts/tsdsfe.jyds"));
-		return;
-	}
-});
+if (0) {
+	app.get('/tsdsfe2/tsdsfe.jyds', function (req, res) {
+		if (Object.keys(req.query).length === 0) {
+			res.contentType("text/plain");
+			res.send(fs.readFileSync(__dirname+"/scripts/tsdsfe.jyds"));
+			return;
+		}
+	});
+} else {
+	app.get('/tsdsfe.jyds', function (req, res) {
+		if (Object.keys(req.query).length === 0) {
+			res.contentType("text/plain");
+			res.send(fs.readFileSync(__dirname+"/scripts/tsdsfe.jyds"));
+			return;
+		}
+	});
+}
 
-app.get('/', function (req, res) {
-	if (Object.keys(req.query).length === 0) {
-		res.contentType("html");
-		res.send(fs.readFileSync(__dirname+"/index.htm"));
-		return;
-	}
-	handleRequest(req,res);
-});
-
-app.get('/tsdsfe2', function (req, res) {
-	if (Object.keys(req.query).length === 0) {
-		res.contentType("html");
-		res.send(fs.readFileSync(__dirname+"/index.htm"));
-		return;
-	}
-	handleRequest(req,res);
-});
+if (0) {
+	app.get('/tsdsfe2', function (req, res) {
+		if (Object.keys(req.query).length === 0) {
+			res.contentType("html");
+			res.send(fs.readFileSync(__dirname+"/index.htm"));
+			return;
+		}
+		handleRequest(req,res);
+	});
+} else {
+	app.get('/', function (req, res) {
+		if (Object.keys(req.query).length === 0) {
+			res.contentType("html");
+			res.send(fs.readFileSync(__dirname+"/index.htm"));
+			return;
+		}
+		handleRequest(req,res);
+	});
+}
 
 server.listen(port);
 

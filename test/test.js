@@ -1,4 +1,3 @@
-
 // Local server
 // Production server
 // Both servers using data from original data source 
@@ -22,7 +21,8 @@ eval(fs.readFileSync('./test/tests.js','utf8'));
 function s2b(str) {if (str === "true") {return true} else {return false}}
 function s2i(str) {return parseInt(str)}
 
-var tn      = s2i(process.argv[2] || "1");							// Start test Number
+var tn       = s2i(process.argv[2] || "1");							// Start test Number
+var alltests = s2b(process.argv[3] || "true");;
 
 /*
 var sync    = s2b(process.argv[2] || "true");						// Do runs for test sequentially
@@ -32,7 +32,6 @@ var n       = s2i(process.argv[5] || "5");							// Number of runs per test
 var server  = process.argv[6]     || "http://localhost:"+port+"/";	// DataCache server to test
 
 var Ntests   = 2;
-var alltests = true;
 
 //var Ntests   = 1;
 //var alltests = false;
@@ -82,7 +81,9 @@ function command(jj,m) {
 }
 
 function runtest(jj,m) {
-	if (typeof(runtest.fails) === "undefined") {runtest.fails = [];runtest.f=0;runtest.sum = 0;}
+	if (typeof(runtest.fails) === "undefined") {
+		runtest.fails = [];runtest.f=0;runtest.sum = 0;
+	}
 	var xtests = gettests(m);
 	var xcom = command(jj,m);
 

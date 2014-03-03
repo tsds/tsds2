@@ -12,7 +12,7 @@
 		<access serviceName="ncml" urlPath="Dst" />
 		<timeCoverage>
 			<Start>-P1Y</Start>
-			<End>PT0D</End>
+			<End>P0D</End>
 		</timeCoverage>
 		<groups>
 			<group/>

@@ -21,6 +21,8 @@
 			//TSDSFE = "http://tsds.org/get2/";
 			TSDSFE = location.href.split("#")[0];
 			AUTOPLOT = "http://autoplot.org/plot/dev/SimpleServlet"
+
+			// Fetch information for drop-downs.
 			function tsdsfeajax(i,url) {
 				url = TSDSFE + url;
 				$('#status').show();
@@ -28,7 +30,7 @@
 					tsdsfeajax.cache = {};
 				}
 				if (tsdsfeajax.cache[url]) {
-					console.log("tsdsfeajax: Cache hit");
+					console.log("tsdsfeajax: Cache hit.");
 					return $.parseJSON(tsdsfeajax.cache[url]);
 				}
 				$('#status').html("Requesting " + url);
@@ -40,12 +42,9 @@
 					async: false,
 					dataType: "text",
 					success: function (data,textStatus, jqXHR) {
-						console.log("Loaded data for "+i);
-						//$('#status'+i).hide();
+						console.log("Loaded data for drop-down "+i);
 						$('#ready'+i).show();
-						//console.log("data="+data);
 						if (!data.match(/^\s*\[/)) {
-							console.log("here")
 							xret = data.replace(/,$/,"").replace(/\n/,'').split(",");
 						} else {
 							xret = data;
@@ -61,10 +60,10 @@
 				return $.parseJSON(xret);				
 			}
 			
-			function getdas(attr) {
+			function getdd(attr) {
 				
 				turl = "?catalog="+selected('catalog')+"&dataset="+selected('dataset')+"&parameters="+selected('parameters')+"&return=dd";
-				console.log("getdas: requesting " + turl);
+				console.log("getdd: requesting " + turl);
 				
 				$.ajax({
 					type: "GET",
@@ -199,12 +198,12 @@
 				var list = [];
 				list[0] = {};
 
+				// TODO: If cadence = PT1M or PT1S, use this.
+				// If cacence = PT1D, use PT30D.
+				// If cadence cadence = PT1M or PT1Y, use full time range.
 				list[0].label = "-P3D";
 				list[0].value = "-P3D";
 				
-				//list[0].label = info[0].dd.start;
-				//list[0].value = info[0].dd.start;
-
 				return list;
 			}
 			
@@ -214,7 +213,7 @@
 					$('#datadiv').hide();	$('#outputinfo').hide();				
 				}
 
-				// No need to do this again ...
+				// No need to do request again, but this will be a client-side cache hit.
 				info = tsdsfeajax(i,"?catalog="+selected('catalog')+"&dataset="+selected('dataset')+"&parameters="+selected('parameters'));
 				var list = [];
 				list[0] = {};
@@ -228,14 +227,14 @@
 			}
 			
 			function parameters(i) {
-				//parameters.onselect = dorequest;
+
 				parameters.onselect = function () {
 					console.log('parameters selected');
 					console.log(parameters.list);
 					// http://stackoverflow.com/questions/5579678/jquery-how-to-find-an-object-by-attribute-in-an-array
 
 					$('#datadiv').hide();					
-					var das = getdas();
+					var das = getdd();
 
 
 					$('#parameterinfo').html("<b>Parameter information:</b>")
@@ -379,7 +378,7 @@
 				var Ndays      = Math.round((STOP_ms-START_ms)/(1000*24*60*60));
 
 				$('#status').text('Requesting parameter metadata.');
-				das = getdas();
+				das = getdd();
 				console.log("das");
 				console.log(das);
 				
