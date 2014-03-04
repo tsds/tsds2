@@ -92,15 +92,15 @@ function runtest(jj,m) {
 	
 	var fname = "test/output/out." + jj + "." + m;
 	child = exec(xcom, function (error, stdout, stderr) {
-    	console.log("Reading "+fname);
-    	data = fs.readFileSync(fname);
-    	if (xtests[jj].test) {
-    	    console.log("Request "+jj+" completed.  Running test.");
-    		ret = xtests[jj].test(data);
-    	} else {
-    	    console.log("Request "+jj+" completed.  Comparing output.");
-    		ret = diff("test/output0/out." + jj + ".0","test/output/out." + jj + "." + m);
-    	}
+	    	console.log("Reading "+fname);
+	    	data = fs.readFileSync(fname);
+	    	if (xtests[jj].test) {
+	    	    console.log("Request "+jj+" completed.  Running test.");
+	    		ret = xtests[jj].test(data);
+	    	} else {
+	    	    console.log("Request "+jj+" completed.  Comparing output.");
+	    		ret = diff("test/output0/out." + jj + ".0","test/output/out." + jj + "." + m);
+	    	}
 		if (ret == true) {
 			runtest.sum = runtest.sum+1;
 			console.log("PASS.\n");
@@ -112,9 +112,9 @@ function runtest(jj,m) {
 			runtest.f = runtest.f+1;
 			console.log("FAIL.\n");
 		}
-
-    	if (jj < xtests.length-1 && alltests)  {
-			runtest(jj+1,m);
+	
+	    	if (jj < xtests.length-1 && alltests)  {
+				runtest(jj+1,m);
 		} else {
 			console.log("")
 			if (alltests) console.log(runtest.sum + "/" + tests.length + " tests passed.");
@@ -122,11 +122,19 @@ function runtest(jj,m) {
 				console.log("\nFailures:");
 			}
 			for (kk=0;kk<runtest.fails.length;kk++) {
-				console.log("\nTest " + runtest.fails[kk].N)
-				console.log(runtest.fails[kk].url)
-				console.log(runtest.fails[kk].test)
+				console.log("\nTest " + runtest.fails[kk].N);
+				console.log(runtest.fails[kk].url);
+				console.log(runtest.fails[kk].test);
 			}
-			if (m+1 < Ntests && alltests) {runtest(0,m+1);}			
+			if (m+1 < Ntests && alltests) {
+				runtest(0,m+1);
+			} else {
+				if (runtest.fails.length > 0) {
+					process.exit(1);
+				} else {
+					process.exit(0);
+				}
+			}			
 		}
 	});
 }

@@ -157,7 +157,11 @@
 						}
 					}
 					$('#datasetinfo ul').append('</ul>');
-					$('#parameterinfo').html("");$('#outputinfo').hide();$('#datadiv').hide();$('#previewimgdiv').hide();$('#overviewdiv').hide();
+					$('#parameterinfo').html("");
+					$('#outputinfo').hide();
+					$('#datadiv').hide();$
+					('#previewimgdiv').hide();
+					$('#overviewdiv').hide();
 					
 					//updatehash(i,"dataset");	
 				};
@@ -210,7 +214,8 @@
 			function stoptime(i) {
 				stoptime.onselect = function () {
 					preview();
-					$('#datadiv').hide();	$('#outputinfo').hide();				
+					$('#datadiv').hide();
+					$('#outputinfo').show();				
 				}
 
 				// No need to do request again, but this will be a client-side cache hit.

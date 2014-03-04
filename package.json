@@ -6,6 +6,10 @@
 		"request" : "2.9.203",
 		"express" : "3.0.0beta7",
 		"exec-sync": "*",
-		"tsdset": "https://github.com/rweigel/tsdset/tarball/master"
+		"tsdset": "https://github.com/rweigel/tsdset/tarball/master",
+		"datacache": "https://github.com/rweigel/datacache/tarball/master"
+	},
+	"scripts": {
+		"test": "sh test/test.sh"
 	}
 }
