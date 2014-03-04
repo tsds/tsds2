@@ -1,6 +1,6 @@
 // Local server
 // Production server
-// Both servers using data from original data source 
+// Both servers using data from original data source.
 
 var N    = 10;
 var port = 8004;
