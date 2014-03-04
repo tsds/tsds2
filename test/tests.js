@@ -44,7 +44,7 @@ tests[8].log  = 'console.log("File should have 577 rows.  Found: " + len );';
 
 tests[9] = {};
 tests[9].url = "catalog=SWPC/GOES/Primary/Particle/PT1M&dataset=Gp_particles&parameters=E_gt_4.0&start=-P3D&stop=-P1D&outformat=0";
-tests[9].test = function (data) {var len = data.toString().split("\n").length;eval(tests[9].log);if (len == 5) {return true;} else {return false} };
+tests[9].test = function (data) {var len = data.toString().split("\n").length;eval(tests[9].log);if (len == 577) {return true;} else {return false} };
 tests[9].log  = 'console.log("File should have 577 rows.  Found: " + len );';
 
 // If outformat > 0, subsetting is done within granule.
