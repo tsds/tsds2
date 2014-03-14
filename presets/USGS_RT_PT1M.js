@@ -1,9 +1,6 @@
 id="USGS/RT/PT1M";
 Presets[id] = {};
 
-// For Autoplot, for now.
-Presets[id].PlotColumns = 4;
-
 Presets[id].URLTemplate        = "http://magweb.cr.usgs.gov/data/magnetometer/$1/OneMinute/$5%Y%m%dvmin.min";
 
 Presets[id].CatalogName        = "USGS Real Time 1-Minute Magnetometer Measurements";
@@ -12,8 +9,8 @@ Presets[id].CatalogID          = id;
 Presets[id].CatalogDescription    = "Catalog derived by inspection of http://magweb.cr.usgs.gov/data/magnetometer/."
 Presets[id].CatalogDescriptionURL = "http://magweb.cr.usgs.gov/data/magnetometer/";
 
-Presets[id].StartDates       = ["2013-05-02"];
-Presets[id].StopDates        = ["2013-07-10"];
+Presets[id].StartDates       = ["-PT1Y"];
+Presets[id].StopDates        = ["PT0D"];
 Presets[id].Cadence          = ["PT1M"];
 
 //ParameterType (one for each variable)
@@ -42,7 +39,7 @@ Presets[id].Datasets         = [
 						  ["SIT","SIT one-minute","SIT1m","sitvmin","sit","Sitka"],
 						  ["SJG","SJG one-minute","SJG1m","sjgvmin","sjg","San Juan"],
 						  ["TUC","TUC one-minute","TUC1m","tucvmin","tuc","Tucson"],
-						 ];
+						 ].join("\n");
 
 Presets[id].DatasetName        = "$2";
 Presets[id].DatasetID          = "$1";
@@ -56,13 +53,13 @@ Presets[id].RepositoryURL     = "";
 Presets[id].RepositoryFormat     = "";
 Presets[id].RepositoryEncoding     = "";
 
-Presests[id].InstrumentIDs    = "";
-Presests[id].MeasurementTypes = "";
+Presets[id].InstrumentIDs    = "";
+Presets[id].MeasurementTypes = "";
 
 Presets[id].ObservedRegions = "";
 
 Presets[id].TimeColumns      = "1,2";
-Presets[id].TimeFormat       = "$Y-$m-$d,$H:$M:$S.$(millis)";
+Presets[id].TimeFormat       = "$Y-$m-$D,$H:$M:$S.$(millis)";
 Presets[id].TimeUnits        = "Gregorian,UT";
 Presets[id].TimeLabels       = "Date,Time";
 

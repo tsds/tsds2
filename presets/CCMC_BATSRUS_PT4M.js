@@ -1,9 +1,6 @@
 id="CCMC/BATSRUS/4M";
 Presets[id] = {};
 
-// For Autoplot, for now.
-Presets[id].PlotColumns = 7;
-
 //Presets[id].URLTemplate        = "ftp://virbo.org/users/rastaetter/dB/dB_$1.txt";
 Presets[id].URLTemplate        = "http://virbo.org/ftp/users/rastaetter/dB_20121227-20130529/dB_$1.txt";
 

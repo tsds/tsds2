@@ -1,1503 +1,582 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
-<TS_Catalog xmlns="http://sscweb.gsfc.nasa.gov">
-<Parameter>
-<Id>ace</Id>
-<LongName>ACE</LongName>
-<Cadence>720s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>1997-08-26T00:00:00Z</Start>
-<End>2013-07-01T18:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>active</Id>
-<LongName>Active</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>1989-09-29T00:00:00Z</Start>
-<End>1991-10-04T08:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>aim</Id>
-<LongName>AIM</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>2007-04-25T00:00:00Z</Start>
-<End>2013-07-22T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>akebono</Id>
-<LongName>Akebono</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>1989-02-23T00:00:00Z</Start>
-<End>2013-07-22T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>alouette1</Id>
-<LongName>Alouette-1</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>1965-01-01T00:00:00Z</Start>
-<End>1972-09-25T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>alouette2</Id>
-<LongName>Alouette-2</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>1966-01-27T00:00:00Z</Start>
-<End>1975-07-31T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>apex</Id>
-<LongName>APEX-MAIN</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>1991-12-17T00:00:00Z</Start>
-<End>2004-05-01T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>aqua</Id>
-<LongName>Aqua</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>2002-05-04T00:00:00Z</Start>
-<End>2013-07-08T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>ariel4</Id>
-<LongName>ARIEL-4</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>1972-01-16T00:00:00Z</Start>
-<End>1978-11-26T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>artemisp1</Id>
-<LongName>ARTEMIS_P1</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>2007-02-17T23:36:00Z</Start>
-<End>2013-07-06T23:58:59Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>artemisp1pred</Id>
-<LongName>ARTEMIS_P1</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>2008-07-18T00:30:00Z</Start>
-<End>2014-12-01T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>artemisp2</Id>
-<LongName>ARTEMIS_P2</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>2007-02-17T23:36:00Z</Start>
-<End>2013-07-07T23:58:59Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>artemisp2pred</Id>
-<LongName>ARTEMIS_P2</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>2008-07-18T00:30:00Z</Start>
-<End>2014-12-01T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>astrid2</Id>
-<LongName>ASTRID</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>1998-12-12T00:00:00Z</Start>
-<End>2002-04-03T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>aura</Id>
-<LongName>Aura</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>2004-07-15T00:00:00Z</Start>
-<End>2013-07-22T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>calipso</Id>
-<LongName>CALIPSO</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>2006-04-28T00:00:00Z</Start>
-<End>2013-07-22T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>cce</Id>
-<LongName>CCE</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>1984-08-16T15:55:00Z</Start>
-<End>1989-08-01T00:04:59Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>cceold</Id>
-<LongName>CCE</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>1984-08-17T00:00:00Z</Start>
-<End>1988-01-01T08:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>champ</Id>
-<LongName>CHAMP</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>2000-11-09T00:00:00Z</Start>
-<End>2010-10-10T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>chandra</Id>
-<LongName>Chandra</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>1999-10-31T00:00:00Z</Start>
-<End>2013-07-23T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>chibism</Id>
-<LongName>Chibis-M</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>2012-01-26T00:00:00Z</Start>
-<End>2013-07-22T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>cloudsat</Id>
-<LongName>Cloudsat</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>2006-05-05T00:00:00Z</Start>
-<End>2013-07-22T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>cluster1</Id>
-<LongName>Cluster-1</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>2000-08-23T00:00:29Z</Start>
-<End>2017-01-02T04:59:30Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>cluster2</Id>
-<LongName>Cluster-2</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>2000-08-23T00:00:29Z</Start>
-<End>2017-01-02T04:59:30Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>cluster3</Id>
-<LongName>Cluster-3</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>2000-08-23T00:00:29Z</Start>
-<End>2017-01-02T04:59:30Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>cluster4</Id>
-<LongName>Cluster-4</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>2000-08-23T00:00:29Z</Start>
-<End>2017-01-02T04:59:30Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>cnofs</Id>
-<LongName>C/NOFS</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>2008-04-18T00:00:00Z</Start>
-<End>2013-10-28T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>crres</Id>
-<LongName>CRRES</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>1990-07-25T23:00:00Z</Start>
-<End>1991-12-04T08:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>csswe</Id>
-<LongName>CSSWE</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>2012-10-06T14:58:00Z</Start>
-<End>2013-07-22T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>de1</Id>
-<LongName>DE-1</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>1981-08-03T10:37:59Z</Start>
-<End>1991-03-02T08:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>de2</Id>
-<LongName>DE-2</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>1981-08-04T00:00:00Z</Start>
-<End>1983-02-19T12:19:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>demeter</Id>
-<LongName>DEMETER</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>2004-07-08T00:00:00Z</Start>
-<End>2009-11-24T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>dmea</Id>
-<LongName>DME-A</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>1966-04-10T00:00:00Z</Start>
-<End>1969-07-01T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>dmspf10</Id>
-<LongName>DMSP-10</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>1990-12-02T00:00:00Z</Start>
-<End>1999-09-12T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>dmspf11</Id>
-<LongName>DMSP-11</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>1991-11-29T00:00:00Z</Start>
-<End>2003-09-09T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>dmspf12</Id>
-<LongName>DMSP-12</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>1994-09-16T00:00:00Z</Start>
-<End>2003-09-09T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>dmspf13</Id>
-<LongName>DMSP-13</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>1995-04-13T00:00:00Z</Start>
-<End>2010-05-08T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>dmspf14</Id>
-<LongName>DMSP-14</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>1997-04-20T00:00:00Z</Start>
-<End>2010-11-13T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>dmspf15</Id>
-<LongName>DMSP-15</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>1999-12-13T00:00:00Z</Start>
-<End>2013-05-18T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>dmspf16</Id>
-<LongName>DMSP-16</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>2003-10-18T00:00:00Z</Start>
-<End>2013-05-18T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>dmspf17</Id>
-<LongName>DMSP-17</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>2006-11-05T16:30:00Z</Start>
-<End>2013-05-18T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>dmspf18</Id>
-<LongName>DMSP-18</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>2009-10-22T00:00:00Z</Start>
-<End>2013-05-18T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>dmspf8</Id>
-<LongName>DMSP-8</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>1990-01-01T00:00:00Z</Start>
-<End>1994-09-13T08:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>dmspf9</Id>
-<LongName>DMSP-9</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>1990-01-01T00:00:00Z</Start>
-<End>1992-11-01T08:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>doublestar1</Id>
-<LongName>Double</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>2004-01-03T07:05:59Z</Start>
-<End>2007-10-10T12:37:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>doublestar2</Id>
-<LongName>Double</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>2004-09-16T23:53:59Z</Start>
-<End>2009-12-31T23:58:59Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>equators</Id>
-<LongName>Equator-S</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>1997-12-12T16:00:00Z</Start>
-<End>1998-09-24T08:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>explorer45</Id>
-<LongName>Explorer-45</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>1971-11-22T00:00:00Z</Start>
-<End>1974-01-31T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>fast</Id>
-<LongName>FAST</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>1996-08-22T00:00:00Z</Start>
-<End>2013-07-21T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>freja</Id>
-<LongName>Freja</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>1992-10-07T00:00:00Z</Start>
-<End>2000-05-11T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>gcomw1</Id>
-<LongName>GCOM-W1</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>2012-05-17T00:00:00Z</Start>
-<End>2013-07-22T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>genesis</Id>
-<LongName>Genesis</LongName>
-<Cadence>3600s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>2001-08-12T00:00:00Z</Start>
-<End>2004-09-07T23:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>geotail</Id>
-<LongName>Geotail</LongName>
-<Cadence>720s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>1992-07-26T00:00:00Z</Start>
-<End>2013-08-11T23:48:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>gms3</Id>
-<LongName>GMS-3</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>1986-03-25T00:00:00Z</Start>
-<End>1986-07-01T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>goes10</Id>
-<LongName>GOES-10</LongName>
-<Cadence>180s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>1998-06-18T00:00:00Z</Start>
-<End>2009-12-05T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>goes11</Id>
-<LongName>GOES-11</LongName>
-<Cadence>180s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>2000-05-17T00:00:00Z</Start>
-<End>2013-07-21T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>goes12</Id>
-<LongName>GOES-12</LongName>
-<Cadence>180s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>2002-08-15T00:00:00Z</Start>
-<End>2013-07-22T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>goes13</Id>
-<LongName>GOES-13</LongName>
-<Cadence>180s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>2006-06-10T00:00:00Z</Start>
-<End>2013-07-22T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>goes14</Id>
-<LongName>GOES-14</LongName>
-<Cadence>180s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>2009-07-09T00:00:00Z</Start>
-<End>2013-07-20T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>goes15</Id>
-<LongName>GOES-15</LongName>
-<Cadence>180s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>2010-06-19T00:00:00Z</Start>
-<End>2013-07-22T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>goes6</Id>
-<LongName>GOES-6</LongName>
-<Cadence>180s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>1993-12-01T00:00:00Z</Start>
-<End>1995-05-01T08:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>goes7</Id>
-<LongName>GOES-7</LongName>
-<Cadence>180s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>1987-04-15T00:00:00Z</Start>
-<End>1998-12-02T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>goes8</Id>
-<LongName>GOES-8</LongName>
-<Cadence>180s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>1994-07-22T00:00:00Z</Start>
-<End>2004-05-01T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>goes9</Id>
-<LongName>GOES-9</LongName>
-<Cadence>180s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>1995-07-29T00:00:00Z</Start>
-<End>2006-01-01T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>grace1</Id>
-<LongName>GRACE-1</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>2002-03-31T00:00:00Z</Start>
-<End>2013-07-22T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>grace2</Id>
-<LongName>GRACE-2</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>2002-03-31T00:00:00Z</Start>
-<End>2013-07-21T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>hawkeye</Id>
-<LongName>Hawkeye</LongName>
-<Cadence>180s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>1974-06-09T00:00:00Z</Start>
-<End>1978-01-01T08:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>hinode</Id>
-<LongName>Hinode</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>2006-09-23T00:10:00Z</Start>
-<End>2013-07-22T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>image</Id>
-<LongName>IMAGE</LongName>
-<Cadence>120s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>2000-03-27T00:00:55Z</Start>
-<End>2006-07-31T22:37:59Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>imp7</Id>
-<LongName>IMP-7</LongName>
-<Cadence>720s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>1972-09-26T00:00:00Z</Start>
-<End>1978-10-01T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>imp8</Id>
-<LongName>IMP-8</LongName>
-<Cadence>300s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>1973-10-30T00:00:00Z</Start>
-<End>2010-01-01T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>interballaurora</Id>
-<LongName>Interball-2</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>1996-09-02T00:00:00Z</Start>
-<End>1999-07-15T08:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>interballtail</Id>
-<LongName>Interball-1</LongName>
-<Cadence>180s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>1995-08-04T00:00:00Z</Start>
-<End>2000-10-10T08:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>irm</Id>
-<LongName>IRM</LongName>
-<Cadence>720s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>1984-09-12T00:00:00Z</Start>
-<End>1986-08-30T08:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>isee1</Id>
-<LongName>ISEE-1</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>1977-10-22T14:49:00Z</Start>
-<End>1987-09-26T05:58:59Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>isee1old</Id>
-<LongName>ISEE-1</LongName>
-<Cadence>720s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>1977-10-23T00:00:00Z</Start>
-<End>1987-09-26T06:35:59Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>isee2</Id>
-<LongName>ISEE-2</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>1977-10-22T14:49:00Z</Start>
-<End>1987-09-26T05:58:59Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>isee3</Id>
-<LongName>ISEE-3</LongName>
-<Cadence>720s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>1978-08-16T03:43:59Z</Start>
-<End>2014-08-11T23:36:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>isis1</Id>
-<LongName>ISIS-1</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>1969-01-30T00:00:00Z</Start>
-<End>1990-01-30T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>isis2</Id>
-<LongName>ISIS-2</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>1971-04-10T00:00:00Z</Start>
-<End>1990-01-30T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>iss</Id>
-<LongName>ISS</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>1998-11-21T00:00:00Z</Start>
-<End>2013-07-23T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>issb</Id>
-<LongName>ISS-b</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>1978-02-19T00:00:00Z</Start>
-<End>1983-11-16T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>jason2</Id>
-<LongName>JASON2</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>2008-07-08T00:00:00Z</Start>
-<End>2013-07-22T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>lanl01</Id>
-<LongName>LANL-01</LongName>
-<Cadence>180s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>2001-05-02T02:00:00Z</Start>
-<End>2008-01-03T17:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>lanl02</Id>
-<LongName>LANL-02</LongName>
-<Cadence>180s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>2003-10-01T02:00:00Z</Start>
-<End>2008-01-03T17:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>lanl89</Id>
-<LongName>LANL-89</LongName>
-<Cadence>180s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>1993-03-15T00:00:00Z</Start>
-<End>2008-01-03T17:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>lanl90</Id>
-<LongName>LANL-90</LongName>
-<Cadence>180s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>1994-05-20T00:00:00Z</Start>
-<End>2005-11-10T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>lanl91</Id>
-<LongName>LANL-91</LongName>
-<Cadence>180s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>1993-10-27T02:00:00Z</Start>
-<End>2004-11-19T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>lanl94</Id>
-<LongName>LANL-94</LongName>
-<Cadence>180s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>1996-01-01T00:00:00Z</Start>
-<End>2008-01-03T17:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>lanl97</Id>
-<LongName>LANL-97</LongName>
-<Cadence>180s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>1997-07-04T23:00:00Z</Start>
-<End>2008-01-03T17:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>microlab1</Id>
-<LongName>Microlab1</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>2000-01-01T00:00:00Z</Start>
-<End>2005-04-30T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>mir</Id>
-<LongName>MIR</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>1995-07-26T00:00:00Z</Start>
-<End>2000-11-29T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>moon</Id>
-<LongName>Moon</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>1959-01-01T00:00:00Z</Start>
-<End>2017-08-21T23:58:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>msx</Id>
-<LongName>MSX</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>1996-04-25T00:00:00Z</Start>
-<End>1999-03-04T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>noaa10</Id>
-<LongName>NOAA-10</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>1986-09-27T00:00:00Z</Start>
-<End>1991-09-27T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>noaa12</Id>
-<LongName>NOAA-12</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>1991-05-16T00:00:00Z</Start>
-<End>1998-05-02T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>noaa14</Id>
-<LongName>NOAA-14</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>1995-01-14T00:00:00Z</Start>
-<End>2004-05-01T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>noaa15</Id>
-<LongName>NOAA-15</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>1998-05-26T00:00:00Z</Start>
-<End>2013-07-22T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>noaa16</Id>
-<LongName>NOAA-16</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>2000-09-27T00:00:00Z</Start>
-<End>2013-07-22T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>noaa17</Id>
-<LongName>NOAA-17</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>2002-06-25T00:00:00Z</Start>
-<End>2013-07-22T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>noaa18</Id>
-<LongName>NOAA-18</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>2005-07-03T00:00:00Z</Start>
-<End>2013-07-22T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>noaa19</Id>
-<LongName>NOAA-19</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>2009-02-06T21:37:00Z</Start>
-<End>2013-07-22T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>noaa5</Id>
-<LongName>NOAA-5</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>1976-07-31T00:00:00Z</Start>
-<End>1980-06-28T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>noaa6</Id>
-<LongName>NOAA-6</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>1979-10-05T00:00:00Z</Start>
-<End>1986-08-09T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>noaa7</Id>
-<LongName>NOAA-7</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>1981-10-01T00:00:00Z</Start>
-<End>1986-06-29T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>noaa8</Id>
-<LongName>NOAA-8</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>1983-03-28T00:00:00Z</Start>
-<End>1985-10-27T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>oersted</Id>
-<LongName>Oersted</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>1999-05-15T00:00:00Z</Start>
-<End>2013-07-21T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>ogo5</Id>
-<LongName>OGO-5</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>1969-04-09T00:00:00Z</Start>
-<End>1971-05-10T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>ogo6</Id>
-<LongName>OGO-6</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>1969-06-05T00:00:00Z</Start>
-<End>1970-01-01T08:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>ohzora</Id>
-<LongName>Ohzora</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>1984-02-20T00:00:00Z</Start>
-<End>1986-04-12T08:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>parasol</Id>
-<LongName>PARASOL</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>2004-12-19T00:00:00Z</Start>
-<End>2013-07-22T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>polar</Id>
-<LongName>Polar</LongName>
-<Cadence>180s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>1996-03-01T00:00:00Z</Start>
-<End>2009-06-27T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>rbspa</Id>
-<LongName>RBSP-A</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>2012-08-30T09:25:59Z</Start>
-<End>2013-08-30T23:58:59Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>rbspapred</Id>
-<LongName>RBSP-A</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>2012-08-23T09:28:00Z</Start>
-<End>2014-10-23T23:58:59Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>rbspb</Id>
-<LongName>RBSP-B</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>2012-08-30T09:25:59Z</Start>
-<End>2013-08-30T23:58:59Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>rbspbpred</Id>
-<LongName>RBSP-B</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>2012-08-23T09:40:59Z</Start>
-<End>2014-10-23T23:58:59Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>reimei</Id>
-<LongName>Reimei</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>2005-08-25T00:00:00Z</Start>
-<End>2013-07-22T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>rhessi</Id>
-<LongName>RHESSI</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>2002-02-05T00:00:00Z</Start>
-<End>2013-07-22T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>rocsat1</Id>
-<LongName>ROCSAT1</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>1999-03-31T00:00:00Z</Start>
-<End>2004-06-13T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>rosetta</Id>
-<LongName>Rosetta</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>2007-11-12T00:00:00Z</Start>
-<End>2009-11-14T18:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>sampex</Id>
-<LongName>SAMPEX</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>1992-07-04T00:00:00Z</Start>
-<End>2012-11-12T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>scatha</Id>
-<LongName>SCATHA</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>1979-02-05T00:00:00Z</Start>
-<End>1991-01-01T08:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>snoe</Id>
-<LongName>SNOE</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>1998-02-27T00:00:00Z</Start>
-<End>2004-05-01T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>soho</Id>
-<LongName>SOHO</LongName>
-<Cadence>720s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>1995-12-05T00:00:00Z</Start>
-<End>2012-12-31T23:35:58Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>sputnik1</Id>
-<LongName>Sputnik</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>1957-10-04T00:00:00Z</Start>
-<End>1957-10-31T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>st5a</Id>
-<LongName>ST5-A</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>2006-03-23T00:00:00Z</Start>
-<End>2006-08-28T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>st5b</Id>
-<LongName>ST5-B</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>2006-03-23T00:00:00Z</Start>
-<End>2006-08-29T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>st5c</Id>
-<LongName>ST5-C</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>2006-03-23T00:00:00Z</Start>
-<End>2006-08-29T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>stereoa</Id>
-<LongName>STEREO-Ahead</LongName>
-<Cadence>720s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>2006-10-27T00:00:00Z</Start>
-<End>2013-09-06T23:36:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>stereob</Id>
-<LongName>STEREO-Behind</LongName>
-<Cadence>720s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>2006-10-27T00:00:00Z</Start>
-<End>2013-09-10T23:36:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>tatiana1</Id>
-<LongName>Tatiana1</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>2005-01-25T00:00:00Z</Start>
-<End>2007-03-30T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>tatiana2</Id>
-<LongName>Tatiana2</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>2009-09-17T00:00:00Z</Start>
-<End>2010-07-13T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>themisa</Id>
-<LongName>THEMIS-A</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>2007-02-18T00:13:59Z</Start>
-<End>2013-07-07T23:58:59Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>themisapred</Id>
-<LongName>THEMIS-A</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>2008-07-18T00:30:00Z</Start>
-<End>2017-09-06T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>themisb</Id>
-<LongName>THEMIS-B</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>2007-02-18T00:13:59Z</Start>
-<End>2013-07-06T23:58:59Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>themisbpred</Id>
-<LongName>THEMIS-B</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>2008-07-18T00:30:00Z</Start>
-<End>2014-12-01T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>themisc</Id>
-<LongName>THEMIS-C</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>2007-02-18T00:13:59Z</Start>
-<End>2013-07-07T23:58:59Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>themiscpred</Id>
-<LongName>THEMIS-C</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>2008-07-18T00:30:00Z</Start>
-<End>2014-12-01T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>themisd</Id>
-<LongName>THEMIS-D</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>2007-02-18T00:13:59Z</Start>
-<End>2013-07-07T23:58:59Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>themisdpred</Id>
-<LongName>THEMIS-D</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>2008-07-18T00:30:00Z</Start>
-<End>2017-09-06T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>themise</Id>
-<LongName>THEMIS-E</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>2007-02-18T00:13:59Z</Start>
-<End>2013-07-07T23:58:59Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>themisepred</Id>
-<LongName>THEMIS-E</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>2008-07-18T00:30:00Z</Start>
-<End>2017-09-06T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>timed</Id>
-<LongName>TIMED</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>2002-02-07T00:00:00Z</Start>
-<End>2013-07-22T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>trace</Id>
-<LongName>TRACE</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>1998-04-02T00:00:00Z</Start>
-<End>2010-10-19T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>twins1</Id>
-<LongName>Twins1</LongName>
-<Cadence>120s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>2007-04-01T00:02:30Z</Start>
-<End>2013-06-08T23:58:30Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>twins2</Id>
-<LongName>Twins2</LongName>
-<Cadence>120s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>2008-04-11T00:16:30Z</Start>
-<End>2013-06-09T23:52:30Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>uars</Id>
-<LongName>UARS</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>1991-09-20T00:00:00Z</Start>
-<End>2006-05-11T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>viking</Id>
-<LongName>Viking</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>1986-03-05T00:00:00Z</Start>
-<End>1987-01-01T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>wind</Id>
-<LongName>Wind</LongName>
-<Cadence>720s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>1994-11-16T00:00:00Z</Start>
-<End>2013-09-07T23:36:00Z</End>
-</TimeInterval>
-</Parameter>
-<Parameter>
-<Id>yohkoh</Id>
-<LongName>Yohkoh</LongName>
-<Cadence>60s</Cadence>
-<Units></Units>
-<TimeInterval>
-<Start>1991-09-05T00:00:00Z</Start>
-<End>1998-01-02T00:00:00Z</End>
-</TimeInterval>
-</Parameter>
-</TS_Catalog>
+Privacy and Important Notices:
+  http://www.nasa.gov/about/highlights/HP_Privacy.html
+Time to execute getPrivacyAndImportantNotices = 0.035seconds
+
+
+Satellites:
+  ace  ACE  720s 1997-08-26T00:00:00Z - 2014-02-19T13:35:59Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/ace_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/ace_t.x3d
+  active  Active  60s 1989-09-29T00:00:00Z - 1991-10-04T08:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/active_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/active_t.x3d
+  aim  AIM  60s 2007-04-25T00:00:00Z - 2014-03-09T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/aim_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/aim_t.x3d
+  akebono  Akebono  60s 1989-02-23T00:00:00Z - 2014-03-09T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/akebono_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/akebono_t.x3d
+  alouette1  Alouette-1  60s 1965-01-01T00:00:00Z - 1972-09-25T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/alouette1_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/alouette1_t.x3d
+  alouette2  Alouette-2  60s 1966-01-27T00:00:00Z - 1975-07-31T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/alouette2_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/alouette2_t.x3d
+  apex  APEX-MAIN  60s 1991-12-17T00:00:00Z - 2004-05-01T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/apex_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/apex_t.x3d
+  aqua  Aqua  60s 2002-05-04T00:00:00Z - 2014-03-09T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/aqua_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/aqua_t.x3d
+  ariel4  ARIEL-4  60s 1972-01-16T00:00:00Z - 1978-11-26T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/ariel4_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/ariel4_t.x3d
+  artemisp1  ARTEMIS_P1  60s 2007-02-18T00:13:59Z - 2014-02-18T23:58:59Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/artemisp1_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/artemisp1_t.x3d
+  artemisp1pred  ARTEMIS_P1 (Pred)  60s 2008-07-18T00:30:00Z - 2014-12-30T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/artemisp1pred_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/artemisp1pred_t.x3d
+  artemisp2  ARTEMIS_P2  60s 2007-02-18T00:13:59Z - 2014-02-16T23:58:59Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/artemisp2_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/artemisp2_t.x3d
+  artemisp2pred  ARTEMIS_P2 (Pred)  60s 2008-07-18T00:30:00Z - 2014-12-30T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/artemisp2pred_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/artemisp2pred_t.x3d
+  astrid2  ASTRID II  60s 1998-12-12T00:00:00Z - 2002-04-03T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/astrid2_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/astrid2_t.x3d
+  aura  Aura  60s 2004-07-15T00:00:00Z - 2014-03-09T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/aura_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/aura_t.x3d
+  calipso  CALIPSO  60s 2006-04-28T00:00:00Z - 2014-03-09T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/calipso_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/calipso_t.x3d
+  cce  CCE (AMPTE/CCE)  60s 1984-08-16T15:55:00Z - 1989-08-01T00:04:59Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/cce_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/cce_t.x3d
+  cceold  CCE (AMPTE/CCE) (superceded)  60s 1984-08-17T00:00:00Z - 1988-01-01T08:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/cceold_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/cceold_t.x3d
+  champ  CHAMP  60s 2000-11-09T00:00:00Z - 2010-10-10T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/champ_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/champ_t.x3d
+  chandra  Chandra  60s 1999-10-31T00:00:00Z - 2013-07-02T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/chandra_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/chandra_t.x3d
+  chibism  Chibis-M  60s 2012-01-26T00:00:00Z - 2014-03-10T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/chibism_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/chibism_t.x3d
+  cloudsat  Cloudsat  60s 2006-05-05T00:00:00Z - 2014-03-09T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/cloudsat_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/cloudsat_t.x3d
+  cluster1  Cluster-1 (FM5/Rumba)  60s 2000-08-23T00:00:29Z - 2017-01-02T04:59:30Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/cluster1_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/cluster1_t.x3d
+  cluster2  Cluster-2 (FM6/Salsa)  60s 2000-08-23T00:00:29Z - 2017-01-02T04:59:30Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/cluster2_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/cluster2_t.x3d
+  cluster3  Cluster-3 (FM7/Samba)  60s 2000-08-23T00:00:29Z - 2017-01-02T04:59:30Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/cluster3_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/cluster3_t.x3d
+  cluster4  Cluster-4 (FM8/Tango)  60s 2000-08-23T00:00:29Z - 2017-01-02T04:59:30Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/cluster4_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/cluster4_t.x3d
+  cnofs  C/NOFS  60s 2008-04-18T00:00:00Z - 2014-06-15T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/cnofs_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/cnofs_t.x3d
+  crres  CRRES  60s 1990-07-25T23:00:00Z - 1991-12-04T08:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/crres_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/crres_t.x3d
+  csswe  CSSWE  60s 2012-10-06T14:58:00Z - 2014-03-11T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/csswe_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/csswe_t.x3d
+  dawn  Dawn  60s 2014-01-06T19:01:00Z - 2014-05-05T11:58:59Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/dawn_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/dawn_t.x3d
+  de1  DE-1  60s 1981-08-03T10:37:59Z - 1991-03-02T08:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/de1_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/de1_t.x3d
+  de2  DE-2  60s 1981-08-04T00:00:00Z - 1983-02-19T12:19:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/de2_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/de2_t.x3d
+  demeter  DEMETER  60s 2004-07-08T00:00:00Z - 2009-11-24T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/demeter_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/demeter_t.x3d
+  dmea  DME-A  60s 1966-04-10T00:00:00Z - 1969-07-01T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/dmea_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/dmea_t.x3d
+  dmspf10  DMSP-10  60s 1990-12-02T00:00:00Z - 1999-09-12T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/dmspf10_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/dmspf10_t.x3d
+  dmspf11  DMSP-11  60s 1991-11-29T00:00:00Z - 2003-09-09T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/dmspf11_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/dmspf11_t.x3d
+  dmspf12  DMSP-12  60s 1994-09-16T00:00:00Z - 2003-09-09T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/dmspf12_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/dmspf12_t.x3d
+  dmspf13  DMSP-13  60s 1995-04-13T00:00:00Z - 2010-05-08T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/dmspf13_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/dmspf13_t.x3d
+  dmspf14  DMSP-14  60s 1997-04-20T00:00:00Z - 2010-11-13T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/dmspf14_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/dmspf14_t.x3d
+  dmspf15  DMSP-15  60s 1999-12-13T00:00:00Z - 2014-01-02T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/dmspf15_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/dmspf15_t.x3d
+  dmspf16  DMSP-16  60s 2003-10-18T00:00:00Z - 2014-01-02T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/dmspf16_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/dmspf16_t.x3d
+  dmspf17  DMSP-17  60s 2006-11-05T16:30:00Z - 2014-01-02T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/dmspf17_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/dmspf17_t.x3d
+  dmspf18  DMSP-18  60s 2009-10-22T00:00:00Z - 2014-01-02T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/dmspf18_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/dmspf18_t.x3d
+  dmspf8  DMSP-8  60s 1990-01-01T00:00:00Z - 1994-09-13T08:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/dmspf8_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/dmspf8_t.x3d
+  dmspf9  DMSP-9  60s 1990-01-01T00:00:00Z - 1992-11-01T08:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/dmspf9_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/dmspf9_t.x3d
+  doublestar1  Double Star-1  60s 2004-01-03T07:05:59Z - 2007-10-10T12:37:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/doublestar1_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/doublestar1_t.x3d
+  doublestar2  Double Star-2  60s 2004-09-16T23:53:59Z - 2009-12-31T23:58:59Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/doublestar2_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/doublestar2_t.x3d
+  equators  Equator-S  60s 1997-12-12T16:00:00Z - 1998-09-24T08:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/equators_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/equators_t.x3d
+  explorer45  Explorer-45  60s 1971-11-22T00:00:00Z - 1974-01-31T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/explorer45_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/explorer45_t.x3d
+  fast  FAST  60s 1996-08-22T00:00:00Z - 2014-03-09T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/fast_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/fast_t.x3d
+  freja  Freja  60s 1992-10-07T00:00:00Z - 2000-05-11T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/freja_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/freja_t.x3d
+  gcomw1  GCOM-W1  60s 2012-05-17T00:00:00Z - 2014-03-09T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/gcomw1_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/gcomw1_t.x3d
+  genesis  Genesis  3600s 2001-08-12T00:00:00Z - 2004-09-07T23:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/genesis_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/genesis_t.x3d
+  geotail  Geotail  720s 1992-07-26T00:00:00Z - 2014-03-23T23:48:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/geotail_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/geotail_t.x3d
+  gms3  GMS-3  60s 1986-03-25T00:00:00Z - 1986-07-01T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/gms3_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/gms3_t.x3d
+  goes10  GOES-10  180s 1998-06-18T00:00:00Z - 2009-12-05T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/goes10_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/goes10_t.x3d
+  goes11  GOES-11  180s 2000-05-17T00:00:00Z - 2014-03-07T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/goes11_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/goes11_t.x3d
+  goes12  GOES-12  180s 2002-08-15T00:00:00Z - 2014-03-09T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/goes12_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/goes12_t.x3d
+  goes13  GOES-13  180s 2006-06-10T00:00:00Z - 2014-03-09T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/goes13_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/goes13_t.x3d
+  goes14  GOES-14  180s 2009-07-09T00:00:00Z - 2014-03-09T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/goes14_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/goes14_t.x3d
+  goes15  GOES-15  180s 2010-06-19T00:00:00Z - 2014-03-09T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/goes15_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/goes15_t.x3d
+  goes6  GOES-6  180s 1993-12-01T00:00:00Z - 1995-05-01T08:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/goes6_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/goes6_t.x3d
+  goes7  GOES-7  180s 1987-04-15T00:00:00Z - 1998-12-02T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/goes7_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/goes7_t.x3d
+  goes8  GOES-8  180s 1994-07-22T00:00:00Z - 2004-05-01T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/goes8_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/goes8_t.x3d
+  goes9  GOES-9  180s 1995-07-29T00:00:00Z - 2006-01-01T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/goes9_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/goes9_t.x3d
+  gosat  GOSAT  60s 2009-01-30T00:00:00Z - 2014-03-10T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/gosat_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/gosat_t.x3d
+  grace1  GRACE-1  60s 2002-03-31T00:00:00Z - 2014-03-09T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/grace1_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/grace1_t.x3d
+  grace2  GRACE-2  60s 2002-03-31T00:00:00Z - 2014-03-08T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/grace2_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/grace2_t.x3d
+  hawkeye  Hawkeye  180s 1974-06-09T00:00:00Z - 1978-01-01T08:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/hawkeye_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/hawkeye_t.x3d
+  hinode  Hinode  60s 2006-09-23T00:10:00Z - 2014-03-10T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/hinode_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/hinode_t.x3d
+  image  IMAGE  120s 2000-03-27T00:00:55Z - 2006-07-31T22:37:59Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/image_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/image_t.x3d
+  imp7  IMP-7  720s 1972-09-26T00:00:00Z - 1978-10-01T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/imp7_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/imp7_t.x3d
+  imp8  IMP-8  300s 1973-10-30T00:00:00Z - 2010-01-01T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/imp8_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/imp8_t.x3d
+  interballaurora  Interball-2 (Auroral Probe)  60s 1996-09-02T00:00:00Z - 1999-07-15T08:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/interballaurora_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/interballaurora_t.x3d
+  interballtail  Interball-1 (Tail)  180s 1995-08-04T00:00:00Z - 2000-10-10T08:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/interballtail_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/interballtail_t.x3d
+  irm  IRM (AMPTE/IRM)  720s 1984-09-12T00:00:00Z - 1986-08-30T08:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/irm_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/irm_t.x3d
+  isee1  ISEE-1  60s 1977-10-22T14:49:00Z - 1987-09-26T05:58:59Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/isee1_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/isee1_t.x3d
+  isee1old  ISEE-1 (superceded)  720s 1977-10-23T00:00:00Z - 1987-09-26T06:35:59Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/isee1old_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/isee1old_t.x3d
+  isee2  ISEE-2  60s 1977-10-22T14:49:00Z - 1987-09-26T05:58:59Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/isee2_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/isee2_t.x3d
+  isee3  ISEE-3  720s 1978-08-16T03:43:59Z - 2014-08-11T23:36:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/isee3_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/isee3_t.x3d
+  isis1  ISIS-1  60s 1969-01-30T00:00:00Z - 1990-01-30T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/isis1_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/isis1_t.x3d
+  isis2  ISIS-2  60s 1971-04-10T00:00:00Z - 1990-01-30T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/isis2_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/isis2_t.x3d
+  iss  ISS  60s 1998-11-21T00:00:00Z - 2014-03-10T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/iss_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/iss_t.x3d
+  issb  ISS-b  60s 1978-02-19T00:00:00Z - 1983-11-16T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/issb_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/issb_t.x3d
+  jason2  JASON2  60s 2008-07-08T00:00:00Z - 2014-03-09T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/jason2_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/jason2_t.x3d
+  juno  Juno  60s 2013-08-01T01:01:00Z - 2014-03-30T11:58:59Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/juno_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/juno_t.x3d
+  kepler  Kepler  60s 2014-01-06T00:01:00Z - 2016-09-29T23:56:59Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/kepler_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/kepler_t.x3d
+  lanl01  LANL-01  180s 2001-05-02T02:00:00Z - 2008-01-03T17:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/lanl01_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/lanl01_t.x3d
+  lanl02  LANL-02  180s 2003-10-01T02:00:00Z - 2008-01-03T17:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/lanl02_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/lanl02_t.x3d
+  lanl89  LANL-89  180s 1993-03-15T00:00:00Z - 2008-01-03T17:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/lanl89_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/lanl89_t.x3d
+  lanl90  LANL-90  180s 1994-05-20T00:00:00Z - 2005-11-10T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/lanl90_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/lanl90_t.x3d
+  lanl91  LANL-91  180s 1993-10-27T02:00:00Z - 2004-11-19T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/lanl91_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/lanl91_t.x3d
+  lanl94  LANL-94  180s 1996-01-01T00:00:00Z - 2008-01-03T17:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/lanl94_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/lanl94_t.x3d
+  lanl97  LANL-97  180s 1997-07-04T23:00:00Z - 2008-01-03T17:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/lanl97_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/lanl97_t.x3d
+  lro  LRO  60s 2013-12-01T01:01:00Z - 2014-03-26T23:58:59Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/lro_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/lro_t.x3d
+  mars  Mars  60s 2006-01-01T00:00:00Z - 2015-12-31T23:58:59Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/mars_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/mars_t.x3d
+  maven  MAVEN  60s 2013-11-21T20:01:00Z - 2014-10-02T01:58:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/maven_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/maven_t.x3d
+  mercury  Mercury  60s 2008-01-01T00:00:00Z - 2015-12-31T23:58:59Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/mercury_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/mercury_t.x3d
+  messenger  MESSENGER  60s 2004-08-03T08:00:00Z - 2014-08-22T18:40:59Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/messenger_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/messenger_t.x3d
+  microlab1  Microlab1  60s 2000-01-01T00:00:00Z - 2005-04-30T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/microlab1_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/microlab1_t.x3d
+  mir  MIR  60s 1995-07-26T00:00:00Z - 2000-11-29T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/mir_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/mir_t.x3d
+  moon  Moon  60s 1959-01-01T00:00:00Z - 2017-08-21T23:58:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/moon_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/moon_t.x3d
+  mro  MRO  60s 2014-01-04T21:01:00Z - 2014-03-17T13:48:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/mro_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/mro_t.x3d
+  msx  MSX  60s 1996-04-25T00:00:00Z - 1999-03-04T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/msx_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/msx_t.x3d
+  noaa10  NOAA-10  60s 1986-09-27T00:00:00Z - 1991-09-27T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/noaa10_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/noaa10_t.x3d
+  noaa12  NOAA-12  60s 1991-05-16T00:00:00Z - 1998-05-02T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/noaa12_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/noaa12_t.x3d
+  noaa14  NOAA-14  60s 1995-01-14T00:00:00Z - 2004-05-01T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/noaa14_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/noaa14_t.x3d
+  noaa15  NOAA-15  60s 1998-05-26T00:00:00Z - 2014-03-09T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/noaa15_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/noaa15_t.x3d
+  noaa16  NOAA-16  60s 2000-09-27T00:00:00Z - 2014-03-09T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/noaa16_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/noaa16_t.x3d
+  noaa17  NOAA-17  60s 2002-06-25T00:00:00Z - 2014-03-09T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/noaa17_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/noaa17_t.x3d
+  noaa18  NOAA-18  60s 2005-07-03T00:00:00Z - 2014-03-09T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/noaa18_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/noaa18_t.x3d
+  noaa19  NOAA-19  60s 2009-02-06T21:37:00Z - 2014-03-09T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/noaa19_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/noaa19_t.x3d
+  noaa5  NOAA-5  60s 1976-07-31T00:00:00Z - 1980-06-28T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/noaa5_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/noaa5_t.x3d
+  noaa6  NOAA-6  60s 1979-10-05T00:00:00Z - 1986-08-09T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/noaa6_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/noaa6_t.x3d
+  noaa7  NOAA-7  60s 1981-10-01T00:00:00Z - 1986-06-29T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/noaa7_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/noaa7_t.x3d
+  noaa8  NOAA-8  60s 1983-03-28T00:00:00Z - 1985-10-27T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/noaa8_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/noaa8_t.x3d
+  oersted  Oersted  60s 1999-05-15T00:00:00Z - 2014-03-10T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/oersted_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/oersted_t.x3d
+  ogo5  OGO-5  60s 1969-04-09T00:00:00Z - 1971-05-10T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/ogo5_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/ogo5_t.x3d
+  ogo6  OGO-6  60s 1969-06-05T00:00:00Z - 1970-01-01T08:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/ogo6_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/ogo6_t.x3d
+  ohzora  Ohzora  60s 1984-02-20T00:00:00Z - 1986-04-12T08:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/ohzora_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/ohzora_t.x3d
+  parasol  PARASOL  60s 2004-12-19T00:00:00Z - 2014-03-09T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/parasol_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/parasol_t.x3d
+  polar  Polar  180s 1996-03-01T00:00:00Z - 2009-06-27T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/polar_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/polar_t.x3d
+  rbspa  RBSP-A  60s 2012-08-30T09:25:59Z - 2014-04-18T22:58:59Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/rbspa_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/rbspa_t.x3d
+  rbspapred  RBSP-A Test  60s 2013-11-26T00:01:59Z - 2015-02-03T23:58:59Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/rbspapred_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/rbspapred_t.x3d
+  rbspb  RBSP-B  60s 2012-08-30T09:25:59Z - 2014-04-18T22:58:59Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/rbspb_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/rbspb_t.x3d
+  rbspbpred  RBSP-B Test  60s 2013-11-26T00:01:59Z - 2015-02-03T23:58:59Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/rbspbpred_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/rbspbpred_t.x3d
+  reimei  Reimei  60s 2005-08-25T00:00:00Z - 2014-03-09T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/reimei_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/reimei_t.x3d
+  rhessi  RHESSI  60s 2002-02-05T00:00:00Z - 2014-03-09T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/rhessi_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/rhessi_t.x3d
+  rocsat1  ROCSAT1  60s 1999-03-31T00:00:00Z - 2004-06-13T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/rocsat1_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/rocsat1_t.x3d
+  rosetta  Rosetta  60s 2007-11-12T00:00:00Z - 2009-11-14T18:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/rosetta_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/rosetta_t.x3d
+  sampex  SAMPEX  60s 1992-07-04T00:00:00Z - 2012-11-12T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/sampex_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/sampex_t.x3d
+  scatha  SCATHA  60s 1979-02-05T00:00:00Z - 1991-01-01T08:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/scatha_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/scatha_t.x3d
+  snoe  SNOE  60s 1998-02-27T00:00:00Z - 2004-05-01T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/snoe_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/snoe_t.x3d
+  soho  SOHO  720s 1995-12-05T00:00:00Z - 2012-12-31T23:35:58Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/soho_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/soho_t.x3d
+  spitzer  Spitzer  60s 2013-09-01T01:01:00Z - 2017-01-01T00:03:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/spitzer_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/spitzer_t.x3d
+  sputnik1  Sputnik 1  60s 1957-10-04T00:00:00Z - 1957-10-31T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/sputnik1_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/sputnik1_t.x3d
+  st5a  ST5-A  60s 2006-03-23T00:00:00Z - 2006-08-28T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/st5a_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/st5a_t.x3d
+  st5b  ST5-B  60s 2006-03-23T00:00:00Z - 2006-08-29T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/st5b_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/st5b_t.x3d
+  st5c  ST5-C  60s 2006-03-23T00:00:00Z - 2006-08-29T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/st5c_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/st5c_t.x3d
+  stereoa  STEREO-Ahead  720s 2006-10-27T00:00:00Z - 2014-06-11T23:36:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/stereoa_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/stereoa_t.x3d
+  stereob  STEREO-Behind  720s 2006-10-27T00:00:00Z - 2014-06-04T23:36:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/stereob_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/stereob_t.x3d
+  swarma  Swarm A  60s 2013-11-26T00:00:00Z - 2014-03-09T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/swarma_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/swarma_t.x3d
+  swarmb  Swarm B  60s 2013-11-26T00:00:00Z - 2014-03-09T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/swarmb_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/swarmb_t.x3d
+  swarmc  Swarm C  60s 2013-11-26T00:00:00Z - 2014-03-09T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/swarmc_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/swarmc_t.x3d
+  tatiana1  Tatiana1  60s 2005-01-25T00:00:00Z - 2007-03-30T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/tatiana1_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/tatiana1_t.x3d
+  tatiana2  Tatiana2  60s 2009-09-17T00:00:00Z - 2010-07-13T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/tatiana2_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/tatiana2_t.x3d
+  themisa  THEMIS-A (P5)  60s 2007-02-18T00:13:59Z - 2014-02-17T23:58:59Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themisa_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themisa_t.x3d
+  themisapred  THEMIS-A (Pred)  60s 2008-07-18T00:30:00Z - 2017-09-06T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themisapred_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themisapred_t.x3d
+  themisb  THEMIS-B (P1)  60s 2007-02-18T00:13:59Z - 2014-02-18T23:58:59Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themisb_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themisb_t.x3d
+  themisbpred  THEMIS-B (Pred)  60s 2008-07-18T00:30:00Z - 2014-12-30T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themisbpred_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themisbpred_t.x3d
+  themisc  THEMIS-C (P2)  60s 2007-02-18T00:13:59Z - 2014-02-16T23:58:59Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themisc_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themisc_t.x3d
+  themiscpred  THEMIS-C (Pred)  60s 2008-07-18T00:30:00Z - 2014-12-30T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themiscpred_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themiscpred_t.x3d
+  themisd  THEMIS-D (P3)  60s 2007-02-18T00:13:59Z - 2014-02-18T23:58:59Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themisd_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themisd_t.x3d
+  themisdpred  THEMIS-D (Pred)  60s 2008-07-18T00:30:00Z - 2017-09-06T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themisdpred_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themisdpred_t.x3d
+  themise  THEMIS-E (P4)  60s 2007-02-18T00:13:59Z - 2014-02-18T23:58:59Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themise_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themise_t.x3d
+  themisepred  THEMIS-E (Pred)  60s 2008-07-18T00:30:00Z - 2017-09-06T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themisepred_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themisepred_t.x3d
+  timed  TIMED  60s 2002-02-07T00:00:00Z - 2014-03-09T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/timed_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/timed_t.x3d
+  trace  TRACE  60s 1998-04-02T00:00:00Z - 2010-10-19T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/trace_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/trace_t.x3d
+  twins1  Twins1  120s 2007-04-01T00:02:30Z - 2014-01-30T23:46:29Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/twins1_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/twins1_t.x3d
+  twins2  Twins2  120s 2008-04-11T00:16:30Z - 2014-01-30T23:58:30Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/twins2_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/twins2_t.x3d
+  uars  UARS  60s 1991-09-20T00:00:00Z - 2006-05-11T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/uars_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/uars_t.x3d
+  viking  Viking  60s 1986-03-05T00:00:00Z - 1987-01-01T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/viking_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/viking_t.x3d
+  wind  Wind  720s 1994-11-16T00:00:00Z - 2014-04-15T23:48:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/wind_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/wind_t.x3d
+  yohkoh  Yohkoh (Solar-A)  60s 1991-09-05T00:00:00Z - 1998-01-02T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/yohkoh_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/yohkoh_t.x3d
+Time to execute getAllSatellites = 0.081seconds
+
+
+SPASE Observatories:
+  ace  spase://SMWG/Observatory/ACE
+  aim  spase://SMWG/Observatory/AIM
+  akebono  spase://SMWG/Observatory/Akebono
+  alouette1  spase://SMWG/Observatory/Alouette1
+  alouette2  spase://SMWG/Observatory/Alouette2
+  artemisp1  spase://SMWG/Observatory/THEMIS/B
+  artemisp2  spase://SMWG/Observatory/THEMIS/C
+  cce  spase://SMWG/Observatory/AMPTE_CCE
+  champ  spase://SMWG/Observatory/CHAMP
+  cluster1  spase://SMWG/Observatory/Cluster-Rumba
+  cluster2  spase://SMWG/Observatory/Cluster-Salsa
+  cluster3  spase://SMWG/Observatory/Cluster-Samba
+  cluster4  spase://SMWG/Observatory/Cluster-Tango
+  cnofs  spase://SMWG/Observatory/CNOFS
+  crres  spase://SMWG/Observatory/CRRES
+  de1  spase://SMWG/Observatory/DynamicsExplorer1
+  de2  spase://SMWG/Observatory/DynamicsExplorer2
+  dmspf10  spase://SMWG/Observatory/DMSP_5D-2/F10
+  dmspf11  spase://SMWG/Observatory/DMSP_5D-2/F11
+  dmspf12  spase://SMWG/Observatory/DMSP_5D-2/F12
+  dmspf13  spase://SMWG/Observatory/DMSP_5D-2/F13
+  dmspf14  spase://SMWG/Observatory/DMSP_5D-2/F14
+  dmspf15  spase://SMWG/Observatory/DMSP_5D-3/F15
+  dmspf16  spase://SMWG/Observatory/DMSP_5D-3/F16
+  dmspf17  spase://SMWG/Observatory/DMSP_5D-3/F17
+  dmspf18  spase://SMWG/Observatory/DMSP_5D-3/F18
+  dmspf8  spase://SMWG/Observatory/DMSP_5D-2/F08
+  dmspf9  spase://SMWG/Observatory/DMSP_5D-2/F09
+  doublestar1  spase://SMWG/Observatory/DoubleStar1
+  doublestar2  spase://SMWG/Observatory/DoubleStar2
+  equators  spase://SMWG/Observatory/Equator-S
+  fast  spase://SMWG/Observatory/FAST
+  genesis  spase://SMWG/Observatory/Genesis
+  geotail  spase://SMWG/Observatory/Geotail
+  goes10  spase://SMWG/Observatory/GOES/10
+  goes11  spase://SMWG/Observatory/GOES/11
+  goes12  spase://SMWG/Observatory/GOES/12
+  goes13  spase://SMWG/Observatory/GOES/13
+  goes14  spase://SMWG/Observatory/GOES/14
+  goes15  spase://SMWG/Observatory/GOES/15
+  goes6  spase://SMWG/Observatory/GOES/6
+  goes7  spase://SMWG/Observatory/GOES/7
+  goes8  spase://SMWG/Observatory/GOES/8
+  goes9  spase://SMWG/Observatory/GOES/9
+  hawkeye  spase://SMWG/Observatory/Hawkeye
+  image  spase://SMWG/Observatory/IMAGE
+  imp7  spase://SMWG/Observatory/IMP7
+  imp8  spase://SMWG/Observatory/IMP8
+  interballaurora  spase://SMWG/Observatory/Interball-2
+  interballtail  spase://SMWG/Observatory/Interball-1
+  irm  spase://SMWG/Observatory/AMPTE_IRM
+  isee1  spase://SMWG/Observatory/ISEE1
+  isee2  spase://SMWG/Observatory/ISEE2
+  isee3  spase://SMWG/Observatory/ISEE3
+  isis1  spase://SMWG/Observatory/ISIS1
+  isis2  spase://SMWG/Observatory/ISIS2
+  lanl01  spase://SMWG/Observatory/LANL/2001
+  lanl02  spase://SMWG/Observatory/LANL/2002
+  lanl89  spase://SMWG/Observatory/LANL/1989
+  lanl90  spase://SMWG/Observatory/LANL/1990
+  lanl91  spase://SMWG/Observatory/LANL/1991
+  lanl94  spase://SMWG/Observatory/LANL/1994
+  lanl97  spase://SMWG/Observatory/LANL/1997
+  noaa10  spase://SMWG/Observatory/NOAA/10
+  noaa12  spase://SMWG/Observatory/NOAA/12
+  noaa14  spase://SMWG/Observatory/NOAA/14
+  noaa15  spase://SMWG/Observatory/NOAA/15
+  noaa16  spase://SMWG/Observatory/NOAA/16
+  noaa17  spase://SMWG/Observatory/NOAA/17
+  noaa18  spase://SMWG/Observatory/NOAA/18
+  noaa19  spase://SMWG/Observatory/NOAA/19
+  noaa5  spase://SMWG/Observatory/NOAA/5
+  noaa6  spase://SMWG/Observatory/NOAA/6
+  noaa7  spase://SMWG/Observatory/NOAA/7
+  noaa8  spase://SMWG/Observatory/NOAA/8
+  ogo6  spase://SMWG/Observatory/OGO6
+  polar  spase://SMWG/Observatory/POLAR
+  rbspa  spase://SMWG/Observatory/RBSP/A
+  rbspb  spase://SMWG/Observatory/RBSP/B
+  rhessi  spase://SMWG/Observatory/RHESSI
+  rocsat1  spase://SMWG/Observatory/ROCSAT-1
+  sampex  spase://SMWG/Observatory/SAMPEX
+  scatha  spase://SMWG/Observatory/SCATHA
+  snoe  spase://SMWG/Observatory/SNOE
+  soho  spase://SMWG/Observatory/SOHO
+  st5a  spase://SMWG/Observatory/ST5-155
+  st5b  spase://SMWG/Observatory/ST5-094
+  st5c  spase://SMWG/Observatory/ST5-224
+  stereoa  spase://SMWG/Observatory/STEREO-A
+  stereob  spase://SMWG/Observatory/STEREO-B
+  themisa  spase://SMWG/Observatory/THEMIS/A
+  themisb  spase://SMWG/Observatory/THEMIS/B
+  themisc  spase://SMWG/Observatory/THEMIS/C
+  themisd  spase://SMWG/Observatory/THEMIS/D
+  themise  spase://SMWG/Observatory/THEMIS/E
+  timed  spase://SMWG/Observatory/TIMED
+  trace  spase://SMWG/Observatory/TRACE
+  twins1  spase://SMWG/Observatory/TWINS1
+  twins2  spase://SMWG/Observatory/TWINS2
+  uars  spase://SMWG/Observatory/UARS
+  wind  spase://SMWG/Observatory/Wind
+  yohkoh  spase://SMWG/Observatory/Yohkoh
+Time to execute getAllSpaseObservatories = 1.212seconds
+
+
+Ground Stations:
+  SPA  -89.99  -13.32  South Pole
+  MCM  -77.85  166.7  McMurdo
+  SBF  -77.85  166.75  Scott Base
+  SPL  -76.0  -84.0  Siple
+  HBA  -75.52  -26.6  Halley Bay
+  MZH  -70.43  40.2  Mizuho
+  SYO  -69.01  39.59  Syowa
+  MAF  -67.62  62.89  Mawson
+  FRZ  -62.08  -58.39  Ferraz
+  CCF  -43.83  172.68  Christchurch
+  ADF  -34.56  138.48  Adelaide
+  CTO  -33.95  18.47  Cape Town
+  AQF  -16.5  -71.5  Arequipa
+  HUA  -12.05  -75.34  Huancayo
+  JRO  -11.9  -76.0  Jicamarca
+  CIA  1.95  -157.3  Christmas Island
+  KGO  9.3  -5.4  Korhogo
+  GUA  13.58  144.87  Guam
+  ARO  18.3  -66.75  Arecibo
+  SJG  18.38  -66.12  San Juan
+  TEO  19.74  99.19  Teoloyucan
+  HON  21.32  -158.06  Honolulu
+  LYFD  26.4  -97.8  MaC_Lyford
+  FIT  28.07  -80.95  Florida Tech.
+  SATX  29.4  -98.6  MaC_SanAntonio
+  JAX  30.35  -81.6  Jacksonville Univ.
+  SLU  30.44  90.73  SE Louisiana Univ.
+  TUC  32.25  -110.83  Tucson
+  RICH  33.0  -96.8  MaC_Richardson
+  USC  33.34  -81.46  Univ. S. Carolina
+  MUI  34.8  136.1  Shigaraki
+  PCEL  35.0  -97.2  MaC_Purcell
+  LAL  35.88  106.67  Los Alamos
+  KAK  36.23  140.19  Kakioka
+  DSO  36.25  -81.4  Dark Sky Obs.
+  BERK  37.881  -122.244  THM_Berkeley
+  ASH  37.95  58.11  Ashkhabad
+  FRD  38.2  -77.4  USGS Fredericksburg
+  ONW  38.43  141.47  Onagawa
+  AMER  38.5  -96.3  MaC_Americus
+  AFA  39.01  104.88  USAFA Colorado
+  APL  39.17  -76.88  Applied Physics Lab.
+  CCNV  39.19  -119.78  THM_Carson City
+  GDN  39.75  -105.16  Golden
+  UIL  40.1  -88.1  Urbana
+  PLA  40.13  -104.5  Platteville
+  BLD  40.13  -105.24  Boulder
+  BOU  40.14  -105.24  Boulder
+  LOYS  40.17  -78.38  THM_Loysburg
+  CSL  40.59  -105.14  Ft Collins
+  TKT  41.33  69.62  Tashkent
+  BENN  41.4  -96.2  MaC_Bennington
+  USI  41.4  -111.5  Bear Lake
+  TFS  42.09  44.71  Tbilisi
+  WES  42.38  -71.32  Weston
+  PFP  42.4  -86.93  Peach Mountain
+  MLH  42.6  -71.48  Millstone Hill
+  PINE  43.11  -102.6  THM_Pine Ridge
+  DUM  43.12  -70.94  Durham
+  AAA  43.2  76.9  Alma-Ata
+  WRTH  43.6  -95.6  MaC_Worthington
+  RMUS  43.6  -85.16  THM_Remus
+  GTF  43.62  -71.95  Grafton Test Facility
+  CLK  44.7  -75.0  Clarkson University
+  SWNO  44.78  -88.6  THM_Shawano
+  DRBY  44.95  -72.13  THM_Derby
+  UKIA  45.13  -118.93  THM_Ukiah
+  OTT  45.4  -75.5  Ottawa
+  NKK  45.8  62.1  Novokazalinsk
+  FYTS  46.09  -100.65  THM_Fort Yates
+  BMLS  46.24  -84.34  THM_Bay Mills
+  GLYN  46.9  -96.5  MaC_Glyndon
+  STJ  47.59  -52.68  St. Johns
+  HOTS  47.59  -114.66  THM_Hot Springs
+  NEW  48.26  -117.12  Newport
+  VIC  48.52  -123.42  Victoria
+  KAPU  49.39  -82.32  THM_Kapuskasing
+  GLL  49.6  -97.1  Glenlea
+  CHBG  49.81  -74.42  THM_Chibougamau
+  KGD  49.82  73.08  Karaganda
+  DOU  50.1  4.6  Dourbes
+  PINA  50.16  -96.07  THM_Pinawa
+  PNW  50.2  -96.04  Pinawa
+  KIV  50.72  30.3  Kiev
+  RDL  50.9  -93.5  Red Lake
+  COF  52.0  15.0  Collm
+  SHF  52.16  -106.53  Saskatoon
+  IRT  52.46  104.04  Irkutsk
+  GBAY  53.32  -60.46  THM_Goose Bay
+  NIP  53.5  -103.7  Nipawin
+  PGEO  53.82  -122.83  THM_Prince George
+  ISL  53.88  -94.68  Island Lake
+  TPAS  53.99  -100.94  THM_Flin Flon/The Pas
+  MEA  54.62  -112.33  Meanook
+  KNG  54.7  20.62  Kaliningrad
+  ATHA  54.71  -113.31  THM_Athabasca
+  NVS  55.03  82.9  Novosibirsk
+  PBQ  55.27  -77.75  Poste_Baleine
+  ESK  55.32  -3.2  Eskdalemuir
+  MOS  55.48  37.31  Moscow
+  GILL  56.35  -94.66  THM_Gillam
+  TMK  56.47  84.93  Tomsk
+  NAIN  56.5  -61.7  THM_Nain
+  SNKQ  56.54  -79.23  THM_Sanikiluaq
+  FMM  56.73  -111.38  Fort McMurray
+  SVD  56.73  61.07  Sverdlovsk
+  PTRS  56.83  -133.16  THM_Petersburg
+  GIM  56.85  -94.42  Gillam
+  LYN  56.85  -101.07  Lynn Lake
+  SIT  57.05  -135.33  Sitka
+  BKC  57.68  -94.23  Back
+  RBL  58.22  -103.67  Rabbit Lake
+  FCC  58.8  -94.1  Fort Churchill
+  STM  59.5  18.2  Stockholm
+  UPP  59.8  17.6  Uppsala
+  LNN  59.95  30.71  Leningrad
+  FSMI  59.98  -111.84  THM_Fort Smith
+  FSM  60.0  -112.0  Fort_Smith
+  WFP  60.06  -128.58  Watson Lake
+  MGD  60.12  151.02  Magadan
+  NUR  60.51  24.66  Nurmijarvi
+  WHIT  61.01  -135.22  THM_White Horse
+  EKP  61.1  -94.07  Eskimo Point
+  NAQ  61.1  -45.2  Narssarssuaq
+  AMU  61.24  -149.87  Anchorage
+  POD  61.6  90.0  Podk. Tunguska
+  FSP  61.75  -121.23  Fort_Simpson
+  FSIM  61.76  -121.22  THM_Fort Simpson
+  YAK  62.02  129.72  Yakutsk
+  TLK  62.3  -150.1  Talkeetna
+  FHF  62.32  26.61  Hankasalmi
+  GAK  62.39  -145.15  HAARP/Gakona
+  GAKO  62.41  -145.16  THM_HAARP/Gakona
+  YKC  62.4  -114.5  Yellowknife
+  RIT  62.8  -92.33  Rankin_Inlet
+  RANK  62.83  -92.11  THM_Rankin Inlet
+  MCGR  62.95  -155.6  THM_Mcgrath
+  IQA  63.8  -68.6  Iqaluit
+  WHF  63.86  -22.02  Stokkseyri
+  EHF  63.86  -19.2  Pykkvibaerehf
+  DWC  64.07  -139.42  Dawson City
+  BLC  64.33  -96.03  Baker Lake
+  ARK  64.6  40.5  Arkhangelsk
+  LYS  64.62  18.77  Lycksele
+  HSF  64.67  -21.03  Husafell
+  EKAT  64.72  -109.33  THM_Lac de Gras/Ekati
+  CMO  64.85  -147.83  College
+  NOW  64.9  -125.5  Norman Wells
+  OUL  65.1  25.85  Oulu
+  COW  65.73  -111.25  Contwoyto Lake
+  IFJ  66.08  -23.13  Isafjordur
+  TJN  66.2  -17.12  Tjornes
+  FYKN  66.56  -145.21  THM_Fort Yukon
+  FYU  66.57  -145.27  Fort_Yukon
+  PEL  66.9  24.08  Pello
+  KIAN  66.97  -160.44  THM_Kiana
+  STF  67.02  -50.72  Sondrestrom
+  SOD  67.37  26.65  Sodankyla
+  SOD  67.37  26.65  ECAT-Sodankyla
+  KIR  67.83  20.42  Kiruna
+  KIR  67.83  20.42  ECAT-Kiruna
+  MUO  68.02  23.53  Muonio
+  AVI  68.13  -145.57  Arctic Village
+  INK  68.25  -133.3  Inuvik
+  INUV  68.41  -133.77  THM_Inuvik
+  IVA  68.6  27.48  Ivalo
+  ALT  68.9  22.96  Alta
+  CPS  68.92  -179.48  Cape Schmidt
+  MMK  68.95  33.05  Murmansk
+  KAU  69.02  23.05  Kautokeino
+  KIL  69.05  20.7  Kilpisjarvi
+  CBB  69.2  -105.0  Cambridge Bay
+  GDH  69.24  -53.52  Godhavn
+  NOK  69.4  88.1  Norilsk
+  AMD  69.47  61.42  Amderma
+  TRO  69.66  18.95  Tromso
+  TRO  69.66  18.95  ECAT-Tromso
+  KEV  69.76  27.01  Kevo
+  CPY  70.17  -124.72  Cape Parry
+  SOE  70.54  22.22  Soroya
+  BRW  71.3  -156.75  Barrow
+  TIK  71.58  129.0  Tixie Bay
+  SKG  71.9  82.1  Sopoch. Karga
+  SAH  72.0  -125.0  Sachs Harbor
+  DIK  73.54  80.56  Dixon Island
+  RES  74.7  -94.9  Resolute Bay
+  IZV  75.9  82.7  Izvestia
+  KOT  76.0  137.9  Kotelny
+  MBC  76.2  -119.4  Mould Bay
+  HRN  77.0  15.55  Hornsund
+  TFP  76.53  -68.44  Thule
+  THL  77.48  -69.17  Thule/Qaanaaq
+  UDN  77.5  82.3  Uedinenie
+  ESR  78.15  16.03  ECAT-Svalbard
+  VIZ  79.5  78.1  Vize
+  LNC  78.9  12.0  Ny Alesund
+  HIS  80.62  58.05  Heiss Island
+  NOC  81.6  -16.6  Nord
+  ALE  82.5  -62.5  Alert
+Time to execute getAllGroundStations = 0.049seconds
+xmlStart/End = 2014-02-20T14:23:59.549Z, 2014-02-21T14:23:59.549Z
+start/end date = Thu Feb 20 09:23:59 EST 2014, Fri Feb 21 09:23:59 EST 2014
+
+Orbit getGraphs results:
+
+getGraphs results:
+result.getStatusCode() = SUCCESS
+result.getStatusSubCode() = SUCCESS
+
+getGraphs status text is empty
+
+getGraphs URLs returned:
+  http://sscweb.gsfc.nasa.gov/images/ORBIT_22473_001.gif
+
+Time to execute getGraphs = 0.859seconds
+
+Map getGraphs results:
+
+getGraphs results:
+result.getStatusCode() = SUCCESS
+result.getStatusSubCode() = SUCCESS
+
+getGraphs status text is empty
+
+getGraphs URLs returned:
+  http://sscweb.gsfc.nasa.gov/images/MAPPED_MOON_22492_000.gif
+
+Time to execute getGraphs = 0.858seconds
+
+Time Series getGraphs results:
+
+getGraphs results:
+result.getStatusCode() = SUCCESS
+result.getStatusSubCode() = SUCCESS
+
+getGraphs status text is empty
+
+getGraphs URLs returned:
+  http://sscweb.gsfc.nasa.gov/images/TIME_SERIES_22510_000.gif
+
+Time to execute getGraphs = 0.314seconds
+
+getData results:
+
+Data results:
+result.getStatusCode() = SUCCESS
+result.getStatusSubCode() = SUCCESS
+
+Data status text is empty
+data.length = 2
+Satellite Data:
+  fast
+  Time                                      GSE                                       Local      Radial     Magnetic     Neutral     Bow         Magneto     Dipole      Dipole    Spacecraft   Radial Trc   N BTraced     GSE      Magnetic   Vectors 
+                             X           Y           Z        Lat        Lon           Time      Length     Strength     Sheet       Shock       Pause       L Value     InvLat    Region       Region       Region        X          Y          Z     
+  2014-02-20T14:24:00Z
+     -423.52    -1635.27    -8888.66      -79.24      255.48        5.03     9047.75    20748.88    -8991.83   -90161.02   -65599.20       93.25       84.06   N Msphere   S PolrCap     None         894.91    -2754.28   -20545.78
+  2014-02-20T14:26:00Z
+      -80.31    -2307.80    -8881.72      -75.43      268.01        5.87     9177.00    19767.88    -9172.83   -89722.55   -65206.07      382.19       87.07   D Msphere   S PolrCap     None        1937.74    -4625.90   -19121.06
+  2014-02-20T14:28:00Z
+      263.49    -2963.24    -8808.94      -71.34      275.08        6.34     9297.73    18828.65      NA       -89290.51   -64827.74      283.01       86.59   D Msphere   S PolrCap     None        2841.26    -6203.30   -17548.91
+  2014-02-20T14:30:00Z
+      605.14    -3597.62    -8673.39      -67.19      279.55        6.64     9409.40    17932.44      NA       -88868.74   -64466.39       80.35       83.59   D Msphere   S PolrCap     None        3614.63    -7505.52   -15879.99
+  2014-02-20T14:32:00Z
+      942.84    -4207.27    -8478.19      -63.04      282.63        6.84     9511.56    17079.15      NA       -88457.17   -64123.12       35.27       80.31   D Msphere   S PolrCap     None        4267.77    -8552.23   -14154.25
+  moon
+  Time                                      GSE                                       Local      Radial     Magnetic     Neutral     Bow         Magneto     Dipole      Dipole    Spacecraft   Radial Trc   N BTraced     GSE      Magnetic   Vectors 
+                             X           Y           Z        Lat        Lon           Time      Length     Strength     Sheet       Shock       Pause       L Value     InvLat    Region       Region       Region        X          Y          Z     
+  2014-02-20T14:24:00Z
+  -169370.87  -346768.36     3534.19        0.52      243.97        4.26   385936.85      NA          NA        89095.26   202637.22       62.86       82.75   Intpl Med   Low Lat       None         NA          NA          NA    
+  2014-02-20T14:26:00Z
+  -169259.24  -346816.10     3544.91        0.53      243.99        4.27   385930.89      NA          NA        89184.19   202698.28       62.89       82.76   Intpl Med   Low Lat       None         NA          NA          NA    
+  2014-02-20T14:28:00Z
+  -169147.50  -346863.86     3555.65        0.53      244.00        4.27   385924.93      NA          NA        89273.49   202759.39       62.93       82.76   Intpl Med   Low Lat       None         NA          NA          NA    
+  2014-02-20T14:30:00Z
+  -169059.82  -346899.85     3566.36        0.53      244.02        4.27   385918.95      NA          NA        89342.11   202805.96       62.97       82.76   Intpl Med   Low Lat       None         NA          NA          NA    
+  2014-02-20T14:32:00Z
+  -168948.10  -346947.53     3577.10        0.53      244.04        4.27   385913.01      NA          NA        89431.29   202867.10       63.00       82.76   Intpl Med   Low Lat       None         NA          NA          NA    
+
+Time to execute getData = 2.147seconds
+
+getDataFile results:
+result.getStatusCode() = SUCCESS
+result.getStatusSubCode() = SUCCESS
+
+getDataFile status text is empty
+
+getDataFile URLs returned:
+  http://sscweb.gsfc.nasa.gov/query_output/locator_server22543.txt
+
+Time to execute getDataFiles = 1.357seconds
+
+getDataFile results:
+result.getStatusCode() = SUCCESS
+result.getStatusSubCode() = SUCCESS
+
+getDataFile status text is empty
+
+getDataFile URLs returned:
+  http://sscweb.gsfc.nasa.gov/query_output/fast_20140221092405_22566.cdf
+  http://sscweb.gsfc.nasa.gov/query_output/moon_20140221092405_22566.cdf
+
+Time to execute getDataFiles 2 = 1.67seconds

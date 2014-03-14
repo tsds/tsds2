@@ -173,7 +173,7 @@ function report(el,Nvalid) {
 	$('#urlsvalid').show();
 	$('#urlsinvalid').show();
 	//console.log(urlsv.filter(function(element){return element.length}))
-	console.log(urlsi.filter(function(element){return element.length}).join('\n\n').replace(/(,,)+/g,'\n').replace(/\n,/g,''))
+	//console.log(urlsi.filter(function(element){return element.length}).join('\n\n').replace(/(,,)+/g,'\n').replace(/\n,/g,''))
 	$('#urlsv').val(urlsv.filter(function(element){return element.length}).join('\n\n').replace(/(,,)+/g,'\n').replace(/\n,/g,'').replace(/,/g,'\n'));
 	$('#urlsi').val(urlsi.filter(function(element){return element.length}).join('\n\n').replace(/(,,)+/g,'\n').replace(/\n,/g,'').replace(/,/g,'\n'));
 }

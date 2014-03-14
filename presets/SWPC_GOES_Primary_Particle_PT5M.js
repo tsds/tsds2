@@ -1,9 +1,6 @@
 id="SWPC/GOES/Primary/Particle/PT1M";
 Presets[id] = {};
 
-// For Autoplot, for now.
-Presets[id].PlotColumns = 7;
-
 Presets[id].CatalogName = "";
 Presets[id].CatalogID   = id;
 

@@ -1,9 +1,6 @@
 id="NSSDC/DE2/MAG";
 Presets[id] = {};
 
-// For Autoplot, for now.
-Presets[id].PlotColumns = 7;
-
 Presets[id].CatalogName = "Magnetic and Electric Field data from Dynamics Explorer 2";
 Presets[id].CatalogID   = id;
 

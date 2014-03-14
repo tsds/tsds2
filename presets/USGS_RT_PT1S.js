@@ -1,8 +1,6 @@
 id = "USGS/RT/PT1S";
 Presets[id] = {};
 
-Presets[id].PlotColumns = 4;
-
 Presets[id].URLTemplate        = "http://magweb.cr.usgs.gov/data/magnetometer/$1/OneSecond/$5%Y%m%dvsec.sec";
 
 Presets[id].CatalogName        = "USGS Real Time 1-Second Magnetometer Measurements";

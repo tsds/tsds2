@@ -15,7 +15,6 @@
 		<script type="text/javascript" src="deps/jquery.ba-hashchange-1.3.js"></script>
 		<script type="text/javascript" src="deps/jquery.parsequerystring.js"></script>
 
-
  		<script type="text/javascript" src="http://tsds.org/et/deps/strftime.js"></script>
  		<script type="text/javascript" src="http://tsds.org/et/deps/sprintf-0.7-beta1.js"></script>	
  		<script type="text/javascript" src="http://tsds.org/et/deps/date.js"></script>
@@ -30,10 +29,13 @@
  		<script type="text/javascript" src="asset/createcatalog.js"></script>
 
 		<script type="text/javascript">Presets = {};</script>
+ 		<script type="text/javascript" src="catalogs/sscweb/SSCWeb.json"></script>
+ 		<script type="text/javascript" src="presets/SSCWeb.js"></script>
  		<script type="text/javascript" src="catalogs/intermagnet/INTERMAGNET_PT1M.json"></script>
  		<script type="text/javascript" src="presets/INTERMAGNET_PT1M.js"></script>
- 		<!-- script type="text/javascript" src="presets/USGS_RT_PT1M.js"></script>
- 		<script type="text/javascript" src="presets/USGS_RT_PT1S.js"></script-->
+ 		<script type="text/javascript" src="presets/SuperMAG.js"></script>
+ 		<script type="text/javascript" src="presets/USGS_RT_PT1M.js"></script>
+ 		<!--script type="text/javascript" src="presets/USGS_RT_PT1S.js"></script-->
  		<script type="text/javascript" src="presets/SWPC_AK_2DayFile.js"></script>
  		<script type="text/javascript" src="presets/SWPC_AK.js"></script>
  		<script type="text/javascript" src="presets/Kyoto_RT_Dst_PT1H.js"></script>
@@ -67,12 +69,14 @@
 		//var Proxy            = "asset/head.php?url=";
 		
 		function setpresets(preset) {
+			//console.log(preset)
 			for (var key in preset) {
 				//console.log(key + ": " + preset[key]);
-				if (key !== "Datasets")
+				//if (key !== "Datasets") {
+					//console.log(preset[key])
 					$('#'+key).val(preset[key]);
+				//}
 			}
-			$('#Datasets').text(JSON.stringify(preset.Datasets).replace(/\],\[/g,"\n").replace("[[","").replace("]]","").replace(/\"/g,""));
 		}
 
 		function threddsTry() {
@@ -113,7 +117,8 @@
 			});
 
 			qs = $.parseQueryString();
-			console.log(qs)
+			console.log("Query String: ");
+			console.log(qs);
 			
 			var qscatalog = false;
 			if (typeof(qs["CatalogID"]) !== "undefined") {
@@ -159,15 +164,15 @@
 				// Otherwise content does not change (at least in Chrome).
 				$("#Datasets").after("<textarea class='required enter' id='Datasets'>")
 				$("#Datasets").remove(); 
-
+				
 				setpresets(Presets[id]);
-				expand();
+				//expand();
 				$('#Datasets').autosize();
 				
 				str = createcatalog();
 
+				//console.log(str)
 				$(".CodeMirror").remove();
-				//$('#threddscatalog2').empty().val(str);
 				$('#threddscatalog').empty().val(str);
 				
 				//var editor = CodeMirror.fromTextArea(document.getElementById('threddscatalog'), {lineNumbers:true,"mode":"xml", "value": catalog[0].outerHTML.replace(/\s.*\</g,'')});
@@ -228,8 +233,6 @@
   		<textarea id="urls" class="try" style="display:none"></textarea>
   		<div id="urls" class="try" style="display:none"></div>
  		<br/>  		
- 		Plot columns (column to plot for plot button below) <input type="text" id="PlotColumns"></input>
- 		<br/>  		
  		<input id="report0dataurls" type="button" onclick="ajaxRequest(this,'HEAD');" value="HEAD check">
  		<!-- 
  		<input id="report1dataurls" type="button" onclick="ajaxRequest(this,'GET');" value="GET check (slow)">
@@ -272,38 +275,38 @@
   		<input type="text" id="DataColumns"></input></div>
  		<br/>
 		<div class="required">* Data Column IDs
-  		<input type="text" id="DataIDs"></input></div>
+  		<textarea type="text" id="DataIDs"></textarea></div>
   		<br/>
 		<div class="required">* Data Column Names
-  		<input type="text" id="DataNames"></input></div>
+  		<textarea type="text" id="DataNames"></textarea></div>
   		<br/>
 		Data Column Labels
-  		<input type="text" id="DataLabels"></input>
+  		<textarea type="text" id="DataLabels"></textarea>
  		<br/>
 		Data Column Values
-  		<input type="text" id="DataValues"></input>
+  		<textarea type="text" id="DataValues"></textarea>
  		<br/>
 		Data Column Types
-  		<input type="text" id="DataTypes"></input>
+  		<textarea type="text" id="DataTypes"></textarea>
  		<br/>
 		Data Column Units
-  		<input type="text" id="DataUnits"></input>
+  		<textarea type="text" id="DataUnits"></textarea>
  		<br/>
 		Data Column Renderings
-  		<input type="text" id="DataRenderings"></input>
+  		<textarea type="text" id="DataRenderings"></textarea>
  		<br/>
 		Data Column Fill Values
-  		<input type="text" id="DataFillValues"></input>
+  		<textarea type="text" id="DataFillValues"></textarea>
  		<br/>
  		<br/>
 		<div class="required">* Data Column Group IDs
-  		<input type="text" id="DataGroupIDs"></input></div>
+  		<textarea type="text" id="DataGroupIDs"></textarea></div>
  		<br/>
 		<div class="required">* Data Column Group Names
-  		<input type="text" id="DataGroupNames"></input></div>
+  		<textarea type="text" id="DataGroupNames"></textarea></div>
  		<br/>
 		Data Column Group Labels
-  		<input type="text" id="DataGroupLabels"></input>
+  		<textarea type="text" id="DataGroupLabels"></textarea>
  		<br/>
 		<br/>
  		Skip lines
@@ -330,18 +333,16 @@
 		
 	<hr/>
 	</div>
+
  	<div id="catalogdiv" style="display:none">
-		<input id="threddscatalogtry" type="button" onclick="threddsTry();" value="Try"> catalog.thredds:
-	 	<textarea class="try" id="threddscatalog"></textarea>
+		<input id="threddscatalogtry" type="button" onclick="threddsTry();" value="Try"/> catalog.thredds:
+	 	<textarea class="try" id="threddscatalog">Hello</textarea>
 		<br/>
 		<textarea class="try" id="threddstemplate" style="display:none">
 			<catalog id="" name="" xmlns:xlink="http://www.w3.org/1999/xlink">
     				<documentation xlink:href="" xlink:title=""/>
-    				<service name="tss" serviceType="OpenDAP" base=""/>
 					<dataset name="">
 						<documentation xlink:href="" xlink:title=""/>
-						<access serviceName="tss" urlPath=""/>
-						<access serviceName="ncml" urlPath=""/>
 						<timeCoverage>
 							<Start></Start>
 							<End></End>

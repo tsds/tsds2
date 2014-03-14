@@ -1,9 +1,6 @@
 id="SWPC/AK";
 Presets[id] = {};
 
-// For Autoplot, for now.
-Presets[id].PlotColumns = 7;
-
 Presets[id].CatalogName = "Geomagnetic A and K indices from the U.S. Geological Survey Stations.";
 Presets[id].CatalogID   = id;
 

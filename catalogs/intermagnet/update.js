@@ -15,6 +15,10 @@ if (cadence.match("PT1M")) {
 	var urlo = "http://intermagnet.org/data-donnee/download-2-eng.php?rate=second&type=variation&format=IAGA2002&from_year=$Y&from_month=$m&from_day=$d&to_year=$Y&to_month=$m&to_day=$d&filter_region%5B%5D=America&filter_region%5B%5D=Asia&filter_region%5B%5D=Europe&filter_region%5B%5D=Pacific&filter_region%5B%5D=Africa&filter_lat%5B%5D=NH&filter_lat%5B%5D=NM&filter_lat%5B%5D=E&filter_lat%5B%5D=SM&filter_lat%5B%5D=SH&select_all%5B%5D=TLC&select%5B%5D=TLClc$Y$m$dvsec.sec&email=rweigel%40gmu.edu&accept=accept"; 
 }
 
+var updatesincelast = true;
+var mirrordir = "/var/www/mirror/www.intermagnet.org";
+//var mirrordir = "./data/";
+
 var lines = fs.readFileSync("INTERMAGNET_"+cadence+".txt");
 var list  = lines.toString().split("\n");
 
@@ -27,13 +31,21 @@ function get(urls,files) {
 		var files = [];
 		TLC       = list[k].split(" ")[0];
 		
+		var currentfiles = fs.readdirSync(mirrordir+"/"+TLC+"/"+cadence+"/");
+		var lastfile = currentfiles[currentfiles.length-1];
+		var lastdate = lastfile(/.*([0-9][0-9][0-9][0-9])([0-9][0-9])([0-9][0-9]).*/,"$1-$2-$3");
+		
+
 		var options      = {};
 		options.template = urlo.replace(/TLClc/g,TLC.toLowerCase()).replace("TLC",TLC);
 		options.check    = false;
 		options.side     = "server";
 		options.type     = "strftime";
-		options.start    = list[k].split(" ")[1];
-		options.stop     = list[k].split(" ")[2];
+		if (updatesincelast) {
+			options.timeRange = list[k].split(" ")[1] + "/" + lastdate;			
+		} else {
+			options.timeRange = list[k].split(" ")[1] + "/" + list[k].split(" ")[2];
+		}
 		
 		urls = urls.concat(expandtemplate(options));		
 		options.template = TLC.toLowerCase()+"$Y$m$dvmin.min.gz";

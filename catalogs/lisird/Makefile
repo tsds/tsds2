@@ -12,8 +12,14 @@ XML2THREDDS=http://virbo.org/exist/servlet/db/virbo/xq/xsltransform.xql?xslt=htt
 
 thredds: $(CAT).thredds
 
-$(CAT).raw:
-	wget -O $(CAT).raw "http://lasp.colorado.edu/lisird/tss/catalog.thredds"
+# grep -Po 'urlPath=".*?"' catalog.thredds | grep -Po '".*?"' | perl -pi -e 's#"(.*)"#$1#g'
+# grep -Po 'urlPath=".*?"' catalog.thredds | grep -Po '".*?"' | perl -pi -e 's#"(.*)"#$1#g'
+
+all: $(CAT).xml
+
+$(CAT).xml:
+	perl times.pl
+	perl thredds.pl
 
 # This can take 2 minutes or more.  XSLT must make a web hit to LISIRD to get start/stop for each parameter.
 $(CAT).thredds: $(CAT).raw

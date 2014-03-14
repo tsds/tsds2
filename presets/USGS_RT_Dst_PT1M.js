@@ -1,9 +1,6 @@
 id="USGS/RT/Dst/PT1M";
 Presets[id] = {};
 
-// For Autoplot, for now.
-Presets[id].PlotColumns = 7;
-
 Presets[id].CatalogName = "Real Time Dst from USGS; 1-minute cadence.";
 Presets[id].CatalogID   = id;
 

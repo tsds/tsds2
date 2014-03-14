@@ -9,6 +9,7 @@ var expandISO8601Duration = require("tsdset").expandISO8601Duration;
 var cadence = process.argv[2] || "PT1M";
 var k       = parseInt(process.argv[3]) || 0;
 
+
 var sleepint = 1000;
 if (cadence.match("PT1M")) {
 	var urlo = "http://intermagnet.org/data-donnee/download-2-eng.php?rate=minute&type=variation&format=IAGA2002&from_year=$Y&from_month=$m&from_day=$d&to_year=$Y&to_month=$m&to_day=$d&filter_region%5B%5D=America&filter_region%5B%5D=Asia&filter_region%5B%5D=Europe&filter_region%5B%5D=Pacific&filter_region%5B%5D=Africa&filter_lat%5B%5D=NH&filter_lat%5B%5D=NM&filter_lat%5B%5D=E&filter_lat%5B%5D=SM&filter_lat%5B%5D=SH&select_all%5B%5D=TLC"; 
@@ -41,15 +42,14 @@ function get(urls,files) {
 		} else {
 			options.template = "&select%5B%5D=TLClc$Y$m$dvsec.sec.gz".replace("TLClc",TLC.toLowerCase());
 		}
+		
 		options.check    = false;
 		options.side     = "server";
 		options.type     = "strftime";
-		options.start    = list[k].split(" ")[1];
-		options.stop     = list[k].split(" ")[2];
+		options.timeRange = list[k].split(" ")[1] + "/" + list[k].split(" ")[2];
 		
 		if (new Date(options.stop).getTime() < new Date(options.start).getTime()) {
-			options.start    = list[k].split(" ")[2];
-			options.stop     = list[k].split(" ")[1];			
+			options.timeRange = list[k].split(" ")[2] + "/" + list[k].split(" ")[1];
 		}
 		console.log(options);
 		filesa = expandtemplate(options);

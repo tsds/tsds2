@@ -1,9 +1,6 @@
 id="Autoplot/Linkcheck";
 Presets[id] = {};
 
-// For Autoplot, for now.
-Presets[id].PlotColumns = 7;
-
 Presets[id].CatalogName = "Link Checks for autoplot.org";
 Presets[id].CatalogID   = id;
 

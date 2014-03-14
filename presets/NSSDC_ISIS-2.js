@@ -1,9 +1,6 @@
 id="NSSDC/ISIS-2";
 Presets[id] = {};
 
-// For Autoplot, for now.
-Presets[id].PlotColumns = 7;
-
 Presets[id].CatalogName = "ISIS-2";
 Presets[id].CatalogID   = id;
 

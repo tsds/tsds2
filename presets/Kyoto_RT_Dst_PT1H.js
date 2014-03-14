@@ -1,9 +1,6 @@
 id="Kyoto/RT/Dst/PT1H";
 Presets[id] = {};
 
-// For Autoplot, for now.
-Presets[id].PlotColumns = 7;
-
 Presets[id].CatalogName = "Real Time Dst from Kyoto; 1-hour cadence.";
 Presets[id].CatalogID   = id;
 

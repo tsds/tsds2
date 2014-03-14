@@ -1,9 +1,6 @@
 id="ViRBO/TSX-5/EPHX";
 Presets[id] = {};
 
-// For Autoplot, for now.
-Presets[id].PlotColumns = 4;
-
 Presets[id].CatalogName = "TSX-5/CEASE DAILY TEXT FILES, EXTENDED EPHEMERIS";
 Presets[id].CatalogID   = id;
 

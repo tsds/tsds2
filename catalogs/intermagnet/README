@@ -1,3 +1,7 @@
+After full mirror, delete datacache cache.
+
+TODO: Modify mirror to update after date on last file found.
+ 
 This catalog must be mirrored because API creates a temporary file that
 is based on the timestamp (down to the second) of the request.  If two requests
 are made in the same second, the first temporary file is over-written on their server.
