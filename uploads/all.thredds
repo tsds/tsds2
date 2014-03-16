@@ -11,5 +11,6 @@
 	<catalogRef ID="SWPC/GOES/Primary/Particle/PT1M" xlink:title="SWPC/GOES/Primary/Particle/PT1M" xlink:href="http://localhost:8004/uploads/SWPC/GOES/Primary/Particle/PT1M.xml"/>
 	<catalogRef ID="SWPC/GOES/Primary/XRay/PT1M" xlink:title="SWPC/GOES/Primary/XRay/PT1M" xlink:href="http://localhost:8004/uploads/SWPC/GOES/Primary/XRay/PT1M.xml"/>
 	<catalogRef ID="LISIRD" xlink:title="LISIRD" xlink:href="http://localhost:8004/uploads/LISIRD/LISIRD.xml"/>
+	<catalogRef ID="GOES15" xlink:title="GOES15" xlink:href="http://localhost:8004/uploads/NGDC/GOES15.xml"/>
 	<catalogRef ID="INTERMAGNET/PT1M" xlink:title="INTERMAGNET/PT1M" xlink:href="http://localhost:8004/uploads/INTERMAGNET/PT1M.xml"/>
 </catalog>

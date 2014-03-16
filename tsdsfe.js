@@ -2,8 +2,8 @@ var debug        = true;
 var debugcatalog = false;
 
 var AUTOPLOT = "http://autoplot.org/plot/dev/SimpleServlet";
-//var TSDSFE = "http://tsds.org/get2/";
-var TSDSFE = "http://localhost:8004/";
+
+var TSDSFE = "http://tsds.org/get2/";
 
 var fs      = require('fs');
 var request = require("request");
@@ -23,58 +23,57 @@ http.globalAgent.maxSockets = 100;  // Most Apache servers have this set at 100.
 //var plugin = require('./plugin.js');
 var DC = "http://localhost:7999/sync/";
 
-if (0) {
-	app.use("/tsdsfe2/js", express.static(__dirname + "/js"));
-	app.use("/tsdsfe2/css", express.static(__dirname + "/css"));
-	app.use("/tsdsfe2/scripts", express.static(__dirname + "/scripts"));
-	app.use("/tsdsfe2/uploads", express.static(__dirname + "/uploads"));
-} else {
-	app.use("/js", express.static(__dirname + "/js"));
-	app.use("/css", express.static(__dirname + "/css"));
-	app.use("/scripts", express.static(__dirname + "/scripts"));
-	app.use("/uploads", express.static(__dirname + "/uploads"));
-}
+app.use("/tsdsfe2/js", express.static(__dirname + "/js"));
+app.use("/tsdsfe2/css", express.static(__dirname + "/css"));
+app.use("/tsdsfe2/scripts", express.static(__dirname + "/scripts"));
+app.use("/tsdsfe2/uploads", express.static(__dirname + "/uploads"));
 
+app.use("/js", express.static(__dirname + "/js"));
+app.use("/css", express.static(__dirname + "/css"));
+app.use("/scripts", express.static(__dirname + "/scripts"));
+app.use("/uploads", express.static(__dirname + "/uploads"));
 
-if (0) {
-	app.get('/tsdsfe2/tsdsfe.jyds', function (req, res) {
-		if (Object.keys(req.query).length === 0) {
-			res.contentType("text/plain");
-			res.send(fs.readFileSync(__dirname+"/scripts/tsdsfe.jyds"));
-			return;
-		}
-	});
-} else {
-	app.get('/tsdsfe.jyds', function (req, res) {
-		if (Object.keys(req.query).length === 0) {
-			res.contentType("text/plain");
-			res.send(fs.readFileSync(__dirname+"/scripts/tsdsfe.jyds"));
-			return;
-		}
-	});
-}
+app.get('/tsdsfe2/tsdsfe.jyds', function (req, res) {
+	if (Object.keys(req.query).length === 0) {
+		res.contentType("text/plain");
+		res.send(fs.readFileSync(__dirname+"/scripts/tsdsfe.jyds"));
+		return;
+	}
+});
 
-if (0) {
-	app.get('/tsdsfe2', function (req, res) {
-		if (Object.keys(req.query).length === 0) {
-			res.contentType("html");
-			res.send(fs.readFileSync(__dirname+"/index.htm"));
-			return;
-		}
-		handleRequest(req,res);
-	});
-} else {
-	app.get('/', function (req, res) {
-		if (Object.keys(req.query).length === 0) {
-			res.contentType("html");
-			res.send(fs.readFileSync(__dirname+"/index.htm"));
-			return;
-		}
-		handleRequest(req,res);
-	});
-}
+app.get('/tsdsfe.jyds', function (req, res) {
+	if (Object.keys(req.query).length === 0) {
+		res.contentType("text/plain");
+		res.send(fs.readFileSync(__dirname+"/scripts/tsdsfe.jyds"));
+		return;
+	}
+});
+
+app.get('/tsdsfe2', function (req, res) {
+	if (Object.keys(req.query).length === 0) {
+		res.contentType("html");
+		res.send(fs.readFileSync(__dirname+"/index.htm"));
+		return;
+	}
+	//res.setTimeout(1000*60*15);
+	//req.setTimeout(1000, function () {console.log("Request Timeout")});
+
+	//setTimeout(function () {res.end();},60*3*1000)
+	handleRequest(req,res);
+});
+
+app.get('/', function (req, res) {
+	if (Object.keys(req.query).length === 0) {
+		res.contentType("html");
+		res.send(fs.readFileSync(__dirname+"/index.htm"));
+		return;
+	}
+	//res.setTimeout(1000*60*15);
+	handleRequest(req,res);
+});
 
 server.listen(port);
+server.setTimeout(1000*60*15,function() {console.log("Server timeout")});
 
 var DCcache = {};
 
@@ -162,7 +161,7 @@ function handleRequest(req, res) {
 			}
 
 			if (debug) console.log("Streaming from\n"+data)
-			http.get(data, function(res0) {
+			var sreq = http.get(data, function(res0) {
 			//http.get(url.parse(data), function(res0) {
 				//util.pump(res0,res);return;
 		    	var data = [];
@@ -170,10 +169,13 @@ function handleRequest(req, res) {
 		    	//res.setHeader('Content-Disposition','attachment; filename='+res0.headers['content-disposition']);
 				if (res0.headers["content-type"])
 		    			res.setHeader('Content-Type',res0.headers["content-type"]);
-		    		if (res0.headers["content-length"])
-			    		res.setHeader('Content-Length',res0.headers["content-length"]);
+
+		    	if (res0.headers["content-length"])
+			    	res.setHeader('Content-Length',res0.headers["content-length"]);
 		    		if (res0.headers["expires"])
 			    		res.setHeader('Expires',res0.headers["expires"]);
+
+					res0.setTimeout(1000*60*15,function () {console.log("----Timeout")});
 
 		    		res0
 		    			.on('data', function(chunk) {
@@ -181,24 +183,29 @@ function handleRequest(req, res) {
 		        			data = data+chunk;
 		        			//if(!flushed) res0.pause();
 		        			if (debug) console.log("Got chunk of size "+chunk.length);
+		        			//console.log("Got chunk of size "+chunk.length);
 		        			//console.log(data)
 		    			})
 		    			.on('end', function() {
 			    			if (debug) console.log('got end.');
-			    			Nc = Nc + 1;
-			    			//if (N > 1) res.write("\n");
-		    				if (Nc == N) {
-		    				if (debug) console.log("Sending res.end().");
-		    				//res.write("\n")
-		    				//console.log(data)
-			    			res.end();
-			    		} else {
-			    			if (debug) console.log("Calling catalog with Nc="+Nc);
-			    			catalog(Options[Nc], stream);
-			    		}
-		    		})
-			}).on('error', function () {
-	    		res.send(502);
+				    			Nc = Nc + 1;
+				    			//if (N > 1) res.write("\n");
+			    				if (Nc == N) {
+			    				if (debug) console.log("Sending res.end().");
+			    				//res.write("\n")
+			    				//console.log(data)
+				    			res.end();
+		    				} else {
+		    					if (debug) console.log("Calling catalog with Nc="+Nc);
+		    					catalog(Options[Nc], stream);
+		    				}
+		    			})
+		    			.on('error',function (err) {
+		    				console.log(err);
+		    			});
+			}).on('error', function (err) {
+				console.log(err)
+	    		res.status(502).send("Error when attempting to retrieve data from data from upstream server: "+err);
 	    	});
 		} else if (status == 301) {
 			res.redirect(301,data);
@@ -221,7 +228,7 @@ function handleRequest(req, res) {
 	    		catalog(Options[Nc], stream);
 	    	}
 		}
-		if (debug) console.log("Sent response.");
+		//if (debug) console.log("Sent response.");
 	}		
 }
 
@@ -297,8 +304,10 @@ function catalog(options, cb) {
 				if (resp.length == 1 && options.catalog.substring(0,1) !== "^") {
 					if (debug) console.log("Fetching " + resp[0].href);
 					request(resp[0].href, function (error, response, body) {
+						if (debug) console.log("Done Fetching " + resp[0].href);
 						if (!error && response.statusCode == 200) {
 							parser.parseString(body, function (err, result) {
+								if (err) console.log("Parse error.")
 								if (debugcatalog) console.log(result["catalog"]["documentation"]);
 								for (var k = 0; k < result["catalog"]["documentation"].length;k++) {
 									resp[k].title = result["catalog"]["documentation"][k]["$"]["xlink:title"];
@@ -307,7 +316,7 @@ function catalog(options, cb) {
 								cb(200,resp);
 							})
 						} else {
-							console.log("error")
+							console.log("Download Error.")
 						}
 					})
 				} else {
@@ -414,8 +423,16 @@ function parameter(options,datasets,catalogs,cb) {
 
 		var timeCoverage = datasets[i].timeCoverage;
 		if (timeCoverage) {
-			parent.start = timeCoverage[0].Start[0];
-			parent.stop  = timeCoverage[0].End[0];
+			parent.start    = timeCoverage[0].Start[0];
+
+			parent.stop = "P0D";
+			if (timeCoverage[0].End)
+				parent.stop     = timeCoverage[0].End[0];
+
+			parent.cadence = "";
+			if (timeCoverage[0].Cadence)
+				parent.cadence  = timeCoverage[0].Cadence[0];
+
 		}
 		var cat = catalogs[i];
 		while (parents.length < parameters.length) {
@@ -445,6 +462,7 @@ function parameter(options,datasets,catalogs,cb) {
 		if (!('columns' in resp[i].dd))      {resp[i].dd.columns = parents[i]["columns"]}
 		if (!('start' in resp[i].dd))        {resp[i].dd.start = parents[i]["start"]}
 		if (!('stop' in resp[i].dd))         {resp[i].dd.stop = parents[i]["stop"]}
+		if (!('cadence' in resp[i].dd))      {resp[i].dd.cadence = parents[i]["cadence"]}
 		if (!('fillvalue' in resp[i].dd))    {resp[i].dd.fillvalue = parents[i]["fillvalue"]}
 
 		if (options.parameters !== "^.*") {				
@@ -453,8 +471,14 @@ function parameter(options,datasets,catalogs,cb) {
 					delete resp[i];
 				}
 			} else  {
-				if (options.parameters.search(resp[i].value) == -1) {
+				console.log("resp[i].value = "+resp[i].value)
+				var re = new RegExp("/^"+resp[i].value+"$/")
+				var mt = options.parameters.match(resp[i].value);
+				console.log(mt)
+				if (!mt) {
 					//console.log("Deleting "+parameters[i]["$"]["id"])
+					delete resp[i];
+				} else if (mt.index > 1) {
 					delete resp[i];
 				} else {
 					console.log("Keeping "+resp[i].value)
@@ -490,8 +514,8 @@ function parameter(options,datasets,catalogs,cb) {
 			datasets[0].groups[0].group[j]["$"].columns = groupcols.join(",");
 			datasets[0].groups[0].group[j]["$"].units = groupunits.join(",");
 			ddresp[j].dd.columns =  groupcols.join(",");
-			ddresp[j].dd.id =  groups.join(",");
-			ddresp[j].dd.label =  datasets[0].groups[0].group[j]["$"].label;
+			ddresp[j].dd.id      =  groups.join(",");
+			ddresp[j].dd.label   =  datasets[0].groups[0].group[j]["$"].label;
 
 		}
 		console.log(datasets[0].groups[0].group);

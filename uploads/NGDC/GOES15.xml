@@ -1,0 +1,23 @@
+<catalog xmlns:xlink="http://www.w3.org/1999/xlink" id="NGDC/GOES/MAGED" name="">
+<documentation xlink:href="http://satdat.ngdc.noaa.gov/sem/goes/data/new_full/" xlink:title="Catalog derived from inspection of directory."/>
+
+<dataset name="GOES Magnetometer Data" ID="GOES Magnetometer Data" timecolumns="1,2" timeformat="$Y-$m-$d $H:$M:$S.$(millis)" datareader="lasp.tss.iosp.ColumnarAsciiReader" urltemplate="http://satdat.ngdc.noaa.gov/sem/goes/data/new_full/$Y/$m/goes15/csv/g15_maged_19me3_4s_$Y$m$d_$Y$m$d.csv">
+<documentation xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="" xlink:title=""/>
+<timeCoverage>
+<Start>
+2008-03-01
+</Start>
+<End>
+-P1D
+</End>
+<Cadence>
+PT1M
+</Cadence>
+</timeCoverage>
+<groups/>
+<variables>
+<variable id="M_1ME3_QUAL_FLAG" name="Quality flag non-zero value indicates data quality issue" label="quality flag" units="" type="scalar" fillvalue="99999" rendering="I" columns="3" lineregex="^[0-9]"/>
+<variable id="M_1ME3_UDTC_UNCOR_CR" name="Average count rate of electrons with energy from 100-200 keV measured by telescope 1 not corrected for dead time errors or other sources of contamination" label="electrons-ch3-t1 100-200 keV uncorrected co" units="counts/s" type="scalar" fillvalue="-99999" rendering="E10.4" columns="4" lineregex="^[0-9]"/>
+</variables>
+</dataset>
+</catalog>
