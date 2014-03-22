@@ -20,7 +20,9 @@ function createcatalog() {
 	var DataGroupIDsa    = $('#DataGroupIDs').val().split("\n");
 	var DataGroupNamesa  = $('#DataGroupNames').val().split("\n");
 	var DataGroupLabelsa = $('#DataGroupLabels').val().split("\n");
-
+	var DatasetDescription = $('#DatasetDescription').val().split("\n");
+	var DatasetDescriptionURL = $('#DatasetDescriptionURL').val().split("\n");
+	
 	//console.log(DataLabelsa)
 	$('#catalogdiv').show();
 			
@@ -43,8 +45,8 @@ function createcatalog() {
 	var variable = $(catalog0[0]).find('variable');
 	var groups = $(catalog0[0]).find('groups');
 	var group = $(catalog0[0]).find('group');	
-	var StartDates = $('#StartDates').val().split(',');
-	var StopDates = $('#StopDates').val().split(',');
+	var StartDates = $('#StartDates').val().split('\n');
+	var StopDates = $('#StopDates').val().split('\n');
 	var DataReader = $('#DataReader').val();
 
 	
@@ -120,8 +122,8 @@ function createcatalog() {
 		//dataset.find('access').attr('urlPath',Dataset[0]);
 		dataset.find('Start').text(StartDates[j]);
 		dataset.find('End').text(StopDates[j]);
-		dataset.find('documentation').attr("xlink:title",$('#DatasetDescription').val());
-		dataset.find('documentation').attr("xlink:href",$('#DatasetDescriptionURL').val());
+		dataset.find('documentation').attr("xlink:title",DatasetDescription[j]);
+		dataset.find('documentation').attr("xlink:href",DatasetDescriptionURL[j]);
 		
 		var lineregex = $('#LineRegex').val();
 		

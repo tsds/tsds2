@@ -15,15 +15,18 @@ Presets[id].DataUnits = [];
 
 Presets[id].DataGroupIDs     = [];
 Presets[id].DataGroupNames   = [];
+Presets[id].StartDates = [];
+Presets[id].StopDates  = [];
 
 for (var i = 0;i< list.length;i++) {
 //for (var i = 0;i<3;i++) {
 	list2 = list[i].split(",").splice(3);
 	Presets[id].Datasets[i] = [list[i].split(",")[0]+","+list[i].split(",")[0].toLowerCase()].concat(list2);
-	if (i > 0) c=",";
+
 	//console.log(Presets[id].Datasets[i])
-	starts = starts + c + list[i].split(",")[1];
-	stops = stops + c + list[i].split(",")[2];
+	Presets[id].StartDates[i] = list[i].split(",")[1];
+	Presets[id].StopDates[i] =  list[i].split(",")[2];
+
 	if (!list[i].split(",")[3].match(/hdz|xyz/i)) {
 		alert(list[i].split(",")[3]);
 	}
@@ -59,8 +62,8 @@ Presets[id].DataUnits  = Presets[id].DataUnits.join("\n");
 Presets[id].DataGroupIDs     = Presets[id].DataGroupIDs.join("\n"); 
 Presets[id].DataGroupNames   = Presets[id].DataGroupNames.join("\n"); 
 
-Presets[id].StartDates = [starts];
-Presets[id].StopDates  = [stops];
+Presets[id].StartDates = Presets[id].StartDates.join("\n");
+Presets[id].StopDates  = Presets[id].StopDates.join("\n");
 Presets[id].Cadence    = ["PT1M"];
 						 
 Presets[id].URLTemplate = "http://mag.gmu.edu/mirror/www.intermagnet.org/$1/PT1M/$2$Y$m$dvmin.min.gz";

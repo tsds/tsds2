@@ -1,8 +1,8 @@
 function expand() {
 
 	var options   = {};
-	var starts = $("#StartDates").val().split(",");
-	var stops  = $("#StopDates").val().split(",");
+	var starts = $("#StartDates").val().split("\n");
+	var stops  = $("#StopDates").val().split("\n");
 
 	options.type  = "strftime";
 	options.check = false;
@@ -53,8 +53,10 @@ function expanddollar(tmpstr,Dataset) {
 		for (var i=0;i < Dataset.length; i++) {
 			tmpstr = tmpstr.replace(/\$([0-9])/,"'+Dataset[$1-1]+'");
 		}
-		tmpstr = "'" + tmpstr + "'";
-		tmpstr = eval(tmpstr);
+		if (tmpstr.match("Dataset")) {
+			tmpstr = "'" + tmpstr + "'";
+			tmpstr = eval(tmpstr);
+		}
 	} else {
 		tmpstr = tmpstr.replace(/\$([0-9])/,Dataset);
 	}
