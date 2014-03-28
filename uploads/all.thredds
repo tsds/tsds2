@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <catalog name="Time Series Data Server Uploads THREDDS Catalog" xmlns="http://www.unidata.ucar.edu/namespaces/thredds/InvCatalog/v1.0" xmlns:xlink="http://www.w3.org/1999/xlink">
-	<catalogRef ID="SSCWeb" xlink:title="SSCWeb" xlink:href="http://localhost:8004/uploads/SSCWeb/SSCWeb.xml"/>
-	<catalogRef ID="Kyoto/RT/Dst/PT1H" xlink:title="Kyoto/RT/Dst/PT1H" xlink:href="http://localhost:8004/uploads/Kyoto/RT/Dst/PT1H.xml"/>
-	<catalogRef ID="USGS/RT/Dst/PT1H" xlink:title="USGS/RT/Dst/PT1H" xlink:href="http://localhost:8004/uploads/USGS/RT/Dst/PT1H.xml"/>
-	<catalogRef ID="SuperMAG/PT1M" xlink:title="SuperMAG/PT1M" xlink:href="http://localhost:8004/uploads/SuperMAG/PT1M.xml"/>
-	<catalogRef ID="USGS/RT/PT1M" xlink:title="USGS/RT/PT1M" xlink:href="http://localhost:8004/uploads/USGS/RT/PT1M.xml"/>
-	<catalogRef ID="USGS/RT/PT1S" xlink:title="USGS/RT/PT1S" xlink:href="http://localhost:8004/uploads/USGS/RT/PT1S.xml"/>
-	<catalogRef ID="SWPC/AK/2DayFile" xlink:title="SWPC/AK/2DayFile" xlink:href="http://localhost:8004/uploads/SWPC/AK/2DayFile.xml"/>
-	<catalogRef ID="SWPC/AK" xlink:title="SWPC/AK" xlink:href="http://localhost:8004/uploads/SWPC/AK.xml"/>
-	<catalogRef ID="SWPC/GOES/Primary/Particle/PT1M" xlink:title="SWPC/GOES/Primary/Particle/PT1M" xlink:href="http://localhost:8004/uploads/SWPC/GOES/Primary/Particle/PT1M.xml"/>
-	<catalogRef ID="SWPC/GOES/Primary/XRay/PT1M" xlink:title="SWPC/GOES/Primary/XRay/PT1M" xlink:href="http://localhost:8004/uploads/SWPC/GOES/Primary/XRay/PT1M.xml"/>
-	<catalogRef ID="LISIRD" xlink:title="LISIRD" xlink:href="http://localhost:8004/uploads/LISIRD/LISIRD.xml"/>
-	<catalogRef ID="GOES15" xlink:title="GOES15" xlink:href="http://localhost:8004/uploads/NGDC/GOES15.xml"/>
-	<catalogRef ID="INTERMAGNET/PT1M" xlink:title="INTERMAGNET/PT1M" xlink:href="http://localhost:8004/uploads/INTERMAGNET/PT1M.xml"/>
+	<catalogRef ID="SSCWeb" xlink:title="SSCWeb" xlink:href="http://tsds.org/get/uploads/SSCWeb/SSCWeb.xml"/>
+	<catalogRef ID="LISIRD" xlink:title="LISIRD" xlink:href="http://tsds.org/get/uploads/LISIRD/LISIRD.xml"/>
+	<catalogRef ID="NGDC/GOES/MAGED" xlink:title="NGDC GOES MAGED Catalog" xlink:href="http://tsds.org/get/uploads/NGDC/GOES15.xml"/>
+	<catalogRef ID="Kyoto/RT/Dst/PT1H" xlink:title="Kyoto/RT/Dst/PT1H" xlink:href="http://tsds.org/get/uploads/Kyoto/RT/Dst/PT1H.xml"/>
+	<catalogRef ID="USGS/RT/Dst/PT1H" xlink:title="USGS/RT/Dst/PT1H" xlink:href="http://tsds.org/get/uploads/USGS/RT/Dst/PT1H.xml"/>
+	<catalogRef ID="SuperMAG/PT1M" xlink:title="SuperMAG/PT1M" xlink:href="http://tsds.org/get/uploads/SuperMAG/PT1M.xml"/>
+	<catalogRef ID="USGS/RT/PT1M" xlink:title="USGS/RT/PT1M" xlink:href="http://tsds.org/get/uploads/USGS/RT/PT1M.xml"/>
+	<catalogRef ID="USGS/RT/PT1S" xlink:title="USGS/RT/PT1S" xlink:href="http://tsds.org/get/uploads/USGS/RT/PT1S.xml"/>
+	<catalogRef ID="SWPC/AK/2DayFile" xlink:title="SWPC/AK/2DayFile" xlink:href="http://tsds.org/get/uploads/SWPC/AK/2DayFile.xml"/>
+	<catalogRef ID="SWPC/AK" xlink:title="SWPC/AK" xlink:href="http://tsds.org/get/uploads/SWPC/AK.xml"/>
+	<catalogRef ID="SWPC/GOES/Primary/Particle/PT1M" xlink:title="SWPC/GOES/Primary/Particle/PT1M" xlink:href="http://tsds.org/get/uploads/SWPC/GOES/Primary/Particle/PT1M.xml"/>
+	<catalogRef ID="SWPC/GOES/Primary/XRay/PT1M" xlink:title="SWPC/GOES/Primary/XRay/PT1M" xlink:href="http://tsds.org/get/uploads/SWPC/GOES/Primary/XRay/PT1M.xml"/>
+	<catalogRef ID="INTERMAGNET/PT1M" xlink:title="INTERMAGNET/PT1M" xlink:href="http://tsds.org/get/uploads/INTERMAGNET/PT1M.xml"/>
 </catalog>
