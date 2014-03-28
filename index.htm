@@ -270,9 +270,18 @@
 
 				console.log(selected('start'))
 
-				list[0].label = info[0].dd.stop.replace(/\n/g,"").substring(0,10);
-				list[0].value = info[0].dd.stop.replace(/\n/g,"").substring(0,10);
+				var start = info[0].dd.start.replace(/\n/g,"").substring(0,10);
+				var stop = info[0].dd.stop.replace(/\n/g,"").substring(0,10);
+				if (info[0].dd.stop.match("P")) {
+					var timeRange  = expandISO8601Duration(start+"/"+stop);
+					var stop = timeRange.split("/")[1].substring(0,10)
+				} else {
+				}
 				
+				list[0].label = stop;
+				list[0].value = stop;
+
+								
 				return list;
 			}
 			
@@ -293,9 +302,9 @@
 
 					if (das.length > 0) {
 						var range = das[0].dd.start + " through " + das[0].dd.stop;
-						var fills  = das[0].dd.fillvalue;
-						var units  = das[0].dd.units;
-						var labels = das[0].dd.label;	
+						var fills  = das[0].dd.fillvalue || "";
+						var units  = das[0].dd.units || "";
+						var labels = das[0].dd.label || "";	
 						$('#parameterinfo ul').append('<li style="">Labels: '+labels+'</li>');
 						$('#parameterinfo ul').append('<li style="">Units: ' +units+'</li>');
 						$('#parameterinfo ul').append('<li style="">Fills: ' +fills+'</li>');
@@ -440,10 +449,10 @@
 				// For now assume all parameters have same units.
 				// When tsdsfe.jyds and servlet understand http://tsds.org/dd, will use that notation.				
 				
-				fills  = das[0].dd.fillvalue.replace("e+","e"); // So no need to encode fill value.
-				units  = das[0].dd.units;
-				labels = das[0].dd.name;
-				units = units.replace(/\^/g,"**");
+				fills  = das[0].dd.fillvalue.replace("e+","e") || ""; // So no need to encode fill value.
+				units  = das[0].dd.units || "";
+				labels = das[0].dd.name || "";
+				units = units.replace(/\^/g,"**") || "";
 				
 				if (Ndays == 1) {
 					$('#status').text('Requesting 1 image.');
