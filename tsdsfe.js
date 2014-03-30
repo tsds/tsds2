@@ -171,9 +171,9 @@ function handleRequest(req, res) {
 		    		res0
 		    			.on('data', function(chunk) {
 		        			res.write(chunk);
+		        			if (data.length == 0) console.log("Got first chunk of size "+chunk.length);
 		        			data = data+chunk;
 		        			//if(!flushed) res0.pause();
-		        			if (debug) console.log("Got chunk of size "+chunk.length);
 		        			//console.log("Got chunk of size "+chunk.length);
 		        			//console.log(data)
 		    			})

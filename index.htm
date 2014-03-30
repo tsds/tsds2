@@ -257,8 +257,17 @@
 
 				console.log(selected('start'))
 
-				list[0].label = info[0].dd.stop.replace(/\n/g,"").substring(0,10);
-				list[0].value = info[0].dd.stop.replace(/\n/g,"").substring(0,10);
+
+				var start = info[0].dd.start.replace(/\n/g,"").substring(0,10);
+				var stop = info[0].dd.stop.replace(/\n/g,"").substring(0,10);
+				if (info[0].dd.stop.match("P")) {
+					var timeRange  = expandISO8601Duration(start+"/"+stop);
+					var stop = timeRange.split("/")[1].substring(0,10)
+				} else {
+				}
+				
+				list[0].label = stop;
+				list[0].value = stop;
 				
 				return list;
 			}
