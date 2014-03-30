@@ -2,10 +2,15 @@ var debug        = true;
 var debugcatalog = false;
 
 var AUTOPLOT = "http://autoplot.org/plot/dev/SimpleServlet";
+<<<<<<< HEAD
 var TSDSFE   = "http://tsds.org/get2/";
 var TIMEOUT  = 1000*60*15; // Server timeout time in seconds.
 var port     = process.argv[2] || 8004;
 var DC       = "http://localhost:7999/sync/";
+=======
+
+var TSDSFE = "http://tsds.org/get/";
+>>>>>>> 2b0db70e2990c00463286407620dc3e69e0afe48
 
 var fs      = require('fs');
 var request = require("request");
@@ -23,18 +28,33 @@ var expandISO8601Duration = require("tsdset").expandISO8601Duration;
 
 http.globalAgent.maxSockets = 100;  // Most Apache servers have this set at 100.
 
-app.use("/tsdsfe2/js", express.static(__dirname + "/js"));
-app.use("/tsdsfe2/css", express.static(__dirname + "/css"));
-app.use("/tsdsfe2/scripts", express.static(__dirname + "/scripts"));
-app.use("/tsdsfe2/uploads", express.static(__dirname + "/uploads"));
-app.get('/tsdsfe2/tsdsfe.jyds', function (req, res) {
+app.use("/tsdsfe/js", express.static(__dirname + "/js"));
+app.use("/tsdsfe/css", express.static(__dirname + "/css"));
+app.use("/tsdsfe/scripts", express.static(__dirname + "/scripts"));
+app.use("/tsdsfe/uploads", express.static(__dirname + "/uploads"));
+
+app.use("/js", express.static(__dirname + "/js"));
+app.use("/css", express.static(__dirname + "/css"));
+app.use("/scripts", express.static(__dirname + "/scripts"));
+app.use("/uploads", express.static(__dirname + "/uploads"));
+
+app.get('/tsdsfe/tsdsfe.jyds', function (req, res) {
 	if (Object.keys(req.query).length === 0) {
 		res.contentType("text/plain");
 		res.send(fs.readFileSync(__dirname+"/scripts/tsdsfe.jyds"));
 		return;
 	}
 });
-app.get('/tsdsfe2', function (req, res) {
+
+app.get('/tsdsfe.jyds', function (req, res) {
+	if (Object.keys(req.query).length === 0) {
+		res.contentType("text/plain");
+		res.send(fs.readFileSync(__dirname+"/scripts/tsdsfe.jyds"));
+		return;
+	}
+});
+
+app.get('/tsdsfe', function (req, res) {
 	if (Object.keys(req.query).length === 0) {
 		res.contentType("html");
 		res.send(fs.readFileSync(__dirname+"/index.htm"));
@@ -242,7 +262,7 @@ function parseOptions(req) {
 	options.filter       = req.query.filter       || req.body.filter       || "";
 	options.filterWindow = req.query.filterWindow || req.body.filterWindow || "0";
 	options.usecache     = s2b(req.query.usecache || req.body.usecache     || "true");
-	options.usemetadatacache = s2b(req.query.usemetadatacache || req.body.usemetadatacache     || "false");
+	options.usemetadatacache = s2b(req.query.usemetadatacache || req.body.usemetadatacache     || "true");
 	
 	// Not implemented.
 	//options.useimagecache = s2b(req.query.useimagecache || req.body.useimagecache     || "true");
@@ -435,9 +455,9 @@ function parameter(options,datasets,catalogs,cb) {
 			
 		resp[i]           = {};
 		resp[i].value     = parameters[i]["$"]["id"] || parameters[i]["$"]["ID"];
-		resp[i].label     = parameters[i]["$"]["name"] || resp[i].value;
-		resp[i].units     = parameters[i]["$"]["units"];
-		resp[i].fill      = parameters[i]["$"]["fillvalue"];
+		resp[i].label     = parameters[i]["$"]["name"] || resp[i].value || "";
+		resp[i].units     = parameters[i]["$"]["units"] || "";
+		resp[i].fill      = parameters[i]["$"]["fillvalue"] || "";
 		resp[i].catalog   = cats[i];
 		resp[i].dataset   = parents[i]["id"] || parents[i]["ID"];
 		resp[i].parameter = resp[i].value;

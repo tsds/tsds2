@@ -1,8 +1,8 @@
 <catalog xmlns:xlink="http://www.w3.org/1999/xlink" id="NGDC/GOES/MAGED" name="">
 <documentation xlink:href="http://satdat.ngdc.noaa.gov/sem/goes/data/new_full/" xlink:title="Catalog derived from inspection of directory."/>
 
-<dataset name="GOES Magnetometer Data" ID="GOES Magnetometer Data" timecolumns="1,2" timeformat="$Y-$m-$d $H:$M:$S.$(millis)" datareader="lasp.tss.iosp.ColumnarAsciiReader" urltemplate="http://satdat.ngdc.noaa.gov/sem/goes/data/new_full/$Y/$m/goes15/csv/g15_maged_19me3_4s_$Y$m$d_$Y$m$d.csv">
-<documentation xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="" xlink:title=""/>
+<dataset name="GOES Magnetometer Data" ID="GOES/15/PT4S" timecolumns="1,2" timeformat="$Y-$m-$d $H:$M:$S.$(millis)" urltemplate="http://satdat.ngdc.noaa.gov/sem/goes/data/new_full/$Y/$m/goes15/csv/g15_maged_19me3_4s_$Y$m$d_$Y$m$d.csv">
+<documentation xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="ttp://satdat.ngdc.noaa.gov/sem/goes/" xlink:title="Documentation"/>
 <timeCoverage>
 <Start>
 2008-03-01
@@ -11,7 +11,7 @@
 -P1D
 </End>
 <Cadence>
-PT1M
+PT4S
 </Cadence>
 </timeCoverage>
 <groups/>

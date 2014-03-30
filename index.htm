@@ -30,6 +30,7 @@
 				}
 				if (tsdsfeajax.cache[url]) {
 					console.log("tsdsfeajax: Cache hit");
+					$('#status').html("Received <a target='_blank' href='" + url + "'>"+url.replace("&para","&#38;para")+"</a>");
 					return $.parseJSON(tsdsfeajax.cache[url]);
 				}
 				$('#status').html("Requesting " + url);
@@ -52,7 +53,7 @@
 							xret = data;
 						}
 						$('#status').html("Received <a target='_blank' href='" + url + "'>"+url.replace("&para","&#38;para")+"</a>");
-						setTimeout(function () {$('#status').html("")}, 3000);
+						//setTimeout(function () {$('#status').html("")}, 3000);
 					},
 					error: function (xhr, textStatus, errorThrown) {
 						$('#status'+i).text('x');
@@ -108,12 +109,19 @@
 				catalogs.onselect = function () {
 					console.log("catalogs.onselect called");
 					//$('#status').text('Retrieving dataset list');
-					info = tsdsfeajax(i,"?catalog="+selected('catalog'));
+					
+					var url = "?catalog="+selected('catalog');
+					 if (!$("#usemetadatacache").is(":checked")) {
+							url = url + "&usemetadatacache=false";
+					 }
+					
+					info = tsdsfeajax(i,url);
 					catalog.info = info;
 					$('#cataloginfo').html("<b>Catalog information:</b>");					
 
 					$('#cataloginfo').append('<ul style="list-style-position: outside;">');					
 					if (info.length > 0) {
+						$('#cataloginfo ul').append('<li style=""><a href="'+info[0].href+'">Catalog configuration</a></li>');
 						for (j = 0;j < info.length;j++) {
 							console.log("Info: " + info[j].title);
 							if (!(info[j].title === "") && !(info[j].link === "")) {
@@ -200,6 +208,11 @@
 				var list = [];
 				list[0] = {};
 
+				if (info[0].dd.cadence === "") {
+					list[0].label = "-P3D";
+					list[0].value = "-P3D";
+				}
+				
 				if (info[0].dd.cadence.match(/T/)) {
 					if (info[0].dd.cadence.match(/H/)) {
 						list[0].label = "-P30D";
@@ -208,11 +221,11 @@
 						list[0].label = "-P3D";
 						list[0].value = "-P3D";
 					} else {
-						list[0].label = "-P1D";
-						list[0].value = "-P1D";
+						list[0].label = "-P2D";
+						list[0].value = "-P2D";
 					}
 				}
-				if (!info[0].dd.cadence.match(/T/)) {
+				if (!info[0].dd.cadence.match(/T/) && !(info[0].dd.cadence === "")) {
 					if (info[0].dd.cadence.match(/Y|M/)) {
 						list[0].label = info[0].dd.start;
 						list[0].value = info[0].dd.start;
@@ -247,7 +260,7 @@
 			function stoptime(i) {
 				stoptime.onselect = function () {
 					preview();
-					$('#datadiv').hide();	$('#outputinfo').hide();				
+					$('#datadiv').hide();	$('#outputinfo').show();				
 				}
 
 				// No need to do this again ...
@@ -256,7 +269,6 @@
 				list[0] = {};
 
 				console.log(selected('start'))
-
 
 				var start = info[0].dd.start.replace(/\n/g,"").substring(0,10);
 				var stop = info[0].dd.stop.replace(/\n/g,"").substring(0,10);
@@ -268,7 +280,8 @@
 				
 				list[0].label = stop;
 				list[0].value = stop;
-				
+
+								
 				return list;
 			}
 			
@@ -289,9 +302,9 @@
 
 					if (das.length > 0) {
 						var range = das[0].dd.start + " through " + das[0].dd.stop;
-						var fills  = das[0].dd.fillvalue;
-						var units  = das[0].dd.units;
-						var labels = das[0].dd.label;	
+						var fills  = das[0].dd.fillvalue || "";
+						var units  = das[0].dd.units || "";
+						var labels = das[0].dd.label || "";	
 						$('#parameterinfo ul').append('<li style="">Labels: '+labels+'</li>');
 						$('#parameterinfo ul').append('<li style="">Units: ' +units+'</li>');
 						$('#parameterinfo ul').append('<li style="">Fills: ' +fills+'</li>');
@@ -436,10 +449,10 @@
 				// For now assume all parameters have same units.
 				// When tsdsfe.jyds and servlet understand http://tsds.org/dd, will use that notation.				
 				
-				fills  = das[0].dd.fillvalue.replace("e+","e"); // So no need to encode fill value.
-				units  = das[0].dd.units;
-				labels = das[0].dd.name;
-				units = units.replace(/\^/g,"**");
+				fills  = das[0].dd.fillvalue.replace("e+","e") || ""; // So no need to encode fill value.
+				units  = das[0].dd.units || "";
+				labels = das[0].dd.name || "";
+				units = units.replace(/\^/g,"**") || "";
 				
 				if (Ndays == 1) {
 					$('#status').text('Requesting 1 image.');
@@ -473,6 +486,7 @@
 							turl = turl + "&usecache=false";
 					 }
 
+					 
 					 var aurl = AUTOPLOT + "?drawGrid=true&plot.xaxis.drawTickLabels=true&width=800&height=200&url=vap+jyds:" + encodeURIComponent(url);
 
 					links = "<a id='" + i + "' href='http://autoplot.org/autoplot.jnlp?open=vap+jyds:"+url+"'>View in Autoplot</a>";
@@ -587,7 +601,8 @@
 				} else {
 					$('#previewimgcheckbox').each(function(){ this.checked = false; });
 				}
-				
+
+				$('#usemetadatacache').each(function(){ this.checked = true; });
 
 				//dropdown2(["catalog"],["Catalog"],[catalogs],"#dropdowns",0,"",function () {});
 				dropdown2(["catalog","dataset","parameters","start","stop","outformat"],["Catalog","Datasets","Parameters","Start","Stop","Output"],[catalogs,datasets,parameters,starttime,stoptime,outformat],"#dropdowns",0,"");
@@ -655,14 +670,20 @@
 	</head>
 
  	<body>	 		
- 	
- 		<div style="text-align:center;position:absolute;top:0;left:12em;"><font size="-2"><span id="status" style="background-color:yellow;text-align:center"></span></font></div>
- 	
- 		<div style="float:left;width:10em;margin-right:10px;margin-top:0em;">
+ 			<div style="text-align:center;position:absolute;top:0;left:14em;">
+ 				<font size="-1">
+ 					<span id="status" style="background-color:yellow;text-align:center"></span>
+ 				</font>
+ 			</div>
+
+ 		<div style="float:left;width:12em;margin-right:14px;margin-top:0em;">
+			<div style="display:none">
  			<font size="-1">		
 				<div title="Show preview images of data when a parameter is selected."><input id="previewimgcheckbox" type="checkbox" value=""/>&nbsp;Show preview plots</div>
 				<div title="For fastest response time, use cached data.  Disable this for data that change frequently."><input id="usecache" type="checkbox" value=""/>&nbsp;Use cached data if avail.</div>
+				<div title="For fastest response time, use cached metadata.  Disable this for metadata that change frequently."><input id="usemetadatacache" type="checkbox" value=""/>&nbsp;Use cached metadata if avail.</div>
 			</font>
+			</div>
 			<span id="dropdowns0"></span>
 			<span id="dropdowns1" style="display:none"></span>
 			<span id="dropdowns2" style="display:none"></span>
@@ -671,12 +692,12 @@
 			<span id="dropdowns5" style="display:none"></span>
 			<button type="button" onclick="window.location=window.location.pathname">Clear</button>
 		</div>
-		<div id="overviewdiv" style="margin-left:12em;;margin-top:1em">
+		<div id="overviewdiv" style="margin-left:16em;;margin-top:0em">
+ 			<br/>
 			<b>Overview:</b>
 			<ul>
 				<li>This interface may be used to build a <a href="http://tsds.org/tsdsfe">TSDS Front End (TSDSFE)</a> URL for downloading data.</li>
 				<li>Begin by selecting a catalog on the left.</li>
-				<li>Or, select a test</li>
 			</ul>
 			<div style="margin-left:2.5em;margin-top:-1em;width:10em;" >
 				<span id="dropdownstest0"></span>
@@ -685,7 +706,7 @@
 		
 		<br/>
 	
-		<div id="infodiv" style="margin-left:12em;;margin-top:0em;">		
+		<div id="infodiv" style="margin-left:14em;;margin-top:0em;">		
 			<div id="dldiv" style="background-color:white;display:none;">
 				<div><b>Download script:</b></div>
 				<iframe id="dlframe" style="width:95%;height:20em;"></iframe>
@@ -718,11 +739,11 @@
 				</ul>
 			</div>			
 		</div>
-		<div id="debugdiv" style="margin-left:12em;background-color:white;width:100%;height:100%;display:none;">
+		<div id="debugdiv" style="margin-left:14em;background-color:white;width:100%;height:100%;display:none;">
 			<div><b>Debug info</b></div>
 			<iframe id="debugframe" style="width:95%;height:100%;"></iframe>
 		</div>
-		<div id="previewimgdiv" style="margin-left:12em;display:none;">
+		<div id="previewimgdiv" style="margin-left:14em;display:none;">
 			<div><b>Preview plots:</b></div>
 			<div id="previewimg" style="width:95%;border: 3px solid black;overflow: auto">
 				<img src=""></img>

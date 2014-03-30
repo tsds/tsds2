@@ -16,7 +16,6 @@
 			var sct = $("#scselect option:selected").text() || "ACE"; // TODO: Autoselect first item in list.
 			$("head title").text(sct+" Ephemeris");
 			$("h2").text(sct+" Spacecraft Ephemeris");
-
 			getinfo(sc);	
 
 			$("#loading1").show();
@@ -25,7 +24,7 @@
 			$("#stop").text("");
 			$("input[name=start]").attr("value","");
 			$("input[name=end]").attr("value","");
-			$.getJSON("http://tsds.org/get2/?catalog=SSCWeb&dataset=^.*",
+			$.getJSON("http://tsds.org/get/?catalog=SSCWeb&dataset=^.*",
 					function(jsonData){  
 				    	$.each(jsonData, function(i,j){ 
 				      		$('#scselect').append(
@@ -47,7 +46,7 @@
 		$("#listing2").nextAll().remove()
 		$.ajax({
 				type: "GET",
-				url: "http://tsds.org/get2/?catalog=SSCWeb&dataset="+sc+"&parameters=^.*",
+				url: "http://tsds.org/get/?catalog=SSCWeb&dataset="+sc+"&parameters=^.*",
 				async: true,
 				dataType: "text",
 				success: function (data,textStatus, jqXHR) {createtable1($.parseJSON(data))},
@@ -56,7 +55,7 @@
 
 		$.ajax({
 				type: "GET",
-				url: "http://tsds.org/get2/?catalog=SSCWeb&dataset="+sc+"&groups=^.*",
+				url: "http://tsds.org/get/?catalog=SSCWeb&dataset="+sc+"&groups=^.*",
 				async: true,
 				dataType: "text",
 				success: function (groups,textStatus, jqXHR) {createtable2($.parseJSON(groups))},
@@ -103,7 +102,7 @@
 		var stop  = $("input[name=end]").attr("value");
 
 		if (parameters.length > 0) {
-			var qs = "http://tsds.org/get2/?catalog=SSCWeb&dataset="+sc+"&parameters="+parameters.join(",")+"&start="+start+"&stop="+stop+"&outformat=1";
+			var qs = "http://tsds.org/get/?catalog=SSCWeb&dataset="+sc+"&parameters="+parameters.join(",")+"&start="+start+"&stop="+stop+"&outformat=1";
 			$("#dllink"+ln).attr("href",qs).text(qs);
 		} else {
 			$("#dllink"+ln).text("Select at least one parameter.");
@@ -124,7 +123,7 @@
 		}
 		if (parameters.length > 0) {
 			for (var i=0;i<parameters.length;i++) {
-				var qs = "http://tsds.org/get2/?catalog=SSCWeb&dataset="+sc+"&parameters="+parameters[i]+"&start="+start+"&stop="+stop+"&return="+type;
+				var qs = "http://tsds.org/get/?catalog=SSCWeb&dataset="+sc+"&parameters="+parameters[i]+"&start="+start+"&stop="+stop+"&return="+type;
 				if (type === 'png') { 
 					$("#dllink"+ln).after("<div><a href='"+qs+"'>"+qs+"</a></div><div><img src='"+qs+"'></img></div>");
 				} else {
