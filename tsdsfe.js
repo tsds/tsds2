@@ -2,8 +2,15 @@ var debug        = true;
 var debugcatalog = false;
 
 var AUTOPLOT = "http://autoplot.org/plot/dev/SimpleServlet";
+<<<<<<< HEAD
+var TSDSFE   = "http://tsds.org/get2/";
+var TIMEOUT  = 1000*60*15; // Server timeout time in seconds.
+var port     = process.argv[2] || 8004;
+var DC       = "http://localhost:7999/sync/";
+=======
 
 var TSDSFE = "http://tsds.org/get/";
+>>>>>>> 2b0db70e2990c00463286407620dc3e69e0afe48
 
 var fs      = require('fs');
 var request = require("request");
@@ -12,16 +19,14 @@ var	app     = express().use(express.bodyParser());
 var	server  = require("http").createServer(app);
 var qs      = require('querystring');
 var xml2js  = require('xml2js');
-var port    = process.argv[2] || 8004;
 var http    = require('http');
 var url     = require('url');
 var util    = require('util');
 var crypto  = require("crypto");
-var expandISO8601Duration = require("tsdset").expandISO8601Duration;
-http.globalAgent.maxSockets = 100;  // Most Apache servers have this set at 100.
 
-//var plugin = require('./plugin.js');
-var DC = "http://localhost:7999/sync/";
+var expandISO8601Duration = require("tsdset").expandISO8601Duration;
+
+http.globalAgent.maxSockets = 100;  // Most Apache servers have this set at 100.
 
 app.use("/tsdsfe/js", express.static(__dirname + "/js"));
 app.use("/tsdsfe/css", express.static(__dirname + "/css"));
@@ -62,6 +67,19 @@ app.get('/tsdsfe', function (req, res) {
 	handleRequest(req,res);
 });
 
+app.use("/js", express.static(__dirname + "/js"));
+app.use("/css", express.static(__dirname + "/css"));
+app.use("/scripts", express.static(__dirname + "/scripts"));
+app.use("/uploads", express.static(__dirname + "/uploads"));
+
+app.get('/tsdsfe.jyds', function (req, res) {
+	if (Object.keys(req.query).length === 0) {
+		res.contentType("text/plain");
+		res.send(fs.readFileSync(__dirname+"/scripts/tsdsfe.jyds"));
+		return;
+	}
+});
+
 app.get('/', function (req, res) {
 	if (Object.keys(req.query).length === 0) {
 		res.contentType("html");
@@ -72,10 +90,9 @@ app.get('/', function (req, res) {
 	handleRequest(req,res);
 });
 
-server.listen(port);
-server.setTimeout(1000*60*15,function() {console.log("Server timeout")});
-
-var DCcache = {};
+server
+	.listen(port)
+	.setTimeout(TIMEOUT,function() {console.log("TSDSFE server timeout (15 minutes).")});
 
 function handleRequest(req, res) {
 	var options = parseOptions(req);
@@ -88,6 +105,7 @@ function handleRequest(req, res) {
 
 	options.urlsignature = urlsig;
 	
+	// Cache of metadata
 	var cdir  = __dirname+"/cache/";
 	var cfile = cdir+urlsig+".json";
 
@@ -99,13 +117,6 @@ function handleRequest(req, res) {
 
 	var Nc = 0;
 	var N  = options.catalog.split(";").length;
-
-	console.log(DCcache)
-	if (options.usemetadatacache && typeof(DCcache[urlsig]) !== "undefined") {
-		console.log("Using cached DataCacheURL: "+DCcache[urlsig]);
-		stream(0,DCcache[urlsig]);
-		return;
-	}
 
     res.setHeader("Content-Type","text/plain"); 
 
@@ -217,7 +228,7 @@ function handleRequest(req, res) {
 				fs.mkdirSync(cdir);
 			}
 			fs.writeFile(cfile,JSON.stringify(data),function (err) {
-				console.log("Wrote "+cfile);
+				console.log("Wrote metadata cache file: "+cfile);
 			});
 
 			Nc = Nc + 1;
@@ -231,7 +242,6 @@ function handleRequest(req, res) {
 		//if (debug) console.log("Sent response.");
 	}		
 }
-
 
 function parseOptions(req) {
 	var options = {};
@@ -328,7 +338,6 @@ function catalog(options, cb) {
 
 			}
 		});
-
 }
 
 function dataset(options,resp,cb) {
@@ -655,14 +664,11 @@ function parameter(options,datasets,catalogs,cb) {
 
 			if (!options.usecache) dc = dc+"&forceUpdate=true&forceWrite=true"
 
-			DCcache[options.urlsignature] = dc;
-
 			//dc = dc+"&return=stream&lineRegExp="+resp[0].dd.lineregex + "&timecolumns="+resp[0].dd.timecolumns+"&timeformat="+resp[0].dd.timeformat+"&streamFilterReadColumns="+columns+"&lineFormatter=formattedTime&outformat="+options.outformat;
 			//console.log(dc)
 			cb(0,dc)
 		}
 	} else {
 		cb(200,resp);
-	}
-		
+	}	
 }
