@@ -457,10 +457,9 @@ function parameter(options,datasets,catalogs,cb) {
 		resp[i].value     = parameters[i]["$"]["id"] || parameters[i]["$"]["ID"];
 		resp[i].label     = parameters[i]["$"]["name"] || resp[i].value || "";
 		resp[i].units     = parameters[i]["$"]["units"] || "";
-		resp[i].fill      = parameters[i]["$"]["fillvalue"] || "";
 		resp[i].catalog   = cats[i];
 		resp[i].dataset   = parents[i]["id"] || parents[i]["ID"];
-		resp[i].parameter = resp[i].value;
+		resp[i].parameter = parameters[i]["$"]["id"] || parameters[i]["$"]["ID"];
 		resp[i].dd        = parameters[i]["$"];
 		
 		if (!('urltemplate' in resp[i].dd))  {resp[i].dd.urltemplate = parents[i]["urltemplate"]}
@@ -472,8 +471,22 @@ function parameter(options,datasets,catalogs,cb) {
 		if (!('start' in resp[i].dd))        {resp[i].dd.start = parents[i]["start"]}
 		if (!('stop' in resp[i].dd))         {resp[i].dd.stop = parents[i]["stop"]}
 		if (!('cadence' in resp[i].dd))      {resp[i].dd.cadence = parents[i]["cadence"]}
-		if (!('fillvalue' in resp[i].dd))    {resp[i].dd.fillvalue = parents[i]["fillvalue"]}
+		if (!('fillvalue' in resp[i].dd))    {resp[i].dd.fill = parameters[i]["$"]["fillvalue"] || ""}
 
+		if (0) {
+			delete resp[i].dd.urltemplate;
+			delete resp[i].dd.urlsource;
+			delete resp[i].dd.urlprocessor;
+			delete resp[i].dd.lineregex;
+			delete resp[i].dd.timeformat;
+			delete resp[i].dd.timecolumns;
+			delete resp[i].dd.columns;
+		}
+		//delete resp[i].fill;
+		//delete resp[i].label;
+		//delete resp[i].units;
+		//delete resp[i].units;
+		
 		if (options.parameters !== "^.*") {				
 			if (options.parameters.substring(0,1) === "^") {
 				if (!(parameters[i]["$"]["id"].match(options.parameters))) {
