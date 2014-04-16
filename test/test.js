@@ -21,16 +21,17 @@ eval(fs.readFileSync('./test/tests.js','utf8'));
 function s2b(str) {if (str === "true") {return true} else {return false}}
 function s2i(str) {return parseInt(str)}
 
-var tn       = s2i(process.argv[2] || "1");							// Start test Number
+var tn       = s2i(process.argv[2] || "1");				// Start test Number
 var alltests = s2b(process.argv[3] || "true");;
 
 /*
-var sync    = s2b(process.argv[2] || "true");						// Do runs for test sequentially
-var all     = s2b(process.argv[4] || "true");						// Run all tests after start number
-var n       = s2i(process.argv[5] || "5");							// Number of runs per test
+var sync    = s2b(process.argv[2] || "true");			// Do runs for test sequentially
+var all     = s2b(process.argv[4] || "true");			// Run all tests after start number
+var n       = s2i(process.argv[5] || "5");				// Number of runs per test
 */
-var server  = process.argv[6]     || "http://localhost:"+port+"/";	// DataCache server to test
 
+// DataCache server to test
+var server  = process.argv[6] || "http://localhost:"+port+"/";	
 var Ntests   = 2;
 
 //var Ntests   = 1;
@@ -46,6 +47,8 @@ function gettests(m) {
 	for (var z = 0;z<tests.length;z++) {
 		xtests[z] = {};
 		xtests[z].test = tests[z].test || "";
+		xtests[z].note = tests[z].note || "";
+
 		if (m == 1) {
 			xtests[z].url = server + "?usecache=false&" + tests[z].url;
 		}
@@ -82,7 +85,9 @@ function command(jj,m) {
 
 function runtest(jj,m) {
 	if (typeof(runtest.fails) === "undefined") {
-		runtest.fails = [];runtest.f=0;runtest.sum = 0;
+		runtest.fails = [];
+		runtest.f     = 0;
+		runtest.sum   = 0;
 	}
 	var xtests = gettests(m);
 	var xcom = command(jj,m);
@@ -105,16 +110,23 @@ function runtest(jj,m) {
 			runtest.sum = runtest.sum+1;
 			console.log("PASS.\n");
 		} else {
-			runtest.fails[runtest.f] = {};
+			runtest.fails[runtest.f]      = {};
 			runtest.fails[runtest.f].url  = xtests[jj].url; 
 			runtest.fails[runtest.f].test = xtests[jj].test.toString();
 			runtest.fails[runtest.f].N    = jj;
+
+
+			if (xtests[jj].note.length > 0) {
+				runtest.fails[runtest.f].note  = xtests[jj].note; 
+				console.log(xtests[jj].note);
+			}
+
 			runtest.f = runtest.f+1;
 			console.log("FAIL.\n");
 		}
 	
-	    	if (jj < xtests.length-1 && alltests)  {
-				runtest(jj+1,m);
+	    if (jj < xtests.length-1 && alltests)  {
+			runtest(jj+1,m);
 		} else {
 			console.log("")
 			if (alltests) console.log(runtest.sum + "/" + tests.length + " tests passed.");
@@ -125,6 +137,9 @@ function runtest(jj,m) {
 				console.log("\nTest " + runtest.fails[kk].N);
 				console.log(runtest.fails[kk].url);
 				console.log(runtest.fails[kk].test);
+				if (runtest.fails[kk].note) {
+					console.log(runtest.fails[kk].note);
+				}
 			}
 			if (m+1 < Ntests && alltests) {
 				runtest(0,m+1);

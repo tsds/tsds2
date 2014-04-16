@@ -1,16 +1,14 @@
 var debug        = true;
 var debugcatalog = false;
+var debugcache   = false;
 
 var AUTOPLOT = "http://autoplot.org/plot/dev/SimpleServlet";
-<<<<<<< HEAD
-var TSDSFE   = "http://tsds.org/get2/";
+var TSDSFE   = "http://tsds.org/get/";
+var TSDSFE   = "http://localhost:8004/";
+
 var TIMEOUT  = 1000*60*15; // Server timeout time in seconds.
 var port     = process.argv[2] || 8004;
 var DC       = "http://localhost:7999/sync/";
-=======
-
-var TSDSFE = "http://tsds.org/get/";
->>>>>>> 2b0db70e2990c00463286407620dc3e69e0afe48
 
 var fs      = require('fs');
 var request = require("request");
@@ -110,7 +108,7 @@ function handleRequest(req, res) {
 	var cfile = cdir+urlsig+".json";
 
 	if (options.usemetadatacache && fs.existsSync(cfile)) {
-		console.log("Using cache.");
+		console.log("Using metadata cache.");
 		fs.createReadStream(cfile).pipe(res);
 		return;
 	}
@@ -119,7 +117,6 @@ function handleRequest(req, res) {
 	var N  = options.catalog.split(";").length;
 
     res.setHeader("Content-Type","text/plain"); 
-
 
 	if (N > 1) {
 		var catalogs   = options.catalog.split(";");
@@ -176,7 +173,7 @@ function handleRequest(req, res) {
 			//http.get(url.parse(data), function(res0) {
 				//util.pump(res0,res);return;
 		    	var data = [];
-		    	if (debug) console.log(res0.headers)
+		    	//if (debug) console.log(res0.headers)
 		    	//res.setHeader('Content-Disposition','attachment; filename='+res0.headers['content-disposition']);
 				if (res0.headers["content-type"])
 		    			res.setHeader('Content-Type',res0.headers["content-type"]);
@@ -198,7 +195,7 @@ function handleRequest(req, res) {
 		        			//console.log(data)
 		    			})
 		    			.on('end', function() {
-			    			if (debug) console.log('got end.');
+			    			if (debug) console.log('Got end.');
 				    			Nc = Nc + 1;
 				    			//if (N > 1) res.write("\n");
 			    				if (Nc == N) {
@@ -316,8 +313,10 @@ function catalog(options, cb) {
 					request(resp[0].href, function (error, response, body) {
 						if (debug) console.log("Done Fetching " + resp[0].href);
 						if (!error && response.statusCode == 200) {
+							if (debug) console.log("Parsing " + resp[0].href);
 							parser.parseString(body, function (err, result) {
-								if (err) console.log("Parse error.")
+								if (err) console.log("Parse error.");
+								if (debug) console.log("Done parsing " + resp[0].href);
 								if (debugcatalog) console.log(result["catalog"]["documentation"]);
 								for (var k = 0; k < result["catalog"]["documentation"].length;k++) {
 									resp[k].title = result["catalog"]["documentation"][k]["$"]["xlink:title"];
@@ -371,6 +370,7 @@ function dataset(options,resp,cb) {
 							dresp[i].label    = datasets[i]["$"]["name"] || dresp[i].value;
 							dresp[i].catalog  = parents[i];
 
+							//console.log(options.dataset)
 							if (options.dataset !== "^.*") {	
 								if (options.dataset.substring(0,1) === "^") {
 									if (!(dresp[i].value.match(options.dataset))) {
@@ -480,17 +480,17 @@ function parameter(options,datasets,catalogs,cb) {
 					delete resp[i];
 				}
 			} else  {
-				console.log("resp[i].value = "+resp[i].value)
+				//console.log("resp[i].value = "+resp[i].value)
 				var re = new RegExp("/^"+resp[i].value+"$/")
 				var mt = options.parameters.match(resp[i].value);
-				console.log(mt)
+				//console.log(mt)
 				if (!mt) {
 					//console.log("Deleting "+parameters[i]["$"]["id"])
 					delete resp[i];
 				} else if (mt.index > 1) {
 					delete resp[i];
 				} else {
-					console.log("Keeping "+resp[i].value)
+					console.log("Keeping parameter "+resp[i].value+".")
 				}
 			}
 		}
@@ -546,10 +546,10 @@ function parameter(options,datasets,catalogs,cb) {
 		start = options.start || resp[0].dd.start;
 		stop  = options.stop  || resp[0].dd.stop;
 
-		if (debug) console.log("Requested start :" + Date.parse(options.start));
-		if (debug) console.log("DD start        :" + Date.parse(resp[0].dd.start));
-		if (debug) console.log("Requested stop  :" + Date.parse(options.stop));
-		if (debug) console.log("DD stop         :" + Date.parse(resp[0].dd.stop));
+		if (debug) console.log("Requested start : " + options.start);
+		if (debug) console.log("DD start        : " + resp[0].dd.start);
+		if (debug) console.log("Requested stop  : " + options.stop);
+		if (debug) console.log("DD stop         : " + resp[0].dd.stop);
 
 		var urltemplate  = resp[0].dd.urltemplate;
 		var urlprocessor = resp[0].dd.urlprocessor;
