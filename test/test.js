@@ -129,7 +129,7 @@ function runtest(jj,m) {
 			runtest(jj+1,m);
 		} else {
 			console.log("")
-			if (alltests) console.log(runtest.sum + "/" + tests.length + " tests passed.");
+			if (alltests) console.log((runtest.sum + 1)+ "/" + tests.length + " tests passed.");
 			if (runtest.fails.length > 0) {
 				console.log("\nFailures:");
 			}
