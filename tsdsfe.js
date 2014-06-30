@@ -1,8 +1,11 @@
 var debug        = true;
 var debugcatalog = false;
+var debugcache   = false;
 
 var AUTOPLOT = "http://autoplot.org/plot/dev/SimpleServlet";
 var TSDSFE   = "http://tsds.org/get/";
+var TSDSFE   = "http://localhost:8004/";
+var BASE     = TSDSFE+"uploads/"; // if BASE !== "", xml:base attribute in all.thredds will be replaced with BASE.
 var TIMEOUT  = 1000*60*15; // Server timeout time in seconds.
 var port     = process.argv[2] || 8004;
 var DC       = "http://localhost:7999/sync/";
@@ -105,7 +108,7 @@ function handleRequest(req, res) {
 	var cfile = cdir+urlsig+".json";
 
 	if (options.usemetadatacache && fs.existsSync(cfile)) {
-		console.log("Using cache.");
+		console.log("Using (file) metadata cache.");
 		fs.createReadStream(cfile).pipe(res);
 		return;
 	}
@@ -114,7 +117,6 @@ function handleRequest(req, res) {
 	var N  = options.catalog.split(";").length;
 
     res.setHeader("Content-Type","text/plain"); 
-
 
 	if (N > 1) {
 		var catalogs   = options.catalog.split(";");
@@ -171,7 +173,7 @@ function handleRequest(req, res) {
 			//http.get(url.parse(data), function(res0) {
 				//util.pump(res0,res);return;
 		    	var data = [];
-		    	if (debug) console.log(res0.headers)
+		    	//if (debug) console.log(res0.headers)
 		    	//res.setHeader('Content-Disposition','attachment; filename='+res0.headers['content-disposition']);
 				if (res0.headers["content-type"])
 		    			res.setHeader('Content-Type',res0.headers["content-type"]);
@@ -193,7 +195,7 @@ function handleRequest(req, res) {
 		        			//console.log(data)
 		    			})
 		    			.on('end', function() {
-			    			if (debug) console.log('got end.');
+			    			if (debug) console.log('Got end.');
 				    			Nc = Nc + 1;
 				    			//if (N > 1) res.write("\n");
 			    				if (Nc == N) {
@@ -223,7 +225,7 @@ function handleRequest(req, res) {
 				fs.mkdirSync(cdir);
 			}
 			fs.writeFile(cfile,JSON.stringify(data),function (err) {
-				console.log("Wrote metadata cache file: "+cfile);
+				console.log("Wrote metadata cache file: ");console.log("\t"+cfile);
 			});
 
 			Nc = Nc + 1;
@@ -253,7 +255,7 @@ function parseOptions(req) {
 	options.stop         = req.query.stop         || req.body.stop         || "";
 	options.return       = req.query.return       || req.body.return       || "stream";
 	options.attach       = req.query.attach       || req.body.attach       || "";
-	options.outformat    = req.query.outformat    || req.body.outformat    || "0";
+	options.outformat    = req.query.outformat    || req.body.outformat    || "1";
 	options.filter       = req.query.filter       || req.body.filter       || "";
 	options.filterWindow = req.query.filterWindow || req.body.filterWindow || "0";
 	options.usecache     = s2b(req.query.usecache || req.body.usecache     || "true");
@@ -279,6 +281,8 @@ function catalog(options, cb) {
 		//console.log(result)
 		//var catalogRefs = JSON.stringify(result["catalog"]["catalogRef"]);
 			var catalogRefs = result["catalog"]["catalogRef"];
+			var xmlbase     = BASE || result["catalog"]["$"]["xml:base"];
+
 			if (debug) console.log("Found " + catalogRefs.length + " catalogRef nodes.");
 			//console.log(options.catalog)
 			var k = 0;
@@ -287,7 +291,7 @@ function catalog(options, cb) {
 				resp[i] = {};
 				resp[i].value = catalogRefs[i]["$"]["ID"];
 				resp[i].label = catalogRefs[i]["$"]["name"] || catalogRefs[i]["$"]["ID"];
-				resp[i].href  = catalogRefs[i]["$"]["xlink:href"];
+				resp[i].href  = xmlbase+catalogRefs[i]["$"]["xlink:href"];
 
 				if (options.catalog !== "^.*") {        
 					if (options.catalog.substring(0,1) === "^") {
@@ -308,11 +312,15 @@ function catalog(options, cb) {
 				
 				if (resp.length == 1 && options.catalog.substring(0,1) !== "^") {
 					if (debug) console.log("Fetching " + resp[0].href);
-					request(resp[0].href, function (error, response, body) {
+					//var opts = {uri:resp[0].href,timeout:1000}; // timeout does not work
+					var opts = {uri:resp[0].href}; // Does not work
+					var xreq = request(opts, function (error, response, body) {
 						if (debug) console.log("Done Fetching " + resp[0].href);
 						if (!error && response.statusCode == 200) {
+							if (debug) console.log("Parsing " + resp[0].href);
 							parser.parseString(body, function (err, result) {
-								if (err) console.log("Parse error.")
+								if (err) {console.log("Parse error.");cb(500,"Error when parsing "+resp[0].href)};
+								if (debug) console.log("Done parsing " + resp[0].href);
 								if (debugcatalog) console.log(result["catalog"]["documentation"]);
 								for (var k = 0; k < result["catalog"]["documentation"].length;k++) {
 									resp[k].title = result["catalog"]["documentation"][k]["$"]["xlink:title"];
@@ -323,7 +331,9 @@ function catalog(options, cb) {
 						} else {
 							console.log("Download Error.")
 						}
-					})
+					});
+					//does not work.
+					//xreq.connection.setTimeout(10, function () {console.log("Timeout");cb(500,"Timeout when attempting to fetch "+resp[0].href)});
 				} else {
 					cb(200,resp);
 				}
@@ -347,9 +357,11 @@ function dataset(options,resp,cb) {
 	for (var i = 0; i < N;i++) {
 		if (debug) console.log("Fetching " + resp[i].href);
 		request(resp[i].href, function (error, response, body) {
+			console.log("Done fetching.");
+			console.log("Parsing.");
 			if (!error && response.statusCode == 200) {
 				parser.parseString(body, function (err, result) {
-					if (debug) console.log("Done fetching and parsing.");
+					if (debug) console.log("Done parsing.");
 
 					j = j+1;
 
@@ -366,6 +378,7 @@ function dataset(options,resp,cb) {
 							dresp[i].label    = datasets[i]["$"]["name"] || dresp[i].value;
 							dresp[i].catalog  = parents[i];
 
+							//console.log(options.dataset)
 							if (options.dataset !== "^.*") {	
 								if (options.dataset.substring(0,1) === "^") {
 									if (!(dresp[i].value.match(options.dataset))) {
@@ -467,38 +480,27 @@ function parameter(options,datasets,catalogs,cb) {
 		if (!('stop' in resp[i].dd))         {resp[i].dd.stop = parents[i]["stop"]}
 		if (!('cadence' in resp[i].dd))      {resp[i].dd.cadence = parents[i]["cadence"]}
 		if (!('fillvalue' in resp[i].dd))    {resp[i].dd.fill = parameters[i]["$"]["fillvalue"] || ""}
-
-		if (0) {
-			delete resp[i].dd.urltemplate;
-			delete resp[i].dd.urlsource;
-			delete resp[i].dd.urlprocessor;
-			delete resp[i].dd.lineregex;
-			delete resp[i].dd.timeformat;
-			delete resp[i].dd.timecolumns;
-			delete resp[i].dd.columns;
-		}
-		//delete resp[i].fill;
-		//delete resp[i].label;
-		//delete resp[i].units;
-		//delete resp[i].units;
 		
 		if (options.parameters !== "^.*") {				
+
+			var value = resp[i].value;
+			//console.log(value)
+
 			if (options.parameters.substring(0,1) === "^") {
 				if (!(parameters[i]["$"]["id"].match(options.parameters))) {
 					delete resp[i];
 				}
 			} else  {
-				console.log("resp[i].value = "+resp[i].value)
-				var re = new RegExp("/^"+resp[i].value+"$/")
-				var mt = options.parameters.match(resp[i].value);
-				console.log(mt)
+				var re = new RegExp("/^"+value+"$/");
+				//console.log(options.parameters)
+				var mt = options.parameters.match(value);
+				//console.log(mt)
 				if (!mt) {
-					//console.log("Deleting "+parameters[i]["$"]["id"])
 					delete resp[i];
-				} else if (mt.index > 1) {
+				} else if (mt[0].length != value.length) {
 					delete resp[i];
 				} else {
-					console.log("Keeping "+resp[i].value)
+					console.log("Match in catalog for requested parameter "+value+".")
 				}
 			}
 		}
@@ -550,120 +552,128 @@ function parameter(options,datasets,catalogs,cb) {
 		columns = columns + "," + resp[z].dd.columns;
 	}
 
-	if (options.start || options.stop) {
-		start = options.start || resp[0].dd.start;
-		stop  = options.stop  || resp[0].dd.stop;
+	start = options.start || resp[0].dd.start;
+	stop  = options.stop  || resp[0].dd.stop;
 
-		if (debug) console.log("Requested start :" + Date.parse(options.start));
-		if (debug) console.log("DD start        :" + Date.parse(resp[0].dd.start));
-		if (debug) console.log("Requested stop  :" + Date.parse(options.stop));
-		if (debug) console.log("DD stop         :" + Date.parse(resp[0].dd.stop));
+	if (debug) console.log("Requested start : " + options.start);
+	if (debug) console.log("DD start        : " + resp[0].dd.start);
+	if (debug) console.log("Requested stop  : " + options.stop);
+	if (debug) console.log("DD stop         : " + resp[0].dd.stop);
 
-		var urltemplate  = resp[0].dd.urltemplate;
-		var urlprocessor = resp[0].dd.urlprocessor;
-		var urlsource    = resp[0].dd.urlsource;
-			
-		if (Date.parse(stop) < Date.parse(start)) {
-			cb(500,"Stop time is before than start time.");
-			return;
-		}
-		if (Date.parse(start) > Date.parse(stop)) {
-			cb(500,"Start time is later than stop time.");
-			return;
-		}
+	var urltemplate  = resp[0].dd.urltemplate;
+	var urlprocessor = resp[0].dd.urlprocessor;
+	var urlsource    = resp[0].dd.urlsource;
+		
+	if (Date.parse(stop) < Date.parse(start)) {
+		cb(500,"Stop time is before than start time.");
+		return;
+	}
+	if (Date.parse(start) > Date.parse(stop)) {
+		cb(500,"Start time is later than stop time.");
+		return;
+	}
 
-		var args = "";
-		if (urlprocessor) {
-			args = "&plugin="+urlprocessor;
-		}
-		if (urltemplate) {
-			args = args + "&template="+urltemplate;
-		} 
-		if (urlsource) {
-			args = args + "&source="+urlsource;
-		}
+	var args = "";
+	if (urlprocessor) {
+		args = "&plugin="+urlprocessor;
+	}
+	if (urltemplate) {
+		args = args + "&template="+urltemplate;
+	} 
+	if (urlsource) {
+		args = args + "&source="+urlsource;
+	}
 
-		if (args) {
-			var dc = DC+"?"+args+"&timeRange="+start+"/"+stop;
-		} else {
-			var dc = DC+"?timeRange="+start+"/"+stop;
-		}
-			
-		if (options.return === "urilist") {
-			cb(0,dc+"&return=urilist");
-		}
-		if (options.return === "urilistflat") {
-			cb(0,dc+"&return=urilistflat");
-		}
-		if (options.return === "redirect") {
-			// If more than one resp, this won't work.
-			cb(302,dc);
-		}
-		if (options.return === "png" || options.return === "pdf" || options.return === "svg") {
-			// If more than one resp, this won't work.
+	if (args) {
+		var dc = DC+"?"+args+"&timeRange="+start+"/"+stop;
+	} else {
+		var dc = DC+"?timeRange="+start+"/"+stop;
+	}
+		
 
-			var format = "image/png";
-			if (options.return === "pdf") {format = "application/pdf"}
-			if (options.return === "svg") {format = "image/svg%2Bxml"}
-			
-			var tmp = expandISO8601Duration(start+"/"+stop,{debug:false})
-			console.log(tmp);
-			start = tmp.split("/")[0].substring(0,10);
-			stop = tmp.split("/")[1].substring(0,10);
-			url = TSDSFE + "tsdsfe.jyds?server="+TSDSFE+"&catalog="+resp[0].catalog+"&dataset="+resp[0].dataset+"&parameters="+resp[0].parameter+"&timerange="+start+"/"+stop;
-			if (resp[0].label !== "") url = url + "&labels="+resp[0].label;
-			if (resp[0].units !== "")  {url = url + " ["+resp[0].units+"]" +"&units="+resp[0].units;}
-			if (resp[0].fill !== "")  url = url + "&fills="+resp[0].fill;
-			var aurl = AUTOPLOT + "?drawGrid=true&format="+format+"&plot.xaxis.drawTickLabels=true&width=800&height=200&url=vap+jyds:" + encodeURIComponent(url);	
-			console.log(aurl);
-			console.log(typeof(aurl))
-			cb(0,aurl);
-		}
-		if (options.return === "jyds") {
-			// If more than one resp, this won't work.
-			cb(0,"http://localhost:"+port+"/tsdsfe.jyds");
-		}
-		if (options.return === "dd") {
-			ddresp = [];
-			for (var z = 0;z<resp.length;z++) {
-				ddresp[z] = resp[z].dd;
-				ddresp[z].urltemplate = "";
-				if (options.outformat === "1") {
-					ddresp[z].columns = "" + (z+2);
-					ddresp[z].timeformat = "ISO8601";
-					ddresp[z].timecolumns = ""+1;
-				}
-				if (options.outformat === "2") {
-					ddresp[z].columns = "" + (z+7);
-					ddresp[z].timeformat = "YYYY mm DD HH MM SS.SSS";
-					ddresp[z].timecolumns = "1,2,3,4,5,6";
-				}
+	if (options.return === "urilist") {
+		cb(0,dc+"&return=urilist");
+	}
+	if (options.return === "urilistflat") {
+		cb(0,dc+"&return=urilistflat");
+	}
+	if (options.return === "redirect") {
+		// If more than one resp, this won't work.
+		cb(302,dc);
+	}
+	if (options.return === "png" || options.return === "pdf" || options.return === "svg") {
+		// If more than one resp, this won't work.
+
+		var format = "image/png";
+		if (options.return === "pdf") {format = "application/pdf"}
+		if (options.return === "svg") {format = "image/svg%2Bxml"}
+		
+		var tmp = expandISO8601Duration(start+"/"+stop,{debug:false})
+		console.log(tmp);
+		start = tmp.split("/")[0].substring(0,10);
+		stop = tmp.split("/")[1].substring(0,10);
+		url = TSDSFE + "tsdsfe.jyds?server="+TSDSFE+"&catalog="+resp[0].catalog+"&dataset="+resp[0].dataset+"&parameters="+resp[0].parameter+"&timerange="+start+"/"+stop;
+		if (resp[0].label !== "") url = url + "&labels="+resp[0].label;
+		if (resp[0].units !== "")  {url = url + " ["+resp[0].units+"]" +"&units="+resp[0].units;}
+		if (resp[0].fill !== "")  url = url + "&fills="+resp[0].fill;
+		var aurl = AUTOPLOT + "?drawGrid=true&format="+format+"&plot.xaxis.drawTickLabels=true&width=800&height=200&url=vap+jyds:" + encodeURIComponent(url);	
+		console.log(aurl);
+		console.log(typeof(aurl))
+		cb(0,aurl);
+	}
+	if (options.return === "jyds") {
+		// If more than one resp, this won't work.
+		cb(0,"http://localhost:"+port+"/tsdsfe.jyds");
+	}
+	console.log(options)
+	if (options.return === "dd") {
+		ddresp = [];
+		for (var z = 0;z<resp.length;z++) {
+			//ddresp[z] = resp[z].dd;
+			ddresp[z] = {};
+			ddresp[z].columnIDs        = resp[z].dd.ID;
+			ddresp[z].columnLabels     = resp[z].dd.label;
+			ddresp[z].columnUnits      = resp[z].dd.units;
+			ddresp[z].columnTypes      = resp[z].dd.type;
+			ddresp[z].columnFillValues = resp[z].dd.fillvalue;
+			ddresp[z].columnRenderings = resp[z].dd.rendering;
+
+
+			ddresp[z].urltemplate = "";
+			if (options.outformat === "1") {
+				ddresp[z].columns = "" + (z+2);
+				ddresp[z].timeFormat = "%Y-%m-%DT%H%M%SZ";
+				ddresp[z].timeColumns = ""+1;
 			}
-			cb(0,JSON.stringify(ddresp));
+			if (options.outformat === "2") {
+				ddresp[z].columns = "" + (z+7);
+				ddresp[z].timeFormat = "%Y %m %D %H %M %S";
+				ddresp[z].timeColumns = "1,2,3,4,5,6";
+			}
 		}
 		
-		if (options.return === "stream") {				 
-			dc = dc
-					+"&return=stream"
-					+"&lineRegExp="+(resp[0].dd.lineregex || ".")
-					+"&timecolumns="+resp[0].dd.timecolumns
-					+"&timeformat="+resp[0].dd.timeformat
-					+"&streamFilterReadColumns="+columns
-					+"&streamFilterTimeFormat="+options.outformat
-					+"&streamFilterComputeFunction="+options.filter
-					+"&streamFilterComputeWindow="+options.filterWindow
-					+"&streamFilterExcludeColumnValues="+resp[0].dd.fillvalue
-					+"&streamOrder=true"
-					+"&streamGzip=false"
-					;
+		cb(0,JSON.stringify(ddresp));
+	}
+	
+	if (options.return === "stream") {				 
+		dc = dc
+				+"&return=stream"
+				+"&lineRegExp="+(resp[0].dd.lineregex || ".")
+				+"&timecolumns="+resp[0].dd.timecolumns
+				+"&timeformat="+resp[0].dd.timeformat
+				+"&streamFilterReadColumns="+columns
+				+"&streamFilterTimeFormat="+options.outformat
+				+"&streamFilterComputeFunction="+options.filter
+				+"&streamFilterComputeWindow="+options.filterWindow
+				+"&streamFilterExcludeColumnValues="+resp[0].dd.fillvalue
+				+"&streamOrder=true"
+				+"&streamGzip=false"
+				;
 
-			if (!options.usecache) dc = dc+"&forceUpdate=true&forceWrite=true"
+		if (!options.usecache) dc = dc+"&forceUpdate=true&forceWrite=true"
 
-			//dc = dc+"&return=stream&lineRegExp="+resp[0].dd.lineregex + "&timecolumns="+resp[0].dd.timecolumns+"&timeformat="+resp[0].dd.timeformat+"&streamFilterReadColumns="+columns+"&lineFormatter=formattedTime&outformat="+options.outformat;
-			//console.log(dc)
-			cb(0,dc)
-		}
-	} else {
-		cb(200,resp);
-	}	
+		//dc = dc+"&return=stream&lineRegExp="+resp[0].dd.lineregex + "&timecolumns="+resp[0].dd.timecolumns+"&timeformat="+resp[0].dd.timeformat+"&streamFilterReadColumns="+columns+"&lineFormatter=formattedTime&outformat="+options.outformat;
+		//console.log(dc)
+		cb(0,dc)
+	}
 }
