@@ -1,21 +1,25 @@
 CAT=SSCWeb
 XSLT=F2C6DDE1-5948-B63B-9581-E24C096A3254
+CATAP=SSCWeb-autoplot
 
 DATE=`date` 
 DATE2=`date "+%Y%m%d"`
 RAW=$(CAT)-$(DATE2).raw
 #URL=http://tsds.org/catalogs/raw/$(RAW)
 URL=http://mag.gmu.edu/tsds/catalogs/raw/$(RAW)
-DIR_AUTOPLOT=/var/www/autoplot/bookmarks
-DIR_TSDS=/var/www/tsds/catalogs
+#DIR_AUTOPLOT=/var/www/autoplot/bookmarks
+#DIR_TSDS=/var/www/tsds/catalogs
+DIR_AUTOPLOT=/Users/robertweigel/Desktop/autoplot/bookmarks
+DIR_TSDS=/Users/robertweigel/Desktop/catalogs
+
 XML2THREDDS=http://virbo.org/exist/servlet/db/virbo/xq/xsltransform.xql?xslt=http://virbo.org/meta/viewDataFile.jsp%3Fdocname=$(XSLT)%26filetype=data
 
-#autoplot: $(CAT).xml
+autoplot: $(CATAP).xml
 
 catalog: $(CAT).xml
 
 #all: clean autoplot thredds clean
-all: clean catalog clean
+all: clean autoplot catalog clean
 
 src/txtcatalog.class: src/txtcatalog.java 
 	cd src; javac -cp ../jar/jaxws-rt-2.0EA3.jar:../jar/sscWS-client.jar txtcatalog.java
@@ -36,14 +40,14 @@ $(CAT).xml: $(CAT).raw src/xmlcatalog.class
 	mkdir -p $(DIR_TSDS)/archive
 	cp $(CAT).xml $(DIR_TSDS)/archive/$(CAT)-$(DATE2).xml; ln -f $(DIR_TSDS)/archive/$(CAT)-$(DATE2).xml $(DIR_TSDS)/$(CAT).xml
 
-#$(CAT).xml: $(CAT).raw
-#	mkdir -p $(DIR_TSDS)/raw
-#	cp $(CAT).raw $(DIR_TSDS)/raw/$(RAW)
-#	wget -O $(CAT).xml "$(XML2THREDDS)&output=autoplot"
-#	gzip -c $(CAT).xml > $(CAT).xml.gz
-#	mkdir -p $(DIR_AUTOPLOT)/archive
-#	cp $(CAT).xml $(DIR_AUTOPLOT)/archive/$(CAT)-$(DATE2).xml; ln -f $(DIR_AUTOPLOT)/archive/$(CAT)-$(DATE2).xml $(DIR_AUTOPLOT)/$(CAT).xml
-#	cp $(CAT).xml.gz $(DIR_AUTOPLOT)/archive/$(CAT)-$(DATE2).xml.gz; ln -f $(DIR_AUTOPLOT)/archive/$(CAT)-$(DATE2).xml.gz $(DIR_AUTOPLOT)/$(CAT).xml.gz
+$(CATAP).xml: $(CAT).raw
+	mkdir -p $(DIR_TSDS)/raw
+	cp $(CAT).raw $(DIR_TSDS)/raw/$(RAW)
+	wget -O $(CATAP).xml "$(XML2THREDDS)&output=autoplot"
+	gzip -c $(CATAP).xml > $(CATAP).xml.gz
+	mkdir -p $(DIR_AUTOPLOT)/archive
+	cp $(CATAP).xml $(DIR_AUTOPLOT)/archive/$(CATAP)-$(DATE2).xml; ln -f $(DIR_AUTOPLOT)/archive/$(CATAP)-$(DATE2).xml $(DIR_AUTOPLOT)/$(CATAP).xml
+	cp $(CATAP).xml.gz $(DIR_AUTOPLOT)/archive/$(CATAP)-$(DATE2).xml.gz; ln -f $(DIR_AUTOPLOT)/archive/$(CATAP)-$(DATE2).xml.gz $(DIR_AUTOPLOT)/$(CATAP).xml.gz
 
 
 #$(CAT).thredds: $(CAT).raw
