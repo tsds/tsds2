@@ -1,39 +1,57 @@
 Privacy and Important Notices:
   http://www.nasa.gov/about/highlights/HP_Privacy.html
-Time to execute getPrivacyAndImportantNotices = 0.035seconds
+Time to execute getPrivacyAndImportantNotices = 0.696seconds
 
 
 Satellites:
-  ace  ACE  720s 1997-08-26T00:00:00Z - 2014-02-19T13:35:59Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/ace_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/ace_t.x3d
+  ace  ACE  720s 1997-08-26T00:00:00Z - 2014-07-14T13:35:59Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/ace_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/ace_t.x3d
   active  Active  60s 1989-09-29T00:00:00Z - 1991-10-04T08:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/active_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/active_t.x3d
-  aim  AIM  60s 2007-04-25T00:00:00Z - 2014-03-09T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/aim_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/aim_t.x3d
-  akebono  Akebono  60s 1989-02-23T00:00:00Z - 2014-03-09T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/akebono_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/akebono_t.x3d
+  aim  AIM  60s 2007-04-25T00:00:00Z - 2014-08-04T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/aim_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/aim_t.x3d
+  akebono  Akebono  60s 1989-02-23T00:00:00Z - 2014-08-03T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/akebono_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/akebono_t.x3d
   alouette1  Alouette-1  60s 1965-01-01T00:00:00Z - 1972-09-25T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/alouette1_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/alouette1_t.x3d
   alouette2  Alouette-2  60s 1966-01-27T00:00:00Z - 1975-07-31T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/alouette2_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/alouette2_t.x3d
   apex  APEX-MAIN  60s 1991-12-17T00:00:00Z - 2004-05-01T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/apex_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/apex_t.x3d
-  aqua  Aqua  60s 2002-05-04T00:00:00Z - 2014-03-09T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/aqua_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/aqua_t.x3d
+  aqua  Aqua  60s 2002-05-04T00:00:00Z - 2014-08-03T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/aqua_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/aqua_t.x3d
   ariel4  ARIEL-4  60s 1972-01-16T00:00:00Z - 1978-11-26T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/ariel4_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/ariel4_t.x3d
-  artemisp1  ARTEMIS_P1  60s 2007-02-18T00:13:59Z - 2014-02-18T23:58:59Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/artemisp1_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/artemisp1_t.x3d
-  artemisp1pred  ARTEMIS_P1 (Pred)  60s 2008-07-18T00:30:00Z - 2014-12-30T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/artemisp1pred_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/artemisp1pred_t.x3d
-  artemisp2  ARTEMIS_P2  60s 2007-02-18T00:13:59Z - 2014-02-16T23:58:59Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/artemisp2_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/artemisp2_t.x3d
-  artemisp2pred  ARTEMIS_P2 (Pred)  60s 2008-07-18T00:30:00Z - 2014-12-30T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/artemisp2pred_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/artemisp2pred_t.x3d
+  artemisp1  ARTEMIS_P1  60s 2007-02-18T00:13:59Z - 2014-07-14T23:58:59Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/artemisp1_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/artemisp1_t.x3d
+  artemisp1pred  ARTEMIS_P1 (Pred)  60s 2008-07-18T00:30:00Z - 2015-03-01T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/artemisp1pred_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/artemisp1pred_t.x3d
+  artemisp2  ARTEMIS_P2  60s 2007-02-18T00:13:59Z - 2014-07-15T23:58:59Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/artemisp2_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/artemisp2_t.x3d
+  artemisp2pred  ARTEMIS_P2 (Pred)  60s 2008-07-18T00:30:00Z - 2015-03-01T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/artemisp2pred_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/artemisp2pred_t.x3d
   astrid2  ASTRID II  60s 1998-12-12T00:00:00Z - 2002-04-03T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/astrid2_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/astrid2_t.x3d
-  aura  Aura  60s 2004-07-15T00:00:00Z - 2014-03-09T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/aura_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/aura_t.x3d
-  calipso  CALIPSO  60s 2006-04-28T00:00:00Z - 2014-03-09T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/calipso_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/calipso_t.x3d
+  aura  Aura  60s 2004-07-15T00:00:00Z - 2014-08-03T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/aura_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/aura_t.x3d
+  barrel1a  BARREL-1A  60s 2013-01-28T13:25:30Z - 2013-02-14T01:42:29Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/barrel1a_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/barrel1a_t.x3d
+  barrel1b  BARREL-1B  60s 2013-01-02T10:26:30Z - 2013-01-09T20:16:29Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/barrel1b_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/barrel1b_t.x3d
+  barrel1c  BARREL-1C  60s 2013-01-16T19:11:30Z - 2013-01-26T01:52:30Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/barrel1c_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/barrel1c_t.x3d
+  barrel1d  BARREL-1D  60s 2013-01-04T17:07:30Z - 2013-01-21T10:19:29Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/barrel1d_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/barrel1d_t.x3d
+  barrel1g  BARREL-1G  60s 2013-01-14T13:44:30Z - 2013-01-27T08:16:30Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/barrel1g_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/barrel1g_t.x3d
+  barrel1h  BARREL-1H  60s 2013-01-19T17:44:30Z - 2013-02-11T16:15:29Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/barrel1h_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/barrel1h_t.x3d
+  barrel1i  BARREL-1I  60s 2013-01-09T19:16:29Z - 2013-02-02T22:11:30Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/barrel1i_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/barrel1i_t.x3d
+  barrel1j  BARREL-1J  60s 2013-01-01T18:24:29Z - 2013-01-14T20:52:30Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/barrel1j_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/barrel1j_t.x3d
+  barrel1k  BARREL-1K  60s 2013-01-05T17:49:29Z - 2013-01-21T01:23:30Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/barrel1k_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/barrel1k_t.x3d
+  barrel1m  BARREL-1M  60s 2013-01-06T19:10:30Z - 2013-01-12T05:32:30Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/barrel1m_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/barrel1m_t.x3d
+  barrel1o  BARREL-1O  60s 2013-01-09T14:29:30Z - 2013-01-17T09:39:29Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/barrel1o_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/barrel1o_t.x3d
+  barrel1q  BARREL-1Q  60s 2013-01-20T21:40:30Z - 2013-02-06T16:23:30Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/barrel1q_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/barrel1q_t.x3d
+  barrel1r  BARREL-1R  60s 2013-01-21T21:46:29Z - 2013-01-23T11:23:30Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/barrel1r_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/barrel1r_t.x3d
+  barrel1s  BARREL-1S  60s 2013-01-22T16:31:29Z - 2013-01-27T04:20:30Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/barrel1s_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/barrel1s_t.x3d
+  barrel1t  BARREL-1T  60s 2013-01-24T16:43:30Z - 2013-02-15T20:10:30Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/barrel1t_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/barrel1t_t.x3d
+  barrel1u  BARREL-1U  60s 2013-01-26T17:38:30Z - 2013-02-09T03:58:30Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/barrel1u_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/barrel1u_t.x3d
+  barrel1v  BARREL-1V  60s 2013-01-30T18:26:30Z - 2013-02-06T01:20:30Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/barrel1v_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/barrel1v_t.x3d
+  calipso  CALIPSO  60s 2006-04-28T00:00:00Z - 2014-08-03T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/calipso_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/calipso_t.x3d
+  cassiope  CASSIOPE  60s 2013-10-07T00:00:00Z - 2014-08-03T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/cassiope_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/cassiope_t.x3d
   cce  CCE (AMPTE/CCE)  60s 1984-08-16T15:55:00Z - 1989-08-01T00:04:59Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/cce_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/cce_t.x3d
   cceold  CCE (AMPTE/CCE) (superceded)  60s 1984-08-17T00:00:00Z - 1988-01-01T08:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/cceold_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/cceold_t.x3d
   champ  CHAMP  60s 2000-11-09T00:00:00Z - 2010-10-10T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/champ_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/champ_t.x3d
   chandra  Chandra  60s 1999-10-31T00:00:00Z - 2013-07-02T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/chandra_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/chandra_t.x3d
-  chibism  Chibis-M  60s 2012-01-26T00:00:00Z - 2014-03-10T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/chibism_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/chibism_t.x3d
-  cloudsat  Cloudsat  60s 2006-05-05T00:00:00Z - 2014-03-09T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/cloudsat_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/cloudsat_t.x3d
-  cluster1  Cluster-1 (FM5/Rumba)  60s 2000-08-23T00:00:29Z - 2017-01-02T04:59:30Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/cluster1_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/cluster1_t.x3d
-  cluster2  Cluster-2 (FM6/Salsa)  60s 2000-08-23T00:00:29Z - 2017-01-02T04:59:30Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/cluster2_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/cluster2_t.x3d
-  cluster3  Cluster-3 (FM7/Samba)  60s 2000-08-23T00:00:29Z - 2017-01-02T04:59:30Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/cluster3_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/cluster3_t.x3d
-  cluster4  Cluster-4 (FM8/Tango)  60s 2000-08-23T00:00:29Z - 2017-01-02T04:59:30Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/cluster4_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/cluster4_t.x3d
-  cnofs  C/NOFS  60s 2008-04-18T00:00:00Z - 2014-06-15T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/cnofs_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/cnofs_t.x3d
+  chibism  Chibis-M  60s 2012-01-26T00:00:00Z - 2014-08-04T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/chibism_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/chibism_t.x3d
+  cloudsat  Cloudsat  60s 2006-05-05T00:00:00Z - 2014-08-03T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/cloudsat_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/cloudsat_t.x3d
+  cluster1  Cluster-1 (FM5/Rumba)  60s 2000-08-23T00:00:29Z - 2019-01-02T23:59:30Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/cluster1_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/cluster1_t.x3d
+  cluster2  Cluster-2 (FM6/Salsa)  60s 2000-08-23T00:00:29Z - 2019-01-02T23:59:30Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/cluster2_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/cluster2_t.x3d
+  cluster3  Cluster-3 (FM7/Samba)  60s 2000-08-23T00:00:29Z - 2019-01-02T23:59:30Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/cluster3_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/cluster3_t.x3d
+  cluster4  Cluster-4 (FM8/Tango)  60s 2000-08-23T00:00:29Z - 2019-01-02T23:59:30Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/cluster4_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/cluster4_t.x3d
+  cnofs  C/NOFS  60s 2008-04-18T00:00:00Z - 2014-11-10T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/cnofs_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/cnofs_t.x3d
   crres  CRRES  60s 1990-07-25T23:00:00Z - 1991-12-04T08:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/crres_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/crres_t.x3d
-  csswe  CSSWE  60s 2012-10-06T14:58:00Z - 2014-03-11T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/csswe_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/csswe_t.x3d
-  dawn  Dawn  60s 2014-01-06T19:01:00Z - 2014-05-05T11:58:59Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/dawn_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/dawn_t.x3d
+  csswe  CSSWE  60s 2012-10-06T14:58:00Z - 2014-07-05T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/csswe_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/csswe_t.x3d
+  dawn  Dawn  60s 2014-01-06T19:01:00Z - 2014-08-01T04:47:07Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/dawn_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/dawn_t.x3d
   de1  DE-1  60s 1981-08-03T10:37:59Z - 1991-03-02T08:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/de1_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/de1_t.x3d
   de2  DE-2  60s 1981-08-04T00:00:00Z - 1983-02-19T12:19:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/de2_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/de2_t.x3d
   demeter  DEMETER  60s 2004-07-08T00:00:00Z - 2009-11-24T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/demeter_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/demeter_t.x3d
@@ -43,37 +61,38 @@ Satellites:
   dmspf12  DMSP-12  60s 1994-09-16T00:00:00Z - 2003-09-09T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/dmspf12_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/dmspf12_t.x3d
   dmspf13  DMSP-13  60s 1995-04-13T00:00:00Z - 2010-05-08T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/dmspf13_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/dmspf13_t.x3d
   dmspf14  DMSP-14  60s 1997-04-20T00:00:00Z - 2010-11-13T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/dmspf14_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/dmspf14_t.x3d
-  dmspf15  DMSP-15  60s 1999-12-13T00:00:00Z - 2014-01-02T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/dmspf15_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/dmspf15_t.x3d
-  dmspf16  DMSP-16  60s 2003-10-18T00:00:00Z - 2014-01-02T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/dmspf16_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/dmspf16_t.x3d
-  dmspf17  DMSP-17  60s 2006-11-05T16:30:00Z - 2014-01-02T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/dmspf17_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/dmspf17_t.x3d
-  dmspf18  DMSP-18  60s 2009-10-22T00:00:00Z - 2014-01-02T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/dmspf18_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/dmspf18_t.x3d
+  dmspf15  DMSP-15  60s 1999-12-13T00:00:00Z - 2014-06-01T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/dmspf15_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/dmspf15_t.x3d
+  dmspf16  DMSP-16  60s 2003-10-18T00:00:00Z - 2014-06-01T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/dmspf16_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/dmspf16_t.x3d
+  dmspf17  DMSP-17  60s 2006-11-05T16:30:00Z - 2014-06-01T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/dmspf17_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/dmspf17_t.x3d
+  dmspf18  DMSP-18  60s 2009-10-22T00:00:00Z - 2014-06-01T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/dmspf18_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/dmspf18_t.x3d
+  dmspf19  DMSP-19  60s 2014-04-03T00:00:00Z - 2014-06-01T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/dmspf19_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/dmspf19_t.x3d
   dmspf8  DMSP-8  60s 1990-01-01T00:00:00Z - 1994-09-13T08:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/dmspf8_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/dmspf8_t.x3d
   dmspf9  DMSP-9  60s 1990-01-01T00:00:00Z - 1992-11-01T08:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/dmspf9_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/dmspf9_t.x3d
   doublestar1  Double Star-1  60s 2004-01-03T07:05:59Z - 2007-10-10T12:37:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/doublestar1_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/doublestar1_t.x3d
   doublestar2  Double Star-2  60s 2004-09-16T23:53:59Z - 2009-12-31T23:58:59Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/doublestar2_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/doublestar2_t.x3d
   equators  Equator-S  60s 1997-12-12T16:00:00Z - 1998-09-24T08:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/equators_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/equators_t.x3d
   explorer45  Explorer-45  60s 1971-11-22T00:00:00Z - 1974-01-31T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/explorer45_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/explorer45_t.x3d
-  fast  FAST  60s 1996-08-22T00:00:00Z - 2014-03-09T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/fast_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/fast_t.x3d
+  fast  FAST  60s 1996-08-22T00:00:00Z - 2014-08-03T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/fast_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/fast_t.x3d
   freja  Freja  60s 1992-10-07T00:00:00Z - 2000-05-11T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/freja_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/freja_t.x3d
-  gcomw1  GCOM-W1  60s 2012-05-17T00:00:00Z - 2014-03-09T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/gcomw1_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/gcomw1_t.x3d
+  gcomw1  GCOM-W1  60s 2012-05-17T00:00:00Z - 2014-08-03T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/gcomw1_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/gcomw1_t.x3d
   genesis  Genesis  3600s 2001-08-12T00:00:00Z - 2004-09-07T23:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/genesis_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/genesis_t.x3d
-  geotail  Geotail  720s 1992-07-26T00:00:00Z - 2014-03-23T23:48:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/geotail_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/geotail_t.x3d
+  geotail  Geotail  720s 1992-07-26T00:00:00Z - 2014-08-10T23:48:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/geotail_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/geotail_t.x3d
   gms3  GMS-3  60s 1986-03-25T00:00:00Z - 1986-07-01T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/gms3_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/gms3_t.x3d
   goes10  GOES-10  180s 1998-06-18T00:00:00Z - 2009-12-05T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/goes10_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/goes10_t.x3d
-  goes11  GOES-11  180s 2000-05-17T00:00:00Z - 2014-03-07T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/goes11_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/goes11_t.x3d
-  goes12  GOES-12  180s 2002-08-15T00:00:00Z - 2014-03-09T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/goes12_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/goes12_t.x3d
-  goes13  GOES-13  180s 2006-06-10T00:00:00Z - 2014-03-09T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/goes13_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/goes13_t.x3d
-  goes14  GOES-14  180s 2009-07-09T00:00:00Z - 2014-03-09T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/goes14_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/goes14_t.x3d
-  goes15  GOES-15  180s 2010-06-19T00:00:00Z - 2014-03-09T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/goes15_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/goes15_t.x3d
+  goes11  GOES-11  180s 2000-05-17T00:00:00Z - 2014-08-02T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/goes11_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/goes11_t.x3d
+  goes12  GOES-12  180s 2002-08-15T00:00:00Z - 2014-08-03T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/goes12_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/goes12_t.x3d
+  goes13  GOES-13  180s 2006-06-10T00:00:00Z - 2014-08-03T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/goes13_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/goes13_t.x3d
+  goes14  GOES-14  180s 2009-07-09T00:00:00Z - 2014-08-03T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/goes14_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/goes14_t.x3d
+  goes15  GOES-15  180s 2010-06-19T00:00:00Z - 2014-08-03T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/goes15_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/goes15_t.x3d
   goes6  GOES-6  180s 1993-12-01T00:00:00Z - 1995-05-01T08:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/goes6_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/goes6_t.x3d
   goes7  GOES-7  180s 1987-04-15T00:00:00Z - 1998-12-02T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/goes7_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/goes7_t.x3d
   goes8  GOES-8  180s 1994-07-22T00:00:00Z - 2004-05-01T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/goes8_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/goes8_t.x3d
   goes9  GOES-9  180s 1995-07-29T00:00:00Z - 2006-01-01T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/goes9_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/goes9_t.x3d
-  gosat  GOSAT  60s 2009-01-30T00:00:00Z - 2014-03-10T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/gosat_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/gosat_t.x3d
-  grace1  GRACE-1  60s 2002-03-31T00:00:00Z - 2014-03-09T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/grace1_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/grace1_t.x3d
-  grace2  GRACE-2  60s 2002-03-31T00:00:00Z - 2014-03-08T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/grace2_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/grace2_t.x3d
+  gosat  GOSAT  60s 2009-01-30T00:00:00Z - 2014-08-04T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/gosat_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/gosat_t.x3d
+  grace1  GRACE-1  60s 2002-03-31T00:00:00Z - 2014-08-04T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/grace1_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/grace1_t.x3d
+  grace2  GRACE-2  60s 2002-03-31T00:00:00Z - 2014-08-03T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/grace2_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/grace2_t.x3d
   hawkeye  Hawkeye  180s 1974-06-09T00:00:00Z - 1978-01-01T08:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/hawkeye_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/hawkeye_t.x3d
-  hinode  Hinode  60s 2006-09-23T00:10:00Z - 2014-03-10T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/hinode_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/hinode_t.x3d
+  hinode  Hinode  60s 2006-09-23T00:10:00Z - 2014-08-03T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/hinode_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/hinode_t.x3d
   image  IMAGE  120s 2000-03-27T00:00:55Z - 2006-07-31T22:37:59Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/image_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/image_t.x3d
   imp7  IMP-7  720s 1972-09-26T00:00:00Z - 1978-10-01T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/imp7_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/imp7_t.x3d
   imp8  IMP-8  300s 1973-10-30T00:00:00Z - 2010-01-01T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/imp8_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/imp8_t.x3d
@@ -86,10 +105,10 @@ Satellites:
   isee3  ISEE-3  720s 1978-08-16T03:43:59Z - 2014-08-11T23:36:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/isee3_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/isee3_t.x3d
   isis1  ISIS-1  60s 1969-01-30T00:00:00Z - 1990-01-30T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/isis1_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/isis1_t.x3d
   isis2  ISIS-2  60s 1971-04-10T00:00:00Z - 1990-01-30T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/isis2_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/isis2_t.x3d
-  iss  ISS  60s 1998-11-21T00:00:00Z - 2014-03-10T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/iss_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/iss_t.x3d
+  iss  ISS  60s 1998-11-21T00:00:00Z - 2014-08-04T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/iss_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/iss_t.x3d
   issb  ISS-b  60s 1978-02-19T00:00:00Z - 1983-11-16T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/issb_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/issb_t.x3d
-  jason2  JASON2  60s 2008-07-08T00:00:00Z - 2014-03-09T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/jason2_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/jason2_t.x3d
-  juno  Juno  60s 2013-08-01T01:01:00Z - 2014-03-30T11:58:59Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/juno_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/juno_t.x3d
+  jason2  JASON2  60s 2008-07-08T00:00:00Z - 2014-08-04T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/jason2_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/jason2_t.x3d
+  juno  Juno  60s 2013-08-01T01:01:00Z - 2014-09-16T03:58:59Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/juno_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/juno_t.x3d
   kepler  Kepler  60s 2014-01-06T00:01:00Z - 2016-09-29T23:56:59Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/kepler_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/kepler_t.x3d
   lanl01  LANL-01  180s 2001-05-02T02:00:00Z - 2008-01-03T17:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/lanl01_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/lanl01_t.x3d
   lanl02  LANL-02  180s 2003-10-01T02:00:00Z - 2008-01-03T17:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/lanl02_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/lanl02_t.x3d
@@ -98,7 +117,7 @@ Satellites:
   lanl91  LANL-91  180s 1993-10-27T02:00:00Z - 2004-11-19T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/lanl91_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/lanl91_t.x3d
   lanl94  LANL-94  180s 1996-01-01T00:00:00Z - 2008-01-03T17:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/lanl94_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/lanl94_t.x3d
   lanl97  LANL-97  180s 1997-07-04T23:00:00Z - 2008-01-03T17:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/lanl97_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/lanl97_t.x3d
-  lro  LRO  60s 2013-12-01T01:01:00Z - 2014-03-26T23:58:59Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/lro_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/lro_t.x3d
+  lro  LRO  60s 2013-12-01T01:01:00Z - 2014-08-17T23:58:06Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/lro_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/lro_t.x3d
   mars  Mars  60s 2006-01-01T00:00:00Z - 2015-12-31T23:58:59Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/mars_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/mars_t.x3d
   maven  MAVEN  60s 2013-11-21T20:01:00Z - 2014-10-02T01:58:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/maven_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/maven_t.x3d
   mercury  Mercury  60s 2008-01-01T00:00:00Z - 2015-12-31T23:58:59Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/mercury_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/mercury_t.x3d
@@ -106,32 +125,32 @@ Satellites:
   microlab1  Microlab1  60s 2000-01-01T00:00:00Z - 2005-04-30T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/microlab1_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/microlab1_t.x3d
   mir  MIR  60s 1995-07-26T00:00:00Z - 2000-11-29T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/mir_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/mir_t.x3d
   moon  Moon  60s 1959-01-01T00:00:00Z - 2017-08-21T23:58:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/moon_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/moon_t.x3d
-  mro  MRO  60s 2014-01-04T21:01:00Z - 2014-03-17T13:48:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/mro_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/mro_t.x3d
+  mro  MRO  60s 2014-01-04T21:01:00Z - 2014-08-04T14:03:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/mro_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/mro_t.x3d
   msx  MSX  60s 1996-04-25T00:00:00Z - 1999-03-04T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/msx_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/msx_t.x3d
   noaa10  NOAA-10  60s 1986-09-27T00:00:00Z - 1991-09-27T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/noaa10_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/noaa10_t.x3d
   noaa12  NOAA-12  60s 1991-05-16T00:00:00Z - 1998-05-02T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/noaa12_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/noaa12_t.x3d
   noaa14  NOAA-14  60s 1995-01-14T00:00:00Z - 2004-05-01T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/noaa14_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/noaa14_t.x3d
-  noaa15  NOAA-15  60s 1998-05-26T00:00:00Z - 2014-03-09T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/noaa15_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/noaa15_t.x3d
-  noaa16  NOAA-16  60s 2000-09-27T00:00:00Z - 2014-03-09T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/noaa16_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/noaa16_t.x3d
-  noaa17  NOAA-17  60s 2002-06-25T00:00:00Z - 2014-03-09T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/noaa17_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/noaa17_t.x3d
-  noaa18  NOAA-18  60s 2005-07-03T00:00:00Z - 2014-03-09T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/noaa18_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/noaa18_t.x3d
-  noaa19  NOAA-19  60s 2009-02-06T21:37:00Z - 2014-03-09T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/noaa19_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/noaa19_t.x3d
+  noaa15  NOAA-15  60s 1998-05-26T00:00:00Z - 2014-08-03T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/noaa15_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/noaa15_t.x3d
+  noaa16  NOAA-16  60s 2000-09-27T00:00:00Z - 2014-08-03T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/noaa16_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/noaa16_t.x3d
+  noaa17  NOAA-17  60s 2002-06-25T00:00:00Z - 2014-08-03T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/noaa17_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/noaa17_t.x3d
+  noaa18  NOAA-18  60s 2005-07-03T00:00:00Z - 2014-08-03T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/noaa18_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/noaa18_t.x3d
+  noaa19  NOAA-19  60s 2009-02-06T21:37:00Z - 2014-08-03T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/noaa19_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/noaa19_t.x3d
   noaa5  NOAA-5  60s 1976-07-31T00:00:00Z - 1980-06-28T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/noaa5_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/noaa5_t.x3d
   noaa6  NOAA-6  60s 1979-10-05T00:00:00Z - 1986-08-09T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/noaa6_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/noaa6_t.x3d
   noaa7  NOAA-7  60s 1981-10-01T00:00:00Z - 1986-06-29T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/noaa7_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/noaa7_t.x3d
   noaa8  NOAA-8  60s 1983-03-28T00:00:00Z - 1985-10-27T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/noaa8_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/noaa8_t.x3d
-  oersted  Oersted  60s 1999-05-15T00:00:00Z - 2014-03-10T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/oersted_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/oersted_t.x3d
+  oersted  Oersted  60s 1999-05-15T00:00:00Z - 2014-08-03T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/oersted_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/oersted_t.x3d
   ogo5  OGO-5  60s 1969-04-09T00:00:00Z - 1971-05-10T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/ogo5_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/ogo5_t.x3d
   ogo6  OGO-6  60s 1969-06-05T00:00:00Z - 1970-01-01T08:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/ogo6_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/ogo6_t.x3d
   ohzora  Ohzora  60s 1984-02-20T00:00:00Z - 1986-04-12T08:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/ohzora_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/ohzora_t.x3d
-  parasol  PARASOL  60s 2004-12-19T00:00:00Z - 2014-03-09T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/parasol_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/parasol_t.x3d
+  parasol  PARASOL  60s 2004-12-19T00:00:00Z - 2014-08-03T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/parasol_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/parasol_t.x3d
   polar  Polar  180s 1996-03-01T00:00:00Z - 2009-06-27T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/polar_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/polar_t.x3d
-  rbspa  RBSP-A  60s 2012-08-30T09:25:59Z - 2014-04-18T22:58:59Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/rbspa_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/rbspa_t.x3d
-  rbspapred  RBSP-A Test  60s 2013-11-26T00:01:59Z - 2015-02-03T23:58:59Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/rbspapred_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/rbspapred_t.x3d
-  rbspb  RBSP-B  60s 2012-08-30T09:25:59Z - 2014-04-18T22:58:59Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/rbspb_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/rbspb_t.x3d
-  rbspbpred  RBSP-B Test  60s 2013-11-26T00:01:59Z - 2015-02-03T23:58:59Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/rbspbpred_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/rbspbpred_t.x3d
-  reimei  Reimei  60s 2005-08-25T00:00:00Z - 2014-03-09T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/reimei_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/reimei_t.x3d
-  rhessi  RHESSI  60s 2002-02-05T00:00:00Z - 2014-03-09T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/rhessi_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/rhessi_t.x3d
+  rbspa  RBSP-A  60s 2012-08-30T09:25:59Z - 2014-09-12T23:58:59Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/rbspa_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/rbspa_t.x3d
+  rbspapred  RBSP-A Test  60s 2013-11-26T00:01:59Z - 2015-06-30T23:58:59Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/rbspapred_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/rbspapred_t.x3d
+  rbspb  RBSP-B  60s 2012-08-30T09:25:59Z - 2014-09-12T23:58:59Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/rbspb_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/rbspb_t.x3d
+  rbspbpred  RBSP-B Test  60s 2013-11-26T00:01:59Z - 2015-06-30T23:58:59Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/rbspbpred_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/rbspbpred_t.x3d
+  reimei  Reimei  60s 2005-08-25T00:00:00Z - 2014-08-03T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/reimei_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/reimei_t.x3d
+  rhessi  RHESSI  60s 2002-02-05T00:00:00Z - 2014-08-03T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/rhessi_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/rhessi_t.x3d
   rocsat1  ROCSAT1  60s 1999-03-31T00:00:00Z - 2004-06-13T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/rocsat1_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/rocsat1_t.x3d
   rosetta  Rosetta  60s 2007-11-12T00:00:00Z - 2009-11-14T18:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/rosetta_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/rosetta_t.x3d
   sampex  SAMPEX  60s 1992-07-04T00:00:00Z - 2012-11-12T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/sampex_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/sampex_t.x3d
@@ -143,32 +162,32 @@ Satellites:
   st5a  ST5-A  60s 2006-03-23T00:00:00Z - 2006-08-28T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/st5a_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/st5a_t.x3d
   st5b  ST5-B  60s 2006-03-23T00:00:00Z - 2006-08-29T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/st5b_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/st5b_t.x3d
   st5c  ST5-C  60s 2006-03-23T00:00:00Z - 2006-08-29T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/st5c_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/st5c_t.x3d
-  stereoa  STEREO-Ahead  720s 2006-10-27T00:00:00Z - 2014-06-11T23:36:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/stereoa_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/stereoa_t.x3d
-  stereob  STEREO-Behind  720s 2006-10-27T00:00:00Z - 2014-06-04T23:36:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/stereob_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/stereob_t.x3d
-  swarma  Swarm A  60s 2013-11-26T00:00:00Z - 2014-03-09T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/swarma_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/swarma_t.x3d
-  swarmb  Swarm B  60s 2013-11-26T00:00:00Z - 2014-03-09T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/swarmb_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/swarmb_t.x3d
-  swarmc  Swarm C  60s 2013-11-26T00:00:00Z - 2014-03-09T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/swarmc_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/swarmc_t.x3d
+  stereoa  STEREO-Ahead  720s 2006-10-27T00:00:00Z - 2014-10-15T23:25:06Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/stereoa_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/stereoa_t.x3d
+  stereob  STEREO-Behind  720s 2006-10-27T00:00:00Z - 2014-10-16T23:25:06Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/stereob_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/stereob_t.x3d
+  swarma  Swarm A  60s 2013-11-26T00:00:00Z - 2014-08-03T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/swarma_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/swarma_t.x3d
+  swarmb  Swarm B  60s 2013-11-26T00:00:00Z - 2014-08-03T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/swarmb_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/swarmb_t.x3d
+  swarmc  Swarm C  60s 2013-11-26T00:00:00Z - 2014-08-03T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/swarmc_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/swarmc_t.x3d
   tatiana1  Tatiana1  60s 2005-01-25T00:00:00Z - 2007-03-30T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/tatiana1_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/tatiana1_t.x3d
   tatiana2  Tatiana2  60s 2009-09-17T00:00:00Z - 2010-07-13T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/tatiana2_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/tatiana2_t.x3d
-  themisa  THEMIS-A (P5)  60s 2007-02-18T00:13:59Z - 2014-02-17T23:58:59Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themisa_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themisa_t.x3d
+  themisa  THEMIS-A (P5)  60s 2007-02-18T00:13:59Z - 2014-07-15T23:58:59Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themisa_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themisa_t.x3d
   themisapred  THEMIS-A (Pred)  60s 2008-07-18T00:30:00Z - 2017-09-06T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themisapred_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themisapred_t.x3d
-  themisb  THEMIS-B (P1)  60s 2007-02-18T00:13:59Z - 2014-02-18T23:58:59Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themisb_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themisb_t.x3d
-  themisbpred  THEMIS-B (Pred)  60s 2008-07-18T00:30:00Z - 2014-12-30T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themisbpred_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themisbpred_t.x3d
-  themisc  THEMIS-C (P2)  60s 2007-02-18T00:13:59Z - 2014-02-16T23:58:59Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themisc_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themisc_t.x3d
-  themiscpred  THEMIS-C (Pred)  60s 2008-07-18T00:30:00Z - 2014-12-30T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themiscpred_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themiscpred_t.x3d
-  themisd  THEMIS-D (P3)  60s 2007-02-18T00:13:59Z - 2014-02-18T23:58:59Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themisd_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themisd_t.x3d
+  themisb  THEMIS-B (P1)  60s 2007-02-18T00:13:59Z - 2014-07-14T23:58:59Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themisb_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themisb_t.x3d
+  themisbpred  THEMIS-B (Pred)  60s 2008-07-18T00:30:00Z - 2015-03-01T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themisbpred_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themisbpred_t.x3d
+  themisc  THEMIS-C (P2)  60s 2007-02-18T00:13:59Z - 2014-07-15T23:58:59Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themisc_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themisc_t.x3d
+  themiscpred  THEMIS-C (Pred)  60s 2008-07-18T00:30:00Z - 2015-03-01T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themiscpred_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themiscpred_t.x3d
+  themisd  THEMIS-D (P3)  60s 2007-02-18T00:13:59Z - 2014-07-14T23:58:59Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themisd_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themisd_t.x3d
   themisdpred  THEMIS-D (Pred)  60s 2008-07-18T00:30:00Z - 2017-09-06T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themisdpred_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themisdpred_t.x3d
-  themise  THEMIS-E (P4)  60s 2007-02-18T00:13:59Z - 2014-02-18T23:58:59Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themise_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themise_t.x3d
+  themise  THEMIS-E (P4)  60s 2007-02-18T00:13:59Z - 2014-07-15T23:58:59Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themise_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themise_t.x3d
   themisepred  THEMIS-E (Pred)  60s 2008-07-18T00:30:00Z - 2017-09-06T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themisepred_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themisepred_t.x3d
-  timed  TIMED  60s 2002-02-07T00:00:00Z - 2014-03-09T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/timed_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/timed_t.x3d
+  timed  TIMED  60s 2002-02-07T00:00:00Z - 2014-08-03T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/timed_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/timed_t.x3d
   trace  TRACE  60s 1998-04-02T00:00:00Z - 2010-10-19T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/trace_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/trace_t.x3d
-  twins1  Twins1  120s 2007-04-01T00:02:30Z - 2014-01-30T23:46:29Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/twins1_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/twins1_t.x3d
-  twins2  Twins2  120s 2008-04-11T00:16:30Z - 2014-01-30T23:58:30Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/twins2_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/twins2_t.x3d
+  twins1  Twins1  120s 2007-04-01T00:02:30Z - 2014-06-29T23:56:30Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/twins1_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/twins1_t.x3d
+  twins2  Twins2  120s 2008-04-11T00:16:30Z - 2014-06-29T23:58:30Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/twins2_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/twins2_t.x3d
   uars  UARS  60s 1991-09-20T00:00:00Z - 2006-05-11T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/uars_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/uars_t.x3d
   viking  Viking  60s 1986-03-05T00:00:00Z - 1987-01-01T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/viking_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/viking_t.x3d
-  wind  Wind  720s 1994-11-16T00:00:00Z - 2014-04-15T23:48:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/wind_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/wind_t.x3d
+  wind  Wind  720s 1994-11-16T00:00:00Z - 2014-09-09T23:48:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/wind_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/wind_t.x3d
   yohkoh  Yohkoh (Solar-A)  60s 1991-09-05T00:00:00Z - 1998-01-02T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/yohkoh_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/yohkoh_t.x3d
-Time to execute getAllSatellites = 0.081seconds
+Time to execute getAllSatellites = 0.99seconds
 
 
 SPASE Observatories:
@@ -179,6 +198,23 @@ SPASE Observatories:
   alouette2  spase://SMWG/Observatory/Alouette2
   artemisp1  spase://SMWG/Observatory/THEMIS/B
   artemisp2  spase://SMWG/Observatory/THEMIS/C
+  barrel1a  spase://SMWG/Observatory/BARREL/1A
+  barrel1b  spase://SMWG/Observatory/BARREL/1B
+  barrel1c  spase://SMWG/Observatory/BARREL/1C
+  barrel1d  spase://SMWG/Observatory/BARREL/1D
+  barrel1g  spase://SMWG/Observatory/BARREL/1G
+  barrel1h  spase://SMWG/Observatory/BARREL/1H
+  barrel1i  spase://SMWG/Observatory/BARREL/1I
+  barrel1j  spase://SMWG/Observatory/BARREL/1J
+  barrel1k  spase://SMWG/Observatory/BARREL/1K
+  barrel1m  spase://SMWG/Observatory/BARREL/1M
+  barrel1o  spase://SMWG/Observatory/BARREL/1O
+  barrel1q  spase://SMWG/Observatory/BARREL/1Q
+  barrel1r  spase://SMWG/Observatory/BARREL/1R
+  barrel1s  spase://SMWG/Observatory/BARREL/1S
+  barrel1t  spase://SMWG/Observatory/BARREL/1T
+  barrel1u  spase://SMWG/Observatory/BARREL/1U
+  barrel1v  spase://SMWG/Observatory/BARREL/1V
   cce  spase://SMWG/Observatory/AMPTE_CCE
   champ  spase://SMWG/Observatory/CHAMP
   cluster1  spase://SMWG/Observatory/Cluster-Rumba
@@ -274,7 +310,7 @@ SPASE Observatories:
   uars  spase://SMWG/Observatory/UARS
   wind  spase://SMWG/Observatory/Wind
   yohkoh  spase://SMWG/Observatory/Yohkoh
-Time to execute getAllSpaseObservatories = 1.212seconds
+Time to execute getAllSpaseObservatories = 2.715seconds
 
 
 Ground Stations:
@@ -477,9 +513,9 @@ Ground Stations:
   HIS  80.62  58.05  Heiss Island
   NOC  81.6  -16.6  Nord
   ALE  82.5  -62.5  Alert
-Time to execute getAllGroundStations = 0.049seconds
-xmlStart/End = 2014-02-20T14:23:59.549Z, 2014-02-21T14:23:59.549Z
-start/end date = Thu Feb 20 09:23:59 EST 2014, Fri Feb 21 09:23:59 EST 2014
+Time to execute getAllGroundStations = 0.196seconds
+xmlStart/End = 2014-07-17T14:51:19.289Z, 2014-07-18T14:51:19.289Z
+start/end date = Thu Jul 17 10:51:19 EDT 2014, Fri Jul 18 10:51:19 EDT 2014
 
 Orbit getGraphs results:
 
@@ -490,9 +526,9 @@ result.getStatusSubCode() = SUCCESS
 getGraphs status text is empty
 
 getGraphs URLs returned:
-  http://sscweb.gsfc.nasa.gov/images/ORBIT_22473_001.gif
+  http://sscweb.gsfc.nasa.gov/images/ORBIT_3976_001.gif
 
-Time to execute getGraphs = 0.859seconds
+Time to execute getGraphs = 3.199seconds
 
 Map getGraphs results:
 
@@ -503,9 +539,9 @@ result.getStatusSubCode() = SUCCESS
 getGraphs status text is empty
 
 getGraphs URLs returned:
-  http://sscweb.gsfc.nasa.gov/images/MAPPED_MOON_22492_000.gif
+  http://sscweb.gsfc.nasa.gov/images/MAPPED_MOON_3994_000.gif
 
-Time to execute getGraphs = 0.858seconds
+Time to execute getGraphs = 1.126seconds
 
 Time Series getGraphs results:
 
@@ -516,9 +552,9 @@ result.getStatusSubCode() = SUCCESS
 getGraphs status text is empty
 
 getGraphs URLs returned:
-  http://sscweb.gsfc.nasa.gov/images/TIME_SERIES_22510_000.gif
+  http://sscweb.gsfc.nasa.gov/images/TIME_SERIES_4012_000.gif
 
-Time to execute getGraphs = 0.314seconds
+Time to execute getGraphs = 0.585seconds
 
 getData results:
 
@@ -532,42 +568,31 @@ Satellite Data:
   fast
   Time                                      GSE                                       Local      Radial     Magnetic     Neutral     Bow         Magneto     Dipole      Dipole    Spacecraft   Radial Trc   N BTraced     GSE      Magnetic   Vectors 
                              X           Y           Z        Lat        Lon           Time      Length     Strength     Sheet       Shock       Pause       L Value     InvLat    Region       Region       Region        X          Y          Z     
-  2014-02-20T14:24:00Z
-     -423.52    -1635.27    -8888.66      -79.24      255.48        5.03     9047.75    20748.88    -8991.83   -90161.02   -65599.20       93.25       84.06   N Msphere   S PolrCap     None         894.91    -2754.28   -20545.78
-  2014-02-20T14:26:00Z
-      -80.31    -2307.80    -8881.72      -75.43      268.01        5.87     9177.00    19767.88    -9172.83   -89722.55   -65206.07      382.19       87.07   D Msphere   S PolrCap     None        1937.74    -4625.90   -19121.06
-  2014-02-20T14:28:00Z
-      263.49    -2963.24    -8808.94      -71.34      275.08        6.34     9297.73    18828.65      NA       -89290.51   -64827.74      283.01       86.59   D Msphere   S PolrCap     None        2841.26    -6203.30   -17548.91
-  2014-02-20T14:30:00Z
-      605.14    -3597.62    -8673.39      -67.19      279.55        6.64     9409.40    17932.44      NA       -88868.74   -64466.39       80.35       83.59   D Msphere   S PolrCap     None        3614.63    -7505.52   -15879.99
-  2014-02-20T14:32:00Z
-      942.84    -4207.27    -8478.19      -63.04      282.63        6.84     9511.56    17079.15      NA       -88457.17   -64123.12       35.27       80.31   D Msphere   S PolrCap     None        4267.77    -8552.23   -14154.25
+  2014-07-17T14:52:00Z
+      177.33     8221.28    -3763.51      -24.59       88.76       17.92     9043.50    12442.02      NA       -90758.83   -65674.17        2.06       45.84   N Psphere   S Mid-Lat   N Mid-Lat     4812.12    11473.01     -131.74
+  2014-07-17T14:54:00Z
+      405.82     8602.82    -3152.61      -20.11       87.30       17.82     9171.27    11632.36      NA       -90555.45   -65432.37        1.90       43.43   N Psphere   Low Lat     N Mid-Lat     4821.85    10466.47     1585.77
+  2014-07-17T14:56:00Z
+      631.33     8920.37    -2518.19      -15.73       85.95       17.73     9290.47    10896.37      NA       -90351.62   -65197.08        1.77       41.35   D Psphere   Low Lat     N Mid-Lat     4802.51     9267.53     3127.27
+  2014-07-17T14:58:00Z
+      852.94     9174.03    -1865.69      -11.45       84.69       17.65     9400.59    10231.70      NA       -90144.05   -64969.42        1.68       39.61   D Psphere   Low Lat     N Mid-Lat     4742.98     7888.13     4468.69
+  2014-07-17T15:00:00Z
+     1068.09     9364.33    -1200.27       -7.26       83.49       17.57     9501.17     9644.19      NA       -89938.47   -64751.55        1.62       38.22   D Psphere   Low Lat     N Mid-Lat     4632.66     6352.56     5585.13
   moon
   Time                                      GSE                                       Local      Radial     Magnetic     Neutral     Bow         Magneto     Dipole      Dipole    Spacecraft   Radial Trc   N BTraced     GSE      Magnetic   Vectors 
                              X           Y           Z        Lat        Lon           Time      Length     Strength     Sheet       Shock       Pause       L Value     InvLat    Region       Region       Region        X          Y          Z     
-  2014-02-20T14:24:00Z
-  -169370.87  -346768.36     3534.19        0.52      243.97        4.26   385936.85      NA          NA        89095.26   202637.22       62.86       82.75   Intpl Med   Low Lat       None         NA          NA          NA    
-  2014-02-20T14:26:00Z
-  -169259.24  -346816.10     3544.91        0.53      243.99        4.27   385930.89      NA          NA        89184.19   202698.28       62.89       82.76   Intpl Med   Low Lat       None         NA          NA          NA    
-  2014-02-20T14:28:00Z
-  -169147.50  -346863.86     3555.65        0.53      244.00        4.27   385924.93      NA          NA        89273.49   202759.39       62.93       82.76   Intpl Med   Low Lat       None         NA          NA          NA    
-  2014-02-20T14:30:00Z
-  -169059.82  -346899.85     3566.36        0.53      244.02        4.27   385918.95      NA          NA        89342.11   202805.96       62.97       82.76   Intpl Med   Low Lat       None         NA          NA          NA    
-  2014-02-20T14:32:00Z
-  -168948.10  -346947.53     3577.10        0.53      244.04        4.27   385913.01      NA          NA        89431.29   202867.10       63.00       82.76   Intpl Med   Low Lat       None         NA          NA          NA    
+  2014-07-17T14:52:00Z
+  -118959.00  -352260.64     9789.99        1.51      251.34        4.76   371933.66      NA          NA       114885.57   215728.47       58.83       82.51   Intpl Med   Low Lat       None         NA          NA          NA    
+  2014-07-17T14:54:00Z
+  -118842.28  -352308.11     9779.61        1.51      251.36        4.76   371941.03      NA          NA       114977.22   215794.87       58.82       82.51   Intpl Med   Low Lat       None         NA          NA          NA    
+  2014-07-17T14:56:00Z
+  -118725.53  -352355.51     9769.23        1.51      251.38        4.76   371948.35      NA          NA       115069.18   215861.27       58.81       82.51   Intpl Med   Low Lat       None         NA          NA          NA    
+  2014-07-17T14:58:00Z
+  -118631.71  -352395.14     9758.84        1.50      251.39        4.76   371955.70      NA          NA       115144.07   215916.16       58.79       82.51   Intpl Med   Low Lat       None         NA          NA          NA    
+  2014-07-17T15:00:00Z
+  -118514.93  -352442.46     9748.46        1.50      251.41        4.76   371963.05      NA          NA       115235.83   215982.55       58.78       82.51   Intpl Med   Low Lat       None         NA          NA          NA    
 
-Time to execute getData = 2.147seconds
-
-getDataFile results:
-result.getStatusCode() = SUCCESS
-result.getStatusSubCode() = SUCCESS
-
-getDataFile status text is empty
-
-getDataFile URLs returned:
-  http://sscweb.gsfc.nasa.gov/query_output/locator_server22543.txt
-
-Time to execute getDataFiles = 1.357seconds
+Time to execute getData = 4.17seconds
 
 getDataFile results:
 result.getStatusCode() = SUCCESS
@@ -576,7 +601,18 @@ result.getStatusSubCode() = SUCCESS
 getDataFile status text is empty
 
 getDataFile URLs returned:
-  http://sscweb.gsfc.nasa.gov/query_output/fast_20140221092405_22566.cdf
-  http://sscweb.gsfc.nasa.gov/query_output/moon_20140221092405_22566.cdf
+  http://sscweb.gsfc.nasa.gov/query_output/locator_server4045.txt
 
-Time to execute getDataFiles 2 = 1.67seconds
+Time to execute getDataFiles = 1.973seconds
+
+getDataFile results:
+result.getStatusCode() = SUCCESS
+result.getStatusSubCode() = SUCCESS
+
+getDataFile status text is empty
+
+getDataFile URLs returned:
+  http://sscweb.gsfc.nasa.gov/query_output/fast_20140718105130_4067.cdf
+  http://sscweb.gsfc.nasa.gov/query_output/moon_20140718105130_4067.cdf
+
+Time to execute getDataFiles 2 = 1.916seconds
