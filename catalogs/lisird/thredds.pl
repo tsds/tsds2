@@ -106,7 +106,7 @@ sub GetVars {
 my %replace =(
 		resolution=>"cadence",
 		long_name=>"label",
-		description=>"label",
+		description=>"description",
 		missing_value=>"fillvalue",
 		title=>"name");
 my $reg = join "|", keys %replace;

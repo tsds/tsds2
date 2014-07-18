@@ -53,8 +53,9 @@
 		<End>2012-06-28</End>
 		<Cadence>P1Y</Cadence>
 		</timeCoverage>
-		<variables>
-			<variable id='Irradiance' columns='2' label='Total Solar Irradiance' precision='4' fillvalue='NaN' units='W/m^2'></variable>
+<variables >
+		<variable id='Irradiance' columns='2' label='Total Solar Irradiance' precision='4' fillvalue='NaN' units='W/m^2'></variable>
+
 		</variables>
 	</dataset>
 	<dataset id='sorce_ssi' name='SORCE Solar Spectral Irradiance'  datareader='dat' timecolumns='1' timeformat='$Y-$m-$dT$H:$M:$S' urltemplate="http://lasp.colorado.edu/lisird/tss/sorce_ssi.dat?time,irradiance,uncertainty,quality,instrument,version%26format_time(yyyy-MM-dd%27T%27HH:mm:ss)">
@@ -403,13 +404,13 @@
 		<Cadence>PT1D</Cadence>
 		</timeCoverage>
 <variables >
-		<variable id='emdx' columns='2' sigfig='6' label='Ca K emission index' label='Equivalent width of a 1 angstrom band centered on the K line core'></variable>
-		<variable id='viored' columns='3' sigfig='6' label='K2V/K2R' label='Line asymmetry which is the ratio of the blue and red K2 emission maxima.'></variable>
-		<variable id='k2vk3' columns='4' sigfig='6' label='K2V/K3' label='Relative strength of the blue K2 emission peak with respect to the K3 intensity.'></variable>
-		<variable id='delk1' columns='5' sigfig='6' label='K1V-K2R' label='Separation of the blue and red K1 minima.'></variable>
-		<variable id='delk2' columns='6' sigfig='6' label='K2V-K2R' label='Separation of the two emission maxima.'></variable>
-		<variable id='delwb' columns='7' sigfig='6' label='Wilson-Bappu parameter' label='Width measured between the outer edges of the K2 emission peaks.'></variable>
-		<variable id='k3' columns='8' sigfig='6' label='K3 intensity' label='Core intensity.'></variable>
+		<variable id='emdx' columns='2' sigfig='6' label='Ca K emission index' description='Equivalent width of a 1 angstrom band centered on the K line core'></variable>
+		<variable id='viored' columns='3' sigfig='6' label='K2V/K2R' description='Line asymmetry which is the ratio of the blue and red K2 emission maxima.'></variable>
+		<variable id='k2vk3' columns='4' sigfig='6' label='K2V/K3' description='Relative strength of the blue K2 emission peak with respect to the K3 intensity.'></variable>
+		<variable id='delk1' columns='5' sigfig='6' label='K1V-K2R' description='Separation of the blue and red K1 minima.'></variable>
+		<variable id='delk2' columns='6' sigfig='6' label='K2V-K2R' description='Separation of the two emission maxima.'></variable>
+		<variable id='delwb' columns='7' sigfig='6' label='Wilson-Bappu parameter' description='Width measured between the outer edges of the K2 emission peaks.'></variable>
+		<variable id='k3' columns='8' sigfig='6' label='K3 intensity' description='Core intensity.'></variable>
 
 		</variables>
 	</dataset>
