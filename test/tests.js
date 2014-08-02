@@ -100,21 +100,31 @@ tests[19].test = function (data) {var len = data.toString().split("\n").length;e
 tests[19].log  = 'console.log("File should have 17 rows.  Found: " + len );';
 
 tests[20] = {};
-tests[20].url = "catalog=SWPC/AK;SWPC/AK/2DayFile&dataset=AK;AK&parameters=PlanetaryK;PlanetaryK&start=-P10D;-P2D&stop=-P2D;P1D";
-tests[20].test = function (data) {var len = data.toString().split("\n").length;eval(tests[20].log);if (len == 73) {return true;} else {return false} };
+tests[20].url = "catalog=Kyoto/RT/Dst/PT1H&dataset=Dst&parameters=Dst&start=-P3D&stop=P0D";
+tests[20].test = function (data) {var len = data.toString().split("\n").length;eval(tests[22].log);if (len == 73) {return true;} else {return false} };
 tests[20].log  = 'console.log("File should have 73 rows.  Found: " + len );';
+tests[20].note = 'This test sometimes fails at end of month because files will contain no data or will not be available.'
 
 tests[21] = {};
-tests[21].url = "catalog=SWPC/AK;SWPC/AK/2DayFile&dataset=AK;AK&parameters=PlanetaryA;PlanetaryA&start=-P10D;-P2D&stop=-P2D;P1D";
-tests[21].test = function (data) {var len = data.toString().split("\n").length;eval(tests[21].log);if (len == 73) {return true;} else {return false} };
+tests[21].url = "catalog=Kyoto/RT/Dst/PT1H&dataset=Dst&parameters=Dst&start=-P3D&stop=P0D&outformat=1";
+tests[21].test = function (data) {var len = data.toString().split("\n").length;eval(tests[22].log);if (len == 73) {return true;} else {return false} };
 tests[21].log  = 'console.log("File should have 73 rows.  Found: " + len );';
+tests[21].note = 'This test sometimes fails at end of month because files will contain no data or will not be available.'
 
 tests[22] = {};
-tests[22].url = "catalog=Kyoto/RT/Dst/PT1H&dataset=Dst&parameters=Dst&start=-P3D&stop=P0D";
-tests[22].test = function (data) {var len = data.toString().split("\n").length;eval(tests[22].log);if (len == 73) {return true;} else {return false} };
-tests[22].log  = 'console.log("File should have 73 rows.  Found: " + len );';
+tests[22].url = "catalog=SWPC/AK&dataset=AK&parameters=PlanetaryK&start=-P10D&stop=-P2D";
+tests[22].test = function (data) {var len = data.toString().split("\n").length;eval(tests[22].log);if (len == 65) {return true;} else {return false} };
+tests[22].log  = 'console.log("File should have 65 rows.  Found: " + len );';
+tests[22].note = 'This test sometimes fails at end of month because files will contain no data or will not be available.'
 
 tests[23] = {};
-tests[23].url = "catalog=Kyoto/RT/Dst/PT1H&dataset=Dst&parameters=Dst&start=-P3D&stop=P0D&outformat=1";
-tests[23].test = function (data) {var len = data.toString().split("\n").length;eval(tests[22].log);if (len == 73) {return true;} else {return false} };
-tests[23].log  = 'console.log("File should have 73 rows.  Found: " + len );';
+tests[23].url = "catalog=SWPC/AK/2DayFile&dataset=AK&parameters=PlanetaryK&start=-P2D&stop=P1D";
+tests[23].test = function (data) {var len = data.toString().split("\n").length;eval(tests[23].log);if (len == 17) {return true;} else {return false} };
+tests[23].log  = 'console.log("File should have 17 rows.  Found: " + len );';
+tests[23].note = 'This test sometimes fails at end of month because files will contain no data or will not be available.'
+
+tests[24] = {};
+tests[24].url = "catalog=SWPC/AK;SWPC/AK/2DayFile&dataset=AK;AK&parameters=PlanetaryK;PlanetaryK&start=-P10D;-P2D&stop=-P2D;P1D";
+tests[24].test = function (data) {var len = data.toString().split("\n").length;eval(tests[24].log);if (len == 81) {return true;} else {return false} };
+tests[24].log  = 'console.log("File should have 81 rows.  Found: " + len );';
+tests[24].note = 'This test sometimes fails at end of month because files will contain no data or will not be available.'

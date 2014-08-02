@@ -474,7 +474,10 @@
 			function triggerselect() {
 				// Set inital values of drop-downs based on hash.
 					qs = $.parseQueryString();
-					console.log("Initial query string: " + JSON.stringify(qs));		
+					console.log("Initial query string: " + JSON.stringify(qs));
+					if (qs["catalog"]) {
+						if (qs["catalog"] === "^.*") return;
+					}		
 					for (var id in qs) {
 						console.log("Triggering select for drop-down with id = "+id);
 						$("#"+id).val(qs[id]).data("autocomplete")._trigger("select",event,{item:qs[id]});
