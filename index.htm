@@ -22,6 +22,119 @@
 			//TSDSFE = "http://tsds.org/get2/";
 			TSDSFE = location.href.split("#")[0];
 			AUTOPLOT = "http://autoplot.org/plot/dev/SimpleServlet"
+
+				$(function() {
+
+					// See Harris' post at http://stackoverflow.com/questions/426258/how-do-i-check-a-checkbox-with-jquery-or-javascript
+					(function( $ ) {
+					    $.fn.checked = function(value) {
+					        if(value === true || value === false) {
+					            // Set the value of the checkbox
+					            $(this).each(function(){ this.checked = value; });
+					        } 
+					        else if(value === undefined || value === 'toggle') {
+					            // Toggle the checkbox
+					            $(this).each(function(){ this.checked = !this.checked; });
+					        }
+					    };
+					})( jQuery );
+
+					//$('#debug').each(function(){ this.checked = false; });
+					
+					if (location.hash.match("usecache=false")) {
+						$('#usecache').each(function(){ this.checked = false; });
+						if (location.hash === "") {
+							var qs = {};
+						} else {
+							var qs = $.parseQueryString();
+						}
+						qs["usecache"]="false";
+						console.log(qs)					
+						location.hash=decodeURIComponent($.param(qs));;
+					} else {
+						$('#usecache').each(function(){ this.checked = true; });
+						if (location.hash === "") {
+							var qs = {};
+						} else {
+							var qs = $.parseQueryString();
+						}
+						qs["usecache"]="true";
+						//location.hash=decodeURIComponent($.param(qs));
+						//alert("--Setting");
+					}
+					
+					if (location.hash.match("preview=false")) {
+						$('#previewimgcheckbox').each(function(){ this.checked = false; });
+					} else {
+						$('#previewimgcheckbox').each(function(){ this.checked = false; });
+					}
+
+					$('#usemetadatacache').each(function(){ this.checked = true; });
+
+					//dropdown2(["catalog"],["Catalog"],[catalogs],"#dropdowns",0,"",function () {});
+					dropdown2(["catalog","dataset","parameters","start","stop","outformat"],["Catalog","Datasets","Parameters","Start","Stop","Output"],[catalogs,datasets,parameters,starttime,stoptime,outformat],"#dropdowns",0,"");
+
+					//dropdown2(["tests"],["Tests"],[tests],"#dropdownstest");
+
+					if ( (location.hash !== "") && (location.hash !== "#catalog=^.*") ) {
+						console.log("----Triggering select");
+						triggerselect();
+					}			
+					//preview();
+					
+					return;
+					console.log("Binding hashchange");
+					//$(window).hashchange.byurledit = false;
+					$(window).hashchange.byurledit = true;
+					$(window).bind("hashchange",function() {
+						
+						//$(window).hashchange.lashash = qs; 
+						// Need to figure out what parameter was changed and then remove all parameters after that.  Otherwise
+						// User could change the catalog and the parameter list will not be updated.
+						console.log("Hash change");
+						console.log($(window).hashchange.byurledit);
+						if ($(window).hashchange.byurledit) {
+							var qs = $.parseQueryString();
+							console.log("Hash change made by manual edit to URL");
+							console.log("Last hash")
+							console.log(qs);
+							for (var id in qs) {
+								console.log("Triggering: " + qs[id]);
+								// This creates an infinite loop.
+								//$("#"+id).val(qs[id]).data("autocomplete")._trigger("select",event,{item:qs[id]});
+							}
+//								$("#"+id).val(qs[id]).data("autocomplete")._trigger("select",event,{item:qs[id]});
+						}					
+						$(window).hashchange.byurledit = true;
+					});										
+
+					return;
+
+//					function callback(id) {
+				//}
+
+					// Use for testing random?
+					function autoselect(el,N) {
+						$(el+"list").click();
+						if (arguments.length < 2)
+							N = 1;
+						for (i = 0; i < N;i++) {
+							$(el).simulate("keydown", { keyCode: $.ui.keyCode.DOWN });
+						}
+						$(el).simulate("keydown", { keyCode: $.ui.keyCode.ENTER });
+					}
+
+						
+					$("#demo").click(function () {
+						autoselect("#catalog",1);
+						autoselect("#dataset");
+						autoselect("#start");
+						autoselect("#stop");
+						autoselect("#parameters");
+					})
+				});
+
+			
 			function tsdsfeajax(i,url) {
 				url = TSDSFE + url;
 				$('#status').show();
@@ -556,115 +669,6 @@
 				  }
 				});
 			
-			$(function() {
-
-				// See Harris' post at http://stackoverflow.com/questions/426258/how-do-i-check-a-checkbox-with-jquery-or-javascript
-				(function( $ ) {
-				    $.fn.checked = function(value) {
-				        if(value === true || value === false) {
-				            // Set the value of the checkbox
-				            $(this).each(function(){ this.checked = value; });
-				        } 
-				        else if(value === undefined || value === 'toggle') {
-				            // Toggle the checkbox
-				            $(this).each(function(){ this.checked = !this.checked; });
-				        }
-				    };
-				})( jQuery );
-
-				//$('#debug').each(function(){ this.checked = false; });
-				
-				if (location.hash.match("usecache=false")) {
-					$('#usecache').each(function(){ this.checked = false; });
-					if (location.hash === "") {
-						var qs = {};
-					} else {
-						var qs = $.parseQueryString();
-					}
-					qs["usecache"]="false";
-					console.log(qs)					
-					location.hash=decodeURIComponent($.param(qs));;
-				} else {
-					$('#usecache').each(function(){ this.checked = true; });
-					if (location.hash === "") {
-						var qs = {};
-					} else {
-						var qs = $.parseQueryString();
-					}
-					qs["usecache"]="true";
-					//location.hash=decodeURIComponent($.param(qs));
-					//alert("--Setting");
-				}
-				
-				if (location.hash.match("preview=false")) {
-					$('#previewimgcheckbox').each(function(){ this.checked = false; });
-				} else {
-					$('#previewimgcheckbox').each(function(){ this.checked = false; });
-				}
-
-				$('#usemetadatacache').each(function(){ this.checked = true; });
-
-				//dropdown2(["catalog"],["Catalog"],[catalogs],"#dropdowns",0,"",function () {});
-				dropdown2(["catalog","dataset","parameters","start","stop","outformat"],["Catalog","Datasets","Parameters","Start","Stop","Output"],[catalogs,datasets,parameters,starttime,stoptime,outformat],"#dropdowns",0,"");
-
-				//dropdown2(["tests"],["Tests"],[tests],"#dropdownstest");
-
-				if (location.hash !== "") {
-					triggerselect();
-				}			
-				//preview();
-				
-				return;
-				console.log("Binding hashchange");
-				//$(window).hashchange.byurledit = false;
-				$(window).hashchange.byurledit = true;
-				$(window).bind("hashchange",function() {
-					
-					//$(window).hashchange.lashash = qs; 
-					// Need to figure out what parameter was changed and then remove all parameters after that.  Otherwise
-					// User could change the catalog and the parameter list will not be updated.
-					console.log("Hash change");
-					console.log($(window).hashchange.byurledit);
-					if ($(window).hashchange.byurledit) {
-						var qs = $.parseQueryString();
-						console.log("Hash change made by manual edit to URL");
-						console.log("Last hash")
-						console.log(qs);
-						for (var id in qs) {
-							console.log("Triggering: " + qs[id]);
-							// This creates an infinite loop.
-							//$("#"+id).val(qs[id]).data("autocomplete")._trigger("select",event,{item:qs[id]});
-						}
-//							$("#"+id).val(qs[id]).data("autocomplete")._trigger("select",event,{item:qs[id]});
-					}					
-					$(window).hashchange.byurledit = true;
-				});										
-
-				return;
-
-//				function callback(id) {
-			//}
-
-				// Use for testing random?
-				function autoselect(el,N) {
-					$(el+"list").click();
-					if (arguments.length < 2)
-						N = 1;
-					for (i = 0; i < N;i++) {
-						$(el).simulate("keydown", { keyCode: $.ui.keyCode.DOWN });
-					}
-					$(el).simulate("keydown", { keyCode: $.ui.keyCode.ENTER });
-				}
-
-					
-				$("#demo").click(function () {
-					autoselect("#catalog",1);
-					autoselect("#dataset");
-					autoselect("#start");
-					autoselect("#stop");
-					autoselect("#parameters");
-				})
-			});
 		</script>
 		
 	</head>

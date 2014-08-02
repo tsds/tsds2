@@ -2,15 +2,10 @@ var debug        = true;
 var debugcatalog = false;
 
 var AUTOPLOT = "http://autoplot.org/plot/dev/SimpleServlet";
-<<<<<<< HEAD
-var TSDSFE   = "http://tsds.org/get2/";
+var TSDSFE   = "http://tsds.org/get/";
 var TIMEOUT  = 1000*60*15; // Server timeout time in seconds.
 var port     = process.argv[2] || 8004;
 var DC       = "http://localhost:7999/sync/";
-=======
-
-var TSDSFE = "http://tsds.org/get/";
->>>>>>> 2b0db70e2990c00463286407620dc3e69e0afe48
 
 var fs      = require('fs');
 var request = require("request");
