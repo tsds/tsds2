@@ -1,6 +1,11 @@
-// Local server
-// Production server
-// Both servers using data from original data source.
+
+// Run one test:
+//		node test/test.js 27 false
+// Run all tests:
+//		node test/test.js
+// Run all tests including and after test 3:
+//		node test/test.js 3 true
+
 
 var N    = 10;
 var port = 8004;

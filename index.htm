@@ -20,7 +20,7 @@
 		<script type="text/javascript" src="js/dropdown2.js"></script>
 		<script>
 			//TSDSFE = "http://tsds.org/get2/";
-			TSDSFE = location.href.split("#")[0];
+			TSDSFE   = location.href.split("#")[0];
 			AUTOPLOT = "http://autoplot.org/plot/dev/SimpleServlet"
 
 				$(function() {
@@ -178,7 +178,7 @@
 			
 			function getdas(attr) {
 				
-				turl = "?catalog="+selected('catalog')+"&dataset="+selected('dataset')+"&parameters="+selected('parameters')+"&return=dd";
+				turl = "?catalog="+selected('catalog')+"&dataset="+selected('dataset')+"&parameters="+selected('parameters');
 				console.log("getdas: requesting " + turl);
 				
 				$.ajax({
@@ -314,9 +314,11 @@
 			
 			function starttime(i) {
 				starttime.onselect = function () {
-					$('#datadiv').hide();	$('#outputinfo').hide();
+					$('#datadiv').hide();
+					$('#outputinfo').hide();
 				};
 
+				// Already have this info from getdas().
 				info = tsdsfeajax(i,"?catalog="+selected('catalog')+"&dataset="+selected('dataset')+"&parameters="+selected('parameters'));
 				var list = [];
 				list[0] = {};
@@ -373,7 +375,8 @@
 			function stoptime(i) {
 				stoptime.onselect = function () {
 					preview();
-					$('#datadiv').hide();	$('#outputinfo').show();				
+					$('#datadiv').hide();
+					$('#outputinfo').show();				
 				}
 
 				// No need to do this again ...

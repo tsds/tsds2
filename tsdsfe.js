@@ -1,4 +1,4 @@
-var debug        = true;
+var debug        = false;
 var debugcatalog = false;
 var debugcache   = false;
 
@@ -23,6 +23,9 @@ var util    = require('util');
 var crypto  = require("crypto");
 
 var expandISO8601Duration = require("tsdset").expandISO8601Duration;
+
+var cdir  = __dirname+"/cache/";
+
 
 http.globalAgent.maxSockets = 100;  // Most Apache servers have this set at 100.
 
@@ -95,7 +98,7 @@ server
 function handleRequest(req, res) {
 	var options = parseOptions(req);
 
-	if (debug) console.log("Handling " + req.originalUrl);
+	if (debug) console.log("handleRequest(): Handling " + req.originalUrl);
 
 	//console.log(req)
 	var urlsig = crypto.createHash("md5").update(req.originalUrl).digest("hex");
@@ -107,8 +110,19 @@ function handleRequest(req, res) {
 	var cdir  = __dirname+"/cache/";
 	var cfile = cdir+urlsig+".json";
 
+	// No cache will exist if outformat is selected.
+	if (debugcache) {
+		if (fs.existsSync(cfile)) {
+			console.log("handleRequest(): Metadata cache found "+cfile.replace(__dirname,""));
+		} else {
+			console.log("handleRequest(): Metadata cache not found "+cfile.replace(__dirname,""));
+		}
+	}
+	
 	if (options.usemetadatacache && fs.existsSync(cfile)) {
-		console.log("Using (file) metadata cache.");
+		if (debugcache) {
+			console.log("handleRequest(): Using (file) metadata cache.");
+		}
 		fs.createReadStream(cfile).pipe(res);
 		return;
 	}
@@ -125,7 +139,7 @@ function handleRequest(req, res) {
 		var starts     = options.start.split(";");
 		var stops      = options.stop.split(";");
 
-		if (debug) console.log("Concatenated parameter request. N = "+N);
+		if (debug) console.log("handleRequest(): Concatenated parameter request. N = "+N);
 		
 		var Options = [];
 		var str = JSON.stringify(options);
@@ -145,7 +159,7 @@ function handleRequest(req, res) {
 	catalog(options, stream);
 
 	function stream(status, data) {
-		if (debug) console.log("Stream called.")
+		if (debug) console.log("stream(): Stream called.")
 		//if (debug) console.log(options);
 		// If more than one resp, this won't work.
 
@@ -155,7 +169,7 @@ function handleRequest(req, res) {
 
 		if (status == 0) {
 			if (!data.match(/^http/)) {
-				if (debug) console.log("Sending "+data);				
+				if (debug) console.log("stream(): Sending "+data);				
 				res.write(data);
 				
 	    		Nc = Nc + 1;
@@ -168,7 +182,7 @@ function handleRequest(req, res) {
 				return;
 			}
 
-			if (debug) console.log("Streaming from\n"+data)
+			if (debug) console.log("stream(): Streaming from\n\t"+data)
 			var sreq = http.get(data, function(res0) {
 			//http.get(url.parse(data), function(res0) {
 				//util.pump(res0,res);return;
@@ -188,23 +202,25 @@ function handleRequest(req, res) {
 		    		res0
 		    			.on('data', function(chunk) {
 		        			res.write(chunk);
-		        			if (data.length == 0) console.log("Got first chunk of size "+chunk.length);
+		        			if (debug) {
+		        				if (data.length == 0) console.log("stream(): Got first chunk of size "+chunk.length+".");
+		        			}
 		        			data = data+chunk;
 		        			//if(!flushed) res0.pause();
 		        			//console.log("Got chunk of size "+chunk.length);
 		        			//console.log(data)
 		    			})
 		    			.on('end', function() {
-			    			if (debug) console.log('Got end.');
-				    			Nc = Nc + 1;
-				    			//if (N > 1) res.write("\n");
-			    				if (Nc == N) {
-			    				if (debug) console.log("Sending res.end().");
+			    			if (debug) console.log('stream(): Got end.');
+			    			Nc = Nc + 1;
+			    			//if (N > 1) res.write("\n");
+		    				if (Nc == N) {
+			    				if (debug) console.log("stream(): Sending res.end().");
 			    				//res.write("\n")
 			    				//console.log(data)
 				    			res.end();
 		    				} else {
-		    					if (debug) console.log("Calling catalog with Nc="+Nc);
+		    					if (debug) console.log("stream(): Calling catalog with Nc="+Nc);
 		    					catalog(Options[Nc], stream);
 		    				}
 		    			})
@@ -261,6 +277,9 @@ function parseOptions(req) {
 	options.usecache     = s2b(req.query.usecache || req.body.usecache     || "true");
 	options.usemetadatacache = s2b(req.query.usemetadatacache || req.body.usemetadatacache     || "true");
 	
+	if ((options.start === "") && (options.start === "")) {
+		options.return = "dd";
+	}
 	// Not implemented.
 	//options.useimagecache = s2b(req.query.useimagecache || req.body.useimagecache     || "true");
 	
@@ -269,21 +288,35 @@ function parseOptions(req) {
 
 function catalog(options, cb) {
 
+	// TODO: Allow this to be a URL.
+
 	var parser = new xml2js.Parser();
 	var fname = __dirname + '/uploads/all.thredds';
-	if (debug) console.log("Reading " + fname);
-
 	var resp = [];
 
+	var urlsig = crypto.createHash("md5").update(fname).digest("hex");	
+	var cfile = cdir+urlsig+".json";
+	
+	if (fs.existsSync(cfile) && options.usemetadatacache) {
+		if (debugcache) console.log("catalog(): Reading cache file "+cfile);
+		if (debugcache) console.log("catalog(): for URL "+fname);
+		var tmp = JSON.parse(fs.readFileSync(cfile).toString());
+		dataset(options,tmp,cb);
+		return;
+	}
+
+	if (debug) console.log("catalog(): Reading " + fname);
 	var data = fs.readFileSync(fname);
+	console.log("catalog(): Parsing.");
 
 	parser.parseString(data, function (err, result) {
+		console.log("catalog(): Done parsing.");
 		//console.log(result)
 		//var catalogRefs = JSON.stringify(result["catalog"]["catalogRef"]);
 			var catalogRefs = result["catalog"]["catalogRef"];
 			var xmlbase     = BASE || result["catalog"]["$"]["xml:base"];
 
-			if (debug) console.log("Found " + catalogRefs.length + " catalogRef nodes.");
+			if (debug) console.log("catalog(): Found " + catalogRefs.length + " catalogRef nodes.");
 			//console.log(options.catalog)
 			var k = 0;
 			for (var i = 0;i < catalogRefs.length;i++) {
@@ -311,16 +344,16 @@ function catalog(options, cb) {
 			if (options.dataset === "") {
 				
 				if (resp.length == 1 && options.catalog.substring(0,1) !== "^") {
-					if (debug) console.log("Fetching " + resp[0].href);
+					if (debug) console.log("catalog(): Fetching " + resp[0].href);
 					//var opts = {uri:resp[0].href,timeout:1000}; // timeout does not work
 					var opts = {uri:resp[0].href}; // Does not work
 					var xreq = request(opts, function (error, response, body) {
-						if (debug) console.log("Done Fetching " + resp[0].href);
+						if (debug) console.log("catalog(): Done Fetching " + resp[0].href);
 						if (!error && response.statusCode == 200) {
 							if (debug) console.log("Parsing " + resp[0].href);
 							parser.parseString(body, function (err, result) {
-								if (err) {console.log("Parse error.");cb(500,"Error when parsing "+resp[0].href)};
-								if (debug) console.log("Done parsing " + resp[0].href);
+								if (err) {console.log("catalog(): Parse error.");cb(500,"Error when parsing "+resp[0].href)};
+								if (debug) console.log("catalog(): Done parsing " + resp[0].href);
 								if (debugcatalog) console.log(result["catalog"]["documentation"]);
 								for (var k = 0; k < result["catalog"]["documentation"].length;k++) {
 									resp[k].title = result["catalog"]["documentation"][k]["$"]["xlink:title"];
@@ -329,7 +362,7 @@ function catalog(options, cb) {
 								cb(200,resp);
 							})
 						} else {
-							console.log("Download Error.")
+							console.log("catalog(): Download Error.")
 						}
 					});
 					//does not work.
@@ -340,7 +373,10 @@ function catalog(options, cb) {
 
 			} else {
 				dataset(options,resp,cb);
-
+				console.log("catalog(): Writing "+cfile);
+				var tmp = {};
+				fs.writeFileSync(cfile,JSON.stringify(resp));						
+				console.log("catalog(): Done.")
 			}
 		});
 }
@@ -354,14 +390,28 @@ function dataset(options,resp,cb) {
 	var datasets = [];
 	var parents = [];
 	var dresp = [];
+
 	for (var i = 0; i < N;i++) {
-		if (debug) console.log("Fetching " + resp[i].href);
+		var urlsig = crypto.createHash("md5").update(resp[i].href).digest("hex");	
+		var cfile = cdir+urlsig+".json";
+	
+		if (fs.existsSync(cfile) && options.usemetadatacache) {
+			if (debugcache) {
+				console.log("dataset(): Reading cache file "+cfile);
+				console.log("dataset(): for URL "+resp[i].href);
+			}
+			var tmp = JSON.parse(fs.readFileSync(cfile).toString());
+			parameter(options,tmp.datasets,tmp.parents,cb);
+			continue;
+		}
+
+		if (debug) console.log("dataset(): Fetching " + resp[i].href);
 		request(resp[i].href, function (error, response, body) {
-			console.log("Done fetching.");
-			console.log("Parsing.");
+			console.log("dataset(): Done fetching.");
+			console.log("dataset(): Parsing.");
 			if (!error && response.statusCode == 200) {
 				parser.parseString(body, function (err, result) {
-					if (debug) console.log("Done parsing.");
+					if (debug) console.log("dataset(): Done parsing.");
 
 					j = j+1;
 
@@ -412,7 +462,17 @@ function dataset(options,resp,cb) {
 								cb(200,dresp.filter(function(n){return n}));
 							}
 						} else {
-							parameter(options,datasets.filter(function(n){return n}),parents,cb);						
+							parameter(options,datasets.filter(function(n){return n}),parents,cb);
+							if (debugcache) {
+								console.log("dataset(): Writing "+cfile);
+							}
+							var tmp = {};
+							tmp.datasets = datasets.filter(function(n){return n});
+							tmp.parents = parents;
+							fs.writeFileSync(cfile,JSON.stringify(tmp));						
+							if (debugcache) {
+								console.log("dataset(): Done.")
+							}
 						}						
 					}
 				})
@@ -500,13 +560,18 @@ function parameter(options,datasets,catalogs,cb) {
 				} else if (mt[0].length != value.length) {
 					delete resp[i];
 				} else {
-					console.log("Match in catalog for requested parameter "+value+".")
+					if (debug)
+						console.log("parameter(): Match in catalog for requested parameter "+value+".")
 				}
 			}
 		}
 	}
 	resp = resp.filter(function(n){return n});
-	//console.log(resp[0])
+
+	if ((options.parameters === "^.*") || (options.start === "" && options.stop === "")) {
+		cb(200,resp);
+		return;
+	}
 	
 	if (options.groups === "^.*") {
 		var parinfo = {};
@@ -553,12 +618,12 @@ function parameter(options,datasets,catalogs,cb) {
 	}
 
 	start = options.start || resp[0].dd.start;
-	stop  = options.stop  || resp[0].dd.stop;
+	stop  = options.stop  || resp[0].dd.start;
 
-	if (debug) console.log("Requested start : " + options.start);
-	if (debug) console.log("DD start        : " + resp[0].dd.start);
-	if (debug) console.log("Requested stop  : " + options.stop);
-	if (debug) console.log("DD stop         : " + resp[0].dd.stop);
+	if (debug) console.log("parameter(): Requested start : " + options.start);
+	if (debug) console.log("parameter(): DD start        : " + resp[0].dd.start);
+	if (debug) console.log("parameter(): Requested stop  : " + options.stop);
+	if (debug) console.log("parameter(): DD stop         : " + resp[0].dd.stop);
 
 	var urltemplate  = resp[0].dd.urltemplate;
 	var urlprocessor = resp[0].dd.urlprocessor;
@@ -597,10 +662,6 @@ function parameter(options,datasets,catalogs,cb) {
 	if (options.return === "urilistflat") {
 		cb(0,dc+"&return=urilistflat");
 	}
-	if (options.return === "redirect") {
-		// If more than one resp, this won't work.
-		cb(302,dc);
-	}
 	if (options.return === "png" || options.return === "pdf" || options.return === "svg") {
 		// If more than one resp, this won't work.
 
@@ -625,7 +686,10 @@ function parameter(options,datasets,catalogs,cb) {
 		// If more than one resp, this won't work.
 		cb(0,"http://localhost:"+port+"/tsdsfe.jyds");
 	}
-	console.log(options)
+	if (debug) {
+		console.log("parameter(): options = ")
+		console.log(options);
+	}
 	if (options.return === "dd") {
 		ddresp = [];
 		for (var z = 0;z<resp.length;z++) {
@@ -637,6 +701,8 @@ function parameter(options,datasets,catalogs,cb) {
 			ddresp[z].columnTypes      = resp[z].dd.type;
 			ddresp[z].columnFillValues = resp[z].dd.fillvalue;
 			ddresp[z].columnRenderings = resp[z].dd.rendering;
+			ddresp[z].start = resp[z].dd.start;
+			ddresp[z].stop = resp[z].dd.stop;
 
 
 			ddresp[z].urltemplate = "";
@@ -652,10 +718,10 @@ function parameter(options,datasets,catalogs,cb) {
 			}
 		}
 		
-		cb(0,JSON.stringify(ddresp));
+		cb(200,ddresp);
 	}
 	
-	if (options.return === "stream") {				 
+	if ((options.return === "stream") || (options.return === "redirect")) {				 
 		dc = dc
 				+"&return=stream"
 				+"&lineRegExp="+(resp[0].dd.lineregex || ".")
@@ -671,6 +737,11 @@ function parameter(options,datasets,catalogs,cb) {
 				;
 
 		if (!options.usecache) dc = dc+"&forceUpdate=true&forceWrite=true"
+
+		if (options.return === "redirect") {
+			// If more than one resp, this won't work.
+			cb(302,dc);
+		}
 
 		//dc = dc+"&return=stream&lineRegExp="+resp[0].dd.lineregex + "&timecolumns="+resp[0].dd.timecolumns+"&timeformat="+resp[0].dd.timeformat+"&streamFilterReadColumns="+columns+"&lineFormatter=formattedTime&outformat="+options.outformat;
 		//console.log(dc)

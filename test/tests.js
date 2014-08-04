@@ -128,3 +128,21 @@ tests[24].url = "catalog=SWPC/AK;SWPC/AK/2DayFile&dataset=AK;AK&parameters=Plane
 tests[24].test = function (data) {var len = data.toString().split("\n").length;eval(tests[24].log);if (len == 81) {return true;} else {return false} };
 tests[24].log  = 'console.log("File should have 81 rows.  Found: " + len );';
 tests[24].note = 'This test sometimes fails at end of month because files will contain no data or will not be available.'
+
+tests[25] = {};
+tests[25].url = "catalog=SSCWeb&dataset=ace&parameters=X_TOD&start=2014-07-10&stop=2014-07-14&outformat=0";
+tests[25].test = function (data) {var len = data.toString().split("\n").length;eval(tests[25].log);if (len == 481) {return true;} else {return false} };
+tests[25].log  = 'console.log("File should have 481 rows.  Found: " + len );';
+tests[25].note = ''
+
+tests[26] = {};
+tests[26].url = "catalog=SSCWeb&dataset=ace&parameters=X_TOD&start=2014-07-10&stop=2014-07-14&outformat=1";
+tests[26].test = function (data) {var len = data.toString().split("\n").length;eval(tests[26].log);if (len == 481) {return true;} else {return false} };
+tests[26].log  = 'console.log("File should have 481 rows.  Found: " + len );';
+tests[26].note = ''
+
+tests[27] = {};
+tests[27].url = "catalog=SSCWeb&dataset=ace&parameters=X_TOD&start=2014-07-10&stop=2014-07-14&outformat=2";
+tests[27].test = function (data) {var len = data.toString().split("\n").length;eval(tests[27].log);if (len == 481) {return true;} else {return false} };
+tests[27].log  = 'console.log("File should have 481 rows.  Found: " + len );';
+tests[27].note = ''
