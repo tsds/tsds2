@@ -5,17 +5,30 @@ function s2i(str) {return parseInt(str)}
 var port          = s2i(process.argv[2] || 8000);
 var debugapp      = s2b(process.argv[3] || "false");
 var debugcache    = s2b(process.argv[4] || "false");
-var debugstrean   = s2b(process.argv[5] || "false");
+var debugstream   = s2b(process.argv[5] || "false");
 
 var AUTOPLOT = "http://autoplot.org/plot/dev/SimpleServlet";
 var DC       = "http://localhost:7999/sync/";
 
+//Typical Apache setting to have server located at http://server/get
+//ProxyPass /get http://localhost:8004 retry=1
+//ProxyPassReverse /get http://localhost:8004
+
 var TSDSFE   = "http://tsds.org/get/";
 var TSDSFE   = "http://localhost:"+port+"/";
 
-var BASE     = TSDSFE+"uploads/"; // if BASE !== "", xml:base attribute in all.thredds will be replaced with BASE.
-var TIMEOUT  = 1000*60*15; // Server timeout time in seconds.
+// if XMLBASE !== "", xml:base attribute in all.thredds will be replaced with XMLBASE.
+// all.thredds may be located on any server provided that relative paths are given for
+// catalogRef attribute xlink:href, which points to a TSML file for each catalogRef.
+var XMLBASE = TSDSFE+"catalogs/"; 
 
+// Server timeout time in milliseconds
+var TIMEOUT  = 1000*60*15; 
+
+// Location to store cached metadata
+var CDIR     = __dirname+"/cache/";
+
+// Dependencies
 var fs      = require('fs');
 var request = require("request");
 var	express = require('express');
@@ -30,75 +43,29 @@ var crypto  = require("crypto");
 
 var expandISO8601Duration = require("tsdset").expandISO8601Duration;
 
-var cdir  = __dirname+"/cache/";
+// Most Apache servers have this set at 100
+http.globalAgent.maxSockets = 100;  
 
-http.globalAgent.maxSockets = 100;  // Most Apache servers have this set at 100.
-
-app.use("/tsdsfe/js", express.static(__dirname + "/js"));
-app.use("/tsdsfe/css", express.static(__dirname + "/css"));
-app.use("/tsdsfe/scripts", express.static(__dirname + "/scripts"));
-app.use("/tsdsfe/uploads", express.static(__dirname + "/uploads"));
-
+// Serve files in these directories as static files
 app.use("/js", express.static(__dirname + "/js"));
 app.use("/css", express.static(__dirname + "/css"));
 app.use("/scripts", express.static(__dirname + "/scripts"));
-app.use("/uploads", express.static(__dirname + "/uploads"));
+app.use("/catalogs", express.static(__dirname + "/catalogs"));
 
-app.get('/tsdsfe/tsdsfe.jyds', function (req, res) {
-	if (Object.keys(req.query).length === 0) {
-		res.contentType("text/plain");
-		res.send(fs.readFileSync(__dirname+"/scripts/tsdsfe.jyds"));
-		return;
-	}
-});
-
-app.get('/tsdsfe.jyds', function (req, res) {
-	if (Object.keys(req.query).length === 0) {
-		res.contentType("text/plain");
-		res.send(fs.readFileSync(__dirname+"/scripts/tsdsfe.jyds"));
-		return;
-	}
-});
-
-app.get('/tsdsfe', function (req, res) {
-	if (Object.keys(req.query).length === 0) {
-		res.contentType("html");
-		res.send(fs.readFileSync(__dirname+"/index.htm"));
-		return;
-	}
-	//res.setTimeout(1000*60*15);
-	//req.setTimeout(1000, function () {console.log("Request Timeout")});
-
-	//setTimeout(function () {res.end();},60*3*1000)
-	handleRequest(req,res);
-});
-
-app.use("/js", express.static(__dirname + "/js"));
-app.use("/css", express.static(__dirname + "/css"));
-app.use("/scripts", express.static(__dirname + "/scripts"));
-app.use("/uploads", express.static(__dirname + "/uploads"));
-
-app.get('/tsdsfe.jyds', function (req, res) {
-	if (Object.keys(req.query).length === 0) {
-		res.contentType("text/plain");
-		res.send(fs.readFileSync(__dirname+"/scripts/tsdsfe.jyds"));
-		return;
-	}
-});
-
+// Main entry point
 app.get('/', function (req, res) {
 	if (Object.keys(req.query).length === 0) {
 		res.contentType("html");
 		res.send(fs.readFileSync(__dirname+"/index.htm"));
 		return;
 	}
-	//res.setTimeout(1000*60*15);
 	handleRequest(req,res);
 });
 
+// Start the server
 server
 	.listen(port)
-	.setTimeout(TIMEOUT,function() {console.log("TSDSFE server timeout (15 minutes).")});
+	.setTimeout(TIMEOUT,function() {console.log("TSDSFE server timeout ("+(TIMEOUT/(100*60))+" minutes).")});
 
 console.log(Date().toString() + " - TSDSFE running on port "+port);
 
@@ -107,21 +74,17 @@ function handleRequest(req, res) {
 
 	if (debugapp) console.log("handleRequest(): Handling " + req.originalUrl);
 
-	//console.log(req)
 	var urlsig = crypto.createHash("md5").update(req.originalUrl).digest("hex");
-	//console.log(urlsig);
-
-	options.urlsignature = urlsig;
 	
 	// Cache of metadata
-	var cdir  = __dirname+"/cache/";
-	var cfile = cdir+urlsig+".json";
+	var CDIR  = __dirname+"/cache/";
+	var cfile = CDIR+urlsig+".json";
 
-	// No cache will exist if outformat is selected.
 	if (debugcache) {
 		if (fs.existsSync(cfile)) {
 			console.log("handleRequest(): Metadata cache found "+cfile.replace(__dirname,""));
 		} else {
+			// No cache will exist if outformat is selected.  Data are not cached by TSDSFE.
 			console.log("handleRequest(): Metadata cache not found "+cfile.replace(__dirname,""));
 		}
 	}
@@ -130,14 +93,20 @@ function handleRequest(req, res) {
 		if (debugcache) {
 			console.log("handleRequest(): Using (file) metadata cache.");
 		}
+		// Send the cached response and finish
 		fs.createReadStream(cfile).pipe(res);
 		return;
 	}
 
-	var Nc = 0;
+	// Requests may be made that span multiple catalogs.  Separation identifier is ";".
+	// See tests.js for examples.  This is not a well-tested feature.
 	var N  = options.catalog.split(";").length;
 
-    res.setHeader("Content-Type","text/plain"); 
+	// Count of number of catalog responses sent.  Incremented each time data is sent.
+	// TODO: Move this inside of stream() and use stream.Nc as variable.
+	var Nc = 0;
+
+	res.setHeader("Content-Type","text/plain"); 
 
 	if (N > 1) {
 		var catalogs   = options.catalog.split(";");
@@ -167,25 +136,26 @@ function handleRequest(req, res) {
 
 	function stream(status, data) {
 		if (debugapp) console.log("stream(): Stream called.")
-		//if (debugapp) console.log(options);
-		// If more than one resp, this won't work.
+
+		//If more than one resp, this won't work.
 
 		if (options.attach === "true") {
 			//res.setHeader('Content-disposition', 'attachment; filename=data')
 		}
 
 		if (status == 0) {
+
 			if (!data.match(/^http/)) {
 				if (debugapp) console.log("stream(): Sending "+data);				
 				res.write(data);
 				
-	    		Nc = Nc + 1;
-	    		if (N > 1) res.write("\n");
-    			if (Nc == N) {
-	    			res.end();
-	    		} else {
-	    			catalog(Options[Nc], stream);
-	    		}
+				Nc = Nc + 1;
+				if (N > 1) res.write("\n");
+				if (Nc == N) {
+					res.end();
+				} else {
+					catalog(Options[Nc], stream);
+				}
 				return;
 			}
 
@@ -193,56 +163,56 @@ function handleRequest(req, res) {
 			var sreq = http.get(data, function(res0) {
 			//http.get(url.parse(data), function(res0) {
 				//util.pump(res0,res);return;
-		    	var data = [];
-		    	//if (debugapp) console.log(res0.headers)
-		    	//res.setHeader('Content-Disposition','attachment; filename='+res0.headers['content-disposition']);
+				var data = [];
+				//if (debugapp) console.log(res0.headers)
+				//res.setHeader('Content-Disposition','attachment; filename='+res0.headers['content-disposition']);
 				if (res0.headers["content-type"])
-		    			res.setHeader('Content-Type',res0.headers["content-type"]);
+						res.setHeader('Content-Type',res0.headers["content-type"]);
 
-		    	if (res0.headers["content-length"])
-			    	res.setHeader('Content-Length',res0.headers["content-length"]);
-		    		if (res0.headers["expires"])
-			    		res.setHeader('Expires',res0.headers["expires"]);
+				if (res0.headers["content-length"])
+					res.setHeader('Content-Length',res0.headers["content-length"]);
+					if (res0.headers["expires"])
+						res.setHeader('Expires',res0.headers["expires"]);
 
 					res0.setTimeout(1000*60*15,function () {console.log("----Timeout")});
 
-		    		res0
-		    			.on('data', function(chunk) {
-		        			res.write(chunk);
-		        			if (debugapp) {
-		        				if (data.length == 0) console.log("stream(): Got first chunk of size "+chunk.length+".");
-		        			}
-		        			data = data+chunk;
-		        			//if(!flushed) res0.pause();
-		        			//console.log("Got chunk of size "+chunk.length);
-		        			//console.log(data)
-		    			})
-		    			.on('end', function() {
-			    			if (debugapp) console.log('stream(): Got end.');
-			    			Nc = Nc + 1;
-			    			//if (N > 1) res.write("\n");
-		    				if (Nc == N) {
-			    				if (debugapp) console.log("stream(): Sending res.end().");
-			    				//res.write("\n")
-			    				//console.log(data)
-				    			res.end();
-		    				} else {
-		    					if (debugapp) console.log("stream(): Calling catalog with Nc="+Nc);
-		    					catalog(Options[Nc], stream);
-		    				}
-		    			})
-		    			.on('error',function (err) {
-		    				console.log(err);
-		    				console.log(res0);
-		    			});
+					res0
+						.on('data', function(chunk) {
+							res.write(chunk);
+							if (debugapp) {
+								if (data.length == 0) console.log("stream(): Got first chunk of size "+chunk.length+".");
+							}
+							data = data+chunk;
+							//if(!flushed) res0.pause();
+							//console.log("Got chunk of size "+chunk.length);
+							//console.log(data)
+						})
+						.on('end', function() {
+							if (debugapp) console.log('stream(): Got end.');
+							Nc = Nc + 1;
+							//if (N > 1) res.write("\n");
+							if (Nc == N) {
+								if (debugapp) console.log("stream(): Sending res.end().");
+								//res.write("\n")
+								//console.log(data)
+								res.end();
+							} else {
+								if (debugapp) console.log("stream(): Calling catalog with Nc="+Nc);
+								catalog(Options[Nc], stream);
+							}
+						})
+						.on('error',function (err) {
+							console.log(err);
+							console.log(res0);
+						});
 			}).on('error', function (err) {
-   				console.log("Error when attempting to get: ");
-   				console.log("\t" + data);
-   				console.log("Error:")
+				console.log("Error when attempting to get: ");
+				console.log("\t" + data);
+				console.log("Error:")
 				console.log(err)
 
-	    		res.status(502).send("Error when attempting to retrieve data from data from upstream server "+data.split("/")[2]);
-	    	});
+				res.status(502).send("Error when attempting to retrieve data from data from upstream server "+data.split("/")[2]);
+			});
 		} else if (status == 301) {
 			res.redirect(301,data);
 		} else {
@@ -258,8 +228,8 @@ function handleRequest(req, res) {
 				res.write(JSON.stringify(data));
 			}
 			
-			if (!fs.existsSync(cdir)) {
-				fs.mkdirSync(cdir);
+			if (!fs.existsSync(CDIR)) {
+				fs.mkdirSync(CDIR);
 			}
 
 			if (data.length > 0) {
@@ -271,24 +241,23 @@ function handleRequest(req, res) {
 			}
 
 			Nc = Nc + 1;
-    		if (N > 1) res.write("\n");
-    		if (Nc == N) {
-	    		res.end();
-	    	} else {
-	    		catalog(Options[Nc], stream);
-	    	}
+			if (N > 1) res.write("\n");
+			if (Nc == N) {
+				res.end();
+			} else {
+				catalog(Options[Nc], stream);
+			}
 		}
-		//if (debugapp) console.log("Sent response.");
 	}		
 }
 
 function parseOptions(req) {
 	var options = {};
-    
+	
 	function s2b(str) {if (str === "true") {return true} else {return false}}
 	function s2i(str) {return parseInt(str)}
 
-	options.all          = req.query.all          || req.query.body        || "/uploads/all.thredds";
+	options.all          = req.query.all          || req.query.body        || "/catalogs/all.thredds";
 	options.catalog      = req.query.catalog      || req.body.catalog      || "^.*";
 	options.dataset      = req.query.dataset      || req.body.dataset      || "";
 	options.parameters   = req.query.parameters   || req.body.parameters   || "";
@@ -312,138 +281,124 @@ function parseOptions(req) {
 	return options;
 }
 
+// After catalog() executes, it either calls dataset() or stream()
+// (will call stream() if only catalog information was requested.)
 function catalog(options, cb) {
 
 	// TODO: Allow this to be a URL.
 
 	//console.log(options)
 	var parser = new xml2js.Parser();
-	var fname = __dirname + '/uploads/all.thredds';
+	var fname = __dirname + '/catalogs/all.thredds';
 	var resp = [];
 
 	var urlsig = crypto.createHash("md5").update(fname).digest("hex");	
-	var cfile = cdir+urlsig+".json";
+	var cfile = CDIR+urlsig+".json";
 	
-	if (0) {
-	if (fs.existsSync(cfile) && options.usemetadatacache) {
-		if (debugcache) console.log("catalog(): Reading cache file "+cfile);
-		if (debugcache) console.log("catalog(): for URL "+fname);
-		var tmp = JSON.parse(fs.readFileSync(cfile).toString());
-		dataset(options,tmp,cb);
-		return;
-	}
-	}
-
 	if (debugapp) console.log("catalog(): Reading " + fname);
 	var data = fs.readFileSync(fname);
 	console.log("catalog(): Parsing.");
 
 	parser.parseString(data, function (err, result) {
 
-			// TODO: Save parsed file as json.
+		// TODO: Save parsed file as json as done in dataset().
 
-			console.log("catalog(): Done parsing.");
-			//console.log(result)
-			//var catalogRefs = JSON.stringify(result["catalog"]["catalogRef"]);
-			var catalogRefs = result["catalog"]["catalogRef"];
-			var xmlbase     = BASE || result["catalog"]["$"]["xml:base"];
+		console.log("catalog(): Done parsing.");
+		var catalogRefs = result["catalog"]["catalogRef"];
+		var xmlbase     = XMLBASE || result["catalog"]["$"]["xml:XMLBASE"];
 
-			if (debugapp) console.log("catalog(): Found " + catalogRefs.length + " catalogRef nodes.");
-			//console.log(options.catalog)
-			var k = 0;
-			for (var i = 0;i < catalogRefs.length;i++) {
-				//console.log(catalogRefs[i]["$"]["ID"])
-				resp[i] = {};
-				resp[i].value = catalogRefs[i]["$"]["ID"];
-				resp[i].label = catalogRefs[i]["$"]["name"] || catalogRefs[i]["$"]["ID"];
-				resp[i].href  = xmlbase+catalogRefs[i]["$"]["xlink:href"];
+		if (debugapp) console.log("catalog(): Found " + catalogRefs.length + " catalogRef nodes.");
+		//console.log(options.catalog)
+		var k = 0;
+		for (var i = 0;i < catalogRefs.length;i++) {
+			resp[i] = {};
+			resp[i].value = catalogRefs[i]["$"]["ID"];
+			resp[i].label = catalogRefs[i]["$"]["name"] || catalogRefs[i]["$"]["ID"];
+			resp[i].href  = xmlbase+catalogRefs[i]["$"]["xlink:href"];
 
-				if (options.catalog !== "^.*") {        
-					if (options.catalog.substring(0,1) === "^") {
-						if (!(catalogRefs[i]["$"]["ID"].match(options.catalog))) {
-							delete resp[i];
-						}        
-					} else {
-						if (!(catalogRefs[i]["$"]["ID"] === options.catalog)) {
-							delete resp[i];
-						}
+			if (options.catalog !== "^.*") {
+				if (options.catalog.substring(0,1) === "^") {
+					if (!(catalogRefs[i]["$"]["ID"].match(options.catalog))) {
+						delete resp[i];
+					}        
+				} else {
+					if (!(catalogRefs[i]["$"]["ID"] === options.catalog)) {
+						delete resp[i];
 					}
 				}
 			}
+		}
+		
+		resp = resp.filter(function(n){return n})
+
+		if (options.dataset === "") {
 			
-			resp = resp.filter(function(n){return n})
-
-			if (options.dataset === "") {
-				
-				if (resp.length == 1 && options.catalog.substring(0,1) !== "^") {
-					if (debugapp) console.log("catalog(): Fetching " + resp[0].href);
-					//var opts = {uri:resp[0].href,timeout:1000}; // timeout does not work
-					var opts = {uri:resp[0].href}; // Does not work
-					var xreq = request(opts, function (error, response, body) {
-						if (debugapp) console.log("catalog(): Done Fetching " + resp[0].href);
-						if (!error && response.statusCode == 200) {
-							if (debugapp) console.log("catalog(): Parsing " + resp[0].href);
-							parser.parseString(body, function (err, result) {
-								if (err) {console.log("catalog(): Parse error.");cb(500,"Error when parsing "+resp[0].href)};
-								if (debugapp) console.log("catalog(): Done parsing " + resp[0].href);
-								if (debugcatalog) console.log(result["catalog"]["documentation"]);
-								for (var k = 0; k < result["catalog"]["documentation"].length;k++) {
-									resp[k].title = result["catalog"]["documentation"][k]["$"]["xlink:title"];
-									resp[k].link  = result["catalog"]["documentation"][k]["$"]["xlink:href"];
-								}
-								cb(200,resp);
-							})
-						} else {
-							console.log("catalog(): Download Error.")
-						}
-					});
-					//does not work.
-					//xreq.connection.setTimeout(10, function () {console.log("Timeout");cb(500,"Timeout when attempting to fetch "+resp[0].href)});
-				} else {
-					cb(200,resp);
-				}
-
+			if (resp.length == 1 && options.catalog.substring(0,1) !== "^") {
+				if (debugapp) console.log("catalog(): Fetching " + resp[0].href);
+				//var opts = {uri:resp[0].href,timeout:1000}; // timeout does not work
+				var opts = {uri:resp[0].href}; // Does not work
+				var xreq = request(opts, function (error, response, body) {
+					if (debugapp) console.log("catalog(): Done Fetching " + resp[0].href);
+					if (!error && response.statusCode == 200) {
+						if (debugapp) console.log("catalog(): Parsing " + resp[0].href);
+						parser.parseString(body, function (err, result) {
+							if (err) {console.log("catalog(): Parse error.");cb(500,"Error when parsing "+resp[0].href)};
+							if (debugapp) console.log("catalog(): Done parsing " + resp[0].href);
+							if (debugapp) console.log(result["catalog"]["documentation"]);
+							for (var k = 0; k < result["catalog"]["documentation"].length;k++) {
+								resp[k].title = result["catalog"]["documentation"][k]["$"]["xlink:title"];
+								resp[k].link  = result["catalog"]["documentation"][k]["$"]["xlink:href"];
+							}
+							cb(200,resp);
+						})
+					} else {
+						console.log("catalog(): Download Error.")
+					}
+				});
+				//does not work.
+				//xreq.connection.setTimeout(10, function () {console.log("Timeout");cb(500,"Timeout when attempting to fetch "+resp[0].href)});
 			} else {
-				dataset(options,resp,cb);
-				//console.log("catalog(): Writing "+cfile);
-				//var tmp = {};
-				//fs.writeFileSync(cfile,JSON.stringify(resp));						
-				//console.log("catalog(): Done.")
+				cb(200,resp);
 			}
-		});
+		} else {
+			dataset(options,resp,cb);
+		}
+	});
 }
 
-function dataset(options,resp,cb) {
+// After dataset() executes, it either calls parameter() or stream().
+// (will call stream() if only dataset information was requested.)
+function dataset(options, catalogs, cb) {
 
 	var parser = new xml2js.Parser();
 	var j = 0;
-	var N = resp.length;
+	var N = catalogs.length;
 	if (N == 0) {cb(200,"[]");return;}
 	var datasets = [];
 	var parents = [];
 	var dresp = [];
 
 	for (var i = 0; i < N;i++) {
-		var urlsig = crypto.createHash("md5").update(resp[i].href).digest("hex");	
-		var cfile = cdir+urlsig+".json";
+		var urlsig = crypto.createHash("md5").update(catalogs[i].href).digest("hex");	
+		var cfile = CDIR+urlsig+".json";
 	
 		if (fs.existsSync(cfile) && options.usemetadatacache) {
 
 			if (debugcache) {
 				console.log("dataset(): Reading cache file for "+cfile);
-				console.log("dataset(): for URL "+resp[i].href);
+				console.log("dataset(): for URL "+catalogs[i].href);
 			}
 			var tmp = JSON.parse(fs.readFileSync(cfile).toString());
-			console.log("dataset(): Done");
+			if (debugcache) console.log("dataset(): Done");
 
 			j = j+1;
 			afterparse(tmp);
 
 		} else {
 
-			if (debugapp) console.log("dataset(): Fetching " + resp[i].href);
+			if (debugapp) console.log("dataset(): Fetching " + catalogs[i].href);
 
-			request(resp[i].href, function (error, response, body) {
+			request(catalogs[i].href, function (error, response, body) {
 				console.log("dataset(): Done fetching.");
 				console.log("dataset(): Parsing.");
 				if (!error && response.statusCode == 200) {
@@ -452,7 +407,7 @@ function dataset(options,resp,cb) {
 						if (debugapp) console.log("dataset(): Done parsing.");
 						console.log("dataset(): Writing cache file"+cfile);
 						fs.writeFileSync(cfile,JSON.stringify(result));
-						console.log("dataset(): Done.")
+						if (debugapp) console.log("dataset(): Done.")
 
 						j = j+1;
 
@@ -515,13 +470,13 @@ function dataset(options,resp,cb) {
 					cb(200,dresp.filter(function(n){return n}));
 				}
 			} else {
-				parameter(options,datasets.filter(function(n){return n}),parents,cb);
+				parameter(options,parents,datasets.filter(function(n){return n}),cb);
 			}						
 		}
 	}
 }
 
-function parameter(options,datasets,catalogs,cb) {
+function parameter(options, catalogs, datasets, cb) {
 
 	if (options.groups === "^.*") {
 		options.parameters = "^.*";
