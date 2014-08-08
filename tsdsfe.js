@@ -1,14 +1,20 @@
-var debug        = false;
-var debugcatalog = false;
-var debugcache   = false;
+function s2b(str) {if (str === "true") {return true} else {return false}}
+function s2i(str) {return parseInt(str)}
+
+// Get port number from command line option.
+var port          = s2i(process.argv[2] || 8000);
+var debugapp      = s2b(process.argv[3] || "false");
+var debugcache    = s2b(process.argv[4] || "false");
+var debugstrean   = s2b(process.argv[5] || "false");
 
 var AUTOPLOT = "http://autoplot.org/plot/dev/SimpleServlet";
+var DC       = "http://localhost:7999/sync/";
+
 var TSDSFE   = "http://tsds.org/get/";
-var TSDSFE   = "http://localhost:8004/";
+var TSDSFE   = "http://localhost:"+port+"/";
+
 var BASE     = TSDSFE+"uploads/"; // if BASE !== "", xml:base attribute in all.thredds will be replaced with BASE.
 var TIMEOUT  = 1000*60*15; // Server timeout time in seconds.
-var port     = process.argv[2] || 8004;
-var DC       = "http://localhost:7999/sync/";
 
 var fs      = require('fs');
 var request = require("request");
@@ -25,7 +31,6 @@ var crypto  = require("crypto");
 var expandISO8601Duration = require("tsdset").expandISO8601Duration;
 
 var cdir  = __dirname+"/cache/";
-
 
 http.globalAgent.maxSockets = 100;  // Most Apache servers have this set at 100.
 
@@ -95,10 +100,12 @@ server
 	.listen(port)
 	.setTimeout(TIMEOUT,function() {console.log("TSDSFE server timeout (15 minutes).")});
 
+console.log(Date().toString() + " - TSDSFE running on port "+port);
+
 function handleRequest(req, res) {
 	var options = parseOptions(req);
 
-	if (debug) console.log("handleRequest(): Handling " + req.originalUrl);
+	if (debugapp) console.log("handleRequest(): Handling " + req.originalUrl);
 
 	//console.log(req)
 	var urlsig = crypto.createHash("md5").update(req.originalUrl).digest("hex");
@@ -139,7 +146,7 @@ function handleRequest(req, res) {
 		var starts     = options.start.split(";");
 		var stops      = options.stop.split(";");
 
-		if (debug) console.log("handleRequest(): Concatenated parameter request. N = "+N);
+		if (debugapp) console.log("handleRequest(): Concatenated parameter request. N = "+N);
 		
 		var Options = [];
 		var str = JSON.stringify(options);
@@ -159,8 +166,8 @@ function handleRequest(req, res) {
 	catalog(options, stream);
 
 	function stream(status, data) {
-		if (debug) console.log("stream(): Stream called.")
-		//if (debug) console.log(options);
+		if (debugapp) console.log("stream(): Stream called.")
+		//if (debugapp) console.log(options);
 		// If more than one resp, this won't work.
 
 		if (options.attach === "true") {
@@ -169,7 +176,7 @@ function handleRequest(req, res) {
 
 		if (status == 0) {
 			if (!data.match(/^http/)) {
-				if (debug) console.log("stream(): Sending "+data);				
+				if (debugapp) console.log("stream(): Sending "+data);				
 				res.write(data);
 				
 	    		Nc = Nc + 1;
@@ -182,12 +189,12 @@ function handleRequest(req, res) {
 				return;
 			}
 
-			if (debug) console.log("stream(): Streaming from\n\t"+data)
+			if (debugapp) console.log("stream(): Streaming from\n\t"+data)
 			var sreq = http.get(data, function(res0) {
 			//http.get(url.parse(data), function(res0) {
 				//util.pump(res0,res);return;
 		    	var data = [];
-		    	//if (debug) console.log(res0.headers)
+		    	//if (debugapp) console.log(res0.headers)
 		    	//res.setHeader('Content-Disposition','attachment; filename='+res0.headers['content-disposition']);
 				if (res0.headers["content-type"])
 		    			res.setHeader('Content-Type',res0.headers["content-type"]);
@@ -202,7 +209,7 @@ function handleRequest(req, res) {
 		    		res0
 		    			.on('data', function(chunk) {
 		        			res.write(chunk);
-		        			if (debug) {
+		        			if (debugapp) {
 		        				if (data.length == 0) console.log("stream(): Got first chunk of size "+chunk.length+".");
 		        			}
 		        			data = data+chunk;
@@ -211,38 +218,57 @@ function handleRequest(req, res) {
 		        			//console.log(data)
 		    			})
 		    			.on('end', function() {
-			    			if (debug) console.log('stream(): Got end.');
+			    			if (debugapp) console.log('stream(): Got end.');
 			    			Nc = Nc + 1;
 			    			//if (N > 1) res.write("\n");
 		    				if (Nc == N) {
-			    				if (debug) console.log("stream(): Sending res.end().");
+			    				if (debugapp) console.log("stream(): Sending res.end().");
 			    				//res.write("\n")
 			    				//console.log(data)
 				    			res.end();
 		    				} else {
-		    					if (debug) console.log("stream(): Calling catalog with Nc="+Nc);
+		    					if (debugapp) console.log("stream(): Calling catalog with Nc="+Nc);
 		    					catalog(Options[Nc], stream);
 		    				}
 		    			})
 		    			.on('error',function (err) {
 		    				console.log(err);
+		    				console.log(res0);
 		    			});
 			}).on('error', function (err) {
+   				console.log("Error when attempting to get: ");
+   				console.log("\t" + data);
+   				console.log("Error:")
 				console.log(err)
-	    		res.status(502).send("Error when attempting to retrieve data from data from upstream server: "+err);
+
+	    		res.status(502).send("Error when attempting to retrieve data from data from upstream server "+data.split("/")[2]);
 	    	});
 		} else if (status == 301) {
 			res.redirect(301,data);
 		} else {
-			console.log("Sending JSON.")
-			res.write(JSON.stringify(data));
+			console.log("Sending JSON.");
+
+			if (typeof(data) === "string") {
+				// Script.
+				res.setHeader('Content-Type','text/plain');
+				res.write(data);
+				res.end();
+				return;
+			} else {
+				res.write(JSON.stringify(data));
+			}
 			
 			if (!fs.existsSync(cdir)) {
 				fs.mkdirSync(cdir);
 			}
-			fs.writeFile(cfile,JSON.stringify(data),function (err) {
-				console.log("Wrote metadata cache file: ");console.log("\t"+cfile);
-			});
+
+			if (data.length > 0) {
+				fs.writeFile(cfile,JSON.stringify(data),function (err) {
+					if (debugcache) console.log("Wrote JSON cache file for request "+req.originalUrl);console.log("\t"+cfile);
+				});
+			} else {
+				if (debugcache) console.log("JSON for " + req.originalUrl + " has zero length.  Not writing cache file.")
+			}
 
 			Nc = Nc + 1;
     		if (N > 1) res.write("\n");
@@ -252,7 +278,7 @@ function handleRequest(req, res) {
 	    		catalog(Options[Nc], stream);
 	    	}
 		}
-		//if (debug) console.log("Sent response.");
+		//if (debugapp) console.log("Sent response.");
 	}		
 }
 
@@ -290,6 +316,7 @@ function catalog(options, cb) {
 
 	// TODO: Allow this to be a URL.
 
+	//console.log(options)
 	var parser = new xml2js.Parser();
 	var fname = __dirname + '/uploads/all.thredds';
 	var resp = [];
@@ -297,6 +324,7 @@ function catalog(options, cb) {
 	var urlsig = crypto.createHash("md5").update(fname).digest("hex");	
 	var cfile = cdir+urlsig+".json";
 	
+	if (0) {
 	if (fs.existsSync(cfile) && options.usemetadatacache) {
 		if (debugcache) console.log("catalog(): Reading cache file "+cfile);
 		if (debugcache) console.log("catalog(): for URL "+fname);
@@ -304,19 +332,23 @@ function catalog(options, cb) {
 		dataset(options,tmp,cb);
 		return;
 	}
+	}
 
-	if (debug) console.log("catalog(): Reading " + fname);
+	if (debugapp) console.log("catalog(): Reading " + fname);
 	var data = fs.readFileSync(fname);
 	console.log("catalog(): Parsing.");
 
 	parser.parseString(data, function (err, result) {
-		console.log("catalog(): Done parsing.");
-		//console.log(result)
-		//var catalogRefs = JSON.stringify(result["catalog"]["catalogRef"]);
+
+			// TODO: Save parsed file as json.
+
+			console.log("catalog(): Done parsing.");
+			//console.log(result)
+			//var catalogRefs = JSON.stringify(result["catalog"]["catalogRef"]);
 			var catalogRefs = result["catalog"]["catalogRef"];
 			var xmlbase     = BASE || result["catalog"]["$"]["xml:base"];
 
-			if (debug) console.log("catalog(): Found " + catalogRefs.length + " catalogRef nodes.");
+			if (debugapp) console.log("catalog(): Found " + catalogRefs.length + " catalogRef nodes.");
 			//console.log(options.catalog)
 			var k = 0;
 			for (var i = 0;i < catalogRefs.length;i++) {
@@ -344,16 +376,16 @@ function catalog(options, cb) {
 			if (options.dataset === "") {
 				
 				if (resp.length == 1 && options.catalog.substring(0,1) !== "^") {
-					if (debug) console.log("catalog(): Fetching " + resp[0].href);
+					if (debugapp) console.log("catalog(): Fetching " + resp[0].href);
 					//var opts = {uri:resp[0].href,timeout:1000}; // timeout does not work
 					var opts = {uri:resp[0].href}; // Does not work
 					var xreq = request(opts, function (error, response, body) {
-						if (debug) console.log("catalog(): Done Fetching " + resp[0].href);
+						if (debugapp) console.log("catalog(): Done Fetching " + resp[0].href);
 						if (!error && response.statusCode == 200) {
-							if (debug) console.log("Parsing " + resp[0].href);
+							if (debugapp) console.log("catalog(): Parsing " + resp[0].href);
 							parser.parseString(body, function (err, result) {
 								if (err) {console.log("catalog(): Parse error.");cb(500,"Error when parsing "+resp[0].href)};
-								if (debug) console.log("catalog(): Done parsing " + resp[0].href);
+								if (debugapp) console.log("catalog(): Done parsing " + resp[0].href);
 								if (debugcatalog) console.log(result["catalog"]["documentation"]);
 								for (var k = 0; k < result["catalog"]["documentation"].length;k++) {
 									resp[k].title = result["catalog"]["documentation"][k]["$"]["xlink:title"];
@@ -373,10 +405,10 @@ function catalog(options, cb) {
 
 			} else {
 				dataset(options,resp,cb);
-				console.log("catalog(): Writing "+cfile);
-				var tmp = {};
-				fs.writeFileSync(cfile,JSON.stringify(resp));						
-				console.log("catalog(): Done.")
+				//console.log("catalog(): Writing "+cfile);
+				//var tmp = {};
+				//fs.writeFileSync(cfile,JSON.stringify(resp));						
+				//console.log("catalog(): Done.")
 			}
 		});
 }
@@ -396,90 +428,96 @@ function dataset(options,resp,cb) {
 		var cfile = cdir+urlsig+".json";
 	
 		if (fs.existsSync(cfile) && options.usemetadatacache) {
+
 			if (debugcache) {
-				console.log("dataset(): Reading cache file "+cfile);
+				console.log("dataset(): Reading cache file for "+cfile);
 				console.log("dataset(): for URL "+resp[i].href);
 			}
 			var tmp = JSON.parse(fs.readFileSync(cfile).toString());
-			parameter(options,tmp.datasets,tmp.parents,cb);
-			continue;
-		}
+			console.log("dataset(): Done");
 
-		if (debug) console.log("dataset(): Fetching " + resp[i].href);
-		request(resp[i].href, function (error, response, body) {
-			console.log("dataset(): Done fetching.");
-			console.log("dataset(): Parsing.");
-			if (!error && response.statusCode == 200) {
-				parser.parseString(body, function (err, result) {
-					if (debug) console.log("dataset(): Done parsing.");
+			j = j+1;
+			afterparse(tmp);
 
+		} else {
+
+			if (debugapp) console.log("dataset(): Fetching " + resp[i].href);
+
+			request(resp[i].href, function (error, response, body) {
+				console.log("dataset(): Done fetching.");
+				console.log("dataset(): Parsing.");
+				if (!error && response.statusCode == 200) {
+					parser.parseString(body, function (err, result) {
+
+						if (debugapp) console.log("dataset(): Done parsing.");
+						console.log("dataset(): Writing cache file"+cfile);
+						fs.writeFileSync(cfile,JSON.stringify(result));
+						console.log("dataset(): Done.")
+
+						j = j+1;
+
+						afterparse(result);
+					})
+				} else {
 					j = j+1;
+				}
+			})
 
-					var parent = result["catalog"]["$"]["id"] || result["catalog"]["$"]["ID"];
-					var tmparr = result["catalog"]["dataset"];
-					datasets = datasets.concat(tmparr);
-					while (parents.length < datasets.length) {parents = parents.concat(parent)}
+		}
+	}
 
-					if (j == N) {
+	function afterparse(result) {
 
-						for (var i = 0;i < datasets.length;i++) {
-							dresp[i]          = {};
-							dresp[i].value    = datasets[i]["$"]["id"] || datasets[i]["$"]["ID"];
-							dresp[i].label    = datasets[i]["$"]["name"] || dresp[i].value;
-							dresp[i].catalog  = parents[i];
+		var parent = result["catalog"]["$"]["id"] || result["catalog"]["$"]["ID"];
+		var tmparr = result["catalog"]["dataset"];
+		datasets = datasets.concat(tmparr);
+		while (parents.length < datasets.length) {parents = parents.concat(parent)}
 
-							//console.log(options.dataset)
-							if (options.dataset !== "^.*") {	
-								if (options.dataset.substring(0,1) === "^") {
-									if (!(dresp[i].value.match(options.dataset))) {
-										delete dresp[i];
-										delete datasets[i];
-									}	
-								} else {
-									if (!(dresp[i].value === options.dataset)) {
-										delete dresp[i];
-										delete datasets[i];
-									} else {
-										var z = i;
-									}
-								}
-							}
-						}
-						if (options.parameters === "" && !(options.groups === "^.*")) {
-							dresp = dresp.filter(function(n){return n;});
-							if (dresp.length == 1 && options.dataset.substring(0,1) !== "^") {
-								if (typeof(datasets[z]["documentation"]) !== "undefined") {
-									for (var k = 0; k < datasets[z]["documentation"].length;k++) {
-										dresp[k].title = datasets[z]["documentation"][k]["$"]["xlink:title"];
-										dresp[k].link  = datasets[z]["documentation"][k]["$"]["xlink:href"];
-									}
-								} else {
-									dresp[0].title = "No dataset documentation in catalog";
-									dresp[0].link  = "";									
-								}
-								cb(200,dresp);
-							} else {
-								cb(200,dresp.filter(function(n){return n}));
-							}
+		if (j == N) {
+
+			for (var i = 0;i < datasets.length;i++) {
+				dresp[i]          = {};
+				dresp[i].value    = datasets[i]["$"]["id"] || datasets[i]["$"]["ID"];
+				dresp[i].label    = datasets[i]["$"]["name"] || dresp[i].value;
+				dresp[i].catalog  = parents[i];
+
+				//console.log(options.dataset)
+				if (options.dataset !== "^.*") {	
+					if (options.dataset.substring(0,1) === "^") {
+						if (!(dresp[i].value.match(options.dataset))) {
+							delete dresp[i];
+							delete datasets[i];
+						}	
+					} else {
+						if (!(dresp[i].value === options.dataset)) {
+							delete dresp[i];
+							delete datasets[i];
 						} else {
-							parameter(options,datasets.filter(function(n){return n}),parents,cb);
-							if (debugcache) {
-								console.log("dataset(): Writing "+cfile);
-							}
-							var tmp = {};
-							tmp.datasets = datasets.filter(function(n){return n});
-							tmp.parents = parents;
-							fs.writeFileSync(cfile,JSON.stringify(tmp));						
-							if (debugcache) {
-								console.log("dataset(): Done.")
-							}
-						}						
+							var z = i;
+						}
 					}
-				})
-			} else {
-				j = j+1;
+				}
 			}
-		})
+			if (options.parameters === "" && !(options.groups === "^.*")) {
+				dresp = dresp.filter(function(n){return n;});
+				if (dresp.length == 1 && options.dataset.substring(0,1) !== "^") {
+					if (typeof(datasets[z]["documentation"]) !== "undefined") {
+						for (var k = 0; k < datasets[z]["documentation"].length;k++) {
+							dresp[k].title = datasets[z]["documentation"][k]["$"]["xlink:title"];
+							dresp[k].link  = datasets[z]["documentation"][k]["$"]["xlink:href"];
+						}
+					} else {
+						dresp[0].title = "No dataset documentation in catalog";
+						dresp[0].link  = "";									
+					}
+					cb(200,dresp);
+				} else {
+					cb(200,dresp.filter(function(n){return n}));
+				}
+			} else {
+				parameter(options,datasets.filter(function(n){return n}),parents,cb);
+			}						
+		}
 	}
 }
 
@@ -560,7 +598,7 @@ function parameter(options,datasets,catalogs,cb) {
 				} else if (mt[0].length != value.length) {
 					delete resp[i];
 				} else {
-					if (debug)
+					if (debugapp)
 						console.log("parameter(): Match in catalog for requested parameter "+value+".")
 				}
 			}
@@ -620,10 +658,10 @@ function parameter(options,datasets,catalogs,cb) {
 	start = options.start || resp[0].dd.start;
 	stop  = options.stop  || resp[0].dd.start;
 
-	if (debug) console.log("parameter(): Requested start : " + options.start);
-	if (debug) console.log("parameter(): DD start        : " + resp[0].dd.start);
-	if (debug) console.log("parameter(): Requested stop  : " + options.stop);
-	if (debug) console.log("parameter(): DD stop         : " + resp[0].dd.stop);
+	if (debugapp) console.log("parameter(): Requested start : " + options.start);
+	if (debugapp) console.log("parameter(): DD start        : " + resp[0].dd.start);
+	if (debugapp) console.log("parameter(): Requested stop  : " + options.stop);
+	if (debugapp) console.log("parameter(): DD stop         : " + resp[0].dd.stop);
 
 	var urltemplate  = resp[0].dd.urltemplate;
 	var urlprocessor = resp[0].dd.urlprocessor;
@@ -662,31 +700,54 @@ function parameter(options,datasets,catalogs,cb) {
 	if (options.return === "urilistflat") {
 		cb(0,dc+"&return=urilistflat");
 	}
-	if (options.return === "png" || options.return === "pdf" || options.return === "svg") {
+	if (options.return === "png" || options.return === "pdf" || options.return === "svg" || options.return === "jyds" || options.return === "matlab") {
 		// If more than one resp, this won't work.
+
+		var Labels = "'";
+		var Parameters = "";
+		for (var z = 0;z<resp.length;z++) {
+			Parameters = Parameters + resp[z].parameter + ",";
+			Labels = Labels + resp[z].parameter + " [" + resp[z].dd.units + "]','";
+		}
+
+		if (options.return === "matlab") {
+			// If more than one resp, this won't work.
+			var script = fs.readFileSync(__dirname + "/scripts/tsdsfe.m").toString();
+
+			script = script.replace("__SERVER__",TSDSFE).replace("__QUERYSTRING__","catalog="+resp[0].catalog+"&dataset="+resp[0].dataset+"&parameters="+Parameters.slice(0,-1)+"&start="+start+"&stop="+stop+"&outformat=2");
+			script = script.replace("__LABELS__",Labels.slice(0,-2));
+			cb(200,script);
+			return;
+		}
+
+		var tmp = expandISO8601Duration(start+"/"+stop,{debug:false})
+		console.log(tmp);
+		start = tmp.split("/")[0].substring(0,10);
+		stop = tmp.split("/")[1].substring(0,10);
+		url = "http://autoplot.org/git/jyds/tsdsfe.jyds?server="+TSDSFE+"&catalog="+resp[0].catalog+"&dataset="+resp[0].dataset+"&parameters="+resp[0].parameter+"&timerange="+start+"/"+stop;
+
+		if (options.return === "jyds") {
+			cb(301,"http://autoplot.org/autoplot.jnlp?open=vap+jyds:"+url);
+			return;
+		}
+
+		if (resp[0].label !== "") url = url + "&labels="+resp[0].label;
+		if (resp[0].units !== "")  {url = url + " ["+resp[0].units+"]" +"&units="+resp[0].units;}
+		if (resp[0].fill !== "")  url = url + "&fills="+resp[0].fill;
 
 		var format = "image/png";
 		if (options.return === "pdf") {format = "application/pdf"}
 		if (options.return === "svg") {format = "image/svg%2Bxml"}
 		
-		var tmp = expandISO8601Duration(start+"/"+stop,{debug:false})
-		console.log(tmp);
-		start = tmp.split("/")[0].substring(0,10);
-		stop = tmp.split("/")[1].substring(0,10);
-		url = TSDSFE + "tsdsfe.jyds?server="+TSDSFE+"&catalog="+resp[0].catalog+"&dataset="+resp[0].dataset+"&parameters="+resp[0].parameter+"&timerange="+start+"/"+stop;
-		if (resp[0].label !== "") url = url + "&labels="+resp[0].label;
-		if (resp[0].units !== "")  {url = url + " ["+resp[0].units+"]" +"&units="+resp[0].units;}
-		if (resp[0].fill !== "")  url = url + "&fills="+resp[0].fill;
 		var aurl = AUTOPLOT + "?drawGrid=true&format="+format+"&plot.xaxis.drawTickLabels=true&width=800&height=200&url=vap+jyds:" + encodeURIComponent(url);	
 		console.log(aurl);
 		console.log(typeof(aurl))
 		cb(0,aurl);
+		return;
 	}
-	if (options.return === "jyds") {
-		// If more than one resp, this won't work.
-		cb(0,"http://localhost:"+port+"/tsdsfe.jyds");
-	}
-	if (debug) {
+
+
+	if (debugapp) {
 		console.log("parameter(): options = ")
 		console.log(options);
 	}

@@ -6,7 +6,6 @@
 // Run all tests including and after test 3:
 //		node test/test.js 3 true
 
-
 var N    = 10;
 var port = 8004;
 

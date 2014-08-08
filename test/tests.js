@@ -146,3 +146,9 @@ tests[27].url = "catalog=SSCWeb&dataset=ace&parameters=X_TOD&start=2014-07-10&st
 tests[27].test = function (data) {var len = data.toString().split("\n").length;eval(tests[27].log);if (len == 481) {return true;} else {return false} };
 tests[27].log  = 'console.log("File should have 481 rows.  Found: " + len );';
 tests[27].note = ''
+
+tests[28] = {};
+tests[28].url = "catalog=SuperMAG/PT1M&dataset=BLC&parameters=B_N&start=-P3D&stop=1990-01-10&outformat=1";
+tests[28].test = function (data) {var len = data.toString().split("\n").length;eval(tests[28].log);if (len == 4321) {return true;} else {return false} };
+tests[28].log  = 'console.log("File should have 4321 rows.  Found: " + len );';
+tests[28].note = ''

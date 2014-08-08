@@ -61,6 +61,7 @@ function dropdown2(ids, names, funs, after, i, selected, callback) {
 					}
 					
 				});
+
 				if (ui.item == null) {
 					ui.item = {};
 					console.log("ui.item == null.  Setting it to "+$('input[id=' + id + ']').parent().parent().attr('value'))
@@ -93,7 +94,7 @@ function dropdown2(ids, names, funs, after, i, selected, callback) {
 						}
 						val = ui.item.value || event.target.value;
 						
-						var vallast = $('input[id=' + id + ']').parent().parent().attr('value');
+						var vallast = $('input[id=' + id + ']').parent().parent().attr('valuelast');
 
 						console.log("ui.item.value : " + val)
 						console.log("valuelast: " + vallast)
@@ -106,6 +107,7 @@ function dropdown2(ids, names, funs, after, i, selected, callback) {
 							console.log("dropdown2: select() is setting valuelast to " + val);
 							$(after+i).attr('name',id).attr('valuelast',val);
 						}
+						$(after+i).attr('name',id).attr('valuelast',val);
 
 						if (location.hash === "") {
 							var qs = {};
@@ -157,18 +159,22 @@ function dropdown2(ids, names, funs, after, i, selected, callback) {
 		.append('<span class="dropdown2" style="width:5px;display:table-cell"></span>')
 		.append('<label id="'+ids[i]+'list" class="dropdown2" title="Show full list" style="width:1em;display:table-cell;cursor:pointer">&#9660;</label>');
 	
+
 	// Append is syncronous, so this won't happen before element is in DOM.
 	// Allow entries not in list.
 	$(after + (i) + ' input[id=' + ids[i] + ']').live('input',function () {
 		$(this).parent().parent().attr('value',$(this).attr('value'));
 	});
 	
-	console.log("Calling ac().")
+
 	// If only one item, select it.
 	console.log("dropdowns2: Calling " + funs[i].toString().substring(9,20));
 	var list = funs[i](i,selected);
+
+	console.log("Calling ac().");
 	ac(i,list);
 	settoggle(i);
+
 	$('input[id=' + ids[i] + ']').keypress(function(e) {
 		  	console.log( "dropdowns2: Handler for .keypress() called." );
 		    var val = $(this).parent().parent().attr('value');
