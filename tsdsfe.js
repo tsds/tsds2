@@ -7,8 +7,9 @@ var debugapp      = s2b(process.argv[3] || "false");
 var debugcache    = s2b(process.argv[4] || "false");
 var debugstream   = s2b(process.argv[5] || "false");
 
-var AUTOPLOT = "http://autoplot.org/plot/dev/SimpleServlet";
+var AUTOPLOT = "http://autoplot.org/plot/SimpleServlet";
 var DC       = "http://localhost:7999/sync/";
+var JYDS     = "http://autoplot.org/git/jyds/tsdsfe.jyds";  // Used to create images.
 
 //Typical Apache setting to have server located at http://server/get
 //ProxyPass /get http://localhost:8004 retry=1
@@ -270,6 +271,9 @@ function parseOptions(req) {
 	options.filter       = req.query.filter       || req.body.filter       || "";
 	options.filterWindow = req.query.filterWindow || req.body.filterWindow || "0";
 	options.usecache     = s2b(req.query.usecache || req.body.usecache     || "true");
+
+	// Always use cache and don't try to see if update exists.  If false and update fails, cache will be used
+	// and warning given in header.
 	options.usemetadatacache = s2b(req.query.usemetadatacache || req.body.usemetadatacache     || "true");
 	
 	if ((options.start === "") && (options.start === "")) {
@@ -285,7 +289,7 @@ function parseOptions(req) {
 // (will call stream() if only catalog information was requested.)
 function catalog(options, cb) {
 
-	// TODO: Allow this to be a URL.
+	// TODO: Allow this to be a URL.  Follow pattern similar to dataset().
 
 	//console.log(options)
 	var parser = new xml2js.Parser();
@@ -378,14 +382,19 @@ function dataset(options, catalogs, cb) {
 	var parents = [];
 	var dresp = [];
 
+	// TODO: Add a header if error along the way was saved by a cache file.
+
+	// Loop over each catalog
 	for (var i = 0; i < N;i++) {
 		var urlsig = crypto.createHash("md5").update(catalogs[i].href).digest("hex");	
+		
+		// cache file for each catalog
 		var cfile = CDIR+urlsig+".json";
-	
-		if (fs.existsSync(cfile) && options.usemetadatacache) {
 
+		if (fs.existsSync(cfile) && options.usemetadatacache) {
+			// If cache file exists and always using metadata cache
 			if (debugcache) {
-				console.log("dataset(): Reading cache file for "+cfile);
+				console.log("dataset(): usemetadatacache = true.  Reading cache file "+cfile);
 				console.log("dataset(): for URL "+catalogs[i].href);
 			}
 			var tmp = JSON.parse(fs.readFileSync(cfile).toString());
@@ -396,28 +405,85 @@ function dataset(options, catalogs, cb) {
 
 		} else {
 
-			if (debugapp) console.log("dataset(): Fetching " + catalogs[i].href);
-
-			request(catalogs[i].href, function (error, response, body) {
-				console.log("dataset(): Done fetching.");
-				console.log("dataset(): Parsing.");
-				if (!error && response.statusCode == 200) {
-					parser.parseString(body, function (err, result) {
-
-						if (debugapp) console.log("dataset(): Done parsing.");
-						console.log("dataset(): Writing cache file"+cfile);
-						fs.writeFileSync(cfile,JSON.stringify(result));
-						if (debugapp) console.log("dataset(): Done.")
-
-						j = j+1;
-
-						afterparse(result);
-					})
-				} else {
-					j = j+1;
+			// Do head request for catalog file that contains list of datasets.
+			var hreq = request.head(catalogs[i].href, function (herror, hresponse) {
+				if (!herror && hresponse.statusCode != 200) {
+					herror = true;
 				}
-			})
 
+				if (herror) {
+					if (debugcache) {
+						console.log("dataset(): Error when making head request for "+hresponse.request.uri.href);
+						console.log("dataset(): Will check if cache file exists.");
+					}
+				}
+
+				if (fs.existsSync(cfile) && !herror) {
+					var dhead = new Date(hresponse.headers["last-modified"]);
+					if (debugcache) console.log("dataset(): Last-modified time: "+dhead);
+					var fstat = fs.statSync(cfile).mtime;
+					var dfile = new Date(fstat);
+					if (debugcache) console.log('dataset(): Cache file found.  File created: ' + fstat);
+					var age = dhead.getTime() - dfile.getTime();
+					if (debugcache) console.log('dataset(): last modified time - file last write time = '+age);
+				}
+
+				if (age <= 0) {
+					console.log("dataset(): Cache file has not expired.  Reading cache file "+cfile.replace(__dirname,""));
+					console.log("dataset(): for URL "+hresponse.request.uri.href);
+					var tmp = JSON.parse(fs.readFileSync(cfile).toString());
+					if (debugcache) console.log("dataset(): Done");
+
+					j = j+1;
+					afterparse(tmp);
+					return;
+				}
+
+				if (debugapp) console.log("dataset(): Fetching " + hresponse.request.uri.href);
+				request(hresponse.request.uri.href, function (error, response, body) {
+					if (!error && response.statusCode != 200) {
+						error = true;
+					}
+
+					if ((error) && fs.existsSync(cfile))  {
+						if (debugapp) console.log("dataset(): Request failed for "+hres.request.uri.href);
+						if (debugapp) console.log("dataset(): Using cached file.")
+						var tmp = JSON.parse(fs.readFileSync(cfile).toString());
+						j = j+1;
+						afterparse(tmp);
+						return;
+					}
+					if ((error) && !fs.existsSync(cfile) && (N == 1))  {
+						if (debugapp) console.log("Could not fetch "+response.request.uri.href + " and no cached version exists.");
+						cb("502","Could not fetch "+response.request.uri.href + " and no cached version exists.");
+						return;
+					}
+
+					if (debugapp) console.log("dataset(): Done fetching.");
+					if (debugapp) console.log("dataset(): Parsing.");
+
+					if (!error && response.statusCode == 200) {
+						parser.parseString(body, function (err, tmp) {
+
+							if (err) {
+								cb("502","Could not parse "+hres.request.uri.href+".");
+								return;
+							}
+
+							if (debugapp) console.log("dataset(): Done parsing.");
+							if (debugcache) console.log("dataset(): Writing cache file"+cfile);
+							fs.writeFileSync(cfile,JSON.stringify(tmp));
+							if (debugapp) console.log("dataset(): Done.")
+
+							j = j+1;
+
+							afterparse(tmp);
+						})
+					} else {
+						j = j+1;
+					}
+				});
+			})
 		}
 	}
 
@@ -532,7 +598,7 @@ function parameter(options, catalogs, datasets, cb) {
 		if (!('start' in resp[i].dd))        {resp[i].dd.start = parents[i]["start"]}
 		if (!('stop' in resp[i].dd))         {resp[i].dd.stop = parents[i]["stop"]}
 		if (!('cadence' in resp[i].dd))      {resp[i].dd.cadence = parents[i]["cadence"]}
-		if (!('fillvalue' in resp[i].dd))    {resp[i].dd.fill = parameters[i]["$"]["fillvalue"] || ""}
+		if (!('fillvalue' in resp[i].dd))    {resp[i].dd.fillvalue = parameters[i]["$"]["fillvalue"] || ""}
 		
 		if (options.parameters !== "^.*") {				
 
@@ -655,7 +721,7 @@ function parameter(options, catalogs, datasets, cb) {
 	if (options.return === "urilistflat") {
 		cb(0,dc+"&return=urilistflat");
 	}
-	if (options.return === "png" || options.return === "pdf" || options.return === "svg" || options.return === "jyds" || options.return === "matlab") {
+	if (options.return === "png" || options.return === "pdf" || options.return === "svg" || options.return === "jyds" || options.return === "matlab" || options.return === "idl") {
 		// If more than one resp, this won't work.
 
 		var Labels = "'";
@@ -665,10 +731,13 @@ function parameter(options, catalogs, datasets, cb) {
 			Labels = Labels + resp[z].parameter + " [" + resp[z].dd.units + "]','";
 		}
 
-		if (options.return === "matlab") {
-			// If more than one resp, this won't work.
-			var script = fs.readFileSync(__dirname + "/scripts/tsdsfe.m").toString();
+		if ((options.return === "matlab") || (options.return === "idl")) {
 
+			if (options.return === "matlab") var ext = "m";
+			if (options.return === "idl") var ext = "pro";
+
+			var script = fs.readFileSync(__dirname + "/scripts/tsdsfe."+ext).toString();
+			console.log(script)
 			script = script.replace("__SERVER__",TSDSFE).replace("__QUERYSTRING__","catalog="+resp[0].catalog+"&dataset="+resp[0].dataset+"&parameters="+Parameters.slice(0,-1)+"&start="+start+"&stop="+stop+"&outformat=2");
 			script = script.replace("__LABELS__",Labels.slice(0,-2));
 			cb(200,script);
@@ -679,28 +748,27 @@ function parameter(options, catalogs, datasets, cb) {
 		console.log(tmp);
 		start = tmp.split("/")[0].substring(0,10);
 		stop = tmp.split("/")[1].substring(0,10);
-		url = "http://autoplot.org/git/jyds/tsdsfe.jyds?server="+TSDSFE+"&catalog="+resp[0].catalog+"&dataset="+resp[0].dataset+"&parameters="+resp[0].parameter+"&timerange="+start+"/"+stop;
+
+		url = JYDS + "?server="+TSDSFE+"&catalog="+resp[0].catalog+"&dataset="+resp[0].dataset+"&parameters="+resp[0].parameter+"&timerange="+start+"/"+stop;
 
 		if (options.return === "jyds") {
 			cb(301,"http://autoplot.org/autoplot.jnlp?open=vap+jyds:"+url);
 			return;
 		}
 
-		if (resp[0].label !== "") url = url + "&labels="+resp[0].label;
-		if (resp[0].units !== "")  {url = url + " ["+resp[0].units+"]" +"&units="+resp[0].units;}
-		if (resp[0].fill !== "")  url = url + "&fills="+resp[0].fill;
+		console.log(resp[0].dd.fillvalue)
+		if (resp[0].label != "") {url = url + "&labels="+resp[0].label};
+		if (resp[0].units != "")  {url = url + " ["+resp[0].units+"]" +"&units="+resp[0].units;}
+		if (resp[0].dd.fillvalue != "")  {url = url + "&fills="+resp[0].dd.fillvalue};
 
 		var format = "image/png";
 		if (options.return === "pdf") {format = "application/pdf"}
 		if (options.return === "svg") {format = "image/svg%2Bxml"}
 		
 		var aurl = AUTOPLOT + "?drawGrid=true&format="+format+"&plot.xaxis.drawTickLabels=true&width=800&height=200&url=vap+jyds:" + encodeURIComponent(url);	
-		console.log(aurl);
-		console.log(typeof(aurl))
 		cb(0,aurl);
 		return;
 	}
-
 
 	if (debugapp) {
 		console.log("parameter(): options = ")

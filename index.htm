@@ -74,7 +74,7 @@
 				//dropdown2(["catalog"],["Catalog"],[catalogs],"#dropdowns",0,"",function () {});
 				dropdown2(["catalog","dataset","parameters","start","stop","outformat"],["Catalog","Datasets","Parameters","Start","Stop","Output"],[catalogs,datasets,parameters,starttime,stoptime,outformat],"#dropdowns",0,"");
 
-				dropdown2(["tests"],["Tests"],[tests],"#dropdownstest");
+				//dropdown2(["tests"],["Tests"],[tests],"#dropdownstest");
 
 				if ( (location.hash !== "") && (location.hash !== "#catalog=^.*") ) {
 					console.log("Triggering select because initial hash is populated.");
@@ -452,7 +452,7 @@
 					dorequest();
 					//updatehash(i,"output");
 				}
-				values = [{label:"Data (native)", value:"0"},{label:"Data (iso)",value:"1"},{label:"Data (yyyy mm dd hh mm ss)",value:"2"},{label:"PNG",value:"png"},{label:"PDF",value:"pdf"},{label:"SVG",value:"svg"},{label:"IDL (script)",value:"idl"},{label:"MATLAB (script)",value:"matlab"},{label:"Debug",value:"debug"}];
+				values = [{label:"Data (native)", value:"0"},{label:"Data (iso)",value:"1"},{label:"Data (yyyy mm dd hh mm ss)",value:"2"},{label:"PNG",value:"png"},{label:"PDF",value:"pdf"},{label:"SVG",value:"svg"},{label:"IDL (script)",value:"idl"},{label:"MATLAB (script)",value:"matlab"}];
 				return values;
 			}
 			
@@ -617,11 +617,11 @@
 			}
 
 			function dorequest() {
-			
+				$("#status").hide();
 				url = "?catalog="+selected('catalog')+"&dataset="+selected('dataset')+"&parameters="+selected('parameters')+"&start="+selected('start')+"&stop="+selected('stop');
 				
 				if (selected('outformat') === 'matlab' || selected('outformat') === 'idl') {
-					url = url+"&out=asc"+"&return=" + selected('outformat') + "&return=stream";
+					url = url+"&return=" + selected('outformat');
 					$("#dlframe").html("");
 					$("#dldiv").show();
 					$("#dlframe").attr("src",url);
@@ -630,7 +630,15 @@
 					$("#imagediv").show();
 					$("#imagediv > div > a").text(url);
 					$("#imagediv > div > a").attr("href",url);
-					$("#imagediv > img:first").attr("src",url).load(function () {$("#imagediv > img:last").hide();});
+					if (selected('outformat').match(/png|svg/)) {
+						$("#imagediv > img:first").attr("src",url).load(function () {$("#imagediv > img:last").hide();});
+					} else {
+						//window.location = url;
+						var curr = $("#imagediv div a");
+						$("#imagediv div").html(curr)
+						$("#imagediv div a").html("Download PDF")
+						$("#imagediv > img").hide();
+					}
 
 				} else if (selected('outformat') === 'debug')  {
 					url = url+"&out=asc"+"&stream=true&debug=true";
@@ -697,21 +705,23 @@
 			<span id="dropdowns3" style="display:none"></span>
 			<span id="dropdowns4" style="display:none"></span>
 			<span id="dropdowns5" style="display:none"></span>
-			<button type="button" onclick="window.location=window.location.pathname">Clear</button>
+			<button type="button" style="background-color:white;color:black;border:1px solid black;" onclick="window.location=window.location.pathname">Clear</button>
 		</div>
-		<div id="overviewdiv" style="margin-left:16em;;margin-top:0em">
- 			<br/>
-			<b>Overview:</b>
-			<ul>
-				<li>This interface may be used to build a <a href="http://tsds.org/tsdsfe">TSDS Front End (TSDSFE)</a> URL for downloading data.</li>
-				<li>Begin by selecting a catalog on the left.</li>
-			</ul>
-			<div style="margin-left:2.5em;margin-top:-1em;width:10em;" >
-				<span id="dropdownstest0"></span>
-			</div>
+		<div id="overviewdiv" style="margin-left:14em;;margin-top:0em">
+			<br/>
+			<p>
+				<b>Overview:</b>
+				<ul>
+					<li>Build a <a href="http://tsds.org/tsdsfe">TSDS Front End (TSDSFE)</a> URL for downloading data, plots, and download scripts.</li>
+					<li>Begin by selecting a catalog.</li>
+				</ul>
+				<div style="margin-left:2.5em;margin-top:-1em;width:10em;" >
+					<span id="dropdownstest0"></span>
+				</div>
+			</p>
 		</div>
-		
 		<br/>
+
 	
 		<div id="infodiv" style="margin-left:14em;;margin-top:0em;">		
 			<div id="dldiv" style="background-color:white;display:none;">
@@ -719,14 +729,18 @@
 				<iframe id="dlframe" style="width:95%;height:20em;"></iframe>
 			</div>
 			<div id="imagediv" style="background-color:white;width:100%;height:100%;display:none;">
-				<b>Output:</b><br/>
-				<div>Direct link: <a target="_blank"></a></div>
-				<img></img>
-				<img id="imgdivloading" src="css/ajax-loader.gif"/>
+				<p>
+					<b>Output:</b>
+					<div>Direct link: <a target="_blank"></a></div>
+					<img></img>
+					<img id="imgdivloading" src="css/ajax-loader.gif"/>
+				</p>
 			</div>
 			<div id="datadiv" style="display:none;background-color:white;align:left">
-				<div><a target="_blank">Data</a></div>
-				<iframe style="width:95%;height:100%;"></iframe>
+				<p>
+					<div><a target="_blank">Data</a></div>
+					<iframe style="width:95%;height:100%;"></iframe>
+				</p>
 			</div>
 
 			<div id="cataloginfo" style="display:none;width:95%"></div>
@@ -735,9 +749,9 @@
 			<div id="outputinfo" style="display:none;width:95%">
 				<b>Output options:</b>
 				<ul>
-					<li>0: Native (if original was ASCII)</code></li>
+					<li>0: Native (if original was ASCII, otherwise same as option 1)</code></li>
 					<li>1: Space-separated values with <a href="http://www.w3.org/TR/NOTE-datetime">ISO8601</a> timestamps (e.g., <code>2000-01-01T00:00:00.0 1.1 9.0)</code></li>
-					<li>2: Space-separated values with Year Month Day Hour Minute FractionalSection timestamps (e.g., <code>2000 1 1 0 0 0.0 1.1 9.0)</code></li>
+					<li>2: Space-separated values with Year Month Day Hour Minute Seconds timestamps</li>
 				    <li>PNG - A single PNG image with data over selected time range</li>
 				    <li>PDF - A single PDF file with data over selected time range</li>
 				    <li>SVG - A single SVG file with data over selected time range</li>

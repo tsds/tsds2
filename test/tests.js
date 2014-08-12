@@ -152,3 +152,27 @@ tests[28].url = "catalog=SuperMAG/PT1M&dataset=BLC&parameters=B_N&start=-P3D&sto
 tests[28].test = function (data) {var len = data.toString().split("\n").length;eval(tests[28].log);if (len == 4321) {return true;} else {return false} };
 tests[28].log  = 'console.log("File should have 4321 rows.  Found: " + len );';
 tests[28].note = ''
+
+// This will not catch case where Autoplot download or rendering fails.
+// TODO: Have Autoplot put error in png header or http header.
+tests[29] = {};
+tests[29].url = "catalog=SSCWeb&dataset=ace&parameters=X_TOD&start=-P3D&stop=2014-07-14&return=png";
+tests[29].test = function (data) {var len = data.length;eval(tests[29].log);if (len > 1e4) {return true;} else {return false} };
+tests[29].log  = 'console.log("File should > 1e4 bytes.  Found: " + len );';
+tests[29].note = ''
+
+// This only tests if script is returned.
+// TODO: Call command line MATLAB.
+tests[30] = {};
+tests[30].url = "catalog=SSCWeb&dataset=ace&parameters=X_TOD&start=-P3D&stop=2014-07-14&return=idl";
+tests[30].test = function (data) {var len = data.length;eval(tests[30].log);if (len > 500) {return true;} else {return false} };
+tests[30].log  = 'console.log("File should > 500 bytes.  Found: " + len );';
+tests[30].note = ''
+
+// This only tests if script is returned.
+// TODO: Call command line IDL.
+tests[31] = {};
+tests[31].url = "catalog=SSCWeb&dataset=ace&parameters=X_TOD&start=-P3D&stop=2014-07-14&return=matlab";
+tests[31].test = function (data) {var len = data.length;eval(tests[31].log);if (len > 500) {return true;} else {return false} };
+tests[31].log  = 'console.log("File should > 500 bytes.  Found: " + len );';
+tests[31].note = ''
