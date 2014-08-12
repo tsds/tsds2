@@ -13,6 +13,11 @@ XML2THREDDS=http://virbo.org/exist/servlet/db/virbo/xq/xsltransform.xql?xslt=htt
 # Sample catalog:
 # http://supermag.jhuapl.edu/archive/cat/2008/20080201.xml
 
+# http://supermag.jhuapl.edu/mag/lib/services/?service=stations&format=json&user=guest&year=2000
+# http://supermag.jhuapl.edu/archive/cat/2001/20010101.xml
+
+json: 
+
 autoplot: $(CAT).xml
 
 thredds: $(CAT).thredds
