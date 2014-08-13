@@ -589,7 +589,7 @@
 		<documentation xmlns:xlink='http://www.w3.org/1999/xlink' xlink:href='http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1' xlink:title='Description of ephemeris calculations'/>
 		<timeCoverage>
 			<Start>2007-02-18T00:13:59Z</Start>
-			<End>2014-07-14T23:58:59Z</End>
+			<End>2014-07-16T23:58:59Z</End>
 		</timeCoverage>
 
 		<groups>
@@ -719,7 +719,7 @@
 		<documentation xmlns:xlink='http://www.w3.org/1999/xlink' xlink:href='http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1' xlink:title='Description of ephemeris calculations'/>
 		<timeCoverage>
 			<Start>2007-02-18T00:13:59Z</Start>
-			<End>2014-07-15T23:58:59Z</End>
+			<End>2014-07-16T23:58:59Z</End>
 		</timeCoverage>
 
 		<groups>
@@ -10729,7 +10729,7 @@
 		<documentation xmlns:xlink='http://www.w3.org/1999/xlink' xlink:href='http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1' xlink:title='Description of ephemeris calculations'/>
 		<timeCoverage>
 			<Start>2007-02-18T00:13:59Z</Start>
-			<End>2014-07-15T23:58:59Z</End>
+			<End>2014-07-17T23:58:59Z</End>
 		</timeCoverage>
 
 		<groups>
@@ -10859,7 +10859,7 @@
 		<documentation xmlns:xlink='http://www.w3.org/1999/xlink' xlink:href='http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1' xlink:title='Description of ephemeris calculations'/>
 		<timeCoverage>
 			<Start>2007-02-18T00:13:59Z</Start>
-			<End>2014-07-14T23:58:59Z</End>
+			<End>2014-07-16T23:58:59Z</End>
 		</timeCoverage>
 
 		<groups>
@@ -10989,7 +10989,7 @@
 		<documentation xmlns:xlink='http://www.w3.org/1999/xlink' xlink:href='http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1' xlink:title='Description of ephemeris calculations'/>
 		<timeCoverage>
 			<Start>2007-02-18T00:13:59Z</Start>
-			<End>2014-07-15T23:58:59Z</End>
+			<End>2014-07-16T23:58:59Z</End>
 		</timeCoverage>
 
 		<groups>
@@ -11119,7 +11119,7 @@
 		<documentation xmlns:xlink='http://www.w3.org/1999/xlink' xlink:href='http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1' xlink:title='Description of ephemeris calculations'/>
 		<timeCoverage>
 			<Start>2007-02-18T00:13:59Z</Start>
-			<End>2014-07-14T23:58:59Z</End>
+			<End>2014-07-17T23:58:59Z</End>
 		</timeCoverage>
 
 		<groups>
@@ -11249,7 +11249,7 @@
 		<documentation xmlns:xlink='http://www.w3.org/1999/xlink' xlink:href='http://sscweb.gsfc.nasa.gov/users_guide/Users_Guide_pt1.html#1.1' xlink:title='Description of ephemeris calculations'/>
 		<timeCoverage>
 			<Start>2007-02-18T00:13:59Z</Start>
-			<End>2014-07-15T23:58:59Z</End>
+			<End>2014-07-17T23:58:59Z</End>
 		</timeCoverage>
 
 		<groups>
