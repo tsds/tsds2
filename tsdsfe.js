@@ -11,14 +11,14 @@ var AUTOPLOT = "http://autoplot.org/plot/SimpleServlet";
 var DC       = "http://localhost:7999/sync/";
 var JYDS     = "http://autoplot.org/git/jyds/tsdsfe.jyds";  // Used to create images.
 
-//Typical Apache setting to have server located at http://server/get
-//ProxyPass /get http://localhost:8004 retry=1
-//ProxyPassReverse /get http://localhost:8004
+// Typical Apache setting to have server located at http://server/get
+// ProxyPass /get http://localhost:port retry=1
+// ProxyPassReverse /get http://localhost:port
 
 var TSDSFE   = "http://tsds.org/get/";
 var TSDSFE   = "http://localhost:"+port+"/";
 
-// if XMLBASE !== "", xml:base attribute in all.thredds will be replaced with XMLBASE.
+// If XMLBASE !== "", xml:base attribute in all.thredds will be replaced with XMLBASE.
 // all.thredds may be located on any server provided that relative paths are given for
 // catalogRef attribute xlink:href, which points to a TSML file for each catalogRef.
 var XMLBASE = TSDSFE+"catalogs/"; 
@@ -75,11 +75,10 @@ function handleRequest(req, res) {
 
 	if (debugapp) console.log("handleRequest(): Handling " + req.originalUrl);
 
-	var urlsig = crypto.createHash("md5").update(req.originalUrl).digest("hex");
-	
-	// Cache of metadata
-	var CDIR  = __dirname+"/cache/";
-	var cfile = CDIR+urlsig+".json";
+	// Metadata responses are cached as files with filename based on MD5 hash of request.
+	var urlsig = crypto.createHash("md5").update(req.originalUrl).digest("hex");	
+	var CDIR   = __dirname+"/cache/";
+	var cfile  = CDIR+urlsig+".json";
 
 	if (debugcache) {
 		if (fs.existsSync(cfile)) {
@@ -92,7 +91,7 @@ function handleRequest(req, res) {
 	
 	if (options.usemetadatacache && fs.existsSync(cfile)) {
 		if (debugcache) {
-			console.log("handleRequest(): Using (file) metadata cache.");
+			console.log("handleRequest(): Using metadata cache file.");
 		}
 		// Send the cached response and finish
 		fs.createReadStream(cfile).pipe(res);
@@ -103,7 +102,7 @@ function handleRequest(req, res) {
 	// See tests.js for examples.  This is not a well-tested feature.
 	var N  = options.catalog.split(";").length;
 
-	// Count of number of catalog responses sent.  Incremented each time data is sent.
+	// Count of number of catalog responses already sent.  Incremented each time data is sent.
 	// TODO: Move this inside of stream() and use stream.Nc as variable.
 	var Nc = 0;
 
@@ -138,14 +137,16 @@ function handleRequest(req, res) {
 	function stream(status, data) {
 		if (debugapp) console.log("stream(): Stream called.")
 
-		//If more than one resp, this won't work.
+		// TODO: Not all stream options will work for requests that span multiple catalogs.  Document and fix.
 
 		if (options.attach === "true") {
+			// TODO: Add this option and document it in API.
 			//res.setHeader('Content-disposition', 'attachment; filename=data')
 		}
 
 		if (status == 0) {
 
+			// If data was not a URL, send it.
 			if (!data.match(/^http/)) {
 				if (debugapp) console.log("stream(): Sending "+data);				
 				res.write(data);
@@ -160,13 +161,19 @@ function handleRequest(req, res) {
 				return;
 			}
 
+			// If stream was called with a URL, pipe the data through.
 			if (debugapp) console.log("stream(): Streaming from\n\t"+data)
+
+			// Request data from URL.
 			var sreq = http.get(data, function(res0) {
-			//http.get(url.parse(data), function(res0) {
+
+				var urldata = [];
+
+				//http.get(url.parse(data), function(res0) {
 				//util.pump(res0,res);return;
-				var data = [];
 				//if (debugapp) console.log(res0.headers)
 				//res.setHeader('Content-Disposition','attachment; filename='+res0.headers['content-disposition']);
+
 				if (res0.headers["content-type"])
 						res.setHeader('Content-Type',res0.headers["content-type"]);
 
@@ -183,7 +190,7 @@ function handleRequest(req, res) {
 							if (debugapp) {
 								if (data.length == 0) console.log("stream(): Got first chunk of size "+chunk.length+".");
 							}
-							data = data+chunk;
+							//urldata = urldatadata+chunk;
 							//if(!flushed) res0.pause();
 							//console.log("Got chunk of size "+chunk.length);
 							//console.log(data)
@@ -191,11 +198,8 @@ function handleRequest(req, res) {
 						.on('end', function() {
 							if (debugapp) console.log('stream(): Got end.');
 							Nc = Nc + 1;
-							//if (N > 1) res.write("\n");
 							if (Nc == N) {
 								if (debugapp) console.log("stream(): Sending res.end().");
-								//res.write("\n")
-								//console.log(data)
 								res.end();
 							} else {
 								if (debugapp) console.log("stream(): Calling catalog with Nc="+Nc);
@@ -229,14 +233,17 @@ function handleRequest(req, res) {
 				res.write(JSON.stringify(data));
 			}
 			
-			if (!fs.existsSync(CDIR)) {
-				fs.mkdirSync(CDIR);
-			}
 
 			if (data.length > 0) {
+				// Cache the JSON.
+				if (!fs.existsSync(CDIR)) {
+					fs.mkdirSync(CDIR);
+				}
+				// TODO: This should really be a sync operation.  Need to check if it is already being
+				// written before attempting to write.
 				fs.writeFile(cfile,JSON.stringify(data),function (err) {
 					if (debugcache) console.log("Wrote JSON cache file for request "+req.originalUrl);console.log("\t"+cfile);
-				});
+				})
 			} else {
 				if (debugcache) console.log("JSON for " + req.originalUrl + " has zero length.  Not writing cache file.")
 			}
