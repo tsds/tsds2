@@ -1,0 +1,39 @@
+{
+
+	// Location of the master catalog.  May be a URL or directory.
+	// If leading /, path is treated as absolute.
+	// Otherwise it is relative to directory of tsdsfe.js.
+	"CATALOG": "catalogs/all.thredds",
+
+	// Location of back-end data DataCache program
+	"DC": "http://localhost:7999/sync/",
+
+	// How long to wait for DataCache to return a response.
+	"TIMEOUT": 1000*60*15,
+
+	// Location of Autoplot Servlet that creates preview plots
+	"AUTOPLOT": "http://autoplot.org/plot/SimpleServlet",
+
+	// Autoplot script that create preview plot
+	"JYDS": "http://autoplot.org/git/jyds/tsdsfe.jyds", 
+
+	// Port
+	"PORT": 8004,
+
+	// Location to access data that will appear in MATLAB/IDL/Python scripts.
+	// If not specified, it will be http://localhost:port/
+	// Typical Apache setting to have server located at http://server/get
+	// ProxyPass /get http://localhost:port retry=1
+	// ProxyPassReverse /get http://localhost:port
+	// and 	"TSDSFE": "http://tsds.org/get/",
+	"TSDSFE": "", 
+	
+	// If XMLBASE !== "", xml:base attribute in all.thredds will be replaced with XMLBASE.
+	// all.thredds may be located on any server provided that relative paths are given for
+	// catalogRef attribute xlink:href, which points to a TSML file for each catalogRef.
+	"XMLBASE": TSDSFE+"catalogs/"
+
+	// Location to store cached metadata.  If leading /, path is treated as absolute.
+	// Otherwise it is relative to directory of tsdsfe.js.
+	"CACHEDIR": "cache/" 
+}

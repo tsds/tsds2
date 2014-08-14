@@ -1,3 +1,5 @@
+var config = require('./config.json');
+
 function s2b(str) {if (str === "true") {return true} else {return false}}
 function s2i(str) {return parseInt(str)}
 
@@ -6,28 +8,6 @@ var port          = s2i(process.argv[2] || 8000);
 var debugapp      = s2b(process.argv[3] || "false");
 var debugcache    = s2b(process.argv[4] || "false");
 var debugstream   = s2b(process.argv[5] || "false");
-
-var AUTOPLOT = "http://autoplot.org/plot/SimpleServlet";
-var DC       = "http://localhost:7999/sync/";
-var JYDS     = "http://autoplot.org/git/jyds/tsdsfe.jyds";  // Used to create images.
-
-// Typical Apache setting to have server located at http://server/get
-// ProxyPass /get http://localhost:port retry=1
-// ProxyPassReverse /get http://localhost:port
-
-var TSDSFE   = "http://tsds.org/get/";
-var TSDSFE   = "http://localhost:"+port+"/";
-
-// If XMLBASE !== "", xml:base attribute in all.thredds will be replaced with XMLBASE.
-// all.thredds may be located on any server provided that relative paths are given for
-// catalogRef attribute xlink:href, which points to a TSML file for each catalogRef.
-var XMLBASE = TSDSFE+"catalogs/"; 
-
-// Server timeout time in milliseconds
-var TIMEOUT  = 1000*60*15; 
-
-// Location to store cached metadata
-var CDIR     = __dirname+"/cache/";
 
 // Dependencies
 var fs      = require('fs');
@@ -61,24 +41,29 @@ app.get('/', function (req, res) {
 		return;
 	}
 	handleRequest(req,res);
-});
+})
 
 // Start the server
 server
-	.listen(port)
-	.setTimeout(TIMEOUT,function() {console.log("TSDSFE server timeout ("+(TIMEOUT/(100*60))+" minutes).")});
+	.listen(config.PORT)
+	.setTimeout(config.TIMEOUT,function() {console.log("TSDSFE server timeout ("+(config.TIMEOUT/(100*60))+" minutes).")});
 
-console.log(Date().toString() + " - TSDSFE running on port "+port);
+console.log(Date().toString() + " - TSDSFE running on port "+config.PORT);
 
 function handleRequest(req, res) {
+
 	var options = parseOptions(req);
 
 	if (debugapp) console.log("handleRequest(): Handling " + req.originalUrl);
 
 	// Metadata responses are cached as files with filename based on MD5 hash of request.
 	var urlsig = crypto.createHash("md5").update(req.originalUrl).digest("hex");	
-	var CDIR   = __dirname+"/cache/";
-	var cfile  = CDIR+urlsig+".json";
+
+	var CDIR = config.CACHEDIR;
+	if (!config.CACHEDIR.match(/^\//)) {
+		CDIR   = __dirname+"/cache/";
+	}
+	var cfile  = CDIR + urlsig + ".json";
 
 	if (debugcache) {
 		if (fs.existsSync(cfile)) {
@@ -297,31 +282,39 @@ function parseOptions(req) {
 // (will call stream() if only catalog information was requested.)
 function catalog(options, cb) {
 
-	// TODO: Allow this to be a URL.  Follow pattern similar to dataset().
+	var data = "";
+	if ( !config.CATALOG.match(/^\//) && !config.CATALOG.match(/^http/) ) {
+		var fname = __dirname + '/catalogs/all.thredds';
+		if (debugapp) console.log("catalog(): Reading " + fname);
+		data = fs.readFileSync(fname);
+	} else {
+		// TODO: Allow this to be a URL.
+	}
 
-	//console.log(options)
-	var parser = new xml2js.Parser();
-	var fname = __dirname + '/catalogs/all.thredds';
+	if (data === "") {
+		// Throw error.
+	}
+
 	var resp = [];
 
 	var urlsig = crypto.createHash("md5").update(fname).digest("hex");	
 	var cfile = CDIR+urlsig+".json";
 	
-	if (debugapp) console.log("catalog(): Reading " + fname);
-	var data = fs.readFileSync(fname);
 	console.log("catalog(): Parsing.");
-
+	var parser = new xml2js.Parser();
 	parser.parseString(data, function (err, result) {
 
 		// TODO: Save parsed file as json as done in dataset().
 
 		console.log("catalog(): Done parsing.");
 		var catalogRefs = result["catalog"]["catalogRef"];
-		var xmlbase     = XMLBASE || result["catalog"]["$"]["xml:XMLBASE"];
+		var xmlbase     = config.XMLBASE || result["catalog"]["$"]["xml:XMLBASE"];
 
 		if (debugapp) console.log("catalog(): Found " + catalogRefs.length + " catalogRef nodes.");
 		//console.log(options.catalog)
 		var k = 0;
+
+		// Loop over each catalogRef and remove ones that don't match pattern.
 		for (var i = 0;i < catalogRefs.length;i++) {
 			resp[i] = {};
 			resp[i].value = catalogRefs[i]["$"]["ID"];
@@ -341,14 +334,21 @@ function catalog(options, cb) {
 			}
 		}
 		
-		resp = resp.filter(function(n){return n})
+		// Remove empty elements of array.
+		resp = resp.filter(function(n){return n});
 
 		if (options.dataset === "") {
-			
+			// If no dataset was requested, return list of all datasets within catalog.		
+			// TODO: 
 			if (resp.length == 1 && options.catalog.substring(0,1) !== "^") {
+				// TODO: Get the following information from dataset().  Pass a flag that
+				// we only want the title and link.
+				// If only one matching catalog.
 				if (debugapp) console.log("catalog(): Fetching " + resp[0].href);
+
 				//var opts = {uri:resp[0].href,timeout:1000}; // timeout does not work
 				var opts = {uri:resp[0].href}; // Does not work
+
 				var xreq = request(opts, function (error, response, body) {
 					if (debugapp) console.log("catalog(): Done Fetching " + resp[0].href);
 					if (!error && response.statusCode == 200) {
@@ -373,6 +373,7 @@ function catalog(options, cb) {
 				cb(200,resp);
 			}
 		} else {
+			// If dataset was requested
 			dataset(options,resp,cb);
 		}
 	});
@@ -394,10 +395,11 @@ function dataset(options, catalogs, cb) {
 
 	// Loop over each catalog
 	for (var i = 0; i < N;i++) {
+
 		var urlsig = crypto.createHash("md5").update(catalogs[i].href).digest("hex");	
 		
 		// cache file for each catalog
-		var cfile = CDIR+urlsig+".json";
+		var cfile = config.CACHEDIR+urlsig+".json";
 
 		if (fs.existsSync(cfile) && options.usemetadatacache) {
 			// If cache file exists and always using metadata cache
@@ -413,7 +415,7 @@ function dataset(options, catalogs, cb) {
 
 		} else {
 
-			// Do head request for catalog file that contains list of datasets.
+			// Do head request for file that contains list of datasets.
 			var hreq = request.head(catalogs[i].href, function (herror, hresponse) {
 				if (!herror && hresponse.statusCode != 200) {
 					herror = true;
@@ -502,6 +504,7 @@ function dataset(options, catalogs, cb) {
 		datasets = datasets.concat(tmparr);
 		while (parents.length < datasets.length) {parents = parents.concat(parent)}
 
+		// If all of the datasets have been parsed.
 		if (j == N) {
 
 			for (var i = 0;i < datasets.length;i++) {
@@ -717,9 +720,9 @@ function parameter(options, catalogs, datasets, cb) {
 	}
 
 	if (args) {
-		var dc = DC+"?"+args+"&timeRange="+start+"/"+stop;
+		var dc = config.DC+"?"+args+"&timeRange="+start+"/"+stop;
 	} else {
-		var dc = DC+"?timeRange="+start+"/"+stop;
+		var dc = config.DC+"?timeRange="+start+"/"+stop;
 	}
 		
 
@@ -757,7 +760,7 @@ function parameter(options, catalogs, datasets, cb) {
 		start = tmp.split("/")[0].substring(0,10);
 		stop = tmp.split("/")[1].substring(0,10);
 
-		url = JYDS + "?server="+TSDSFE+"&catalog="+resp[0].catalog+"&dataset="+resp[0].dataset+"&parameters="+resp[0].parameter+"&timerange="+start+"/"+stop;
+		url = config.JYDS + "?server="+config.TSDSFE+"&catalog="+resp[0].catalog+"&dataset="+resp[0].dataset+"&parameters="+resp[0].parameter+"&timerange="+start+"/"+stop;
 
 		if (options.return === "jyds") {
 			cb(301,"http://autoplot.org/autoplot.jnlp?open=vap+jyds:"+url);
@@ -773,7 +776,7 @@ function parameter(options, catalogs, datasets, cb) {
 		if (options.return === "pdf") {format = "application/pdf"}
 		if (options.return === "svg") {format = "image/svg%2Bxml"}
 		
-		var aurl = AUTOPLOT + "?drawGrid=true&format="+format+"&plot.xaxis.drawTickLabels=true&width=800&height=200&url=vap+jyds:" + encodeURIComponent(url);	
+		var aurl = config.AUTOPLOT + "?drawGrid=true&format="+format+"&plot.xaxis.drawTickLabels=true&width=800&height=200&url=vap+jyds:" + encodeURIComponent(url);	
 		cb(0,aurl);
 		return;
 	}
