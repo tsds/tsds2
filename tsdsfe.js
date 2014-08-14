@@ -286,6 +286,7 @@ function parseOptions(req) {
 	if ((options.start === "") && (options.start === "")) {
 		options.return = "dd";
 	}
+
 	// Not implemented.
 	//options.useimagecache = s2b(req.query.useimagecache || req.body.useimagecache     || "true");
 	
