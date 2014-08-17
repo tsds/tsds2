@@ -2,7 +2,6 @@ exports.config = function config() {
 
 	var out = {};
 
-
 	// Location of back-end data DataCache program
 	out["DC"] = "http://localhost:7999/sync/";
 
@@ -19,10 +18,17 @@ exports.config = function config() {
 	out["PORT"] = 8004;
 
 	// Location to access data that will appear in MATLAB/IDL/Python scripts.
-	// Typical Apache setting to have server located at http://server/get
-	// ProxyPass /get http://localhost:port retry=1
-	// ProxyPassReverse /get http://localhost:port
-	// and 	"TSDSFE": "http://tsds.org/get/",
+	// Typical Apache setting to serve data from http://server/tsdsfe:
+	//
+	// ProxyPass /tsds http://localhost:port retry=1
+	// ProxyPassReverse /tsds http://localhost:port
+	//
+	// and
+	//
+	// out["TSDSFE"] = "http://server/tsds/"
+	// Note that if this default setting is used, options for return={png,pdf,svg,matlab,idl}
+	// will probably not work.  For images, the Autoplot servlet will told to request data from a localhost TSDSDFE server.
+	// and not this server.  The IDL and MATLAB scripts will attempt to access data from a localhost TSDSFE server.
 	out["TSDSFE"] = "http://localhost:"+out["PORT"]+"/";
 	
 	// Location of the master catalog.  May be a URL or directory.

@@ -1,4 +1,4 @@
-var config = require('./config.json');
+var config = require(__dirname + "/config.js").config();
 
 function s2b(str) {if (str === "true") {return true} else {return false}}
 function s2i(str) {return parseInt(str)}
@@ -67,16 +67,16 @@ function handleRequest(req, res) {
 
 	if (debugcache) {
 		if (fs.existsSync(cfile)) {
-			console.log("handleRequest(): Metadata cache found "+cfile.replace(__dirname,""));
+			console.log("handleRequest(): Response cache found "+cfile.replace(__dirname,""));
 		} else {
 			// No cache will exist if outformat is selected.  Data are not cached by TSDSFE.
-			console.log("handleRequest(): Metadata cache not found "+cfile.replace(__dirname,""));
+			console.log("handleRequest(): Response cache not found "+cfile.replace(__dirname,""));
 		}
 	}
 	
 	if (options.usemetadatacache && fs.existsSync(cfile)) {
 		if (debugcache) {
-			console.log("handleRequest(): Using metadata cache file.");
+			console.log("handleRequest(): Using response cache file.");
 		}
 		// Send the cached response and finish
 		fs.createReadStream(cfile).pipe(res);
@@ -204,6 +204,7 @@ function handleRequest(req, res) {
 				res.status(502).send("Error when attempting to retrieve data from data from upstream server "+data.split("/")[2]);
 			});
 		} else if (status == 301) {
+			if (debugstream) console.log("stream(): Redirecting to "+data);
 			res.redirect(301,data);
 		} else {
 			console.log("Sending JSON.");
@@ -278,44 +279,128 @@ function parseOptions(req) {
 	return options;
 }
 
+// Get XML from URL and convert to JSON.
+function getandparse(url,options,callback) {
+
+	// TODO: Add a header if error along the way was saved by a cache file.
+
+	var urlsig = crypto.createHash("md5").update(url).digest("hex");	
+
+	// cache file for each catalog
+	var cfile = config.CACHEDIR+urlsig+".json";
+
+	if (fs.existsSync(cfile) && options.usemetadatacache) {
+		// If cache file exists and always using metadata cache
+		if (debugcache) {
+			console.log("getandparse(): usemetadatacache = true.  Reading cache file "+cfile);
+			console.log("getandparse(): for URL "+url);
+		}
+		var tmp = JSON.parse(fs.readFileSync(cfile).toString());
+		if (debugcache) console.log("getandparse(): Done");
+
+		callback(tmp);
+
+	} else {
+
+		// Do head request for file that contains list of datasets.
+		console.log("getandparse(): Doing head request on "+url)
+		var hreq = request.head(url, function (herror, hresponse) {
+			if (!herror && hresponse.statusCode != 200) {
+				herror = true;
+			}
+
+			if (herror) {
+				if (debugcache) {
+					console.log("getandparse(): Error when making head request for "+url);
+					console.log("getandparse(): Will check if cache file exists.");
+				}
+			}
+
+			if (fs.existsSync(cfile) && !herror) {
+				var dhead = new Date(hresponse.headers["last-modified"]);
+				if (debugcache) console.log("getandparse(): Last-modified time: "+dhead);
+				var fstat = fs.statSync(cfile).mtime;
+				var dfile = new Date(fstat);
+				if (debugcache) console.log('getandparse(): Cache file found.  File created: ' + fstat);
+				var age = dhead.getTime() - dfile.getTime();
+				if (debugcache) console.log('getandparse(): last modified time - file last write time = '+age);
+			}
+
+			if (age <= 0) {
+				console.log("getandparse(): Cache file has not expired.  Reading cache file "+cfile.replace(__dirname,""));
+				console.log("getandparse(): for URL "+hresponse.request.uri.href);
+				var tmp = JSON.parse(fs.readFileSync(cfile).toString());
+				if (debugcache) console.log("getandparse(): Done");
+
+				callback(tmp);
+				return;
+			}
+
+			if (debugapp) console.log("getandparse(): Fetching " + hresponse.request.uri.href);
+			request(hresponse.request.uri.href, function (error, response, body) {
+				if (!error && response.statusCode != 200) {
+					error = true;
+				}
+
+				if ((error) && fs.existsSync(cfile))  {
+					if (debugapp) console.log("getandparse(): Request failed for "+hres.request.uri.href);
+					if (debugapp) console.log("getandparse(): Using cached file.")
+					var tmp = JSON.parse(fs.readFileSync(cfile).toString());
+					callback(tmp);
+					return;
+				}
+				if ((error) && !fs.existsSync(cfile) && (N == 1))  {
+					if (debugapp) console.log("Could not fetch "+response.request.uri.href + " and no cached version exists.");
+					cb("502","Could not fetch "+response.request.uri.href + " and no cached version exists.");
+					return;
+				}
+
+				if (debugapp) console.log("getandparse(): Done fetching.");
+				if (debugapp) console.log("getandparse(): Parsing.");
+
+				if (!error && response.statusCode == 200) {
+					var parser = new xml2js.Parser();
+					parser.parseString(body, function (err, tmp) {
+
+						if (err) {
+							cb("502","Could not parse "+hres.request.uri.href+".");
+							return;
+						}
+
+						if (debugapp) console.log("getandparse(): Done parsing.");
+						if (debugcache) console.log("getandparse(): Writing cache file "+cfile);
+						fs.writeFileSync(cfile,JSON.stringify(tmp));
+						if (debugapp) console.log("getandparse(): Done.")
+						callback(tmp);
+					})
+				} else {
+					callback("")
+				}
+			});
+		})
+	}
+}
+
 // After catalog() executes, it either calls dataset() or stream()
 // (will call stream() if only catalog information was requested.)
 function catalog(options, cb) {
 
-	var data = "";
-	if ( !config.CATALOG.match(/^\//) && !config.CATALOG.match(/^http/) ) {
-		var fname = __dirname + '/catalogs/all.thredds';
-		if (debugapp) console.log("catalog(): Reading " + fname);
-		data = fs.readFileSync(fname);
-	} else {
-		// TODO: Allow this to be a URL.
-	}
+	getandparse(config.CATALOG,options,afterparse);
 
-	if (data === "") {
-		// Throw error.
-	}
+	function afterparse(result) {
 
-	var resp = [];
+		// Given JSON containing information in config.CATALOG, form JSON response.
+		// config.CATALOG contains links to all catalogs available.
+		var resp = [];
 
-	var urlsig = crypto.createHash("md5").update(fname).digest("hex");	
-	var cfile = CDIR+urlsig+".json";
-	
-	console.log("catalog(): Parsing.");
-	var parser = new xml2js.Parser();
-	parser.parseString(data, function (err, result) {
-
-		// TODO: Save parsed file as json as done in dataset().
-
-		console.log("catalog(): Done parsing.");
 		var catalogRefs = result["catalog"]["catalogRef"];
 		var xmlbase     = config.XMLBASE || result["catalog"]["$"]["xml:XMLBASE"];
 
 		if (debugapp) console.log("catalog(): Found " + catalogRefs.length + " catalogRef nodes.");
-		//console.log(options.catalog)
-		var k = 0;
 
 		// Loop over each catalogRef and remove ones that don't match pattern.
 		for (var i = 0;i < catalogRefs.length;i++) {
+
 			resp[i] = {};
 			resp[i].value = catalogRefs[i]["$"]["ID"];
 			resp[i].label = catalogRefs[i]["$"]["name"] || catalogRefs[i]["$"]["ID"];
@@ -333,185 +418,72 @@ function catalog(options, cb) {
 				}
 			}
 		}
-		
-		// Remove empty elements of array.
+
+		// Now we have a list of URLs for catalogs associated with the catalog pattern.
+
+		// Remove empty elements of array. (Needed?)
 		resp = resp.filter(function(n){return n});
 
 		if (options.dataset === "") {
-			// If no dataset was requested, return list of all datasets within catalog.		
-			// TODO: 
+			// If no dataset was requested and only one catalog URL in list,
+			// add information from within the catalog to the response.
 			if (resp.length == 1 && options.catalog.substring(0,1) !== "^") {
-				// TODO: Get the following information from dataset().  Pass a flag that
-				// we only want the title and link.
-				// If only one matching catalog.
-				if (debugapp) console.log("catalog(): Fetching " + resp[0].href);
-
-				//var opts = {uri:resp[0].href,timeout:1000}; // timeout does not work
-				var opts = {uri:resp[0].href}; // Does not work
-
-				var xreq = request(opts, function (error, response, body) {
-					if (debugapp) console.log("catalog(): Done Fetching " + resp[0].href);
-					if (!error && response.statusCode == 200) {
-						if (debugapp) console.log("catalog(): Parsing " + resp[0].href);
-						parser.parseString(body, function (err, result) {
-							if (err) {console.log("catalog(): Parse error.");cb(500,"Error when parsing "+resp[0].href)};
-							if (debugapp) console.log("catalog(): Done parsing " + resp[0].href);
-							if (debugapp) console.log(result["catalog"]["documentation"]);
-							for (var k = 0; k < result["catalog"]["documentation"].length;k++) {
-								resp[k].title = result["catalog"]["documentation"][k]["$"]["xlink:title"];
-								resp[k].link  = result["catalog"]["documentation"][k]["$"]["xlink:href"];
-							}
-							cb(200,resp);
-						})
-					} else {
-						console.log("catalog(): Download Error.")
-					}
-				});
-				//does not work.
-				//xreq.connection.setTimeout(10, function () {console.log("Timeout");cb(500,"Timeout when attempting to fetch "+resp[0].href)});
+				// If only one catalog matched pattern.
+				getandparse(resp[0].href,options,
+					function (result) {
+						for (var k = 0; k < result["catalog"]["documentation"].length;k++) {
+							resp[k].title = result["catalog"]["documentation"][k]["$"]["xlink:title"];
+							resp[k].link  = result["catalog"]["documentation"][k]["$"]["xlink:href"];
+						}
+						cb(200,resp);
+					})
 			} else {
+				// If more than one catalog matched pattern,
+				// return will be values, labels, and hrefs for each catalog.
 				cb(200,resp);
 			}
 		} else {
-			// If dataset was requested
+			// If dataset was requested, pass list of catalog URLs to dataset().
 			dataset(options,resp,cb);
 		}
-	});
+	}
 }
 
-// After dataset() executes, it either calls parameter() or stream().
+// After dataset() executes, calls parameter() or stream().
 // (will call stream() if only dataset information was requested.)
 function dataset(options, catalogs, cb) {
 
-	var parser = new xml2js.Parser();
-	var j = 0;
-	var N = catalogs.length;
-	if (N == 0) {cb(200,"[]");return;}
+	if (catalogs.length == 0) {cb(200,"[]");return;}
+
 	var datasets = [];
 	var parents = [];
 	var dresp = [];
 
-	// TODO: Add a header if error along the way was saved by a cache file.
-
 	// Loop over each catalog
-	for (var i = 0; i < N;i++) {
-
-		var urlsig = crypto.createHash("md5").update(catalogs[i].href).digest("hex");	
-		
-		// cache file for each catalog
-		var cfile = config.CACHEDIR+urlsig+".json";
-
-		if (fs.existsSync(cfile) && options.usemetadatacache) {
-			// If cache file exists and always using metadata cache
-			if (debugcache) {
-				console.log("dataset(): usemetadatacache = true.  Reading cache file "+cfile);
-				console.log("dataset(): for URL "+catalogs[i].href);
-			}
-			var tmp = JSON.parse(fs.readFileSync(cfile).toString());
-			if (debugcache) console.log("dataset(): Done");
-
-			j = j+1;
-			afterparse(tmp);
-
-		} else {
-
-			// Do head request for file that contains list of datasets.
-			var hreq = request.head(catalogs[i].href, function (herror, hresponse) {
-				if (!herror && hresponse.statusCode != 200) {
-					herror = true;
-				}
-
-				if (herror) {
-					if (debugcache) {
-						console.log("dataset(): Error when making head request for "+hresponse.request.uri.href);
-						console.log("dataset(): Will check if cache file exists.");
-					}
-				}
-
-				if (fs.existsSync(cfile) && !herror) {
-					var dhead = new Date(hresponse.headers["last-modified"]);
-					if (debugcache) console.log("dataset(): Last-modified time: "+dhead);
-					var fstat = fs.statSync(cfile).mtime;
-					var dfile = new Date(fstat);
-					if (debugcache) console.log('dataset(): Cache file found.  File created: ' + fstat);
-					var age = dhead.getTime() - dfile.getTime();
-					if (debugcache) console.log('dataset(): last modified time - file last write time = '+age);
-				}
-
-				if (age <= 0) {
-					console.log("dataset(): Cache file has not expired.  Reading cache file "+cfile.replace(__dirname,""));
-					console.log("dataset(): for URL "+hresponse.request.uri.href);
-					var tmp = JSON.parse(fs.readFileSync(cfile).toString());
-					if (debugcache) console.log("dataset(): Done");
-
-					j = j+1;
-					afterparse(tmp);
-					return;
-				}
-
-				if (debugapp) console.log("dataset(): Fetching " + hresponse.request.uri.href);
-				request(hresponse.request.uri.href, function (error, response, body) {
-					if (!error && response.statusCode != 200) {
-						error = true;
-					}
-
-					if ((error) && fs.existsSync(cfile))  {
-						if (debugapp) console.log("dataset(): Request failed for "+hres.request.uri.href);
-						if (debugapp) console.log("dataset(): Using cached file.")
-						var tmp = JSON.parse(fs.readFileSync(cfile).toString());
-						j = j+1;
-						afterparse(tmp);
-						return;
-					}
-					if ((error) && !fs.existsSync(cfile) && (N == 1))  {
-						if (debugapp) console.log("Could not fetch "+response.request.uri.href + " and no cached version exists.");
-						cb("502","Could not fetch "+response.request.uri.href + " and no cached version exists.");
-						return;
-					}
-
-					if (debugapp) console.log("dataset(): Done fetching.");
-					if (debugapp) console.log("dataset(): Parsing.");
-
-					if (!error && response.statusCode == 200) {
-						parser.parseString(body, function (err, tmp) {
-
-							if (err) {
-								cb("502","Could not parse "+hres.request.uri.href+".");
-								return;
-							}
-
-							if (debugapp) console.log("dataset(): Done parsing.");
-							if (debugcache) console.log("dataset(): Writing cache file"+cfile);
-							fs.writeFileSync(cfile,JSON.stringify(tmp));
-							if (debugapp) console.log("dataset(): Done.")
-
-							j = j+1;
-
-							afterparse(tmp);
-						})
-					} else {
-						j = j+1;
-					}
-				});
-			})
-		}
+	for (var i = 0; i < catalogs.length;i++) {
+		getandparse(catalogs[i].href,options,afterparse);
 	}
 
 	function afterparse(result) {
+
+		if (typeof(afterparse.j) === "undefined") afterparse.j = 0;
+
+		// TODO: Deal with case of result === "", which means getandparse() failed.
+		afterparse.j = afterparse.j+1;
 
 		var parent = result["catalog"]["$"]["id"] || result["catalog"]["$"]["ID"];
 		var tmparr = result["catalog"]["dataset"];
 		datasets = datasets.concat(tmparr);
 		while (parents.length < datasets.length) {parents = parents.concat(parent)}
 
-		// If all of the datasets have been parsed.
-		if (j == N) {
+		// If all of the dataset URLs have been parsed.
+		if (afterparse.j == catalogs.length) {
 
 			for (var i = 0;i < datasets.length;i++) {
-				dresp[i]          = {};
-				dresp[i].value    = datasets[i]["$"]["id"] || datasets[i]["$"]["ID"];
-				dresp[i].label    = datasets[i]["$"]["name"] || dresp[i].value;
-				dresp[i].catalog  = parents[i];
+				dresp[i]         = {};
+				dresp[i].value   = datasets[i]["$"]["id"] || datasets[i]["$"]["ID"];
+				dresp[i].label   = datasets[i]["$"]["name"] || dresp[i].value;
+				dresp[i].catalog = parents[i];
 
 				//console.log(options.dataset)
 				if (options.dataset !== "^.*") {	
@@ -747,16 +719,22 @@ function parameter(options, catalogs, datasets, cb) {
 			if (options.return === "matlab") var ext = "m";
 			if (options.return === "idl") var ext = "pro";
 
+			if (config.TSDSFE.match(/http:\/\/localhost/)) {
+				console.log("Warning: stream(): Possible configuration error.  Serving a script with TSDSFE URL that is localhost")
+				//cb(501,"Server configuration error related to address of TSDSFE ("+config.TSDSFE+").");
+				//return;
+			}
+
 			var script = fs.readFileSync(__dirname + "/scripts/tsdsfe."+ext).toString();
-			console.log(script)
-			script = script.replace("__SERVER__",TSDSFE).replace("__QUERYSTRING__","catalog="+resp[0].catalog+"&dataset="+resp[0].dataset+"&parameters="+Parameters.slice(0,-1)+"&start="+start+"&stop="+stop+"&outformat=2");
+
+			script = script.replace("__SERVER__",config.TSDSFE).replace("__QUERYSTRING__","catalog="+resp[0].catalog+"&dataset="+resp[0].dataset+"&parameters="+Parameters.slice(0,-1)+"&start="+start+"&stop="+stop+"&outformat=2");
 			script = script.replace("__LABELS__",Labels.slice(0,-2));
 			cb(200,script);
 			return;
 		}
 
 		var tmp = expandISO8601Duration(start+"/"+stop,{debug:false})
-		console.log(tmp);
+		//console.log(tmp);
 		start = tmp.split("/")[0].substring(0,10);
 		stop = tmp.split("/")[1].substring(0,10);
 
@@ -767,7 +745,7 @@ function parameter(options, catalogs, datasets, cb) {
 			return;
 		}
 
-		console.log(resp[0].dd.fillvalue)
+		//console.log(resp[0].dd.fillvalue)
 		if (resp[0].label != "") {url = url + "&labels="+resp[0].label};
 		if (resp[0].units != "")  {url = url + " ["+resp[0].units+"]" +"&units="+resp[0].units;}
 		if (resp[0].dd.fillvalue != "")  {url = url + "&fills="+resp[0].dd.fillvalue};
@@ -777,6 +755,14 @@ function parameter(options, catalogs, datasets, cb) {
 		if (options.return === "svg") {format = "image/svg%2Bxml"}
 		
 		var aurl = config.AUTOPLOT + "?drawGrid=true&format="+format+"&plot.xaxis.drawTickLabels=true&width=800&height=200&url=vap+jyds:" + encodeURIComponent(url);	
+
+		if (config.TSDSFE.match(/http:\/\/localhost/)) {
+			if (!config.AUTOPLOT.match(/http:\/\/localhost/)) {
+				console.log("Error: stream(): Autoplot image servlet specified by config.AUTOPLOT must be localhost if config.TSDSFE is localhost.")
+				cb(501,"Server configuration error related to address of Autoplot servlet ("+config.AUTOPLOT+") and address of TSDSFE ("+config.TSDSFE+").");
+				return;
+			}
+		}
 		cb(0,aurl);
 		return;
 	}
