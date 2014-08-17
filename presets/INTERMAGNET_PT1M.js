@@ -65,7 +65,8 @@ Presets[id].DataGroupNames   = Presets[id].DataGroupNames.join("\n");
 Presets[id].StartDates = Presets[id].StartDates.join("\n");
 Presets[id].StopDates  = Presets[id].StopDates.join("\n");
 Presets[id].Cadence    = ["PT1M"];
-						 
+
+// Don't show this part in the catalog.  Do an internal prefixing of http://mag.gmu.edu/mirror/				 
 Presets[id].URLTemplate = "http://mag.gmu.edu/mirror/www.intermagnet.org/$1/PT1M/$2$Y$m$dvmin.min.gz";
 
 Presets[id].CatalogDescription = "http://tsds.org/catalogs/intermagnet/"
