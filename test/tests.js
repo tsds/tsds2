@@ -10,6 +10,14 @@ tests[1].url = "catalog=^SWPC.*&dataset=^.*";
 tests[1].test = function (data) {eval("data = 'data.toString()'");eval(tests[1].log);if (data.length > 0) {return true;} else {return false} };
 tests[1].log  = 'console.log("Dataset list should have at least one dataset. Found: "+ data.length);';
 
+// TODO: Add
+// http://tsds.org/get/?catalog=^USGS.*
+// Return should be 3 catalogs.
+
+// TODO: Add
+// http://tsds.org/get/?catalog=SSCWeb&dataset=^a.*
+// response array should have at least 12 objects.
+
 tests[2] = {};
 tests[2].url = "catalog=^SWPC.*&dataset=AK";
 
@@ -30,6 +38,7 @@ tests[6] = {};
 tests[6].url = "catalog=SWPC/GOES/Primary/Particle/PT1M&dataset=Gp_particles&parameters=E_gt_4.0";
 tests[6].test = function (data) {eval("data = 'data.toString()'");eval(tests[6].log);if (data.length > 0) {return true;} else {return false} };
 tests[6].log  = 'console.log("Dataset list should have at least one dataset. Found: "+ data.length);';
+
 
 // Will be 2 not 3 if this happens to be run at 00:00:00.000 
 tests[7] = {};
