@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
-		<title>TSDSFE GUI</title>
+		<title>TSDSFE</title>
 
 		<link rel="stylesheet" type="text/css" href="css/gui.css">
        	<link rel="stylesheet" href="css/jquery-ui-1.9.2.css">
@@ -16,7 +16,6 @@
 		<script type="text/javascript" src="js/deps/jquery.ba-hashchange-1.3.js"></script>
 		<script type="text/javascript" src="js/jquery.scrollTo-min.js"></script>
 		<script type="text/javascript" src="http://tsds.org/et/lib/expandtemplate.js"></script>
-		<!-- script type="text/javascript" src="../tsdset/lib/expandtemplate.js"></script -->
 		<script type="text/javascript" src="js/dropdown2.js"></script>
 		<script>
 
@@ -24,6 +23,10 @@
 			AUTOPLOT = "http://autoplot.org/plot/dev/SimpleServlet"
 
 			$(function() {
+				main();
+			})
+
+			function main() {
 
 				// See Harris' post at http://stackoverflow.com/questions/426258/how-do-i-check-a-checkbox-with-jquery-or-javascript
 				(function( $ ) {
@@ -82,6 +85,9 @@
 				}			
 				//preview();
 				
+				//main();
+
+
 				return;
 
 				// Use for testing random?
@@ -128,9 +134,7 @@
 					}					
 					$(window).hashchange.byurledit = true;
 				});										
-
-			});
-
+			}
 			
 			function tsdsfeajax(i,url) {
 				url = TSDSFE + url;
@@ -152,7 +156,7 @@
 					async: false,
 					dataType: "text",
 					success: function (data,textStatus, jqXHR) {
-						console.log("Loaded data for "+i);
+						console.log("Loaded data for dropdown"+i);
 						//$('#status'+i).hide();
 						$('#ready'+i).show();
 						//console.log("data="+data);
@@ -172,7 +176,6 @@
 				tsdsfeajax.cache[url] = xret;
 				return $.parseJSON(xret);				
 			}
-			
 
 			function getdas(attr) {
 				
@@ -229,20 +232,26 @@
 					info = tsdsfeajax(i,url);
 					catalog.info = info;
 					$('#cataloginfo').html("<b>Catalog information:</b>");					
-					$('#cataloginfo').append('<ul style="list-style-position: outside;">');					
-
-					if (info.length > 0) {
+	
+					if (info.length == 1) {
+						$('#cataloginfo').append('<ul style="list-style-position: outside;">');	
 						$('#cataloginfo ul').append('<li style=""><a href="'+info[0].href+'">Catalog configuration</a></li>');
+						console.log("Info: " + info[0].title);
+						if (!(info[0].title === "") && !(info[0].link === "")) {
+							$('#cataloginfo ul').append('<li style=""><a href="'+info[0].link+'">'+info[0].title+'</a></li>');
+						} else if ((info[0].title === "") && !(info[0].link === "")) {
+							$('#catalogtinfo ul').append('<li style=""><a href="'+info[0].link+'">'+info[0].link+'</a></li>');
+						} 
+					} else if (info.length == 0) {
+						$('#cataloginfo').append('<ul style="list-style-position: outside;">');	
+						$('#cataloginfo ul').append('<li style="">Catalog <b>' + selected("catalog") + '</b> was not found in <a href="' + TSDSFE + '?catalogs=^.*">catalog list</a></li>');
+					} else {
+						console.log(info)
+						$('#cataloginfo').append('<p>Pattern ' + selected('catalog')+ ' matches catalogs</p><ul style="list-style-position: outside;">');	
 						for (j = 0;j < info.length;j++) {
 							console.log("Info: " + info[j].title);
-							if (!(info[j].title === "") && !(info[j].link === "")) {
-								$('#cataloginfo ul').append('<li style=""><a href="'+info[j].link+'">'+info[j].title+'</a></li>');
-							} else if ((info[j].title === "") && !(info[j].link === "")) {
-								$('#catalogtinfo ul').append('<li style=""><a href="'+info[j].link+'">'+info[j].link+'</a></li>');
-							} 
-						}
-					} else {
-						$('#cataloginfo ul').append('<li style="">Catalog <b>' + selected("catalog") + '</b> was not found in <a href="' + TSDSFE + '?catalogs=^.*">catalog list</a></li>');
+							$('#cataloginfo ul').append('<li style=""><a href="/#catalog='+info[j].value+'">'+info[j].value +'</a></li>');
+						}						
 					}
 					$('#catalogtinfo ul').append('</ul>');
 
@@ -299,6 +308,11 @@
 					} else {
 						list[k].label = list[k].value + ": " + list[k].label;
 					}
+					// Show catalog where it is from 
+					if (selected('catalog').substring(0,1) === "^") {
+						list[k].label = list[k].catalog + "/" + list[k].label;
+					}
+
 				}
 				function compare(a,b) {
 					  if (a.value < b.value) return -1;
@@ -539,6 +553,7 @@
 				$("iframe[id="+id+"]").attr("src",src).show();
 				//$.scrollTo($("iframe[id="+id+"]"));
 			}
+
 			function imgclicked(i) {
 				window.location =$("a[id="+i+"]").attr('href');
 			}
@@ -699,12 +714,12 @@
 				<div title="For fastest response time, use cached metadata.  Disable this for metadata that change frequently."><input id="usemetadatacache" type="checkbox" value=""/>&nbsp;Use cached metadata if avail.</div>
 			</font>
 			</div>
-			<span id="dropdowns0"></span>
-			<span id="dropdowns1" style="display:none"></span>
-			<span id="dropdowns2" style="display:none"></span>
-			<span id="dropdowns3" style="display:none"></span>
-			<span id="dropdowns4" style="display:none"></span>
-			<span id="dropdowns5" style="display:none"></span>
+			<span id="dropdowns0" class="dropdown"></span>
+			<span id="dropdowns1" class="dropdown" style="display:none"></span>
+			<span id="dropdowns2" class="dropdown" style="display:none"></span>
+			<span id="dropdowns3" class="dropdown" style="display:none"></span>
+			<span id="dropdowns4" class="dropdown" style="display:none"></span>
+			<span id="dropdowns5" class="dropdown" style="display:none"></span>
 			<button type="button" style="background-color:white;color:black;border:1px solid black;" onclick="window.location=window.location.pathname">Clear</button>
 		</div>
 		<div id="overviewdiv" style="margin-left:14em;;margin-top:0em">
@@ -721,7 +736,6 @@
 			</p>
 		</div>
 		<br/>
-
 	
 		<div id="infodiv" style="margin-left:14em;;margin-top:0em;">		
 			<div id="dldiv" style="background-color:white;display:none;">
