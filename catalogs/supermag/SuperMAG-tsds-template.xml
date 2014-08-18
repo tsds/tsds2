@@ -1,0 +1,25 @@
+<catalog xmlns:xlink="http://www.w3.org/1999/xlink" id="SuperMAG" name="SuperMAG">
+	<documentation xlink:href="https://github.com/tsds/tsdscc/README.md" xlink:title="README for this catalog"/>
+	<documentation xlink:href="http://supermag.jhuapl.edu/" xlink:title="SuperMAG web page"/>
+	<documentation xlink:href="/" xlink:title="Catalog generation date: "/>
+	<documentation xlink:href="http://github.com/tsds/tsdscc/" xlink:title="Catalog generation software"/>
+
+	<dataset name="" ID="">
+		<documentation xlink:href="http://supermag.jhuapl.edu/info/coordinates.html" xlink:title="Coordinate system information"/>
+		<documentation xlink:href="http://supermag.uib.no/info/rulesoftheroad.html/" xlink:title="Acknowledging SuperMAG's data providers"/>
+		<documentation xlink:href="http://supermag.uib.no/info/acknowledgement.html/" xlink:title="Acknowledging the SuperMAG data service"/>
+
+		<timeCoverage>
+			<Start></Start>
+			<End></End>
+			<Cadence>PT1M</Cadence>			
+		</timeCoverage>
+		<variables>
+			<variable id="B_N" name="B North GEO" label="B North GEO" units="nT" type="scalar" fillvalue="999999" rendering="%.1f" columns="8"/>
+			<variable id="B_E" name="B East GEO" label="B East GEO" units="nT" type="scalar" fillvalue="999999" rendering="%.1f" columns="9"/>
+			<variable id="B_Z" name="B Vertical GEO" label="B Vertical GEO" units="nT" type="scalar" fillvalue="999999" rendering="%.1f" columns="10"/>
+			<variable id="SZA" name="Solar Zenith Angle" label="Solar Zenith Angle" units="deg" type="scalar" fillvalue="999999" rendering="%.2f" columns="11"/>
+		</variables>
+	</dataset>
+
+</catalog>
