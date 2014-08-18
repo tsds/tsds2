@@ -1,0 +1,1478 @@
+<bookmark-list version="1.1">
+    <bookmark-folder>
+        <title>SSCWeb (Raw)</title>
+        <bookmark-list>
+            <bookmark-folder>
+                <title>A</title>
+                <bookmark-list>
+                    <bookmark-folder>
+                        <title>ACE</title>
+                        <bookmark-list>
+                            <bookmark>
+                                <title>ACE X_GEO
+                                                            </title>
+                                <description>1997-08-26T00:00:00Z to 2013-02-03T21:11:59Z at 720s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=ace&amp;parameters=X_GEO&amp;stop=1997-08-2&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                        </bookmark-list>
+                    </bookmark-folder>
+                    <bookmark-folder>
+                        <title>AIM</title>
+                        <bookmark-list>
+                            <bookmark>
+                                <title>AIM X_GEO
+                                                            </title>
+                                <description>2007-04-25T00:00:00Z to 2013-02-24T00:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=aim&amp;parameters=X_GEO&amp;stop=2007-04-2&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                        </bookmark-list>
+                    </bookmark-folder>
+                    <bookmark-folder>
+                        <title>APEX</title>
+                        <bookmark-list>
+                            <bookmark>
+                                <title>APEX-MAIN X_GEO
+                                                            </title>
+                                <description>1991-12-17T00:00:00Z to 2004-05-01T00:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=apex&amp;parameters=X_GEO&amp;stop=1991-12-1&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                        </bookmark-list>
+                    </bookmark-folder>
+                    <bookmark-folder>
+                        <title>ARIEL</title>
+                        <bookmark-list>
+                            <bookmark>
+                                <title>ARIEL-4 X_GEO
+                                                            </title>
+                                <description>1972-01-16T00:00:00Z to 1978-11-26T00:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=ariel4&amp;parameters=X_GEO&amp;stop=1972-01-1&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                        </bookmark-list>
+                    </bookmark-folder>
+                    <bookmark-folder>
+                        <title>ARTEMIS</title>
+                        <bookmark-list>
+                            <bookmark>
+                                <title>ARTEMIS_P1 X_GEO
+                                                            </title>
+                                <description>2007-02-17T23:36:00Z to 2013-02-06T23:58:59Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=artemisp1&amp;parameters=X_GEO&amp;stop=2007-02-1&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                            <bookmark>
+                                <title>ARTEMIS_P2 X_GEO
+                                                            </title>
+                                <description>2007-02-17T23:36:00Z to 2013-02-06T23:58:59Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=artemisp2&amp;parameters=X_GEO&amp;stop=2007-02-1&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                        </bookmark-list>
+                    </bookmark-folder>
+                    <bookmark-folder>
+                        <title>ASTRID</title>
+                        <bookmark-list>
+                            <bookmark>
+                                <title>ASTRID X_GEO
+                                                            </title>
+                                <description>1998-12-12T00:00:00Z to 2002-04-03T00:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=astrid2&amp;parameters=X_GEO&amp;stop=1998-12-1&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                        </bookmark-list>
+                    </bookmark-folder>
+                    <bookmark-folder>
+                        <title>Active</title>
+                        <bookmark-list>
+                            <bookmark>
+                                <title>Active X_GEO
+                                                            </title>
+                                <description>1989-09-29T00:00:00Z to 1991-10-04T08:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=active&amp;parameters=X_GEO&amp;stop=1989-09-2&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                        </bookmark-list>
+                    </bookmark-folder>
+                    <bookmark-folder>
+                        <title>Akebono</title>
+                        <bookmark-list>
+                            <bookmark>
+                                <title>Akebono X_GEO
+                                                            </title>
+                                <description>1989-02-23T00:00:00Z to 2013-02-24T00:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=akebono&amp;parameters=X_GEO&amp;stop=1989-02-2&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                        </bookmark-list>
+                    </bookmark-folder>
+                    <bookmark-folder>
+                        <title>Alouette</title>
+                        <bookmark-list>
+                            <bookmark>
+                                <title>Alouette-1 X_GEO
+                                                            </title>
+                                <description>1965-01-01T00:00:00Z to 1972-09-25T00:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=alouette1&amp;parameters=X_GEO&amp;stop=1965-01-0&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                            <bookmark>
+                                <title>Alouette-2 X_GEO
+                                                            </title>
+                                <description>1966-01-27T00:00:00Z to 1975-07-31T00:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=alouette2&amp;parameters=X_GEO&amp;stop=1966-01-2&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                        </bookmark-list>
+                    </bookmark-folder>
+                    <bookmark-folder>
+                        <title>Aqua</title>
+                        <bookmark-list>
+                            <bookmark>
+                                <title>Aqua X_GEO
+                                                            </title>
+                                <description>2002-05-04T00:00:00Z to 2013-02-24T00:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=aqua&amp;parameters=X_GEO&amp;stop=2002-05-0&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                        </bookmark-list>
+                    </bookmark-folder>
+                    <bookmark-folder>
+                        <title>Aura</title>
+                        <bookmark-list>
+                            <bookmark>
+                                <title>Aura X_GEO
+                                                            </title>
+                                <description>2004-07-15T00:00:00Z to 2013-02-25T00:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=aura&amp;parameters=X_GEO&amp;stop=2004-07-1&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                        </bookmark-list>
+                    </bookmark-folder>
+                </bookmark-list>
+            </bookmark-folder>
+            <bookmark-folder>
+                <title>C</title>
+                <bookmark-list>
+                    <bookmark-folder>
+                        <title>C/NOFS</title>
+                        <bookmark-list>
+                            <bookmark>
+                                <title>C/NOFS X_GEO
+                                                            </title>
+                                <description>2008-04-18T00:00:00Z to 2013-06-03T00:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=cnofs&amp;parameters=X_GEO&amp;stop=2008-04-1&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                        </bookmark-list>
+                    </bookmark-folder>
+                    <bookmark-folder>
+                        <title>CALIPSO</title>
+                        <bookmark-list>
+                            <bookmark>
+                                <title>CALIPSO X_GEO
+                                                            </title>
+                                <description>2006-04-28T00:00:00Z to 2013-02-24T00:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=calipso&amp;parameters=X_GEO&amp;stop=2006-04-2&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                        </bookmark-list>
+                    </bookmark-folder>
+                    <bookmark-folder>
+                        <title>CCE</title>
+                        <bookmark-list>
+                            <bookmark>
+                                <title>CCE X_GEO
+                                                            </title>
+                                <description>1984-08-16T15:55:00Z to 1989-08-01T00:04:59Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=cce&amp;parameters=X_GEO&amp;stop=1984-08-1&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                        </bookmark-list>
+                    </bookmark-folder>
+                    <bookmark-folder>
+                        <title>CHAMP</title>
+                        <bookmark-list>
+                            <bookmark>
+                                <title>CHAMP X_GEO
+                                                            </title>
+                                <description>2000-11-09T00:00:00Z to 2010-10-10T00:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=champ&amp;parameters=X_GEO&amp;stop=2000-11-0&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                        </bookmark-list>
+                    </bookmark-folder>
+                    <bookmark-folder>
+                        <title>CRRES</title>
+                        <bookmark-list>
+                            <bookmark>
+                                <title>CRRES X_GEO
+                                                            </title>
+                                <description>1990-07-25T23:00:00Z to 1991-12-04T08:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=crres&amp;parameters=X_GEO&amp;stop=1990-07-2&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                        </bookmark-list>
+                    </bookmark-folder>
+                    <bookmark-folder>
+                        <title>CSSWE</title>
+                        <bookmark-list>
+                            <bookmark>
+                                <title>CSSWE X_GEO
+                                                            </title>
+                                <description>2012-10-06T14:58:00Z to 2013-01-31T00:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=csswe&amp;parameters=X_GEO&amp;stop=2012-10-0&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                        </bookmark-list>
+                    </bookmark-folder>
+                    <bookmark-folder>
+                        <title>Chandra</title>
+                        <bookmark-list>
+                            <bookmark>
+                                <title>Chandra X_GEO
+                                                            </title>
+                                <description>2007-01-05T00:46:00Z to 2013-02-25T00:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=chandra&amp;parameters=X_GEO&amp;stop=2007-01-0&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                        </bookmark-list>
+                    </bookmark-folder>
+                    <bookmark-folder>
+                        <title>Chibis</title>
+                        <bookmark-list>
+                            <bookmark>
+                                <title>Chibis-M X_GEO
+                                                            </title>
+                                <description>2012-01-26T00:00:00Z to 2013-02-25T00:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=chibism&amp;parameters=X_GEO&amp;stop=2012-01-2&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                        </bookmark-list>
+                    </bookmark-folder>
+                    <bookmark-folder>
+                        <title>Cloudsat</title>
+                        <bookmark-list>
+                            <bookmark>
+                                <title>Cloudsat X_GEO
+                                                            </title>
+                                <description>2006-05-05T00:00:00Z to 2013-02-24T00:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=cloudsat&amp;parameters=X_GEO&amp;stop=2006-05-0&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                        </bookmark-list>
+                    </bookmark-folder>
+                    <bookmark-folder>
+                        <title>Cluster</title>
+                        <bookmark-list>
+                            <bookmark>
+                                <title>Cluster-1 X_GEO
+                                                            </title>
+                                <description>2000-08-23T00:00:29Z to 2017-01-02T04:59:30Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=cluster1&amp;parameters=X_GEO&amp;stop=2000-08-2&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                            <bookmark>
+                                <title>Cluster-2 X_GEO
+                                                            </title>
+                                <description>2000-08-23T00:00:29Z to 2017-01-02T04:59:30Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=cluster2&amp;parameters=X_GEO&amp;stop=2000-08-2&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                            <bookmark>
+                                <title>Cluster-3 X_GEO
+                                                            </title>
+                                <description>2000-08-23T00:00:29Z to 2017-01-02T04:59:30Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=cluster3&amp;parameters=X_GEO&amp;stop=2000-08-2&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                            <bookmark>
+                                <title>Cluster-4 X_GEO
+                                                            </title>
+                                <description>2000-08-23T00:00:29Z to 2017-01-02T04:59:30Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=cluster4&amp;parameters=X_GEO&amp;stop=2000-08-2&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                        </bookmark-list>
+                    </bookmark-folder>
+                </bookmark-list>
+            </bookmark-folder>
+            <bookmark-folder>
+                <title>D</title>
+                <bookmark-list>
+                    <bookmark-folder>
+                        <title>DE</title>
+                        <bookmark-list>
+                            <bookmark>
+                                <title>DE-1 X_GEO
+                                                            </title>
+                                <description>1981-08-03T10:37:59Z to 1991-03-02T08:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=de1&amp;parameters=X_GEO&amp;stop=1981-08-0&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                            <bookmark>
+                                <title>DE-2 X_GEO
+                                                            </title>
+                                <description>1981-08-04T00:00:00Z to 1983-02-19T12:19:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=de2&amp;parameters=X_GEO&amp;stop=1981-08-0&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                        </bookmark-list>
+                    </bookmark-folder>
+                    <bookmark-folder>
+                        <title>DEMETER</title>
+                        <bookmark-list>
+                            <bookmark>
+                                <title>DEMETER X_GEO
+                                                            </title>
+                                <description>2004-07-08T00:00:00Z to 2009-11-24T00:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=demeter&amp;parameters=X_GEO&amp;stop=2004-07-0&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                        </bookmark-list>
+                    </bookmark-folder>
+                    <bookmark-folder>
+                        <title>DME</title>
+                        <bookmark-list>
+                            <bookmark>
+                                <title>DME-A X_GEO
+                                                            </title>
+                                <description>1966-04-10T00:00:00Z to 1969-07-01T00:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=dmea&amp;parameters=X_GEO&amp;stop=1966-04-1&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                        </bookmark-list>
+                    </bookmark-folder>
+                    <bookmark-folder>
+                        <title>DMSP</title>
+                        <bookmark-list>
+                            <bookmark>
+                                <title>DMSP-10 X_GEO
+                                                            </title>
+                                <description>1990-12-02T00:00:00Z to 1999-09-12T00:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=dmspf10&amp;parameters=X_GEO&amp;stop=1990-12-0&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                            <bookmark>
+                                <title>DMSP-11 X_GEO
+                                                            </title>
+                                <description>1991-11-29T00:00:00Z to 2003-09-09T00:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=dmspf11&amp;parameters=X_GEO&amp;stop=1991-11-2&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                            <bookmark>
+                                <title>DMSP-12 X_GEO
+                                                            </title>
+                                <description>1994-09-16T00:00:00Z to 2003-09-09T00:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=dmspf12&amp;parameters=X_GEO&amp;stop=1994-09-1&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                            <bookmark>
+                                <title>DMSP-13 X_GEO
+                                                            </title>
+                                <description>1995-04-13T00:00:00Z to 2010-05-08T00:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=dmspf13&amp;parameters=X_GEO&amp;stop=1995-04-1&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                            <bookmark>
+                                <title>DMSP-14 X_GEO
+                                                            </title>
+                                <description>1997-04-20T00:00:00Z to 2010-11-13T00:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=dmspf14&amp;parameters=X_GEO&amp;stop=1997-04-2&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                            <bookmark>
+                                <title>DMSP-15 X_GEO
+                                                            </title>
+                                <description>1999-12-13T00:00:00Z to 2013-01-01T00:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=dmspf15&amp;parameters=X_GEO&amp;stop=1999-12-1&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                            <bookmark>
+                                <title>DMSP-16 X_GEO
+                                                            </title>
+                                <description>2003-10-18T00:00:00Z to 2013-01-02T00:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=dmspf16&amp;parameters=X_GEO&amp;stop=2003-10-1&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                            <bookmark>
+                                <title>DMSP-17 X_GEO
+                                                            </title>
+                                <description>2006-11-05T16:30:00Z to 2013-01-02T00:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=dmspf17&amp;parameters=X_GEO&amp;stop=2006-11-0&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                            <bookmark>
+                                <title>DMSP-18 X_GEO
+                                                            </title>
+                                <description>2009-10-22T00:00:00Z to 2013-01-02T00:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=dmspf18&amp;parameters=X_GEO&amp;stop=2009-10-2&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                            <bookmark>
+                                <title>DMSP-8 X_GEO
+                                                            </title>
+                                <description>1990-01-01T00:00:00Z to 1994-09-13T08:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=dmspf8&amp;parameters=X_GEO&amp;stop=1990-01-0&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                            <bookmark>
+                                <title>DMSP-9 X_GEO
+                                                            </title>
+                                <description>1990-01-01T00:00:00Z to 1992-11-01T08:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=dmspf9&amp;parameters=X_GEO&amp;stop=1990-01-0&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                        </bookmark-list>
+                    </bookmark-folder>
+                    <bookmark-folder>
+                        <title>Double</title>
+                        <bookmark-list>
+                            <bookmark>
+                                <title>Double X_GEO
+                                                            </title>
+                                <description>2004-01-03T07:05:59Z to 2007-10-10T12:37:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=doublestar1&amp;parameters=X_GEO&amp;stop=2004-01-0&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                        </bookmark-list>
+                    </bookmark-folder>
+                </bookmark-list>
+            </bookmark-folder>
+            <bookmark-folder>
+                <title>E</title>
+                <bookmark-list>
+                    <bookmark-folder>
+                        <title>Equator</title>
+                        <bookmark-list>
+                            <bookmark>
+                                <title>Equator-S X_GEO
+                                                            </title>
+                                <description>1997-12-12T16:00:00Z to 1998-09-24T08:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=equators&amp;parameters=X_GEO&amp;stop=1997-12-1&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                        </bookmark-list>
+                    </bookmark-folder>
+                    <bookmark-folder>
+                        <title>Explorer</title>
+                        <bookmark-list>
+                            <bookmark>
+                                <title>Explorer-45 X_GEO
+                                                            </title>
+                                <description>1971-11-22T00:00:00Z to 1974-01-31T00:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=explorer45&amp;parameters=X_GEO&amp;stop=1971-11-2&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                        </bookmark-list>
+                    </bookmark-folder>
+                </bookmark-list>
+            </bookmark-folder>
+            <bookmark-folder>
+                <title>F</title>
+                <bookmark-list>
+                    <bookmark-folder>
+                        <title>FAST</title>
+                        <bookmark-list>
+                            <bookmark>
+                                <title>FAST X_GEO
+                                                            </title>
+                                <description>1996-08-22T00:00:00Z to 2013-02-24T00:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=fast&amp;parameters=X_GEO&amp;stop=1996-08-2&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                        </bookmark-list>
+                    </bookmark-folder>
+                    <bookmark-folder>
+                        <title>Freja</title>
+                        <bookmark-list>
+                            <bookmark>
+                                <title>Freja X_GEO
+                                                            </title>
+                                <description>1992-10-07T00:00:00Z to 2000-05-11T00:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=freja&amp;parameters=X_GEO&amp;stop=1992-10-0&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                        </bookmark-list>
+                    </bookmark-folder>
+                </bookmark-list>
+            </bookmark-folder>
+            <bookmark-folder>
+                <title>G</title>
+                <bookmark-list>
+                    <bookmark-folder>
+                        <title>GCOM</title>
+                        <bookmark-list>
+                            <bookmark>
+                                <title>GCOM-W1 X_GEO
+                                                            </title>
+                                <description>2012-05-17T00:00:00Z to 2013-01-11T00:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=gcomw1&amp;parameters=X_GEO&amp;stop=2012-05-1&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                        </bookmark-list>
+                    </bookmark-folder>
+                    <bookmark-folder>
+                        <title>GMS</title>
+                        <bookmark-list>
+                            <bookmark>
+                                <title>GMS-3 X_GEO
+                                                            </title>
+                                <description>1986-03-25T00:00:00Z to 1986-07-01T00:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=gms3&amp;parameters=X_GEO&amp;stop=1986-03-2&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                        </bookmark-list>
+                    </bookmark-folder>
+                    <bookmark-folder>
+                        <title>GOES</title>
+                        <bookmark-list>
+                            <bookmark>
+                                <title>GOES-10 X_GEO
+                                                            </title>
+                                <description>1998-06-18T00:00:00Z to 2009-12-05T00:00:00Z at 180s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=goes10&amp;parameters=X_GEO&amp;stop=1998-06-1&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                            <bookmark>
+                                <title>GOES-11 X_GEO
+                                                            </title>
+                                <description>2000-05-17T00:00:00Z to 2013-02-23T00:00:00Z at 180s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=goes11&amp;parameters=X_GEO&amp;stop=2000-05-1&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                            <bookmark>
+                                <title>GOES-12 X_GEO
+                                                            </title>
+                                <description>2002-08-15T00:00:00Z to 2013-02-24T00:00:00Z at 180s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=goes12&amp;parameters=X_GEO&amp;stop=2002-08-1&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                            <bookmark>
+                                <title>GOES-13 X_GEO
+                                                            </title>
+                                <description>2006-06-10T00:00:00Z to 2013-02-24T00:00:00Z at 180s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=goes13&amp;parameters=X_GEO&amp;stop=2006-06-1&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                            <bookmark>
+                                <title>GOES-14 X_GEO
+                                                            </title>
+                                <description>2009-07-09T00:00:00Z to 2013-02-24T00:00:00Z at 180s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=goes14&amp;parameters=X_GEO&amp;stop=2009-07-0&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                            <bookmark>
+                                <title>GOES-15 X_GEO
+                                                            </title>
+                                <description>2010-06-19T00:00:00Z to 2013-02-24T00:00:00Z at 180s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=goes15&amp;parameters=X_GEO&amp;stop=2010-06-1&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                            <bookmark>
+                                <title>GOES-6 X_GEO
+                                                            </title>
+                                <description>1993-12-01T00:00:00Z to 1995-05-01T08:00:00Z at 180s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=goes6&amp;parameters=X_GEO&amp;stop=1993-12-0&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                            <bookmark>
+                                <title>GOES-7 X_GEO
+                                                            </title>
+                                <description>1987-04-15T00:00:00Z to 1998-12-02T00:00:00Z at 180s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=goes7&amp;parameters=X_GEO&amp;stop=1987-04-1&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                            <bookmark>
+                                <title>GOES-8 X_GEO
+                                                            </title>
+                                <description>1994-07-22T00:00:00Z to 2004-05-01T00:00:00Z at 180s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=goes8&amp;parameters=X_GEO&amp;stop=1994-07-2&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                            <bookmark>
+                                <title>GOES-9 X_GEO
+                                                            </title>
+                                <description>1995-07-29T00:00:00Z to 2006-01-01T00:00:00Z at 180s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=goes9&amp;parameters=X_GEO&amp;stop=1995-07-2&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                        </bookmark-list>
+                    </bookmark-folder>
+                    <bookmark-folder>
+                        <title>GRACE</title>
+                        <bookmark-list>
+                            <bookmark>
+                                <title>GRACE-1 X_GEO
+                                                            </title>
+                                <description>2002-03-31T00:00:00Z to 2013-02-24T00:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=grace1&amp;parameters=X_GEO&amp;stop=2002-03-3&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                            <bookmark>
+                                <title>GRACE-2 X_GEO
+                                                            </title>
+                                <description>2002-03-31T00:00:00Z to 2013-02-24T00:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=grace2&amp;parameters=X_GEO&amp;stop=2002-03-3&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                        </bookmark-list>
+                    </bookmark-folder>
+                    <bookmark-folder>
+                        <title>Genesis</title>
+                        <bookmark-list>
+                            <bookmark>
+                                <title>Genesis X_GEO
+                                                            </title>
+                                <description>2001-08-12T00:00:00Z to 2004-09-07T23:00:00Z at 3600s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=genesis&amp;parameters=X_GEO&amp;stop=2001-08-1&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                        </bookmark-list>
+                    </bookmark-folder>
+                    <bookmark-folder>
+                        <title>Geotail</title>
+                        <bookmark-list>
+                            <bookmark>
+                                <title>Geotail X_GEO
+                                                            </title>
+                                <description>1992-07-26T00:00:00Z to 2013-03-08T23:36:00Z at 720s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=geotail&amp;parameters=X_GEO&amp;stop=1992-07-2&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                        </bookmark-list>
+                    </bookmark-folder>
+                </bookmark-list>
+            </bookmark-folder>
+            <bookmark-folder>
+                <title>H</title>
+                <bookmark-list>
+                    <bookmark-folder>
+                        <title>Hawkeye</title>
+                        <bookmark-list>
+                            <bookmark>
+                                <title>Hawkeye X_GEO
+                                                            </title>
+                                <description>1974-06-09T00:00:00Z to 1978-01-01T08:00:00Z at 180s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=hawkeye&amp;parameters=X_GEO&amp;stop=1974-06-0&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                        </bookmark-list>
+                    </bookmark-folder>
+                    <bookmark-folder>
+                        <title>Hinode</title>
+                        <bookmark-list>
+                            <bookmark>
+                                <title>Hinode X_GEO
+                                                            </title>
+                                <description>2006-09-23T00:10:00Z to 2013-02-24T00:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=hinode&amp;parameters=X_GEO&amp;stop=2006-09-2&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                        </bookmark-list>
+                    </bookmark-folder>
+                </bookmark-list>
+            </bookmark-folder>
+            <bookmark-folder>
+                <title>I</title>
+                <bookmark-list>
+                    <bookmark-folder>
+                        <title>IMAGE</title>
+                        <bookmark-list>
+                            <bookmark>
+                                <title>IMAGE X_GEO
+                                                            </title>
+                                <description>2000-03-27T00:00:55Z to 2006-07-31T22:37:59Z at 120s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=image&amp;parameters=X_GEO&amp;stop=2000-03-2&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                        </bookmark-list>
+                    </bookmark-folder>
+                    <bookmark-folder>
+                        <title>IMP</title>
+                        <bookmark-list>
+                            <bookmark>
+                                <title>IMP-7 X_GEO
+                                                            </title>
+                                <description>1972-09-26T00:00:00Z to 1978-10-01T00:00:00Z at 720s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=imp7&amp;parameters=X_GEO&amp;stop=1972-09-2&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                            <bookmark>
+                                <title>IMP-8 X_GEO
+                                                            </title>
+                                <description>1973-10-30T00:00:00Z to 2010-01-01T00:00:00Z at 300s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=imp8&amp;parameters=X_GEO&amp;stop=1973-10-3&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                        </bookmark-list>
+                    </bookmark-folder>
+                    <bookmark-folder>
+                        <title>IRM</title>
+                        <bookmark-list>
+                            <bookmark>
+                                <title>IRM X_GEO
+                                                            </title>
+                                <description>1984-09-12T00:00:00Z to 1986-08-30T08:00:00Z at 720s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=irm&amp;parameters=X_GEO&amp;stop=1984-09-1&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                        </bookmark-list>
+                    </bookmark-folder>
+                    <bookmark-folder>
+                        <title>ISEE</title>
+                        <bookmark-list>
+                            <bookmark>
+                                <title>ISEE-1 X_GEO
+                                                            </title>
+                                <description>1977-10-22T14:49:00Z to 1987-09-26T05:58:59Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=isee1&amp;parameters=X_GEO&amp;stop=1977-10-2&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                            <bookmark>
+                                <title>ISEE-2 X_GEO
+                                                            </title>
+                                <description>1977-10-22T14:49:00Z to 1987-09-26T05:58:59Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=isee2&amp;parameters=X_GEO&amp;stop=1977-10-2&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                            <bookmark>
+                                <title>ISEE-3 X_GEO
+                                                            </title>
+                                <description>1978-08-16T03:43:59Z to 2014-08-11T23:36:00Z at 720s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=isee3&amp;parameters=X_GEO&amp;stop=1978-08-1&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                        </bookmark-list>
+                    </bookmark-folder>
+                    <bookmark-folder>
+                        <title>ISIS</title>
+                        <bookmark-list>
+                            <bookmark>
+                                <title>ISIS-1 X_GEO
+                                                            </title>
+                                <description>1969-01-30T00:00:00Z to 1990-01-30T00:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=isis1&amp;parameters=X_GEO&amp;stop=1969-01-3&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                            <bookmark>
+                                <title>ISIS-2 X_GEO
+                                                            </title>
+                                <description>1971-04-10T00:00:00Z to 1990-01-30T00:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=isis2&amp;parameters=X_GEO&amp;stop=1971-04-1&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                        </bookmark-list>
+                    </bookmark-folder>
+                    <bookmark-folder>
+                        <title>ISS</title>
+                        <bookmark-list>
+                            <bookmark>
+                                <title>ISS X_GEO
+                                                            </title>
+                                <description>1998-11-21T00:00:00Z to 2013-02-25T00:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=iss&amp;parameters=X_GEO&amp;stop=1998-11-2&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                            <bookmark>
+                                <title>ISS-b X_GEO
+                                                            </title>
+                                <description>1978-02-19T00:00:00Z to 1983-11-16T00:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=issb&amp;parameters=X_GEO&amp;stop=1978-02-1&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                        </bookmark-list>
+                    </bookmark-folder>
+                    <bookmark-folder>
+                        <title>Interball</title>
+                        <bookmark-list>
+                            <bookmark>
+                                <title>Interball X_GEO
+                                                            </title>
+                                <description>1996-09-02T00:00:00Z to 1999-07-15T08:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=interballaurora&amp;parameters=X_GEO&amp;stop=1996-09-0&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                        </bookmark-list>
+                    </bookmark-folder>
+                </bookmark-list>
+            </bookmark-folder>
+            <bookmark-folder>
+                <title>J</title>
+                <bookmark-list>
+                    <bookmark-folder>
+                        <title>JASON2</title>
+                        <bookmark-list>
+                            <bookmark>
+                                <title>JASON2 X_GEO
+                                                            </title>
+                                <description>2008-07-08T00:00:00Z to 2013-02-24T00:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=jason2&amp;parameters=X_GEO&amp;stop=2008-07-0&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                        </bookmark-list>
+                    </bookmark-folder>
+                </bookmark-list>
+            </bookmark-folder>
+            <bookmark-folder>
+                <title>L</title>
+                <bookmark-list>
+                    <bookmark-folder>
+                        <title>LANL</title>
+                        <bookmark-list>
+                            <bookmark>
+                                <title>LANL-01 X_GEO
+                                                            </title>
+                                <description>2001-05-02T02:00:00Z to 2008-01-03T17:00:00Z at 180s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=lanl01&amp;parameters=X_GEO&amp;stop=2001-05-0&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                            <bookmark>
+                                <title>LANL-02 X_GEO
+                                                            </title>
+                                <description>2003-10-01T02:00:00Z to 2008-01-03T17:00:00Z at 180s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=lanl02&amp;parameters=X_GEO&amp;stop=2003-10-0&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                            <bookmark>
+                                <title>LANL-89 X_GEO
+                                                            </title>
+                                <description>1993-03-15T00:00:00Z to 2008-01-03T17:00:00Z at 180s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=lanl89&amp;parameters=X_GEO&amp;stop=1993-03-1&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                            <bookmark>
+                                <title>LANL-90 X_GEO
+                                                            </title>
+                                <description>1994-05-20T00:00:00Z to 2005-11-10T00:00:00Z at 180s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=lanl90&amp;parameters=X_GEO&amp;stop=1994-05-2&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                            <bookmark>
+                                <title>LANL-91 X_GEO
+                                                            </title>
+                                <description>1993-10-27T02:00:00Z to 2004-11-19T00:00:00Z at 180s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=lanl91&amp;parameters=X_GEO&amp;stop=1993-10-2&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                            <bookmark>
+                                <title>LANL-94 X_GEO
+                                                            </title>
+                                <description>1996-01-01T00:00:00Z to 2008-01-03T17:00:00Z at 180s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=lanl94&amp;parameters=X_GEO&amp;stop=1996-01-0&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                            <bookmark>
+                                <title>LANL-97 X_GEO
+                                                            </title>
+                                <description>1997-07-04T23:00:00Z to 2008-01-03T17:00:00Z at 180s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=lanl97&amp;parameters=X_GEO&amp;stop=1997-07-0&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                        </bookmark-list>
+                    </bookmark-folder>
+                </bookmark-list>
+            </bookmark-folder>
+            <bookmark-folder>
+                <title>M</title>
+                <bookmark-list>
+                    <bookmark-folder>
+                        <title>MIR</title>
+                        <bookmark-list>
+                            <bookmark>
+                                <title>MIR X_GEO
+                                                            </title>
+                                <description>1995-07-26T00:00:00Z to 2000-11-29T00:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=mir&amp;parameters=X_GEO&amp;stop=1995-07-2&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                        </bookmark-list>
+                    </bookmark-folder>
+                    <bookmark-folder>
+                        <title>MSX</title>
+                        <bookmark-list>
+                            <bookmark>
+                                <title>MSX X_GEO
+                                                            </title>
+                                <description>1996-04-25T00:00:00Z to 1999-03-04T00:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=msx&amp;parameters=X_GEO&amp;stop=1996-04-2&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                        </bookmark-list>
+                    </bookmark-folder>
+                    <bookmark-folder>
+                        <title>Microlab1</title>
+                        <bookmark-list>
+                            <bookmark>
+                                <title>Microlab1 X_GEO
+                                                            </title>
+                                <description>2000-01-01T00:00:00Z to 2005-04-30T00:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=microlab1&amp;parameters=X_GEO&amp;stop=2000-01-0&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                        </bookmark-list>
+                    </bookmark-folder>
+                    <bookmark-folder>
+                        <title>Moon</title>
+                        <bookmark-list>
+                            <bookmark>
+                                <title>Moon X_GEO
+                                                            </title>
+                                <description>1991-07-01T00:00:00Z to 2017-08-21T23:58:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=moon&amp;parameters=X_GEO&amp;stop=1991-07-0&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                            <bookmark>
+                                <title>Moon-Apollo-Era X_GEO
+                                                            </title>
+                                <description>1959-01-01T00:00:00Z to 1977-12-31T23:58:53Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=moonapollo&amp;parameters=X_GEO&amp;stop=1959-01-0&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                        </bookmark-list>
+                    </bookmark-folder>
+                </bookmark-list>
+            </bookmark-folder>
+            <bookmark-folder>
+                <title>N</title>
+                <bookmark-list>
+                    <bookmark-folder>
+                        <title>NOAA</title>
+                        <bookmark-list>
+                            <bookmark>
+                                <title>NOAA-10 X_GEO
+                                                            </title>
+                                <description>1986-09-27T00:00:00Z to 1991-09-27T00:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=noaa10&amp;parameters=X_GEO&amp;stop=1986-09-2&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                            <bookmark>
+                                <title>NOAA-12 X_GEO
+                                                            </title>
+                                <description>1991-05-16T00:00:00Z to 1998-05-02T00:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=noaa12&amp;parameters=X_GEO&amp;stop=1991-05-1&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                            <bookmark>
+                                <title>NOAA-14 X_GEO
+                                                            </title>
+                                <description>1995-01-14T00:00:00Z to 2004-05-01T00:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=noaa14&amp;parameters=X_GEO&amp;stop=1995-01-1&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                            <bookmark>
+                                <title>NOAA-15 X_GEO
+                                                            </title>
+                                <description>1998-05-26T00:00:00Z to 2013-02-24T00:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=noaa15&amp;parameters=X_GEO&amp;stop=1998-05-2&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                            <bookmark>
+                                <title>NOAA-16 X_GEO
+                                                            </title>
+                                <description>2000-09-27T00:00:00Z to 2013-02-24T00:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=noaa16&amp;parameters=X_GEO&amp;stop=2000-09-2&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                            <bookmark>
+                                <title>NOAA-17 X_GEO
+                                                            </title>
+                                <description>2002-06-25T00:00:00Z to 2013-02-24T00:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=noaa17&amp;parameters=X_GEO&amp;stop=2002-06-2&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                            <bookmark>
+                                <title>NOAA-18 X_GEO
+                                                            </title>
+                                <description>2005-07-03T00:00:00Z to 2013-02-24T00:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=noaa18&amp;parameters=X_GEO&amp;stop=2005-07-0&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                            <bookmark>
+                                <title>NOAA-19 X_GEO
+                                                            </title>
+                                <description>2009-02-06T21:37:00Z to 2013-02-24T00:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=noaa19&amp;parameters=X_GEO&amp;stop=2009-02-0&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                            <bookmark>
+                                <title>NOAA-5 X_GEO
+                                                            </title>
+                                <description>1976-07-31T00:00:00Z to 1980-06-28T00:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=noaa5&amp;parameters=X_GEO&amp;stop=1976-07-3&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                            <bookmark>
+                                <title>NOAA-6 X_GEO
+                                                            </title>
+                                <description>1979-10-05T00:00:00Z to 1986-08-09T00:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=noaa6&amp;parameters=X_GEO&amp;stop=1979-10-0&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                            <bookmark>
+                                <title>NOAA-7 X_GEO
+                                                            </title>
+                                <description>1981-10-01T00:00:00Z to 1986-06-29T00:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=noaa7&amp;parameters=X_GEO&amp;stop=1981-10-0&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                            <bookmark>
+                                <title>NOAA-8 X_GEO
+                                                            </title>
+                                <description>1983-03-28T00:00:00Z to 1985-10-27T00:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=noaa8&amp;parameters=X_GEO&amp;stop=1983-03-2&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                        </bookmark-list>
+                    </bookmark-folder>
+                </bookmark-list>
+            </bookmark-folder>
+            <bookmark-folder>
+                <title>O</title>
+                <bookmark-list>
+                    <bookmark-folder>
+                        <title>OGO</title>
+                        <bookmark-list>
+                            <bookmark>
+                                <title>OGO-5 X_GEO
+                                                            </title>
+                                <description>1969-04-09T00:00:00Z to 1971-05-10T00:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=ogo5&amp;parameters=X_GEO&amp;stop=1969-04-0&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                            <bookmark>
+                                <title>OGO-6 X_GEO
+                                                            </title>
+                                <description>1969-06-05T00:00:00Z to 1970-01-01T08:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=ogo6&amp;parameters=X_GEO&amp;stop=1969-06-0&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                        </bookmark-list>
+                    </bookmark-folder>
+                    <bookmark-folder>
+                        <title>Oersted</title>
+                        <bookmark-list>
+                            <bookmark>
+                                <title>Oersted X_GEO
+                                                            </title>
+                                <description>1999-05-15T00:00:00Z to 2013-02-25T00:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=oersted&amp;parameters=X_GEO&amp;stop=1999-05-1&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                        </bookmark-list>
+                    </bookmark-folder>
+                    <bookmark-folder>
+                        <title>Ohzora</title>
+                        <bookmark-list>
+                            <bookmark>
+                                <title>Ohzora X_GEO
+                                                            </title>
+                                <description>1984-02-20T00:00:00Z to 1986-04-12T08:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=ohzora&amp;parameters=X_GEO&amp;stop=1984-02-2&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                        </bookmark-list>
+                    </bookmark-folder>
+                </bookmark-list>
+            </bookmark-folder>
+            <bookmark-folder>
+                <title>P</title>
+                <bookmark-list>
+                    <bookmark-folder>
+                        <title>PARASOL</title>
+                        <bookmark-list>
+                            <bookmark>
+                                <title>PARASOL X_GEO
+                                                            </title>
+                                <description>2004-12-19T00:00:00Z to 2013-02-24T00:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=parasol&amp;parameters=X_GEO&amp;stop=2004-12-1&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                        </bookmark-list>
+                    </bookmark-folder>
+                    <bookmark-folder>
+                        <title>Polar</title>
+                        <bookmark-list>
+                            <bookmark>
+                                <title>Polar X_GEO
+                                                            </title>
+                                <description>1996-03-01T00:00:00Z to 2009-06-27T00:00:00Z at 180s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=polar&amp;parameters=X_GEO&amp;stop=1996-03-0&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                        </bookmark-list>
+                    </bookmark-folder>
+                </bookmark-list>
+            </bookmark-folder>
+            <bookmark-folder>
+                <title>R</title>
+                <bookmark-list>
+                    <bookmark-folder>
+                        <title>RBSP</title>
+                        <bookmark-list>
+                            <bookmark>
+                                <title>RBSP-A X_GEO
+                                                            </title>
+                                <description>2012-08-30T09:25:59Z to 2013-03-29T22:59:07Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=rbspa&amp;parameters=X_GEO&amp;stop=2012-08-3&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                            <bookmark>
+                                <title>RBSP-B X_GEO
+                                                            </title>
+                                <description>2012-08-30T09:26:07Z to 2013-03-29T22:59:07Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=rbspb&amp;parameters=X_GEO&amp;stop=2012-08-3&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                        </bookmark-list>
+                    </bookmark-folder>
+                    <bookmark-folder>
+                        <title>RHESSI</title>
+                        <bookmark-list>
+                            <bookmark>
+                                <title>RHESSI X_GEO
+                                                            </title>
+                                <description>2002-02-05T00:00:00Z to 2013-02-25T00:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=rhessi&amp;parameters=X_GEO&amp;stop=2002-02-0&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                        </bookmark-list>
+                    </bookmark-folder>
+                    <bookmark-folder>
+                        <title>ROCSAT1</title>
+                        <bookmark-list>
+                            <bookmark>
+                                <title>ROCSAT1 X_GEO
+                                                            </title>
+                                <description>1999-03-31T00:00:00Z to 2004-06-13T00:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=rocsat1&amp;parameters=X_GEO&amp;stop=1999-03-3&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                        </bookmark-list>
+                    </bookmark-folder>
+                    <bookmark-folder>
+                        <title>Reimei</title>
+                        <bookmark-list>
+                            <bookmark>
+                                <title>Reimei X_GEO
+                                                            </title>
+                                <description>2005-08-25T00:00:00Z to 2013-02-24T00:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=reimei&amp;parameters=X_GEO&amp;stop=2005-08-2&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                        </bookmark-list>
+                    </bookmark-folder>
+                    <bookmark-folder>
+                        <title>Rosetta</title>
+                        <bookmark-list>
+                            <bookmark>
+                                <title>Rosetta X_GEO
+                                                            </title>
+                                <description>2007-11-12T00:00:00Z to 2009-11-14T18:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=rosetta&amp;parameters=X_GEO&amp;stop=2007-11-1&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                        </bookmark-list>
+                    </bookmark-folder>
+                </bookmark-list>
+            </bookmark-folder>
+            <bookmark-folder>
+                <title>S</title>
+                <bookmark-list>
+                    <bookmark-folder>
+                        <title>SAMPEX</title>
+                        <bookmark-list>
+                            <bookmark>
+                                <title>SAMPEX X_GEO
+                                                            </title>
+                                <description>1992-07-04T00:00:00Z to 2005-01-01T00:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=sampex&amp;parameters=X_GEO&amp;stop=1992-07-0&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                        </bookmark-list>
+                    </bookmark-folder>
+                    <bookmark-folder>
+                        <title>SCATHA</title>
+                        <bookmark-list>
+                            <bookmark>
+                                <title>SCATHA X_GEO
+                                                            </title>
+                                <description>1979-02-05T00:00:00Z to 1991-01-01T08:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=scatha&amp;parameters=X_GEO&amp;stop=1979-02-0&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                        </bookmark-list>
+                    </bookmark-folder>
+                    <bookmark-folder>
+                        <title>SNOE</title>
+                        <bookmark-list>
+                            <bookmark>
+                                <title>SNOE X_GEO
+                                                            </title>
+                                <description>1998-02-27T00:00:00Z to 2004-05-01T00:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=snoe&amp;parameters=X_GEO&amp;stop=1998-02-2&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                        </bookmark-list>
+                    </bookmark-folder>
+                    <bookmark-folder>
+                        <title>SOHO</title>
+                        <bookmark-list>
+                            <bookmark>
+                                <title>SOHO X_GEO
+                                                            </title>
+                                <description>1995-12-05T00:00:00Z to 2012-11-04T23:34:59Z at 720s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=soho&amp;parameters=X_GEO&amp;stop=1995-12-0&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                        </bookmark-list>
+                    </bookmark-folder>
+                    <bookmark-folder>
+                        <title>ST5</title>
+                        <bookmark-list>
+                            <bookmark>
+                                <title>ST5-A X_GEO
+                                                            </title>
+                                <description>2006-03-23T00:00:00Z to 2006-08-28T00:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=st5a&amp;parameters=X_GEO&amp;stop=2006-03-2&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                            <bookmark>
+                                <title>ST5-B X_GEO
+                                                            </title>
+                                <description>2006-03-23T00:00:00Z to 2006-08-29T00:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=st5b&amp;parameters=X_GEO&amp;stop=2006-03-2&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                            <bookmark>
+                                <title>ST5-C X_GEO
+                                                            </title>
+                                <description>2006-03-23T00:00:00Z to 2006-08-29T00:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=st5c&amp;parameters=X_GEO&amp;stop=2006-03-2&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                        </bookmark-list>
+                    </bookmark-folder>
+                    <bookmark-folder>
+                        <title>STEREO</title>
+                        <bookmark-list>
+                            <bookmark>
+                                <title>STEREO-Ahead X_GEO
+                                                            </title>
+                                <description>2006-10-27T00:00:00Z to 2013-05-02T16:48:00Z at 720s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=stereoa&amp;parameters=X_GEO&amp;stop=2006-10-2&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                            <bookmark>
+                                <title>STEREO-Behind X_GEO
+                                                            </title>
+                                <description>2006-10-27T00:00:00Z to 2013-05-03T16:48:00Z at 720s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=stereob&amp;parameters=X_GEO&amp;stop=2006-10-2&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                        </bookmark-list>
+                    </bookmark-folder>
+                    <bookmark-folder>
+                        <title>Sputnik</title>
+                        <bookmark-list>
+                            <bookmark>
+                                <title>Sputnik X_GEO
+                                                            </title>
+                                <description>1957-10-04T00:00:00Z to 1957-10-31T00:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=sputnik1&amp;parameters=X_GEO&amp;stop=1957-10-0&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                        </bookmark-list>
+                    </bookmark-folder>
+                </bookmark-list>
+            </bookmark-folder>
+            <bookmark-folder>
+                <title>T</title>
+                <bookmark-list>
+                    <bookmark-folder>
+                        <title>THEMIS</title>
+                        <bookmark-list>
+                            <bookmark>
+                                <title>THEMIS-A X_GEO
+                                                            </title>
+                                <description>2007-02-18T00:13:59Z to 2013-02-06T23:58:59Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=themisa&amp;parameters=X_GEO&amp;stop=2007-02-1&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                            <bookmark>
+                                <title>THEMIS-B X_GEO
+                                                            </title>
+                                <description>2007-02-18T00:13:59Z to 2013-02-06T23:58:59Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=themisb&amp;parameters=X_GEO&amp;stop=2007-02-1&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                            <bookmark>
+                                <title>THEMIS-C X_GEO
+                                                            </title>
+                                <description>2007-02-18T00:13:59Z to 2013-02-06T23:58:59Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=themisc&amp;parameters=X_GEO&amp;stop=2007-02-1&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                            <bookmark>
+                                <title>THEMIS-D X_GEO
+                                                            </title>
+                                <description>2007-02-18T00:13:59Z to 2013-02-06T23:58:59Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=themisd&amp;parameters=X_GEO&amp;stop=2007-02-1&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                            <bookmark>
+                                <title>THEMIS-E X_GEO
+                                                            </title>
+                                <description>2007-02-18T00:13:59Z to 2013-02-07T23:58:59Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=themise&amp;parameters=X_GEO&amp;stop=2007-02-1&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                        </bookmark-list>
+                    </bookmark-folder>
+                    <bookmark-folder>
+                        <title>TIMED</title>
+                        <bookmark-list>
+                            <bookmark>
+                                <title>TIMED X_GEO
+                                                            </title>
+                                <description>2002-02-07T00:00:00Z to 2013-02-25T00:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=timed&amp;parameters=X_GEO&amp;stop=2002-02-0&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                        </bookmark-list>
+                    </bookmark-folder>
+                    <bookmark-folder>
+                        <title>TRACE</title>
+                        <bookmark-list>
+                            <bookmark>
+                                <title>TRACE X_GEO
+                                                            </title>
+                                <description>1998-04-02T00:00:00Z to 2010-10-19T00:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=trace&amp;parameters=X_GEO&amp;stop=1998-04-0&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                        </bookmark-list>
+                    </bookmark-folder>
+                    <bookmark-folder>
+                        <title>Tatiana1</title>
+                        <bookmark-list>
+                            <bookmark>
+                                <title>Tatiana1 X_GEO
+                                                            </title>
+                                <description>2005-01-25T00:00:00Z to 2007-03-30T00:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=tatiana1&amp;parameters=X_GEO&amp;stop=2005-01-2&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                        </bookmark-list>
+                    </bookmark-folder>
+                    <bookmark-folder>
+                        <title>Tatiana2</title>
+                        <bookmark-list>
+                            <bookmark>
+                                <title>Tatiana2 X_GEO
+                                                            </title>
+                                <description>2009-09-17T00:00:00Z to 2010-07-13T00:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=tatiana2&amp;parameters=X_GEO&amp;stop=2009-09-1&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                        </bookmark-list>
+                    </bookmark-folder>
+                    <bookmark-folder>
+                        <title>Twins1</title>
+                        <bookmark-list>
+                            <bookmark>
+                                <title>Twins1 X_GEO
+                                                            </title>
+                                <description>2007-04-01T00:02:30Z to 2012-12-15T23:52:30Z at 120s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=twins1&amp;parameters=X_GEO&amp;stop=2007-04-0&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                        </bookmark-list>
+                    </bookmark-folder>
+                    <bookmark-folder>
+                        <title>Twins2</title>
+                        <bookmark-list>
+                            <bookmark>
+                                <title>Twins2 X_GEO
+                                                            </title>
+                                <description>2008-04-11T00:16:30Z to 2012-12-15T23:56:30Z at 120s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=twins2&amp;parameters=X_GEO&amp;stop=2008-04-1&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                        </bookmark-list>
+                    </bookmark-folder>
+                </bookmark-list>
+            </bookmark-folder>
+            <bookmark-folder>
+                <title>U</title>
+                <bookmark-list>
+                    <bookmark-folder>
+                        <title>UARS</title>
+                        <bookmark-list>
+                            <bookmark>
+                                <title>UARS X_GEO
+                                                            </title>
+                                <description>1991-09-20T00:00:00Z to 2006-05-11T00:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=uars&amp;parameters=X_GEO&amp;stop=1991-09-2&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                        </bookmark-list>
+                    </bookmark-folder>
+                </bookmark-list>
+            </bookmark-folder>
+            <bookmark-folder>
+                <title>V</title>
+                <bookmark-list>
+                    <bookmark-folder>
+                        <title>Viking</title>
+                        <bookmark-list>
+                            <bookmark>
+                                <title>Viking X_GEO
+                                                            </title>
+                                <description>1986-03-05T00:00:00Z to 1987-01-01T00:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=viking&amp;parameters=X_GEO&amp;stop=1986-03-0&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                        </bookmark-list>
+                    </bookmark-folder>
+                </bookmark-list>
+            </bookmark-folder>
+            <bookmark-folder>
+                <title>W</title>
+                <bookmark-list>
+                    <bookmark-folder>
+                        <title>Wind</title>
+                        <bookmark-list>
+                            <bookmark>
+                                <title>Wind X_GEO
+                                                            </title>
+                                <description>1994-11-16T00:00:00Z to 2013-03-09T23:36:00Z at 720s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=wind&amp;parameters=X_GEO&amp;stop=1994-11-1&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                        </bookmark-list>
+                    </bookmark-folder>
+                </bookmark-list>
+            </bookmark-folder>
+            <bookmark-folder>
+                <title>Y</title>
+                <bookmark-list>
+                    <bookmark-folder>
+                        <title>Yohkoh</title>
+                        <bookmark-list>
+                            <bookmark>
+                                <title>Yohkoh X_GEO
+                                                            </title>
+                                <description>1991-09-05T00:00:00Z to 1998-01-02T00:00:00Z at 60s cadence</description>
+                                <uri>http://autoplot.org/git/jyds/tsdsfe.jyds?catalog=SSCWeb&amp;dataset=yohkoh&amp;parameters=X_GEO&amp;stop=1991-09-0&amp;start=P1D
+                                                            </uri>
+                            </bookmark>
+                        </bookmark-list>
+                    </bookmark-folder>
+                </bookmark-list>
+            </bookmark-folder>
+        </bookmark-list>
+    </bookmark-folder>
+</bookmark-list>

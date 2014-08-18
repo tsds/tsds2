@@ -1,0 +1,10 @@
+{
+  "name": "tsdscc",
+  "version": "0.1.0",
+  "dependencies": {
+    "request": "*",
+    "xml2js": "*",
+    "handlebars": "*",
+    "tsdset": "https://github.com/rweigel/tsdset/tarball/master"
+  }
+}
