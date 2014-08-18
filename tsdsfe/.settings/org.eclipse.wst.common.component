@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="tsdsfe">
+        <property name="context-root" value="tsdsfe"/>
+        <property name="java-output-path" value="/tsdsfe/build/classes"/>
+    </wb-module>
+</project-modules>
