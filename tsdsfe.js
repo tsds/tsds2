@@ -48,6 +48,15 @@ server
 	.listen(config.PORT)
 	.setTimeout(config.TIMEOUT,function() {console.log("TSDSFE server timeout ("+(config.TIMEOUT/(100*60))+" minutes).")});
 
+
+var CDIR = config.CACHEDIR;
+if (!config.CACHEDIR.match(/^\//)) {
+	CDIR   = __dirname+"/cache/";
+}
+if (!fs.existsSync(CDIR)) {
+	fs.mkdirSync(CDIR)
+}
+
 console.log(Date().toString() + " - [tsdsfe] running on port "+config.PORT);
 
 function handleRequest(req, res) {
@@ -59,11 +68,8 @@ function handleRequest(req, res) {
 	// Metadata responses are cached as files with filename based on MD5 hash of request.
 	var urlsig = crypto.createHash("md5").update(req.originalUrl).digest("hex");	
 
-	var CDIR = config.CACHEDIR;
-	if (!config.CACHEDIR.match(/^\//)) {
-		CDIR   = __dirname+"/cache/";
-	}
 	var cfile  = CDIR + urlsig + ".json";
+
 
 	if (debugcache) {
 		if (fs.existsSync(cfile)) {
