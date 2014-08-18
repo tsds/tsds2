@@ -207,7 +207,7 @@ function handleRequest(req, res) {
 			if (debugstream) console.log("stream(): Redirecting to "+data);
 			res.redirect(301,data);
 		} else {
-			console.log("Sending JSON.");
+			if (debugstream) console.log("Sending JSON.");
 
 			if (typeof(data) === "string") {
 				// Script.
@@ -286,7 +286,7 @@ function getandparse(url,options,callback) {
 
 	var urlsig = crypto.createHash("md5").update(url).digest("hex");	
 
-	// cache file for each catalog
+	// cache file for each cataloge
 	var cfile = config.CACHEDIR+urlsig+".json";
 
 	if (fs.existsSync(cfile) && options.usemetadatacache) {
@@ -303,7 +303,7 @@ function getandparse(url,options,callback) {
 	} else {
 
 		// Do head request for file that contains list of datasets.
-		console.log("getandparse(): Doing head request on "+url)
+		if (debugcache) console.log("getandparse(): Doing head request on "+url)
 		var hreq = request.head(url, function (herror, hresponse) {
 			if (!herror && hresponse.statusCode != 200) {
 				herror = true;

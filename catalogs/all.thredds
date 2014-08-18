@@ -8,4 +8,7 @@
 	<catalogRef ID="SuperMAG/PT1M" xlink:title="SuperMAG/PT1M" xlink:href="SuperMAG/PT1M.xml"/>
 	<catalogRef ID="SWPC/AK/2DayFile" xlink:title="SWPC/AK/2DayFile" xlink:href="SWPC/AK/2DayFile.xml"/>
 	<catalogRef ID="SWPC/AK" xlink:title="SWPC/AK" xlink:href="SWPC/AK.xml"/>
+	<catalogRef ID="Kyoto/RT/Dst/PT1H" xlink:title="Kyoto real-time Dst" xlink:href="Kyoto/RT/Dst/PT1H.xml"/>
+	<catalogRef ID="SWPC/GOES/Primary/Particle/PT1M" xlink:title="SWPC/GOES/Primary/Particle/PT1M" xlink:href="SWPC/GOES/Primary/Particle/PT1M.xml"/>
+	<catalogRef ID="SWPC/GOES/Primary/XRay/PT1M" xlink:title="SWPC/GOES/Primary/XRay/PT1M" xlink:href="SWPC/GOES/Primary/XRay/PT1M.xml"/>
 </catalog>

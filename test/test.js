@@ -1,13 +1,12 @@
 
-// Run one test:
-//		node test/test.js 27 false
 // Run all tests:
-//		node test/test.js
+//		node test/test.js --testfile=test/failing-tests.js
+//		node test/test.js --testfile=test/data-tests.js
+//		node test/test.js --testfile=test/metadata-tests.js
+// Run one test:
+//		node test/test.js --start=27 --alltests=false
 // Run all tests including and after test 3:
-//		node test/test.js 3 true
-
-var N    = 10;
-var port = 8004;
+//		node test/test.js --start=3
 
 var fs       = require("fs");
 var sys      = require('sys');
@@ -19,27 +18,21 @@ var http     = require('http');
 var url      = require('url');
 var zlib     = require('zlib');
 var execSync = require("exec-sync");
+var argv     = require('minimist')(process.argv.slice(2));
 
-eval(fs.readFileSync('./test/tests.js','utf8'));
 
 function s2b(str) {if (str === "true") {return true} else {return false}}
 function s2i(str) {return parseInt(str)}
 
-var tn       = s2i(process.argv[2] || "1");				// Start test Number
-var alltests = s2b(process.argv[3] || "true");;
+var tn       = argv.start || 0;				// Start test Number
+var alltests = s2b(argv.alltests || "true");
+var Ntests   = argv.ntests;
+var port     = argv.port || 8004;
+var testfile = argv.testfile || './test/failing-tests.js';
+eval(fs.readFileSync(testfile,'utf8'));
 
-/*
-var sync    = s2b(process.argv[2] || "true");			// Do runs for test sequentially
-var all     = s2b(process.argv[4] || "true");			// Run all tests after start number
-var n       = s2i(process.argv[5] || "5");				// Number of runs per test
-*/
-
-// DataCache server to test
-var server  = process.argv[6] || "http://localhost:"+port+"/";	
-var Ntests   = 2;
-
-//var Ntests   = 1;
-//var alltests = false;
+// DataCache server to use
+var server  = "http://localhost:"+port+"/";	
 
 runtest(tn,1);
 
@@ -60,6 +53,7 @@ function gettests(m) {
 			xtests[z].url = server + "?" + tests[z].url;
 		}
 	}
+
 	return xtests;
 }
 
@@ -78,6 +72,7 @@ function command(jj,m) {
 	var xtests = gettests(m);
 	var com = "";
 	var fname = "test/output/out." + jj + "." + m;
+
 	if (xtests[jj].url.match("stop") && !xtests[jj].url.match("urilist")) {
 		//com = 'curl -s -g "' + xtests[jj].url + '" | gunzip > ' + fname;
 		com = 'curl -s -g "' + xtests[jj].url + '" > ' + fname;
@@ -133,18 +128,20 @@ function runtest(jj,m) {
 			runtest(jj+1,m);
 		} else {
 			console.log("")
-			if (alltests) console.log((runtest.sum + 1)+ "/" + tests.length + " tests passed.");
+			if (alltests) console.log((runtest.sum)+ "/" + tests.length + " tests passed.");
+			
 			if (runtest.fails.length > 0) {
 				console.log("\nFailures:");
 			}
 			for (kk=0;kk<runtest.fails.length;kk++) {
 				console.log("\nTest " + runtest.fails[kk].N);
 				console.log(runtest.fails[kk].url);
-				console.log(runtest.fails[kk].test);
+				//console.log(runtest.fails[kk].test);
 				if (runtest.fails[kk].note) {
 					console.log(runtest.fails[kk].note);
 				}
 			}
+
 			if (m+1 < Ntests && alltests) {
 				runtest(0,m+1);
 			} else {
