@@ -12,9 +12,7 @@ echo "Sleeping for 3 seconds before running tests."
 
 sleep 3
 
-node test/metadata-tests.js
-
-node test/data-tests.js
+node test/test.js --testfile=test/metadata-tests.js
 
 RESULT=$?
 
