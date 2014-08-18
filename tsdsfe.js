@@ -48,7 +48,7 @@ server
 	.listen(config.PORT)
 	.setTimeout(config.TIMEOUT,function() {console.log("TSDSFE server timeout ("+(config.TIMEOUT/(100*60))+" minutes).")});
 
-console.log(Date().toString() + " - TSDSFE running on port "+config.PORT);
+console.log(Date().toString() + " - [tsdsfe] running on port "+config.PORT);
 
 function handleRequest(req, res) {
 
