@@ -3,5 +3,6 @@ node_js:
   - "0.10"
   - "0.8"
 notification:
-	email:
-	- Robert.S.Weigel+travis@gmail.com
+notifications:
+  email:
+    - Robert.S.Weigel+travis@gmail.com
