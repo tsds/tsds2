@@ -333,8 +333,8 @@ function getandparse(url,options,callback) {
 			}
 
 			if (age <= 0) {
-				console.log("getandparse(): Cache file has not expired.  Reading cache file "+cfile.replace(__dirname,""));
-				console.log("getandparse(): for URL "+hresponse.request.uri.href);
+				if (debugcache) console.log("getandparse(): Cache file has not expired.  Reading cache file "+cfile.replace(__dirname,""));
+				if (debugcache) console.log("getandparse(): for URL "+hresponse.request.uri.href);
 				var tmp = JSON.parse(fs.readFileSync(cfile).toString());
 				if (debugcache) console.log("getandparse(): Done");
 
