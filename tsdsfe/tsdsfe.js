@@ -123,6 +123,8 @@ function handleRequest(req, res) {
 		return;
 	}
 	
+	options.req = req;
+	options.res = res;
 	catalog(options, stream);
 
 	function stream(status, data) {
@@ -273,7 +275,7 @@ function parseOptions(req) {
 
 	// Always use cache and don't try to see if update exists.  If false and update fails, cache will be used
 	// and warning given in header.
-	options.usemetadatacache = s2b(req.query.usemetadatacache || req.body.usemetadatacache     || "true");
+	options.usemetadatacache = s2b(req.query.usemetadatacache || req.body.usemetadatacache     || "false");
 	
 	if ((options.start === "") && (options.start === "")) {
 		options.return = "dd";
@@ -302,10 +304,9 @@ function getandparse(url,options,callback) {
 			console.log("getandparse(): for URL "+url);
 		}
 		var tmp = JSON.parse(fs.readFileSync(cfile).toString());
-		if (debugcache) console.log("getandparse(): Done");
-
+		if (debugcache) console.log("getandparse(): Done.");
 		callback(tmp);
-
+		return;
 	} else {
 
 		// Do head request for file that contains list of datasets.
@@ -336,9 +337,15 @@ function getandparse(url,options,callback) {
 				if (debugcache) console.log("getandparse(): Cache file has not expired.  Reading cache file "+cfile.replace(__dirname,""));
 				if (debugcache) console.log("getandparse(): for URL "+hresponse.request.uri.href);
 				var tmp = JSON.parse(fs.readFileSync(cfile).toString());
-				if (debugcache) console.log("getandparse(): Done");
-
+				if (debugcache) console.log("getandparse(): Done.");
 				callback(tmp);
+				return;
+			}
+
+			if (!hresponse) {
+				console.error("getandparse(): Error when attempting to access " + url);
+				options.res.status(502).send("Error when attempting to access " + url + "\n");
+				console.error(config)
 				return;
 			}
 
@@ -356,8 +363,9 @@ function getandparse(url,options,callback) {
 					return;
 				}
 				if ((error) && !fs.existsSync(cfile) && (N == 1))  {
-					if (debugapp) console.log("Could not fetch "+response.request.uri.href + " and no cached version exists.");
-					cb("502","Could not fetch "+response.request.uri.href + " and no cached version exists.");
+					console.error("getandparse(): Error when attempting to access " + response.request.uri.href + " and no cached version exists.");
+					options.res.status(502).send("Error when attempting to access " + url + "\n");
+					console.error(config)
 					return;
 				}
 
@@ -369,7 +377,7 @@ function getandparse(url,options,callback) {
 					parser.parseString(body, function (err, tmp) {
 
 						if (err) {
-							cb("502","Could not parse "+hres.request.uri.href+".");
+							options.res.status(502).send("Could not parse "+hres.request.uri.href+".\n");
 							return;
 						}
 
@@ -400,7 +408,9 @@ function catalog(options, cb) {
 		var resp = [];
 
 		var catalogRefs = result["catalog"]["catalogRef"];
-		var xmlbase     = config.XMLBASE || result["catalog"]["$"]["xml:XMLBASE"];
+		var xmlbase     = config.XMLBASE || result["catalog"]["$"]["xml:XMLBASE"] || "";
+		if (debugapp) console.log("catalog(): Setting xmlbase to " + xmlbase);
+
 
 		if (debugapp) console.log("catalog(): Found " + catalogRefs.length + " catalogRef nodes.");
 
@@ -429,7 +439,6 @@ function catalog(options, cb) {
 
 		// Remove empty elements of array. (Needed?)
 		resp = resp.filter(function(n){return n});
-
 		if (options.dataset === "") {
 			// If no dataset was requested and only one catalog URL in list,
 			// add information from within the catalog to the response.
@@ -437,7 +446,9 @@ function catalog(options, cb) {
 				// If only one catalog matched pattern.
 				getandparse(resp[0].href,options,
 					function (result) {
+						var resp = [];
 						for (var k = 0; k < result["catalog"]["documentation"].length;k++) {
+							resp[k] = {};
 							resp[k].title = result["catalog"]["documentation"][k]["$"]["xlink:title"];
 							resp[k].link  = result["catalog"]["documentation"][k]["$"]["xlink:href"];
 						}
@@ -482,6 +493,8 @@ function dataset(options, catalogs, cb) {
 		datasets = datasets.concat(tmparr);
 		while (parents.length < datasets.length) {parents = parents.concat(parent)}
 
+		var dresp = [];
+
 		// If all of the dataset URLs have been parsed.
 		if (afterparse.j == catalogs.length) {
 
@@ -513,10 +526,12 @@ function dataset(options, catalogs, cb) {
 				if (dresp.length == 1 && options.dataset.substring(0,1) !== "^") {
 					if (typeof(datasets[z]["documentation"]) !== "undefined") {
 						for (var k = 0; k < datasets[z]["documentation"].length;k++) {
+							dresp[k] = {};
 							dresp[k].title = datasets[z]["documentation"][k]["$"]["xlink:title"];
 							dresp[k].link  = datasets[z]["documentation"][k]["$"]["xlink:href"];
 						}
 					} else {
+						dresp[0] = {};
 						dresp[0].title = "No dataset documentation in catalog";
 						dresp[0].link  = "";									
 					}

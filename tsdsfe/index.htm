@@ -233,25 +233,21 @@
 					catalog.info = info;
 					$('#cataloginfo').html("<b>Catalog information:</b>");					
 	
-					if (info.length == 1) {
+					if (info.length > 0) {
 						$('#cataloginfo').append('<ul style="list-style-position: outside;">');	
 						$('#cataloginfo ul').append('<li style=""><a href="'+info[0].href+'">Catalog configuration</a></li>');
 						console.log("Info: " + info[0].title);
-						if (!(info[0].title === "") && !(info[0].link === "")) {
-							$('#cataloginfo ul').append('<li style=""><a href="'+info[0].link+'">'+info[0].title+'</a></li>');
-						} else if ((info[0].title === "") && !(info[0].link === "")) {
-							$('#catalogtinfo ul').append('<li style=""><a href="'+info[0].link+'">'+info[0].link+'</a></li>');
-						} 
+						for (j = 0;j < info.length;j++) {
+							if (!(info[j].title === "") && !(info[j].link === "")) {
+								$('#cataloginfo ul').append('<li style=""><a href="'+info[j].link+'">'+info[j].title+'</a></li>');
+							} else if ((info[j].title === "") && !(info[j].link === "")) {
+								$('#catalogtinfo ul').append('<li style=""><a href="'+info[j].link+'">'+info[j].link+'</a></li>');
+							}
+						}						
+ 
 					} else if (info.length == 0) {
 						$('#cataloginfo').append('<ul style="list-style-position: outside;">');	
 						$('#cataloginfo ul').append('<li style="">Catalog <b>' + selected("catalog") + '</b> was not found in <a href="' + TSDSFE + '?catalogs=^.*">catalog list</a></li>');
-					} else {
-						console.log(info)
-						$('#cataloginfo').append('<p>Pattern ' + selected('catalog')+ ' matches catalogs</p><ul style="list-style-position: outside;">');	
-						for (j = 0;j < info.length;j++) {
-							console.log("Info: " + info[j].title);
-							$('#cataloginfo ul').append('<li style=""><a href="/#catalog='+info[j].value+'">'+info[j].value +'</a></li>');
-						}						
 					}
 					$('#catalogtinfo ul').append('</ul>');
 

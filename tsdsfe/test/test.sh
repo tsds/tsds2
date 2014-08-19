@@ -14,6 +14,8 @@ sleep 3
 
 node test/test.js --testfile=test/metadata-tests.js
 
+node test/test.js --testfile=test/data-tests.js
+
 RESULT=$?
 
 kill $PID1 $PID2
