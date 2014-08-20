@@ -41,7 +41,7 @@ exports.config = function config() {
 	// When ?catalog=CATALOG&return={tsds-catalog,autoplot-bookmark} is requested,
 	// TSDSCC + CATALOG + "/" + CATALOG-{tsds-catalog,autoplot-bookmark}.EXT is passed through.
 	// By default, EXT is xml but may be changed for tsds-catalog via outformat=json.
-	out["TSDSCC"] = "https://raw.githubusercontent.com/tsds/tsds2/master/tsdscc/catalogs/";
+	out["TSDSCC"] = "https://tsds.github.io/tsds2/tsdscc/catalogs/";
 
 	// If XMLBASE !== "", xml:base attribute in all.thredds will be replaced with XMLBASE.
 	// all.thredds may be located on any server provided that relative paths are given for
