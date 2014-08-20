@@ -36,6 +36,13 @@ exports.config = function config() {
 	// Otherwise it is relative to directory of tsdsfe.js.
 	out["CATALOG"] = out["TSDSFE"] + "catalogs/all.thredds";
 
+
+	// Location to find top-level catalogs and bookmark files.  May be a URL or an absolute path.
+	// When ?catalog=CATALOG&return={tsds-catalog,autoplot-bookmark} is requested,
+	// TSDSCC + CATALOG + "/" + CATALOG-{tsds-catalog,autoplot-bookmark}.EXT is passed through.
+	// By default, EXT is xml but may be changed for tsds-catalog via outformat=json.
+	out["TSDSCC"] = "http://github.com/tsds/tsds2/tsdscc/catalogs/";
+
 	// If XMLBASE !== "", xml:base attribute in all.thredds will be replaced with XMLBASE.
 	// all.thredds may be located on any server provided that relative paths are given for
 	// catalogRef attribute xlink:href, which points to a TSML file for each catalogRef.
@@ -43,7 +50,7 @@ exports.config = function config() {
 
 	// File system location to store cached metadata.  If leading /, path is treated as absolute.
 	// Otherwise it is relative to directory of tsdsfe.js.
-	out ["CACHEDIR"] = "cache/";
+	out["CACHEDIR"] = "cache/";
 
 	return out;
 }

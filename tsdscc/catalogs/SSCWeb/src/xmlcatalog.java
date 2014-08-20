@@ -41,6 +41,7 @@ public class xmlcatalog {
 			String inputLine;
 			System.out.print("<catalog xmlns:xlink='http://www.w3.org/1999/xlink' id='SSCWeb' name='SSCWeb'>\n");
 			System.out.print("\t<documentation xlink:href='http://sscweb.gsfc.nasa.gov/WebServices/' xlink:title='Catalog derived using the SSCWeb Service'/>\n");
+			System.out.print("\t<documentation xlink:href='http://github.com/tsds/tsds2/tsdscc' xlink:title='Catalog Generation Code'/>\n");
 
 			//System.out.println("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>"+"\n");
 			while ((inputLine = in.readLine()) != null){

@@ -63,13 +63,29 @@ function handleRequest(req, res) {
 
 	var options = parseOptions(req);
 
+	// Catch case where ?catalog=CATALOG&return={tsds,autoplot-bookmarks,spase}
+	if ( (options.return === "autoplot-bookmarks") || (options.return === "tsds") ) {
+		if (debugapp) console.log("handleRequest(): Request is for " + options.return)
+		if (options.outformat === "json") {
+			res.setHeader("Content-Type","application/json"); 
+		} else {
+			res.setHeader("Content-Type","text/xml"); 
+			options.outformat = "xml";
+		}
+		var url = config.TSDSCC + options.catalog + "/" + options.catalog + "-" + options.return + "." + options.outformat;
+		//if (debugapp) console.log("handleRequest(): ")
+		getandparse(url,options,function (ret) {
+			res.write(ret);
+		});
+		return;
+	}
+
 	if (debugapp) console.log("handleRequest(): Handling " + req.originalUrl);
 
 	// Metadata responses are cached as files with filename based on MD5 hash of request.
 	var urlsig = crypto.createHash("md5").update(req.originalUrl).digest("hex");	
 
 	var cfile  = CDIR + urlsig + ".json";
-
 
 	if (debugcache) {
 		if (fs.existsSync(cfile)) {
@@ -275,9 +291,9 @@ function parseOptions(req) {
 
 	// Always use cache and don't try to see if update exists.  If false and update fails, cache will be used
 	// and warning given in header.
-	options.usemetadatacache = s2b(req.query.usemetadatacache || req.body.usemetadatacache     || "false");
+	options.usemetadatacache = s2b(req.query.usemetadatacache || req.body.usemetadatacache || "false");
 	
-	if ((options.start === "") && (options.start === "")) {
+	if ((options.start === "") && (options.start === "") && (options.return === "stream")) {
 		options.return = "dd";
 	}
 
@@ -290,7 +306,12 @@ function parseOptions(req) {
 // Get XML from URL and convert to JSON.
 function getandparse(url,options,callback) {
 
+	// Retrieves XML from a URL, converts to a JSON representation, and stores JSON as a cache file.
+	// If options.outformat = "xml", no parsing is done and callback is returned XML.
+	
 	// TODO: Add a header if error along the way was saved by a cache file.
+	// TODO: If response from URL is JSON, no need to parse.
+	// TODO: Rename to getmetadata().  If options.return == "xml", don't parse.
 
 	var urlsig = crypto.createHash("md5").update(url).digest("hex");	
 
@@ -325,12 +346,12 @@ function getandparse(url,options,callback) {
 
 			if (fs.existsSync(cfile) && !herror) {
 				var dhead = new Date(hresponse.headers["last-modified"]);
-				if (debugcache) console.log("getandparse(): Last-modified time: "+dhead);
+				if (debugcache) console.log("getandparse(): Last-modified time: " + dhead);
 				var fstat = fs.statSync(cfile).mtime;
 				var dfile = new Date(fstat);
-				if (debugcache) console.log('getandparse(): Cache file found.  File created: ' + fstat);
+				if (debugcache) console.log('getandparse(): Cache file created: ' + fstat);
 				var age = dhead.getTime() - dfile.getTime();
-				if (debugcache) console.log('getandparse(): last modified time - file last write time = '+age);
+				if (debugcache) console.log('getandparse(): Last-modified - Cache file created = ' + age);
 			}
 
 			if (age <= 0) {
@@ -362,7 +383,7 @@ function getandparse(url,options,callback) {
 					callback(tmp);
 					return;
 				}
-				if ((error) && !fs.existsSync(cfile) && (N == 1))  {
+				if ((error) && !fs.existsSync(cfile))  {
 					console.error("getandparse(): Error when attempting to access " + response.request.uri.href + " and no cached version exists.");
 					options.res.status(502).send("Error when attempting to access " + url + "\n");
 					console.error(config)
@@ -371,6 +392,10 @@ function getandparse(url,options,callback) {
 
 				if (debugapp) console.log("getandparse(): Done fetching.");
 				if (debugapp) console.log("getandparse(): Parsing.");
+
+				if (options.return === "xml" && response.statusCode == 200) {
+					callback(body);
+				}
 
 				if (!error && response.statusCode == 200) {
 					var parser = new xml2js.Parser();
@@ -439,6 +464,7 @@ function catalog(options, cb) {
 
 		// Remove empty elements of array. (Needed?)
 		resp = resp.filter(function(n){return n});
+
 		if (options.dataset === "") {
 			// If no dataset was requested and only one catalog URL in list,
 			// add information from within the catalog to the response.
@@ -718,7 +744,6 @@ function parameter(options, catalogs, datasets, cb) {
 		var dc = config.DC+"?timeRange="+start+"/"+stop;
 	}
 		
-
 	if (options.return === "urilist") {
 		cb(0,dc+"&return=urilist");
 	}
