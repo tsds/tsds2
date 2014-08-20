@@ -63,6 +63,7 @@ function handleRequest(req, res) {
 
 	var options = parseOptions(req);
 
+	options.res = res;
 	// Catch case where ?catalog=CATALOG&return={tsds,autoplot-bookmarks,spase}
 	if ( (options.return === "autoplot-bookmarks") || (options.return === "tsds") ) {
 		if (debugapp) console.log("handleRequest(): Request is for " + options.return)
@@ -72,10 +73,16 @@ function handleRequest(req, res) {
 			res.setHeader("Content-Type","text/xml"); 
 			options.outformat = "xml";
 		}
-		var url = config.TSDSCC + options.catalog + "/" + options.catalog + "-" + options.return + "." + options.outformat;
+		var url = config.TSDSCC + options.catalog + "/" + options.catalog + "-" + options.return + ".xml";
 		//if (debugapp) console.log("handleRequest(): ")
 		getandparse(url,options,function (ret) {
-			res.write(ret);
+
+			if (options.outformat === "xml") {
+				res.write(ret.toString());
+			} else {
+				res.write(JSON.stringify(ret));
+			}
+			res.end();
 		});
 		return;
 	}
@@ -393,8 +400,10 @@ function getandparse(url,options,callback) {
 				if (debugapp) console.log("getandparse(): Done fetching.");
 				if (debugapp) console.log("getandparse(): Parsing.");
 
-				if (options.return === "xml" && response.statusCode == 200) {
+				if (options.outformat === "xml" && response.statusCode == 200) {
+					if (debugapp) console.log("getandparse(): Returning raw XML.")
 					callback(body);
+					return;
 				}
 
 				if (!error && response.statusCode == 200) {
