@@ -62,23 +62,7 @@ console.log(Date().toString() + " - [tsdsfe] running on port "+config.PORT);
 function handleRequest(req, res) {
 
 	var options = parseOptions(req);
-
-	// Catch case where ?catalog=CATALOG&return={tsds,autoplot-bookmarks,spase}
-	if ( (options.return === "autoplot-bookmarks") || (options.return === "tsds") ) {
-		if (debugapp) console.log("handleRequest(): Request is for " + options.return)
-		if (options.outformat === "json") {
-			res.setHeader("Content-Type","application/json"); 
-		} else {
-			res.setHeader("Content-Type","text/xml"); 
-			options.outformat = "xml";
-		}
-		var url = config.TSDSCC + options.catalog + "/" + options.catalog + "-" + options.return + "." + options.outformat;
-		//if (debugapp) console.log("handleRequest(): ")
-		getandparse(url,options,function (ret) {
-			res.write(ret);
-		});
-		return;
-	}
+	options.res = res;
 
 	if (debugapp) console.log("handleRequest(): Handling " + req.originalUrl);
 
@@ -103,7 +87,72 @@ function handleRequest(req, res) {
 		// Send the cached response and finish
 		fs.createReadStream(cfile).pipe(res);
 		return;
+	} else {
+		console.log("handleRequest(): Not using response cache file because usemetadatacache = false.")
 	}
+
+	// Catch case where ?catalog=CATALOG&return={tsds,autoplot-bookmarks,spase}
+	if ( (options.return === "autoplot-bookmarks") || (options.return === "tsds") ) {
+
+		if (options.return === "autoplot-bookmarks") {
+			options.outformat = "xml";
+		}
+
+		if (debugapp) console.log("handleRequest(): Request is for " + options.return)
+		if (options.outformat === "json") {
+			res.setHeader("Content-Type","application/json"); 
+		} else {
+			res.setHeader("Content-Type","text/xml"); 
+			options.outformat = "xml";
+		}
+		var url = config.TSDSCC + options.catalog + "/" + options.catalog + "-tsds.xml";
+		console.log("handleRequest(): Calling getandparse with URL "+url);
+
+		getandparse(url,options,function (ret) {
+			if (options.outformat === "xml") {
+				if (options.return === "autoplot-bookmarks") {
+					var tsds2bookmarks = require(__dirname + "/js/tsds2bookmarks.js").tsds2bookmarks;
+					if (debugapp) console.log("handleRequest(): Converting TSDS XML catalog to XML.");
+					
+					// We are still going to return XML but call getandparse() so that parsed JSON
+					// of XML gets cached.  getandparse() does not parse if response is XML.
+					options.outformat = "json"; // Force JSON to be cached.
+					getandparse(url,options,function (ret) {
+						// If usemetadatacache = false, we'll get here.
+						// See if md5 of ret differs from that cached.  If not, no need to re-convert.
+						var retsig = crypto.createHash("md5").update(ret.toString()).digest("hex");
+						var retfile  = CDIR + retsig + ".json";
+						if (fs.existsSync(retfile)) {
+							console.log("Found converted file.")
+							var tmp = fs.readFileSync(retfile);
+							res.write(tmp.toString());
+							res.end();
+							return;
+						}
+						tsds2bookmarks(ret, function (tmp) {
+							res.write(tmp.toString());
+							res.end();
+							console.log("Writing "+cfile)
+							fs.writeFileSync(cfile,tmp.toString());
+							console.log("Writing "+retfile)
+							fs.writeFileSync(retfile,tmp.toString());
+
+						});
+					});
+				} else {
+					res.write(ret.toString());	
+					res.end();
+				}	
+			} else {
+				res.write(JSON.stringify(ret));
+				res.end();
+
+			}
+
+		});
+		return;
+	}
+
 
 	// Requests may be made that span multiple catalogs.  Separation identifier is ";".
 	// See tests.js for examples.  This is not a well-tested feature.
@@ -287,9 +336,9 @@ function parseOptions(req) {
 	options.outformat    = req.query.outformat    || req.body.outformat    || "1";
 	options.filter       = req.query.filter       || req.body.filter       || "";
 	options.filterWindow = req.query.filterWindow || req.body.filterWindow || "0";
-	options.usecache     = s2b(req.query.usecache || req.body.usecache     || "true");
+	options.usecache     = s2b(req.query.usecache || req.body.usecache     || "true"); // Send DataCache parameter usecache.
 
-	// Always use cache and don't try to see if update exists.  If false and update fails, cache will be used
+	// Always use TSDSFE cache and don't try to see if update exists.  If false and update fails, cache will be used
 	// and warning given in header.
 	options.usemetadatacache = s2b(req.query.usemetadatacache || req.body.usemetadatacache || "false");
 	
@@ -393,8 +442,10 @@ function getandparse(url,options,callback) {
 				if (debugapp) console.log("getandparse(): Done fetching.");
 				if (debugapp) console.log("getandparse(): Parsing.");
 
-				if (options.return === "xml" && response.statusCode == 200) {
+				if (options.outformat === "xml" && response.statusCode == 200) {
+					if (debugapp) console.log("getandparse(): Returning raw XML and not caching parsed JSON version.")
 					callback(body);
+					return;
 				}
 
 				if (!error && response.statusCode == 200) {

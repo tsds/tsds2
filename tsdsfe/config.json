@@ -1,9 +1,0 @@
-exports.config = function config() {
-
-	// Location of the master catalog.  May be a URL or directory.
-	// If leading /, path is treated as absolute.
-	// Otherwise it is relative to directory of tsdsfe.js.
-	out["CATALOG"] = "catalogs/all.thredds";
-	return out;
-}
-
