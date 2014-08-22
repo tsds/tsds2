@@ -1,6 +1,6 @@
 Privacy and Important Notices:
   http://www.nasa.gov/about/highlights/HP_Privacy.html
-Time to execute getPrivacyAndImportantNotices = 0.05seconds
+Time to execute getPrivacyAndImportantNotices = 0.045seconds
 
 
 Satellites:
@@ -13,9 +13,9 @@ Satellites:
   apex  APEX-MAIN  60s 1991-12-17T00:00:00Z - 2004-05-01T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/apex_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/apex_t.x3d
   aqua  Aqua  60s 2002-05-04T00:00:00Z - 2014-08-31T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/aqua_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/aqua_t.x3d
   ariel4  ARIEL-4  60s 1972-01-16T00:00:00Z - 1978-11-26T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/ariel4_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/ariel4_t.x3d
-  artemisp1  ARTEMIS_P1  60s 2007-02-18T00:13:59Z - 2014-08-13T23:58:59Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/artemisp1_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/artemisp1_t.x3d
+  artemisp1  ARTEMIS_P1  60s 2007-02-18T00:13:59Z - 2014-08-18T23:58:59Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/artemisp1_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/artemisp1_t.x3d
   artemisp1pred  ARTEMIS_P1 (Pred)  60s 2008-07-18T00:30:00Z - 2015-03-01T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/artemisp1pred_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/artemisp1pred_t.x3d
-  artemisp2  ARTEMIS_P2  60s 2007-02-18T00:13:59Z - 2014-08-13T23:58:59Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/artemisp2_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/artemisp2_t.x3d
+  artemisp2  ARTEMIS_P2  60s 2007-02-18T00:13:59Z - 2014-08-18T23:58:59Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/artemisp2_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/artemisp2_t.x3d
   artemisp2pred  ARTEMIS_P2 (Pred)  60s 2008-07-18T00:30:00Z - 2015-03-01T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/artemisp2pred_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/artemisp2pred_t.x3d
   astrid2  ASTRID II  60s 1998-12-12T00:00:00Z - 2002-04-03T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/astrid2_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/astrid2_t.x3d
   aura  Aura  60s 2004-07-15T00:00:00Z - 2014-08-31T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/aura_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/aura_t.x3d
@@ -75,7 +75,7 @@ Satellites:
   freja  Freja  60s 1992-10-07T00:00:00Z - 2000-05-11T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/freja_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/freja_t.x3d
   gcomw1  GCOM-W1  60s 2012-05-17T00:00:00Z - 2014-08-30T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/gcomw1_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/gcomw1_t.x3d
   genesis  Genesis  3600s 2001-08-12T00:00:00Z - 2004-09-07T23:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/genesis_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/genesis_t.x3d
-  geotail  Geotail  720s 1992-07-26T00:00:00Z - 2014-09-14T23:48:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/geotail_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/geotail_t.x3d
+  geotail  Geotail  720s 1992-07-26T00:00:00Z - 2014-09-21T23:48:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/geotail_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/geotail_t.x3d
   gms3  GMS-3  60s 1986-03-25T00:00:00Z - 1986-07-01T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/gms3_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/gms3_t.x3d
   goes10  GOES-10  180s 1998-06-18T00:00:00Z - 2009-12-05T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/goes10_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/goes10_t.x3d
   goes11  GOES-11  180s 2000-05-17T00:00:00Z - 2014-08-31T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/goes11_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/goes11_t.x3d
@@ -173,15 +173,15 @@ Satellites:
   swarmc  Swarm C  60s 2013-11-26T00:00:00Z - 2014-08-31T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/swarmc_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/swarmc_t.x3d
   tatiana1  Tatiana1  60s 2005-01-25T00:00:00Z - 2007-03-30T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/tatiana1_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/tatiana1_t.x3d
   tatiana2  Tatiana2  60s 2009-09-17T00:00:00Z - 2010-07-13T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/tatiana2_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/tatiana2_t.x3d
-  themisa  THEMIS-A (P5)  60s 2007-02-18T00:13:59Z - 2014-08-14T23:58:59Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themisa_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themisa_t.x3d
+  themisa  THEMIS-A (P5)  60s 2007-02-18T00:13:59Z - 2014-08-19T23:58:59Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themisa_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themisa_t.x3d
   themisapred  THEMIS-A (Pred)  60s 2008-07-18T00:30:00Z - 2020-12-31T23:58:59Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themisapred_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themisapred_t.x3d
-  themisb  THEMIS-B (P1)  60s 2007-02-18T00:13:59Z - 2014-08-13T23:58:59Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themisb_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themisb_t.x3d
+  themisb  THEMIS-B (P1)  60s 2007-02-18T00:13:59Z - 2014-08-18T23:58:59Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themisb_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themisb_t.x3d
   themisbpred  THEMIS-B (Pred)  60s 2008-07-18T00:30:00Z - 2015-03-01T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themisbpred_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themisbpred_t.x3d
-  themisc  THEMIS-C (P2)  60s 2007-02-18T00:13:59Z - 2014-08-13T23:58:59Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themisc_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themisc_t.x3d
+  themisc  THEMIS-C (P2)  60s 2007-02-18T00:13:59Z - 2014-08-18T23:58:59Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themisc_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themisc_t.x3d
   themiscpred  THEMIS-C (Pred)  60s 2008-07-18T00:30:00Z - 2015-03-01T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themiscpred_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themiscpred_t.x3d
-  themisd  THEMIS-D (P3)  60s 2007-02-18T00:13:59Z - 2014-08-13T23:58:59Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themisd_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themisd_t.x3d
+  themisd  THEMIS-D (P3)  60s 2007-02-18T00:13:59Z - 2014-08-18T23:58:59Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themisd_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themisd_t.x3d
   themisdpred  THEMIS-D (Pred)  60s 2008-07-18T00:30:00Z - 2020-12-31T23:58:59Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themisdpred_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themisdpred_t.x3d
-  themise  THEMIS-E (P4)  60s 2007-02-18T00:13:59Z - 2014-08-14T23:58:59Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themise_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themise_t.x3d
+  themise  THEMIS-E (P4)  60s 2007-02-18T00:13:59Z - 2014-08-19T23:58:59Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themise_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themise_t.x3d
   themisepred  THEMIS-E (Pred)  60s 2008-07-18T00:30:00Z - 2020-12-31T23:58:59Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themisepred_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/themisepred_t.x3d
   timed  TIMED  60s 2002-02-07T00:00:00Z - 2014-09-01T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/timed_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/timed_t.x3d
   trace  TRACE  60s 1998-04-02T00:00:00Z - 2010-10-19T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/trace_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/trace_t.x3d
@@ -191,7 +191,7 @@ Satellites:
   viking  Viking  60s 1986-03-05T00:00:00Z - 1987-01-01T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/viking_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/viking_t.x3d
   wind  Wind  720s 1994-11-16T00:00:00Z - 2014-10-14T23:48:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/wind_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/wind_t.x3d
   yohkoh  Yohkoh (Solar-A)  60s 1991-09-05T00:00:00Z - 1998-01-02T00:00:00Z    http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/yohkoh_sc.x3d  http://sscweb.gsfc.nasa.gov/WebServices/resources/geometry/yohkoh_t.x3d
-Time to execute getAllSatellites = 0.09seconds
+Time to execute getAllSatellites = 0.08seconds
 
 
 SPASE Observatories:
@@ -314,7 +314,7 @@ SPASE Observatories:
   uars  spase://SMWG/Observatory/UARS
   wind  spase://SMWG/Observatory/Wind
   yohkoh  spase://SMWG/Observatory/Yohkoh
-Time to execute getAllSpaseObservatories = 1.459seconds
+Time to execute getAllSpaseObservatories = 1.45seconds
 
 
 Ground Stations:
@@ -517,9 +517,9 @@ Ground Stations:
   HIS  80.62  58.05  Heiss Island
   NOC  81.6  -16.6  Nord
   ALE  82.5  -62.5  Alert
-Time to execute getAllGroundStations = 0.047seconds
-xmlStart/End = 2014-08-18T02:45:34.489Z, 2014-08-19T02:45:34.489Z
-start/end date = Sun Aug 17 22:45:34 EDT 2014, Mon Aug 18 22:45:34 EDT 2014
+Time to execute getAllGroundStations = 0.044seconds
+xmlStart/End = 2014-08-20T13:36:45.945Z, 2014-08-21T13:36:45.945Z
+start/end date = Wed Aug 20 09:36:45 EDT 2014, Thu Aug 21 09:36:45 EDT 2014
 
 Orbit getGraphs results:
 
@@ -530,9 +530,9 @@ result.getStatusSubCode() = SUCCESS
 getGraphs status text is empty
 
 getGraphs URLs returned:
-  http://sscweb.gsfc.nasa.gov/images/ORBIT_12447_001.gif
+  http://sscweb.gsfc.nasa.gov/images/ORBIT_14285_001.gif
 
-Time to execute getGraphs = 0.953seconds
+Time to execute getGraphs = 0.957seconds
 
 Map getGraphs results:
 
@@ -543,9 +543,9 @@ result.getStatusSubCode() = SUCCESS
 getGraphs status text is empty
 
 getGraphs URLs returned:
-  http://sscweb.gsfc.nasa.gov/images/MAPPED_MOON_12466_000.gif
+  http://sscweb.gsfc.nasa.gov/images/MAPPED_MOON_14304_000.gif
 
-Time to execute getGraphs = 0.879seconds
+Time to execute getGraphs = 0.906seconds
 
 Time Series getGraphs results:
 
@@ -556,9 +556,9 @@ result.getStatusSubCode() = SUCCESS
 getGraphs status text is empty
 
 getGraphs URLs returned:
-  http://sscweb.gsfc.nasa.gov/images/TIME_SERIES_12485_000.gif
+  http://sscweb.gsfc.nasa.gov/images/TIME_SERIES_14322_000.gif
 
-Time to execute getGraphs = 0.325seconds
+Time to execute getGraphs = 0.36seconds
 
 getData results:
 
@@ -572,42 +572,31 @@ Satellite Data:
   fast
   Time                                      GSE                                       Local      Radial     Magnetic     Neutral     Bow         Magneto     Dipole      Dipole    Spacecraft   Radial Trc   N BTraced     GSE      Magnetic   Vectors 
                              X           Y           Z        Lat        Lon           Time      Length     Strength     Sheet       Shock       Pause       L Value     InvLat    Region       Region       Region        X          Y          Z     
-  2014-08-18T02:46:00Z
-    -3010.53    -3755.41     4704.72       44.35      231.28        3.42     6730.59    39965.50     5283.49   -92855.45   -69266.37        2.66       52.18   N Psphere   N Mid-Lat   N Mid-Lat    29829.48    23441.08   -12568.13
-  2014-08-18T02:48:00Z
-    -3686.45    -3964.22     3986.26       36.37      227.08        3.14     6722.74    36842.95     4598.45   -93535.67   -70005.98        1.94       44.06   N Psphere   N Mid-Lat   N Mid-Lat    31086.13    19761.92     -722.13
-  2014-08-18T02:50:00Z
-    -4293.00    -4098.33     3192.54       28.28      223.67        2.91     6739.33    32990.06     3828.40   -94154.09   -70707.45        1.54       36.20   N Psphere   N Mid-Lat   N Mid-Lat    28044.60    13624.64    10780.24
-  2014-08-18T02:52:00Z
-    -4819.57    -4155.41     2338.91       20.18      220.77        2.72     6779.84    28971.40     2988.09   -94704.77   -71347.50        1.31       28.92   N Psphere   Low Lat     N Mid-Lat    20598.95     5907.71    19496.78
-  2014-08-18T02:54:00Z
-    -5257.29    -4136.31     1442.10       12.17      218.19        2.55     6843.08    25540.93     2093.85   -95169.26   -71899.44        1.18       22.76   N Psphere   Low Lat     Low Lat      10322.62    -1602.99    23306.94
+  2014-08-20T13:37:00Z
+    -3080.34    -3503.23     4842.40       46.07      228.68        3.25     6723.83    40308.42     5002.45   -92960.67   -69364.73        1.99       44.87   N Psphere   N Mid-Lat   N Mid-Lat    32797.04    18505.38   -14376.13
+  2014-08-20T13:39:00Z
+    -3791.02    -3691.33     4151.83       38.12      224.24        2.95     6725.73    36087.90     4270.40   -93680.85   -70147.39        1.58       37.32   N Psphere   N Mid-Lat   N Mid-Lat    32915.88    14311.02    -3751.78
+  2014-08-20T13:41:00Z
+    -4430.25    -3810.18     3382.99       30.07      220.70        2.71     6751.97    32106.36     3455.54   -94335.95   -70895.22        1.34       30.10   N Psphere   Low Lat     Low Lat      30337.45     9107.62     5244.90
+  2014-08-20T13:43:00Z
+    -4987.13    -3858.10     2551.01       22.03      217.73        2.52     6801.77    28847.56     2574.01   -94919.94   -71584.08        1.19       23.70   N Psphere   Low Lat     Low Lat      25788.06     3381.44    12478.92
+  2014-08-20T13:45:00Z
+    -5453.50    -3835.36     1672.40       14.08      215.12        2.34     6873.68    26496.44     1643.36   -95417.79   -72187.27        1.12       18.96   N Psphere   Low Lat     Low Lat      19427.82    -2676.40    17817.34
   moon
   Time                                      GSE                                       Local      Radial     Magnetic     Neutral     Bow         Magneto     Dipole      Dipole    Spacecraft   Radial Trc   N BTraced     GSE      Magnetic   Vectors 
                              X           Y           Z        Lat        Lon           Time      Length     Strength     Sheet       Shock       Pause       L Value     InvLat    Region       Region       Region        X          Y          Z     
-  2014-08-18T02:46:00Z
-    47881.99  -386917.99   -22958.43       -3.37      277.05        6.47   390544.90      NA          NA       224092.09   292101.52       63.72       82.80   Intpl Med   Low Lat       None         NA          NA          NA    
-  2014-08-18T02:48:00Z
-    48001.70  -386909.99   -22966.89       -3.37      277.07        6.47   390552.20      NA          NA       224146.79   292135.27       63.75       82.81   Intpl Med   Low Lat       None         NA          NA          NA    
-  2014-08-18T02:50:00Z
-    48121.41  -386902.10   -22975.37       -3.37      277.09        6.47   390559.60      NA          NA       224201.97   292169.16       63.78       82.81   Intpl Med   Low Lat       None         NA          NA          NA    
-  2014-08-18T02:52:00Z
-    48215.55  -386897.24   -22983.84       -3.37      277.10        6.47   390566.90      NA          NA       224247.39   292197.19       63.81       82.81   Intpl Med   Low Lat       None         NA          NA          NA    
-  2014-08-18T02:54:00Z
-    48335.26  -386889.26   -22992.31       -3.37      277.12        6.47   390574.27      NA          NA       224302.80   292231.04       63.85       82.81   Intpl Med   Low Lat       None         NA          NA          NA    
+  2014-08-20T13:37:00Z
+   229157.32  -327308.00   -33876.34       -4.85      305.00        8.33   400987.83      NA          NA       352483.07   326892.33       81.31       83.63   Intpl Med   Low Lat       None         NA          NA          NA    
+  2014-08-20T13:39:00Z
+   229234.30  -327259.09   -33879.98       -4.85      305.01        8.33   400992.16      NA          NA       352468.91   326901.70       81.29       83.63   Intpl Med   Low Lat       None         NA          NA          NA    
+  2014-08-20T13:41:00Z
+   229332.64  -327195.15   -33883.65       -4.85      305.03        8.34   400996.57      NA          NA       352449.54   326912.45       81.27       83.63   Intpl Med   Low Lat       None         NA          NA          NA    
+  2014-08-20T13:43:00Z
+   229430.96  -327131.16   -33887.28       -4.85      305.04        8.34   401000.92      NA          NA       352430.08   326923.18       81.25       83.63   Intpl Med   Low Lat       None         NA          NA          NA    
+  2014-08-20T13:45:00Z
+   229507.85  -327082.21   -33890.93       -4.85      305.06        8.34   401005.28      NA          NA       352415.97   326932.50       81.22       83.63   Intpl Med   Low Lat       None         NA          NA          NA    
 
-Time to execute getData = 2.486seconds
-
-getDataFile results:
-result.getStatusCode() = SUCCESS
-result.getStatusSubCode() = SUCCESS
-
-getDataFile status text is empty
-
-getDataFile URLs returned:
-  http://sscweb.gsfc.nasa.gov/query_output/locator_server12520.txt
-
-Time to execute getDataFiles = 1.604seconds
+Time to execute getData = 2.34seconds
 
 getDataFile results:
 result.getStatusCode() = SUCCESS
@@ -616,7 +605,18 @@ result.getStatusSubCode() = SUCCESS
 getDataFile status text is empty
 
 getDataFile URLs returned:
-  http://sscweb.gsfc.nasa.gov/query_output/fast_20140818224541_12542.cdf
-  http://sscweb.gsfc.nasa.gov/query_output/moon_20140818224541_12542.cdf
+  http://sscweb.gsfc.nasa.gov/query_output/locator_server14356.txt
 
-Time to execute getDataFiles 2 = 1.776seconds
+Time to execute getDataFiles = 1.503seconds
+
+getDataFile results:
+result.getStatusCode() = SUCCESS
+result.getStatusSubCode() = SUCCESS
+
+getDataFile status text is empty
+
+getDataFile URLs returned:
+  http://sscweb.gsfc.nasa.gov/query_output/fast_20140821093657_14378.cdf
+  http://sscweb.gsfc.nasa.gov/query_output/moon_20140821093657_14378.cdf
+
+Time to execute getDataFiles 2 = 1.671seconds

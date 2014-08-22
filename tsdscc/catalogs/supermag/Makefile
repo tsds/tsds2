@@ -1,7 +1,7 @@
-all: 
+all: node_modules/
 	make SuperMAG.xml	
 
-install: node_modules/
+node_modules/: 
 	npm install
 
 SuperMAG.xml: SuperMAG.js

@@ -120,8 +120,8 @@ tests[14] = {};
 tests[14].url = "catalog=SWPC/AK&dataset=AK&parameters=PlanetaryK&start=-P10D&stop=-P2D";
 tests[14].test = function (data) {
 	var len = data.toString().split("\n").length;
-	console.log("File should have 58 rows.  Found: " + len );
-	if (len == 58) {return true;} else {return false}
+	console.log("File should have 59 or 65 newlines.  Found: " + len );
+	if (len == 59 || len == 65) {return true;} else {return false}
 };
 tests[14].note = 'This test sometimes fails at end of month because files will contain no data or will not be available.'
 
@@ -138,8 +138,8 @@ tests[16] = {};
 tests[16].url = "catalog=SWPC/AK;SWPC/AK/2DayFile&dataset=AK;AK&parameters=PlanetaryK;PlanetaryK&start=-P10D;-P2D&stop=-P2D;P1D";
 tests[16].test = function (data) {
 	var len = data.toString().split("\n").length;
-	console.log("File should have 74 rows.  Found: " + len );
-	if (len == 74) {return true;} else {return false}
+	console.log("File should have more than 74 rows.  Found: " + len );
+	if (len > 74) {return true;} else {return false}
 };
 tests[16].note = 'This test sometimes fails at end of month because files will contain no data or will not be available.'
 
@@ -197,3 +197,7 @@ tests[22].test = function (data) {
 	if (len > 500) {return true;} else {return false}
 };
 tests[22].note = ''
+
+tests[23] = {};
+tests[23].url = "catalog=SSCWeb;SSCWeb&dataset=ace;ace&parameters=X_TOD;Y_TOD&start=1998-01-01;1998-01-04&stop=1998-01-04;1998-01-08";
+tests[23].note = 'This test may fail if testing from localhost.'

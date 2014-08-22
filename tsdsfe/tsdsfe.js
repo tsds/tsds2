@@ -62,7 +62,6 @@ console.log(Date().toString() + " - [tsdsfe] running on port "+config.PORT);
 function handleRequest(req, res) {
 
 	var options = parseOptions(req);
-	options.res = res;
 
 	if (debugapp) console.log("handleRequest(): Handling " + req.originalUrl);
 
@@ -105,51 +104,65 @@ function handleRequest(req, res) {
 			res.setHeader("Content-Type","text/xml"); 
 			options.outformat = "xml";
 		}
-		var url = config.TSDSCC + options.catalog + "/" + options.catalog + "-tsds.xml";
-		console.log("handleRequest(): Calling getandparse with URL "+url);
 
-		getandparse(url,options,function (ret) {
-			if (options.outformat === "xml") {
-				if (options.return === "autoplot-bookmarks") {
-					var tsds2bookmarks = require(__dirname + "/js/tsds2bookmarks.js").tsds2bookmarks;
-					if (debugapp) console.log("handleRequest(): Converting TSDS XML catalog to XML.");
-					
-					// We are still going to return XML but call getandparse() so that parsed JSON
-					// of XML gets cached.  getandparse() does not parse if response is XML.
-					options.outformat = "json"; // Force JSON to be cached.
+		// Get list of all catalogs and their URLs		
+		url = config["TSDSFE"] + "?catalog=^.*";
+		console.log("-- Requesting "+url)
+		request(url, function (err,catres,catbody) {
+			//console.log(body)
+			catalogjson = JSON.parse(catbody);
+			// Iterate through catalog and find one that matches requested catalog.
+			for (var i = 0;i < catalogjson.length;i++) {
+				if (catalogjson[i].label.match(options.catalog)) {
+					url = catalogjson[i].href;
+
+					if (debugapp) console.log("handleRequest(): Calling getandparse with URL "+url);
+					// Request the catalog and parse it.
 					getandparse(url,options,function (ret) {
-						// If usemetadatacache = false, we'll get here.
-						// See if md5 of ret differs from that cached.  If not, no need to re-convert.
-						var retsig = crypto.createHash("md5").update(ret.toString()).digest("hex");
-						var retfile  = CDIR + retsig + ".json";
-						if (fs.existsSync(retfile)) {
-							console.log("Found converted file.")
-							var tmp = fs.readFileSync(retfile);
-							res.write(tmp.toString());
+						if (options.outformat === "xml") {
+							if (options.return === "autoplot-bookmarks") {
+								var tsds2bookmarks = require(__dirname + "/js/tsds2bookmarks.js").tsds2bookmarks;
+								if (debugapp) console.log("handleRequest(): Converting TSDS XML catalog to XML.");
+								
+								// We are still going to return XML but call getandparse() so that parsed JSON
+								// of XML gets cached.  getandparse() does not parse if response is XML.
+								options.outformat = "json"; // Force JSON to be cached.
+								getandparse(url,options,function (ret) {
+									// If usemetadatacache = false, we'll get here.
+									// See if md5 of ret differs from that cached.  If not, no need to re-convert.
+									var retsig = crypto.createHash("md5").update(ret.toString()).digest("hex");
+									var retfile  = CDIR + retsig + ".json";
+									if (fs.existsSync(retfile)) {
+										console.log("Found converted file.")
+										var tmp = fs.readFileSync(retfile);
+										res.write(tmp.toString());
+										res.end();
+										return;
+									}
+									tsds2bookmarks(ret, function (tmp) {
+										res.write(tmp.toString());
+										res.end();
+										console.log("Writing "+cfile)
+										fs.writeFileSync(cfile,tmp.toString());
+										console.log("Writing "+retfile)
+										fs.writeFileSync(retfile,tmp.toString());
+
+									});
+								});
+							} else {
+								res.write(ret.toString());	
+								res.end();
+							}	
+						} else {
+							res.write(JSON.stringify(ret));
 							res.end();
-							return;
 						}
-						tsds2bookmarks(ret, function (tmp) {
-							res.write(tmp.toString());
-							res.end();
-							console.log("Writing "+cfile)
-							fs.writeFileSync(cfile,tmp.toString());
-							console.log("Writing "+retfile)
-							fs.writeFileSync(retfile,tmp.toString());
 
-						});
 					});
-				} else {
-					res.write(ret.toString());	
-					res.end();
-				}	
-			} else {
-				res.write(JSON.stringify(ret));
-				res.end();
+				}
+			}			
+		})
 
-			}
-
-		});
 		return;
 	}
 
@@ -165,31 +178,41 @@ function handleRequest(req, res) {
 	res.setHeader("Content-Type","text/plain"); 
 
 	if (N > 1) {
+		if (options.return !== "stream") {
+			//res.status(502).send("Only return=stream is allowed for requests that span multiple catalogs.");
+			//return;
+		}
+
 		var catalogs   = options.catalog.split(";");
 		var datasets   = options.dataset.split(";");
 		var parameters = options.parameters.split(";");
 		var starts     = options.start.split(";");
 		var stops      = options.stop.split(";");
-
+		
+		console.log(starts)
+		console.log(stops)
 		if (debugapp) console.log("handleRequest(): Concatenated parameter request. N = "+N);
 		
 		var Options = [];
-		var str = JSON.stringify(options);
 		for (var i=0;i<N;i++) {
-			Options[i] = {};
-			Options[i] = JSON.parse(str);
+			Options[i]            = {};
+			Options[i]            = JSON.parse(JSON.stringify(options)); // Slow clone
 			Options[i].catalog    = catalogs[i];
 			Options[i].dataset    = datasets[i];
 			Options[i].parameters = parameters[i];
 			Options[i].start      = starts[i];
 			Options[i].stop       = stops[i];
 		}
+		//console.log(Options[0]);
+		// If N > 1, stream will call again when first data request is complete.
+		// If response if for an image, client will need to split it.
 		catalog(Options[0], stream);
 		return;
 	}
-	
-	options.req = req;
+
 	options.res = res;
+	options.req = req;
+
 	catalog(options, stream);
 
 	function stream(status, data) {
@@ -219,6 +242,16 @@ function handleRequest(req, res) {
 				return;
 			}
 
+			if (req.headers['accept-encoding']) {
+				if (req.headers['accept-encoding'].match("gzip")) {
+					if (data.match("streamGzip")) {
+						// In this case we are receiving a gzipped stream from DataCache.
+						res.setHeader('Content-Encoding','gzip');
+						data = data.replace("streamGzip=false","streamGzip=true");
+					}
+				}
+			}
+
 			// If stream was called with a URL, pipe the data through.
 			if (debugapp) console.log("stream(): Streaming from\n\t"+data)
 
@@ -232,8 +265,11 @@ function handleRequest(req, res) {
 				//if (debugapp) console.log(res0.headers)
 				//res.setHeader('Content-Disposition','attachment; filename='+res0.headers['content-disposition']);
 
+				//console.log(res0.headers)
+
+
 				if (res0.headers["content-type"])
-						res.setHeader('Content-Type',res0.headers["content-type"]);
+					res.setHeader('Content-Type',res0.headers["content-type"]);
 
 				if (res0.headers["content-length"])
 					res.setHeader('Content-Length',res0.headers["content-length"]);
@@ -284,14 +320,19 @@ function handleRequest(req, res) {
 
 			if (typeof(data) === "string") {
 				// Script.
+				// TODO: Does not handle concatenated requests.
 				res.setHeader('Content-Type','text/plain');
 				res.write(data);
 				res.end();
 				return;
 			} else {
+				if (N > 1) {
+					if (Nc == 0) {
+						res.write("[");
+					}
+				}
 				res.write(JSON.stringify(data));
 			}
-			
 
 			if (data.length > 0) {
 				// Cache the JSON.
@@ -308,10 +349,14 @@ function handleRequest(req, res) {
 			}
 
 			Nc = Nc + 1;
-			if (N > 1) res.write("\n");
+			if (N > 1 && N != Nc) res.write(",");
 			if (Nc == N) {
+				if (N > 1) {
+					res.write("]");
+				}
 				res.end();
 			} else {
+				if (debugapp) {console.log("Calling catalog again.")}
 				catalog(Options[Nc], stream);
 			}
 		}
@@ -343,9 +388,11 @@ function parseOptions(req) {
 	options.usemetadatacache = s2b(req.query.usemetadatacache || req.body.usemetadatacache || "false");
 	
 	if ((options.start === "") && (options.start === "") && (options.return === "stream")) {
+		if (debugapp) console.log("No start and stop given.  Resetting return to dd")
 		options.return = "dd";
 	}
 
+	if (debugapp) console.log(options)
 	// Not implemented.
 	//options.useimagecache = s2b(req.query.useimagecache || req.body.useimagecache     || "true");
 	
@@ -474,6 +521,7 @@ function getandparse(url,options,callback) {
 // After catalog() executes, it either calls dataset() or stream()
 // (will call stream() if only catalog information was requested.)
 function catalog(options, cb) {
+	console.log("---" + options.start)
 
 	getandparse(config.CATALOG,options,afterparse);
 
@@ -486,7 +534,6 @@ function catalog(options, cb) {
 		var catalogRefs = result["catalog"]["catalogRef"];
 		var xmlbase     = config.XMLBASE || result["catalog"]["$"]["xml:XMLBASE"] || "";
 		if (debugapp) console.log("catalog(): Setting xmlbase to " + xmlbase);
-
 
 		if (debugapp) console.log("catalog(): Found " + catalogRefs.length + " catalogRef nodes.");
 
@@ -510,6 +557,7 @@ function catalog(options, cb) {
 				}
 			}
 		}
+
 
 		// Now we have a list of URLs for catalogs associated with the catalog pattern.
 
@@ -553,6 +601,7 @@ function dataset(options, catalogs, cb) {
 	var parents = [];
 	var dresp = [];
 
+	console.log("dataset(): Called.")
 	// Loop over each catalog
 	for (var i = 0; i < catalogs.length;i++) {
 		getandparse(catalogs[i].href,options,afterparse);
@@ -598,8 +647,9 @@ function dataset(options, catalogs, cb) {
 					}
 				}
 			}
+			console.log(options.parameters)
 			if (options.parameters === "" && !(options.groups === "^.*")) {
-				dresp = dresp.filter(function(n){return n;});
+				dresp = dresp.filter(function(n){return n;}); // Needed?
 				if (dresp.length == 1 && options.dataset.substring(0,1) !== "^") {
 					if (typeof(datasets[z]["documentation"]) !== "undefined") {
 						for (var k = 0; k < datasets[z]["documentation"].length;k++) {
@@ -612,9 +662,10 @@ function dataset(options, catalogs, cb) {
 						dresp[0].title = "No dataset documentation in catalog";
 						dresp[0].link  = "";									
 					}
+					console.log("here")
 					cb(200,dresp);
 				} else {
-					cb(200,dresp.filter(function(n){return n}));
+					cb(200,dresp);
 				}
 			} else {
 				parameter(options,parents,datasets.filter(function(n){return n}),cb);
@@ -625,6 +676,7 @@ function dataset(options, catalogs, cb) {
 
 function parameter(options, catalogs, datasets, cb) {
 
+	console.log("parameter(): Called.")
 	if (options.groups === "^.*") {
 		options.parameters = "^.*";
 	}
@@ -757,12 +809,25 @@ function parameter(options, catalogs, datasets, cb) {
 		columns = columns + "," + resp[z].dd.columns;
 	}
 
+	// Interpretation of timeRanges:
+	// DATE/DURATION       = DATE/now+DURATION
+	// DURATION/DATE       = DATE+DURATION/DATE
+	// DATE1/DATE2         = DATE1/DATE2
+	// DURATION1/DURATION2 = now+DURATION1/now+DURATION2
+
 	start = options.start || resp[0].dd.start;
 	stop  = options.stop  || resp[0].dd.start;
 
+	var tmp = expandISO8601Duration(start+"/"+stop,{debug:false})
+	//console.log(tmp);
+	start = tmp.split("/")[0].substring(0,10);
+	stop = tmp.split("/")[1].substring(0,10);
+
 	if (debugapp) console.log("parameter(): Requested start : " + options.start);
+	if (debugapp) console.log("parameter(): Expanded start  : " + start);
 	if (debugapp) console.log("parameter(): DD start        : " + resp[0].dd.start);
 	if (debugapp) console.log("parameter(): Requested stop  : " + options.stop);
+	if (debugapp) console.log("parameter(): Expanded stop   : " + stop);
 	if (debugapp) console.log("parameter(): DD stop         : " + resp[0].dd.stop);
 
 	var urltemplate  = resp[0].dd.urltemplate;
@@ -770,11 +835,11 @@ function parameter(options, catalogs, datasets, cb) {
 	var urlsource    = resp[0].dd.urlsource;
 		
 	if (Date.parse(stop) < Date.parse(start)) {
-		cb(500,"Stop time is before than start time.");
+		cb(500,"Stop time is before start time.");
 		return;
 	}
 	if (Date.parse(start) > Date.parse(stop)) {
-		cb(500,"Start time is later than stop time.");
+		cb(500,"Start time is after stop time.");
 		return;
 	}
 
@@ -865,8 +930,8 @@ function parameter(options, catalogs, datasets, cb) {
 	}
 
 	if (debugapp) {
-		console.log("parameter(): options = ")
-		console.log(options);
+		//console.log("parameter(): options = ")
+		//console.log(options);
 	}
 	if (options.return === "dd") {
 		ddresp = [];

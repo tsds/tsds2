@@ -44,3 +44,17 @@ tests[7] = {};
 tests[7].url = "catalog=SWPC/GOES/Primary/Particle/PT1M&dataset=Gp_particles&parameters=E_gt_4.0&start=-P3D&stop=-P1D&return=urilistflat";
 tests[7].test = function (data) {var len = data.toString().split("\n").length;eval(tests[7].log);if (len == 3) {return true;} else {return false} };
 tests[7].log  = 'console.log("File should have 3 rows.  Found: " + len );';
+
+tests[8] = {};
+tests[8].url = "catalog=SSCWeb&return=tsds";
+tests[8].test = function (data) {
+					var len = data.toString().split("\n").length;
+					var N = 12157;
+					console.log("File should have more than "+N+" rows.  Found: " + len );
+					if (len > 12157) {
+						return true;
+					} 
+					else {
+						return false
+					}
+				};
