@@ -417,7 +417,7 @@ function getandparse(url,options,callback) {
 	// Retrieves XML or JSON from a URL and stores XML and JSON as a cache file.
 	// Callback is passed XML or JSON depending on options.outformat.
 
-	console.log("getandparse(): Called with outformat = "+options.outformat);
+	if (debugapp) console.log("getandparse(): Called with outformat = "+options.outformat);
 	
 	var urlsig = crypto.createHash("md5").update(url).digest("hex");	
 
@@ -566,10 +566,10 @@ function getandparse(url,options,callback) {
 			var isxml  = false;
 
 			if (body.match(/^\s*\[|^\s*{/)) { // Response is JSON
-				console.log("fetch(): Response was JSON");	
+				if (debugapp) console.log("fetch(): Response was JSON");	
 				isjson = true;
 			} else {
-				console.log("fetch(): Response was XML");
+				if (debugapp) console.log("fetch(): Response was XML");
 				isxml = true;
 			}
 
