@@ -21,6 +21,10 @@ var http    = require('http');
 var url     = require('url');
 var util    = require('util');
 var crypto  = require("crypto");
+var util    = require("util");
+var clc     = require('cli-color');
+
+function logc(str,color) {var msg = clc.xterm(color); console.log(msg(str));};
 
 var expandISO8601Duration = require("tsdset").expandISO8601Duration;
 
@@ -57,11 +61,14 @@ if (!fs.existsSync(CDIR)) {
 	fs.mkdirSync(CDIR)
 }
 
-console.log(Date().toString() + " - [tsdsfe] running on port "+config.PORT);
+logc((new Date()).toISOString() + " - [tsdsfe] listening on port "+config.PORT,10);
 
 function handleRequest(req, res) {
 
 	var options = parseOptions(req);
+	if (debugapp) console.log(options);
+	options.res = res;
+	options.req = req;
 
 	if (debugapp) console.log("handleRequest(): Handling " + req.originalUrl);
 
@@ -70,12 +77,12 @@ function handleRequest(req, res) {
 
 	var cfile  = CDIR + urlsig + ".json";
 
+	// No cache will exist if one of outformat={0,1,2} is selected.  Data are not cached by TSDSFE.
 	if (debugcache) {
 		if (fs.existsSync(cfile)) {
-			console.log("handleRequest(): Response cache found "+cfile.replace(__dirname,""));
+			if (debugcache) console.log("handleRequest(): Metadata response cache found "+cfile.replace(__dirname,""));
 		} else {
-			// No cache will exist if outformat is selected.  Data are not cached by TSDSFE.
-			console.log("handleRequest(): Response cache not found "+cfile.replace(__dirname,""));
+			if (debugcache) console.log("handleRequest(): Metadata response cache not found "+cfile.replace(__dirname,""));
 		}
 	}
 	
@@ -87,13 +94,13 @@ function handleRequest(req, res) {
 		fs.createReadStream(cfile).pipe(res);
 		return;
 	} else {
-		console.log("handleRequest(): Not using response cache file because usemetadatacache = false.")
+		if (debugcache) console.log("handleRequest(): Not using metadata response cache file if found because usemetadatacache = false.")
 	}
 
 	// Catch case where ?catalog=CATALOG&return={tsds,autoplot-bookmarks,spase}
 	if ( (options.return === "autoplot-bookmarks") || (options.return === "tsds") ) {
 
-		if (options.return === "autoplot-bookmarks") {
+		if (options.outformat == 1) {
 			options.outformat = "xml";
 		}
 
@@ -107,58 +114,57 @@ function handleRequest(req, res) {
 
 		// Get list of all catalogs and their URLs		
 		url = config["TSDSFE"] + "?catalog=^.*";
-		console.log("-- Requesting "+url)
+		if (debugapp) console.log("handleRequest(): Requesting "+url)
 		request(url, function (err,catres,catbody) {
-			//console.log(body)
+
 			catalogjson = JSON.parse(catbody);
+
 			// Iterate through catalog and find one that matches requested catalog.
 			for (var i = 0;i < catalogjson.length;i++) {
 				if (catalogjson[i].label.match(options.catalog)) {
 					url = catalogjson[i].href;
 
-					if (debugapp) console.log("handleRequest(): Calling getandparse with URL "+url);
+					if (debugapp) console.log("handleRequest(): Calling getandparse() with URL "+url);
+
 					// Request the catalog and parse it.
-					getandparse(url,options,function (ret) {
-						if (options.outformat === "xml") {
-							if (options.return === "autoplot-bookmarks") {
-								var tsds2bookmarks = require(__dirname + "/js/tsds2bookmarks.js").tsds2bookmarks;
-								if (debugapp) console.log("handleRequest(): Converting TSDS XML catalog to XML.");
-								
-								// We are still going to return XML but call getandparse() so that parsed JSON
-								// of XML gets cached.  getandparse() does not parse if response is XML.
-								options.outformat = "json"; // Force JSON to be cached.
-								getandparse(url,options,function (ret) {
-									// If usemetadatacache = false, we'll get here.
-									// See if md5 of ret differs from that cached.  If not, no need to re-convert.
-									var retsig = crypto.createHash("md5").update(ret.toString()).digest("hex");
-									var retfile  = CDIR + retsig + ".json";
-									if (fs.existsSync(retfile)) {
-										console.log("Found converted file.")
-										var tmp = fs.readFileSync(retfile);
-										res.write(tmp.toString());
-										res.end();
-										return;
-									}
-									tsds2bookmarks(ret, function (tmp) {
-										res.write(tmp.toString());
-										res.end();
-										console.log("Writing "+cfile)
-										fs.writeFileSync(cfile,tmp.toString());
-										console.log("Writing "+retfile)
-										fs.writeFileSync(retfile,tmp.toString());
 
-									});
-								});
-							} else {
+					if (options.return === "autoplot-bookmarks") {
+						var outformat = options.outformat;
+						options.outformat = "json"; // This causes getandparse to return TSDS JSON, which tsds2bookmarks requires.
+						getandparse(url,options,function (ret) {
+							options.outformat = outformat;
+							var tsds2bookmarks = require(__dirname + "/js/tsds2bookmarks.js").tsds2bookmarks;
+							if (debugapp) console.log("handleRequest(): Converting TSDS XML catalog to Autoplot bookmark XML.");
+
+							//var retsig = crypto.createHash("md5").update(ret.toString()).digest("hex");
+							//var retfile  = CDIR + retsig + ".xml";
+
+							tsds2bookmarks(ret, outformat, function (ret) {
+								if (outformat === "xml") {
+									res.write(ret.toString());
+									res.end();
+								} else {
+									res.write(JSON.stringify(ret));	
+									res.end();																											
+								}
+							});
+
+						});
+					}
+
+					if (options.return === "tsds") {
+						getandparse(url,options,function (ret) {
+							if (options.outformat === "xml") {
+								console.log("handleRequest(): Sending TSDS XML.");
+
 								res.write(ret.toString());	
-								res.end();
-							}	
-						} else {
-							res.write(JSON.stringify(ret));
-							res.end();
-						}
-
-					});
+								res.end();									
+							} else {
+								res.write(JSON.stringify(ret));	
+								res.end();																		
+							}
+						});
+					}
 				}
 			}			
 		})
@@ -166,9 +172,8 @@ function handleRequest(req, res) {
 		return;
 	}
 
-
 	// Requests may be made that span multiple catalogs.  Separation identifier is ";".
-	// See tests.js for examples.  This is not a well-tested feature.
+	// See tests.js for examples.
 	var N  = options.catalog.split(";").length;
 
 	// Count of number of catalog responses already sent.  Incremented each time data is sent.
@@ -178,40 +183,37 @@ function handleRequest(req, res) {
 	res.setHeader("Content-Type","text/plain"); 
 
 	if (N > 1) {
-		if (options.return !== "stream") {
-			//res.status(502).send("Only return=stream is allowed for requests that span multiple catalogs.");
-			//return;
-		}
 
-		var catalogs   = options.catalog.split(";");
-		var datasets   = options.dataset.split(";");
-		var parameters = options.parameters.split(";");
-		var starts     = options.start.split(";");
-		var stops      = options.stop.split(";");
+		// If any one of these is missing a ";", first value is used.
+		var catalogs    = options.catalog.split(";");
+		var datasets    = options.dataset.split(";");
+		var parameterss = options.parameters.split(";");
+		var starts      = options.start.split(";");
+		var stops       = options.stop.split(";");
 		
-		console.log(starts)
-		console.log(stops)
 		if (debugapp) console.log("handleRequest(): Concatenated parameter request. N = "+N);
 		
 		var Options = [];
+
 		for (var i=0;i<N;i++) {
-			Options[i]            = {};
-			Options[i]            = JSON.parse(JSON.stringify(options)); // Slow clone
-			Options[i].catalog    = catalogs[i];
-			Options[i].dataset    = datasets[i];
-			Options[i].parameters = parameters[i];
-			Options[i].start      = starts[i];
-			Options[i].stop       = stops[i];
+			Options[i]             = {};
+			// Clone options object.
+			for (var key in options) {
+				if ((key !== "req") || (key !== "res")) {
+					Options[i][key] = options[key];
+				}
+			}
+			Options[i].catalog     = catalogs[i] || options.catalog.split(";")[0];
+			Options[i].dataset     = datasets[i] || options.dataset.split(";")[0];
+			Options[i].parameterss = parameterss[i] || options.parameters.split(";")[0];
+			Options[i].start       = starts[i] || options.start.split(";")[0];
+			Options[i].stop        = stops[i] || options.stop.split(";")[0];
 		}
-		//console.log(Options[0]);
-		// If N > 1, stream will call again when first data request is complete.
+		// If N > 1, stream will call again (catalog(Options[1], stream)) when first data request is complete, etc.
 		// If response if for an image, client will need to split it.
 		catalog(Options[0], stream);
 		return;
 	}
-
-	options.res = res;
-	options.req = req;
 
 	catalog(options, stream);
 
@@ -339,11 +341,8 @@ function handleRequest(req, res) {
 				if (!fs.existsSync(CDIR)) {
 					fs.mkdirSync(CDIR);
 				}
-				// TODO: This should really be a sync operation.  Need to check if it is already being
-				// written before attempting to write.
-				fs.writeFile(cfile,JSON.stringify(data),function (err) {
-					if (debugcache) console.log("Wrote JSON cache file for request "+req.originalUrl);console.log("\t"+cfile);
-				})
+				fs.writeFileSync(cfile,JSON.stringify(data));
+				if (debugcache) console.log("Wrote JSON request cache file for "+req.originalUrl);console.log("\t"+cfile.replace(__dirname+"/",""));
 			} else {
 				if (debugcache) console.log("JSON for " + req.originalUrl + " has zero length.  Not writing cache file.")
 			}
@@ -388,11 +387,24 @@ function parseOptions(req) {
 	options.usemetadatacache = s2b(req.query.usemetadatacache || req.body.usemetadatacache || "false");
 	
 	if ((options.start === "") && (options.start === "") && (options.return === "stream")) {
-		if (debugapp) console.log("No start and stop given.  Resetting return to dd")
+		if (debugapp) console.log("parseOptions(): No start and stop given.  Resetting return to dd")
 		options.return = "dd";
 	}
 
-	if (debugapp) console.log(options)
+	if (options.return === "tsds" && options.outformat != "json") {
+		options.outformat = "xml";
+	}
+	if (options.return === "autoplot-bookmarks" && options.outformat != "json") {
+		options.outformat = "xml";
+	}
+
+
+	if (options.return === "dd" || options.return.match("urilist")) {
+		// options.return === "urilistflat" is technically not a JSON format, but processing is same
+		// until just before response is sent.
+		options.outformat = "json";
+	}
+
 	// Not implemented.
 	//options.useimagecache = s2b(req.query.useimagecache || req.body.useimagecache     || "true");
 	
@@ -402,32 +414,73 @@ function parseOptions(req) {
 // Get XML from URL and convert to JSON.
 function getandparse(url,options,callback) {
 
-	// Retrieves XML from a URL, converts to a JSON representation, and stores JSON as a cache file.
-	// If options.outformat = "xml", no parsing is done and callback is returned XML.
-	
-	// TODO: Add a header if error along the way was saved by a cache file.
-	// TODO: If response from URL is JSON, no need to parse.
-	// TODO: Rename to getmetadata().  If options.return == "xml", don't parse.
+	// Retrieves XML or JSON from a URL and stores XML and JSON as a cache file.
+	// Callback is passed XML or JSON depending on options.outformat.
 
+	console.log("getandparse(): Called with outformat = "+options.outformat);
+	
 	var urlsig = crypto.createHash("md5").update(url).digest("hex");	
 
-	// cache file for each cataloge
-	var cfile = config.CACHEDIR+urlsig+".json";
+	// Cache file with no extension for each catalog
+	var cfile = config.CACHEDIR+urlsig;
 
-	if (fs.existsSync(cfile) && options.usemetadatacache) {
+	// JSON cache file for each catalog
+	var cfilejson = config.CACHEDIR+urlsig+".json";
+
+	// XML cache file for each catalog
+	var cfilexml = config.CACHEDIR+urlsig+".xml";
+
+	// Don't do head requests if cache file exists and usemetadatacache=true.
+	if (!options.outformat != "xml" && fs.existsSync(cfilejson) && options.usemetadatacache) {
 		// If cache file exists and always using metadata cache
 		if (debugcache) {
-			console.log("getandparse(): usemetadatacache = true.  Reading cache file "+cfile);
+			console.log("getandparse(): usemetadatacache = true and cache file exists.  Reading cache file "+cfile);
 			console.log("getandparse(): for URL "+url);
 		}
-		var tmp = JSON.parse(fs.readFileSync(cfile).toString());
+		var tmp = JSON.parse(fs.readFileSync(cfilejson).toString());
 		if (debugcache) console.log("getandparse(): Done.");
 		callback(tmp);
 		return;
+	}
+	if (options.outformat != "xml" && fs.existsSync(cfilexml) && options.usemetadatacache) {
+		// If cache file exists and always using metadata cache
+		if (debugcache) {
+			console.log("getandparse(): usemetadatacache = true and cache file exists.  Reading cache file "+cfilexml);
+			console.log("getandparse(): for URL "+url);
+		}
+		var tmp = fs.readFileSync(cfilexml).toString();
+		if (debugcache) console.log("getandparse(): Done.");
+		callback(tmp);
+		return;
+	}
+
+	// Do head request and fetch if necessary.  Cache if fetched.
+	if (options.outformat !== "xml" && fs.existsSync(cfilejson)) {
+		if (debugcache) console.log("getandparse(): Cache file found "+cfilejson);
+		headthenfetch(url,"json");
+		return;
+	}
+	if (options.outformat === "xml" && fs.existsSync(cfilexml)) {
+		if (debugcache) console.log("getandparse(): Cache file found "+cfilexml);
+		headthenfetch(url,"xml");
+		return;
+	}
+
+	// Fetch and then cache.
+	if (options.outformat != "xml") {
+		if (debugcache) console.log("getandparse(): No cache file found "+cfilejson);
+		fetch(url,"json");
+		return;
 	} else {
+		if (debugcache) console.log("getandparse(): No cache file found "+cfilexml);
+		fetch(url,"xml");
+		return;
+	}
+
+	function headthenfetch(url,type) {
 
 		// Do head request for file that contains list of datasets.
-		if (debugcache) console.log("getandparse(): Doing head request on "+url)
+		if (debugcache) console.log("getandparse(): Doing head request on "+url);
 		var hreq = request.head(url, function (herror, hresponse) {
 			if (!herror && hresponse.statusCode != 200) {
 				herror = true;
@@ -435,85 +488,141 @@ function getandparse(url,options,callback) {
 
 			if (herror) {
 				if (debugcache) {
-					console.log("getandparse(): Error when making head request for "+url);
-					console.log("getandparse(): Will check if cache file exists.");
+					console.log("headthenfetch(): Error when making head request for "+url);
+					console.log("headthenfetch(): Will try request for "+url);
+					age = 1;
 				}
 			}
 
-			if (fs.existsSync(cfile) && !herror) {
-				var dhead = new Date(hresponse.headers["last-modified"]);
-				if (debugcache) console.log("getandparse(): Last-modified time: " + dhead);
-				var fstat = fs.statSync(cfile).mtime;
-				var dfile = new Date(fstat);
-				if (debugcache) console.log('getandparse(): Cache file created: ' + fstat);
-				var age = dhead.getTime() - dfile.getTime();
-				if (debugcache) console.log('getandparse(): Last-modified - Cache file created = ' + age);
-			}
+			var dhead = new Date(hresponse.headers["last-modified"]);
+			if (debugcache) console.log("headthenfetch(): Last-modified time: " + dhead);
+			var fstat = fs.statSync(cfile+"."+type).mtime;
+			var dfile = new Date(fstat);
+			if (debugcache) console.log('headthenfetch(): Cache file created: ' + fstat);
+			var age = dhead.getTime() - dfile.getTime();
+			if (debugcache) console.log('headthenfetch(): Last-modified - Cache file created = ' + age);
+			var found = true;
 
 			if (age <= 0) {
-				if (debugcache) console.log("getandparse(): Cache file has not expired.  Reading cache file "+cfile.replace(__dirname,""));
-				if (debugcache) console.log("getandparse(): for URL "+hresponse.request.uri.href);
-				var tmp = JSON.parse(fs.readFileSync(cfile).toString());
-				if (debugcache) console.log("getandparse(): Done.");
+				if (debugcache) console.log("headthenfetch(): Cache file has not expired.  Reading cache file "+(cfile+"."+type).replace(__dirname,""));
+				if (debugcache) console.log("headthenfetch(): for URL "+hresponse.request.uri.href);
+				var tmp = fs.readFileSync(cfile+"."+type).toString();
+				if (type === "json") {	
+					var tmp = JSON.parse(tmp);
+				}
+				if (debugcache) console.log("headthenfetch(): Done.");
 				callback(tmp);
-				return;
+			} else {
+				if (debugcache) console.log("headthenfetch(): Cache file has expired.");				
+				fetch(url,type);
 			}
 
 			if (!hresponse) {
-				console.error("getandparse(): Error when attempting to access " + url);
+				console.error("headthenfetch(): Error when attempting to access " + url);
 				options.res.status(502).send("Error when attempting to access " + url + "\n");
 				console.error(config)
 				return;
 			}
 
-			if (debugapp) console.log("getandparse(): Fetching " + hresponse.request.uri.href);
-			request(hresponse.request.uri.href, function (error, response, body) {
-				if (!error && response.statusCode != 200) {
-					error = true;
-				}
 
-				if ((error) && fs.existsSync(cfile))  {
-					if (debugapp) console.log("getandparse(): Request failed for "+hres.request.uri.href);
-					if (debugapp) console.log("getandparse(): Using cached file.")
-					var tmp = JSON.parse(fs.readFileSync(cfile).toString());
+		});
+	}
+
+	function fetch(url,type) {
+		if (debugapp) console.log("fetch(): Fetching " + url);
+		request(url, function (error, response, body) {
+
+			if (debugapp) console.log("fetch(): Done fetching.");
+
+			if (!error && response.statusCode != 200) {
+				error = true;
+			}
+
+			if (response.statusCode != 200) {
+				console.log("fetch(): Status code was not 200 when attempting to access " + url);
+			}
+
+			if (error) {
+				if (fs.existsSync(cfile+"."+type))  {
+					if (debugapp) console.log("fetch(): Request failed for "+url);
+					if (debugapp) console.log("fetch(): but found cached file. Using it.");
+					// TODO: Add a header noting expired cache found but cache was used (because failed request).
+					var tmp = fs.readFileSync(cfile+"."+type).toString();
+					if (options.outformat == "json") { 
+						var tmp = JSON.parse(tmp);
+					}
 					callback(tmp);
-					return;
+				} else {
+					if ((error) && !fs.existsSync(cfile+"."+type))  {
+						console.error("fetch(): Request failed for " + url);
+						console.error("fetch(): and no cached version exists.  Sending 502.");
+						options.res.status(502).send("Error when attempting to access " + url + "\n");
+					}
 				}
-				if ((error) && !fs.existsSync(cfile))  {
-					console.error("getandparse(): Error when attempting to access " + response.request.uri.href + " and no cached version exists.");
-					options.res.status(502).send("Error when attempting to access " + url + "\n");
-					console.error(config)
-					return;
-				}
+				return;
+			}
 
-				if (debugapp) console.log("getandparse(): Done fetching.");
-				if (debugapp) console.log("getandparse(): Parsing.");
+			var isjson = false;
+			var isxml  = false;
 
-				if (options.outformat === "xml" && response.statusCode == 200) {
-					if (debugapp) console.log("getandparse(): Returning raw XML and not caching parsed JSON version.")
+			if (body.match(/^\s*\[|^\s*{/)) { // Response is JSON
+				console.log("fetch(): Response was JSON");	
+				isjson = true;
+			} else {
+				console.log("fetch(): Response was XML");
+				isxml = true;
+			}
+
+			if (isxml) {
+				if (options.outformat === "xml") {
+					if (debugapp) console.log("fetch(): Returning XML.");
+
+					if (debugapp) console.log("fetch(): Calling callback(xml).");
 					callback(body);
-					return;
-				}
 
-				if (!error && response.statusCode == 200) {
+					if (debugcache) console.log("fetch(): Writing XML cache file "+cfilexml);
+					fs.writeFileSync(cfilexml,body);
+					if (debugapp) console.log("fetch(): Done.");
+				} else {
+					if (debugapp) console.log("fetch(): Parsing "+url);
 					var parser = new xml2js.Parser();
-					parser.parseString(body, function (err, tmp) {
+					parser.parseString(body, function (err, json) {
+
+						if (debugapp) console.log("fetch(): Done parsing.");
 
 						if (err) {
-							options.res.status(502).send("Could not parse "+hres.request.uri.href+".\n");
+							options.res.status(502).send("Could not parse "+url+".\n");
+							console.log("fetch(): Could not parse "+url+".\n");
 							return;
 						}
 
-						if (debugapp) console.log("getandparse(): Done parsing.");
-						if (debugcache) console.log("getandparse(): Writing cache file "+cfile);
-						fs.writeFileSync(cfile,JSON.stringify(tmp));
-						if (debugapp) console.log("getandparse(): Done.")
-						callback(tmp);
-					})
-				} else {
-					callback("")
+						if (debugapp) console.log("fetch(): Calling callback(json).");
+						callback(json);
+
+						if (debugcache) console.log("fetch(): Writing JSON cache file "+cfilejson);
+						fs.writeFileSync(cfilejson,JSON.stringify(json));
+						if (debugapp) console.log("fetch(): Done.");
+					});
 				}
-			});
+			} else {
+				if (options.outformat === "xml") {
+					var builder = new xml2js.Builder();
+					var xml = builder.buildObject(JSON.parse(body));
+
+					if (debugapp) console.log("fetch(): Calling callback(xml).");
+					callback(xml);
+
+					if (debugcache) console.log("fetch(): Writing XML cache file "+cfilexml);
+					fs.writeFileSync(cfilexml,xml);
+					if (debugapp) console.log("fetch(): Done.");
+				} else {
+					if (debugapp) console.log("fetch(): Calling callback(json).");
+					callback(body);
+				}				
+				if (debugcache) console.log("fetch(): Writing JSON cache file "+cfilejson);
+				fs.writeFileSync(cfilejson,JSON.stringify(body));
+				if (debugapp) console.log("fetch(): Done.");
+			}
 		})
 	}
 }
@@ -521,7 +630,6 @@ function getandparse(url,options,callback) {
 // After catalog() executes, it either calls dataset() or stream()
 // (will call stream() if only catalog information was requested.)
 function catalog(options, cb) {
-	console.log("---" + options.start)
 
 	getandparse(config.CATALOG,options,afterparse);
 
@@ -601,7 +709,7 @@ function dataset(options, catalogs, cb) {
 	var parents = [];
 	var dresp = [];
 
-	console.log("dataset(): Called.")
+	if (debugapp) console.log("dataset(): Called.")
 	// Loop over each catalog
 	for (var i = 0; i < catalogs.length;i++) {
 		getandparse(catalogs[i].href,options,afterparse);
@@ -647,7 +755,7 @@ function dataset(options, catalogs, cb) {
 					}
 				}
 			}
-			console.log(options.parameters)
+			//console.log(options.parameters)
 			if (options.parameters === "" && !(options.groups === "^.*")) {
 				dresp = dresp.filter(function(n){return n;}); // Needed?
 				if (dresp.length == 1 && options.dataset.substring(0,1) !== "^") {
@@ -676,7 +784,7 @@ function dataset(options, catalogs, cb) {
 
 function parameter(options, catalogs, datasets, cb) {
 
-	console.log("parameter(): Called.")
+	if (debugapp) console.log("parameter(): Called.")
 	if (options.groups === "^.*") {
 		options.parameters = "^.*";
 	}
@@ -818,10 +926,13 @@ function parameter(options, catalogs, datasets, cb) {
 	start = options.start || resp[0].dd.start;
 	stop  = options.stop  || resp[0].dd.start;
 
-	var tmp = expandISO8601Duration(start+"/"+stop,{debug:false})
-	//console.log(tmp);
-	start = tmp.split("/")[0].substring(0,10);
-	stop = tmp.split("/")[1].substring(0,10);
+	var tmp = expandISO8601Duration(start+"/"+stop,{debug:false});
+
+	//start = tmp.split("/")[0].substring(0,10);
+	//stop = tmp.split("/")[1].substring(0,10);
+
+	start = tmp.split("/")[0];
+	stop = tmp.split("/")[1];
 
 	if (debugapp) console.log("parameter(): Requested start : " + options.start);
 	if (debugapp) console.log("parameter(): Expanded start  : " + start);
@@ -866,6 +977,7 @@ function parameter(options, catalogs, datasets, cb) {
 	if (options.return === "urilistflat") {
 		cb(0,dc+"&return=urilistflat");
 	}
+
 	if (options.return === "png" || options.return === "pdf" || options.return === "svg" || options.return === "jyds" || options.return === "matlab" || options.return === "idl") {
 		// If more than one resp, this won't work.
 

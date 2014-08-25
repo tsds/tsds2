@@ -3,14 +3,15 @@ if (typeof(exports) !== "undefined" && require){
 	var xml2js  = require('xml2js');
 }
 
-function tsds2bookmarks(tsdsjson, callback) {
+function tsds2bookmarks(tsdsjson, wanted, callback) {
 
-	// Convert TSDS catalog in JSON to Autoplot bookmark JSON and convert to bookmark XML.
+	// Convert TSDS catalog in JSON to Autoplot bookmark JSON and then convert to bookmark XML.
+	// One bookmark is created per variable.
 
 	ds  = 0; // Dataset
 	dsv = 0; // Dataset variable
 
-	console.log(tsdsjson["catalog"]["dataset"][ds]["variables"][0]["variable"][dsv]["$"])
+	//console.log(tsdsjson["catalog"]["dataset"][ds]["variables"][0]["variable"][dsv]["$"])
 
 	var catalog = tsdsjson["catalog"]["$"]["name"];
 
@@ -50,12 +51,13 @@ function tsds2bookmarks(tsdsjson, callback) {
 							}
 						}
 
-	//console.log(bookmarkjson)
-	var builder = new xml2js.Builder();
-	var xml = builder.buildObject(bookmarkjson);
-
-	callback(xml)
-
+	if (wanted === "json") {
+		callback(bookmarkjson);
+	} else {
+		var builder = new xml2js.Builder();
+		var xml = builder.buildObject(bookmarkjson);
+		callback(xml);
+	}
 }
 
 // node.js

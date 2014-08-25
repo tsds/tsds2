@@ -49,12 +49,83 @@ tests[8] = {};
 tests[8].url = "catalog=SSCWeb&return=tsds";
 tests[8].test = function (data) {
 					var len = data.toString().split("\n").length;
-					var N = 12157;
+					var N = 12158;
 					console.log("File should have more than "+N+" rows.  Found: " + len );
-					if (len > 12157) {
+					if (len > N) {
 						return true;
 					} 
 					else {
 						return false
 					}
 				};
+
+tests[9] = {};
+tests[9].url = "catalog=SSCWeb&return=tsds&outformat=json";
+tests[9].test = function (data) {
+					var len = data.length;
+					var N = 2561458;
+					console.log("File should have more than "+N+" characters.  Found: " + len );
+					if (len > N) {
+						return true;
+					} 
+					else {
+						return false
+					}
+				};
+
+tests[10] = {};
+tests[10].url = "catalog=SSCWeb&return=autoplot-bookmarks";
+tests[10].test = function (data) {
+					var len = data.toString().split("\n").length;
+					var N = 12158;
+					console.log("File should have more than "+N+" rows.  Found: " + len );
+					if (len > N) {
+						return true;
+					} 
+					else {
+						return false
+					}
+				};
+
+tests[11] = {};
+tests[11].url = "catalog=SSCWeb&return=autoplot-bookmarks&outformat=json";
+tests[11].test = function (data) {
+					var len = data.length;
+					var N = 2082927;
+					console.log("File should have more than "+N+" characters.  Found: " + len );
+					if (len > N) {
+						return true;
+					} 
+					else {
+						return false
+					}
+				};
+
+
+if (0) {
+// When stop date has time component, extra file is returned.
+tests[9] = {};
+tests[9].url = "catalog=SWPC/GOES/Primary/Particle/PT1M&dataset=Gp_particles&parameters=E_gt_4.0&start=-P3D&stop=-P0D1H&return=urilistflat";
+tests[9].test = function (data) {
+					var len = data.toString().split("\n").length;
+					tests[9].log  = console.log("List should have 4 URLs.  Found: " + len );;
+					if (len == 4) {
+						return true;
+					} else {
+						return false;
+					}
+				};
+
+// When stop date has time component, extra file is returned.
+tests[10] = {};
+tests[10].url = "catalog=SWPC/GOES/Primary/Particle/PT1M&dataset=Gp_particles&parameters=E_gt_4.0&start=-P3D&stop=-P1D&return=urilistflat";
+tests[10].test = function (data) {
+					var len = data.toString().split("\n").length;
+					tests[10].log  = console.log("List should have 2 URLs.  Found: " + len );;
+					if (len == 2) {
+						return true;
+					} else {
+						return false;
+					}
+				};
+}

@@ -1,12 +1,12 @@
 
 // Run all tests:
-//		node test/test.js --testfile=test/failing-tests.js
-//		node test/test.js --testfile=test/data-tests.js
-//		node test/test.js --testfile=test/metadata-tests.js
+//		nodejs test/test.js --testfile=test/failing-tests.js
+//		nodejs test/test.js --testfile=test/data-tests.js
+//		nodejs test/test.js --testfile=test/metadata-tests.js
 // Run one test:
-//		node test/test.js --start=27 --alltests=false
+//		nodejs test/test.js --start=27 --alltests=false
 // Run all tests including and after test 3:
-//		node test/test.js --start=3
+//		nodejs test/test.js --start=3
 
 var fs       = require("fs");
 var sys      = require('sys');
@@ -19,7 +19,9 @@ var url      = require('url');
 var zlib     = require('zlib');
 var execSync = require("exec-sync");
 var argv     = require('minimist')(process.argv.slice(2));
+var clc      = require('cli-color');
 
+function logc(str,color) {var msg = clc.xterm(color); console.log(msg(str));};
 
 function s2b(str) {if (str === "true") {return true} else {return false}}
 function s2i(str) {return parseInt(str)}
@@ -34,6 +36,10 @@ eval(fs.readFileSync(testfile,'utf8'));
 // DataCache server to use
 var server  = "http://localhost:"+port+"/";	
 
+
+console.log("--------------------------------------------------------")
+console.log("--------------------------------------------------------")
+
 runtest(tn,1);
 
 function gettests(m) {
@@ -41,6 +47,7 @@ function gettests(m) {
 	var xtests = [];
 
 	//console.log("Creating urls for test "+m)
+
 	for (var z = 0;z<tests.length;z++) {
 		xtests[z] = {};
 		xtests[z].test = tests[z].test || "";
@@ -83,11 +90,12 @@ function command(jj,m) {
 }
 
 function runtest(jj,m) {
-	if (typeof(runtest.fails) === "undefined") {
+	if (jj == 0 || typeof(runtest.fails) === "undefined") {
 		runtest.fails = [];
 		runtest.f     = 0;
 		runtest.sum   = 0;
 	}
+
 	var xtests = gettests(m);
 	var xcom = command(jj,m);
 
@@ -107,7 +115,7 @@ function runtest(jj,m) {
 	    	}
 		if (ret == true) {
 			runtest.sum = runtest.sum+1;
-			console.log("PASS.\n");
+			logc("PASS.\n",10);
 		} else {
 			runtest.fails[runtest.f]      = {};
 			runtest.fails[runtest.f].url  = xtests[jj].url; 
@@ -121,29 +129,38 @@ function runtest(jj,m) {
 			}
 
 			runtest.f = runtest.f+1;
-			console.log("FAIL.\n");
+			logc("FAIL.\n",9);
 		}
 	
-	    if (jj < xtests.length-1 && alltests)  {
+	    if (jj < xtests.length-1)  {
 			runtest(jj+1,m);
 		} else {
 			console.log("")
-			if (alltests) console.log((runtest.sum)+ "/" + tests.length + " tests passed.");
-			
-			if (runtest.fails.length > 0) {
-				console.log("\nFailures:");
+			if (alltests) {
+				if (runtest.sum == tests.length) {
+					logc((runtest.sum)+ "/" + tests.length + " tests passed.",10);
+				} else {
+					logc((runtest.sum)+ "/" + tests.length + " tests passed.",9);
+				}
 			}
-			for (kk=0;kk<runtest.fails.length;kk++) {
-				console.log("\nTest " + runtest.fails[kk].N);
-				console.log(runtest.fails[kk].url);
-				//console.log(runtest.fails[kk].test);
-				if (runtest.fails[kk].note) {
-					console.log(runtest.fails[kk].note);
+			
+			if (0) {
+				if (runtest.fails.length > 0) {
+					console.log("\nFailures:");
+				}
+				for (kk=0;kk<runtest.fails.length;kk++) {
+					console.log("\nTest " + runtest.fails[kk].N);
+					console.log(runtest.fails[kk].url);
+					//console.log(runtest.fails[kk].test);
+					if (runtest.fails[kk].note) {
+						console.log(runtest.fails[kk].note);
+					}
 				}
 			}
 
-			if (m+1 < Ntests && alltests) {
-				runtest(0,m+1);
+			if (m < 2) {
+				//console.log("--------------------------------------------------------")
+				//runtest(0,m+1);
 			} else {
 				if (runtest.fails.length > 0) {
 					process.exit(1);
