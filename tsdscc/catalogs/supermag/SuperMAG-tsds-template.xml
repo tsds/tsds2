@@ -1,10 +1,10 @@
 <catalog xmlns:xlink="http://www.w3.org/1999/xlink" id="SuperMAG" name="SuperMAG">
 	<documentation xlink:href="http://supermag.jhuapl.edu/" xlink:title="SuperMAG web page"/>
-	<documentation xlink:href="http://github.com/tsds/tsds2/tsdscc/" xlink:title="Catalog generation software"/>
+	<documentation xlink:href="http://github.com/tsds/tsds2/tsdscc/catalogs/supermag" xlink:title="Catalog generation software"/>
 	<documentation xlink:href="/" xlink:title="Catalog generation date: "/>
 	<documentation xlink:href="https://github.com/rweigel/datacache/blob/master/plugins/supermag.js" xlink:title="DataCache plug-in"/>
 
-	<dataset name="" ID="" timecolumns="1,2,3,4,5,6" timeformat="$Y,$m,$d,$H,$M,$S" urlprocessor="supermag" urltemplate="http://supermag.jhuapl.edu/mag/lib/services/%3Fservice=mag%26user=tsds2%26start=$Y-$m-$dT00:00:00.000Z%26interval=23%3A59%26stations=$ID%26delta=none%26baseline=all%26format=ascii%26options=%2Bimfgsm%2Bsza">
+	<dataset name="" id="" timecolumns="1,2,3,4,5,6" timeformat="$Y,$m,$d,$H,$M,$S" urlprocessor="supermag" urltemplate="http://supermag.jhuapl.edu/mag/lib/services/%3Fservice=mag%26user=tsds2%26start=$Y-$m-$dT00:00:00.000Z%26interval=23%3A59%26stations=$ID%26delta=none%26baseline=all%26format=ascii%26options=%2Bimfgsm%2Bsza">
 
 		<documentation xlink:href="http://supermag.jhuapl.edu/info/coordinates.html" xlink:title="Coordinate system information"/>
 		<documentation xlink:href="http://supermag.uib.no/info/rulesoftheroad.html/" xlink:title="Acknowledging SuperMAG's data providers"/>

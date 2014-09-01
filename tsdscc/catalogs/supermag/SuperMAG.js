@@ -114,7 +114,7 @@ function createcatalog() {
 		for (var k in OUT2) {
 			datasets[j] = JSON.parse(JSON.stringify(dataset)); // Low performance deep copy.
 			datasets[j]["$"].name = k;
-			datasets[j]["$"].ID = k;
+			datasets[j]["$"].id = k;
 			datasets[j]["$"].urltemplate = datasets[j]["$"].urltemplate.replace("$ID",k);
 			var s = OUT2[k].Start;
 			datasets[j].timeCoverage[0].Start = [s.substring(0,4)+"-"+s.substring(4,6)+"-"+s.substring(6,8)];

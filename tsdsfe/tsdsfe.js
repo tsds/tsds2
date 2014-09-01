@@ -66,11 +66,15 @@ logc((new Date()).toISOString() + " - [tsdsfe] listening on port "+config.PORT,1
 function handleRequest(req, res) {
 
 	var options = parseOptions(req);
-	if (debugapp) console.log(options);
+
+	if (debugapp) {
+		console.log("handleRequest(): Handling " + req.originalUrl);
+		console.log("handleRequest(): options: ");
+		console.log(options)
+	}
+
 	options.res = res;
 	options.req = req;
-
-	if (debugapp) console.log("handleRequest(): Handling " + req.originalUrl);
 
 	// Metadata responses are cached as files with filename based on MD5 hash of request.
 	var urlsig = crypto.createHash("md5").update(req.originalUrl).digest("hex");	
@@ -80,9 +84,9 @@ function handleRequest(req, res) {
 	// No cache will exist if one of outformat={0,1,2} is selected.  Data are not cached by TSDSFE.
 	if (debugcache) {
 		if (fs.existsSync(cfile)) {
-			if (debugcache) console.log("handleRequest(): Metadata response cache found "+cfile.replace(__dirname,""));
+			if (debugcache) console.log("handleRequest(): Metadata response cache found for url = " + req.originalUrl);
 		} else {
-			if (debugcache) console.log("handleRequest(): Metadata response cache not found "+cfile.replace(__dirname,""));
+			if (debugcache) console.log("handleRequest(): Metadata response cache not found for url = " + req.originalUrl);
 		}
 	}
 	
@@ -124,39 +128,13 @@ function handleRequest(req, res) {
 				if (catalogjson[i].label.match(options.catalog)) {
 					url = catalogjson[i].href;
 
-					if (debugapp) console.log("handleRequest(): Calling getandparse() with URL "+url);
+					if (debugapp) console.log("handleRequest(): Calling getandparse() with URL " + url);
 
-					// Request the catalog and parse it.
-
-					if (options.return === "autoplot-bookmarks") {
-						var outformat = options.outformat;
-						options.outformat = "json"; // This causes getandparse to return TSDS JSON, which tsds2bookmarks requires.
-						getandparse(url,options,function (ret) {
-							options.outformat = outformat;
-							var tsds2bookmarks = require(__dirname + "/js/tsds2bookmarks.js").tsds2bookmarks;
-							if (debugapp) console.log("handleRequest(): Converting TSDS XML catalog to Autoplot bookmark XML.");
-
-							//var retsig = crypto.createHash("md5").update(ret.toString()).digest("hex");
-							//var retfile  = CDIR + retsig + ".xml";
-
-							tsds2bookmarks(ret, outformat, function (ret) {
-								if (outformat === "xml") {
-									res.write(ret.toString());
-									res.end();
-								} else {
-									res.write(JSON.stringify(ret));	
-									res.end();																											
-								}
-							});
-
-						});
-					}
-
+					// Request the matched catalog and parse it.
 					if (options.return === "tsds") {
 						getandparse(url,options,function (ret) {
 							if (options.outformat === "xml") {
-								console.log("handleRequest(): Sending TSDS XML.");
-
+								if (debugapp) console.log("handleRequest(): Sending TSDS XML.");
 								res.write(ret.toString());	
 								res.end();									
 							} else {
@@ -165,6 +143,47 @@ function handleRequest(req, res) {
 							}
 						});
 					}
+
+					if (options.return === "autoplot-bookmarks") {
+						var outformat = options.outformat;
+						options.outformat = "json"; // This causes getandparse to return TSDS JSON, which tsds2bookmarks requires.
+						if (debugapp) console.log("xhandleRequest(): Calling getandparse() with URL " + url)
+						getandparse(url,options,function (ret) {
+							options.outformat = outformat;
+							var tsds2other = require(__dirname + "/js/tsds2other.js").tsds2other;
+							if (debugapp) console.log("handleRequest(): Converting TSDS XML catalog to Autoplot bookmark XML.");
+
+							// Filename signature is based on input + transformation code.
+							var retsig  = crypto.createHash("md5").update(JSON.stringify(ret)+tsds2other.toString()).digest("hex");
+							var retfile = CDIR + retsig + ".xml";
+
+							if (fs.existsSync(retfile)) {
+								if (debugcache) console.log("xhandleRequest(): Cache of autoplot-bookmarks file found for input "+url);
+								ret = fs.readFileSync(retfile);
+								finish(ret);
+							} else {
+								if (debugcache) console.log("handleRequest(): No cache of autoplot-bookmarks file found for input = "+url);
+								tsds2other(ret, "autoplot-bookmarks", function (ret) {
+									finish(ret);
+									if (debugcache) console.log("handleRequest(): Writing cache file for autoplot-bookmarks for input = "+url)
+									fs.writeFileSync(retfile,ret);
+								});
+								
+							}
+
+							function finish(ret) {
+								if (outformat === "xml") {
+									res.write(ret.toString());
+									res.end();
+								} else {
+									res.write(JSON.stringify(ret));	
+									res.end();																											
+								}
+
+							}
+						});
+					}
+
 				}
 			}			
 		})
@@ -342,7 +361,9 @@ function handleRequest(req, res) {
 					fs.mkdirSync(CDIR);
 				}
 				fs.writeFileSync(cfile,JSON.stringify(data));
-				if (debugcache) console.log("Wrote JSON request cache file for "+req.originalUrl);console.log("\t"+cfile.replace(__dirname+"/",""));
+				if (debugcache)  {
+					console.log("Wrote JSON request cache file " + cfile.replace(__dirname+" for " + req.originalUrl));
+				}
 			} else {
 				if (debugcache) console.log("JSON for " + req.originalUrl + " has zero length.  Not writing cache file.")
 			}
@@ -381,6 +402,8 @@ function parseOptions(req) {
 	options.filter       = req.query.filter       || req.body.filter       || "";
 	options.filterWindow = req.query.filterWindow || req.body.filterWindow || "0";
 	options.usecache     = s2b(req.query.usecache || req.body.usecache     || "true"); // Send DataCache parameter usecache.
+
+	//plotoptions      = "width=500&height=100&font=sans-8&column=10em%2C100%25-3em&row=1em%2C100%25-4em&renderType=&color=%230000ff&fillColor=%23aaaaff&foregroundColor=%23ffffff&backgroundColor=%23000000";
 
 	// Always use TSDSFE cache and don't try to see if update exists.  If false and update fails, cache will be used
 	// and warning given in header.
@@ -434,7 +457,7 @@ function getandparse(url,options,callback) {
 	if (!options.outformat != "xml" && fs.existsSync(cfilejson) && options.usemetadatacache) {
 		// If cache file exists and always using metadata cache
 		if (debugcache) {
-			console.log("getandparse(): usemetadatacache = true and cache file exists.  Reading cache file "+cfile);
+			console.log("getandparse(): usemetadatacache = true and cache file for url = " + url);
 			console.log("getandparse(): for URL "+url);
 		}
 		var tmp = JSON.parse(fs.readFileSync(cfilejson).toString());
@@ -445,7 +468,7 @@ function getandparse(url,options,callback) {
 	if (options.outformat != "xml" && fs.existsSync(cfilexml) && options.usemetadatacache) {
 		// If cache file exists and always using metadata cache
 		if (debugcache) {
-			console.log("getandparse(): usemetadatacache = true and cache file exists.  Reading cache file "+cfilexml);
+			console.log("getandparse(): usemetadatacache = true and cache file exists.  Reading cache file for url = " + url);
 			console.log("getandparse(): for URL "+url);
 		}
 		var tmp = fs.readFileSync(cfilexml).toString();
@@ -456,23 +479,23 @@ function getandparse(url,options,callback) {
 
 	// Do head request and fetch if necessary.  Cache if fetched.
 	if (options.outformat !== "xml" && fs.existsSync(cfilejson)) {
-		if (debugcache) console.log("getandparse(): Cache file found "+cfilejson);
+		if (debugcache) console.log("getandparse(): Cache file found for url = " + url);
 		headthenfetch(url,"json");
 		return;
 	}
 	if (options.outformat === "xml" && fs.existsSync(cfilexml)) {
-		if (debugcache) console.log("getandparse(): Cache file found "+cfilexml);
+		if (debugcache) console.log("getandparse(): Cache file found for url = " + url);
 		headthenfetch(url,"xml");
 		return;
 	}
 
 	// Fetch and then cache.
 	if (options.outformat != "xml") {
-		if (debugcache) console.log("getandparse(): No cache file found "+cfilejson);
+		if (debugcache) console.log("getandparse(): No cache file found for url = " + url);
 		fetch(url,"json");
 		return;
 	} else {
-		if (debugcache) console.log("getandparse(): No cache file found "+cfilexml);
+		if (debugcache) console.log("getandparse(): No cache file found for url = " + url);
 		fetch(url,"xml");
 		return;
 	}
@@ -488,7 +511,7 @@ function getandparse(url,options,callback) {
 
 			if (herror) {
 				if (debugcache) {
-					console.log("headthenfetch(): Error when making head request for "+url);
+					console.log("headthenfetch(): Error when making head request on " + url);
 					console.log("headthenfetch(): Will try request for "+url);
 					age = 1;
 				}
@@ -544,7 +567,7 @@ function getandparse(url,options,callback) {
 
 			if (error) {
 				if (fs.existsSync(cfile+"."+type))  {
-					if (debugapp) console.log("fetch(): Request failed for "+url);
+					if (debugapp) console.log("fetch(): Request failed for " + url);
 					if (debugapp) console.log("fetch(): but found cached file. Using it.");
 					// TODO: Add a header noting expired cache found but cache was used (because failed request).
 					var tmp = fs.readFileSync(cfile+"."+type).toString();
@@ -580,9 +603,9 @@ function getandparse(url,options,callback) {
 					if (debugapp) console.log("fetch(): Calling callback(xml).");
 					callback(body);
 
-					if (debugcache) console.log("fetch(): Writing XML cache file "+cfilexml);
+					if (debugcache) console.log("fetch(): Writing XML cache file for url = " + url);
 					fs.writeFileSync(cfilexml,body);
-					if (debugapp) console.log("fetch(): Done.");
+					if (debugcache) console.log("fetch(): Done.");
 				} else {
 					if (debugapp) console.log("fetch(): Parsing "+url);
 					var parser = new xml2js.Parser();
@@ -591,7 +614,7 @@ function getandparse(url,options,callback) {
 						if (debugapp) console.log("fetch(): Done parsing.");
 
 						if (err) {
-							options.res.status(502).send("Could not parse "+url+".\n");
+							options.res.status(502).send("Could not parse " + url + ".\n");
 							console.log("fetch(): Could not parse "+url+".\n");
 							return;
 						}
@@ -599,9 +622,9 @@ function getandparse(url,options,callback) {
 						if (debugapp) console.log("fetch(): Calling callback(json).");
 						callback(json);
 
-						if (debugcache) console.log("fetch(): Writing JSON cache file "+cfilejson);
+						if (debugcache) console.log("fetch(): Writing JSON cache file for url = " + url);
 						fs.writeFileSync(cfilejson,JSON.stringify(json));
-						if (debugapp) console.log("fetch(): Done.");
+						if (debugcache) console.log("fetch(): Done.");
 					});
 				}
 			} else {
@@ -612,16 +635,16 @@ function getandparse(url,options,callback) {
 					if (debugapp) console.log("fetch(): Calling callback(xml).");
 					callback(xml);
 
-					if (debugcache) console.log("fetch(): Writing XML cache file "+cfilexml);
+					if (debugcache) console.log("fetch(): Writing XML cache file for url = " + url);
 					fs.writeFileSync(cfilexml,xml);
-					if (debugapp) console.log("fetch(): Done.");
+					if (debugcache) console.log("fetch(): Done.");
 				} else {
 					if (debugapp) console.log("fetch(): Calling callback(json).");
 					callback(body);
 				}				
-				if (debugcache) console.log("fetch(): Writing JSON cache file "+cfilejson);
+				if (debugcache) console.log("fetch(): Writing JSON cache file for url = " + url);
 				fs.writeFileSync(cfilejson,JSON.stringify(body));
-				if (debugapp) console.log("fetch(): Done.");
+				if (debugcache) console.log("fetch(): Done.");
 			}
 		})
 	}
@@ -770,7 +793,6 @@ function dataset(options, catalogs, cb) {
 						dresp[0].title = "No dataset documentation in catalog";
 						dresp[0].link  = "";									
 					}
-					console.log("here")
 					cb(200,dresp);
 				} else {
 					cb(200,dresp);
@@ -839,6 +861,7 @@ function parameter(options, catalogs, datasets, cb) {
 		if (!('start' in resp[i].dd))        {resp[i].dd.start = parents[i]["start"]}
 		if (!('stop' in resp[i].dd))         {resp[i].dd.stop = parents[i]["stop"]}
 		if (!('cadence' in resp[i].dd))      {resp[i].dd.cadence = parents[i]["cadence"]}
+		if (!('lineregex' in resp[i].dd))    {resp[i].dd.lineregex = parents[i]["lineregex"]}
 		if (!('fillvalue' in resp[i].dd))    {resp[i].dd.fillvalue = parameters[i]["$"]["fillvalue"] || ""}
 		
 		if (options.parameters !== "^.*") {				
@@ -902,8 +925,8 @@ function parameter(options, catalogs, datasets, cb) {
 			ddresp[j].dd.label   =  datasets[0].groups[0].group[j]["$"].label;
 
 		}
-		console.log(datasets[0].groups[0].group);
-		console.log(ddresp);
+		if (debugapp) console.log(datasets[0].groups[0].group);
+		if (debugapp) console.log(ddresp);
 
 		// Get JSON for group list
 		cb(200,ddresp);
@@ -931,8 +954,8 @@ function parameter(options, catalogs, datasets, cb) {
 	//start = tmp.split("/")[0].substring(0,10);
 	//stop = tmp.split("/")[1].substring(0,10);
 
-	start = tmp.split("/")[0];
-	stop = tmp.split("/")[1];
+	start = tmp.split("/")[0].replace("T00:00:00.000Z","");
+	stop = tmp.split("/")[1].replace("T00:00:00.000Z","");
 
 	if (debugapp) console.log("parameter(): Requested start : " + options.start);
 	if (debugapp) console.log("parameter(): Expanded start  : " + start);
@@ -994,7 +1017,7 @@ function parameter(options, catalogs, datasets, cb) {
 			if (options.return === "idl") var ext = "pro";
 
 			if (config.TSDSFE.match(/http:\/\/localhost/)) {
-				console.log("Warning: stream(): Possible configuration error.  Serving a script with TSDSFE URL that is localhost")
+				console.log("Warning: stream(): Possible configuration error.  Serving an IDL or MATLAB script containing a TSDSFE URL that is localhost")
 				//cb(501,"Server configuration error related to address of TSDSFE ("+config.TSDSFE+").");
 				//return;
 			}

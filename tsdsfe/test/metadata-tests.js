@@ -63,7 +63,7 @@ tests[9] = {};
 tests[9].url = "catalog=SSCWeb&return=tsds&outformat=json";
 tests[9].test = function (data) {
 					var len = data.length;
-					var N = 2561458;
+					var N = 2451662;
 					console.log("File should have more than "+N+" characters.  Found: " + len );
 					if (len > N) {
 						return true;

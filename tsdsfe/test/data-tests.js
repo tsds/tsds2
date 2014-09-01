@@ -9,7 +9,7 @@ tests[i].test = function (data) {
 	if (len == 577) {return true;} else {return false}
 };
 
-i = 1;
+i = i+1;
 tests[i] = {};
 tests[i].url = "catalog=SWPC/GOES/Primary/Particle/PT1M&dataset=Gp_particles&parameters=E_gt_4.0&start=-P3D&stop=-P1D&outformat=0";
 tests[i].test = function (data) {
@@ -19,7 +19,7 @@ tests[i].test = function (data) {
 };
 
 // If outformat > 0, subsetting is done within granule.
-i = 2;
+i = i+1;
 tests[i] = {};
 tests[i].url = "catalog=SWPC/GOES/Primary/Particle/PT1M&dataset=Gp_particles&parameters=E_gt_4.0&start=-P3D&stop=-P1D&outformat=1";
 tests[i].test = function (data) {
@@ -29,7 +29,7 @@ tests[i].test = function (data) {
 };
 
 // If outformat > 0, subsetting is done within granule.
-i = 3;
+i = i+1;
 tests[i] = {};
 tests[i].url = "catalog=SWPC/GOES/Primary/Particle/PT1M&dataset=Gp_particles&parameters=E_gt_4.0&start=-P3D&stop=-P1D&outformat=2";
 tests[i].test = function (data) {
@@ -38,7 +38,7 @@ tests[i].test = function (data) {
 	if (len == 577) {return true;} else {return false}
 };
 
-i = 4;
+i = i+1;
 tests[i] = {};
 tests[i].url = "catalog=USGS/RT/PT1M&dataset=BDT&parameters=H&start=-P3D&stop=P0D";
 tests[i].test = function (data) {
@@ -47,7 +47,7 @@ tests[i].test = function (data) {
 	if (len == 4321) {return true;} else {return false}
 };
 
-i = 5;
+i = i+1;
 tests[i] = {};
 tests[i].url = "catalog=USGS/RT/PT1M&dataset=BDT&parameters=H&start=-P3D&stop=P0D&outformat=0";
 tests[i].test = function (data) {
@@ -56,7 +56,7 @@ tests[i].test = function (data) {
 	if (len == 4321) {return true;} else {return false}
 };
 
-i = 6;
+i = i+1;
 tests[i] = {};
 tests[i].url = "catalog=USGS/RT/PT1M&dataset=BDT&parameters=H&start=-P3D&stop=P0D&outformat=1";
 tests[i].test = function (data) {
@@ -65,7 +65,7 @@ tests[i].test = function (data) {
 	if (len == 4321) {return true;} else {return false}
 };
 
-i = 7;
+i = i+1;
 tests[i] = {};
 tests[i].url = "catalog=USGS/RT/PT1M&dataset=BDT&parameters=H&start=-P3D&stop=P0D&outformat=2";
 tests[i].test = function (data) {
@@ -74,7 +74,16 @@ tests[i].test = function (data) {
 	if (len == 4321) {return true;} else {return false}
 };
 
-i = 8;
+i = i+1;
+tests[i] = {};
+tests[i].url = "catalog=USGS/RT/PT1S&dataset=BDT&parameters=H&start=-P2D&stop=P0D&outformat=1";
+tests[i].test = function (data) {
+	var len = data.toString().split("\n").length;
+	console.log("File should have 172801 newlines.  Found: " + len );
+	if (len == 172801) {return true;} else {return false}
+};
+
+i = i+1;
 tests[i] = {};
 tests[i].url = "catalog=SWPC/AK/2DayFile&dataset=AK&parameters=BoulderK&start=-P2D&stop=P1D";
 tests[i].test = function (data) {
@@ -83,7 +92,7 @@ tests[i].test = function (data) {
 	if (len == 17) {return true;} else {return false}
 };
 
-i = 9;
+i = i+1;
 tests[i] = {};
 tests[i].url = "catalog=SWPC/AK/2DayFile&dataset=AK&parameters=BoulderK&start=-P2D&stop=P1D&outformat=0";
 tests[i].test = function (data) {
@@ -92,7 +101,7 @@ tests[i].test = function (data) {
 	if (len == 17) {return true;} else {return false}
 };
 
-i = 10;
+i = i+1;
 tests[i] = {};
 tests[i].url = "catalog=SWPC/AK/2DayFile&dataset=AK&parameters=BoulderK&start=-P2D&stop=P1D&outformat=1";
 tests[i].test = function (data) {
@@ -101,7 +110,7 @@ tests[i].test = function (data) {
 	if (len == 17) {return true;} else {return false}
 };
 
-i = 11;
+i = i+1;
 tests[i] = {};
 tests[i].url = "catalog=SWPC/AK/2DayFile&dataset=AK&parameters=BoulderK&start=-P2D&stop=P1D&outformat=2";
 tests[i].test = function (data) {
@@ -110,7 +119,7 @@ tests[i].test = function (data) {
 	if (len == 17) {return true;} else {return false}
 };
 
-i = 12;
+i = i+1;
 tests[i] = {};
 tests[i].url = "catalog=Kyoto/RT/Dst/PT1H&dataset=Dst&parameters=Dst&start=-P3D&stop=P0D";
 tests[i].test = function (data) {
@@ -120,7 +129,7 @@ tests[i].test = function (data) {
 };
 tests[i].note = 'This test sometimes fails at end of month because files will contain no data or will not be available.'
 
-i = 13;
+i = i+1;
 tests[i] = {};
 tests[i].url = "catalog=Kyoto/RT/Dst/PT1H&dataset=Dst&parameters=Dst&start=-P3D&stop=P0D&outformat=1";
 tests[i].test = function (data) {
@@ -130,7 +139,7 @@ tests[i].test = function (data) {
 };
 tests[i].note = 'This test sometimes fails at end of month because files will contain no data or will not be available.'
 
-i = 14;
+i = i+1;
 tests[i] = {};
 tests[i].url = "catalog=SWPC/AK&dataset=AK&parameters=PlanetaryK&start=-P10D&stop=-P2D";
 tests[i].test = function (data) {
@@ -140,7 +149,7 @@ tests[i].test = function (data) {
 };
 tests[i].note = 'This test sometimes fails at end of month because files will contain no data or will not be available.'
 
-i = 15;
+i = i+1;
 tests[i] = {};
 tests[i].url = "catalog=SWPC/AK/2DayFile&dataset=AK&parameters=PlanetaryK&start=-P2D&stop=P1D";
 tests[i].test = function (data) {
@@ -150,7 +159,7 @@ tests[i].test = function (data) {
 };
 tests[i].note = 'This test sometimes fails at end of month because files will contain no data or will not be available.'
 
-i = 16;
+i = i+1;
 tests[i] = {};
 tests[i].url = "catalog=SSCWeb&dataset=ace&parameters=X_TOD&start=2014-07-10&stop=2014-07-14&outformat=0";
 tests[i].test = function (data) {
@@ -159,7 +168,7 @@ tests[i].test = function (data) {
 	if (len == 481) {return true;} else {return false}
 };
 
-i = 17;
+i = i+1;
 tests[i] = {};
 tests[i].url = "catalog=SSCWeb&dataset=ace&parameters=X_TOD&start=2014-07-10&stop=2014-07-14&outformat=1";
 tests[i].test = function (data) {
@@ -169,7 +178,7 @@ tests[i].test = function (data) {
 };
 tests[i].note = ''
 
-i = 18;
+i = i+1;
 tests[i] = {};
 tests[i].url = "catalog=SSCWeb&dataset=ace&parameters=X_TOD&start=2014-07-10&stop=2014-07-14&outformat=2";
 tests[i].test = function (data) {
@@ -179,7 +188,7 @@ tests[i].test = function (data) {
 };
 tests[i].note = ''
 
-i = 19;
+i = i+1;
 tests[i] = {};
 tests[i].url = "catalog=SuperMAG/PT1M&dataset=BLC&parameters=B_N&start=-P3D&stop=1990-01-10&outformat=1";
 tests[i].test = function (data) {
@@ -192,7 +201,7 @@ tests[i].note = ''
 
 // This only tests if script is returned.
 // TODO: Call command line MATLAB.
-i = 20;
+i = i+1;
 tests[i] = {};
 tests[i].url = "catalog=SSCWeb&dataset=ace&parameters=X_TOD&start=-P3D&stop=2014-07-14&return=idl";
 tests[i].test = function (data) {
@@ -200,17 +209,17 @@ tests[i].test = function (data) {
 	if (len > 500) {return true;} else {return false}
 };
 
-i = 21;
+i = i+1;
 tests[i] = {};
 tests[i].url = "catalog=SWPC/AK;SWPC/AK/2DayFile&dataset=AK;AK&parameters=PlanetaryK;PlanetaryK&start=-P10D;-P2D&stop=-P2D;P1D";
 tests[i].test = function (data) {
 	var len = data.toString().split("\n").length;
-	console.log("File should have more than 74 newlines.  Found: " + len );
-	if (len > 74) {return true;} else {return false}
+	console.log("File should have more than 73 newlines.  Found: " + len );
+	if (len > 73) {return true;} else {return false}
 };
 tests[i].note = 'This test sometimes fails at end of month because files will contain no data or will not be available.'
 
-i = 22;
+i = i+1;
 tests[i] = {};
 tests[i].url = "catalog=SSCWeb;SSCWeb&dataset=ace&parameters=X_TOD&start=1998-01-01&stop=1998-01-04T01:00:00Z";
 
