@@ -400,7 +400,7 @@ function parseOptions(req) {
 	options.attach       = req.query.attach       || req.body.attach       || "";
 	options.outformat    = req.query.outformat    || req.body.outformat    || "1";
 	options.filter       = req.query.filter       || req.body.filter       || "";
-	options.filterWindow = req.query.filterWindow || req.body.filterWindow || "0";
+	options.filterWindow = req.query.filterWindow || req.body.filterWindow || "";
 	options.usecache     = s2b(req.query.usecache || req.body.usecache     || "true"); // Send DataCache parameter usecache.
 
 	//plotoptions      = "width=500&height=100&font=sans-8&column=10em%2C100%25-3em&row=1em%2C100%25-4em&renderType=&color=%230000ff&fillColor=%23aaaaff&foregroundColor=%23ffffff&backgroundColor=%23000000";
@@ -614,8 +614,10 @@ function getandparse(url,options,callback) {
 						if (debugapp) console.log("fetch(): Done parsing.");
 
 						if (err) {
-							options.res.status(502).send("Could not parse " + url + ".\n");
+							options.res.status(502).send("Could not parse " + url + ".\n"+err);
 							console.log("fetch(): Could not parse "+url+".\n");
+							console.log(err);
+
 							return;
 						}
 
@@ -935,7 +937,7 @@ function parameter(options, catalogs, datasets, cb) {
 	
 	if (typeof(resp[0]) === "undefined") {cb(200,"[]");return;}
 
-	var columns = resp[0].dd.timecolumns;
+	var columns = resp[0].dd.timecolumns || 1;
 	for (var z = 0;z<resp.length;z++) {
 		columns = columns + "," + resp[z].dd.columns;
 	}
@@ -1102,18 +1104,21 @@ function parameter(options, catalogs, datasets, cb) {
 	if ((options.return === "stream") || (options.return === "redirect")) {				 
 		dc = dc
 				+"&return=stream"
-				+"&lineRegExp="+(resp[0].dd.lineregex || ".")
-				+"&timecolumns="+resp[0].dd.timecolumns
-				+"&timeformat="+resp[0].dd.timeformat
+				+"&lineRegExp="+(resp[0].dd.lineregex || "")
+				+"&timecolumns="+(resp[0].dd.timecolumns || "")
+				+"&timeformat="+(resp[0].dd.timeformat || "")
 				+"&streamFilterReadColumns="+columns
 				+"&streamFilterTimeFormat="+options.outformat
 				+"&streamFilterComputeFunction="+options.filter
 				+"&streamFilterComputeWindow="+options.filterWindow
-				+"&streamFilterExcludeColumnValues="+resp[0].dd.fillvalue
+				+"&streamFilterExcludeColumnValues="+(resp[0].dd.fillvalue || "")
 				+"&streamOrder=true"
 				+"&streamGzip=false"
 				;
 
+
+		// Remove name=value when value === "".
+		dc = dc.replace(/[^=&]+=(&|$)/g,"").replace(/&$/,"");
 		if (!options.usecache) dc = dc+"&forceUpdate=true&forceWrite=true"
 
 		if (options.return === "redirect") {

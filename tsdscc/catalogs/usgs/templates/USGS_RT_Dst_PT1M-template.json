@@ -2,8 +2,8 @@
 	"catalog": 
 	{ 
 		"$": {
-				"id": "USGS/RT/PT1M",
-				"name": "USGS Real Time 1-Minute Magnetometer Measurements"
+				"id": "USGS/RT/Dst/PT1M",
+				"name": "Real Time Dst from USGS; 1-minute cadence."
 			},
 		"documentation": 
 						[
@@ -11,7 +11,7 @@
 							"$":
 								{
 							 		"xlink:href":"http://magweb.cr.usgs.gov/data/magnetometer/",
-							 		"xlink:title":"Catalog derived by inspection of http://magweb.cr.usgs.gov/data/magnetometer/."
+							 		"xlink:title":"Catalog derived from inspection of http://magweb.cr.usgs.gov/data/indices/beta/Dst_minute/"
 								}
 							},
 							{
@@ -34,9 +34,9 @@
 						{
 							"$":
 								{
-							 		"id":"$1",
-							 		"name":"$1 one-minute",
-							 		"label":"$1 one-minute real-time measurements from USGS",
+							 		"id":"Dst",
+							 		"name":"Real-time Dst",
+							 		"label":"Real-time Dst; one-minute cadence",
 							 		"timecolumns":"1,2",
 							 		"timeformat":"$Y-$m-$d,$H:$M:$S.$(millis)",
 							 		"lineregex":"^[0-9]",
@@ -47,9 +47,7 @@
 							"variables": {
 											"variable": [
 															{"$":{"id":"DOY", "name":"Day of Year", "label":"DOY", "units":"Gregorian","type":"scalar","fillvalue":"","rendering":"%j","columns":"3"}},
-														 	{"$":{"id":"H", "name":"$1 H", "label":"$1H", "units":"nT","type":"scalar","fillvalue":"99999.00","rendering":"%.2f","columns":"4"}},
-															{"$":{"id":"D", "name":"$1 D", "label":"$1D", "units":"nT","type":"scalar","fillvalue":"99999.00","rendering":"%.2f","columns":"5"}},
-															{"$":{"id":"Z", "name":"$1 Z", "label":"$1Z", "units":"nT","type":"scalar","fillvalue":"99999.00","rendering":"%.2f","columns":"6"}}
+														 	{"$":{"id":"Dst", "name":"Real-time Dst", "label":"Real-time Dst; one-minute cadence", "units":"nT","type":"scalar","fillvalue":"99999.00","rendering":"%.2f","columns":"4"}}
 														 ]
 										}
 						}

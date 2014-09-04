@@ -1,12 +1,12 @@
-<catalog xmlns:xlink="http://www.w3.org/1999/xlink" id="SWPC/AK/2DayFile"
+<catalog xmlns:xlink="http://www.w3.org/1999/xlink" id="SWPC/AK/7DayFile"
 	name="Geomagnetic A and K indices from the U.S. Geological Survey Stations.">
-	<documentation xlink:href="http://www.swpc.noaa.gov/ftpdir/lists/geomag/AK.txt"
-		xlink:title="Catalog and data derived from http://www.swpc.noaa.gov/ftpdir/lists/geomag/AK.txt"/>
-	<dataset name="Real-time Geomagnetic A and K indices over past two days from SWPC."
-		ID="AK" urltemplate="http://www.swpc.noaa.gov/ftpdir/lists/geomag/AK.txt"
+	<documentation xlink:href="http://www.swpc.noaa.gov/ftpdir/lists/geomag/7day_AK.txt"
+		xlink:title="Catalog and data derived from http://www.swpc.noaa.gov/ftpdir/lists/geomag/7day_AK.txt"/>
+	<dataset name="Real-time Geomagnetic A and K indices over past seven days from SWPC."
+		ID="AK" urltemplate="http://www.swpc.noaa.gov/ftpdir/lists/geomag/7day_AK.txt"
 		urlprocessor="swpcAK">
 		<documentation xmlns:xlink="http://www.w3.org/1999/xlink"
-			xlink:href="http://www.swpc.noaa.gov/ftpdir/lists/geomag/AK.txt"
+			xlink:href="http://www.swpc.noaa.gov/ftpdir/lists/geomag/7day_AK.txt"
 			xlink:title="Geomagnetic A and K indices from the U.S. Geological Survey Stations."/>
 		<timeCoverage>
 			<Start>-PT2D</Start>

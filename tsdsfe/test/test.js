@@ -22,7 +22,6 @@ var argv     = require('minimist')(process.argv.slice(2));
 var clc      = require('cli-color');
 
 function logc(str,color) {var msg = clc.xterm(color); console.log(msg(str));};
-
 function s2b(str) {if (str === "true") {return true} else {return false}}
 function s2i(str) {return parseInt(str)}
 

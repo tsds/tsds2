@@ -5,7 +5,6 @@ var fs      = require('fs');
 var xml2js  = require('xml2js');
 
 var url = 'http://magweb.cr.usgs.gov/data/magnetometer/';
-var urlsig = crypto.createHash("md5").update(url).digest("hex");	
 
 var STATIONS = [];
 var STARTSTOP = {};
@@ -13,27 +12,20 @@ var Np = 1;
 
 var cadence = process.argv[2] || "PT1S";
 
-if (fs.existsSync("./cache/"+urlsig)) {
-	console.log("Found cache file " + urlsig)
-	body = fs.readFileSync("./cache/"+urlsig);
-	extractdata(body.toString(),"stations");
-} else {
-	console.log("Requesting data from " + url);
-	request.get(url,
-			function (error, response, body) {
-				if (!error && response.statusCode == 200) {
-					//console.log(body);
-					console.log("Done.");
-					extractdata(body,"stations");
-					fs.writeFileSync("./cache/"+urlsig,body);
-					console.log("Wrote " + urlsig);
-				}
+console.log("Requesting data from " + url);
+request.get(url,
+		function (error, response, body) {
+			if (!error && response.statusCode == 200) {
+				//console.log(body);
+				console.log("Done.");
+				extractdata(body,"stations");
 			}
-	);
-}
+		}
+);
 
 function populatetemplate() {
-	catalogjson = JSON.parse(fs.readFileSync("./templates/USGS_RT_"+cadence+"-template.json"));
+
+	catalogjson = JSON.parse(fs.readFileSync("./templates/USGS_RT_MAG_"+cadence+"-template.json"));
 
 	catalogjson["catalog"]["documentation"][2]["$"]["xlink:title"] += (new Date()).toISOString();
 
@@ -67,8 +59,8 @@ function populatetemplate() {
 	var builder = new xml2js.Builder();
 	var catalogxml = builder.buildObject(catalogjson);
 
-	fs.writeFileSync("./USGS_RT_"+cadence+"-tsds.xml",catalogxml);
-	console.log("Wrote "+"./USGS_RT_"+cadence+"-tsds.xml");
+	fs.writeFileSync("./USGS_RT_MAG_"+cadence+"-tsds.xml",catalogxml);
+	console.log("Wrote "+"./USGS_RT_MAG_"+cadence+"-tsds.xml");
 }
 
 function extractdata(body,what,station,cadence) {

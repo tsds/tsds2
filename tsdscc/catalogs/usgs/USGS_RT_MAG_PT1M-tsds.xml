@@ -1,24 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<catalog id="USGS/RT/PT1S" name="USGS Real Time 1-Second Magnetometer Measurements">
+<catalog id="USGS/RT/PT1M" name="USGS Real Time 1-Minute Magnetometer Measurements">
   <documentation xlink:href="http://magweb.cr.usgs.gov/data/magnetometer/" xlink:title="Catalog derived by inspection of http://magweb.cr.usgs.gov/data/magnetometer/."/>
   <documentation xlink:href="http://github.com/tsds/tsds2/tsdscc/catalogs/usgs" xlink:title="Catalog generation program."/>
-  <documentation xlink:title="Catalog generation date: 2014-09-01T01:23:02.315Z"/>
-  <dataset id="BOU" name="BOU one-second" label="BOU one-second real-time measurements from USGS" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" lineregex="^[0-9]" urltemplate="http://magweb.cr.usgs.gov/data/magnetometer/BOU/OneSecond/bou$Y$m$dvsec.sec">
-    <timeCoverage>
-      <Start>2013-04-02</Start>
-      <End>2014-09-01</End>
-    </timeCoverage>
-    <groups>
-      <group id="H,D,Z" name="BOU HDZ components" label="BOU HDZ components" type="vector"/>
-    </groups>
-    <variables>
-      <variable id="DOY" name="Day of Year" label="DOY" units="Gregorian" type="scalar" fillvalue="" rendering="%j" columns="3"/>
-      <variable id="H" name="BOU H" label="BOUH" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
-      <variable id="D" name="BOU D" label="BOUD" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
-      <variable id="Z" name="BOU Z" label="BOUZ" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
-    </variables>
-  </dataset>
-  <dataset id="BRW" name="BRW one-second" label="BRW one-second real-time measurements from USGS" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" lineregex="^[0-9]" urltemplate="http://magweb.cr.usgs.gov/data/magnetometer/BRW/OneSecond/brw$Y$m$dvsec.sec">
+  <documentation xlink:title="Catalog generation date: 2014-09-01T13:55:53.311Z"/>
+  <dataset id="BRW" name="BRW one-minute" label="BRW one-minute real-time measurements from USGS" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" lineregex="^[0-9]" urltemplate="http://magweb.cr.usgs.gov/data/indices/beta/Dst_minute/usgs$Y$m$ddst4.min">
     <timeCoverage>
       <Start>2013-04-02</Start>
       <End>2014-09-01</End>
@@ -33,7 +18,7 @@
       <variable id="Z" name="BRW Z" label="BRWZ" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
     </variables>
   </dataset>
-  <dataset id="BSL" name="BSL one-second" label="BSL one-second real-time measurements from USGS" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" lineregex="^[0-9]" urltemplate="http://magweb.cr.usgs.gov/data/magnetometer/BSL/OneSecond/bsl$Y$m$dvsec.sec">
+  <dataset id="BSL" name="BSL one-minute" label="BSL one-minute real-time measurements from USGS" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" lineregex="^[0-9]" urltemplate="http://magweb.cr.usgs.gov/data/indices/beta/Dst_minute/usgs$Y$m$ddst4.min">
     <timeCoverage>
       <Start>2013-04-02</Start>
       <End>2014-09-01</End>
@@ -48,7 +33,7 @@
       <variable id="Z" name="BSL Z" label="BSLZ" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
     </variables>
   </dataset>
-  <dataset id="BDT" name="BDT one-second" label="BDT one-second real-time measurements from USGS" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" lineregex="^[0-9]" urltemplate="http://magweb.cr.usgs.gov/data/magnetometer/BDT/OneSecond/bdt$Y$m$dvsec.sec">
+  <dataset id="BDT" name="BDT one-minute" label="BDT one-minute real-time measurements from USGS" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" lineregex="^[0-9]" urltemplate="http://magweb.cr.usgs.gov/data/indices/beta/Dst_minute/usgs$Y$m$ddst4.min">
     <timeCoverage>
       <Start>2013-04-02</Start>
       <End>2014-09-01</End>
@@ -63,7 +48,7 @@
       <variable id="Z" name="BDT Z" label="BDTZ" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
     </variables>
   </dataset>
-  <dataset id="CMO" name="CMO one-second" label="CMO one-second real-time measurements from USGS" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" lineregex="^[0-9]" urltemplate="http://magweb.cr.usgs.gov/data/magnetometer/CMO/OneSecond/cmo$Y$m$dvsec.sec">
+  <dataset id="CMO" name="CMO one-minute" label="CMO one-minute real-time measurements from USGS" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" lineregex="^[0-9]" urltemplate="http://magweb.cr.usgs.gov/data/indices/beta/Dst_minute/usgs$Y$m$ddst4.min">
     <timeCoverage>
       <Start>2013-04-02</Start>
       <End>2014-09-01</End>
@@ -78,7 +63,22 @@
       <variable id="Z" name="CMO Z" label="CMOZ" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
     </variables>
   </dataset>
-  <dataset id="FRN" name="FRN one-second" label="FRN one-second real-time measurements from USGS" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" lineregex="^[0-9]" urltemplate="http://magweb.cr.usgs.gov/data/magnetometer/FRN/OneSecond/frn$Y$m$dvsec.sec">
+  <dataset id="BOU" name="BOU one-minute" label="BOU one-minute real-time measurements from USGS" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" lineregex="^[0-9]" urltemplate="http://magweb.cr.usgs.gov/data/indices/beta/Dst_minute/usgs$Y$m$ddst4.min">
+    <timeCoverage>
+      <Start>2013-04-02</Start>
+      <End>2014-09-01</End>
+    </timeCoverage>
+    <groups>
+      <group id="H,D,Z" name="BOU HDZ components" label="BOU HDZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="Day of Year" label="DOY" units="Gregorian" type="scalar" fillvalue="" rendering="%j" columns="3"/>
+      <variable id="H" name="BOU H" label="BOUH" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="D" name="BOU D" label="BOUD" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="BOU Z" label="BOUZ" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+    </variables>
+  </dataset>
+  <dataset id="FRN" name="FRN one-minute" label="FRN one-minute real-time measurements from USGS" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" lineregex="^[0-9]" urltemplate="http://magweb.cr.usgs.gov/data/indices/beta/Dst_minute/usgs$Y$m$ddst4.min">
     <timeCoverage>
       <Start>2013-04-02</Start>
       <End>2014-09-01</End>
@@ -93,7 +93,7 @@
       <variable id="Z" name="FRN Z" label="FRNZ" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
     </variables>
   </dataset>
-  <dataset id="GUA" name="GUA one-second" label="GUA one-second real-time measurements from USGS" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" lineregex="^[0-9]" urltemplate="http://magweb.cr.usgs.gov/data/magnetometer/GUA/OneSecond/gua$Y$m$dvsec.sec">
+  <dataset id="GUA" name="GUA one-minute" label="GUA one-minute real-time measurements from USGS" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" lineregex="^[0-9]" urltemplate="http://magweb.cr.usgs.gov/data/indices/beta/Dst_minute/usgs$Y$m$ddst4.min">
     <timeCoverage>
       <Start>2013-04-02</Start>
       <End>2014-09-01</End>
@@ -108,7 +108,7 @@
       <variable id="Z" name="GUA Z" label="GUAZ" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
     </variables>
   </dataset>
-  <dataset id="FRD" name="FRD one-second" label="FRD one-second real-time measurements from USGS" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" lineregex="^[0-9]" urltemplate="http://magweb.cr.usgs.gov/data/magnetometer/FRD/OneSecond/frd$Y$m$dvsec.sec">
+  <dataset id="FRD" name="FRD one-minute" label="FRD one-minute real-time measurements from USGS" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" lineregex="^[0-9]" urltemplate="http://magweb.cr.usgs.gov/data/indices/beta/Dst_minute/usgs$Y$m$ddst4.min">
     <timeCoverage>
       <Start>2013-04-02</Start>
       <End>2014-09-01</End>
@@ -123,7 +123,7 @@
       <variable id="Z" name="FRD Z" label="FRDZ" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
     </variables>
   </dataset>
-  <dataset id="DED" name="DED one-second" label="DED one-second real-time measurements from USGS" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" lineregex="^[0-9]" urltemplate="http://magweb.cr.usgs.gov/data/magnetometer/DED/OneSecond/ded$Y$m$dvsec.sec">
+  <dataset id="DED" name="DED one-minute" label="DED one-minute real-time measurements from USGS" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" lineregex="^[0-9]" urltemplate="http://magweb.cr.usgs.gov/data/indices/beta/Dst_minute/usgs$Y$m$ddst4.min">
     <timeCoverage>
       <Start>2013-04-02</Start>
       <End>2014-09-01</End>
@@ -138,22 +138,7 @@
       <variable id="Z" name="DED Z" label="DEDZ" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
     </variables>
   </dataset>
-  <dataset id="SHU" name="SHU one-second" label="SHU one-second real-time measurements from USGS" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" lineregex="^[0-9]" urltemplate="http://magweb.cr.usgs.gov/data/magnetometer/SHU/OneSecond/shu$Y$m$dvsec.sec">
-    <timeCoverage>
-      <Start>2013-04-02</Start>
-      <End>2014-09-01</End>
-    </timeCoverage>
-    <groups>
-      <group id="H,D,Z" name="SHU HDZ components" label="SHU HDZ components" type="vector"/>
-    </groups>
-    <variables>
-      <variable id="DOY" name="Day of Year" label="DOY" units="Gregorian" type="scalar" fillvalue="" rendering="%j" columns="3"/>
-      <variable id="H" name="SHU H" label="SHUH" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
-      <variable id="D" name="SHU D" label="SHUD" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
-      <variable id="Z" name="SHU Z" label="SHUZ" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
-    </variables>
-  </dataset>
-  <dataset id="NEW" name="NEW one-second" label="NEW one-second real-time measurements from USGS" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" lineregex="^[0-9]" urltemplate="http://magweb.cr.usgs.gov/data/magnetometer/NEW/OneSecond/new$Y$m$dvsec.sec">
+  <dataset id="NEW" name="NEW one-minute" label="NEW one-minute real-time measurements from USGS" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" lineregex="^[0-9]" urltemplate="http://magweb.cr.usgs.gov/data/indices/beta/Dst_minute/usgs$Y$m$ddst4.min">
     <timeCoverage>
       <Start>2013-04-02</Start>
       <End>2014-09-01</End>
@@ -168,22 +153,22 @@
       <variable id="Z" name="NEW Z" label="NEWZ" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
     </variables>
   </dataset>
-  <dataset id="HON" name="HON one-second" label="HON one-second real-time measurements from USGS" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" lineregex="^[0-9]" urltemplate="http://magweb.cr.usgs.gov/data/magnetometer/HON/OneSecond/hon$Y$m$dvsec.sec">
+  <dataset id="SHU" name="SHU one-minute" label="SHU one-minute real-time measurements from USGS" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" lineregex="^[0-9]" urltemplate="http://magweb.cr.usgs.gov/data/indices/beta/Dst_minute/usgs$Y$m$ddst4.min">
     <timeCoverage>
       <Start>2013-04-02</Start>
       <End>2014-09-01</End>
     </timeCoverage>
     <groups>
-      <group id="H,D,Z" name="HON HDZ components" label="HON HDZ components" type="vector"/>
+      <group id="H,D,Z" name="SHU HDZ components" label="SHU HDZ components" type="vector"/>
     </groups>
     <variables>
       <variable id="DOY" name="Day of Year" label="DOY" units="Gregorian" type="scalar" fillvalue="" rendering="%j" columns="3"/>
-      <variable id="H" name="HON H" label="HONH" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
-      <variable id="D" name="HON D" label="HOND" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
-      <variable id="Z" name="HON Z" label="HONZ" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="H" name="SHU H" label="SHUH" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="D" name="SHU D" label="SHUD" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="SHU Z" label="SHUZ" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
     </variables>
   </dataset>
-  <dataset id="SJG" name="SJG one-second" label="SJG one-second real-time measurements from USGS" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" lineregex="^[0-9]" urltemplate="http://magweb.cr.usgs.gov/data/magnetometer/SJG/OneSecond/sjg$Y$m$dvsec.sec">
+  <dataset id="SJG" name="SJG one-minute" label="SJG one-minute real-time measurements from USGS" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" lineregex="^[0-9]" urltemplate="http://magweb.cr.usgs.gov/data/indices/beta/Dst_minute/usgs$Y$m$ddst4.min">
     <timeCoverage>
       <Start>2013-04-02</Start>
       <End>2014-09-01</End>
@@ -198,7 +183,22 @@
       <variable id="Z" name="SJG Z" label="SJGZ" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
     </variables>
   </dataset>
-  <dataset id="TUC" name="TUC one-second" label="TUC one-second real-time measurements from USGS" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" lineregex="^[0-9]" urltemplate="http://magweb.cr.usgs.gov/data/magnetometer/TUC/OneSecond/tuc$Y$m$dvsec.sec">
+  <dataset id="HON" name="HON one-minute" label="HON one-minute real-time measurements from USGS" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" lineregex="^[0-9]" urltemplate="http://magweb.cr.usgs.gov/data/indices/beta/Dst_minute/usgs$Y$m$ddst4.min">
+    <timeCoverage>
+      <Start>2013-04-02</Start>
+      <End>2014-09-01</End>
+    </timeCoverage>
+    <groups>
+      <group id="H,D,Z" name="HON HDZ components" label="HON HDZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="Day of Year" label="DOY" units="Gregorian" type="scalar" fillvalue="" rendering="%j" columns="3"/>
+      <variable id="H" name="HON H" label="HONH" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="D" name="HON D" label="HOND" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="HON Z" label="HONZ" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+    </variables>
+  </dataset>
+  <dataset id="TUC" name="TUC one-minute" label="TUC one-minute real-time measurements from USGS" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" lineregex="^[0-9]" urltemplate="http://magweb.cr.usgs.gov/data/indices/beta/Dst_minute/usgs$Y$m$ddst4.min">
     <timeCoverage>
       <Start>2013-04-02</Start>
       <End>2014-09-01</End>
@@ -213,7 +213,7 @@
       <variable id="Z" name="TUC Z" label="TUCZ" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
     </variables>
   </dataset>
-  <dataset id="SIT" name="SIT one-second" label="SIT one-second real-time measurements from USGS" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" lineregex="^[0-9]" urltemplate="http://magweb.cr.usgs.gov/data/magnetometer/SIT/OneSecond/sit$Y$m$dvsec.sec">
+  <dataset id="SIT" name="SIT one-minute" label="SIT one-minute real-time measurements from USGS" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" lineregex="^[0-9]" urltemplate="http://magweb.cr.usgs.gov/data/indices/beta/Dst_minute/usgs$Y$m$ddst4.min">
     <timeCoverage>
       <Start>2013-04-02</Start>
       <End>2014-09-01</End>
