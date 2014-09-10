@@ -8,6 +8,7 @@
 		"exec-sync": "*",
 		"minimist": "*",
 		"cli-color": "*",
+		"tsdset": "https://github.com/rweigel/treeify/tarball/master",
 		"tsdset": "https://github.com/rweigel/tsdset/tarball/master",
 		"datacache": "https://github.com/rweigel/datacache/tarball/master"
 	},

@@ -1,0 +1,205 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+ <html>
+ 	<head>
+ 		<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+ 		<title>URL Template Expander</title>
+ 		<link rel="stylesheet" type="text/css" href="deps/main.css">
+ 		<link rel="icon" type="image/ico" href="deps/favicon.ico"/>
+
+ 		<script type="text/javascript" src="deps/1.7.2/jquery.min.js"></script>
+ 		<script type="text/javascript" src="deps/strftime.js"></script>
+ 		<script type="text/javascript" src="deps/sprintf-0.7-beta1.js"></script>	
+ 		<script type="text/javascript" src="deps/date.js"></script>
+ 		<script type="text/javascript" src="deps/jquery.scrollTo-min.js"></script>
+
+		<script type="text/javascript" src="lib/testconnection.js"></script>
+ 		<script type="text/javascript" src="lib/checkproxy.js"></script>
+ 		<script type="text/javascript" src="lib/head.js"></script>
+ 		<script type="text/javascript" src="lib/expandtemplate.js"></script>  		
+
+ 		<script type="text/javascript" src="tests/expandTemplate.tests.js"></script>  		
+ 	</head>
+	<script>
+
+	//checkurl = "http://viviz.org/gallery/css/transparent.gif";
+	//testconnection(checkurl,2000,"connectionerror","");
+
+	xtic = new Date();
+	var Expander = [];
+	Expander[0]  = "/";
+	Expander[1]  = "http://autoplot.org/plot/dev/SecureScriptServlet";
+	Expander[2]  = "http://filefinder.elasticbeanstalk.com/v1/finder";	
+	var Proxy    = "http://localhost:8002/proxy?url=";
+
+	function expanderurl(check) {
+		var id = '#generateclient';
+		if (check) id = '#checkclient'
+		if ($(id).val() == "autoplot") {
+			var url = Expander[1] + "?fast=on&scriptFile=unaggregate.jy&resourceURI=" + $("#TemplatePrefix").val() + $("#Template").val() + "&timerange=" + $("#Start").val() + "/" + $("#Stop").val();
+			if (check) url = url.replace("fast=on","fast=off");
+			return url
+		} else if ($(id).val() == "filefinder") {
+			var date1 = new Date($("#Start").val());
+			date1 = date1.strftime('%Y+%m+%d+00+00+00');
+			var date2 = new Date($("#Stop").val());
+			date2 = date2.strftime('%Y+%m+%d+00+00+00');
+			return Expander[2] + "?template=" + $("#TemplatePrefix").val() + encodeURIComponent($("#Template").val().replace(/\$/g,"%")) + "&date1=" + date1 + "&date2=" + date2 + "&Find+Files=Submit";				
+		} else {
+			var url = Expander[0] + "?template=" + $("#TemplatePrefix").val() + $("#Template").val() + "&timeRange=" + $("#Start").val() + "/" + $("#Stop").val();
+			if (check) url = url.replace("template","check=true&template");
+			return url
+		}
+	}
+	
+	function getoptions(check) {
+		options = {};
+		options.template  = $("#TemplatePrefix").val() + $("#Template").val();
+		//options.start     = $("#Start").val();
+		//options.stop      = $("#Stop").val();
+		options.timeRange = $("#Start").val() + "/" + $("#Stop").val();
+		options.type      = "strftime";
+		options.check     = check;
+		options.debug     = true;
+		options.proxy     = "";
+
+		var url = expanderurl(options.check);
+		
+		if (needproxy(url,"#report")) {
+			options.proxy = Proxy;
+			if (checkproxy(url,Proxy,"#report")) {
+				options.proxy = Proxy;
+			} else {
+				console.log("Proxy is needed and "+Proxy+" is not available.");
+			}
+		}
+
+		return options;
+	}
+	
+	function finished(files,headers,options) {
+		$("#"+options.report).val(files.join("\n"));
+		$("#"+options.report).scrollLeft(1000);
+		var toc = new Date() - xtic;
+		
+		$("#"+options.report+'report').text(files.length + " in " + toc + " ms");
+	}
+
+	function geturls(options,finished) {
+
+		if (options.proxy !== "") {
+			var url = options.proxy + encodeURIComponent(expanderurl(options.check));
+		} else {
+			var url = expanderurl(options.check);
+		}
+		
+		$.ajax({
+			type: 'GET',
+			url: url, 
+			error: function (err) {$('#urlsreport').text('Error.  See console log.')}, 
+			success: function (data, textStatus, jqXHR) {
+				// If redirected to login page for network.
+				if (data.match("<html>")) {$('#'+options.report+"report").show().text('Check internet connection or server.');return;};
+				data = data.replace("SUCCESS\n",""); // First line of filefinder response.
+				finished(data.split("\n"),[],options);}});
+	}
+
+	function generateurls(check) {
+
+		xtic = new Date();
+
+		var options = getoptions(check);
+	
+		if (check) {
+			$('#urlsvreport').text('');
+			$('#urlsv').val('');
+			options.report = "urlsv";
+		} else {
+			$('#urlsreport').text('');
+			$('#urls').val('');
+			options.report = "urls";
+		}
+	
+		if ($('#generateclient').val() == "browser") {
+			expandtemplate(options,finished);
+		} else {
+			console.log("Server-side processing.");
+			geturls(options,finished);
+		}
+
+	}
+ 	
+	$(document).ready(function(){
+
+		$("#presets").append("<select id='presetselect' style='height:2.0em;width:100%'/>");
+		$("#presetselect").append("<option id='title'>-Tests-</option>");
+		for (i = 0; i < Tests.length; i++) {
+			var o = $("<option/>").attr("id",i).html(i + ". " + Tests[i]);
+			$("#presetselect").append(o);
+		}
+		$("#presetselect").change(function () {
+			var id = $(this).find("option:selected").attr("id");
+			var j = parseInt(id);
+			$("#TemplatePrefix").val("http://magweb.cr.usgs.gov/data/magnetometer/BDT/OneMinute/");
+			$("#Template").val(Tests[j].split(",")[0]);
+			$("#Start").val(Tests[j].split(",")[1].split("/")[0]);
+			$("#Stop").val(Tests[j].split(",")[1].split("/")[1]);
+			console.log('here')
+		})
+		$('#presetselect').find('option:eq(1)').attr('selected', true).trigger("change");
+
+		$("#GenerateURLs").click(function () {generateurls(false)});
+		$("#CheckURLs").click(function () {generateurls(true)})
+		
+	});
+
+	</script>
+ 	<body>
+ 	<div style="text-align:center;"><span id="connectionerror" style="background-color:yellow;"></span></div>
+ 	
+	<div id="presets" style="width:30em"></div>
+ 	
+ 	<div id="submiturl"></div>
+	 	<div style="width:50%">
+	 	<form id="form" action="/" method="get">
+	 		<br/>
+	 		<input type="submit" class="try" value="Submit">
+			Template prefix
+	 		<br/>
+			<input class="enter" type="text" id="TemplatePrefix"></input>
+			* Template
+	 		<br/>
+	 		<input class="enter" type="text" id="Template"></input>
+			* Start
+	 		<br/>
+	 		<input class="enter" type="text" id="Start"></input>
+			* Stop
+	 		<br/>
+	 		<input class="enter" type="text" id="Stop"></input>
+		</form>
+	 	<input id="GenerateURLs" type="button" value="Generate URLs">
+	 	using
+	 	<select style="width:8em;height:1.5em" id='generateclient'>
+  				<option value="browser">browser</option>
+  				<option value="server">node.js server</option>
+  				<option value="autoplot">autoplot servlet</option>
+  				<!--option value="filefinder">filefinder server</option  -->
+		</select>
+		<br/>
+		Generated URLs <span id="urlsreport" class="report"></span>
+	  	<textarea id="urls" class="try"></textarea>
+		<br/>
+	 	<input id="CheckURLs" type="button" value="Generate and Check">
+	 	using
+	 	<select style="width:8em;height:1.5em" id='checkclient'>
+  				<option value="browser">browser</option>
+  				<option value="server">node.js server</option>
+  				<option value="autoplot">autoplot servlet</option>
+  				<option value="filefinder">filefinder server</option>
+		</select>
+		<span id="report" style="display:none"></span>
+	 	<br/>		
+		Working URLs <span id="urlsvreport" class="report"></span>
+	  	<textarea id="urlsv" class="try"></textarea>
+	</div>
+ 	</body>
+ </html>

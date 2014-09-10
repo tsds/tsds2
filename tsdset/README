@@ -1,0 +1,18 @@
+Download and extract
+ https://github.com/rweigel/tsdset/archive/master.zip
+
+Browser interface (no server required)
+ Open index.htm with web browser.
+
+Server (requires node.js)
+ npm install
+ node app.js 8001
+
+Browser interface 
+ http://localhost:8001/
+
+Test (requires running server on localhost:8001)
+ npm install
+ node app.js tests/ut.txt [check] [debug]
+ 
+ 

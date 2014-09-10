@@ -2,7 +2,6 @@
 if (typeof(exports) !== "undefined" && require){
 	var xml2js  = require('xml2js');
 	var treeify = require('../../../js/treeify/js/treeify').treeify;
-
 }
 
 function tsds2other(tsdsjson, other, callback) {
