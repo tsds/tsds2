@@ -26,7 +26,7 @@ var clc     = require('cli-color');
 
 function logc(str,color) {var msg = clc.xterm(color); console.log(msg(str));};
 
-var expandISO8601Duration = require("tsdset").expandISO8601Duration;
+var expandISO8601Duration = require(__dirname + "/../tsdset/lib/expandtemplate").expandISO8601Duration;
 
 // Most Apache servers have this set at 100
 http.globalAgent.maxSockets = 100;  
