@@ -37,6 +37,8 @@ app.use("/css", express.static(__dirname + "/css"));
 app.use("/scripts", express.static(__dirname + "/scripts"));
 app.use("/catalogs", express.static(__dirname + "/catalogs"));
 
+app.use(express.compress());
+
 // Main entry point
 app.get('/', function (req, res) {
 	if (Object.keys(req.query).length === 0) {
@@ -72,6 +74,10 @@ function handleRequest(req, res) {
 		console.log("handleRequest(): options: ");
 		console.log(options)
 	}
+
+	res.header('Access-Control-Allow-Origin', '*');
+	res.header('Access-Control-Allow-Methods', 'GET,POST');
+	res.header('Access-Control-Allow-Headers', 'Content-Type');
 
 	options.res = res;
 	options.req = req;
@@ -147,7 +153,7 @@ function handleRequest(req, res) {
 					if (options.return === "autoplot-bookmarks") {
 						var outformat = options.outformat;
 						options.outformat = "json"; // This causes getandparse to return TSDS JSON, which tsds2bookmarks requires.
-						if (debugapp) console.log("xhandleRequest(): Calling getandparse() with URL " + url)
+						if (debugapp) console.log("handleRequest(): Calling getandparse() with URL " + url)
 						getandparse(url,options,function (ret) {
 							options.outformat = outformat;
 							var tsds2other = require(__dirname + "/js/tsds2other.js").tsds2other;
@@ -158,7 +164,7 @@ function handleRequest(req, res) {
 							var retfile = CDIR + retsig + ".xml";
 
 							if (fs.existsSync(retfile)) {
-								if (debugcache) console.log("xhandleRequest(): Cache of autoplot-bookmarks file found for input "+url);
+								if (debugcache) console.log("handleRequest(): Cache of autoplot-bookmarks file found for input "+url);
 								ret = fs.readFileSync(retfile);
 								finish(ret);
 							} else {
