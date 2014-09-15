@@ -25,7 +25,7 @@ request.get(url,
 function populatetemplate(STARTSTOP) {
 
 	console.log("./templates/USGS_RT_Dst_"+cadence+"-template.json")
-	catalogjson = JSON.parse(fs.readFileSync("./templates/USGS_RT_Dst_"+cadence+"-template.json"));
+	catalogjson = JSON.parse(fs.readFileSync("./templates/USGS_Dst_RT_"+cadence+"-template.json"));
 
 	catalogjson["catalog"]["documentation"][2]["$"]["xlink:title"] += (new Date()).toISOString();
 
@@ -37,8 +37,8 @@ function populatetemplate(STARTSTOP) {
 	var builder = new xml2js.Builder();
 	var catalogxml = builder.buildObject(catalogjson);
 
-	fs.writeFileSync("./USGS_RT_Dst_"+cadence+"-tsds.xml",catalogxml);
-	console.log("Wrote "+"./USGS_RT_Dst_"+cadence+"-tsds.xml");
+	fs.writeFileSync("./USGS_Dst_RT_"+cadence+"-tsds.xml",catalogxml);
+	console.log("Wrote "+"./USGS_Dst_RT_"+cadence+"-tsds.xml");
 }
 
 function extractdata(body) {

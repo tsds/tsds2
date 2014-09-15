@@ -40,7 +40,7 @@ tests[i].test = function (data) {
 
 i = i+1;
 tests[i] = {};
-tests[i].url = "catalog=USGS/RT/MAG/PT1M&dataset=BDT&parameters=H&start=-P3D&stop=P0D";
+tests[i].url = "catalog=USGS/Mag/RT/PT1M&dataset=BDT&parameters=H&start=-P3D&stop=P0D";
 tests[i].test = function (data) {
 	var len = data.toString().split("\n").length;
 	console.log("File should have 4321 newlines.  Found: " + len );
@@ -49,7 +49,7 @@ tests[i].test = function (data) {
 
 i = i+1;
 tests[i] = {};
-tests[i].url = "catalog=USGS/RT/MAG/PT1M&dataset=BDT&parameters=H&start=-P3D&stop=P0D&outformat=0";
+tests[i].url = "catalog=USGS/Mag/RT/PT1M&dataset=BDT&parameters=H&start=-P3D&stop=P0D&outformat=0";
 tests[i].test = function (data) {
 	var len = data.toString().split("\n").length;
 	console.log("File should have 4321 newlines.  Found: " + len );
@@ -58,7 +58,7 @@ tests[i].test = function (data) {
 
 i = i+1;
 tests[i] = {};
-tests[i].url = "catalog=USGS/RT/MAG/PT1M&dataset=BDT&parameters=H&start=-P3D&stop=P0D&outformat=1";
+tests[i].url = "catalog=USGS/Mag/RT/PT1M&dataset=BDT&parameters=H&start=-P3D&stop=P0D&outformat=1";
 tests[i].test = function (data) {
 	var len = data.toString().split("\n").length;
 	console.log("File should have 4321 newlines.  Found: " + len );
@@ -67,7 +67,7 @@ tests[i].test = function (data) {
 
 i = i+1;
 tests[i] = {};
-tests[i].url = "catalog=USGS/RT/MAG/PT1M&dataset=BDT&parameters=H&start=-P3D&stop=P0D&outformat=2";
+tests[i].url = "catalog=USGS/Mag/RT/PT1M&dataset=BDT&parameters=H&start=-P3D&stop=P0D&outformat=2";
 tests[i].test = function (data) {
 	var len = data.toString().split("\n").length;
 	console.log("File should have 4321 newlines.  Found: " + len );
@@ -76,7 +76,7 @@ tests[i].test = function (data) {
 
 i = i+1;
 tests[i] = {};
-tests[i].url = "catalog=USGS/RT/MAG/PT1S&dataset=BDT&parameters=H&start=-P2D&stop=P0D&outformat=1";
+tests[i].url = "catalog=USGS/Mag/RT/PT1S&dataset=BDT&parameters=H&start=-P2D&stop=P0D&outformat=1";
 tests[i].test = function (data) {
 	var len = data.toString().split("\n").length;
 	console.log("File should have 172801 newlines.  Found: " + len );
@@ -121,7 +121,7 @@ tests[i].test = function (data) {
 
 i = i+1;
 tests[i] = {};
-tests[i].url = "catalog=Kyoto/RT/Dst/PT1H&dataset=Dst&parameters=Dst&start=-P3D&stop=P0D";
+tests[i].url = "catalog=Kyoto/Dst/RT/PT1H&dataset=Dst&parameters=Dst&start=-P3D&stop=P0D";
 tests[i].test = function (data) {
 	var len = data.toString().split("\n").length;
 	console.log("File should have 73 newlines.  Found: " + len );
@@ -131,7 +131,7 @@ tests[i].note = 'This test sometimes fails at end of month because files will co
 
 i = i+1;
 tests[i] = {};
-tests[i].url = "catalog=Kyoto/RT/Dst/PT1H&dataset=Dst&parameters=Dst&start=-P3D&stop=P0D&outformat=1";
+tests[i].url = "catalog=Kyoto/Dst/RT/PT1H&dataset=Dst&parameters=Dst&start=-P3D&stop=P0D&outformat=1";
 tests[i].test = function (data) {
 	var len = data.toString().split("\n").length;
 	console.log("File should have 73 newlines.  Found: " + len );

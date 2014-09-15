@@ -563,12 +563,17 @@ function getandparse(url,options,callback) {
 
 			if (debugapp) console.log("fetch(): Done fetching.");
 
-			if (!error && response.statusCode != 200) {
-				error = true;
+			if (error) {
+				console.log("fetch(): Error when attempting to access " + url + " :");
+				console.log(error);
 			}
 
 			if (response.statusCode != 200) {
 				console.log("fetch(): Status code was not 200 when attempting to access " + url);
+			}
+
+			if (error || response.statusCode != 200) {
+				error = true;
 			}
 
 			if (error) {
@@ -582,7 +587,7 @@ function getandparse(url,options,callback) {
 					}
 					callback(tmp);
 				} else {
-					if ((error) && !fs.existsSync(cfile+"."+type))  {
+					if (!fs.existsSync(cfile+"."+type))  {
 						console.error("fetch(): Request failed for " + url);
 						console.error("fetch(): and no cached version exists.  Sending 502.");
 						options.res.status(502).send("Error when attempting to access " + url + "\n");

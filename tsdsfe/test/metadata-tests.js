@@ -165,11 +165,11 @@ tests[i].test = function (data) {
 
 i = i+1;
 tests[i] = {};
-tests[i].url = "catalog=USGS/RT/Dst/PT1H&dataset=Dst&parameters=DST_RT";
+tests[i].url = "catalog=USGS/Dst/RT/PT1H&dataset=Dst&parameters=DST_RT";
 
 i = i+1;
 tests[i] = {};
-tests[i].url = "catalog=USGS/RT/Dst/PT1M&dataset=Dst&parameters=DST_RT";
+tests[i].url = "catalog=USGS/Dst/RT/PT1M&dataset=Dst&parameters=DST_RT";
 
 i = i+1;
 tests[i] = {};
@@ -187,7 +187,7 @@ tests[i].test = function (data) {
 
 i = i+1;
 tests[i] = {};
-tests[i].url = "catalog=Kyoto/RT/Dst/PT1H&dataset=Dst&parameters=Dst";
+tests[i].url = "catalog=Kyoto/Dst/RT/PT1H&dataset=Dst&parameters=Dst";
 tests[i].test = function (data) {
 					var json = JSON.parse(data);
 					console.log("Response array should have more than 0 elements.  Found "+json.length);

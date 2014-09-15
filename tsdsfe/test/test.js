@@ -64,9 +64,9 @@ function gettests(m) {
 }
 
 function diff(f1,f2) {
-		var result = execSync('diff ' + f1 + ' ' + f2);
+		var result = execSync('diff ' + f1 + ' ' + f2 + ' | head -5');
 		if (result.length > 0) {
-			console.log("Difference between " + f1 + " and " + f2 + ":");
+			console.log("First 5 lines of output of diff of " + f1 + " and " + f2 + ":");
 			console.log(result);
 			return false;
 		} else {
