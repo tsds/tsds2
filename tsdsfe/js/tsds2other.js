@@ -14,7 +14,7 @@ function tsds2other(tsdsjson, other, callback) {
 	var dsg = 0; // Dataset group
 	var j   = 0; // Increment for each variable
 
-	var catalog = tsdsjson["catalog"]["$"]["name"] || tsdsjson["catalog"]["$"]["id"];
+	var catalog = tsdsjson["catalog"]["$"]["id"];
 
 	// 1-D array of bookmarks.
 	var bookmarks = [];

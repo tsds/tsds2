@@ -1,24 +1,40 @@
-TODO: In TSDSFE, report approximate cadence by checking first result.  This result should also be used
-as a check on if service is working.
+= Misc =
 
-TODO: How to handle requests for start before available start time?  Same for stop.
+* Modify all metadata tests to use JSON.parse().
 
-TODO: Deal with timerange before existing timerange?
+= Documentation =
+
+for i = 1:100
+ create ASCII files
+end
+Write catalog
+
+for i = 1:100
+ create cdf files
+end
+Write catalog
+template=(include autoplot attributes)
+plugin=autoplot
+
+= Cadence =
+
+Need attribute to determine if cadence is truly constant.  If it is, averaging can be made faster.
+
+Report approximate cadence by checking first result.  This result should also be used as a check on if service is working.
+
+Document how requests are handled for start before available start time?  Same for stop and timerange before existing timerange.
+
+= Binary =
 
 Given parameter,start/stop,dt with parameter a scalar time series,
 
-* If request for parameter,start/stop,dt with timerange in existing range of
-parameter_start_stop_dt.bin, subset it and send data.
+* If request for parameter,start/stop,dt with timerange in existing range of parameter_start_stop_dt.bin, subset it and send data.
 
-* If not, request timeRange=start/stop&streamFilterStreamFunction=regrid(start/stop,dt) and
-write parameter_start_stop_dt.bin + tsml.
+* If not, request timeRange=start/stop&streamFilterStreamFunction=regrid(start/stop,dt) and write parameter_start_stop_dt.bin + tsml.
 
-* If another request for parameter,start/stop,dt with timerange in existing range,
-streamsubset of existing file (and write cache of subset?).
+* If another request for parameter,start/stop,dt with timerange in existing range, stream subset of existing file (and write cache of subset?).
 
-* If another request with timerange that ends after existing range,
-timeRange=stop/stopnew&streamFilterStreamFunction=regrid(start/stopnew,dt)
-and then concatenate and rename existing bin file
+* If another request with timerange that ends after existing range, timeRange=stop/stopnew&streamFilterStreamFunction=regrid(start/stopnew,dt) and then concatenate and rename existing bin file
 
 var http = require('http');
 var fs   = require('fs');
