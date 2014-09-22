@@ -15,9 +15,9 @@ sleep 3
 rm -rf node_modules/datacache/cache/*
 rm -rf ../cache/*;
 
-#nodejs test/test.js --testfile=test/metadata-tests.js
+nodejs test/test.js --testfile=test/metadata-tests.js
 
-nodejs test/test.js --testfile=test/data-tests.js
+#nodejs test/test.js --testfile=test/data-tests.js
 
 RESULT=$?
 

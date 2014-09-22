@@ -29,13 +29,13 @@ exports.config = function config() {
 	// Note that if this default setting is used, options for return={png,pdf,svg,matlab,idl}
 	// will probably not work.  For images, the Autoplot servlet will told to request data from a localhost TSDSDFE server.
 	// and not this server.  The IDL and MATLAB scripts will attempt to access data from a localhost TSDSFE server.
-	out["TSDSFE"] = "http://localhost:"+out["PORT"]+"/";
+	out["TSDSFE"] = "http://tsds.org/get/";
 	
+
 	// Location of the master catalog.  May be a URL or directory.
 	// If leading /, path is treated as absolute.
 	// Otherwise it is relative to directory of tsdsfe.js.
 	out["CATALOG"] = out["TSDSFE"] + "catalogs/all.thredds";
-
 
 	// Location to find top-level catalogs and bookmark files.  May be a URL or an absolute path.
 	// When ?catalog=CATALOG&return={tsds-catalog,autoplot-bookmark} is requested,

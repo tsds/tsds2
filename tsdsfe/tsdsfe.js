@@ -1,4 +1,3 @@
-var config = require(__dirname + "/config.js").config();
 
 function s2b(str) {if (str === "true") {return true} else {return false}}
 function s2i(str) {return parseInt(str)}
@@ -23,6 +22,7 @@ var util    = require('util');
 var crypto  = require("crypto");
 var util    = require("util");
 var clc     = require('cli-color');
+var os      = require("os");
 
 function logc(str,color) {var msg = clc.xterm(color); console.log(msg(str));};
 
@@ -30,6 +30,16 @@ var expandISO8601Duration = require(__dirname + "/../tsdset/lib/expandtemplate")
 
 // Most Apache servers have this set at 100
 http.globalAgent.maxSockets = 100;  
+
+if (fs.existsSync(__dirname + "/conf/config."+os.hostname()+".js")) {
+	// Look for host-specific config file conf/config.hostname.js.
+	if (debugapp) {console.log("Using configuration file conf/config."+os.hostname()+".js")}
+	var config = require(__dirname + "/conf/config."+os.hostname()+".js").config();
+} else {
+	// Default
+	if (debugapp) {console.log("Using configuration file conf/config.js")}
+	var config = require(__dirname + "/conf/config.js").config();
+}
 
 // Serve files in these directories as static files
 app.use("/js", express.static(__dirname + "/js"));
@@ -294,43 +304,46 @@ function handleRequest(req, res) {
 
 				//console.log(res0.headers)
 
+				if (Nc == 0) {
+					res.setHeader('Transfer-Encoding','chunked');
 
-				if (res0.headers["content-type"])
-					res.setHeader('Content-Type',res0.headers["content-type"]);
+					if (res0.headers["content-type"])
+						res.setHeader('Content-Type',res0.headers["content-type"]);
 
-				if (res0.headers["content-length"])
-					res.setHeader('Content-Length',res0.headers["content-length"]);
+					if (res0.headers["content-length"])
+						res.setHeader('Content-Length',res0.headers["content-length"]);
+					
 					if (res0.headers["expires"])
 						res.setHeader('Expires',res0.headers["expires"]);
+				}
 
-					res0.setTimeout(1000*60*15,function () {console.log("----Timeout")});
-
-					res0
-						.on('data', function(chunk) {
-							res.write(chunk);
-							if (debugapp) {
-								if (data.length == 0) console.log("stream(): Got first chunk of size "+chunk.length+".");
-							}
-							//urldata = urldatadata+chunk;
-							//if(!flushed) res0.pause();
-							//console.log("Got chunk of size "+chunk.length);
-							//console.log(data)
-						})
-						.on('end', function() {
-							if (debugapp) console.log('stream(): Got end.');
-							Nc = Nc + 1;
-							if (Nc == N) {
-								if (debugapp) console.log("stream(): Sending res.end().");
-								res.end();
-							} else {
-								if (debugapp) console.log("stream(): Calling catalog with Nc="+Nc);
-								catalog(Options[Nc], stream);
-							}
-						})
-						.on('error',function (err) {
-							console.log(err);
-							console.log(res0);
-						});
+				res0.setTimeout(1000*60*15,function () {console.log("----Timeout")});
+				res0
+					.on('data', function(chunk) {
+						res.write(chunk);
+						if (debugapp) {
+							if (data.length == 0) console.log("stream(): Got first chunk of size "+chunk.length+".");
+						}
+						//urldata = urldatadata+chunk;
+						//if(!flushed) res0.pause();
+						//console.log("Got chunk of size "+chunk.length);
+						//console.log(data)
+					})
+					.on('end', function() {
+						if (debugapp) console.log('stream(): Got end.');
+						Nc = Nc + 1;
+						if (Nc == N) {
+							if (debugapp) console.log("stream(): Sending res.end().");
+							res.end();
+						} else {
+							if (debugapp) console.log("stream(): Calling catalog with Nc="+Nc);
+							catalog(Options[Nc], stream);
+						}
+					})
+					.on('error',function (err) {
+						console.log(err);
+						console.log(res0);
+					});
 			}).on('error', function (err) {
 				console.log("Error when attempting to get: ");
 				console.log("\t" + data);
