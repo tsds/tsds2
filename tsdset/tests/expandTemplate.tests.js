@@ -18,7 +18,8 @@ var Tests = [
 	"bdt%Y%m%{d;delta=3}vmin.min,2000-01-01/2000-01-07,strftime",
 	"bdt$Y$m$dvmin.min,-P2D/2000-01-01,strftime",
 	"bdt$Y$m$dvmin.min,P2D/2000-01-01,strftime",
-	"bdt$Y$m$dvmin.min,P3D/PT2D,strftime"
+	"bdt$Y$m$dvmin.min,P3D/PT2D,strftime",
+	"bdt$Y$jvmin.min,2012-09-01/2012-09-03,strftime"
 ];
 // This will change, so not included:
 // "bdt$Y$m$dvmin.min,2000-01-01/P1D,strftime"

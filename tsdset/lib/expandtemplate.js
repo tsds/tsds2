@@ -88,6 +88,10 @@ function expandtemplate(options,callback) {
 		var START_dateoff  = new Date(new Date(Start).toUTCString().substr(0, 25));
 		var STOP_date      = new Date(new Date(Stop).toUTCString().substr(0, 25));
 
+		if (debug) console.log("START_dateinc: " + START_dateinc);
+		if (debug) console.log("STOP_dateoff:  " + START_dateoff);
+		if (debug) console.log("Step:  " + Step);
+
 		var addinc = {};
 		var addoff = {};
 
@@ -135,8 +139,11 @@ function expandtemplate(options,callback) {
 		if (allzero(addinc)) {
 			files[0] = template;
 		} else {
-			while (START_dateinc.isBefore(STOP_date)) {				
+			while (START_dateinc.isBefore(STOP_date)) {
+				console.log(START_dateinc);
+				console.log(START_dateoff);
 				files[i] = START_dateinc.strftime(template);
+				console.log(files[i])
 				START_dateinc.add(addinc);
 				START_dateoff.add(addoff);
 				files[i] = START_dateoff.strftime(files[i].replace(/\$/g,"%"));
