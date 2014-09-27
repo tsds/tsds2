@@ -1,3 +1,17 @@
+// Not needed.  Use mirror.js with Nd = 1;
+
+// Makes one request for each date and each station.  If
+// not found, writes ".x" file.
+
+//var mirrordir       = "/var/www/mirror/www.intermagnet.org";
+var mirrordir       = "./data/";
+var updatesincelast = true;
+var type            = "v";
+
+if (type === "v") {
+	type = "variation";
+}
+
 var request = require('request');
 var fs      = require('fs');
 var exec    = require('child_process').exec;
@@ -10,14 +24,10 @@ var cadence = process.argv[2] || "PT1M";
 var k       = parseInt(process.argv[3]) || 0;
 
 if (cadence.match("PT1M")) {
-	var urlo = "http://intermagnet.org/data-donnee/download-2-eng.php?rate=minute&type=variation&format=IAGA2002&from_year=$Y&from_month=$m&from_day=$d&to_year=$Y&to_month=$m&to_day=$d&filter_region%5B%5D=America&filter_region%5B%5D=Asia&filter_region%5B%5D=Europe&filter_region%5B%5D=Pacific&filter_region%5B%5D=Africa&filter_lat%5B%5D=NH&filter_lat%5B%5D=NM&filter_lat%5B%5D=E&filter_lat%5B%5D=SM&filter_lat%5B%5D=SH&select_all%5B%5D=TLC&select%5B%5D=TLClc$Y$m$dvmin.min.gz&email=rweigel%40gmu.edu&accept=accept"; 
+	var urlo = "http://intermagnet.org/data-donnee/download-2-eng.php?rate=minute&type="+type+"&format=IAGA2002&from_year=$Y&from_month=$m&from_day=$d&to_year=$Y&to_month=$m&to_day=$d&filter_region%5B%5D=America&filter_region%5B%5D=Asia&filter_region%5B%5D=Europe&filter_region%5B%5D=Pacific&filter_region%5B%5D=Africa&filter_lat%5B%5D=NH&filter_lat%5B%5D=NM&filter_lat%5B%5D=E&filter_lat%5B%5D=SM&filter_lat%5B%5D=SH&select_all%5B%5D=TLC&select%5B%5D=TLClc$Y$m$dvmin.min.gz&email=rweigel%40gmu.edu&accept=accept"; 
 } else {
-	var urlo = "http://intermagnet.org/data-donnee/download-2-eng.php?rate=second&type=variation&format=IAGA2002&from_year=$Y&from_month=$m&from_day=$d&to_year=$Y&to_month=$m&to_day=$d&filter_region%5B%5D=America&filter_region%5B%5D=Asia&filter_region%5B%5D=Europe&filter_region%5B%5D=Pacific&filter_region%5B%5D=Africa&filter_lat%5B%5D=NH&filter_lat%5B%5D=NM&filter_lat%5B%5D=E&filter_lat%5B%5D=SM&filter_lat%5B%5D=SH&select_all%5B%5D=TLC&select%5B%5D=TLClc$Y$m$dvsec.sec&email=rweigel%40gmu.edu&accept=accept"; 
+	var urlo = "http://intermagnet.org/data-donnee/download-2-eng.php?rate=second&type="+type+"&format=IAGA2002&from_year=$Y&from_month=$m&from_day=$d&to_year=$Y&to_month=$m&to_day=$d&filter_region%5B%5D=America&filter_region%5B%5D=Asia&filter_region%5B%5D=Europe&filter_region%5B%5D=Pacific&filter_region%5B%5D=Africa&filter_lat%5B%5D=NH&filter_lat%5B%5D=NM&filter_lat%5B%5D=E&filter_lat%5B%5D=SM&filter_lat%5B%5D=SH&select_all%5B%5D=TLC&select%5B%5D=TLClc$Y$m$dvsec.sec&email=rweigel%40gmu.edu&accept=accept"; 
 }
-
-var updatesincelast = true;
-var mirrordir = "/var/www/mirror/www.intermagnet.org";
-//var mirrordir = "./data/";
 
 var lines = fs.readFileSync("INTERMAGNET_"+cadence+".txt");
 var list  = lines.toString().split("\n");

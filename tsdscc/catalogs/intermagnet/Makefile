@@ -1,44 +1,58 @@
 CADENCE=PT1S
-CAT=INTERMAGNET_$(CADENCE)
-DATE=`date` 
-DATE2=`date "+%Y%m%d"`
-RAW=$(CAT)-$(DATE2).raw
-#URL=http://tsds.org/catalogs/raw/$(RAW)
-URL=http://mag.gmu.edu/tsds/catalogs/raw/$(RAW)
-DIR_AUTOPLOT=/var/www/autoplot/bookmarks
-DIR_TSDS=/var/www/tsds/catalogs
+CAT=catalog_$(CADENCE)
 
-all:
-	make update CADENCE=PT1M 
-	make update CADENCE=PT1S
+# This catalog must be mirrored because API creates a temporary file that
+# is based on the timestamp (down to the second) of the request.  If two requests
+# are made in the same second, the first temporary file is over-written on their server.
+# (Not sure what will happen if someone else made a simultaneous request)
+# No: FTP access is available, obviating scraping (mirror.js):
+# http://intermagnet.org/data-donnee/data-eng.php#conditions
 
-# Makes one request for each data and each station.  If
-# not found, writes ".x" file.
-update: $(CAT).json
-	node update.js $(CADENCE)
+# This does variation data only. Options:
+# variation vmin.min
+# provisional pmin.min
+# quasi-definitive qmin.min
+# definitive dmin.min
 
-mirror: $(CAT).json
-	node mirror.js $(CADENCE)
-	cd data; find . -name "min.min" | xargs gzip --fast {}
-	cd data; find . -name "sec.sec" | xargs gzip --fast {}
-	node metadata.js $(CADENCE) > INTERMAGNET_$(CADENCE).json
-	
-#TODO.  Create thredds.
-$(CAT).json:
-	node catalog.js $(CADENCE)
+# See also
+# http://catalog.data.gov/dataset/intermagnet-definitive-observatory-data/resource/b2bf98db-e05d-499f-9e2d-0b3ef1a05d73
+# ftp://ftp.ngdc.noaa.gov/wdc/geomagnetism/
+# ftp://ftp.ngdc.noaa.gov/wdc/geomagnetism/data/observatories/definitive/
 
-$(CAT).thredds:
-	node app.js "thredds" > $(CAT).thredds
-	mkdir -p $(DIR_TSDS)/raw
-	cp $(CAT).json $(DIR_TSDS)/raw/$(RAW)
-	cp $(CAT).txt $(DIR_TSDS)/raw/$(RAW)
-	mkdir -p $(DIR_TSDS)/archive
-	cp $(CAT).thredds $(DIR_TSDS)/archive/$(CAT)-$(DATE2).thredds; ln -f $(DIR_TSDS)/archive/$(CAT)-$(DATE2).thredds $(DIR_TSDS)/$(CAT).thredds
-	cp $(CAT).json $(DIR_TSDS)/archive/$(CAT)-$(DATE2).json; ln -f $(DIR_TSDS)/archive/$(CAT)-$(DATE2).json $(DIR_TSDS)/$(CAT).json
-	cp $(CAT).txt $(DIR_TSDS)/archive/$(CAT)-$(DATE2).txt; ln -f $(DIR_TSDS)/archive/$(CAT)-$(DATE2).txt $(DIR_TSDS)/$(CAT).txt
+catalogs:
+	make catalog CADENCE=PT1M 
+	make catalog CADENCE=PT1S
+
+catalog:
+	make $(CAT).json CADENCE=$(CADENCE)
+
+$(CAT).json: catalog.js
+	node catalog.js $(CADENCE) 2>&1 | tee catalog_$(CADENCE).log
+
+#
+
+mirrors:
+	make mirror CADENCE=PT1M 
+	make mirror CADENCE=PT1S
+
+mirror: mirror.js $(CAT).json
+	node mirror.js $(CADENCE) 2>&1 | tee mirror_$(CADENCE).log
+	cd data; find . -regex ".*[0-9][0-9]v.*" | xargs gzip --fast {} > /dev/null 2>&1
+
+#
+
+metadatas:
+	make metadata CADENCE=PT1M
+	make metadata CADENCE=PT1S
+
+metadata:
+	make INTERMAGNET_$(CADENCE)-tsds.xml CADENCE=$(CADENCE) 2>&1 | tee metadata_$(CADENCE).log
+
+INTERMAGNET_$(CADENCE)-tsds.xml:
+	node metadata.js $(CADENCE)
+
+#
 
 clean:
-	- rm -f *.json
-	- rm -f *.xml*
-	- rm -f *.thredds
-	
+	- rm -f *tsds.xml
+	- rm -f catalog_*.txt	

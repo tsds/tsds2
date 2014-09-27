@@ -1,0 +1,49 @@
+make[2]: Entering directory `/home/weigel/git/tsds2/tsdscc/catalogs/intermagnet'
+node metadata.js PT1S
+Directory ./data/KOU/PT1S does not exist KOU 2012-03-27 2012-12-31
+Extracted info from ./data/KNY/PT1S/kny20101111vsec.sec.gz (1/44): DRV,2010-01-01,2011-12-31,XYZF,31.424,130.880,Japan Meteorological Agency,Kanoya
+Extracted info from ./data/MMB/PT1S/mmb20101111vsec.sec.gz (2/44): KDU,2010-02-24,2011-12-31,XYZF,43.910,144.189,Japan Meteorological Agency,Memambetsu
+Extracted info from ./data/NAQ/PT1S/naq20101111vsec.sec.gz (3/44): KNY,2010-11-11,2010-11-25,XYZF,61.160,314.560,DTU Space,Narsarsuaq
+Extracted info from ./data/MCQ/PT1S/mcq20120704vsec.sec.gz (4/44): KAK,2010-11-11,2010-11-25,XYZF,-54.500,158.900,Geoscience Australia,Macquarie Island
+Extracted info from ./data/IQA/PT1S/iqa20120704vsec.sec.gz (5/44): CLF,2012-01-01,2011-12-31,XYZF,63.753,291.482,Geological Survey of Canada (GSC),Iqaluit
+Extracted info from ./data/SBA/PT1S/sba20110712vsec.sec.gz (6/44): FRN,2012-01-01,2011-12-31,XYZF,-77.800,166.800,New Zealand Institute of Geological and Nucle,Scott Base
+Extracted info from ./data/FRD/PT1S/frd20110613vsec.sec.gz (7/44): BLC,2012-01-01,2011-12-31,HDZF,38.205,282.627,United States Geological Survey (USGS),Fredericksburg
+Extracted info from ./data/SHU/PT1S/shu20110613vsec.sec.gz (8/44): GNG,2012-10-08,2012-12-31,HDZF,55.348,199.538,United States Geological Survey (USGS),Shumagin
+Extracted info from ./data/YKC/PT1S/ykc20110720vsec.sec.gz (9/44): IQA,2012-01-01,2011-12-31,XYZF,62.480,245.518,Geological Survey of Canada (GSC),Yellowknife
+Extracted info from ./data/SIT/PT1S/sit20110613vsec.sec.gz (10/44): GUA,2012-01-01,2011-12-31,HDZF,57.058,224.674,United States Geological Survey (USGS),Sitka
+Extracted info from ./data/ASP/PT1S/asp20100224vsec.sec.gz (11/44): AMS,2010-05-17,2011-12-31,XYZF,113.800,133.900,INTERMAGNET Edinburgh GIN,Alice Springs; Australia
+Extracted info from ./data/CNB/PT1S/cnb20101101vsec.sec.gz (12/44): ASP,2010-02-24,2011-12-31,XYZF,-35.300,149.400,Geoscience Australia,Canberra
+Extracted info from ./data/LRM/PT1S/lrm20101101vsec.sec.gz (13/44): GDH,2010-11-11,2010-11-24,XYZF,-22.200,114.100,Geoscience Australia,Learmonth
+Extracted info from ./data/KDU/PT1S/kdu20110531vsec.sec.gz (14/44): CZT,2010-09-28,2011-12-31,XYZF,-12.700,132.500,Geoscience Australia,Kakadu
+Extracted info from ./data/DMC/PT1S/dmc20090103vsec.sec.gz (15/44): DMC,2009-01-03,2011-12-31,XYZF,-75.250,124.167,EOST,DomeC; Concordia, Antarctica
+Extracted info from ./data/CMO/PT1S/cmo20110613vsec.sec.gz (16/44): THL,2010-11-11,2010-11-24,HDZF,64.874,212.140,United States Geological Survey (USGS),College
+Extracted info from ./data/CTA/PT1S/cta20110101vsec.sec.gz (17/44): BFE,2010-11-11,2010-11-24,XYZF,-20.200,146.300,Geoscience Australia,Charters Towers
+Extracted info from ./data/GUA/PT1S/gua20110921vsec.sec.gz (18/44): BRW,2012-01-04,2011-10-12,HDZF,13.588,144.867,United States Geological Survey (USGS),Guam
+Extracted info from ./data/API/PT1S/api20120105vsec.sec.gz (19/44): MB,2010-11-11,2010-11-25,XYZF,-13.800,188.200,Dept. of Agriculture; Forestry, Fisheries & M,Apia
+Extracted info from ./data/HON/PT1S/hon20110802vsec.sec.gz (20/44): BSL,2012-01-03,2011-12-30,HDZF,21.316,202.000,United States Geological Survey (USGS),Honolulu
+Extracted info from ./data/FRN/PT1S/frn20120408vsec.sec.gz (21/44): BOU,2012-01-01,2011-12-31,HDZF,37.091,240.282,United States Geological Survey (USGS),Fresno
+Extracted info from ./data/PHU/PT1S/phu20110321vsec.sec.gz (22/44): EYR,2012-01-01,2011-12-31,XYZF,21.029,105.958,VNCST (Vietnam) / IPGP (France),Phu Thuy
+Extracted info from ./data/TUC/PT1S/tuc20120717vsec.sec.gz (23/44): HON,2012-01-01,2011-12-31,HDZF,32.174,249.267,United States Geological Survey (USGS),Tucson
+Extracted info from ./data/CSY/PT1S/csy20120510vsec.sec.gz (24/44): AAE,2012-01-01,2011-12-31,XYZF,-66.300,110.500,Geoscience Australia,Casey
+Extracted info from ./data/FCC/PT1S/fcc20111217vsec.sec.gz (25/44): API,2012-01-01,2011-12-31,XYZF,58.759,265.912,Geological Survey of Canada (GSC),Fort Churchill
+Extracted info from ./data/GNA/PT1S/gna20101101vsec.sec.gz (26/44): CTA,2010-02-24,2011-12-31,XYZF,-31.800,116.000,Geoscience Australia,Gnangara
+Extracted info from ./data/VIC/PT1S/vic20120326vsec.sec.gz (27/44): IPM,2012-01-01,2011-12-31,XYZF,48.520,236.580,Geological Survey of Canada (GSC),Victoria
+Extracted info from ./data/CBB/PT1S/cbb20120326vsec.sec.gz (28/44): PAF,2010-01-01,2011-12-31,XYZF,69.123,254.969,Geological Survey of Canada (GSC),Cambridge Bay
+Extracted info from ./data/NEW/PT1S/new20120905vsec.sec.gz (29/44): DLT,2012-10-02,2012-12-30,HDZF,48.265,242.878,United States Geological Survey (USGS),Newport
+Extracted info from ./data/MEA/PT1S/mea20110720vsec.sec.gz (30/44): DED,2012-07-26,2012-12-31,XYZF,54.616,246.653,Geological Survey of Canada (GSC),Meanook
+Extracted info from ./data/BRW/PT1S/brw20120408vsec.sec.gz (31/44): NAQ,2010-11-11,2010-11-24,HDZF,71.322,203.378,United States Geological Survey (USGS),Barrow
+Extracted info from ./data/RES/PT1S/res20110720vsec.sec.gz (32/44): FRD,2012-01-01,2011-12-31,XYZF,74.690,265.105,Geological Survey of Canada (GSC),Resolute Bay
+Extracted info from ./data/MAW/PT1S/maw20100415vsec.sec.gz (33/44): GNA,2010-02-24,2011-12-31,XYZF,-67.600,62.900,Geoscience Australia,Mawson; Antarctica
+Extracted info from ./data/AMS/PT1S/ams20110101vsec.sec.gz (34/44): ABG,2010-11-11,2010-11-23,XYZF,-37.796,77.574,EOST,Martin de Vivies; Amsterdam Island
+Extracted info from ./data/CZT/PT1S/czt20110101vsec.sec.gz (35/44): BMT,2010-11-11,2010-11-24,XYZF,-46.431,51.860,EOST,Port Alfred; Crozet Islands
+Extracted info from ./data/TAM/PT1S/tam20110115vsec.sec.gz (36/44): AW,2010-02-24,2011-12-31,XYZF,22.792,5.530,CRAAG (Algeria) / IPGP (France),Tamanrasset
+Extracted info from ./data/AAE/PT1S/aae20110101vsec.sec.gz (37/44): CQ,2010-02-24,2011-12-31,XYZF,9.035,38.766,AAU (Ethiopia) / IPGP (France),Addis Ababa Observatory
+Extracted info from ./data/PAF/PT1S/paf20100101vsec.sec.gz (38/44): LRM,2010-02-24,2011-12-31,XYZF,-49.353,70.262,EOST,Port-aux-Francais; Kerguelen Islands
+Extracted info from ./data/IPM/PT1S/ipm20110101vsec.sec.gz (39/44): CBB,2012-01-01,2011-12-31,XYZF,-27.171,250.59,DMC (Chile) / IPGP (France),Isla de Pascua
+Extracted info from ./data/LZH/PT1S/lzh20110101vsec.sec.gz (40/44): CMO,2012-01-01,2011-12-31,XYZF,36.087,103.845,CEA (China) / IPGP (France),Lanzhou
+Extracted info from ./data/DRV/PT1S/drv20100101vsec.sec.gz (41/44): CNB,2010-02-24,2011-12-31,XYZF,-66.655,140.007,EOST,Dumont d'Urville; Terre Adelie, Antarctica
+Extracted info from ./data/CLF/PT1S/clf20110101vsec.sec.gz (42/44): TAM,2010-11-26,2011-12-31,XYZF,48.025,2.260,IPGP,Chambon la Foret
+Extracted info from ./data/PPT/PT1S/ppt20110101vsec.sec.gz (43/44): FCC,2012-01-01,2011-12-31,XYZF,-17.567,210.426,LDG-CEA/IPGP (Tahiti),Pamatai
+Extracted info from ./data/MBO/PT1S/mbo20110908vsec.sec.gz (44/44): CSY,2012-01-01,2011-12-31,XYZF,14.392,343.042,IRD (France) /IPGP (France),Mbour
+Wrote INTERMAGNET_PT1S-tsml.xml
+make[2]: Leaving directory `/home/weigel/git/tsds2/tsdscc/catalogs/intermagnet'

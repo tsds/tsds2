@@ -415,6 +415,7 @@ function parseOptions(req) {
 	options.groups       = req.query.groups       || req.body.groups       || "";
 	options.start        = req.query.start        || req.body.start        || "";
 	options.stop         = req.query.stop         || req.body.stop         || "";
+	options.timerange    = req.query.timerange    || req.body.timerange    || "";
 	options.return       = req.query.return       || req.body.return       || "stream";
 	options.attach       = req.query.attach       || req.body.attach       || "";
 	options.outformat    = req.query.outformat    || req.body.outformat    || "1";
@@ -431,6 +432,10 @@ function parseOptions(req) {
 	if ((options.start === "") && (options.start === "") && (options.return === "stream")) {
 		if (debugapp) console.log("parseOptions(): No start and stop given.  Resetting return to dd")
 		options.return = "dd";
+	}
+	if (options.timerange !== "") {
+		options.start = options.timerange.split("/")[0];
+		options.stop  = options.timerange.split("/")[1];
 	}
 
 	if (options.return === "tsds" && options.outformat != "json") {
@@ -717,9 +722,12 @@ function catalog(options, cb) {
 
 
 		// Now we have a list of URLs for catalogs associated with the catalog pattern.
-
+		console.log(resp.length)
 		// Remove empty elements of array. (Needed?)
 		resp = resp.filter(function(n){return n});
+		if (resp.length == 0) {
+			console.log("Error: No matching catalogs.");
+		}
 
 		if (options.dataset === "") {
 			// If no dataset was requested and only one catalog URL in list,
@@ -758,6 +766,7 @@ function dataset(options, catalogs, cb) {
 	var parents = [];
 	var dresp = [];
 
+	console.log(catalogs)
 	if (debugapp) console.log("dataset(): Called.")
 	// Loop over each catalog
 	for (var i = 0; i < catalogs.length;i++) {
@@ -776,6 +785,13 @@ function dataset(options, catalogs, cb) {
 		datasets = datasets.concat(tmparr);
 		while (parents.length < datasets.length) {parents = parents.concat(parent)}
 
+		if (parent !== catalogs[afterparse.j-1].value) {
+			console.log("ID of catalog in THREDDS specified with a URL does not match ID of catalog found in catalog.");
+			console.log("ID in THREDDS: "+parent);
+			console.log("ID in catalog: "+catalogs[afterparse.j-1].value);
+			options.res.status(502).send("ID of catalog found in "+catalogs[afterparse.j-1].href+" does not match ID associated with URL in "+config.CATALOG);
+		    return;
+		}
 		var dresp = [];
 
 		// If all of the dataset URLs have been parsed.
@@ -1058,6 +1074,8 @@ function parameter(options, catalogs, datasets, cb) {
 
 		var tmp = expandISO8601Duration(start+"/"+stop,{debug:false})
 		//console.log(tmp);
+
+		// For now, don't use relative times because TSDS interpretation is different from Autoplot (TSDS should change to match Autoplot's.)
 		start = tmp.split("/")[0].substring(0,10);
 		stop = tmp.split("/")[1].substring(0,10);
 
@@ -1078,6 +1096,8 @@ function parameter(options, catalogs, datasets, cb) {
 		if (options.return === "svg") {format = "image/svg%2Bxml"}
 		
 		var aurl = config.AUTOPLOT + "?drawGrid=true&format="+format+"&plot.xaxis.drawTickLabels=true&width=800&height=200&url=vap+jyds:" + encodeURIComponent(url);	
+
+		console.log(aurl)
 
 		if (config.TSDSFE.match(/http:\/\/localhost/)) {
 			if (!config.AUTOPLOT.match(/http:\/\/localhost/)) {

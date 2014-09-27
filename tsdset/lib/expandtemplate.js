@@ -140,10 +140,10 @@ function expandtemplate(options,callback) {
 			files[0] = template;
 		} else {
 			while (START_dateinc.isBefore(STOP_date)) {
-				console.log(START_dateinc);
-				console.log(START_dateoff);
+				//console.log(START_dateinc);
+				//console.log(START_dateoff);
 				files[i] = START_dateinc.strftime(template);
-				console.log(files[i])
+				//console.log(files[i])
 				START_dateinc.add(addinc);
 				START_dateoff.add(addoff);
 				files[i] = START_dateoff.strftime(files[i].replace(/\$/g,"%"));
