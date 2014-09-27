@@ -722,7 +722,6 @@ function catalog(options, cb) {
 
 
 		// Now we have a list of URLs for catalogs associated with the catalog pattern.
-		console.log(resp.length)
 		// Remove empty elements of array. (Needed?)
 		resp = resp.filter(function(n){return n});
 		if (resp.length == 0) {
@@ -766,8 +765,8 @@ function dataset(options, catalogs, cb) {
 	var parents = [];
 	var dresp = [];
 
-	console.log(catalogs)
 	if (debugapp) console.log("dataset(): Called.")
+
 	// Loop over each catalog
 	for (var i = 0; i < catalogs.length;i++) {
 		getandparse(catalogs[i].href,options,afterparse);
