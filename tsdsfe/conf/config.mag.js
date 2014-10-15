@@ -52,6 +52,8 @@ exports.config = function config() {
 	// Otherwise it is relative to directory of tsdsfe.js.
 	out["CACHEDIR"] = "cache/";
 
+	out["MIRROR"] = "http://mag.gmu.edu/mirror/"
+
 	return out;
 }
 

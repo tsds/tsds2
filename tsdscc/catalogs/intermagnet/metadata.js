@@ -91,7 +91,7 @@ function createtsml (list) {
 	
 	root.catalog["documentation"][1] = {};
 	root.catalog["documentation"][1]["$"] = {};
-	root.catalog["documentation"][1]["$"]["xlink:href"] = "http://github.com/tsds/tsds2/tsdscc/catalogs/supermag";
+	root.catalog["documentation"][1]["$"]["xlink:href"] = "http://github.com/tsds/tsds2/tsdscc/catalogs/intermagnet";
 	root.catalog["documentation"][1]["$"]["xlink:title"] = "Catalog generation software";
 
 	root.catalog["documentation"][2] = {};
@@ -149,8 +149,8 @@ function createtsml (list) {
 		root.catalog["dataset"][i]["groups"]["group"] = [];
 		root.catalog["dataset"][i]["groups"]["group"][i] = {};
 		root.catalog["dataset"][i]["groups"]["group"][i]["$"] = {};
-		root.catalog["dataset"][i]["groups"]["group"][i]["$"]["id"] = CSYS.substring(0,3);
-		root.catalog["dataset"][i]["groups"]["group"][i]["$"]["name"] = CSYS.substring(0,3) + " components";
+		root.catalog["dataset"][i]["groups"]["group"][i]["$"]["id"] = CSYS.substring(0,3).toUpperCase();
+		root.catalog["dataset"][i]["groups"]["group"][i]["$"]["name"] = CSYS.substring(0,3).toUpperCase() + " components";
 		root.catalog["dataset"][i]["groups"]["group"][i]["$"]["type"] = "vector";
 
 		root.catalog["dataset"][i]["variables"] = {};
@@ -170,9 +170,9 @@ function createtsml (list) {
 		for (var j = 1;j < CSYSv.length+1;j++) {
 			root.catalog["dataset"][i]["variables"]["variable"][j] = {};
 			root.catalog["dataset"][i]["variables"]["variable"][j]["$"] = {};
-			root.catalog["dataset"][i]["variables"]["variable"][j]["$"]["id"] = CSYSv[j-1];
+			root.catalog["dataset"][i]["variables"]["variable"][j]["$"]["id"] = CSYSv[j-1].toUpperCase();
 			root.catalog["dataset"][i]["variables"]["variable"][j]["$"]["name"] = CSYSv[j-1];
-			root.catalog["dataset"][i]["variables"]["variable"][j]["$"]["label"] = MAG + " " + CSYSv[j-1];
+			root.catalog["dataset"][i]["variables"]["variable"][j]["$"]["label"] = MAG + " " + CSYSv[j-1].toUpperCase();
 			root.catalog["dataset"][i]["variables"]["variable"][j]["$"]["units"] = "nT";
 			root.catalog["dataset"][i]["variables"]["variable"][j]["$"]["type"] = "scalar";
 			root.catalog["dataset"][i]["variables"]["variable"][j]["$"]["fillvalue"] = "99999.00";

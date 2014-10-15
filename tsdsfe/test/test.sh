@@ -5,7 +5,7 @@ nodejs node_modules/datacache/app.js 7999 &
 PID1=$!
 
 echo "Starting TSDSFE server."
-nodejs tsdsfe.js 8004 true true true &
+nodejs tsdsfe.js 8004 &
 PID2=$!
 
 echo "Sleeping for 3 seconds before running tests."

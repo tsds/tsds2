@@ -31,7 +31,6 @@ exports.config = function config() {
 	// and not this server.  The IDL and MATLAB scripts will attempt to access data from a localhost TSDSFE server.
 	out["TSDSFE"] = "http://localhost:"+out["PORT"]+"/";
 	
-	
 	// Location of the master catalog.  May be a URL or directory.
 	// If leading /, path is treated as absolute.
 	// Otherwise it is relative to directory of tsdsfe.js.
@@ -51,6 +50,10 @@ exports.config = function config() {
 	// File system location to store cached metadata.  If leading /, path is treated as absolute.
 	// Otherwise it is relative to directory of tsdsfe.js.
 	out["CACHEDIR"] = "cache/";
+
+	// urltemplate.replace("mirror:http://",out["MIRROR"]) is executed before
+	// DataCache is called.
+	out["MIRROR"] = "http://localhost:8080/";
 
 	return out;
 }

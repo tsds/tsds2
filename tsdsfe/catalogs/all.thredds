@@ -12,4 +12,6 @@
 	<catalogRef ID="SWPC/AK" xlink:title="SWPC/AK" xlink:href="SWPC/AK.xml"/>
 	<catalogRef ID="SWPC/GOES/Primary/Particle/PT1M" xlink:title="SWPC/GOES/Primary/Particle/PT1M" xlink:href="SWPC/GOES/Primary/Particle/PT1M.xml"/>
 	<catalogRef ID="SWPC/GOES/Primary/XRay/PT1M" xlink:title="SWPC/GOES/Primary/XRay/PT1M" xlink:href="SWPC/GOES/Primary/XRay/PT1M.xml"/>
+	<catalogRef ID="INTERMAGNET/PT1M" xlink:title="INTERMAGNET/PT1M" xlink:href="INTERMAGNET/PT1M.xml"/>
+	<catalogRef ID="INTERMAGNET/PT1S" xlink:title="INTERMAGNET/PT1S" xlink:href="INTERMAGNET/PT1S.xml"/>
 </catalog>

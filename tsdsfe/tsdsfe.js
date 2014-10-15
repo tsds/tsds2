@@ -784,6 +784,7 @@ function dataset(options, catalogs, cb) {
 		datasets = datasets.concat(tmparr);
 		while (parents.length < datasets.length) {parents = parents.concat(parent)}
 
+	    //console.log(catalogs[afterparse.j-1].value)
 		if (parent !== catalogs[afterparse.j-1].value) {
 			console.log("ID of catalog in THREDDS specified with a URL does not match ID of catalog found in catalog.");
 			console.log("ID in THREDDS: "+parent);
@@ -1005,7 +1006,7 @@ function parameter(options, catalogs, datasets, cb) {
 	if (debugapp) console.log("parameter(): Expanded stop   : " + stop);
 	if (debugapp) console.log("parameter(): DD stop         : " + resp[0].dd.stop);
 
-	var urltemplate  = resp[0].dd.urltemplate;
+	var urltemplate  = resp[0].dd.urltemplate.replace("mirror:http://",config.MIRROR);
 	var urlprocessor = resp[0].dd.urlprocessor;
 	var urlsource    = resp[0].dd.urlsource;
 		

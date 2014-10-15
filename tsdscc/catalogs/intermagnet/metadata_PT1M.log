@@ -1,131 +1,133 @@
 make[2]: Entering directory `/home/weigel/git/tsds2/tsdscc/catalogs/intermagnet'
 node metadata.js PT1M
-Directory ./data/IRT/PT1M does not exist IRT 2003-01-01 2010-12-31
-Directory ./data/ISK/PT1M does not exist ISK 2003-01-01 2008-12-31
-Directory ./data/KAK/PT1M does not exist KAK 2003-01-01 2010-12-31
-Directory ./data/KDU/PT1M does not exist KDU 2003-01-01 2010-12-31
-Directory ./data/KNY/PT1M does not exist KNY 2003-01-23 2010-12-31
-Directory ./data/KOU/PT1M does not exist KOU 2003-01-01 2010-12-31
-Directory ./data/LER/PT1M does not exist LER 2003-01-01 2010-12-31
-Directory ./data/LOV/PT1M does not exist LOV 2003-01-01 2001-12-31
-Directory ./data/LZH/PT1M does not exist LZH 2003-01-01 2010-12-31
-Directory ./data/MBO/PT1M does not exist MBO 2003-01-02 2010-12-31
-Directory ./data/MCQ/PT1M does not exist MCQ 2003-01-01 2010-12-31
-Directory ./data/MEA/PT1M does not exist MEA 2003-01-01 2010-12-31
-Directory ./data/MID/PT1M does not exist MID 2003-01-01 2001-12-31
-Directory ./data/MMB/PT1M does not exist MMB 2003-01-01 2010-12-31
-Directory ./data/NAQ/PT1M does not exist NAQ 2003-01-01 2010-12-31
-Directory ./data/NCK/PT1M does not exist NCK 2003-01-02 2010-12-31
-Directory ./data/NEW/PT1M does not exist NEW 2003-01-01 2010-12-31
-Directory ./data/NGK/PT1M does not exist NGK 2003-01-01 2010-12-31
-Directory ./data/NUR/PT1M does not exist NUR 2003-01-01 2010-12-31
-Directory ./data/OTT/PT1M does not exist OTT 2003-01-01 2010-12-31
-Directory ./data/PAF/PT1M does not exist PAF 2003-01-01 2010-12-31
-Directory ./data/PBQ/PT1M does not exist PBQ 2003-01-01 2001-12-31
-Directory ./data/PHU/PT1M does not exist PHU 2003-01-01 2010-12-17
-Directory ./data/PPT/PT1M does not exist PPT 2003-01-01 2010-12-31
-Directory ./data/PST/PT1M does not exist PST 2003-06-01 2010-12-31
-Directory ./data/QSB/PT1M does not exist QSB 2003-01-02 2008-10-23
-Directory ./data/RES/PT1M does not exist RES 2003-01-01 2010-12-31
-Directory ./data/SBA/PT1M does not exist SBA 2003-01-01 2010-12-31
-Directory ./data/SIT/PT1M does not exist SIT 2003-01-01 2010-12-31
-Directory ./data/SJG/PT1M does not exist SJG 2003-01-01 2010-12-31
-Directory ./data/SOD/PT1M does not exist SOD 2003-01-01 2010-12-31
-Directory ./data/SPT/PT1M does not exist SPT 2003-01-01 2010-12-31
-Directory ./data/STJ/PT1M does not exist STJ 2003-01-01 2010-12-31
-Directory ./data/SUA/PT1M does not exist SUA 2003-01-01 2010-12-31
-Directory ./data/TAM/PT1M does not exist TAM 2003-01-02 2010-12-31
-Directory ./data/TAN/PT1M does not exist TAN 2003-01-02 2008-12-21
-Directory ./data/TEO/PT1M does not exist TEO 2003-06-01 2010-06-04
-Directory ./data/THL/PT1M does not exist THL 2003-01-01 2010-12-31
-Directory ./data/THY/PT1M does not exist THY 2003-01-01 2010-12-31
-Directory ./data/TRW/PT1M does not exist TRW 2003-01-02 2010-12-31
-Directory ./data/TUC/PT1M does not exist TUC 2003-01-01 2010-12-31
-Directory ./data/VAL/PT1M does not exist VAL 2003-01-05 2010-12-31
-Directory ./data/VIC/PT1M does not exist VIC 2003-01-01 2010-12-31
-Directory ./data/VSS/PT1M does not exist VSS 2003-01-01 2010-10-26
-Directory ./data/WNG/PT1M does not exist WNG 2003-01-01 2010-12-31
-Directory ./data/YKC/PT1M does not exist YKC 2003-01-01 2010-12-31
-Directory ./data/UPS/PT1M does not exist UPS 2004-07-23 2010-12-31
-Directory ./data/AAA/PT1M does not exist AAA 2006-01-01 2010-12-31
-Directory ./data/BFO/PT1M does not exist BFO 2006-08-24 2010-12-31
-Directory ./data/GCK/PT1M does not exist GCK 2006-01-01 2010-11-21
-Directory ./data/LRM/PT1M does not exist LRM 2006-01-01 2010-12-31
-Directory ./data/LVV/PT1M does not exist LVV 2006-01-01 2010-12-31
-Directory ./data/MAB/PT1M does not exist MAB 2006-01-01 2010-12-31
-Directory ./data/MAW/PT1M does not exist MAW 2006-01-01 2010-12-31
-Directory ./data/NVS/PT1M does not exist NVS 2006-01-01 2010-12-31
-Directory ./data/SFS/PT1M does not exist SFS 2006-01-19 2010-12-31
-Directory ./data/SHU/PT1M does not exist SHU 2006-08-02 2010-12-31
-Directory ./data/TSU/PT1M does not exist TSU 2006-01-01 2010-12-31
-Directory ./data/IZN/PT1M does not exist IZN 2007-11-19 2010-12-31
-Directory ./data/PAG/PT1M does not exist PAG 2007-11-22 2010-12-31
-Directory ./data/DMC/PT1M does not exist DMC 2009-01-01 2010-12-31
-Directory ./data/HYB/PT1M does not exist HYB 2009-09-22 2010-12-31
-Directory ./data/LYC/PT1M does not exist LYC 2009-09-22 2010-12-31
-Directory ./data/ALE/PT1M does not exist ALE 2011-01-01 2010-12-31
-Directory ./data/ARS/PT1M does not exist ARS 2011-07-15 2012-12-31
-Directory ./data/CNH/PT1M does not exist CNH 2011-01-01 2012-12-31
-Directory ./data/CSY/PT1M does not exist CSY 2011-07-15 2012-12-31
-Directory ./data/IPM/PT1M does not exist IPM 2011-01-01 2010-12-31
-Directory ./data/KIV/PT1M does not exist KIV 2011-01-01 2012-12-31
-Directory ./data/KMH/PT1M does not exist KMH 2011-01-01 2010-12-31
-Directory ./data/MGD/PT1M does not exist MGD 2011-01-01 2010-12-31
-Directory ./data/PEG/PT1M does not exist PEG 2011-01-01 2010-12-31
-Directory ./data/TDC/PT1M does not exist TDC 2011-10-02 2012-05-31
-Directory ./data/WMQ/PT1M does not exist WMQ 2011-01-01 2012-07-31
-Directory ./data/YAK/PT1M does not exist YAK 2011-01-01 2012-12-31
-Directory ./data/DED/PT1M does not exist DED 2012-07-26 2012-12-31
-Directory ./data/DLT/PT1M does not exist DLT 2012-10-02 2012-12-31
-Directory ./data/GNG/PT1M does not exist GNG 2012-10-08 2012-12-31
-Directory ./data/PIL/PT1M does not exist PIL 2012-09-21 2012-12-31
-Extracted info from ./data/ABG/PT1M/abg20030101vmin.min.gz (1/48): ABG,2003-01-01,2010-12-31,HDZF,18.600,72.900,Indian Institute of Geomagnetism,Alibag
-Extracted info from ./data/AAE/PT1M/aae20040624vmin.min.gz (2/48): AAE,2003-01-01,2010-12-31,HDZF,9.000,38.800,University of Addis Ababa,Addis Ababa
-Extracted info from ./data/API/PT1M/api20030102vmin.min.gz (3/48): API,2003-01-02,2010-12-31,HDZN,-13.800,188.100,Department of Agriculture; Forestry, Fisherie,Apia
-Extracted info from ./data/AIA/PT1M/aia20030630vmin.min.gz (4/48): AIA,2003-01-01,2010-12-31,HDZF,-65.300,295.700,Lviv Centre of Institute of Space Research,Vernadsky
-Extracted info from ./data/ABK/PT1M/abk20050101vmin.min.gz (5/48): ABK,2003-01-01,2010-12-31,XYZF,68.400,18.800,Geological Survey of Sweden,Abisko
-Extracted info from ./data/AMS/PT1M/ams20030101vmin.min.gz (6/48): AMS,2003-01-01,2010-12-31,HDZF,-37.800,77.600,EOST,Martin de Vivies-Amsterdam Island
-Extracted info from ./data/ASC/PT1M/asc20031227vmin.min.gz (7/48): ASC,2003-01-01,2010-12-31,HDZF,-8.000,345.600,British Geological Survey (BGS),Ascension Island
-Extracted info from ./data/AQU/PT1M/aqu20030101vmin.min.gz (8/48): AQU,2003-01-01,2010-12-31,HDZF,47.600,13.300,Instituto Nazionale di Geofisica,L'Aquila
-Extracted info from ./data/ASP/PT1M/asp20030101vmin.min.gz (9/48): ASP,2003-01-01,2010-12-31,XYZF,-23.800,133.800,Geoscience Australia,Alice Springs
-Extracted info from ./data/BEL/PT1M/bel20050619vmin.min.gz (10/48): BEL,2003-01-01,2010-12-31,XYZF,51.800,20.800,Polish Academy of Sciences,Belsk
-Extracted info from ./data/BDV/PT1M/bdv20070620vmin.min.gz (11/48): BDV,2003-01-01,2010-12-31,XYZF,49.100,14.000,Academy of Sciences of the Czech Republic,Budkov
-Extracted info from ./data/BMT/PT1M/bmt20061211vmin.min.gz (12/48): BMT,2003-01-01,2010-12-31,HDZF,40.300,116.200,Chinese Academy of Sciences,Beijing Ming Tombs
-Extracted info from ./data/BFE/PT1M/bfe20050101vmin.min.gz (13/48): BFE,2003-01-01,2010-12-31,XYZF,55.600,11.700,Danish Meteorological Institute (DMI),Brorfelde
-Extracted info from ./data/BNG/PT1M/bng20030102vmin.min.gz (14/48): BNG,2003-01-02,2010-12-31,XYZF,4.400,18.600,Institut de Physique du Globe de Paris (IPGP),Bangui
-Extracted info from ./data/BLC/PT1M/blc20060614vmin.min.gz (15/48): BLC,2003-01-01,2010-12-31,XYZF,64.300,264.000,Geological Survey of Canada (GSC),Baker Lake
-Extracted info from ./data/CBB/PT1M/cbb20060103vmin.min.gz (16/48): CBB,2003-01-01,2010-12-31,XYZF,69.100,255.000,Geological Survey of Canada (GSC),Cambridge Bay
-Extracted info from ./data/BRW/PT1M/brw20050101vmin.min.gz (17/48): BRW,2003-01-01,2010-12-31,HDZF,71.300,203.400,United States Geological Survey (USGS),Barrow
-Extracted info from ./data/BOU/PT1M/bou20030101vmin.min.gz (18/48): BOU,2003-01-01,2010-12-31,HDZF,40.100,254.800,United States Geological Survey (USGS),Boulder
-Extracted info from ./data/BSL/PT1M/bsl20041221vmin.min.gz (19/48): BSL,2003-01-01,2010-12-31,HDZF,30.400,270.400,United States Geological Survey (USGS),Stennis Space Center
-Extracted info from ./data/CLF/PT1M/clf20030102vmin.min.gz (20/48): CLF,2003-01-02,2010-12-31,HdZF,48.000,2.300,Institut de Physique du Globe de Paris (IPGP),Chambon la Foret
-Extracted info from ./data/CMO/PT1M/cmo20041221vmin.min.gz (21/48): CMO,2003-01-01,2010-12-31,HDZF,64.900,212.200,United States Geological Survey (USGS),College
-Extracted info from ./data/CTA/PT1M/cta20030101vmin.min.gz (22/48): CTA,2003-01-01,2010-12-31,XYZF,-20.100,146.300,Geoscience Australia,Charters Towers
-Extracted info from ./data/CZT/PT1M/czt20030101vmin.min.gz (23/48): CZT,2003-01-01,2010-12-31,HDZF,-46.400,51.900,EOST,Port Alfred
-Extracted info from ./data/CNB/PT1M/cnb20030101vmin.min.gz (24/48): CNB,2003-01-01,2010-12-31,XYZF,-35.300,149.300,Geoscience Australia,Canberra
-Extracted info from ./data/DLR/PT1M/dlr20030101vmin.min.gz (25/48): DLR,2003-01-01,2010-03-17,HDZF,29.300,259.200,United States Geological Survey (USGS),Del Rio
-Extracted info from ./data/DOU/PT1M/dou20030601vmin.min.gz (26/48): DOU,2003-06-01,2010-12-31,HDZF,50.100,4.500,Royal Meterological Institute of Belgium,Dourbes
-Extracted info from ./data/DRV/PT1M/drv20031227vmin.min.gz (27/48): DRV,2003-01-01,2010-12-31,XYZF,-66.700,140.000,EOST,Dumont d'Urville
-Extracted info from ./data/EBR/PT1M/ebr20030101vmin.min.gz (28/48): EBR,2003-01-01,2010-12-31,XYZF,47.100,.500,Observatori de l'Ebre,Ebro
-Extracted info from ./data/EYR/PT1M/eyr20030630vmin.min.gz (29/48): EYR,2003-01-01,2010-12-31,HDZF,-43.300,172.300,Institute of Geological and Nuclear Sciences ,Eyrewell
-Extracted info from ./data/ESK/PT1M/esk20030630vmin.min.gz (30/48): ESK,2003-01-01,2010-12-31,HDZF,55.300,356.700,British Geological Survey (BGS),Eskdalemuir
-Extracted info from ./data/FRN/PT1M/frn20050101vmin.min.gz (31/48): FRN,2003-01-01,2010-12-31,HDZF,37.100,240.300,United States Geological Survey (USGS),Fresno
-Extracted info from ./data/FRD/PT1M/frd20051216vmin.min.gz (32/48): FRD,2003-01-01,2010-12-31,HDZF,38.200,282.600,United States Geological Survey (USGS),Fredericksburg
-Extracted info from ./data/FCC/PT1M/fcc20071217vmin.min.gz (33/48): FCC,2003-01-01,2010-12-31,XYZF,58.800,265.900,Geological Survey of Canada (GSC),Fort Churchill
-Extracted info from ./data/GDH/PT1M/gdh20030101vmin.min.gz (34/48): GDH,2003-01-01,2010-12-31,XYZF,69.200,306.500,Danish Meteorological Institute (DMI),Godhavn
-Extracted info from ./data/FUR/PT1M/fur20030101vmin.min.gz (35/48): FUR,2003-01-01,2010-12-31,XYZF,48.300,11.300,Ludwig Maximilians University Munich,Furstenfeldbruck
-Extracted info from ./data/GNA/PT1M/gna20030101vmin.min.gz (36/48): GLN,2003-01-01,2005-12-31,XYZF,-31.800,116.000,Geoscience Australia,Gnangara
-Extracted info from ./data/GUI/PT1M/gui20070113vmin.min.gz (37/48): GNA,2003-01-01,2010-12-31,HDZF,28.300,343.600,Instituto Geografico Nacional (IGN),Guimar-Tenerife
-Extracted info from ./data/HAD/PT1M/had20030101vmin.min.gz (38/48): GUI,2003-02-03,2010-12-31,HDZF,51.000,355.500,British Geological Survey (BGS),Hartland
-Extracted info from ./data/GZH/PT1M/gzh20100824vmin.min.gz (39/48): GUA,2003-01-01,2010-12-31,HDZF,23.000,112.400,Seismologicial Bureau of Guangdong Province,Zhaoqing
-Extracted info from ./data/HBK/PT1M/hbk20041221vmin.min.gz (40/48): GZH,2003-09-30,2010-12-31,HDZF,-25.900,27.700,National Research Foundation,Hartebeesthoek
-Extracted info from ./data/HER/PT1M/her20040624vmin.min.gz (41/48): HAD,2003-01-01,2010-12-31,HDZF,-34.400,19.200,National Research Foundation,Hermanus
-Extracted info from ./data/HON/PT1M/hon20030101vmin.min.gz (42/48): HER,2003-01-01,2010-12-31,HDZF,21.300,202.000,United States Geological Survey (USGS),Honolulu
-Extracted info from ./data/HLP/PT1M/hlp20091125vmin.min.gz (43/48): HBK,2003-01-01,2010-12-31,XYZF,54.600,18.800,Polish Academy of Sciences,Hel
-Extracted info from ./data/HRB/PT1M/hrb20091125vmin.min.gz (44/48): HLP,2003-01-01,2010-12-31,XYZF,47.900,18.200,Slovak Academy of Sciences (GPI SAS),Hurbanovo
-Extracted info from ./data/HRN/PT1M/hrn20070609vmin.min.gz (45/48): HON,2003-01-01,2010-12-31,XYZF,77.000,15.500,Polish Academy of Sciences,Hornsund
-Extracted info from ./data/BOX/PT1M/box20050101vmin.min.gz (46/48): HUA,2003-06-01,2010-12-31,HDZF,58.300,38.900,,
-Extracted info from ./data/HUA/PT1M/hua20030601vmin.min.gz (47/48): HRB,2003-01-01,2010-12-31,HDZF,-12.000,284.600,Instituto Geofisico del Peru,Huancayo
-Extracted info from ./data/IQA/PT1M/iqa20030101vmin.min.gz (48/48): HRN,2003-01-01,2010-12-31,XYZF,63.700,291.500,Geological Survey of Canada (GSC),Iqaluit
+Extracted info from ./data/GZH/PT1M/gzh20050108vmin.min.gz (1/129): GZH,2003-09-30,2012-12-31,HDZF,23.000,112.400,Seismologicial Bureau of Guangdong Province,Zhaoqing
+Extracted info from ./data/AAE/PT1M/aae20010213vmin.min.gz (2/129): AAE,2001-02-13,2012-12-31,HdZF,9.000,38.800,University of Addis Ababa,Addis Ababa
+Extracted info from ./data/AIA/PT1M/aia20010307vmin.min.gz (3/129): AIA,2001-03-07,2011-05-10,HDZF,-65.300,295.700,Lviv Centre of Institute of Space Research,Vernadsky
+Extracted info from ./data/ABK/PT1M/abk20010101vmin.min.gz (4/129): ABK,2001-01-01,2012-12-31,XYZF,68.400,18.700,Geological Survey of Sweden (SGU),Abisko
+Extracted info from ./data/API/PT1M/api20010101vmin.min.gz (5/129): API,2001-01-01,2012-12-31,HDZN,-13.800,188.100,Department of Agriculture; Forestry, Fisherie,Apia
+Extracted info from ./data/AMS/PT1M/ams20010101vmin.min.gz (6/129): AMS,2001-01-01,2012-12-31,HDZF,-37.800,77.600,EOST,Martin de Vivies-Amsterdam Island
+Extracted info from ./data/AQU/PT1M/aqu20010101vmin.min.gz (7/129): AQU,2001-01-01,2012-12-31,XYZF,47.600,13.300,Instituto Nazionale di Geofisica,L'Aquila
+Extracted info from ./data/BDV/PT1M/bdv20010101vmin.min.gz (8/129): BDV,2001-01-01,2012-12-31,XYZF,49.100,14.000,Academy of Sciences of the Czech Republic,Budkov
+Extracted info from ./data/ASP/PT1M/asp20010101vmin.min.gz (9/129): ASP,2001-01-01,2012-12-31,XYZF,-23.800,133.800,Geoscience Australia,Alice Springs
+Extracted info from ./data/BEL/PT1M/bel20010101vmin.min.gz (10/129): BEL,2001-01-01,2012-12-31,XYZF,52.800,11.700,Polish Academy of Sciences,Belsk
+Extracted info from ./data/BFE/PT1M/bfe20010101vmin.min.gz (11/129): BFE,2001-01-01,2012-05-28,XYZF,55.600,11.600,Danish Meteorological Institute (DMI),Brorfelde
+Extracted info from ./data/BNG/PT1M/bng20010128vmin.min.gz (12/129): BNG,2001-01-28,2011-10-07,HDZF,4.300,18.600,Institut de Physique du Globe de Paris (IPGP),Bangui
+Extracted info from ./data/BLC/PT1M/blc20010101vmin.min.gz (13/129): BLC,2001-01-01,2012-12-31,XYZF,64.300,264.000,Geological Survey of Canada (GSC),Baker Lake
+Extracted info from ./data/BOU/PT1M/bou20010101vmin.min.gz (14/129): BOU,2001-01-01,2012-12-31,HDZF,40.100,254.800,United States Geological Survey (USGS),Boulder
+Extracted info from ./data/BRW/PT1M/brw20010101vmin.min.gz (15/129): BRW,2001-01-01,2012-12-31,HDZF,71.300,203.400,United States Geological Survey (USGS),Barrow
+Extracted info from ./data/BSL/PT1M/bsl20010101vmin.min.gz (16/129): BSL,2001-01-01,2012-12-31,HDZF,30.400,270.400,United States Geological Survey (USGS),Stennis Space Center
+Extracted info from ./data/CLF/PT1M/clf20010101vmin.min.gz (17/129): CLF,2001-01-01,2012-12-31,HdZF,48.000,2.300,Institut de Physique du Globe de Paris (IPGP),Chambon la Foret
+Extracted info from ./data/CBB/PT1M/cbb20010101vmin.min.gz (18/129): CBB,2001-01-01,2012-12-31,XYZF,69.100,255.000,Geological Survey of Canada (GSC),Cambridge Bay
+Extracted info from ./data/CMO/PT1M/cmo20010101vmin.min.gz (19/129): CMO,2001-01-01,2012-12-31,HDZF,64.900,212.200,United States Geological Survey (USGS),College
+Extracted info from ./data/CNB/PT1M/cnb20010101vmin.min.gz (20/129): CNB,2001-01-01,2012-12-31,XYZF,-35.300,149.300,Geoscience Australia,Canberra
+Extracted info from ./data/CTA/PT1M/cta20010812vmin.min.gz (21/129): CTA,2001-08-12,2012-12-31,XYZF,-20.100,146.300,Geoscience Australia,Charters Towers
+Extracted info from ./data/CZT/PT1M/czt20010101vmin.min.gz (22/129): CZT,2001-01-01,2012-12-31,HDZF,-46.400,51.900,EOST,Port Alfred
+Extracted info from ./data/DLR/PT1M/dlr20010101vmin.min.gz (23/129): DLR,2001-01-01,2010-03-17,HDZF,29.300,259.200,United States Geological Survey (USGS),Del Rio
+Extracted info from ./data/ESK/PT1M/esk20010101vmin.min.gz (24/129): ESK,2001-01-01,2012-12-22,HDZF,55.300,356.700,British Geological Survey (BGS),Eskdalemuir
+Extracted info from ./data/DRV/PT1M/drv20010301vmin.min.gz (25/129): DRV,2001-03-01,2012-12-31,XYZF,-66.700,140.000,EOST,Dumont d'Urville
+Extracted info from ./data/EYR/PT1M/eyr20010101vmin.min.gz (26/129): EYR,2001-01-01,2012-12-31,HDZF,-43.300,172.300,Institute of Geological and Nuclear Sciences ,Eyrewell
+Extracted info from ./data/FRD/PT1M/frd20010101vmin.min.gz (27/129): FRD,2001-01-01,2012-12-31,HDZF,38.200,282.600,United States Geological Survey (USGS),Fredericksburg
+Extracted info from ./data/FCC/PT1M/fcc20010101vmin.min.gz (28/129): FCC,2001-01-01,2012-12-31,XYZF,58.800,265.900,Geological Survey of Canada (GSC),Fort Churchill
+Extracted info from ./data/FRN/PT1M/frn20010101vmin.min.gz (29/129): FRN,2001-01-01,2012-12-31,HDZF,37.100,240.300,United States Geological Survey (USGS),Fresno
+Extracted info from ./data/FUR/PT1M/fur20010101vmin.min.gz (30/129): FUR,2001-01-01,2012-12-31,XYZF,48.300,11.300,Ludwig Maximilians University Munich,Furstenfeldbruck
+Extracted info from ./data/GDH/PT1M/gdh20010101vmin.min.gz (31/129): GDH,2001-01-01,2012-05-28,XYZF,69.300,306.500,Danish Meteorological Institute (DMI),Godhavn
+Extracted info from ./data/GNA/PT1M/gna20010101vmin.min.gz (32/129): GNA,2001-01-01,2012-12-31,XYZF,-31.800,116.000,Geoscience Australia,Gnangara
+Extracted info from ./data/GUA/PT1M/gua20010101vmin.min.gz (33/129): GUA,2001-01-01,2012-12-31,HDZF,13.600,144.900,United States Geological Survey (USGS),Guam
+Extracted info from ./data/HAD/PT1M/had20010101vmin.min.gz (34/129): HAD,2001-01-01,2012-12-22,HDZF,51.000,355.500,British Geological Survey (BGS),Hartland
+Extracted info from ./data/GUI/PT1M/gui20010101vmin.min.gz (35/129): GUI,2001-01-01,2012-12-31,HDZF,28.200,343.700,Instituto Geografico Nacional (IGN),Guimar-Tenerife
+Extracted info from ./data/HER/PT1M/her20010101vmin.min.gz (36/129): HER,2001-01-01,2012-12-31,HDZF,-34.400,19.200,National Research Foundation,Hermanus
+Extracted info from ./data/HBK/PT1M/hbk20010101vmin.min.gz (37/129): HBK,2001-01-01,2012-12-31,HDZF,-25.900,27.700,National Research Foundation,Hartebeesthoek
+Extracted info from ./data/HLP/PT1M/hlp20010101vmin.min.gz (38/129): HLP,2001-01-01,2012-12-31,XYZF,54.600,18.800,Polish Academy of Sciences,Hel
+Extracted info from ./data/HON/PT1M/hon20010101vmin.min.gz (39/129): HON,2001-01-01,2012-12-31,HDZF,21.300,202.000,United States Geological Survey (USGS),Honolulu
+Extracted info from ./data/HRB/PT1M/hrb20010101vmin.min.gz (40/129): HRB,2001-01-01,2012-12-31,XYZF,48.000,18.200,Slovak Academy of Sciences (GPI SAS),Hurbanovo
+Extracted info from ./data/IRT/PT1M/irt20010101vmin.min.gz (41/129): IRT,2001-01-01,2012-12-31,HDZF,52.300,104.500,ISTP SB RAS,Irkutsk
+Extracted info from ./data/IQA/PT1M/iqa20010101vmin.min.gz (42/129): IQA,2001-01-01,2012-12-31,XYZF,63.500,291.500,Geological Survey of Canada (GSC),Iqaluit
+Extracted info from ./data/ISK/PT1M/isk20010101vmin.min.gz (43/129): ISK,2001-01-01,2009-12-03,HDZF,41.100,29.100,Bogazici University,Kandilli
+Extracted info from ./data/KDU/PT1M/kdu20010812vmin.min.gz (44/129): KDU,2001-08-12,2012-12-31,XYZF,-12.600,132.500,Geoscience Australia,Kakadu
+Extracted info from ./data/KOU/PT1M/kou20010101vmin.min.gz (45/129): KOU,2001-01-01,2012-12-31,HDZF,5.300,307.200,Institut de Physique du Globe de Paris (IPGP),Kourou
+Extracted info from ./data/LER/PT1M/ler20010101vmin.min.gz (46/129): LER,2001-01-01,2012-12-22,HDZF,60.200,358.700,British Geological Survey (BGS),Lerwick
+Extracted info from ./data/LOV/PT1M/lov20010101vmin.min.gz (47/129): LOV,2001-01-01,2004-04-25,XYZF,59.300,17.200,Geological Survey of Sweden (SGU),Lovoe
+Extracted info from ./data/MBO/PT1M/mbo20010128vmin.min.gz (48/129): BO,2001-01-28,2012-12-31,HDZF,14.400,343.000,Institut de Physique du Globe de Paris (IPGP),Mbour
+Extracted info from ./data/MEA/PT1M/mea20010101vmin.min.gz (49/129): EA,2001-01-01,2012-12-31,XYZF,54.600,246.700,Geological Survey of Canada (GSC),Meanook
+Extracted info from ./data/NAQ/PT1M/naq20010101vmin.min.gz (50/129): NAQ,2001-01-01,2012-05-28,XYZF,61.300,314.600,Danish Meteorological Institute (DMI),Narsarsuaq
+Extracted info from ./data/MID/PT1M/mid20010101vmin.min.gz (51/129): ID,2001-01-01,2005-02-03,HDZF,28.200,254.800,United States Geological Survey (USGS),Midway Island
+Extracted info from ./data/NCK/PT1M/nck20010101vmin.min.gz (52/129): NCK,2001-01-01,2012-12-31,HDZF,54.100,12.700,Hungarian Academy of Sciences,Nagycenk
+Extracted info from ./data/NEW/PT1M/new20010101vmin.min.gz (53/129): NEW,2001-01-01,2012-12-31,HDZF,48.300,242.900,United States Geological Survey (USGS),Newport
+Extracted info from ./data/NGK/PT1M/ngk20010101vmin.min.gz (54/129): NGK,2001-01-01,2012-12-31,HDZF,14.400,343.000,GeoForschungsZentrum Potsdam,Niemegk
+Extracted info from ./data/NUR/PT1M/nur20010101vmin.min.gz (55/129): NUR,2001-01-01,2012-12-31,XYZF,60.500,24.600,Finnish Meteorological Institute (FMI),Nurmijarvi
+Extracted info from ./data/OTT/PT1M/ott20010101vmin.min.gz (56/129): OTT,2001-01-01,2012-12-31,XYZF,45.400,284.500,Geological Survey of Canada (GSC),Ottawa
+Extracted info from ./data/PAF/PT1M/paf20010101vmin.min.gz (57/129): PAF,2001-01-01,2012-12-31,HdZF,-49.500,71.000,EOST,Port-aux-Francais
+Extracted info from ./data/PHU/PT1M/phu20010101vmin.min.gz (58/129): PHU,2001-01-01,2012-12-31,HDZF,21.000,106.000,Vietnamese Academy of Science and Technology ,Phuthuy
+Extracted info from ./data/PBQ/PT1M/pbq20010101vmin.min.gz (59/129): PBQ,2001-01-01,2007-11-01,XYZF,55.300,282.200,Geological Survey of Canada (GSC),Poste-de-la-Baleine
+Extracted info from ./data/PPT/PT1M/ppt20010101vmin.min.gz (60/129): PPT,2001-01-01,2012-12-31,HDZF,-17.500,210.400,Institut de Physique du Globe de Paris (IPGP),Pamatai
+Extracted info from ./data/QSB/PT1M/qsb20010131vmin.min.gz (61/129): QSB,2001-01-31,2009-06-14,XYZF,33.900,35.600,National Centre for Geophysical Research,Qsaybeh
+Extracted info from ./data/RES/PT1M/res20010101vmin.min.gz (62/129): RES,2001-01-01,2012-12-31,XYZF,74.700,265.100,Geological Survey of Canada (GSC),Resolute Bay
+Extracted info from ./data/SBA/PT1M/sba20010101vmin.min.gz (63/129): SBA,2001-01-01,2012-12-31,HDZF,-77.800,166.800,Institute of Geological & Nuclear Sciences,Scott Base
+Extracted info from ./data/SIT/PT1M/sit20010101vmin.min.gz (64/129): SIT,2001-01-01,2012-12-31,HDZF,57.100,224.700,United States Geological Survey (USGS),Sitka
+Extracted info from ./data/SJG/PT1M/sjg20010101vmin.min.gz (65/129): SJG,2001-01-01,2012-12-31,HDZF,18.100,293.800,United States Geological Survey (USGS),San Juan
+Extracted info from ./data/SPT/PT1M/spt20010110vmin.min.gz (66/129): SPT,2001-01-10,2012-12-31,HDZF,39.500,355.600,Instituto Geografico Nacional (IGN),San Pablo-Toledo
+Extracted info from ./data/SOD/PT1M/sod20010101vmin.min.gz (67/129): SOD,2001-01-01,2012-12-31,XYZF,67.400,26.600,Finnish Academy of Science,Sodankyla
+Extracted info from ./data/TAM/PT1M/tam20010101vmin.min.gz (68/129): TAM,2001-01-01,2012-12-31,HdZF,48.100,2.200,C.R.A.A.G.,Tamanrasset
+Extracted info from ./data/STJ/PT1M/stj20010101vmin.min.gz (69/129): STJ,2001-01-01,2012-12-31,XYZF,47.600,307.300,Geological Survey of Canada (GSC),St John's
+Extracted info from ./data/TAN/PT1M/tan20010103vmin.min.gz (70/129): TAN,2001-01-03,2008-12-21,HDZF,-18.900,47.300,University of Antananarivo,Antananarivo
+Extracted info from ./data/THY/PT1M/thy20010101vmin.min.gz (71/129): THY,2001-01-01,2012-12-31,HdZF,47.000,17.800,Hungarian Geological Survey,Tihany
+Extracted info from ./data/THL/PT1M/thl20010101vmin.min.gz (72/129): THL,2001-01-01,2012-05-28,XYZF,77.500,290.700,Danish Meteorological Institute (DMI),Thule
+Extracted info from ./data/TRW/PT1M/trw20010101vmin.min.gz (73/129): TRW,2001-01-01,2012-12-31,HDZF,-43.300,294.700,Facultad de Ciencias Astronomicas y Geofisica,Trelew
+Extracted info from ./data/TUC/PT1M/tuc20010101vmin.min.gz (74/129): TUC,2001-01-01,2012-12-31,HDZF,32.200,249.200,United States Geological Survey (USGS),Tucson
+Extracted info from ./data/VIC/PT1M/vic20010101vmin.min.gz (75/129): VIC,2001-01-01,2012-12-31,XYZF,48.500,236.600,Geological Survey of Canada (GSC),Victoria
+Extracted info from ./data/VSS/PT1M/vss20010101vmin.min.gz (76/129): VSS,2001-01-01,2011-05-31,HDZF,112.400,316.400,Observatorio Nacional,Vassouras
+Extracted info from ./data/WNG/PT1M/wng20010101vmin.min.gz (77/129): WNG,2001-01-01,2012-12-31,XYZF,53.800,9.100,GeoForschungsZentrum Potsdam,Wingst
+Extracted info from ./data/YKC/PT1M/ykc20010101vmin.min.gz (78/129): YKC,2001-01-01,2012-12-31,XYZF,62.400,245.500,Geological Survey of Canada (GSC),Yellowknife
+Extracted info from ./data/ABG/PT1M/abg20030101vmin.min.gz (79/129): ABG,2002-04-01,2012-12-31,HDZF,18.600,72.900,Indian Institute of Geomagnetism,Alibag
+Extracted info from ./data/BMT/PT1M/bmt20050101vmin.min.gz (80/129): BMT,2002-04-01,2012-12-31,HDZF,40.300,116.200,Chinese Academy of Sciences,Beijing Ming Tombs
+Extracted info from ./data/EBR/PT1M/ebr20030101vmin.min.gz (81/129): EBR,2002-05-13,2012-12-31,XYZF,47.100,.500,Observatori de l'Ebre,Ebro
+Extracted info from ./data/KAK/PT1M/kak20050101vmin.min.gz (82/129): KAK,2002-04-01,2012-09-06,HDZF,36.200,140.200,Japan Meterological Agency,Kakioka
+Extracted info from ./data/GLN/PT1M/gln20050101vmin.min.gz (83/129): GLN,2002-09-01,2006-04-07,XYZF,49.600,262.900,Geological Survey of Canada (GSC),Glenlea
+Extracted info from ./data/KNY/PT1M/kny20050102vmin.min.gz (84/129): KNY,2002-08-30,2012-09-06,HDZF,31.400,130.900,Japan Meterological Agency,Kanoya
+Extracted info from ./data/LZH/PT1M/lzh20050101vmin.min.gz (85/129): LZH,2002-01-06,2012-09-30,HDZF,30.200,103.800,Lanzhou Institute of Seismology,Lanzhou
+Extracted info from ./data/MCQ/PT1M/mcq20050101vmin.min.gz (86/129): CQ,2002-05-29,2012-12-31,XYZF,-54.500,158.900,Geoscience Australia,MCQuarie Island
+Extracted info from ./data/MMB/PT1M/mmb20050101vmin.min.gz (87/129): MB,2002-04-01,2012-09-06,HDZF,43.900,144.200,Japan Meterological Agency,Memambetsu
+Extracted info from ./data/SUA/PT1M/sua20050101vmin.min.gz (88/129): SUA,2002-04-22,2012-12-31,XYZF,44.700,26.300,Geological Survey of Romania,Surlari
+Extracted info from ./data/VAL/PT1M/val20050101vmin.min.gz (89/129): VAL,2002-02-01,2012-12-31,HDZF,51.900,349.800,The Irish Meteorological Service,Valentia
+Extracted info from ./data/ASC/PT1M/asc20031227vmin.min.gz (90/129): ASC,2003-01-01,2012-12-31,HDZF,-8.000,345.600,British Geological Survey (BGS),Ascension Island
+Extracted info from ./data/PST/PT1M/pst20050907vmin.min.gz (91/129): PST,2003-06-01,2012-12-31,HDZF,-51.800,302.100,British Geological Survey (BGS),Port Stanley
+Extracted info from ./data/DOU/PT1M/dou20030601vmin.min.gz (92/129): DOU,2003-06-01,2012-12-31,HDZF,50.100,4.500,Royal Meterological Institute of Belgium,Dourbes
+Extracted info from ./data/HRN/PT1M/hrn20050101vmin.min.gz (93/129): HRN,2003-01-01,2012-12-31,XYZF,77.000,15.500,Polish Academy of Sciences,Hornsund
+Extracted info from ./data/HUA/PT1M/hua20030601vmin.min.gz (94/129): HUA,2003-06-01,2012-12-31,HDZF,-12.000,284.600,Instituto Geofisico del Peru,Huancayo
+Extracted info from ./data/BOX/PT1M/box20050101vmin.min.gz (95/129): BOX,2004-10-17,2012-12-31,HDZF,58.300,38.900,,
+Extracted info from ./data/TEO/PT1M/teo20050101vmin.min.gz (96/129): TEO,2003-06-01,2011-07-27,HDZF,19.800,260.800,Instituto Geofisica UNAM,Teoloyucan
+Extracted info from ./data/UPS/PT1M/ups20050101vmin.min.gz (97/129): UPS,2004-07-23,2012-12-31,XYZF,59.900,17.400,Geological Survey of Sweden,Uppsala
+Extracted info from ./data/NVS/PT1M/nvs20050101vmin.min.gz (98/129): NVS,2005-01-01,2012-12-31,XYZF,54.800,83.200,Russian Academy of Sciences (RAS),Novosibirsk
+Extracted info from ./data/AAA/PT1M/aaa20060101vmin.min.gz (99/129): AAA,2006-01-01,2012-12-31,XYZF,43.200,76.900,Institute of the Ionosphere Republic of Kazak,Alma Ata
+Extracted info from ./data/TSU/PT1M/tsu20050101vmin.min.gz (100/129): TSU,2005-01-01,2012-12-19,HDZF,-19.200,17.600,National Research Foundation,Tsumeb
+Extracted info from ./data/BFO/PT1M/bfo20060824vmin.min.gz (101/129): BFO,2006-08-24,2012-12-31,XYZF,48.300,8.300,Black Forest Observatory (BFO),Black Forest
+Extracted info from ./data/GCK/PT1M/gck20060101vmin.min.gz (102/129): GCK,2006-01-01,2012-12-30,XYZF,44.600,20.800,Geomagnetic Institute Yugoslavia,Grocka
+Extracted info from ./data/LVV/PT1M/lvv20060101vmin.min.gz (103/129): LVV,2006-01-01,2012-12-31,XYZF,49.900,23.800,National Academy of Sciences of Ukraine (IGF ,Lviv
+Extracted info from ./data/LRM/PT1M/lrm20060101vmin.min.gz (104/129): LRM,2006-01-01,2012-12-31,XYZF,-22.200,114.100,Geoscience Australia,Learmonth
+Extracted info from ./data/MAB/PT1M/mab20060101vmin.min.gz (105/129): AB,2006-01-01,2012-12-31,HDZF,50.300,5.700,Royal Meterological Institute of Belgium,Manhay
+Extracted info from ./data/SFS/PT1M/sfs20060119vmin.min.gz (106/129): SFS,2006-01-19,2012-12-31,HDZF,36.700,354.100,Real Observatorio de la Armada(ROA),San Fernando
+Extracted info from ./data/MAW/PT1M/maw20060101vmin.min.gz (107/129): AW,2006-01-01,2012-12-31,XYZF,-67.600,62.900,Geoscience Australia,Mawson
+Extracted info from ./data/IZN/PT1M/izn20071119vmin.min.gz (108/129): IZN,2007-11-19,2012-12-31,HDZF,40.500,29.700,Bogazici University,Iznik
+Extracted info from ./data/DMC/PT1M/dmc20090101vmin.min.gz (109/129): DMC,2009-01-01,2012-12-31,XYZF,-75.250,124.167,EOST,DomeC; Concordia, Antarctica
+Extracted info from ./data/SHU/PT1M/shu20060802vmin.min.gz (110/129): SHU,2006-08-02,2012-12-31,HDZF,55.400,199.500,United States Geological Survey (USGS),Shumagin
+Extracted info from ./data/PAG/PT1M/pag20071122vmin.min.gz (111/129): PAG,2007-11-22,2012-12-31,XYZF,42.500,24.200,Bulgarian Academy of Science,Panagjurishte
+Extracted info from ./data/HYB/PT1M/hyb20090922vmin.min.gz (112/129): HYB,2009-09-22,2012-12-31,XYZF,17.400,78.600,National Geophysical Research Institute,Hyderabad
+Extracted info from ./data/LYC/PT1M/lyc20090922vmin.min.gz (113/129): LYC,2009-09-22,2012-12-31,XYZF,64.600,18.700,Geological Survey of Sweden (SGU),Lycksele
+Extracted info from ./data/IPM/PT1M/ipm20101020vmin.min.gz (114/129): IPM,2010-10-20,2012-12-31,XYZF,-27.200,250.600,Institut de Physique du Globe de Paris (IPGP),Isla de Pascua Mataveri-Easter Island
+Extracted info from ./data/ALE/PT1M/ale20100207vmin.min.gz (115/129): ALE,2010-02-07,2011-12-31,XYZF,82.497,297.647,Geological Survey of Canada (GSC),Alert
+Extracted info from ./data/KMH/PT1M/kmh20100101vmin.min.gz (116/129): KMH,2010-01-01,2012-12-31,HDZF,26.400,18.100,National Research Foundation,Keetmanshoop
+Extracted info from ./data/MGD/PT1M/mgd20100225vmin.min.gz (117/129): GD,2010-02-25,2012-12-31,XYZF,60.900,150.700,IKIR,Magadan
+Extracted info from ./data/PEG/PT1M/peg20100305vmin.min.gz (118/129): PEG,2010-03-05,2012-12-31,XYZF,38.100,23.900,Institute of Geology and Mineral Exploration;,Pedeli
+Extracted info from ./data/ARS/PT1M/ars20110715vmin.min.gz (119/129): ARS,2011-07-15,2012-12-31,HDZF,59.400,58.600,Institute of Geophysics; Russia,Arti
+Extracted info from ./data/CNH/PT1M/cnh20110101vmin.min.gz (120/129): CNH,2011-01-01,2012-12-31,DHZF,44.100,124.900,Earthquake Administration of Jilin Province,Changchun
+Extracted info from ./data/KIV/PT1M/kiv20110101vmin.min.gz (121/129): KIV,2011-01-01,2012-12-31,XYZF,50.700,30.300,Russian Academy of Sciences,Kiev Dymer
+Extracted info from ./data/CSY/PT1M/csy20110715vmin.min.gz (122/129): CSY,2011-07-15,2012-12-31,XYZF,-66.300,110.500,Geoscience Australia,Casey
+Extracted info from ./data/TDC/PT1M/tdc20111002vmin.min.gz (123/129): TDC,2011-10-02,2012-05-31,XYZF,-37.250,347.500,-----}���[{�      ��{�   ��z�,Tristan Da Cunha
+Extracted info from ./data/WMQ/PT1M/wmq20110101vmin.min.gz (124/129): WMQ,2011-01-01,2012-07-31,HDZF,43.800,87.700,Xinjiang Earthquake Administration,Urumqi
+Extracted info from ./data/YAK/PT1M/yak20110101vmin.min.gz (125/129): YAK,2011-01-01,2012-12-31,XYZF,62.000,129.700,Institute of Cosmophysical Research and Aeron,Yakutsk
+Extracted info from ./data/DED/PT1M/ded20120726vmin.min.gz (126/129): DED,2012-07-26,2012-12-31,HDZF,70.356,211.207,United States Geological Survey (USGS),Deadhorse
+Extracted info from ./data/PIL/PT1M/pil20120921vmin.min.gz (127/129): PIL,2012-09-21,2012-12-31,HDZF,-31.700,296.100,INTERMAGNET Edinburgh GIN,Pilar
+Extracted info from ./data/DLT/PT1M/ded20120726vmin.min.gz (128/129): DLT,2012-10-02,2012-12-31,HDZF,70.356,211.207,United States Geological Survey (USGS),Deadhorse
+Extracted info from ./data/GNG/PT1M/dlt20121002vmin.min.gz (129/129): GNG,2012-10-08,2012-12-31,XYZF,11.945,108.483,VNCST (Vietnam) / IPGP (France),Da Lat
 Wrote INTERMAGNET_PT1M-tsml.xml
 make[2]: Leaving directory `/home/weigel/git/tsds2/tsdscc/catalogs/intermagnet'
