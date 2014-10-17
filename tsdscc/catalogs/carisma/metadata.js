@@ -1,20 +1,14 @@
-var cadence = process.argv[2] || "PT1M";
+var cadence = "PT1S";
 
 var fs = require('fs');
-//var zlib = require('zlib');
 var xml2js  = require('xml2js');
 
-dirs = fs.readdirSync("data");
+files = fs.readdirSync("./data/www.carisma.ca/FGM/");
 
-var cadence = "PT1S";
-var list = [];
-files = fs.readdirSync("data/");
-
-//console.log(files)
-
+console.log("# Files: " + files.length);
 var INFO = {};
 for (var i = 0;i<files.length;i++) {
-	if (files[i].length == 16) {
+	if (files[i].length == 19) { // Some files have unusual names
 		FLC = files[i].substring(8,12);
 		if (!INFO[FLC]) {
 			INFO[FLC] = {};
@@ -23,11 +17,10 @@ for (var i = 0;i<files.length;i++) {
 			INFO[FLC]["start"] = files[i].substring(0,8);
 		}
 		INFO[FLC]["stop"] = files[i].substring(0,8);
-	
-
 	}
 }
-//http://www.carisma.ca/station-information
+
+// http://www.carisma.ca/station-information
 data = fs.readFileSync("coordinates.txt").toString().split("\n");
 for (var i=0;i<data.length;i++) {
 	tmp = data[i].split(/\t/);
@@ -77,8 +70,8 @@ function createtsml (INFO) {
 	for (var key in INFO) {
 		i = i+1;
 		var MAG    = key;
-		var Start  = INFO[key]["start"];
-		var End    = INFO[key]["stop"];
+		var Start  = INFO[key]["start"].substring(0,4)+"-"+INFO[key]["start"].substring(4,6)+"-"+INFO[key]["start"].substring(6,8);
+		var End    = INFO[key]["stop"].substring(0,4)+"-"+INFO[key]["stop"].substring(4,6)+"-"+INFO[key]["stop"].substring(6,8);
 		var CSYS   = "XYZ";
 		var LAT    = INFO[key]["lat"];
 		var LON    = INFO[key]["lon"];
@@ -92,7 +85,7 @@ function createtsml (INFO) {
 		root.catalog["dataset"][i]["$"]["label"] = "Data source institute: " + SOURCE;
 		root.catalog["dataset"][i]["$"]["timecolumns"] = "1";
 		root.catalog["dataset"][i]["$"]["timeformat"] = "$Y$m$d$H$M$S";
-		root.catalog["dataset"][i]["$"]["urltemplate"] = "mirror:http://www.carisma.ca/"+MAG+"/FGM/"+cadence+"/"+"$Y$m$d"+MAG+".F01";
+		root.catalog["dataset"][i]["$"]["urltemplate"] = "mirror:http://www.carisma.ca/FGM/$Y$m$d"+MAG+".F01.gz";
 		root.catalog["dataset"][i]["$"]["lineregex"] = "^[0-9]";
 
 		root.catalog["dataset"][i]["documentation"] = [];
@@ -129,13 +122,13 @@ function createtsml (INFO) {
 			root.catalog["dataset"][i]["variables"]["variable"][j]["$"]["type"] = "scalar";
 			root.catalog["dataset"][i]["variables"]["variable"][j]["$"]["fillvalue"] = "99999.00";
 			root.catalog["dataset"][i]["variables"]["variable"][j]["$"]["rendering"] = "%.3f";
-			root.catalog["dataset"][i]["variables"]["variable"][j]["$"]["columns"] = ""+(j+1);
+			root.catalog["dataset"][i]["variables"]["variable"][j]["$"]["columns"] = ""+(j+2);
 		}
 
 	}
 	// Convert JSON object to XML.
 	var builder = new xml2js.Builder();
 	var xml = builder.buildObject(root);
-	fs.writeFileSync('CARISMA_'+cadence+"-tsml.xml",xml);
-	console.log("Wrote CARISMA_"+cadence+"-tsml.xml");
+	fs.writeFileSync('CARISMA_FGM_'+cadence+"-tsml.xml",xml);
+	console.log("Wrote CARISMA_FGM_"+cadence+"-tsml.xml");
 }

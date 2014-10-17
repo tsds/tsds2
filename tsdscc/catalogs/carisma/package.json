@@ -4,6 +4,7 @@
 	"dependencies": {
 		"xml2js"   : "*",
 		"request"  : "*",
+		"jsdom"    : "*",
 		"express"  : "3.1.0"
 	}
 }

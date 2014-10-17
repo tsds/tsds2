@@ -1,17 +1,17 @@
-var cadence = process.argv[2] || "PT1M";
+var mirrordir = "./data/space.fmi.fi/";
 
 var fs     = require('fs');
 var xml2js = require('xml2js');
 
-dirs = fs.readdirSync("data");
+dirs = fs.readdirSync(mirrordir);
 
 var CADENCES = ["PT10S","PT20S","PT1M"];
 for (var k = 0;k < 3;k++) {
 	var cadence = CADENCES[k]
 	var list = [];
 	for (var i = 0;i<dirs.length;i++) {
-		if (fs.existsSync("data/"+dirs[i]+"/"+cadence)) {
-			files = fs.readdirSync("data/"+dirs[i]+"/"+cadence);
+		if (fs.existsSync(mirrordir+dirs[i]+"/"+cadence)) {
+			files = fs.readdirSync(mirrordir+dirs[i]+"/"+cadence);
 			list[i] = [dirs[i],files[0].substring(0,8),files[files.length-1].substring(0,8),'XYZ'];
 		}
 	}
@@ -80,8 +80,8 @@ function createtsml (list) {
 	for (var i = 0;i < list.length;i++) {
 
 		var MAG    = list[i][0];
-		var Start  = list[i][1];
-		var End    = list[i][2];
+		var Start  = list[i][1].substring(0,4) + "-" + list[i][1].substring(4,6) + "-" + list[i][1].substring(6,8);
+		var End    = list[i][2].substring(0,4) + "-" + list[i][2].substring(4,6) + "-" + list[i][2].substring(6,8);
 		var CSYS   = list[i][3];
 		var LAT    = INFO[MAG][2];
 		var LON    = INFO[MAG][3];
@@ -95,7 +95,7 @@ function createtsml (list) {
 		root.catalog["dataset"][i]["$"]["label"] = "Data source institute: " + SOURCE;
 		root.catalog["dataset"][i]["$"]["timecolumns"] = "1,2,3,4,5,6";
 		root.catalog["dataset"][i]["$"]["timeformat"] = "$Y $m $d $H $M $S";
-		root.catalog["dataset"][i]["$"]["urltemplate"] = "mirror:http://space.fmi.fi/"+MAG+"/"+cadence+"/"+"$Y$m$d"+MAG+".col2";
+		root.catalog["dataset"][i]["$"]["urltemplate"] = "mirror:http://space.fmi.fi/"+MAG+"/"+cadence+"/"+"$Y$m$d"+MAG+".col2.gz";
 		root.catalog["dataset"][i]["$"]["lineregex"] = "^[0-9]";
 
 		root.catalog["dataset"][i]["documentation"] = [];

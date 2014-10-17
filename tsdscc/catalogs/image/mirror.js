@@ -1,9 +1,10 @@
 var sampling  = process.argv[2] || "orig_int";
 var timerange = "2014-10-01/2014-10-10"; // 1982-10-01 is earliest.
 
-var filestr   = "image"; // Prefix in name of temporary file on server
-var mirrordir = "./space.fmi.fi.processed/";
-var url       = "http://space.fmi.fi/cgi-bin/imagecgi/image-data.cgi";
+var filestr     = "image"; // Prefix in name of temporary file on server
+var processed   = "./data/space.fmi.fi/space.fmi.fi/";
+var unprocessed = "./data/space.fmi.fi/unprocessed/";
+var url         = "http://space.fmi.fi/cgi-bin/imagecgi/image-data.cgi";
 
 var request = require('request');
 var fs      = require('fs');
@@ -52,13 +53,17 @@ function get(i) {
 			console.log("---- Problem with request for "+files[i].replace(".col2.gz",""));
 			return;
 		}
-		var r = request
-					.get("http://space.fmi.fi/image/plots/"+filestr+files[i])
-					.pipe(fs.createWriteStream("space.fmi.fi/"+filestr+files[i]));
-			r.on("finish",function () {
-				console.log("Wrote space.fmi.fi/"+filestr+files[i])
-				splitfile("space.fmi.fi/"+filestr+files[i]);			
-			})
+		if (!fs.existsSync(unprocessed+filestr+files[i])) {
+			var r = request
+						.get("http://space.fmi.fi/image/plots/"+filestr+files[i])
+						.pipe(fs.createWriteStream(unprocessed+filestr+files[i]));
+				r.on("finish",function () {
+					console.log("Wrote " + unprocessed + filestr+files[i])
+					splitfile(unprocessed+filestr+files[i]);			
+				})
+		} else {
+			console.log("++++ File exists: "+files[i])
+		}
 	});
 
 }
@@ -92,9 +97,14 @@ function splitfile(fname) {
 				}
 				for (var j = 0;j<nm/3;j++) {
 					var TLC = tmp[6+3*j].replace(/_[A-Z]/,"");
-					var fname2 = mirrordir+TLC+"/" + cadence + fname.replace("space.fmi.fi","").replace("00.col2.gz","").replace(filestr,"") + TLC + ".col2";
-					if (!fs.existsSync(mirrordir+TLC+"/" + cadence)) {
-						mkdirp(mirrordir+TLC+"/" + cadence);
+					var fname2 = processed+TLC+"/" + cadence + 
+									fname
+										.replace(unprocessed,"")
+										.replace("00.col2.gz","")
+										.replace(filestr,"") 
+									+ TLC + ".col2";
+					if (!fs.existsSync(processed+TLC+"/" + cadence)) {
+						mkdirp(processed+TLC+"/" + cadence);
 					}
 					var data = "";
 					for (var i = 2;i < result.length;i++) {
