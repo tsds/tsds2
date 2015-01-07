@@ -21,7 +21,7 @@ var listi = []; // List information
 
 // Find first magnetometer file
 for (var i = 0;i<lista.length;i++) {
-	dir = "./data/"+lista[i].split(" ")[0]+"/"+cadence;
+	dir = "./data/www.intermagnet.org/"+lista[i].split(" ")[0]+"/"+cadence;
 	if (fs.existsSync(dir)) {
 		files = fs.readdirSync(dir);
 		for (var k = 0;k<files.length;k++) {
@@ -131,7 +131,7 @@ function createtsml (list) {
 		root.catalog["dataset"][i]["$"]["label"] = "Data source institute: " + SOURCE;
 		root.catalog["dataset"][i]["$"]["timecolumns"] = "1,2";
 		root.catalog["dataset"][i]["$"]["timeformat"] = "$Y-$m-$d,$H:$M:$S.$(millis)";
-		root.catalog["dataset"][i]["$"]["urltemplate"] = "mirror:http://www.intermagnet.org/"+MAG+"/"+cadence+"/"+mag+"$Y$m$dvmin.min.gz";
+		root.catalog["dataset"][i]["$"]["urltemplate"] = "mirror:http://www.intermagnet.org/"+MAG+"/"+cadence+"/"+mag+"$Y$m$dv"+cadencestr2+"."+cadencestr2+".gz";
 		root.catalog["dataset"][i]["$"]["lineregex"] = "^[0-9]";
 
 		root.catalog["dataset"][i]["documentation"] = [];
