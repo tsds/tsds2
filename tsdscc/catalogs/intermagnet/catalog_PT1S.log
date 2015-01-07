@@ -12,80 +12,23 @@
 - Requesting http://www.intermagnet.org/apps/download/php/ajax/search_catalogue.php?rate=second&type=variation&format=IAGA2002&from_year=2010&from_month=01&from_day=01&to_year=2010&to_month=12&to_day=31&region=America,Asia,Europe,Pacific,Africa&latid=NH,NM,E,SM,SH&_=1382398875837
 - Requesting http://www.intermagnet.org/apps/download/php/ajax/search_catalogue.php?rate=second&type=variation&format=IAGA2002&from_year=2011&from_month=01&from_day=01&to_year=2011&to_month=12&to_day=31&region=America,Asia,Europe,Pacific,Africa&latid=NH,NM,E,SM,SH&_=1382398875837
 - Requesting http://www.intermagnet.org/apps/download/php/ajax/search_catalogue.php?rate=second&type=variation&format=IAGA2002&from_year=2012&from_month=01&from_day=01&to_year=2012&to_month=12&to_day=31&region=America,Asia,Europe,Pacific,Africa&latid=NH,NM,E,SM,SH&_=1382398875837
-+ Finished request for http://www.intermagnet.org/apps/download/php/ajax/search_catalogue.php?rate=second&type=variation&format=IAGA2002&from_year=2001&from_month=01&from_day=01&to_year=2001&to_month=12&to_day=31&region=America,Asia,Europe,Pacific,Africa&latid=NH,NM,E,SM,SH&_=1382398875837
+- Requesting http://www.intermagnet.org/apps/download/php/ajax/search_catalogue.php?rate=second&type=variation&format=IAGA2002&from_year=2013&from_month=01&from_day=01&to_year=2013&to_month=12&to_day=31&region=America,Asia,Europe,Pacific,Africa&latid=NH,NM,E,SM,SH&_=1382398875837
+- Requesting http://www.intermagnet.org/apps/download/php/ajax/search_catalogue.php?rate=second&type=variation&format=IAGA2002&from_year=2014&from_month=01&from_day=01&to_year=2014&to_month=12&to_day=31&region=America,Asia,Europe,Pacific,Africa&latid=NH,NM,E,SM,SH&_=1382398875837
+- Requesting http://www.intermagnet.org/apps/download/php/ajax/search_catalogue.php?rate=second&type=variation&format=IAGA2002&from_year=2015&from_month=01&from_day=01&to_year=2015&to_month=12&to_day=31&region=America,Asia,Europe,Pacific,Africa&latid=NH,NM,E,SM,SH&_=1382398875837
 + Finished request for http://www.intermagnet.org/apps/download/php/ajax/search_catalogue.php?rate=second&type=variation&format=IAGA2002&from_year=2000&from_month=01&from_day=01&to_year=2000&to_month=12&to_day=31&region=America,Asia,Europe,Pacific,Africa&latid=NH,NM,E,SM,SH&_=1382398875837
-+ Finished request for http://www.intermagnet.org/apps/download/php/ajax/search_catalogue.php?rate=second&type=variation&format=IAGA2002&from_year=2002&from_month=01&from_day=01&to_year=2002&to_month=12&to_day=31&region=America,Asia,Europe,Pacific,Africa&latid=NH,NM,E,SM,SH&_=1382398875837
 + Finished request for http://www.intermagnet.org/apps/download/php/ajax/search_catalogue.php?rate=second&type=variation&format=IAGA2002&from_year=1999&from_month=01&from_day=01&to_year=1999&to_month=12&to_day=31&region=America,Asia,Europe,Pacific,Africa&latid=NH,NM,E,SM,SH&_=1382398875837
++ Finished request for http://www.intermagnet.org/apps/download/php/ajax/search_catalogue.php?rate=second&type=variation&format=IAGA2002&from_year=2002&from_month=01&from_day=01&to_year=2002&to_month=12&to_day=31&region=America,Asia,Europe,Pacific,Africa&latid=NH,NM,E,SM,SH&_=1382398875837
++ Finished request for http://www.intermagnet.org/apps/download/php/ajax/search_catalogue.php?rate=second&type=variation&format=IAGA2002&from_year=2001&from_month=01&from_day=01&to_year=2001&to_month=12&to_day=31&region=America,Asia,Europe,Pacific,Africa&latid=NH,NM,E,SM,SH&_=1382398875837
 + Finished request for http://www.intermagnet.org/apps/download/php/ajax/search_catalogue.php?rate=second&type=variation&format=IAGA2002&from_year=2003&from_month=01&from_day=01&to_year=2003&to_month=12&to_day=31&region=America,Asia,Europe,Pacific,Africa&latid=NH,NM,E,SM,SH&_=1382398875837
 + Finished request for http://www.intermagnet.org/apps/download/php/ajax/search_catalogue.php?rate=second&type=variation&format=IAGA2002&from_year=2004&from_month=01&from_day=01&to_year=2004&to_month=12&to_day=31&region=America,Asia,Europe,Pacific,Africa&latid=NH,NM,E,SM,SH&_=1382398875837
 + Finished request for http://www.intermagnet.org/apps/download/php/ajax/search_catalogue.php?rate=second&type=variation&format=IAGA2002&from_year=2005&from_month=01&from_day=01&to_year=2005&to_month=12&to_day=31&region=America,Asia,Europe,Pacific,Africa&latid=NH,NM,E,SM,SH&_=1382398875837
-+ Finished request for http://www.intermagnet.org/apps/download/php/ajax/search_catalogue.php?rate=second&type=variation&format=IAGA2002&from_year=2007&from_month=01&from_day=01&to_year=2007&to_month=12&to_day=31&region=America,Asia,Europe,Pacific,Africa&latid=NH,NM,E,SM,SH&_=1382398875837
 + Finished request for http://www.intermagnet.org/apps/download/php/ajax/search_catalogue.php?rate=second&type=variation&format=IAGA2002&from_year=2006&from_month=01&from_day=01&to_year=2006&to_month=12&to_day=31&region=America,Asia,Europe,Pacific,Africa&latid=NH,NM,E,SM,SH&_=1382398875837
 + Finished request for http://www.intermagnet.org/apps/download/php/ajax/search_catalogue.php?rate=second&type=variation&format=IAGA2002&from_year=2008&from_month=01&from_day=01&to_year=2008&to_month=12&to_day=31&region=America,Asia,Europe,Pacific,Africa&latid=NH,NM,E,SM,SH&_=1382398875837
++ Finished request for http://www.intermagnet.org/apps/download/php/ajax/search_catalogue.php?rate=second&type=variation&format=IAGA2002&from_year=2007&from_month=01&from_day=01&to_year=2007&to_month=12&to_day=31&region=America,Asia,Europe,Pacific,Africa&latid=NH,NM,E,SM,SH&_=1382398875837
 + Finished request for http://www.intermagnet.org/apps/download/php/ajax/search_catalogue.php?rate=second&type=variation&format=IAGA2002&from_year=2009&from_month=01&from_day=01&to_year=2009&to_month=12&to_day=31&region=America,Asia,Europe,Pacific,Africa&latid=NH,NM,E,SM,SH&_=1382398875837
-+ Finished request for http://www.intermagnet.org/apps/download/php/ajax/search_catalogue.php?rate=second&type=variation&format=IAGA2002&from_year=2011&from_month=01&from_day=01&to_year=2011&to_month=12&to_day=31&region=America,Asia,Europe,Pacific,Africa&latid=NH,NM,E,SM,SH&_=1382398875837
 + Finished request for http://www.intermagnet.org/apps/download/php/ajax/search_catalogue.php?rate=second&type=variation&format=IAGA2002&from_year=2010&from_month=01&from_day=01&to_year=2010&to_month=12&to_day=31&region=America,Asia,Europe,Pacific,Africa&latid=NH,NM,E,SM,SH&_=1382398875837
++ Finished request for http://www.intermagnet.org/apps/download/php/ajax/search_catalogue.php?rate=second&type=variation&format=IAGA2002&from_year=2015&from_month=01&from_day=01&to_year=2015&to_month=12&to_day=31&region=America,Asia,Europe,Pacific,Africa&latid=NH,NM,E,SM,SH&_=1382398875837
++ Finished request for http://www.intermagnet.org/apps/download/php/ajax/search_catalogue.php?rate=second&type=variation&format=IAGA2002&from_year=2013&from_month=01&from_day=01&to_year=2013&to_month=12&to_day=31&region=America,Asia,Europe,Pacific,Africa&latid=NH,NM,E,SM,SH&_=1382398875837
 + Finished request for http://www.intermagnet.org/apps/download/php/ajax/search_catalogue.php?rate=second&type=variation&format=IAGA2002&from_year=2012&from_month=01&from_day=01&to_year=2012&to_month=12&to_day=31&region=America,Asia,Europe,Pacific,Africa&latid=NH,NM,E,SM,SH&_=1382398875837
-Station Start Stop
-DMC 2009-01-03 2012-12-31
-AAE 2011-01-01 2012-12-31
-AMS 2011-01-01 2012-12-31
-API 2011-11-16 2012-12-12
-ASP 2011-01-01 2012-12-31
-BLC 2011-07-20 2012-12-31
-BOU 2011-06-13 2012-12-31
-BRW 2011-06-13 2012-12-31
-BSL 2011-06-13 2012-12-31
-CBB 2011-07-20 2012-12-31
-CLF 2011-01-01 2012-12-31
-CMO 2011-06-13 2012-12-31
-CNB 2011-01-01 2012-12-31
-CSY 2011-07-15 2012-12-31
-CTA 2011-01-01 2012-12-31
-CZT 2011-01-01 2012-12-31
-DRV 2011-01-01 2012-12-31
-EYR 2011-09-13 2012-12-31
-FCC 2011-07-20 2012-12-31
-FRD 2011-06-13 2012-12-31
-FRN 2011-06-13 2012-12-31
-GNA 2011-01-01 2012-12-31
-GUA 2011-06-13 2012-12-31
-HON 2011-06-13 2012-12-31
-IPM 2011-01-01 2012-12-31
-IQA 2011-07-20 2012-12-30
-KDU 2011-01-01 2012-12-31
-LRM 2011-01-01 2012-12-31
-LZH 2011-01-01 2012-08-24
-MAW 2011-01-01 2012-12-31
-MBO 2011-01-01 2012-12-31
-MCQ 2011-01-01 2012-12-31
-MEA 2011-07-20 2012-12-31
-NEW 2011-06-13 2012-12-31
-PAF 2011-01-01 2012-12-31
-PHU 2011-03-21 2012-12-31
-PPT 2011-01-01 2012-12-31
-RES 2011-07-20 2012-12-31
-SBA 2011-07-12 2012-12-31
-SHU 2011-06-13 2012-12-31
-SIT 2011-06-13 2012-12-31
-SJG 2011-06-13 2012-12-31
-STJ 2011-07-20 2012-12-31
-TAM 2011-01-01 2012-12-31
-TUC 2011-06-13 2012-12-31
-UPS 2011-05-27 2012-12-31
-VIC 2011-07-20 2012-12-31
-YKC 2011-07-20 2012-12-31
-ABG 2010-11-11 2010-11-23
-BFE 2010-11-11 2010-11-24
-BMT 2010-11-11 2010-11-24
-GDH 2010-11-11 2010-11-24
-KAK 2010-11-11 2010-11-25
-KNY 2010-11-11 2010-11-25
-MMB 2010-11-11 2010-11-25
-NAQ 2010-11-11 2010-11-24
-THL 2010-11-11 2010-11-24
-DED 2012-07-26 2012-12-31
-DLT 2012-10-02 2012-12-30
-GNG 2012-10-08 2012-12-31
-KOU 2012-03-27 2012-12-31
-Wrote catalog_PT1S.txt
++ Finished request for http://www.intermagnet.org/apps/download/php/ajax/search_catalogue.php?rate=second&type=variation&format=IAGA2002&from_year=2014&from_month=01&from_day=01&to_year=2014&to_month=12&to_day=31&region=America,Asia,Europe,Pacific,Africa&latid=NH,NM,E,SM,SH&_=1382398875837
++ Finished request for http://www.intermagnet.org/apps/download/php/ajax/search_catalogue.php?rate=second&type=variation&format=IAGA2002&from_year=2011&from_month=01&from_day=01&to_year=2011&to_month=12&to_day=31&region=America,Asia,Europe,Pacific,Africa&latid=NH,NM,E,SM,SH&_=1382398875837
