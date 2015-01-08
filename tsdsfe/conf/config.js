@@ -2,20 +2,23 @@ exports.config = function config() {
 
 	var out = {};
 
+	// Port to run TSDSFE on.
+	out["PORT"] = 8004;
+
 	// Location of back-end data DataCache program
 	out["DC"] = "http://localhost:7999/sync/";
 
-	// How long to wait for DataCache to return a response.
+	// How long to wait for DataCache to return a response in milliseconds.
 	out["TIMEOUT"] = 1000*60*15;
 
 	// Location of Autoplot Servlet that creates preview plots
-	out["AUTOPLOT"] = "http://autoplot.org/plot/SimpleServlet";
+	out["AUTOPLOT"] = "http://localhost:8082/AutoplotServlet/SimpleServlet";
 
-	// Autoplot script that create preview plot
-	out["JYDS"] = "http://autoplot.org/git/jyds/tsdsfe.jyds";
+	out["VIVIZ"] = "http://localhost:8005/";
 
-	// Port
-	out["PORT"] = 8004;
+	// Autoplot script that creates preview plot
+	//out["JYDS"] = "http://localost:"+out["PORT"]+"/scripts/tsdsfe.jyds";
+	out["JYDS"] = "http://localhost:"+out["PORT"]+"/scripts/tsdsfe.jyds";
 
 	// Location to access data that will appear in MATLAB/IDL/Python scripts.
 	// Typical Apache setting to serve data from http://server/tsdsfe:
@@ -53,7 +56,7 @@ exports.config = function config() {
 
 	// urltemplate.replace("mirror:http://",out["MIRROR"]) is executed before
 	// DataCache is called.
-	out["MIRROR"] = "http://localhost:8080/";
+	out["MIRROR"] = "http://mag.gmu.edu/mirror/";
 
 	return out;
 }

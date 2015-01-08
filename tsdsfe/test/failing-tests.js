@@ -1,3 +1,71 @@
+i = i+1;
+tests[i] = {};
+tests[i].url = "catalog=SWPC/AK&dataset=AK&parameters=PlanetaryK&start=-P10D&stop=-P2D";
+tests[i].test = function (data) {
+	var len = data.toString().split("\n").length;
+	console.log("File should more than 57 newlines.  Found: " + len );
+	if (len > 57) {return true;} else {return false}
+};
+tests[i].note = 'This test sometimes fails at end of month because files will contain no data or will not be available.'
+
+i = i+1;
+tests[i] = {};
+tests[i].url = "catalog=SWPC/AK;SWPC/AK/2DayFile&dataset=AK;AK&parameters=PlanetaryK;PlanetaryK&start=-P10D;-P2D&stop=-P2D;P1D";
+tests[i].test = function (data) {
+	var len = data.toString().split("\n").length;
+	console.log("File should have more than 73 newlines.  Found: " + len );
+	if (len > 73) {return true;} else {return false}
+};
+tests[i].note = 'This test sometimes fails at end of month because files will contain no data or will not be available.'
+
+
+i = i+1;
+tests[i] = {};
+tests[i].url = "catalog=SWPC/AK/2DayFile&dataset=AK&parameters=PlanetaryK&start=-P2D&stop=P1D";
+tests[i].test = function (data) {
+	var len = data.toString().split("\n").length;
+	console.log("File should have 17 newlines.  Found: " + len );
+	if (len == 17) {return true;} else {return false}
+};
+tests[i].note = 'This test sometimes fails at end of month because files will contain no data or will not be available.'
+
+i = i+1;
+tests[i] = {};
+tests[i].url = "catalog=SWPC/AK/2DayFile&dataset=AK&parameters=BoulderK&start=-P2D&stop=P1D";
+tests[i].test = function (data) {
+	var len = data.toString().split("\n").length;
+	console.log("File should have 17 newlines.  Found: " + len );
+	if (len == 17) {return true;} else {return false}
+};
+
+i = i+1;
+tests[i] = {};
+tests[i].url = "catalog=SWPC/AK/2DayFile&dataset=AK&parameters=BoulderK&start=-P2D&stop=P1D&outformat=0";
+tests[i].test = function (data) {
+	var len = data.toString().split("\n").length;
+	console.log("File should have 17 newlines.  Found: " + len );
+	if (len == 17) {return true;} else {return false}
+};
+
+i = i+1;
+tests[i] = {};
+tests[i].url = "catalog=SWPC/AK/2DayFile&dataset=AK&parameters=BoulderK&start=-P2D&stop=P1D&outformat=1";
+tests[i].test = function (data) {
+	var len = data.toString().split("\n").length;
+	console.log("File should have 17 newlines.  Found: " + len );
+	if (len == 17) {return true;} else {return false}
+};
+
+i = i+1;
+tests[i] = {};
+tests[i].url = "catalog=SWPC/AK/2DayFile&dataset=AK&parameters=BoulderK&start=-P2D&stop=P1D&outformat=2";
+tests[i].test = function (data) {
+	var len = data.toString().split("\n").length;
+	console.log("File should have 17 newlines.  Found: " + len );
+	if (len == 17) {return true;} else {return false}
+};
+
+
 var tests = [];
 
 tests[0] = {};

@@ -85,41 +85,6 @@ tests[i].test = function (data) {
 	if (len == 172801) {return true;} else {return false}
 };
 
-i = i+1;
-tests[i] = {};
-tests[i].url = "catalog=SWPC/AK/2DayFile&dataset=AK&parameters=BoulderK&start=-P2D&stop=P1D";
-tests[i].test = function (data) {
-	var len = data.toString().split("\n").length;
-	console.log("File should have 17 newlines.  Found: " + len );
-	if (len == 17) {return true;} else {return false}
-};
-
-i = i+1;
-tests[i] = {};
-tests[i].url = "catalog=SWPC/AK/2DayFile&dataset=AK&parameters=BoulderK&start=-P2D&stop=P1D&outformat=0";
-tests[i].test = function (data) {
-	var len = data.toString().split("\n").length;
-	console.log("File should have 17 newlines.  Found: " + len );
-	if (len == 17) {return true;} else {return false}
-};
-
-i = i+1;
-tests[i] = {};
-tests[i].url = "catalog=SWPC/AK/2DayFile&dataset=AK&parameters=BoulderK&start=-P2D&stop=P1D&outformat=1";
-tests[i].test = function (data) {
-	var len = data.toString().split("\n").length;
-	console.log("File should have 17 newlines.  Found: " + len );
-	if (len == 17) {return true;} else {return false}
-};
-
-i = i+1;
-tests[i] = {};
-tests[i].url = "catalog=SWPC/AK/2DayFile&dataset=AK&parameters=BoulderK&start=-P2D&stop=P1D&outformat=2";
-tests[i].test = function (data) {
-	var len = data.toString().split("\n").length;
-	console.log("File should have 17 newlines.  Found: " + len );
-	if (len == 17) {return true;} else {return false}
-};
 
 i = i+1;
 tests[i] = {};
@@ -138,26 +103,6 @@ tests[i].test = function (data) {
 	var len = data.toString().split("\n").length;
 	console.log("File should have 73 newlines.  Found: " + len );
 	if (len == 73) {return true;} else {return false}
-};
-tests[i].note = 'This test sometimes fails at end of month because files will contain no data or will not be available.'
-
-i = i+1;
-tests[i] = {};
-tests[i].url = "catalog=SWPC/AK&dataset=AK&parameters=PlanetaryK&start=-P10D&stop=-P2D";
-tests[i].test = function (data) {
-	var len = data.toString().split("\n").length;
-	console.log("File should more than 57 newlines.  Found: " + len );
-	if (len > 57) {return true;} else {return false}
-};
-tests[i].note = 'This test sometimes fails at end of month because files will contain no data or will not be available.'
-
-i = i+1;
-tests[i] = {};
-tests[i].url = "catalog=SWPC/AK/2DayFile&dataset=AK&parameters=PlanetaryK&start=-P2D&stop=P1D";
-tests[i].test = function (data) {
-	var len = data.toString().split("\n").length;
-	console.log("File should have 17 newlines.  Found: " + len );
-	if (len == 17) {return true;} else {return false}
 };
 tests[i].note = 'This test sometimes fails at end of month because files will contain no data or will not be available.'
 
@@ -200,6 +145,34 @@ tests[i].test = function (data) {
 };
 tests[i].note = ''
 
+i = i+1;
+tests[i] = {};
+tests[i].url = "catalog=CARISMA/FGM/PT1S&dataset=ANNA&parameters=X&start=-P2D&stop=2014-09-30&outformat=0";
+tests[i].test = function (data) {
+	var len = data.toString().split("\n").length;
+	console.log("File should have 172801 newlines.  Found: " + len );
+	if (len == 172801) {return true;} else {return false}
+};
+tests[i].note = ''
+
+i = i+1;
+tests[i] = {};
+tests[i].url = "catalog=INTERMAGNET/PT1M&dataset=AAA&parameters=X&start=-P3D&stop=2012-12-31&outformat=0";
+tests[i].test = function (data) {
+	var len = data.toString().split("\n").length;
+	console.log("File should have 4321 newlines.  Found: " + len );
+	if (len == 4321) {return true;} else {return false}
+};
+
+i = i+1;
+tests[i] = {};
+tests[i].url = "catalog=INTERMAGNET/PT1S&dataset=AAE&parameters=X&start=-P2D&stop=2012-11-30&outformat=0";
+tests[i].test = function (data) {
+	var len = data.toString().split("\n").length;
+	console.log("File should have 172801 newlines.  Found: " + len );
+	if (len == 172801) {return true;} else {return false}
+};
+tests[i].note = ''
 
 // This only tests if script is returned.
 // TODO: Call command line MATLAB.
@@ -210,16 +183,6 @@ tests[i].test = function (data) {
 	var len = data.length;console.log("File should > 500 bytes.  Found: " + len );
 	if (len > 500) {return true;} else {return false}
 };
-
-i = i+1;
-tests[i] = {};
-tests[i].url = "catalog=SWPC/AK;SWPC/AK/2DayFile&dataset=AK;AK&parameters=PlanetaryK;PlanetaryK&start=-P10D;-P2D&stop=-P2D;P1D";
-tests[i].test = function (data) {
-	var len = data.toString().split("\n").length;
-	console.log("File should have more than 73 newlines.  Found: " + len );
-	if (len > 73) {return true;} else {return false}
-};
-tests[i].note = 'This test sometimes fails at end of month because files will contain no data or will not be available.'
 
 i = i+1;
 tests[i] = {};
