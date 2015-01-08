@@ -1,0 +1,69 @@
+###################################################
+# title: tsds client
+# label: tsds client
+tr         = getParam( 'timerange', '1997-08-26/1997-09-05', 'timerange to load' )
+catalog    = getParam( 'catalog', 'SSCWeb', 'catalog' )
+dataset    = getParam( 'dataset', 'ace', 'dataset' )
+parameters = getParam( 'parameters', 'X_GEO', 'parameters' )
+server     = getParam( 'server', 'http://tsds.org/get/' )
+units      = getParam( 'units', 'R_E' )
+usecache   = getParam( 'usecache', 'true' )
+labels     = getParam( 'labels', '' )
+title      = getParam( 'title', 'def' )
+fills      = getParam( 'fills', '-1e31')
+fills      = float(fills)
+
+if ( title=='def' ):
+  title= 'catalog: ' + catalog + ' | dataset: ' + dataset #+ ' | parameters: ' + parameters
+print 'v20140718_1057'
+#print parameters
+
+drtr  = DatumRangeUtil.parseTimeRange(tr)
+tf    = TimeParser.create('$Y-$m-$d')
+start = tf.format( drtr.min(), None )
+stop  = tf.format( drtr.max(), None )
+
+surl = server + "?" + "catalog=" + catalog + "&dataset=" + dataset + "&parameters=" + parameters + "&start=" + start + "&stop=" + stop + "&outformat=1&stream=true&usecache="+usecache
+print surl
+
+# note the server may provide a valid but html response.
+
+f = downloadResourceAsTempFile( URL( surl ), monitor ) 
+print 'File: '+f.toString()
+
+from java.io import FileReader, BufferedReader
+fo= BufferedReader( FileReader(f) )
+line1= fo.readLine()
+print line1
+fo.close()
+
+try:
+   from org.virbo.dataset import SemanticOps
+   from org.das2.datum import EnumerationUnits
+   from org.virbo.dataset import DDataSet
+   if ( 1 ):
+      print 'labels', labels
+      if ( len(labels)==0 ):
+          ll= parameters.split(',')  
+      else:
+          ll= labels.split(',') 
+      eu= EnumerationUnits.create('default')
+      lenll= len(ll) 
+      llds= DDataSet.createRank1(lenll)
+      for i in xrange(lenll):
+         llds[i]= eu.createDatum( ll[i] ).doubleValue(eu)
+      llds.putProperty( QDataSet.UNITS, eu )
+      result= getDataSet( 'vap+dat:file://'+f.toString()+'?bundle=1:&depend0=field0' )
+      result.putProperty( QDataSet.DEPEND_1, llds )
+   else:
+      result= getDataSet( 'vap+dat:file://'+f.toString() )
+   result.putProperty( QDataSet.TITLE, title )
+   result.putProperty( QDataSet.FILL_VALUE, fills )   
+   result.putProperty( QDataSet.UNITS, SemanticOps.lookupUnits(units) )
+   result.putProperty( QDataSet.LABEL, labels )
+
+except org.virbo.datasource.HtmlResponseIOException,ex:
+   raise org.das2.dataset.NoDataInIntervalException('No data in interval')
+   #raise java.io.FileNotFoundException('Data Set is Empty')
+except java.lang.IllegalArgumentException, ex:
+   raise org.das2.dataset.NoDataInIntervalException('No data in interval')
