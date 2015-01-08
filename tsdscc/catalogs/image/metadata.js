@@ -1,17 +1,17 @@
-var mirrordir = "./data/space.fmi.fi/";
+var proccesed = "./data/space.fmi.fi/";
 
 var fs     = require('fs');
 var xml2js = require('xml2js');
 
-dirs = fs.readdirSync(mirrordir);
+dirs = fs.readdirSync(proccesed);
 
 var CADENCES = ["PT10S","PT20S","PT1M"];
 for (var k = 0;k < 3;k++) {
 	var cadence = CADENCES[k]
 	var list = [];
 	for (var i = 0;i<dirs.length;i++) {
-		if (fs.existsSync(mirrordir+dirs[i]+"/"+cadence)) {
-			files = fs.readdirSync(mirrordir+dirs[i]+"/"+cadence);
+		if (fs.existsSync(proccesed+dirs[i]+"/"+cadence)) {
+			files = fs.readdirSync(proccesed+dirs[i]+"/"+cadence);
 			list[i] = [dirs[i],files[0].substring(0,8),files[files.length-1].substring(0,8),'XYZ'];
 		}
 	}
@@ -24,7 +24,7 @@ for (var k = 0;k < 3;k++) {
 
 	var INFO = {};
 	for (var i = 0;i<data.length;i++) {
-		INFO[data[i].split(/\t|\s[0-9]/)[0]] = data[i].split(/\t|\s[0-9]/);
+		INFO[data[i].split(/\t|\s[0-9]/)[0]] = data[i].replace(/\t\s/,'\s').split(/\t|\s[0-9]/);
 	}
 
 	createtsml(list);
@@ -83,10 +83,18 @@ function createtsml (list) {
 		var Start  = list[i][1].substring(0,4) + "-" + list[i][1].substring(4,6) + "-" + list[i][1].substring(6,8);
 		var End    = list[i][2].substring(0,4) + "-" + list[i][2].substring(4,6) + "-" + list[i][2].substring(6,8);
 		var CSYS   = list[i][3];
-		var LAT    = INFO[MAG][2];
-		var LON    = INFO[MAG][3];
-		var SOURCE = "http://space.fmi.fi/image/contributors.html";
-		var NAME   = INFO[MAG][1].replace(/\s+$/,"");
+		if (!INFO[MAG]) {
+			console.log("--- Warning: Magnetometer info for " + MAG + " not in coordinates.txt");
+			var LAT    = "";
+			var LON    = "";
+			var SOURCE = "http://space.fmi.fi/image/contributors.html";
+			var NAME   = MAG;
+		} else {
+			var LAT    = INFO[MAG][2];
+			var LON    = INFO[MAG][3];
+			var SOURCE = "http://space.fmi.fi/image/contributors.html";
+			var NAME   = INFO[MAG][1].replace(/\s+$/,"");
+		}
 
 		root.catalog["dataset"][i] = {};
 		root.catalog["dataset"][i]["$"] = {};
