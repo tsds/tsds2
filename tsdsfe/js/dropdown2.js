@@ -64,8 +64,10 @@ function dropdown2(ids, names, funs, after, i, selected, callback) {
 
 				if (ui.item == null) {
 					ui.item = {};
-					console.log("ui.item == null.  Setting it to "+$('input[id=' + id + ']').parent().parent().attr('value'))
+					console.log("ui.item == null.  Setting it to "+$('input[id=' + id + ']').parent().parent().attr('value')+" and triggering select.")
 					ui.item.value = $('input[id=' + id + ']').parent().parent().attr('value');
+					$('input[id=' + id + ']').val(ui.item.value).data("autocomplete")._trigger("select",event,{item:ui.item.value});
+					
 					return;
 				}
 				
