@@ -1,5 +1,142 @@
-make[2]: Entering directory `/home/weigel/git/tsds2/tsdscc/catalogs/intermagnet'
+make[1]: Entering directory `/home/weigel/git/tsds2/tsdscc/catalogs/intermagnet'
 node metadata.js PT1M
-Extracted info from ./data/www.intermagnet.org/AAE/PT1M/aae20010213vmin.min.gz (1/1): AAE,2001-02-13,2014-10-06,HdZF,9.000,38.800,University of Addis Ababa,Addis Ababa
+Directory ./data/www.intermagnet.org/SON/PT1M does not exist SON 2014-11-08 2014-12-31
+Extracted info from ./data/www.intermagnet.org/AIA/PT1M/aia20010307vmin.min.gz (1/137): AIA,2001-03-07,2014-12-31,HDZF,-65.300,295.700,Lviv Centre of Institute of Space Research,Vernadsky
+Extracted info from ./data/www.intermagnet.org/AMS/PT1M/ams20010101vmin.min.gz (2/137): AMS,2001-01-01,2014-12-31,HDZF,-37.800,77.600,EOST,Martin de Vivies-Amsterdam Island
+Extracted info from ./data/www.intermagnet.org/AAE/PT1M/aae20010213vmin.min.gz (3/137): AAE,2001-02-13,2014-12-31,HdZF,9.000,38.800,University of Addis Ababa,Addis Ababa
+Extracted info from ./data/www.intermagnet.org/API/PT1M/api20010101vmin.min.gz (4/137): API,2001-01-01,2014-09-17,HDZN,-13.800,188.100,Department of Agriculture; Forestry, Fisherie,Apia
+Extracted info from ./data/www.intermagnet.org/AQU/PT1M/aqu20010101vmin.min.gz (5/137): AQU,2001-01-01,2013-06-19,XYZF,47.600,13.300,Instituto Nazionale di Geofisica,L'Aquila
+Extracted info from ./data/www.intermagnet.org/BDV/PT1M/bdv20010101vmin.min.gz (6/137): BDV,2001-01-01,2014-06-14,XYZF,49.100,14.000,Academy of Sciences of the Czech Republic,Budkov
+Extracted info from ./data/www.intermagnet.org/ASP/PT1M/asp20010101vmin.min.gz (7/137): ASP,2001-01-01,2014-09-17,XYZF,-23.800,133.800,Geoscience Australia,Alice Springs
+Extracted info from ./data/www.intermagnet.org/BFE/PT1M/bfe20010101vmin.min.gz (8/137): BFE,2001-01-01,2012-05-28,XYZF,55.600,11.600,Danish Meteorological Institute (DMI),Brorfelde
+Extracted info from ./data/www.intermagnet.org/ABK/PT1M/abk20010101vmin.min.gz (9/137): ABK,2001-01-01,2014-12-31,XYZF,68.400,18.700,Geological Survey of Sweden (SGU),Abisko
+Extracted info from ./data/www.intermagnet.org/BNG/PT1M/bng20010128vmin.min.gz (10/137): BNG,2001-01-28,2011-10-07,HDZF,4.300,18.600,Institut de Physique du Globe de Paris (IPGP),Bangui
+Extracted info from ./data/www.intermagnet.org/BOU/PT1M/bou20010101vmin.min.gz (11/137): BOU,2001-01-01,2014-12-31,HDZF,40.100,254.800,United States Geological Survey (USGS),Boulder
+Extracted info from ./data/www.intermagnet.org/BSL/PT1M/bsl20010101vmin.min.gz (12/137): BSL,2001-01-01,2014-12-31,HDZF,30.400,270.400,United States Geological Survey (USGS),Stennis Space Center
+Extracted info from ./data/www.intermagnet.org/CNB/PT1M/cnb20010101vmin.min.gz (13/137): CNB,2001-01-01,2014-09-17,XYZF,-35.300,149.300,Geoscience Australia,Canberra
+Extracted info from ./data/www.intermagnet.org/BRW/PT1M/brw20010101vmin.min.gz (14/137): BRW,2001-01-01,2014-12-31,HDZF,71.300,203.400,United States Geological Survey (USGS),Barrow
+Extracted info from ./data/www.intermagnet.org/CMO/PT1M/cmo20010101vmin.min.gz (15/137): CMO,2001-01-01,2014-12-31,HDZF,64.900,212.200,United States Geological Survey (USGS),College
+Extracted info from ./data/www.intermagnet.org/CTA/PT1M/cta20010812vmin.min.gz (16/137): CTA,2001-08-12,2014-09-17,XYZF,-20.100,146.300,Geoscience Australia,Charters Towers
+Extracted info from ./data/www.intermagnet.org/CZT/PT1M/czt20010101vmin.min.gz (17/137): CZT,2001-01-01,2014-12-31,HDZF,-46.400,51.900,EOST,Port Alfred
+Extracted info from ./data/www.intermagnet.org/BLC/PT1M/blc20010101vmin.min.gz (18/137): BLC,2001-01-01,2014-12-31,XYZF,64.300,264.000,Geological Survey of Canada (GSC),Baker Lake
+Extracted info from ./data/www.intermagnet.org/DLR/PT1M/dlr20010101vmin.min.gz (19/137): DLR,2001-01-01,2010-03-17,HDZF,29.300,259.200,United States Geological Survey (USGS),Del Rio
+Extracted info from ./data/www.intermagnet.org/EYR/PT1M/eyr20010101vmin.min.gz (20/137): EYR,2001-01-01,2014-09-17,HDZF,-43.300,172.300,Institute of Geological and Nuclear Sciences ,Eyrewell
+Extracted info from ./data/www.intermagnet.org/DRV/PT1M/drv20010301vmin.min.gz (21/137): DRV,2001-03-01,2014-12-31,XYZF,-66.700,140.000,EOST,Dumont d'Urville
+Extracted info from ./data/www.intermagnet.org/ESK/PT1M/esk20010101vmin.min.gz (22/137): ESK,2001-01-01,2014-09-07,HDZF,55.300,356.700,British Geological Survey (BGS),Eskdalemuir
+Extracted info from ./data/www.intermagnet.org/CLF/PT1M/clf20010101vmin.min.gz (23/137): CLF,2001-01-01,2014-12-31,HdZF,48.000,2.300,Institut de Physique du Globe de Paris (IPGP),Chambon la Foret
+Extracted info from ./data/www.intermagnet.org/GDH/PT1M/gdh20010101vmin.min.gz (24/137): GDH,2001-01-01,2012-05-28,XYZF,69.300,306.500,Danish Meteorological Institute (DMI),Godhavn
+Extracted info from ./data/www.intermagnet.org/CBB/PT1M/cbb20010101vmin.min.gz (25/137): CBB,2001-01-01,2014-12-31,XYZF,69.100,255.000,Geological Survey of Canada (GSC),Cambridge Bay
+Extracted info from ./data/www.intermagnet.org/BEL/PT1M/bel20010101vmin.min.gz (26/137): BEL,2001-01-01,2014-12-31,XYZF,52.800,11.700,Polish Academy of Sciences,Belsk
+Extracted info from ./data/www.intermagnet.org/FRD/PT1M/frd20010101vmin.min.gz (27/137): FRD,2001-01-01,2014-12-31,HDZF,38.200,282.600,United States Geological Survey (USGS),Fredericksburg
+Extracted info from ./data/www.intermagnet.org/GNA/PT1M/gna20010101vmin.min.gz (28/137): GNA,2001-01-01,2013-01-31,XYZF,-31.800,116.000,Geoscience Australia,Gnangara
+Extracted info from ./data/www.intermagnet.org/GUA/PT1M/gua20010101vmin.min.gz (29/137): GUA,2001-01-01,2014-12-31,HDZF,13.600,144.900,United States Geological Survey (USGS),Guam
+Extracted info from ./data/www.intermagnet.org/GUI/PT1M/gui20010101vmin.min.gz (30/137): GUI,2001-01-01,2014-09-25,HDZF,28.200,343.700,Instituto Geografico Nacional (IGN),Guimar-Tenerife
+Extracted info from ./data/www.intermagnet.org/HAD/PT1M/had20010101vmin.min.gz (31/137): HAD,2001-01-01,2014-09-07,HDZF,51.000,355.500,British Geological Survey (BGS),Hartland
+Extracted info from ./data/www.intermagnet.org/FCC/PT1M/fcc20010101vmin.min.gz (32/137): FCC,2001-01-01,2014-12-31,XYZF,58.800,265.900,Geological Survey of Canada (GSC),Fort Churchill
+Extracted info from ./data/www.intermagnet.org/HER/PT1M/her20010101vmin.min.gz (33/137): HER,2001-01-01,2014-09-16,HDZF,-34.400,19.200,National Research Foundation,Hermanus
+Extracted info from ./data/www.intermagnet.org/HLP/PT1M/hlp20010101vmin.min.gz (34/137): HLP,2001-01-01,2014-12-31,XYZF,54.600,18.800,Polish Academy of Sciences,Hel
+Extracted info from ./data/www.intermagnet.org/IRT/PT1M/irt20010101vmin.min.gz (35/137): IRT,2001-01-01,2014-12-31,HDZF,52.300,104.500,ISTP SB RAS,Irkutsk
+Extracted info from ./data/www.intermagnet.org/HON/PT1M/api20011107vmin.min.gz (36/137): HON,2001-01-01,2014-12-31,HDZN,-13.800,188.100,Department of Agriculture; Forestry, Fisherie,Apia
+Extracted info from ./data/www.intermagnet.org/HRB/PT1M/hrb20010101vmin.min.gz (37/137): HRB,2001-01-01,2014-12-31,XYZF,48.000,18.200,Slovak Academy of Sciences (GPI SAS),Hurbanovo
+Extracted info from ./data/www.intermagnet.org/KDU/PT1M/kdu20010812vmin.min.gz (38/137): KDU,2001-08-12,2014-09-17,XYZF,-12.600,132.500,Geoscience Australia,Kakadu
+Extracted info from ./data/www.intermagnet.org/HBK/PT1M/hbk20010101vmin.min.gz (39/137): HBK,2001-01-01,2014-09-16,HDZF,-25.900,27.700,National Research Foundation,Hartebeesthoek
+Extracted info from ./data/www.intermagnet.org/ISK/PT1M/isk20010101vmin.min.gz (40/137): ISK,2001-01-01,2009-12-03,HDZF,41.100,29.100,Bogazici University,Kandilli
+Extracted info from ./data/www.intermagnet.org/LER/PT1M/ler20010101vmin.min.gz (41/137): LER,2001-01-01,2014-09-07,HDZF,60.200,358.700,British Geological Survey (BGS),Lerwick
+Extracted info from ./data/www.intermagnet.org/KOU/PT1M/kou20010101vmin.min.gz (42/137): KOU,2001-01-01,2014-12-31,HDZF,5.300,307.200,Institut de Physique du Globe de Paris (IPGP),Kourou
+Extracted info from ./data/www.intermagnet.org/LOV/PT1M/lov20010101vmin.min.gz (43/137): LOV,2001-01-01,2004-04-25,XYZF,59.300,17.200,Geological Survey of Sweden (SGU),Lovoe
+Extracted info from ./data/www.intermagnet.org/MEA/PT1M/mea20010101vmin.min.gz (44/137): EA,2001-01-01,2014-12-31,XYZF,54.600,246.700,Geological Survey of Canada (GSC),Meanook
+Extracted info from ./data/www.intermagnet.org/FRN/PT1M/frn20010101vmin.min.gz (45/137): FRN,2001-01-01,2014-12-31,HDZF,37.100,240.300,United States Geological Survey (USGS),Fresno
+Extracted info from ./data/www.intermagnet.org/MBO/PT1M/mbo20010128vmin.min.gz (46/137): BO,2001-01-28,2014-12-31,HDZF,14.400,343.000,Institut de Physique du Globe de Paris (IPGP),Mbour
+Extracted info from ./data/www.intermagnet.org/NGK/PT1M/ngk20010101vmin.min.gz (47/137): NGK,2001-01-01,2014-10-24,HDZF,14.400,343.000,GeoForschungsZentrum Potsdam,Niemegk
+Extracted info from ./data/www.intermagnet.org/NCK/PT1M/nck20010101vmin.min.gz (48/137): NCK,2001-01-01,2014-12-31,HDZF,54.100,12.700,Hungarian Academy of Sciences,Nagycenk
+Extracted info from ./data/www.intermagnet.org/IQA/PT1M/iqa20010101vmin.min.gz (49/137): IQA,2001-01-01,2014-12-31,XYZF,63.500,291.500,Geological Survey of Canada (GSC),Iqaluit
+Extracted info from ./data/www.intermagnet.org/PAF/PT1M/paf20010101vmin.min.gz (50/137): PAF,2001-01-01,2014-12-31,HdZF,-49.500,71.000,EOST,Port-aux-Francais
+Extracted info from ./data/www.intermagnet.org/NUR/PT1M/nur20010101vmin.min.gz (51/137): NUR,2001-01-01,2014-09-17,XYZF,60.500,24.600,Finnish Meteorological Institute (FMI),Nurmijarvi
+Extracted info from ./data/www.intermagnet.org/OTT/PT1M/ott20010101vmin.min.gz (52/137): OTT,2001-01-01,2014-12-31,XYZF,45.400,284.500,Geological Survey of Canada (GSC),Ottawa
+Extracted info from ./data/www.intermagnet.org/QSB/PT1M/qsb20010131vmin.min.gz (53/137): QSB,2001-01-31,2009-06-14,XYZF,33.900,35.600,National Centre for Geophysical Research,Qsaybeh
+Extracted info from ./data/www.intermagnet.org/PPT/PT1M/ppt20010101vmin.min.gz (54/137): PPT,2001-01-01,2014-12-31,HDZF,-17.500,210.400,Institut de Physique du Globe de Paris (IPGP),Pamatai
+Extracted info from ./data/www.intermagnet.org/RES/PT1M/res20010101vmin.min.gz (55/137): RES,2001-01-01,2014-12-31,XYZF,74.700,265.100,Geological Survey of Canada (GSC),Resolute Bay
+Extracted info from ./data/www.intermagnet.org/SIT/PT1M/sit20010101vmin.min.gz (56/137): SIT,2001-01-01,2014-12-31,HDZF,57.100,224.700,United States Geological Survey (USGS),Sitka
+Extracted info from ./data/www.intermagnet.org/SBA/PT1M/sba20010101vmin.min.gz (57/137): SBA,2001-01-01,2014-09-17,HDZF,-77.800,166.800,Institute of Geological & Nuclear Sciences,Scott Base
+Extracted info from ./data/www.intermagnet.org/SJG/PT1M/sjg20010101vmin.min.gz (58/137): SJG,2001-01-01,2014-12-31,HDZF,18.100,293.800,United States Geological Survey (USGS),San Juan
+Extracted info from ./data/www.intermagnet.org/PHU/PT1M/phu20010101vmin.min.gz (59/137): PHU,2001-01-01,2014-12-31,HDZF,21.000,106.000,Vietnamese Academy of Science and Technology ,Phuthuy
+Extracted info from ./data/www.intermagnet.org/STJ/PT1M/stj20010101vmin.min.gz (60/137): STJ,2001-01-01,2014-12-31,XYZF,47.600,307.300,Geological Survey of Canada (GSC),St John's
+Extracted info from ./data/www.intermagnet.org/PBQ/PT1M/pbq20010101vmin.min.gz (61/137): PBQ,2001-01-01,2007-11-01,XYZF,55.300,282.200,Geological Survey of Canada (GSC),Poste-de-la-Baleine
+Extracted info from ./data/www.intermagnet.org/TAM/PT1M/tam20010101vmin.min.gz (62/137): TAM,2001-01-01,2014-12-31,HdZF,48.100,2.200,C.R.A.A.G.,Tamanrasset
+Extracted info from ./data/www.intermagnet.org/TAN/PT1M/tan20010103vmin.min.gz (63/137): TAN,2001-01-03,2008-12-21,HDZF,-18.900,47.300,University of Antananarivo,Antananarivo
+Extracted info from ./data/www.intermagnet.org/MID/PT1M/mid20010101vmin.min.gz (64/137): ID,2001-01-01,2005-02-03,HDZF,28.200,254.800,United States Geological Survey (USGS),Midway Island
+Extracted info from ./data/www.intermagnet.org/THL/PT1M/thl20010101vmin.min.gz (65/137): THL,2001-01-01,2012-05-28,XYZF,77.500,290.700,Danish Meteorological Institute (DMI),Thule
+Extracted info from ./data/www.intermagnet.org/NAQ/PT1M/naq20010101vmin.min.gz (66/137): NAQ,2001-01-01,2012-05-28,XYZF,61.300,314.600,Danish Meteorological Institute (DMI),Narsarsuaq
+Extracted info from ./data/www.intermagnet.org/THY/PT1M/thy20010101vmin.min.gz (67/137): THY,2001-01-01,2014-09-17,HdZF,47.000,17.800,Hungarian Geological Survey,Tihany
+Extracted info from ./data/www.intermagnet.org/TUC/PT1M/tuc20010101vmin.min.gz (68/137): TUC,2001-01-01,2014-12-31,HDZF,32.200,249.200,United States Geological Survey (USGS),Tucson
+Extracted info from ./data/www.intermagnet.org/TRW/PT1M/trw20010101vmin.min.gz (69/137): TRW,2001-01-01,2014-12-31,HDZF,-43.300,294.700,Facultad de Ciencias Astronomicas y Geofisica,Trelew
+Extracted info from ./data/www.intermagnet.org/VIC/PT1M/vic20010101vmin.min.gz (70/137): VIC,2001-01-01,2014-12-31,XYZF,48.500,236.600,Geological Survey of Canada (GSC),Victoria
+Extracted info from ./data/www.intermagnet.org/SPT/PT1M/spt20010110vmin.min.gz (71/137): SPT,2001-01-10,2014-12-31,HDZF,39.500,355.600,Instituto Geografico Nacional (IGN),San Pablo-Toledo
+Extracted info from ./data/www.intermagnet.org/WNG/PT1M/wng20010101vmin.min.gz (72/137): WNG,2001-01-01,2014-10-24,XYZF,53.800,9.100,GeoForschungsZentrum Potsdam,Wingst
+Extracted info from ./data/www.intermagnet.org/SOD/PT1M/sod20010101vmin.min.gz (73/137): SOD,2001-01-01,2014-12-31,XYZF,67.400,26.600,Finnish Academy of Science,Sodankyla
+Extracted info from ./data/www.intermagnet.org/BMT/PT1M/bmt20020401vmin.min.gz (74/137): BMT,2002-04-01,2014-12-31,HDZF,40.300,116.200,Chinese Academy of Sciences,Beijing Ming Tombs
+Extracted info from ./data/www.intermagnet.org/YKC/PT1M/ykc20010101vmin.min.gz (75/137): YKC,2001-01-01,2014-12-31,XYZF,62.400,245.500,Geological Survey of Canada (GSC),Yellowknife
+Extracted info from ./data/www.intermagnet.org/KAK/PT1M/kak20020401vmin.min.gz (76/137): KAK,2002-04-01,2012-09-06,HDZF,36.200,140.200,Japan Meterological Agency,Kakioka
+Extracted info from ./data/www.intermagnet.org/SUA/PT1M/sua20020422vmin.min.gz (77/137): SUA,2002-04-22,2014-10-24,XYZF,44.700,26.300,Geological Survey of Romania,Surlari
+Extracted info from ./data/www.intermagnet.org/FUR/PT1M/fur20010101vmin.min.gz (78/137): FUR,2001-01-01,2014-12-31,XYZF,48.300,11.300,Ludwig Maximilians University Munich,Furstenfeldbruck
+Extracted info from ./data/www.intermagnet.org/GLN/PT1M/gln20020901vmin.min.gz (79/137): GLN,2002-09-01,2006-04-07,XYZF,49.600,262.900,Geological Survey of Canada (GSC),Glenlea
+Extracted info from ./data/www.intermagnet.org/VSS/PT1M/vss20010101vmin.min.gz (80/137): VSS,2001-01-01,2014-10-23,HDZF,112.400,316.400,Observatorio Nacional,Vassouras
+Extracted info from ./data/www.intermagnet.org/LZH/PT1M/lzh20020106vmin.min.gz (81/137): LZH,2002-01-06,2014-11-19,HDZF,33.900,35.600,Lanzhou Institute of Seismology,Lanzhou
+Extracted info from ./data/www.intermagnet.org/KNY/PT1M/kny20020830vmin.min.gz (82/137): KNY,2002-08-30,2012-09-06,HDZF,31.400,130.900,Japan Meterological Agency,Kanoya
+Extracted info from ./data/www.intermagnet.org/MMB/PT1M/mmb20020401vmin.min.gz (83/137): MB,2002-04-01,2012-09-06,HDZF,43.900,144.200,Japan Meterological Agency,Memambetsu
+Extracted info from ./data/www.intermagnet.org/VAL/PT1M/val20020201vmin.min.gz (84/137): VAL,2002-02-01,2014-12-30,HDZF,52.000,349.700,The Irish Meteorological Service,Valentia
+Extracted info from ./data/www.intermagnet.org/ASC/PT1M/asc20030101vmin.min.gz (85/137): ASC,2003-01-01,2014-09-17,HDZF,-8.000,345.600,British Geological Survey (BGS),Ascension Island
+Extracted info from ./data/www.intermagnet.org/GZH/PT1M/gzh20030930vmin.min.gz (86/137): GZH,2003-09-30,2014-07-26,HDZF,23.000,112.400,Seismologicial Bureau of Guangdong Province,Zhaoqing
+Extracted info from ./data/www.intermagnet.org/DOU/PT1M/dou20030601vmin.min.gz (87/137): DOU,2003-06-01,2014-12-31,HDZF,50.100,4.500,Royal Meterological Institute of Belgium,Dourbes
+Extracted info from ./data/www.intermagnet.org/HRN/PT1M/hrn20030101vmin.min.gz (88/137): HRN,2003-01-01,2014-12-31,XYZF,77.000,15.500,Polish Academy of Sciences,Hornsund
+Extracted info from ./data/www.intermagnet.org/BOX/PT1M/box20041017vmin.min.gz (89/137): BOX,2004-10-17,2014-12-31,HDZF,58.300,38.900,,
+Extracted info from ./data/www.intermagnet.org/NEW/PT1M/new20010101vmin.min.gz (90/137): NEW,2001-01-01,2014-12-31,HDZF,48.300,242.900,United States Geological Survey (USGS),Newport
+Extracted info from ./data/www.intermagnet.org/HUA/PT1M/hrn20131027vmin.min.gz (91/137): HUA,2003-06-01,2014-12-31,XYZF,77.000,15.500,Polish Academy of Sciences,Hornsund
+Extracted info from ./data/www.intermagnet.org/AAA/PT1M/aaa20060101vmin.min.gz (92/137): AAA,2006-01-01,2014-11-30,XYZF,43.200,76.900,Institute of the Ionosphere Republic of Kazak,Alma Ata
+Extracted info from ./data/www.intermagnet.org/TEO/PT1M/teo20030601vmin.min.gz (93/137): TEO,2003-06-01,2011-07-27,HDZF,19.900,260.700,Instituto Geofisica UNAM,Teoloyucan
+Extracted info from ./data/www.intermagnet.org/NVS/PT1M/nvs20050101vmin.min.gz (94/137): NVS,2005-01-01,2014-12-31,XYZF,54.800,83.200,Russian Academy of Sciences (RAS),Novosibirsk
+Extracted info from ./data/www.intermagnet.org/UPS/PT1M/ups20040723vmin.min.gz (95/137): UPS,2004-07-23,2014-12-31,XYZF,59.900,17.400,Geological Survey of Sweden,Uppsala
+Extracted info from ./data/www.intermagnet.org/ABG/PT1M/abg20020401vmin.min.gz (96/137): ABG,2002-04-01,2014-12-31,HDZF,18.600,72.900,Indian Institute of Geomagnetism,Alibag
+Extracted info from ./data/www.intermagnet.org/MCQ/PT1M/mcq20020529vmin.min.gz (97/137): CQ,2002-05-29,2014-09-17,XYZF,-54.500,158.800,Geoscience Australia,MCQuarie Island
+Extracted info from ./data/www.intermagnet.org/LRM/PT1M/lrm20060101vmin.min.gz (98/137): LRM,2006-01-01,2014-09-17,XYZF,-22.200,114.100,Geoscience Australia,Learmonth
+Extracted info from ./data/www.intermagnet.org/PST/PT1M/pst20030601vmin.min.gz (99/137): PST,2003-06-01,2014-09-17,HDZF,-51.800,302.100,British Geological Survey (BGS),Port Stanley
+Extracted info from ./data/www.intermagnet.org/GCK/PT1M/gck20060101vmin.min.gz (100/137): GCK,2006-01-01,2014-12-31,XYZF,44.600,20.800,Geomagnetic Institute Yugoslavia,Grocka
+Extracted info from ./data/www.intermagnet.org/IZN/PT1M/izn20071119vmin.min.gz (101/137): IZN,2007-11-19,2014-12-30,HDZF,40.500,29.700,Bogazici University,Iznik
+Extracted info from ./data/www.intermagnet.org/MAW/PT1M/maw20060101vmin.min.gz (102/137): AW,2006-01-01,2014-09-17,XYZF,-67.600,62.900,Geoscience Australia,Mawson
+Extracted info from ./data/www.intermagnet.org/MAB/PT1M/mab20060101vmin.min.gz (103/137): AB,2006-01-01,2014-12-30,HDZF,50.300,5.700,Royal Meterological Institute of Belgium,Manhay
+Extracted info from ./data/www.intermagnet.org/DMC/PT1M/dmc20090101vmin.min.gz (104/137): DMC,2009-01-01,2014-12-31,XYZF,-75.250,124.167,EOST,DomeC; Concordia, Antarctica
+Extracted info from ./data/www.intermagnet.org/BFO/PT1M/bfo20060824vmin.min.gz (105/137): BFO,2006-08-24,2013-01-26,XYZF,48.300,8.300,Black Forest Observatory (BFO),Black Forest
+Extracted info from ./data/www.intermagnet.org/SFS/PT1M/sfs20060119vmin.min.gz (106/137): SFS,2006-01-19,2014-12-31,HDZF,36.700,354.100,Real Observatorio de la Armada(ROA),San Fernando
+Extracted info from ./data/www.intermagnet.org/SHU/PT1M/shu20060802vmin.min.gz (107/137): SHU,2006-08-02,2014-12-31,HDZF,55.400,199.500,United States Geological Survey (USGS),Shumagin
+Extracted info from ./data/www.intermagnet.org/LVV/PT1M/lvv20060101vmin.min.gz (108/137): LVV,2006-01-01,2014-12-31,XYZF,49.900,23.800,National Academy of Sciences of Ukraine (IGF ,Lviv
+Extracted info from ./data/www.intermagnet.org/IPM/PT1M/ipm20101020vmin.min.gz (109/137): IPM,2010-10-20,2014-12-31,XYZF,-27.200,250.600,Institut de Physique du Globe de Paris (IPGP),Isla de Pascua Mataveri-Easter Island
+Extracted info from ./data/www.intermagnet.org/TSU/PT1M/tsu20050101vmin.min.gz (110/137): TSU,2005-01-01,2014-09-16,HDZF,-19.200,17.600,National Research Foundation,Tsumeb
+Extracted info from ./data/www.intermagnet.org/KMH/PT1M/kmh20100101vmin.min.gz (111/137): KMH,2010-01-01,2014-09-16,HDZF,26.400,18.100,National Research Foundation,Keetmanshoop
+Extracted info from ./data/www.intermagnet.org/EBR/PT1M/ebr20020513vmin.min.gz (112/137): EBR,2002-05-13,2014-12-31,XYZF,47.100,.500,Observatori de l'Ebre,Ebro
+Extracted info from ./data/www.intermagnet.org/MGD/PT1M/mgd20100225vmin.min.gz (113/137): GD,2010-02-25,2014-12-31,XYZF,60.900,150.700,IKIR,Magadan
+Extracted info from ./data/www.intermagnet.org/PEG/PT1M/peg20100305vmin.min.gz (114/137): PEG,2010-03-05,2014-09-15,XYZF,38.100,23.900,Institute of Geology and Mineral Exploration;,Pedeli
+Extracted info from ./data/www.intermagnet.org/PAG/PT1M/pag20071122vmin.min.gz (115/137): PAG,2007-11-22,2014-10-24,XYZF,42.500,24.200,Bulgarian Academy of Science,Panagjurishte
+Extracted info from ./data/www.intermagnet.org/KIV/PT1M/kiv20110101vmin.min.gz (116/137): KIV,2011-01-01,2014-12-31,XYZF,50.700,30.300,Russian Academy of Sciences,Kiev Dymer
+Extracted info from ./data/www.intermagnet.org/HYB/PT1M/hyb20090922vmin.min.gz (117/137): HYB,2009-09-22,2014-10-24,XYZF,17.400,78.600,National Geophysical Research Institute,Hyderabad
+Extracted info from ./data/www.intermagnet.org/ARS/PT1M/ars20110715vmin.min.gz (118/137): ARS,2011-07-15,2014-12-31,HDZF,59.400,58.600,Institute of Geophysics; Russia,Arti
+Extracted info from ./data/www.intermagnet.org/TDC/PT1M/tdc20111002vmin.min.gz (119/137): TDC,2011-10-02,2012-05-31,XYZF,-37.250,347.500,-----}���[{�      ��{�   ��z�,Tristan Da Cunha
+Extracted info from ./data/www.intermagnet.org/ALE/PT1M/ale20100207vmin.min.gz (120/137): ALE,2010-02-07,2011-12-31,XYZF,82.497,297.647,Geological Survey of Canada (GSC),Alert
+Extracted info from ./data/www.intermagnet.org/WMQ/PT1M/wmq20110101vmin.min.gz (121/137): WMQ,2011-01-01,2014-01-20,HDZF,43.800,87.700,Xinjiang Earthquake Administration,Urumqi
+Extracted info from ./data/www.intermagnet.org/YAK/PT1M/yak20110101vmin.min.gz (122/137): YAK,2011-01-01,2014-12-30,XYZF,62.000,129.700,Institute of Cosmophysical Research and Aeron,Yakutsk
+Extracted info from ./data/www.intermagnet.org/CNH/PT1M/cnh20110101vmin.min.gz (123/137): CNH,2011-01-01,2014-09-14,DHZF,44.100,124.900,Earthquake Administration of Jilin Province,Changchun
+Extracted info from ./data/www.intermagnet.org/LYC/PT1M/lyc20090922vmin.min.gz (124/137): LYC,2009-09-22,2014-12-31,XYZF,64.600,18.700,Geological Survey of Sweden (SGU),Lycksele
+Extracted info from ./data/www.intermagnet.org/GNG/PT1M/dlt20121002vmin.min.gz (125/137): GNG,2012-10-08,2014-09-17,XYZF,11.945,108.483,VNCST (Vietnam) / IPGP (France),Da Lat
+Extracted info from ./data/www.intermagnet.org/PIL/PT1M/pil20120921vmin.min.gz (126/137): PIL,2012-09-21,2014-12-26,HDZF,-31.700,296.100,INTERMAGNET Edinburgh GIN,Pilar
+Extracted info from ./data/www.intermagnet.org/CSY/PT1M/csy20110715vmin.min.gz (127/137): CSY,2011-07-15,2014-09-17,XYZF,-66.300,110.500,Geoscience Australia,Casey
+Extracted info from ./data/www.intermagnet.org/CKI/PT1M/cki20130928vmin.min.gz (128/137): CKI,2013-09-28,2014-09-17,XYZF,-12.200,96.800,Geoscience Australia,Cokos (Keeling) Islands
+Extracted info from ./data/www.intermagnet.org/JAI/PT1M/jai20131108vmin.min.gz (129/137): JAI,2013-11-08,2014-12-31,XYZF,26.917,75.800,Indian Institute of Geomagnetism,Jaipur
+Extracted info from ./data/www.intermagnet.org/KHB/PT1M/khb20131118vmin.min.gz (130/137): KHB,2013-11-18,2014-12-31,HDZF,47.610,134.690,Inst of Space Phys Research,Khabarovsk
+Extracted info from ./data/www.intermagnet.org/DED/PT1M/ded20120726vmin.min.gz (131/137): DED,2012-07-26,2014-12-31,HDZF,70.356,211.207,United States Geological Survey (USGS),Deadhorse
+Extracted info from ./data/www.intermagnet.org/DLT/PT1M/ded20120726vmin.min.gz (132/137): DLT,2012-10-02,2014-12-31,HDZF,70.356,211.207,United States Geological Survey (USGS),Deadhorse
+Extracted info from ./data/www.intermagnet.org/PET/PT1M/pet20130928vmin.min.gz (133/137): PET,2013-09-28,2014-12-31,HDZF,53.000,158.200,IKIR Institute of Cosmophysical Research and ,Paratunka
+Extracted info from ./data/www.intermagnet.org/VOS/PT1M/vos20130502vmin.min.gz (134/137): VOS,2013-05-02,2013-05-24,XYZF,-78.450,106.867,Arctic and Antarctic Research Institute,Vostok
+Extracted info from ./data/www.intermagnet.org/GAN/PT1M/gan20130928vmin.min.gz (135/137): GAN,2013-09-28,2014-12-31,HDZF,-1.000,73.200,ETH Zurich,Gan Int. Airpt
+Extracted info from ./data/www.intermagnet.org/ORC/PT1M/orc20130928vmin.min.gz (136/137): ORC,2013-09-28,2014-12-31,HDZF,-60.700,44.700,Argentine Met Service,Base Orcadas
+Extracted info from ./data/www.intermagnet.org/CYG/PT1M/cyg20131030vmin.min.gz (137/137): CYG,2013-10-30,2014-12-31,XYZF,36.370,126.854,Korea Meteorological Administration,Cheongyang
 Wrote INTERMAGNET_PT1M-tsml.xml
-make[2]: Leaving directory `/home/weigel/git/tsds2/tsdscc/catalogs/intermagnet'
+make[1]: Leaving directory `/home/weigel/git/tsds2/tsdscc/catalogs/intermagnet'

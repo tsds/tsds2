@@ -1,0 +1,15 @@
+
+fs.js:438
+  return binding.open(pathModule._makeLong(path), stringToFlags(flags), mode);
+                 ^
+Error: ENOENT, no such file or directory 'catalog_PT1S_full.json'
+    at Object.fs.openSync (fs.js:438:18)
+    at Object.fs.readFileSync (fs.js:289:15)
+    at Object.<anonymous> (/home/weigel/git/tsds2/tsdscc/catalogs/intermagnet/mirror.js:32:11)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Function.Module.runMain (module.js:497:10)
+    at startup (node.js:119:16)
+    at node.js:906:3

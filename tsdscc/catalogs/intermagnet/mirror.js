@@ -2,7 +2,7 @@
 // Better to use http://intermagnet.org/data-donnee/download-eng.php#view to get list of 
 // available data and then request only files that exist.
 
-var mirrordir = "./data/";
+var mirrordir = "./data/www.intermagnet.org/";
 var type      = "v";
 var cadence   = process.argv[2] || "PT1M";
 var k         = parseInt(process.argv[3]) || 1; // Which magnetometer in list to mirror.
@@ -13,70 +13,77 @@ var exec    = require('child_process').exec;
 var spawn   = require('child_process').spawn;
 var path    = require('path');
 
-
 var expandISO8601Duration = require(__dirname + "/../../../tsdset/lib/expandtemplate").expandISO8601Duration;
 var expandtemplate = require(__dirname + "/../../../tsdset/lib/expandtemplate").expandtemplate;
 
-var sleepint = 1000; // download file has name dataYYYYMMDDHHMMSS.zip.  This prevents duplicate files.
+// Download file has name dataYYYYMMDDHHMMSS.zip, where date/time in name is determed by request time.  This prevents duplicate files.
+var sleepint = 1000; 
 
 if (cadence.match("PT1M")) {
 	var urlo = "http://intermagnet.org/data-donnee/download-2-eng.php?rate=minute&type=variation&format=IAGA2002&from_year=$Y&from_month=$m&from_day=$d&to_year=$Y&to_month=$m&to_day=$d&filter_region%5B%5D=America&filter_region%5B%5D=Asia&filter_region%5B%5D=Europe&filter_region%5B%5D=Pacific&filter_region%5B%5D=Africa&filter_lat%5B%5D=NH&filter_lat%5B%5D=NM&filter_lat%5B%5D=E&filter_lat%5B%5D=SM&filter_lat%5B%5D=SH&select_all%5B%5D=TLC"; 
-	var Nd   = parseInt(process.argv[4]) || 1;
+	var Nd   = parseInt(process.argv[4]) || 180;
 } else {
 	var urlo = "http://intermagnet.org/data-donnee/download-2-eng.php?rate=second&type=variation&format=IAGA2002&from_year=$Y&from_month=$m&from_day=$d&to_year=$Y&to_month=$m&to_day=$d&filter_region%5B%5D=America&filter_region%5B%5D=Asia&filter_region%5B%5D=Europe&filter_region%5B%5D=Pacific&filter_region%5B%5D=Africa&filter_lat%5B%5D=NH&filter_lat%5B%5D=NM&filter_lat%5B%5D=E&filter_lat%5B%5D=SM&filter_lat%5B%5D=SH&select_all%5B%5D=TLC"; 
 	var Nd   = parseInt(process.argv[4]) || 50;
 }
 
-if (Nd == 1) {
-var missing = {};
-data = fs.readFileSync("catalog_"+cadence+"_full.json");
-tmp = JSON.parse(data);
-for (var i = 0;i<tmp.length;i++) {
-	for (key in tmp[i]) {
-		//console.log(i + " " + key);
-		for (key2 in tmp[i][key]) {
-			if (tmp[i][key][key2]["available"]) {
-				fname = tmp[i][key][key2]["filename"];
-				var dir = "data/"+fname.substring(0,3).toUpperCase()+"/"+cadence;
-				//console.log("Checking " + dir + "/" + fname)
-				var e1 = fs.existsSync(dir + "/" + fname);
-				var e2 = fs.existsSync(dir + "/" + fname + ".gz");
-				if (e1 || e2) {
-					//console.log("Found: " + dir + "/" + fname)
-				} else {
-					missing[fname] = true;
-					console.log(dir + "/" + fname)
-				}
-			}
-		}
-	}
-}
-}
-
 var lines = fs.readFileSync("catalog_"+cadence+".txt");
 var list  = lines.toString().split("\n");
-var runall = true;
-if (process.argv[3]) {
-	if (process.argv[3].match(/[A-Z]/)) {
-		runone = false;
-		for (var i = 0;i < list.length;i++) {
+var mag = list[k-1].split(" ")[0];
 
-			if (process.argv[3] === list[i].split(" ")[0]) {
-				var km = i;
-			}
+if (Nd == 1) {
+    var missing = {};
+    data = fs.readFileSync("catalog_"+cadence+"_full.json");
+    tmp = JSON.parse(data);
+    for (var i = 0;i<tmp.length;i++) {
+	for (key in tmp[i]) {
+	    if (!key.match(mag)) {
+		continue;
+	    }
+	    //console.log(i + " " + key);
+	    for (key2 in tmp[i][key]) {
+		if (tmp[i][key][key2]["available"]) {
+		    fname = tmp[i][key][key2]["filename"];
+		    var dir = mirrordir+fname.substring(0,3).toUpperCase()+"/"+cadence;
+		    //console.log("Checking " + dir + "/" + fname)
+		    var e1 = fs.existsSync(dir + "/" + fname);
+		    var e2 = fs.existsSync(dir + "/" + fname + ".gz");
+		    if (e1 || e2) {
+			missing[fname] = false;
+			//console.log("Found: " + dir + "/" + fname)
+		    } else {
+			missing[fname] = true;
+			console.log("Missing: " + dir + "/" + fname);
+		    }
 		}
-		var listx = [];
-		listx[0] = list[km];
-		list = listx;
-		k = 1;
+	    }
 	}
+    }
 }
 
-get(k);
+if (0) {
+if (process.argv[3]) {
+    if (process.argv[3].match(/[A-Z]/)) {
+	runone = false;
+	for (var i = 0;i < list.length;i++) {
+	    
+	    if (process.argv[3] === list[i].split(" ")[0]) {
+		var km = i;
+	    }
+	}
+	var listx = [];
+	listx[0] = list[km];
+	list = listx;
+	k = 1;
+    }
+}
+}
+
+get();
 
 function get(urls,files) {
 
-	if (arguments.length == 1) {
+	if (arguments.length == 0) {
 		var urls   = [];
 		var filesa = [];
 		var filesc = [];
@@ -107,6 +114,10 @@ function get(urls,files) {
 
 		// Full list of files over available time range.
 		filesa = expandtemplate(options);
+
+		// Get last day
+		options.timeRange = list[k-1].split(" ")[2] + "/" + list[k-1].split(" ")[2];
+		filesa = filesa.concat(expandtemplate(options));
 
 		z = 0;
 		for (j = 0;j<filesa.length;j=j+Nd) {
@@ -144,6 +155,9 @@ function get(urls,files) {
 						.replace("to_day=$d","to_day="+stops[j].substring(6,8))
 						.replace("TLC",TLC);
 		}
+
+
+
 	}	
 
 	// The following leads to maximum call stack problems (even after increasing --max-stack-size)
@@ -162,91 +176,100 @@ function get(urls,files) {
 	}
 	
 	if (urls.length == 0) {
-		if (k<list.length) {
-			getmore(k);
-			return;
-		} else {
-			return;
-		}
+	    if (k<list.length) {
+		getmore();
+		return;
+	    } else {
+		return;
+	    }
 	}
-	
-	if (fs.existsSync(files[0]) || fs.existsSync(files[0].replace(".gz",""))) {
+
+	if (0) {
+	    if (fs.existsSync(files[0]) || fs.existsSync(files[0].replace(".gz",""))) {
 		console.log("Skipping request because first file " + files[0] + " found");
 		urls.shift();
 		files.shift();
-		get(urls,files)
+		get(urls,files);
+	    }
 	}
 
 	if (Nd == 1 && (missing[files[0]] || missing[files[0].replace(".gz","")])) {
-		console.log("File is missing.  Retrieving.")
+	    //console.log("File is missing.  Will request.");
 	} else {
-		console.log("Skipping request because file " + files[0] + " found");
-		urls.shift();
-		files.shift();
-		get(urls,files)		
+	    //console.log("Skipping request because file " + files[0] + " found");
+	    urls.shift();
+	    files.shift();
+	    get(urls,files);
+	    return;
 	}
 
 	var TLC = files[0].substring(0,3).toUpperCase();
 		
 	// Make query for zip file
 	console.log("Requesting "+urls[0].replace(/%5B%5D/g,"[]").replace(/%40/g,"@"));
-	return;
+
 	request.get(urls[0].replace(/%5B%5D/g,"[]").replace(/%40/g,"@"), function (error, response, body) {
 
 		if (error) {
-			console.log(error);
-			if (urls.length > 0) setTimeout(function () {get(urls,files)},sleepint);
+		    console.log(error);
+		    if (urls.length > 0) setTimeout(function () {get(urls,files)},sleepint);
+		    return;
 		}
-	    if (!error && response.statusCode == 200) {
-	    	// Find zip file name
-	    	var str = body.replace(/\r\n|\n|\r/g,"").replace(/.*(app.*zip).*/g,"$1");
-			zipfile = "http://www.intermagnet.org/" + str;
-			fname = zipfile.replace(/.*products\/\/(.*)/,"$1");
 
+	    if (response.statusCode == 200) {
+
+	    	// Find zip file name in responsse
+	    	var str = body.replace(/\r\n|\n|\r/g,"").replace(/.*(app.*zip).*/g,"$1");
+		zipfile = "http://www.intermagnet.org/" + str;
+		fname = zipfile.replace(/.*products\/\/(.*)/,"$1");
+
+		f1 = mirrordir+TLC+"/"+cadence+"/"+files[0].replace(".gz","");
+		f2 = mirrordir+TLC+"/"+cadence+"/"+files[0].replace(".gz","") + ".gz";
+
+		var dir = mirrordir+TLC+"/"+cadence+"/";
+
+		// Extract contents of zipfile
+		var com = " mkdir -p " + dir + "; curl " + zipfile + " > "+dir+fname+";cd "+dir+";unzip -q -o "+fname+";rm -f "+fname;
+		console.log(files.length + " Evaluating "+com);
+
+		child = exec(com, function (error, stdout, stderr) {
+			if (error) console.log(error);
+			if (stdout) console.log(stdout);
+			if (stderr) console.log(stderr);
+			if (!fs.existsSync(f1) && !fs.existsSync(f2)) {
+			    console.log(files.length + " 1. Did not find " + f1);
+			    console.log(files.length + " 1. Did not find " + f2);
+			    if (files[0].match(".gz")) {
+				urls[0]  = urls[0].replace(/\.gz/g,"");
+				files[0] = files[0].replace(".gz","");
+				console.log(files.length + " Trying without gz extension in URL.");
+				//if (urls.length == 0) getmore(k);
+				setTimeout(function () {get(urls,files)},sleepint);
+				return;
+			    }
+			}
+	
 			f1 = mirrordir+TLC+"/"+cadence+"/"+files[0].replace(".gz","");
 			f2 = mirrordir+TLC+"/"+cadence+"/"+files[0].replace(".gz","") + ".gz";
 
-			var dir = mirrordir+TLC+"/"+cadence+"/";
-			var com = " mkdir -p " + dir + "; curl " + zipfile + " > "+dir+fname+";cd "+dir+";unzip -q -o "+fname+";rm -f "+fname;
-			console.log(files.length + " Evaluating "+com);
-			child = exec(com, function (error, stdout, stderr) {
-				if (error) console.log(error);
-				if (stdout) console.log(stdout)
-				if (stderr) console.log(stderr)
-				if (!fs.existsSync(f1) && !fs.existsSync(f2)) {
-					console.log(files.length + " 1. Did not find " + f1);
-					console.log(files.length + " 1. Did not find " + f2);
-					if (files[0].match(".gz")) {
-						urls[0]  = urls[0].replace(/\.gz/g,"");
-						files[0] = files[0].replace(".gz","");
-						console.log(files.length + " Trying without gz extension in URL.");
-						if (urls.length == 0) getmore(k);
-						if (urls.length > 0) setTimeout(function () {get(urls,files)},sleepint);
-						return;
-					}
-				}
-	
-				f1 = mirrordir+TLC+"/"+cadence+"/"+files[0].replace(".gz","");
-				f2 = mirrordir+TLC+"/"+cadence+"/"+files[0].replace(".gz","") + ".gz";
-
-				if (!fs.existsSync(f1) && !fs.existsSync(f2)) {
-					console.log(files.length + " 2. Did not find " + f1);
-					console.log(files.length + " 2. Did not find " + f2);
-					console.log(files.length + " Fail.  Writing ./data/"+TLC+"/"+cadence+"/"+files[0]+".x");
-					if (Nd == 1)
-						fs.writeFileSync(mirrordir+TLC+"/"+cadence+"/"+files[0]+".x","");
-				} else {
-					console.log(files.length + " Success!!!!!  Done downloading.");
-				}
-				urls.shift();
-				files.shift();
-				console.log("______________________");
-
-				if (urls.length == 0 && runall) getmore(k);
-				if (urls.length > 0) setTimeout(function () {get(urls,files)},sleepint);
-			});
+			if (!fs.existsSync(f1) && !fs.existsSync(f2)) {
+			    console.log(files.length + " 2. Did not find " + f1);
+			    console.log(files.length + " 2. Did not find " + f2);
+			    console.log(files.length + " Fail.  Writing "+mirrordir+TLC+"/"+cadence+"/"+files[0]+".x");
+			    if (Nd == 1) {
+				fs.writeFileSync(mirrordir+TLC+"/"+cadence+"/"+files[0]+".x","");
+			    }
+			} else {
+			    console.log(files.length + " Success!!!!!  Done downloading.");
+			}
+			urls.shift();
+			files.shift();
+			console.log("______________________");
+			
+			//if (urls.length == 0 && runall) getmore(k);
+			setTimeout(function () {get(urls,files)},sleepint);
+		    });
 	    }
 	});
-
 }
 

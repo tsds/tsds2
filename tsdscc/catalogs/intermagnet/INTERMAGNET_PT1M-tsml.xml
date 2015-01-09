@@ -2,14 +2,14 @@
 <catalog xmlns:xlink="http://www.w3.org/1999/xlink" id="INTERMAGNET/PT1M" name="INTERMAGNET magnetometer data at 1-minute cadence">
   <documentation xlink:href="http://intermagnet.org/" xlink:title="INTERMAGNET web page"/>
   <documentation xlink:href="http://github.com/tsds/tsds2/tsdscc/catalogs/intermagnet" xlink:title="Catalog generation software"/>
-  <documentation xlink:href="/" xlink:title="Catalog generation date: 2015-01-06T22:36:23.204Z"/>
+  <documentation xlink:href="/" xlink:title="Catalog generation date: 2015-01-08T22:26:28.708Z"/>
   <documentation xlink:href="http://intermagnet.org/data-donnee/data-eng.php#conditions" xlink:title="Conditions of use and acknowledgement of INTERMAGNET"/>
   <documentation xlink:href="http://intermagnet.org/data-donnee/data-eng.php#conditions" xlink:title="Acknowledgement of INTERMAGNET data providers"/>
   <dataset id="AAE" name="Addis Ababa" label="Data source institute: University of Addis Ababa" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/AAE/PT1M/aae$Y$m$dvmin.min.gz" lineregex="^[0-9]">
     <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=AAE" xlink:title="Observatory Information"/>
     <timeCoverage>
       <Start>2001-02-13</Start>
-      <End>2014-10-06</End>
+      <End>2014-12-30</End>
       <Cadence>PT1M</Cadence>
     </timeCoverage>
     <groups>
@@ -18,9 +18,2475 @@
     <variables>
       <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
       <variable id="H" name="H" label="AAE H" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
-      <variable id="D" name="d" label="AAE D" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="D" name="D" label="AAE D" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
       <variable id="Z" name="Z" label="AAE Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
       <variable id="F" name="F" label="AAE F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="ABK" name="Abisko" label="Data source institute: Geological Survey of Sweden (SGU)" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/ABK/PT1M/abk$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=ABK" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2001-01-01</Start>
+      <End>2014-12-30</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="XYZ" name="XYZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="X" name="X" label="ABK X" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="Y" name="Y" label="ABK Y" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="ABK Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="ABK F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="AIA" name="Vernadsky" label="Data source institute: Lviv Centre of Institute of Space Research" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/AIA/PT1M/aia$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=AIA" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2001-03-07</Start>
+      <End>2014-12-30</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="HDZ" name="HDZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="H" name="H" label="AIA H" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="D" name="D" label="AIA D" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="AIA Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="AIA F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="AMS" name="Martin de Vivies-Amsterdam Island" label="Data source institute: EOST" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/AMS/PT1M/ams$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=AMS" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2001-01-01</Start>
+      <End>2014-12-30</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="HDZ" name="HDZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="H" name="H" label="AMS H" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="D" name="D" label="AMS D" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="AMS Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="AMS F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="API" name=" Fisherie" label="Data source institute: Department of Agriculture; Forestry" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/API/PT1M/api$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=API" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2001-01-01</Start>
+      <End>2014-09-16</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="HDZ" name="HDZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="H" name="H" label="API H" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="D" name="D" label="API D" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="API Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="N" name="N" label="API N" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="AQU" name="L&amp;apos;Aquila" label="Data source institute: Instituto Nazionale di Geofisica" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/AQU/PT1M/aqu$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=AQU" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2001-01-01</Start>
+      <End>2013-06-17</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="XYZ" name="XYZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="X" name="X" label="AQU X" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="Y" name="Y" label="AQU Y" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="AQU Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="AQU F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="ASP" name="Alice Springs" label="Data source institute: Geoscience Australia" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/ASP/PT1M/asp$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=ASP" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2001-01-01</Start>
+      <End>2014-09-16</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="XYZ" name="XYZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="X" name="X" label="ASP X" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="Y" name="Y" label="ASP Y" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="ASP Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="ASP F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="BDV" name="Budkov" label="Data source institute: Academy of Sciences of the Czech Republic" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/BDV/PT1M/bdv$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=BDV" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2001-01-01</Start>
+      <End>2014-06-13</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="XYZ" name="XYZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="X" name="X" label="BDV X" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="Y" name="Y" label="BDV Y" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="BDV Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="BDV F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="BEL" name="Belsk" label="Data source institute: Polish Academy of Sciences" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/BEL/PT1M/bel$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=BEL" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2001-01-01</Start>
+      <End>2014-12-30</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="XYZ" name="XYZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="X" name="X" label="BEL X" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="Y" name="Y" label="BEL Y" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="BEL Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="BEL F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="BFE" name="Brorfelde" label="Data source institute: Danish Meteorological Institute (DMI)" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/BFE/PT1M/bfe$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=BFE" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2001-01-01</Start>
+      <End>2012-05-27</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="XYZ" name="XYZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="X" name="X" label="BFE X" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="Y" name="Y" label="BFE Y" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="BFE Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="BFE F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="BLC" name="Baker Lake" label="Data source institute: Geological Survey of Canada (GSC)" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/BLC/PT1M/blc$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=BLC" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2001-01-01</Start>
+      <End>2014-12-18</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="XYZ" name="XYZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="X" name="X" label="BLC X" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="Y" name="Y" label="BLC Y" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="BLC Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="BLC F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="BNG" name="Bangui" label="Data source institute: Institut de Physique du Globe de Paris (IPGP)" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/BNG/PT1M/bng$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=BNG" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2001-01-28</Start>
+      <End>2011-07-12</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="HDZ" name="HDZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="H" name="H" label="BNG H" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="D" name="D" label="BNG D" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="BNG Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="BNG F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="BOU" name="Boulder" label="Data source institute: United States Geological Survey (USGS)" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/BOU/PT1M/bou$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=BOU" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2001-01-01</Start>
+      <End>2014-12-21</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="HDZ" name="HDZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="H" name="H" label="BOU H" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="D" name="D" label="BOU D" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="BOU Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="BOU F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="BRW" name="Barrow" label="Data source institute: United States Geological Survey (USGS)" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/BRW/PT1M/brw$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=BRW" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2001-01-01</Start>
+      <End>2014-12-23</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="HDZ" name="HDZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="H" name="H" label="BRW H" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="D" name="D" label="BRW D" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="BRW Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="BRW F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="BSL" name="Stennis Space Center" label="Data source institute: United States Geological Survey (USGS)" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/BSL/PT1M/bsl$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=BSL" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2001-01-01</Start>
+      <End>2014-12-30</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="HDZ" name="HDZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="H" name="H" label="BSL H" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="D" name="D" label="BSL D" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="BSL Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="BSL F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="CBB" name="Cambridge Bay" label="Data source institute: Geological Survey of Canada (GSC)" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/CBB/PT1M/cbb$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=CBB" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2001-01-01</Start>
+      <End>2014-12-30</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="XYZ" name="XYZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="X" name="X" label="CBB X" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="Y" name="Y" label="CBB Y" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="CBB Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="CBB F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="CLF" name="Chambon la Foret" label="Data source institute: Institut de Physique du Globe de Paris (IPGP)" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/CLF/PT1M/clf$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=CLF" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2001-01-01</Start>
+      <End>2014-12-30</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="HDZ" name="HDZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="H" name="H" label="CLF H" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="D" name="D" label="CLF D" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="CLF Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="CLF F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="CMO" name="College" label="Data source institute: United States Geological Survey (USGS)" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/CMO/PT1M/cmo$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=CMO" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2001-01-01</Start>
+      <End>2014-12-30</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="HDZ" name="HDZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="H" name="H" label="CMO H" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="D" name="D" label="CMO D" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="CMO Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="CMO F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="CNB" name="Canberra" label="Data source institute: Geoscience Australia" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/CNB/PT1M/cnb$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=CNB" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2001-01-01</Start>
+      <End>2014-09-16</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="XYZ" name="XYZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="X" name="X" label="CNB X" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="Y" name="Y" label="CNB Y" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="CNB Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="CNB F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="CTA" name="Charters Towers" label="Data source institute: Geoscience Australia" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/CTA/PT1M/cta$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=CTA" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2001-08-12</Start>
+      <End>2014-09-16</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="XYZ" name="XYZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="X" name="X" label="CTA X" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="Y" name="Y" label="CTA Y" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="CTA Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="CTA F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="CZT" name="Port Alfred" label="Data source institute: EOST" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/CZT/PT1M/czt$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=CZT" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2001-01-01</Start>
+      <End>2014-12-20</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="HDZ" name="HDZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="H" name="H" label="CZT H" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="D" name="D" label="CZT D" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="CZT Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="CZT F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="DLR" name="Del Rio" label="Data source institute: United States Geological Survey (USGS)" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/DLR/PT1M/dlr$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=DLR" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2001-01-01</Start>
+      <End>2010-03-16</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="HDZ" name="HDZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="H" name="H" label="DLR H" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="D" name="D" label="DLR D" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="DLR Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="DLR F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="DRV" name="Dumont d&amp;apos;Urville" label="Data source institute: EOST" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/DRV/PT1M/drv$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=DRV" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2001-03-01</Start>
+      <End>2014-12-30</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="XYZ" name="XYZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="X" name="X" label="DRV X" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="Y" name="Y" label="DRV Y" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="DRV Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="DRV F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="ESK" name="Eskdalemuir" label="Data source institute: British Geological Survey (BGS)" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/ESK/PT1M/esk$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=ESK" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2001-01-01</Start>
+      <End>2014-09-06</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="HDZ" name="HDZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="H" name="H" label="ESK H" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="D" name="D" label="ESK D" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="ESK Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="ESK F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="EYR" name="Eyrewell" label="Data source institute: Institute of Geological and Nuclear Sciences " timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/EYR/PT1M/eyr$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=EYR" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2001-01-01</Start>
+      <End>2014-09-16</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="HDZ" name="HDZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="H" name="H" label="EYR H" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="D" name="D" label="EYR D" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="EYR Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="EYR F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="FCC" name="Fort Churchill" label="Data source institute: Geological Survey of Canada (GSC)" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/FCC/PT1M/fcc$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=FCC" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2001-01-01</Start>
+      <End>2014-12-30</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="XYZ" name="XYZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="X" name="X" label="FCC X" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="Y" name="Y" label="FCC Y" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="FCC Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="FCC F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="FRD" name="Fredericksburg" label="Data source institute: United States Geological Survey (USGS)" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/FRD/PT1M/frd$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=FRD" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2001-01-01</Start>
+      <End>2014-12-30</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="HDZ" name="HDZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="H" name="H" label="FRD H" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="D" name="D" label="FRD D" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="FRD Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="FRD F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="FRN" name="Fresno" label="Data source institute: United States Geological Survey (USGS)" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/FRN/PT1M/frn$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=FRN" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2001-01-01</Start>
+      <End>2014-12-29</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="HDZ" name="HDZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="H" name="H" label="FRN H" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="D" name="D" label="FRN D" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="FRN Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="FRN F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="FUR" name="Furstenfeldbruck" label="Data source institute: Ludwig Maximilians University Munich" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/FUR/PT1M/fur$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=FUR" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2001-01-01</Start>
+      <End>2014-12-30</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="XYZ" name="XYZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="X" name="X" label="FUR X" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="Y" name="Y" label="FUR Y" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="FUR Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="FUR F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="GDH" name="Godhavn" label="Data source institute: Danish Meteorological Institute (DMI)" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/GDH/PT1M/gdh$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=GDH" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2001-01-01</Start>
+      <End>2012-05-27</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="XYZ" name="XYZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="X" name="X" label="GDH X" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="Y" name="Y" label="GDH Y" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="GDH Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="GDH F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="GNA" name="Gnangara" label="Data source institute: Geoscience Australia" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/GNA/PT1M/gna$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=GNA" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2001-01-01</Start>
+      <End>2013-01-30</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="XYZ" name="XYZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="X" name="X" label="GNA X" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="Y" name="Y" label="GNA Y" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="GNA Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="GNA F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="GUA" name="Guam" label="Data source institute: United States Geological Survey (USGS)" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/GUA/PT1M/gua$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=GUA" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2001-01-01</Start>
+      <End>2014-12-17</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="HDZ" name="HDZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="H" name="H" label="GUA H" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="D" name="D" label="GUA D" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="GUA Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="GUA F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="GUI" name="Guimar-Tenerife" label="Data source institute: Instituto Geografico Nacional (IGN)" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/GUI/PT1M/gui$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=GUI" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2001-01-01</Start>
+      <End>2014-09-24</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="HDZ" name="HDZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="H" name="H" label="GUI H" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="D" name="D" label="GUI D" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="GUI Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="GUI F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="HAD" name="Hartland" label="Data source institute: British Geological Survey (BGS)" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/HAD/PT1M/had$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=HAD" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2001-01-01</Start>
+      <End>2014-09-06</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="HDZ" name="HDZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="H" name="H" label="HAD H" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="D" name="D" label="HAD D" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="HAD Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="HAD F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="HBK" name="Hartebeesthoek" label="Data source institute: National Research Foundation" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/HBK/PT1M/hbk$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=HBK" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2001-01-01</Start>
+      <End>2014-09-15</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="HDZ" name="HDZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="H" name="H" label="HBK H" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="D" name="D" label="HBK D" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="HBK Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="HBK F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="HER" name="Hermanus" label="Data source institute: National Research Foundation" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/HER/PT1M/her$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=HER" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2001-01-01</Start>
+      <End>2014-09-15</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="HDZ" name="HDZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="H" name="H" label="HER H" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="D" name="D" label="HER D" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="HER Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="HER F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="HLP" name="Hel" label="Data source institute: Polish Academy of Sciences" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/HLP/PT1M/hlp$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=HLP" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2001-01-01</Start>
+      <End>2014-12-12</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="XYZ" name="XYZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="X" name="X" label="HLP X" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="Y" name="Y" label="HLP Y" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="HLP Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="HLP F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="API" name=" Fisherie" label="Data source institute: Department of Agriculture; Forestry" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/API/PT1M/api$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=API" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2001-11-07</Start>
+      <End>2014-12-30</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="HDZ" name="HDZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="H" name="H" label="API H" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="D" name="D" label="API D" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="API Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="N" name="N" label="API N" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="HRB" name="Hurbanovo" label="Data source institute: Slovak Academy of Sciences (GPI SAS)" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/HRB/PT1M/hrb$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=HRB" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2001-01-01</Start>
+      <End>2014-12-01</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="XYZ" name="XYZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="X" name="X" label="HRB X" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="Y" name="Y" label="HRB Y" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="HRB Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="HRB F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="IQA" name="Iqaluit" label="Data source institute: Geological Survey of Canada (GSC)" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/IQA/PT1M/iqa$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=IQA" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2001-01-01</Start>
+      <End>2014-12-30</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="XYZ" name="XYZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="X" name="X" label="IQA X" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="Y" name="Y" label="IQA Y" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="IQA Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="IQA F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="IRT" name="Irkutsk" label="Data source institute: ISTP SB RAS" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/IRT/PT1M/irt$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=IRT" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2001-01-01</Start>
+      <End>2014-12-30</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="HDZ" name="HDZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="H" name="H" label="IRT H" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="D" name="D" label="IRT D" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="IRT Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="IRT F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="ISK" name="Kandilli" label="Data source institute: Bogazici University" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/ISK/PT1M/isk$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=ISK" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2001-01-01</Start>
+      <End>2009-12-02</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="HDZ" name="HDZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="H" name="H" label="ISK H" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="D" name="D" label="ISK D" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="ISK Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="ISK F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="KDU" name="Kakadu" label="Data source institute: Geoscience Australia" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/KDU/PT1M/kdu$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=KDU" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2001-08-12</Start>
+      <End>2014-09-16</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="XYZ" name="XYZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="X" name="X" label="KDU X" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="Y" name="Y" label="KDU Y" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="KDU Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="KDU F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="KOU" name="Kourou" label="Data source institute: Institut de Physique du Globe de Paris (IPGP)" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/KOU/PT1M/kou$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=KOU" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2001-01-01</Start>
+      <End>2014-12-17</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="HDZ" name="HDZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="H" name="H" label="KOU H" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="D" name="D" label="KOU D" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="KOU Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="KOU F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="LER" name="Lerwick" label="Data source institute: British Geological Survey (BGS)" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/LER/PT1M/ler$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=LER" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2001-01-01</Start>
+      <End>2014-09-06</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="HDZ" name="HDZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="H" name="H" label="LER H" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="D" name="D" label="LER D" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="LER Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="LER F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="LOV" name="Lovoe" label="Data source institute: Geological Survey of Sweden (SGU)" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/LOV/PT1M/lov$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=LOV" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2001-01-01</Start>
+      <End>2004-04-24</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="XYZ" name="XYZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="X" name="X" label="LOV X" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="Y" name="Y" label="LOV Y" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="LOV Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="LOV F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="MBO" name="Mbour" label="Data source institute: Institut de Physique du Globe de Paris (IPGP)" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/MBO/PT1M/mbo$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=MBO" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2001-01-28</Start>
+      <End>2014-12-30</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="HDZ" name="HDZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="H" name="H" label="MBO H" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="D" name="D" label="MBO D" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="MBO Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="MBO F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="MEA" name="Meanook" label="Data source institute: Geological Survey of Canada (GSC)" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/MEA/PT1M/mea$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=MEA" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2001-01-01</Start>
+      <End>2014-12-19</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="XYZ" name="XYZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="X" name="X" label="MEA X" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="Y" name="Y" label="MEA Y" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="MEA Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="MEA F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="MID" name="Midway Island" label="Data source institute: United States Geological Survey (USGS)" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/MID/PT1M/mid$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=MID" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2001-01-01</Start>
+      <End>2005-02-02</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="HDZ" name="HDZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="H" name="H" label="MID H" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="D" name="D" label="MID D" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="MID Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="MID F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="NAQ" name="Narsarsuaq" label="Data source institute: Danish Meteorological Institute (DMI)" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/NAQ/PT1M/naq$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=NAQ" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2001-01-01</Start>
+      <End>2012-05-27</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="XYZ" name="XYZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="X" name="X" label="NAQ X" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="Y" name="Y" label="NAQ Y" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="NAQ Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="NAQ F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="NCK" name="Nagycenk" label="Data source institute: Hungarian Academy of Sciences" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/NCK/PT1M/nck$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=NCK" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2001-01-01</Start>
+      <End>2014-12-30</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="HDZ" name="HDZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="H" name="H" label="NCK H" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="D" name="D" label="NCK D" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="NCK Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="NCK F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="NEW" name="Newport" label="Data source institute: United States Geological Survey (USGS)" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/NEW/PT1M/new$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=NEW" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2001-01-01</Start>
+      <End>2014-12-30</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="HDZ" name="HDZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="H" name="H" label="NEW H" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="D" name="D" label="NEW D" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="NEW Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="NEW F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="NGK" name="Niemegk" label="Data source institute: GeoForschungsZentrum Potsdam" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/NGK/PT1M/ngk$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=NGK" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2001-01-01</Start>
+      <End>2014-10-23</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="HDZ" name="HDZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="H" name="H" label="NGK H" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="D" name="D" label="NGK D" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="NGK Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="NGK F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="NUR" name="Nurmijarvi" label="Data source institute: Finnish Meteorological Institute (FMI)" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/NUR/PT1M/nur$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=NUR" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2001-01-01</Start>
+      <End>2014-09-16</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="XYZ" name="XYZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="X" name="X" label="NUR X" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="Y" name="Y" label="NUR Y" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="NUR Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="NUR F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="OTT" name="Ottawa" label="Data source institute: Geological Survey of Canada (GSC)" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/OTT/PT1M/ott$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=OTT" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2001-01-01</Start>
+      <End>2014-12-30</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="XYZ" name="XYZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="X" name="X" label="OTT X" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="Y" name="Y" label="OTT Y" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="OTT Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="OTT F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="PAF" name="Port-aux-Francais" label="Data source institute: EOST" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/PAF/PT1M/paf$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=PAF" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2001-01-01</Start>
+      <End>2014-11-03</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="HDZ" name="HDZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="H" name="H" label="PAF H" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="D" name="D" label="PAF D" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="PAF Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="PAF F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="PBQ" name="Poste-de-la-Baleine" label="Data source institute: Geological Survey of Canada (GSC)" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/PBQ/PT1M/pbq$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=PBQ" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2001-01-01</Start>
+      <End>2007-10-31</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="XYZ" name="XYZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="X" name="X" label="PBQ X" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="Y" name="Y" label="PBQ Y" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="PBQ Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="PBQ F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="PHU" name="Phuthuy" label="Data source institute: Vietnamese Academy of Science and Technology " timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/PHU/PT1M/phu$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=PHU" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2001-01-01</Start>
+      <End>2014-09-25</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="HDZ" name="HDZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="H" name="H" label="PHU H" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="D" name="D" label="PHU D" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="PHU Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="PHU F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="PPT" name="Pamatai" label="Data source institute: Institut de Physique du Globe de Paris (IPGP)" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/PPT/PT1M/ppt$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=PPT" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2001-01-01</Start>
+      <End>2014-10-05</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="HDZ" name="HDZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="H" name="H" label="PPT H" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="D" name="D" label="PPT D" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="PPT Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="PPT F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="QSB" name="Qsaybeh" label="Data source institute: National Centre for Geophysical Research" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/QSB/PT1M/qsb$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=QSB" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2001-01-31</Start>
+      <End>2009-06-13</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="XYZ" name="XYZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="X" name="X" label="QSB X" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="Y" name="Y" label="QSB Y" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="QSB Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="QSB F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="RES" name="Resolute Bay" label="Data source institute: Geological Survey of Canada (GSC)" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/RES/PT1M/res$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=RES" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2001-01-01</Start>
+      <End>2014-10-04</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="XYZ" name="XYZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="X" name="X" label="RES X" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="Y" name="Y" label="RES Y" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="RES Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="RES F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="SBA" name="Scott Base" label="Data source institute: Institute of Geological &amp; Nuclear Sciences" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/SBA/PT1M/sba$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=SBA" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2001-01-01</Start>
+      <End>2014-09-16</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="HDZ" name="HDZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="H" name="H" label="SBA H" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="D" name="D" label="SBA D" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="SBA Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="SBA F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="SIT" name="Sitka" label="Data source institute: United States Geological Survey (USGS)" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/SIT/PT1M/sit$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=SIT" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2001-01-01</Start>
+      <End>2014-10-05</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="HDZ" name="HDZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="H" name="H" label="SIT H" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="D" name="D" label="SIT D" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="SIT Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="SIT F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="SJG" name="San Juan" label="Data source institute: United States Geological Survey (USGS)" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/SJG/PT1M/sjg$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=SJG" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2001-01-01</Start>
+      <End>2014-10-05</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="HDZ" name="HDZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="H" name="H" label="SJG H" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="D" name="D" label="SJG D" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="SJG Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="SJG F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="SOD" name="Sodankyla" label="Data source institute: Finnish Academy of Science" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/SOD/PT1M/sod$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=SOD" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2001-01-01</Start>
+      <End>2014-10-04</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="XYZ" name="XYZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="X" name="X" label="SOD X" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="Y" name="Y" label="SOD Y" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="SOD Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="SOD F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="SPT" name="San Pablo-Toledo" label="Data source institute: Instituto Geografico Nacional (IGN)" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/SPT/PT1M/spt$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=SPT" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2001-01-10</Start>
+      <End>2014-10-05</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="HDZ" name="HDZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="H" name="H" label="SPT H" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="D" name="D" label="SPT D" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="SPT Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="SPT F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="STJ" name="St John&amp;apos;s" label="Data source institute: Geological Survey of Canada (GSC)" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/STJ/PT1M/stj$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=STJ" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2001-01-01</Start>
+      <End>2014-10-04</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="XYZ" name="XYZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="X" name="X" label="STJ X" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="Y" name="Y" label="STJ Y" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="STJ Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="STJ F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="TAM" name="Tamanrasset" label="Data source institute: C.R.A.A.G." timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/TAM/PT1M/tam$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=TAM" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2001-01-01</Start>
+      <End>2014-10-05</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="HDZ" name="HDZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="H" name="H" label="TAM H" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="D" name="D" label="TAM D" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="TAM Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="TAM F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="TAN" name="Antananarivo" label="Data source institute: University of Antananarivo" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/TAN/PT1M/tan$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=TAN" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2001-01-03</Start>
+      <End>2008-12-20</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="HDZ" name="HDZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="H" name="H" label="TAN H" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="D" name="D" label="TAN D" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="TAN Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="TAN F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="THL" name="Thule" label="Data source institute: Danish Meteorological Institute (DMI)" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/THL/PT1M/thl$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=THL" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2001-01-01</Start>
+      <End>2012-05-27</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="XYZ" name="XYZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="X" name="X" label="THL X" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="Y" name="Y" label="THL Y" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="THL Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="THL F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="THY" name="Tihany" label="Data source institute: Hungarian Geological Survey" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/THY/PT1M/thy$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=THY" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2001-01-01</Start>
+      <End>2014-09-16</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="HDZ" name="HDZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="H" name="H" label="THY H" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="D" name="D" label="THY D" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="THY Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="THY F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="TRW" name="Trelew" label="Data source institute: Facultad de Ciencias Astronomicas y Geofisica" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/TRW/PT1M/trw$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=TRW" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2001-01-01</Start>
+      <End>2014-09-29</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="HDZ" name="HDZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="H" name="H" label="TRW H" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="D" name="D" label="TRW D" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="TRW Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="TRW F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="TUC" name="Tucson" label="Data source institute: United States Geological Survey (USGS)" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/TUC/PT1M/tuc$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=TUC" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2001-01-01</Start>
+      <End>2014-10-05</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="HDZ" name="HDZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="H" name="H" label="TUC H" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="D" name="D" label="TUC D" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="TUC Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="TUC F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="VIC" name="Victoria" label="Data source institute: Geological Survey of Canada (GSC)" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/VIC/PT1M/vic$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=VIC" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2001-01-01</Start>
+      <End>2014-10-04</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="XYZ" name="XYZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="X" name="X" label="VIC X" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="Y" name="Y" label="VIC Y" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="VIC Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="VIC F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="VSS" name="Vassouras" label="Data source institute: Observatorio Nacional" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/VSS/PT1M/vss$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=VSS" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2001-01-01</Start>
+      <End>2013-07-06</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="HDZ" name="HDZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="H" name="H" label="VSS H" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="D" name="D" label="VSS D" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="VSS Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="VSS F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="WNG" name="Wingst" label="Data source institute: GeoForschungsZentrum Potsdam" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/WNG/PT1M/wng$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=WNG" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2001-01-01</Start>
+      <End>2014-10-05</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="XYZ" name="XYZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="X" name="X" label="WNG X" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="Y" name="Y" label="WNG Y" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="WNG Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="WNG F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="YKC" name="Yellowknife" label="Data source institute: Geological Survey of Canada (GSC)" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/YKC/PT1M/ykc$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=YKC" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2001-01-01</Start>
+      <End>2014-10-04</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="XYZ" name="XYZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="X" name="X" label="YKC X" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="Y" name="Y" label="YKC Y" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="YKC Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="YKC F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="ABG" name="Alibag" label="Data source institute: Indian Institute of Geomagnetism" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/ABG/PT1M/abg$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=ABG" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2002-04-01</Start>
+      <End>2014-09-28</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="HDZ" name="HDZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="H" name="H" label="ABG H" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="D" name="D" label="ABG D" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="ABG Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="ABG F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="BMT" name="Beijing Ming Tombs" label="Data source institute: Chinese Academy of Sciences" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/BMT/PT1M/bmt$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=BMT" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2002-04-01</Start>
+      <End>2014-10-04</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="HDZ" name="HDZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="H" name="H" label="BMT H" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="D" name="D" label="BMT D" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="BMT Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="BMT F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="EBR" name="Ebro" label="Data source institute: Observatori de l&amp;apos;Ebre" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/EBR/PT1M/ebr$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=EBR" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2002-05-13</Start>
+      <End>2014-10-05</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="XYZ" name="XYZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="X" name="X" label="EBR X" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="Y" name="Y" label="EBR Y" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="EBR Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="EBR F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="GLN" name="Glenlea" label="Data source institute: Geological Survey of Canada (GSC)" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/GLN/PT1M/gln$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=GLN" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2002-09-01</Start>
+      <End>2006-04-06</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="XYZ" name="XYZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="X" name="X" label="GLN X" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="Y" name="Y" label="GLN Y" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="GLN Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="GLN F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="KAK" name="Kakioka" label="Data source institute: Japan Meterological Agency" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/KAK/PT1M/kak$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=KAK" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2002-04-01</Start>
+      <End>2012-09-05</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="HDZ" name="HDZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="H" name="H" label="KAK H" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="D" name="D" label="KAK D" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="KAK Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="KAK F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="KNY" name="Kanoya" label="Data source institute: Japan Meterological Agency" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/KNY/PT1M/kny$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=KNY" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2002-08-30</Start>
+      <End>2012-09-05</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="HDZ" name="HDZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="H" name="H" label="KNY H" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="D" name="D" label="KNY D" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="KNY Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="KNY F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="LZH" name="Lanzhou" label="Data source institute: Lanzhou Institute of Seismology" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/LZH/PT1M/lzh$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=LZH" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2002-01-06</Start>
+      <End>2014-09-07</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="HDZ" name="HDZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="H" name="H" label="LZH H" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="D" name="D" label="LZH D" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="LZH Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="LZH F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="MCQ" name="MCQuarie Island" label="Data source institute: Geoscience Australia" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/MCQ/PT1M/mcq$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=MCQ" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2002-05-29</Start>
+      <End>2014-09-16</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="XYZ" name="XYZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="X" name="X" label="MCQ X" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="Y" name="Y" label="MCQ Y" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="MCQ Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="MCQ F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="MMB" name="Memambetsu" label="Data source institute: Japan Meterological Agency" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/MMB/PT1M/mmb$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=MMB" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2002-04-01</Start>
+      <End>2012-09-05</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="HDZ" name="HDZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="H" name="H" label="MMB H" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="D" name="D" label="MMB D" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="MMB Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="MMB F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="SUA" name="Surlari" label="Data source institute: Geological Survey of Romania" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/SUA/PT1M/sua$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=SUA" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2002-04-22</Start>
+      <End>2014-10-05</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="XYZ" name="XYZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="X" name="X" label="SUA X" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="Y" name="Y" label="SUA Y" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="SUA Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="SUA F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="VAL" name="Valentia" label="Data source institute: The Irish Meteorological Service" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/VAL/PT1M/val$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=VAL" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2002-02-01</Start>
+      <End>2014-10-02</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="HDZ" name="HDZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="H" name="H" label="VAL H" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="D" name="D" label="VAL D" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="VAL Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="VAL F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="ASC" name="Ascension Island" label="Data source institute: British Geological Survey (BGS)" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/ASC/PT1M/asc$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=ASC" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2003-01-01</Start>
+      <End>2014-09-16</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="HDZ" name="HDZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="H" name="H" label="ASC H" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="D" name="D" label="ASC D" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="ASC Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="ASC F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="DOU" name="Dourbes" label="Data source institute: Royal Meterological Institute of Belgium" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/DOU/PT1M/dou$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=DOU" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2003-06-01</Start>
+      <End>2014-10-05</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="HDZ" name="HDZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="H" name="H" label="DOU H" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="D" name="D" label="DOU D" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="DOU Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="DOU F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="GZH" name="Zhaoqing" label="Data source institute: Seismologicial Bureau of Guangdong Province" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/GZH/PT1M/gzh$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=GZH" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2003-09-30</Start>
+      <End>2014-07-25</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="HDZ" name="HDZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="H" name="H" label="GZH H" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="D" name="D" label="GZH D" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="GZH Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="GZH F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="HRN" name="Hornsund" label="Data source institute: Polish Academy of Sciences" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/HRN/PT1M/hrn$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=HRN" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2003-01-01</Start>
+      <End>2014-10-05</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="XYZ" name="XYZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="X" name="X" label="HRN X" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="Y" name="Y" label="HRN Y" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="HRN Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="HRN F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="HRN" name="Hornsund" label="Data source institute: Polish Academy of Sciences" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/HRN/PT1M/hrn$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=HRN" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2013-10-27</Start>
+      <End>2014-10-05</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="XYZ" name="XYZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="X" name="X" label="HRN X" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="Y" name="Y" label="HRN Y" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="HRN Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="HRN F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="PST" name="Port Stanley" label="Data source institute: British Geological Survey (BGS)" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/PST/PT1M/pst$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=PST" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2003-06-01</Start>
+      <End>2014-09-16</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="HDZ" name="HDZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="H" name="H" label="PST H" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="D" name="D" label="PST D" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="PST Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="PST F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="TEO" name="Teoloyucan" label="Data source institute: Instituto Geofisica UNAM" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/TEO/PT1M/teo$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=TEO" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2003-06-01</Start>
+      <End>2010-06-04</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="HDZ" name="HDZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="H" name="H" label="TEO H" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="D" name="D" label="TEO D" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="TEO Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="TEO F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="BOX" name="" label="Data source institute: " timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/BOX/PT1M/box$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=BOX" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2004-10-17</Start>
+      <End>2014-10-01</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="HDZ" name="HDZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="H" name="H" label="BOX H" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="D" name="D" label="BOX D" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="BOX Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="BOX F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="UPS" name="Uppsala" label="Data source institute: Geological Survey of Sweden" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/UPS/PT1M/ups$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=UPS" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2004-07-23</Start>
+      <End>2014-10-05</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="XYZ" name="XYZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="X" name="X" label="UPS X" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="Y" name="Y" label="UPS Y" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="UPS Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="UPS F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="NVS" name="Novosibirsk" label="Data source institute: Russian Academy of Sciences (RAS)" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/NVS/PT1M/nvs$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=NVS" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2005-01-01</Start>
+      <End>2014-10-04</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="XYZ" name="XYZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="X" name="X" label="NVS X" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="Y" name="Y" label="NVS Y" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="NVS Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="NVS F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="TSU" name="Tsumeb" label="Data source institute: National Research Foundation" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/TSU/PT1M/tsu$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=TSU" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2005-01-01</Start>
+      <End>2014-09-15</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="HDZ" name="HDZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="H" name="H" label="TSU H" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="D" name="D" label="TSU D" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="TSU Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="TSU F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="AAA" name="Alma Ata" label="Data source institute: Institute of the Ionosphere Republic of Kazak" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/AAA/PT1M/aaa$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=AAA" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2006-01-01</Start>
+      <End>2014-11-29</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="XYZ" name="XYZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="X" name="X" label="AAA X" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="Y" name="Y" label="AAA Y" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="AAA Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="AAA F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="BFO" name="Black Forest" label="Data source institute: Black Forest Observatory (BFO)" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/BFO/PT1M/bfo$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=BFO" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2006-08-24</Start>
+      <End>2013-01-25</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="XYZ" name="XYZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="X" name="X" label="BFO X" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="Y" name="Y" label="BFO Y" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="BFO Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="BFO F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="GCK" name="Grocka" label="Data source institute: Geomagnetic Institute Yugoslavia" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/GCK/PT1M/gck$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=GCK" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2006-01-01</Start>
+      <End>2014-12-20</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="XYZ" name="XYZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="X" name="X" label="GCK X" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="Y" name="Y" label="GCK Y" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="GCK Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="GCK F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="LRM" name="Learmonth" label="Data source institute: Geoscience Australia" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/LRM/PT1M/lrm$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=LRM" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2006-01-01</Start>
+      <End>2014-09-16</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="XYZ" name="XYZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="X" name="X" label="LRM X" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="Y" name="Y" label="LRM Y" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="LRM Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="LRM F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="LVV" name="Lviv" label="Data source institute: National Academy of Sciences of Ukraine (IGF " timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/LVV/PT1M/lvv$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=LVV" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2006-01-01</Start>
+      <End>2014-12-22</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="XYZ" name="XYZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="X" name="X" label="LVV X" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="Y" name="Y" label="LVV Y" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="LVV Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="LVV F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="MAB" name="Manhay" label="Data source institute: Royal Meterological Institute of Belgium" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/MAB/PT1M/mab$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=MAB" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2006-01-01</Start>
+      <End>2014-12-19</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="HDZ" name="HDZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="H" name="H" label="MAB H" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="D" name="D" label="MAB D" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="MAB Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="MAB F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="MAW" name="Mawson" label="Data source institute: Geoscience Australia" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/MAW/PT1M/maw$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=MAW" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2006-01-01</Start>
+      <End>2014-09-16</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="XYZ" name="XYZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="X" name="X" label="MAW X" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="Y" name="Y" label="MAW Y" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="MAW Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="MAW F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="SFS" name="San Fernando" label="Data source institute: Real Observatorio de la Armada(ROA)" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/SFS/PT1M/sfs$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=SFS" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2006-01-19</Start>
+      <End>2014-12-30</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="HDZ" name="HDZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="H" name="H" label="SFS H" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="D" name="D" label="SFS D" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="SFS Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="SFS F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="SHU" name="Shumagin" label="Data source institute: United States Geological Survey (USGS)" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/SHU/PT1M/shu$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=SHU" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2006-08-02</Start>
+      <End>2014-10-05</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="HDZ" name="HDZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="H" name="H" label="SHU H" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="D" name="D" label="SHU D" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="SHU Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="SHU F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="IZN" name="Iznik" label="Data source institute: Bogazici University" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/IZN/PT1M/izn$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=IZN" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2007-11-19</Start>
+      <End>2014-12-08</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="HDZ" name="HDZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="H" name="H" label="IZN H" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="D" name="D" label="IZN D" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="IZN Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="IZN F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="PAG" name="Panagjurishte" label="Data source institute: Bulgarian Academy of Science" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/PAG/PT1M/pag$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=PAG" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2007-11-22</Start>
+      <End>2014-10-17</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="XYZ" name="XYZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="X" name="X" label="PAG X" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="Y" name="Y" label="PAG Y" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="PAG Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="PAG F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="DMC" name="DomeC; Concordia" label="Data source institute: EOST" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/DMC/PT1M/dmc$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=DMC" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2009-01-01</Start>
+      <End>2014-12-30</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="XYZ" name="XYZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="X" name="X" label="DMC X" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="Y" name="Y" label="DMC Y" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="DMC Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="DMC F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="HYB" name="Hyderabad" label="Data source institute: National Geophysical Research Institute" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/HYB/PT1M/hyb$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=HYB" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2009-09-22</Start>
+      <End>2014-10-23</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="XYZ" name="XYZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="X" name="X" label="HYB X" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="Y" name="Y" label="HYB Y" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="HYB Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="HYB F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="LYC" name="Lycksele" label="Data source institute: Geological Survey of Sweden (SGU)" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/LYC/PT1M/lyc$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=LYC" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2009-09-22</Start>
+      <End>2014-12-30</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="XYZ" name="XYZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="X" name="X" label="LYC X" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="Y" name="Y" label="LYC Y" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="LYC Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="LYC F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="ALE" name="Alert" label="Data source institute: Geological Survey of Canada (GSC)" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/ALE/PT1M/ale$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=ALE" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2010-02-07</Start>
+      <End>2011-12-30</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="XYZ" name="XYZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="X" name="X" label="ALE X" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="Y" name="Y" label="ALE Y" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="ALE Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="ALE F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="IPM" name="Isla de Pascua Mataveri-Easter Island" label="Data source institute: Institut de Physique du Globe de Paris (IPGP)" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/IPM/PT1M/ipm$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=IPM" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2010-10-20</Start>
+      <End>2014-12-30</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="XYZ" name="XYZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="X" name="X" label="IPM X" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="Y" name="Y" label="IPM Y" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="IPM Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="IPM F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="KMH" name="Keetmanshoop" label="Data source institute: National Research Foundation" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/KMH/PT1M/kmh$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=KMH" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2010-01-01</Start>
+      <End>2014-09-15</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="HDZ" name="HDZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="H" name="H" label="KMH H" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="D" name="D" label="KMH D" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="KMH Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="KMH F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="MGD" name="Magadan" label="Data source institute: IKIR" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/MGD/PT1M/mgd$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=MGD" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2010-02-25</Start>
+      <End>2014-12-30</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="XYZ" name="XYZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="X" name="X" label="MGD X" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="Y" name="Y" label="MGD Y" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="MGD Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="MGD F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="PEG" name="Pedeli" label="Data source institute: Institute of Geology and Mineral Exploration;" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/PEG/PT1M/peg$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=PEG" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2010-03-05</Start>
+      <End>2014-09-14</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="XYZ" name="XYZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="X" name="X" label="PEG X" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="Y" name="Y" label="PEG Y" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="PEG Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="PEG F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="ARS" name="Arti" label="Data source institute: Institute of Geophysics; Russia" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/ARS/PT1M/ars$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=ARS" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2011-07-15</Start>
+      <End>2015-01-06</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="HDZ" name="HDZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="H" name="H" label="ARS H" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="D" name="D" label="ARS D" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="ARS Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="ARS F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="CNH" name="Changchun" label="Data source institute: Earthquake Administration of Jilin Province" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/CNH/PT1M/cnh$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=CNH" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2011-01-01</Start>
+      <End>2014-09-13</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="DHZ" name="DHZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="D" name="D" label="CNH D" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="H" name="H" label="CNH H" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="CNH Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="CNH F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="CSY" name="Casey" label="Data source institute: Geoscience Australia" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/CSY/PT1M/csy$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=CSY" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2011-07-15</Start>
+      <End>2014-09-16</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="XYZ" name="XYZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="X" name="X" label="CSY X" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="Y" name="Y" label="CSY Y" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="CSY Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="CSY F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="KIV" name="Kiev Dymer" label="Data source institute: Russian Academy of Sciences" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/KIV/PT1M/kiv$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=KIV" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2011-01-01</Start>
+      <End>2014-12-30</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="XYZ" name="XYZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="X" name="X" label="KIV X" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="Y" name="Y" label="KIV Y" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="KIV Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="KIV F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="TDC" name="Tristan Da Cunha" label="Data source institute: -----}���[{�      ��{�   ��z�" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/TDC/PT1M/tdc$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=TDC" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2011-10-02</Start>
+      <End>2012-05-30</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="XYZ" name="XYZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="X" name="X" label="TDC X" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="Y" name="Y" label="TDC Y" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="TDC Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="TDC F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="WMQ" name="Urumqi" label="Data source institute: Xinjiang Earthquake Administration" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/WMQ/PT1M/wmq$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=WMQ" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2011-01-01</Start>
+      <End>2014-01-19</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="HDZ" name="HDZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="H" name="H" label="WMQ H" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="D" name="D" label="WMQ D" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="WMQ Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="WMQ F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="YAK" name="Yakutsk" label="Data source institute: Institute of Cosmophysical Research and Aeron" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/YAK/PT1M/yak$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=YAK" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2011-01-01</Start>
+      <End>2014-12-17</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="XYZ" name="XYZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="X" name="X" label="YAK X" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="Y" name="Y" label="YAK Y" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="YAK Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="YAK F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="DED" name="Deadhorse" label="Data source institute: United States Geological Survey (USGS)" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/DED/PT1M/ded$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=DED" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2012-07-26</Start>
+      <End>2014-12-30</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="HDZ" name="HDZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="H" name="H" label="DED H" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="D" name="D" label="DED D" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="DED Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="DED F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="DED" name="Deadhorse" label="Data source institute: United States Geological Survey (USGS)" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/DED/PT1M/ded$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=DED" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2012-07-26</Start>
+      <End>2014-12-30</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="HDZ" name="HDZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="H" name="H" label="DED H" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="D" name="D" label="DED D" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="DED Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="DED F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="DLT" name="Da Lat" label="Data source institute: VNCST (Vietnam) / IPGP (France)" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/DLT/PT1M/dlt$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=DLT" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2012-10-02</Start>
+      <End>2014-09-16</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="XYZ" name="XYZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="X" name="X" label="DLT X" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="Y" name="Y" label="DLT Y" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="DLT Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="DLT F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="PIL" name="Pilar" label="Data source institute: INTERMAGNET Edinburgh GIN" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/PIL/PT1M/pil$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=PIL" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2012-09-21</Start>
+      <End>2014-12-10</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="HDZ" name="HDZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="H" name="H" label="PIL H" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="D" name="D" label="PIL D" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="PIL Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="PIL F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="CKI" name="Cokos (Keeling) Islands" label="Data source institute: Geoscience Australia" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/CKI/PT1M/cki$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=CKI" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2013-09-28</Start>
+      <End>2014-09-16</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="XYZ" name="XYZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="X" name="X" label="CKI X" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="Y" name="Y" label="CKI Y" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="CKI Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="CKI F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="CYG" name="Cheongyang" label="Data source institute: Korea Meteorological Administration" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/CYG/PT1M/cyg$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=CYG" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2013-10-30</Start>
+      <End>2014-12-11</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="XYZ" name="XYZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="X" name="X" label="CYG X" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="Y" name="Y" label="CYG Y" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="CYG Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="CYG F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="GAN" name="Gan Int. Airpt" label="Data source institute: ETH Zurich" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/GAN/PT1M/gan$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=GAN" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2013-09-28</Start>
+      <End>2014-12-30</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="HDZ" name="HDZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="H" name="H" label="GAN H" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="D" name="D" label="GAN D" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="GAN Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="GAN F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="JAI" name="Jaipur" label="Data source institute: Indian Institute of Geomagnetism" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/JAI/PT1M/jai$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=JAI" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2013-11-08</Start>
+      <End>2014-11-11</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="XYZ" name="XYZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="X" name="X" label="JAI X" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="Y" name="Y" label="JAI Y" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="JAI Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="JAI F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="KHB" name="Khabarovsk" label="Data source institute: Inst of Space Phys Research" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/KHB/PT1M/khb$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=KHB" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2013-11-18</Start>
+      <End>2014-12-30</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="HDZ" name="HDZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="H" name="H" label="KHB H" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="D" name="D" label="KHB D" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="KHB Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="KHB F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="ORC" name="Base Orcadas" label="Data source institute: Argentine Met Service" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/ORC/PT1M/orc$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=ORC" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2013-09-28</Start>
+      <End>2014-12-30</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="HDZ" name="HDZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="H" name="H" label="ORC H" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="D" name="D" label="ORC D" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="ORC Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="ORC F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="PET" name="Paratunka" label="Data source institute: IKIR Institute of Cosmophysical Research and " timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/PET/PT1M/pet$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=PET" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2013-09-28</Start>
+      <End>2014-12-15</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="HDZ" name="HDZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="H" name="H" label="PET H" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="D" name="D" label="PET D" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="PET Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="PET F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="VOS" name="Vostok" label="Data source institute: Arctic and Antarctic Research Institute" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/VOS/PT1M/vos$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=VOS" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2013-05-02</Start>
+      <End>2013-05-23</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="XYZ" name="XYZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="X" name="X" label="VOS X" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="Y" name="Y" label="VOS Y" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="VOS Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="VOS F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
+    </variables>
+  </dataset>
+  <dataset id="SON" name="Sonmiani" label="Data source institute: Space &amp; Upper Atmosphere Research Commission;" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="mirror:http://www.intermagnet.org/SON/PT1M/son$Y$m$dvmin.min.gz" lineregex="^[0-9]">
+    <documentation xlink:href="http://intermagnet.org/imos/imos-list/imos-details-eng.php?iaga_code=SON" xlink:title="Observatory Information"/>
+    <timeCoverage>
+      <Start>2014-11-12</Start>
+      <End>2014-12-07</End>
+      <Cadence>PT1M</Cadence>
+    </timeCoverage>
+    <groups>
+      <group id="HDZ" name="HDZ components" type="vector"/>
+    </groups>
+    <variables>
+      <variable id="DOY" name="DOY" label="Day of Year" type="scalar" rendering="%j" columns="3"/>
+      <variable id="H" name="H" label="SON H" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="4"/>
+      <variable id="D" name="D" label="SON D" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="5"/>
+      <variable id="Z" name="Z" label="SON Z" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="6"/>
+      <variable id="F" name="F" label="SON F" units="nT" type="scalar" fillvalue="99999.00" rendering="%.2f" columns="7"/>
     </variables>
   </dataset>
 </catalog>

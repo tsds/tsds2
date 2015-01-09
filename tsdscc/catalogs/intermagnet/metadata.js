@@ -2,7 +2,7 @@ var cadence = process.argv[2] || "PT1M";
 
 var fs = require('fs');
 var zlib = require('zlib');
-var xml2js  = require('xml2js');
+var xml2js = require('xml2js');
 
 // timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" urltemplate="" timecolumns="1,2,3,4,5,6" timeformat="$Y,$m,$d,$H,$M,$S" 
 
@@ -16,62 +16,75 @@ if (cadence === "PT1S") {
 var list  = fs.readFileSync("catalog_"+cadence+".txt").toString();
 var lista = list.split("\n"); // List all
 
-var listg = []; // List good
-var listi = []; // List information
+var listi = []; // First file for each magnetometer
+var listf = []; // Last file for each magnetometer
+var listihead = []; // Header information for each file in listi
 
-// Find first magnetometer file
+// Find first magnetometer file for each file in list
 for (var i = 0;i<lista.length;i++) {
-	dir = "./data/www.intermagnet.org/"+lista[i].split(" ")[0]+"/"+cadence;
-	if (fs.existsSync(dir)) {
-		files = fs.readdirSync(dir);
-		for (var k = 0;k<files.length;k++) {
-			if (files[k].match(/vmin\.min\.gz|vsec\.sec\.gz/)) {
-				listg[i] = dir+"/"+files[k];
-				break;
-			}
-		}
-	} else {
-		console.log("Directory " + dir + " does not exist " + lista[i]);
+    dir = "./data/www.intermagnet.org/"+lista[i].split(" ")[0]+"/"+cadence;
+    listi[i] = "";
+    if (fs.existsSync(dir)) {
+	files = fs.readdirSync(dir);
+	for (var k = 0;k<files.length;k++) {
+	    if (files[k].match(/vmin\.min\.gz|vsec\.sec\.gz/) && listi[i] == "") {
+		listi[i] = dir+"/"+files[k];
+	    }
+	    if (files[k].match(/vmin\.min\.gz|vsec\.sec\.gz/)) {
+		listf[i] = dir+"/"+files[k];
+	    }
 	}
+    } else {
+	console.log("Directory " + dir + " does not exist " + lista[i]);
+    }
 }
 
+
+//console.log(listi)
+//console.log(listf)
+
 // Remove undefined elements.
-listg = listg.filter(function(n){return n}); 
+listi = listi.filter(function(n){return n}); 
 
 // Extract metadata in first file for each station
-var Ns = listg.length;
-//var Ns = 2;
+var Ns = listi.length;
 for (var i = 0;i<Ns;i++) {
-	gzipBuffer = fs.readFileSync(listg[i]);
+	gzipBuffer = fs.readFileSync(listi[i]);
 	unz(i,Ns,function () {
-		createtsml(listi.filter(function(n){return n}));
+		createtsml(listihead.filter(function(n){return n}));
 	});
 }
 
 function unz(i,N,cb) {
-		if (typeof(unz.N) === "undefined") unz.N = 0;
-		
-		zlib.gunzip(gzipBuffer, function(err, result) {
-	    		if (err) {
-	    			console.error(err);
-	    			return;
-	    		};
+    if (typeof(unz.N) === "undefined") unz.N = 0;
+    
+    zlib.gunzip(gzipBuffer, function(err, result) {
+	    if (err) {
+		console.error(err);
+		return;
+	    };
 
-	    		var file = result.toString().split(/\n|\r\n/);
-	    		var coordsys = file.filter(function(line){return line.search(/^ Reported/)!=-1;}).join("").replace(" Reported","");
-	    		var source = file.filter(function(line){return line.search(/^ Source of Data/)!=-1;}).join("").replace(" Source of Data","");
-	    		var name = file.filter(function(line){return line.search(/^ Station Name/)!=-1;}).join("").replace(" Station Name","");
-	    		var lat = file.filter(function(line){return line.search(/^ Geodetic Latitude/)!=-1;}).join("").replace(" Geodetic Latitude","");
-	    		var long = file.filter(function(line){return line.search(/^ Geodetic Longitude/)!=-1;}).join("").replace(" Geodetic Longitude","");
-	    		var meta = lista[i].replace(/ /g,",") + "," + coordsys + "," + lat + "," + long + "," + source.replace(",",";") + "," + name.replace(",",";");
-	    		var line = meta.replace(/\s{2,}|\||^M/g,"");
+	    var mag = listi[i].replace(/.*\//,"").substring(0,3);
+	    var start = listi[i].replace(/.*\//,"").substring(3,11);
+	    var start = start.substring(0,4) + "-" + start.substring(4,6) + "-" + start.substring(6,8);
+	    var stop = listf[i].replace(/.*\//,"").substring(3,11);
+	    var stop = stop.substring(0,4) + "-" + stop.substring(4,6) + "-" + stop.substring(6,8);
 
-	    		listi[i] = line.replace(/'/g,"&apos;");
-	    		unz.N = unz.N+1;
-				console.log("Extracted info from " + listg[i] + " (" + unz.N+ "/" + N+"): "+line);
-	    		if (unz.N === N) cb();
+	    var file = result.toString().split(/\n|\r\n/);
+	    var coordsys = file.filter(function(line){return line.search(/^ Reported/)!=-1;}).join("").replace(" Reported","");
+	    var source = file.filter(function(line){return line.search(/^ Source of Data/)!=-1;}).join("").replace(" Source of Data","");
+	    var name = file.filter(function(line){return line.search(/^ Station Name/)!=-1;}).join("").replace(" Station Name","");
+	    var lat = file.filter(function(line){return line.search(/^ Geodetic Latitude/)!=-1;}).join("").replace(" Geodetic Latitude","");
+	    var long = file.filter(function(line){return line.search(/^ Geodetic Longitude/)!=-1;}).join("").replace(" Geodetic Longitude","");
+	    var meta = mag + "," + start + "," + stop + "," + coordsys + "," + lat + "," + long + "," + source.replace(",",";") + "," + name.replace(",",";");
+	    var line = meta.replace(/\s{2,}|\||^M/g,"");
+	    
+	    listihead[i] = line.replace(/'/g,"&apos;");
+            unz.N = unz.N+1;
+	    console.log("Extracted info from " + listi[i] + " (" + unz.N+ "/" + N+"): "+line);
+            if (unz.N === N) cb();
 
-		});
+	});
 }
 
 function createtsml (list) {
@@ -114,11 +127,11 @@ function createtsml (list) {
 	for (var i = 0;i < list.length;i++) {
 
 		var iv     = list[i].split(",");
-		var MAG    = iv[0];
-		var mag    = MAG.toLowerCase();
+		var MAG    = iv[0].toUpperCase();
+		var mag    = iv[0];
 		var Start  = iv[1];
 		var End    = iv[2];
-		var CSYS   = iv[3];
+		var CSYS   = iv[3].toUpperCase();
 		var LAT    = iv[4];
 		var LON    = iv[5];
 		var SOURCE = iv[6];
