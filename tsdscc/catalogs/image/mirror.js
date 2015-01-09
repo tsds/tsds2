@@ -1,15 +1,32 @@
 var sampling  = process.argv[2] || "orig_int";
-var timerange = "2014-10-01/2014-10-10"; // 1982-10-01 is earliest.
-
-var filestr     = "image"; // Prefix in name of temporary file on server
-var processed   = "./data/space.fmi.fi/space.fmi.fi/";
-var unprocessed = "./data/space.fmi.fi/unprocessed/";
-var url         = "http://space.fmi.fi/cgi-bin/imagecgi/image-data.cgi";
+var timerange = process.argv[3] || ""; // 1982-10-01 is earliest.
 
 var request = require('request');
 var fs      = require('fs');
 var zlib    = require('zlib');
 var mkdirp  = require('mkdirp');
+
+var filestr     = "image_" + sampling + "_"; // Prefix in name of temporary file on server
+var processed   = "./data/space.fmi.fi/";
+var unprocessed = "./data/space.fmi.fi/unprocessed/";
+var url         = "http://space.fmi.fi/cgi-bin/imagecgi/image-data.cgi";
+
+updatemode = false;
+if (timerange == "") {
+	updatemode = true;
+	files = fs.readdirSync(unprocessed);
+	for (var k = 0;k<files.length;k++) {
+		if (files[k].match(sampling)) {
+			last = files[k];
+		}	
+	}
+	console.log("Last file found: "+last);
+	ymd = last.replace(/.*_(.*)\.col2.*/,"$1");
+	timerange = ymd.substring(0,4) + "-" + ymd.substring(4,6) + "-" + ymd.substring(6,8);
+	timerange = timerange + "/P0D";
+}
+
+mkdirp(unprocessed);
 
 var expandISO8601Duration = require(__dirname + "/../../../tsdset/lib/expandtemplate").expandISO8601Duration;
 var expandtemplate = require(__dirname + "/../../../tsdset/lib/expandtemplate").expandtemplate;
@@ -44,10 +61,24 @@ function get(i) {
 				email: "rweigel@gmu.edu"
 			};
 
+	if (fs.existsSync(unprocessed+filestr+files[i])) {
+		console.log("---- File exists: "+unprocessed+filestr+files[i])
+		get(i+1);
+		return;
+	}
+
 	// Make request for temporary data file to be created.
 	request.post( {url: url, form: form},
 	 function (error, response, body) {
 		console.log("Requesting http://space.fmi.fi/image/plots/"+filestr+files[i]);
+		if (body.match("not yet available")) {
+			if (updatemode) {
+				console.log("No data available.  Assuming previous day is last day of available data and exiting.");
+				return;
+			} else {
+				console.log("No data available.");
+			}
+		}
 		get(i+1);
 		if (body.match("Unexpected error")) {
 			console.log("---- Problem with request for "+files[i].replace(".col2.gz",""));
@@ -97,7 +128,7 @@ function splitfile(fname) {
 				}
 				for (var j = 0;j<nm/3;j++) {
 					var TLC = tmp[6+3*j].replace(/_[A-Z]/,"");
-					var fname2 = processed+TLC+"/" + cadence + 
+					var fname2 = processed+TLC+"/" + cadence + "/" +
 									fname
 										.replace(unprocessed,"")
 										.replace("00.col2.gz","")

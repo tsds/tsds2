@@ -15,7 +15,7 @@
 		<script type="text/javascript" src="js/deps/jquery.query-2.1.3.js"></script>
 		<script type="text/javascript" src="js/deps/jquery.ba-hashchange-1.3.js"></script>
 		<script type="text/javascript" src="js/jquery.scrollTo-min.js"></script>
-		<script type="text/javascript" src="http://tsds.org/et/lib/expandtemplate.js"></script>
+		<script type="text/javascript" src="js/expandtemplate.js"></script>
 		<script type="text/javascript" src="js/dropdown2.js"></script>
 		<script>
 
@@ -216,7 +216,12 @@
 			}
 
 			function hidedivs() {
-				$('#datasetinfo').html("");$('#parameterinfo').html("");$('#outputinfo').hide();$('#datadiv').hide();$('#previewimgdiv').hide();$('#overviewdiv').hide();
+				$('#datasetinfo').html("");
+				$('#parameterinfo').html("");
+				$('#outputinfo').hide();
+				$('#datadiv').hide();
+				$('#previewimgdiv').hide();
+				$('#overviewdiv').hide();
 			}
 			
 			function catalogs(i) {
@@ -232,16 +237,15 @@
 					info = tsdsfeajax(i,url);
 					catalog.info = info;
 					$('#cataloginfo').html("<b>Catalog information:</b>");					
-	
+					console.log(info)
 					if (info.length > 0) {
 						$('#cataloginfo').append('<ul style="list-style-position: outside;">');	
-						$('#cataloginfo ul').append('<li style=""><a href="'+info[0].href+'">Catalog configuration</a></li>');
 						console.log("Info: " + info[0].title);
 						for (j = 0;j < info.length;j++) {
 							if (!(info[j].title === "") && !(info[j].link === "")) {
-								$('#cataloginfo ul').append('<li style=""><a href="'+info[j].link+'">'+info[j].title+'</a></li>');
+								$('#cataloginfo ul').append('<li style=""><a href="'+info[j].link+'" title="'+info[j].link+'">'+info[j].title+'</a></li>');
 							} else if ((info[j].title === "") && !(info[j].link === "")) {
-								$('#catalogtinfo ul').append('<li style=""><a href="'+info[j].link+'">'+info[j].link+'</a></li>');
+								$('#catalogtinfo ul').append('<li style=""><a href="'+info[j].link+'" title="'+info[j].link+'">'+info[j].link+'</a></li>');
 							}
 						}						
  
@@ -283,7 +287,11 @@
 						}
 					}
 					$('#datasetinfo ul').append('</ul>');
-					$('#parameterinfo').html("");$('#outputinfo').hide();$('#datadiv').hide();$('#previewimgdiv').hide();$('#overviewdiv').hide();
+					$('#parameterinfo').html("");
+					$('#outputinfo').hide();
+					$('#datadiv').hide();
+					$('#previewimgdiv').hide();
+					$('#overviewdiv').hide();
 					
 					//updatehash(i,"dataset");	
 				};
@@ -462,7 +470,17 @@
 					dorequest();
 					//updatehash(i,"output");
 				}
-				values = [{label:"Data (native)", value:"0"},{label:"Data (iso)",value:"1"},{label:"Data (yyyy mm dd hh mm ss)",value:"2"},{label:"PNG",value:"png"},{label:"PDF",value:"pdf"},{label:"SVG",value:"svg"},{label:"IDL (script)",value:"idl"},{label:"MATLAB (script)",value:"matlab"}];
+				values = [
+							{label:"Data (native)", value:"0"},
+							{label:"Data (iso)",value:"1"},
+							{label:"Data (yyyy mm dd hh mm ss)",value:"2"},
+							{label:"PNG",value:"png"},
+							{label:"PDF",value:"pdf"},
+							{label:"SVG",value:"svg"},
+							{label:"Gallery",value:"viviz"},
+							{label:"IDL (script)",value:"idl"},
+							{label:"MATLAB (script)",value:"matlab"}
+						];
 				return values;
 			}
 			
@@ -631,8 +649,12 @@
 				$("#status").hide();
 				url = "?catalog="+selected('catalog')+"&dataset="+selected('dataset')+"&parameters="+selected('parameters')+"&start="+selected('start')+"&stop="+selected('stop');
 				
-				if (selected('outformat') === 'matlab' || selected('outformat') === 'idl') {
+				if (selected('outformat').match(/matlab|idl|viviz/)) {
 					url = url+"&return=" + selected('outformat');
+					if (selected('outformat').match("viviz")) {
+						location.href = url;
+						return;
+					}
 					$("#dlframe").html("");
 					$("#dldiv").show();
 					$("#dlframe").attr("src",url);
@@ -662,14 +684,17 @@
 					}
 					if (!$("#usecache").is(":checked")) {
 						url = url + "&usecache=false";
-					}  
+					}
+					url = url + "&attach=false";
+					// To work-around bug in how browser handles concatenated gzip files.
+					// See tsdsfe.js code comments.  
 
 					$("#datadiv").show();
 					$("#datadiv > iframe").contents().find("body").html('');
 					$("#datadiv > iframe").attr("src",url);
-					$("#datadiv > div > a").attr("href",url);
-					$("#datadiv > div > a").attr("title",url);
-					$("#datadiv > div > a").text(url);
+					$("#datadiv > div > a").attr("href",url);//.replace("&attach=false",""));
+					$("#datadiv > div > a").attr("title",url);//.replace("&attach=false",""));
+					//$("#datadiv > div > a").text(url);
 
 					//window.location = url;
 				}
@@ -735,21 +760,20 @@
 	
 		<div id="infodiv" style="margin-left:14em;;margin-top:0em;">		
 			<div id="dldiv" style="background-color:white;display:none;">
-				<div><b>Download script:</b></div>
 				<iframe id="dlframe" style="width:95%;height:20em;"></iframe>
 			</div>
 			<div id="imagediv" style="background-color:white;width:100%;height:100%;display:none;">
 				<p>
-					<b>Output:</b>
-					<div>Direct link: <a target="_blank"></a></div>
+					<div><a target="_blank">Direct link</a></div>
 					<img></img>
 					<img id="imgdivloading" src="css/ajax-loader.gif"/>
 				</p>
 			</div>
 			<div id="datadiv" style="display:none;background-color:white;align:left">
 				<p>
-					<div><a target="_blank">Data</a></div>
+					<div><a target="_blank">Direct link</a></div>
 					<iframe style="width:95%;height:100%;"></iframe>
+
 				</p>
 			</div>
 
@@ -764,6 +788,8 @@
 					<li>2: Space-separated values with Year Month Day Hour Minute Seconds timestamps</li>
 				    <li>PNG - A single PNG image with data over selected time range</li>
 				    <li>PDF - A single PDF file with data over selected time range</li>
+				    <li>SVG - A single SVG file with data over selected time range</li>
+				    <li>Gallery - A <a href="http://viviz.org/">ViViz</a> gallery of PNG images of data over selected time range (one day of data per image)</li>
 				    <li>SVG - A single SVG file with data over selected time range</li>
 					<li>IDL (script) - A script that when executed in IDL, creates a data array <code>D</code> and label array <code>L</code>.</li>
 					<li>MATLAB (script) - A script that when executed in MATLAB, creates a data array <code>D</code> and label array <code>L</code>.</li>

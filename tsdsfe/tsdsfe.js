@@ -41,6 +41,12 @@ if (fs.existsSync(__dirname + "/conf/config."+os.hostname()+".js")) {
 	var config = require(__dirname + "/conf/config.js").config();
 }
 
+if (config.TSDSFE.match(/http:\/\/localhost/)) {
+	if (!config.AUTOPLOT.match(/http:\/\/localhost/)) {
+		console.log("Warning: stream(): Image request will not work because Autoplot image servlet specified by config.AUTOPLOT must be localhost if config.TSDSFE is localhost.")
+	}
+}
+
 // Serve files in these directories as static files
 app.use("/js", express.static(__dirname + "/js"));
 app.use("/css", express.static(__dirname + "/css"));
@@ -85,9 +91,9 @@ function handleRequest(req, res) {
 		console.log(options)
 	}
 
-	res.header('Access-Control-Allow-Origin', '*');
-	res.header('Access-Control-Allow-Methods', 'GET,POST');
-	res.header('Access-Control-Allow-Headers', 'Content-Type');
+	//res.header('Access-Control-Allow-Origin', '*');
+	//res.header('Access-Control-Allow-Methods', 'GET,POST');
+	//res.header('Access-Control-Allow-Headers', 'Content-Type');
 
 	options.res = res;
 	options.req = req;
@@ -215,7 +221,9 @@ function handleRequest(req, res) {
 	// TODO: Move this inside of stream() and use stream.Nc as variable.
 	var Nc = 0;
 
-	res.setHeader("Content-Type","text/plain"); 
+	//Sending this to the browser causes only one chunk to be rendered followed by
+	//trailing garbage.
+	//res.setHeader("Content-Type","text/plain"); 
 
 	if (N > 1) {
 
@@ -255,12 +263,8 @@ function handleRequest(req, res) {
 	function stream(status, data) {
 		if (debugapp) console.log("stream(): Stream called.")
 
-		// TODO: Not all stream options will work for requests that span multiple catalogs.  Document and fix.
-
-		if (options.attach === "true") {
-			// TODO: Add this option and document it in API.
-			//res.setHeader('Content-disposition', 'attachment; filename=data')
-		}
+		// TODO: Not all stream options will work for requests that span multiple catalogs.
+		// Document and fix.
 
 		if (status == 0) {
 
@@ -279,34 +283,37 @@ function handleRequest(req, res) {
 				return;
 			}
 
-			if (req.headers['accept-encoding']) {
-				if (req.headers['accept-encoding'].match("gzip")) {
-					if (data.match("streamGzip")) {
-						// In this case we are receiving a gzipped stream from DataCache.
+			// By default, use attach = true.  If displaying stream in browser, must
+			// return un-gzipped data from DataCache.  DataCache sends concatenated gzip
+			// files, which most browsers don't handle.  Result is first file is displayed and
+			// then trailing garbage.  See
+			// http://stackoverflow.com/questions/16740034/http-how-to-send-multiple-pre-cached-gzipped-chunks
+			if ((options.attach) && ((options.return === "stream") || (options.return === "redirect"))) {
+				if (req.headers['accept-encoding']) {
+					if (req.headers['accept-encoding'].match("gzip")) {
 						res.setHeader('Content-Encoding','gzip');
+						// Request a gzipped stream from DataCache.
 						data = data.replace("streamGzip=false","streamGzip=true");
 					}
 				}
+				//var fname = req.originalUrl;//.replace(/^&/,"").replace(/\&/g,"_").replace(/\=/g,"-")+"txt";
+				//console.log(fname)
+				//res.setHeader("Content-Disposition", "attachment;filename="+fname);
 			}
 
 			// If stream was called with a URL, pipe the data through.
 			if (debugapp) console.log("stream(): Streaming from\n\t"+data)
+			
+			//Better method for Nc == 0
+			//request.get(data).pipe(res);
+			//return;
 
 			// Request data from URL.
+			var urldata = "";
+
 			var sreq = http.get(data, function(res0) {
 
-				var urldata = [];
-
-				//http.get(url.parse(data), function(res0) {
-				//util.pump(res0,res);return;
-				//if (debugapp) console.log(res0.headers)
-				//res.setHeader('Content-Disposition','attachment; filename='+res0.headers['content-disposition']);
-
-				//console.log(res0.headers)
-
 				if (Nc == 0) {
-					res.setHeader('Transfer-Encoding','chunked');
-
 					if (res0.headers["content-type"])
 						res.setHeader('Content-Type',res0.headers["content-type"]);
 
@@ -317,17 +324,14 @@ function handleRequest(req, res) {
 						res.setHeader('Expires',res0.headers["expires"]);
 				}
 
-				res0.setTimeout(1000*60*15,function () {console.log("----Timeout")});
+				res0.setTimeout(1000*60*15,function () {console.log("--- Timeout for\n\t"+data)});
+
 				res0
 					.on('data', function(chunk) {
 						res.write(chunk);
 						if (debugapp) {
 							if (data.length == 0) console.log("stream(): Got first chunk of size "+chunk.length+".");
 						}
-						//urldata = urldatadata+chunk;
-						//if(!flushed) res0.pause();
-						//console.log("Got chunk of size "+chunk.length);
-						//console.log(data)
 					})
 					.on('end', function() {
 						if (debugapp) console.log('stream(): Got end.');
@@ -352,9 +356,9 @@ function handleRequest(req, res) {
 
 				res.status(502).send("Error when attempting to retrieve data from data from upstream server "+data.split("/")[2]);
 			});
-		} else if (status == 301) {
+		} else if (status == 301 || status == 302) {
 			if (debugstream) console.log("stream(): Redirecting to "+data);
-			res.redirect(301,data);
+			res.redirect(status,data);
 		} else {
 			if (debugstream) console.log("Sending JSON.");
 
@@ -417,11 +421,11 @@ function parseOptions(req) {
 	options.stop         = req.query.stop         || req.body.stop         || "";
 	options.timerange    = req.query.timerange    || req.body.timerange    || "";
 	options.return       = req.query.return       || req.body.return       || "stream";
-	options.attach       = req.query.attach       || req.body.attach       || "";
 	options.outformat    = req.query.outformat    || req.body.outformat    || "1";
 	options.filter       = req.query.filter       || req.body.filter       || "";
 	options.filterWindow = req.query.filterWindow || req.body.filterWindow || "";
 	options.usecache     = s2b(req.query.usecache || req.body.usecache     || "true"); // Send DataCache parameter usecache.
+	options.attach       = s2b(req.query.attach   || req.body.attach       || "true");
 
 	//plotoptions      = "width=500&height=100&font=sans-8&column=10em%2C100%25-3em&row=1em%2C100%25-4em&renderType=&color=%230000ff&fillColor=%23aaaaff&foregroundColor=%23ffffff&backgroundColor=%23000000";
 
@@ -444,7 +448,6 @@ function parseOptions(req) {
 	if (options.return === "autoplot-bookmarks" && options.outformat != "json") {
 		options.outformat = "xml";
 	}
-
 
 	if (options.return === "dd" || options.return.match("urilist")) {
 		// options.return === "urilistflat" is technically not a JSON format, but processing is same
@@ -735,13 +738,16 @@ function catalog(options, cb) {
 				// If only one catalog matched pattern.
 				getandparse(resp[0].href,options,
 					function (result) {
-						var resp = [];
-						for (var k = 0; k < result["catalog"]["documentation"].length;k++) {
-							resp[k] = {};
-							resp[k].title = result["catalog"]["documentation"][k]["$"]["xlink:title"];
-							resp[k].link  = result["catalog"]["documentation"][k]["$"]["xlink:href"];
+						var oresp = [];
+						oresp[0] = {};
+						oresp[0].title = "Catalog configuration";
+						oresp[0].link  = resp[0].href;
+						for (var k = 1; k < result["catalog"]["documentation"].length;k++) {
+							oresp[k] = {};
+							oresp[k].title = result["catalog"]["documentation"][k-1]["$"]["xlink:title"];
+							oresp[k].link  = result["catalog"]["documentation"][k-1]["$"]["xlink:href"];
 						}
-						cb(200,resp);
+						cb(200,oresp);
 					})
 			} else {
 				// If more than one catalog matched pattern,
@@ -1010,11 +1016,13 @@ function parameter(options, catalogs, datasets, cb) {
 	var urlprocessor = resp[0].dd.urlprocessor;
 	var urlsource    = resp[0].dd.urlsource;
 		
-	if (Date.parse(stop) < Date.parse(start)) {
+	if ((new Date(stop)).getTime() < (new Date(start)).getTime()) {
 		cb(500,"Stop time is before start time.");
 		return;
 	}
-	if (Date.parse(start) > Date.parse(stop)) {
+
+	//if (Date.parse(start) > Date.parse(stop)) {
+	if ((new Date(start)).getTime() > (new Date(stop)).getTime()) {	
 		cb(500,"Start time is after stop time.");
 		return;
 	}
@@ -1035,15 +1043,32 @@ function parameter(options, catalogs, datasets, cb) {
 	} else {
 		var dc = config.DC+"?timeRange="+start+"/"+stop;
 	}
-		
+	
 	if (options.return === "urilist") {
 		cb(0,dc+"&return=urilist");
+		return;
 	}
 	if (options.return === "urilistflat") {
 		cb(0,dc+"&return=urilistflat");
+		return;
 	}
 
-	if (options.return === "png" || options.return === "pdf" || options.return === "svg" || options.return === "jyds" || options.return === "matlab" || options.return === "idl") {
+	if (options.return === "viviz") {
+		var viviz = config.VIVIZ 
+					+ "#" 
+					+ config.TSDSFE 
+					+ "%3Fcatalog%3D" + options.catalog
+					+ "%26dataset%3D" + options.dataset
+					+ "%26parameters%3D" + options.parameters
+					+ "%26return%3Dpng%26"
+					+ "&strftime=start%3D-P1D%26stop%3D$Y-$m-$d"
+					+ "&start=" + options.start
+					+ "&stop=" + options.stop;
+		cb(302,viviz);
+		return;
+	}
+
+	if (options.return === "png" || options.return === "pdf" || options.return === "svg" || options.return === "jnlp" || options.return === "matlab" || options.return === "idl") {
 		// If more than one resp, this won't work.
 
 		var Labels = "'";
@@ -1081,7 +1106,7 @@ function parameter(options, catalogs, datasets, cb) {
 
 		url = config.JYDS + "?server="+config.TSDSFE+"&catalog="+resp[0].catalog+"&dataset="+resp[0].dataset+"&parameters="+resp[0].parameter+"&timerange="+start+"/"+stop;
 
-		if (options.return === "jyds") {
+		if (options.return === "jnlp") {
 			cb(301,"http://autoplot.org/autoplot.jnlp?open=vap+jyds:"+url);
 			return;
 		}
@@ -1143,6 +1168,7 @@ function parameter(options, catalogs, datasets, cb) {
 		}
 		
 		cb(200,ddresp);
+		return;
 	}
 	
 	if ((options.return === "stream") || (options.return === "redirect")) {				 
@@ -1168,10 +1194,15 @@ function parameter(options, catalogs, datasets, cb) {
 		if (options.return === "redirect") {
 			// If more than one resp, this won't work.
 			cb(302,dc);
+			return;
 		}
 
 		//dc = dc+"&return=stream&lineRegExp="+resp[0].dd.lineregex + "&timecolumns="+resp[0].dd.timecolumns+"&timeformat="+resp[0].dd.timeformat+"&streamFilterReadColumns="+columns+"&lineFormatter=formattedTime&outformat="+options.outformat;
 		//console.log(dc)
-		cb(0,dc)
+		cb(0,dc);
+		return;
 	}
+
+	cb(500,"Query parameter return="+options.return+" not recognized.");
+
 }

@@ -8,8 +8,6 @@
 	<catalogRef ID="USGS/Mag/RT/PT1M" xlink:title="USGS/Mag/RT/PT1M" xlink:href="USGS/Mag/RT/PT1M.xml"/>
 	<catalogRef ID="USGS/Mag/RT/PT1S" xlink:title="USGS/Mag/RT/PT1S" xlink:href="USGS/Mag/RT/PT1S.xml"/>
 	<catalogRef ID="LISIRD" xlink:title="LISIRD" xlink:href="LISIRD/LISIRD.xml"/>
-	<catalogRef ID="SWPC/AK/2DayFile" xlink:title="SWPC/AK/2DayFile" xlink:href="SWPC/AK/2DayFile.xml"/>
-	<catalogRef ID="SWPC/AK" xlink:title="SWPC/AK" xlink:href="SWPC/AK.xml"/>
 	<catalogRef ID="SWPC/GOES/Primary/Particle/PT1M" xlink:title="SWPC/GOES/Primary/Particle/PT1M" xlink:href="SWPC/GOES/Primary/Particle/PT1M.xml"/>
 	<catalogRef ID="SWPC/GOES/Primary/XRay/PT1M" xlink:title="SWPC/GOES/Primary/XRay/PT1M" xlink:href="SWPC/GOES/Primary/XRay/PT1M.xml"/>
 	<catalogRef ID="CARISMA/FGM/PT1S" xlink:title="CARISMA/FGM/PT1S" xlink:href="CARISMA/FGM/PT1S.xml"/>
@@ -18,4 +16,8 @@
 	<catalogRef ID="IMAGE/PT10S" xlink:title="IMAGE/PT10S" xlink:href="IMAGE/PT10S.xml"/>
 	<catalogRef ID="INTERMAGNET/PT1M" xlink:title="INTERMAGNET/PT1M" xlink:href="INTERMAGNET/PT1M.xml"/>
 	<catalogRef ID="INTERMAGNET/PT1S" xlink:title="INTERMAGNET/PT1S" xlink:href="INTERMAGNET/PT1S.xml"/>
+	<catalogRef ID="WDC/PT1M" xlink:title="WDC/PT1M" xlink:href="WDC/PT1M.xml"/>
+	<catalogRef ID="WDC/PT1H" xlink:title="WDC/PT1H" xlink:href="WDC/PT1H.xml"/>
+	<catalogRef ID="SWPC/AK/2DayFile" xlink:title="SWPC/AK/2DayFile" xlink:href="SWPC/AK/2DayFile.xml"/>
+	<catalogRef ID="SWPC/AK" xlink:title="SWPC/AK" xlink:href="SWPC/AK.xml"/>
 </catalog>

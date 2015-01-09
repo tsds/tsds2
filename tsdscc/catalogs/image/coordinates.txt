@@ -22,6 +22,7 @@ SOD	Sodankylä      67.37	26.63
 PEL	Pello	       66.90	24.08
 JCK	Jäckvik	       66.40	16.98
 DON	Dønna	       66.11	12.50
+RAN	Rørvik		   65.54	26.25
 RVK	Rørvik	       64.94	10.98
 LYC	Lycksele       64.61	18.75
 OUJ	Oulujärvi      64.52	27.23
