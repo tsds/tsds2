@@ -41,9 +41,9 @@ bdt1990010912vmin.min
 bdt1990010918vmin.min
 
 bdt$Y$m$d-${Y;offset=1}${m;offset=1}$dvmin.min,2000-01-01/2000-01-04,strftime
-bdt20000101-20020301vmin.min
-bdt20000102-20030402vmin.min
-bdt20000103-20040503vmin.min
+bdt20000101-20010201vmin.min
+bdt20000102-20020302vmin.min
+bdt20000103-20030403vmin.min
 
 bdt$Y${m;delta=2}${d;offset=1}vmin.min,2000-01-01/2000-01-04,strftime
 bdt200001vmin.min
@@ -96,4 +96,8 @@ bdt19991231vmin.min
 bdt$Y$m$dvmin.min,P2D/2000-01-01,strftime
 bdt20000101vmin.min
 bdt20000102vmin.min
+
+bdt$Y$jvmin.min,2012-09-01/2012-09-03,strftime
+bdt2012245vmin.min
+bdt2012246vmin.min
 

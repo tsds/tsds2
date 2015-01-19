@@ -1,3 +1,6 @@
+var tests = [];
+i = 0;
+
 i = i+1;
 tests[i] = {};
 tests[i].url = "catalog=SWPC/AK&dataset=AK&parameters=PlanetaryK&start=-P10D&stop=-P2D";

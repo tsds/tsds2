@@ -832,14 +832,27 @@ function dataset(options, catalogs, cb) {
 				if (dresp.length == 1 && options.dataset.substring(0,1) !== "^") {
 					if (typeof(datasets[z]["documentation"]) !== "undefined") {
 						for (var k = 0; k < datasets[z]["documentation"].length;k++) {
+							console.log(datasets[z]["documentation"][k])
 							dresp[k] = {};
-							dresp[k].title = datasets[z]["documentation"][k]["$"]["xlink:title"];
-							dresp[k].link  = datasets[z]["documentation"][k]["$"]["xlink:href"];
+							dresp[k].title = "";
+							dresp[k].link = "";
+							dresp[k].text = "";
+							if (datasets[z]["documentation"][k]["$"]) {
+								if (datasets[z]["documentation"][k]["$"]["xlink:title"])
+									dresp[k].title = datasets[z]["documentation"][k]["$"]["xlink:title"];
+								if (datasets[z]["documentation"][k]["$"]["xlink:href"])
+									dresp[k].link  = datasets[z]["documentation"][k]["$"]["xlink:href"];
+							}
+							if (datasets[z]["documentation"][k]["_"])
+								dresp[k].text  = datasets[z]["documentation"][k]["_"];
+							if (typeof(datasets[z]["documentation"][k]) === "string")
+								dresp[k].text  = datasets[z]["documentation"][k];
 						}
 					} else {
 						dresp[0] = {};
 						dresp[0].title = "No dataset documentation in catalog";
-						dresp[0].link  = "";									
+						dresp[0].link  = "";
+						dresp[0].text  = "";							
 					}
 					cb(200,dresp);
 				} else {

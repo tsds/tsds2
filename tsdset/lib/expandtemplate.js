@@ -15,7 +15,7 @@ function expandtemplate(options,callback) {
 	var proxy      = options.proxy;
 	var side       = "client";
 	
-	//debug = true;
+	debug = true;
 
 	if (options.timeRange) {
 		timeRange = expandISO8601Duration(timeRange);
@@ -143,10 +143,10 @@ function expandtemplate(options,callback) {
 				//console.log(START_dateinc);
 				//console.log(START_dateoff);
 				files[i] = START_dateinc.strftime(template);
-				//console.log(files[i])
 				START_dateinc.add(addinc);
-				START_dateoff.add(addoff);
+
 				files[i] = START_dateoff.strftime(files[i].replace(/\$/g,"%"));
+				START_dateoff.add(addoff);
 				i = i+1;
 			}
 			if (Stop.substring(11).match(/[1-9]/)) {

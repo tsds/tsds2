@@ -1,4 +1,16 @@
+
 CAT=CDAWeb
+
+catalog:
+	wget -O $(CAT).raw "http://cdaweb.gsfc.nasa.gov/WS/cdasr/1/dataviews/sp_phys/datasets"
+
+	curl "http://cdaweb.gsfc.nasa.gov/WS/cdasr/1/dataviews/sp_phys/datasets/AC_H0_MFI/variables"
+	# For each variable
+	curl "http://cdaweb.gsfc.nasa.gov/WS/cdasr/1/dataviews/sp_phys/datasets/AC_H0_MFI/data/20050101T000000Z,20050102T000000Z/Magnitude?format=text"
+	# Extract filename from returned XML
+	curl http://cdaweb.gsfc.nasa.gov/tmp/ws855111615/ac_h0_mfi.txt
+	# Extract units and labels.
+
 XSLT=B63827D8-4552-4232-A5DF-F18B5DA0F33C
 XSLT2=0D52E7BA-A189-3CD8-D1AB-2DA29DB61D03
 

@@ -1,12 +1,13 @@
 
 // Run all tests:
-//		nodejs test/test.js --testfile=test/failing-tests.js
-//		nodejs test/test.js --testfile=test/data-tests.js
 //		nodejs test/test.js --testfile=test/metadata-tests.js
+//		nodejs test/test.js --testfile=test/data-tests.js
+//		nodejs test/test.js --testfile=test/failing-tests.js
+//
 // Run one test:
-//		nodejs test/test.js --start=27 --alltests=false
-// Run all tests including and after test 3:
-//		nodejs test/test.js --start=3
+//		nodejs test/test.js --start=4
+// Run all tests starting at test #:
+//		nodejs test/test.js --start=4 --onetest=false
 
 var fs       = require("fs");
 var sys      = require('sys');
@@ -25,8 +26,8 @@ function logc(str,color) {var msg = clc.xterm(color); console.log(msg(str));};
 function s2b(str) {if (str === "true") {return true} else {return false}}
 function s2i(str) {return parseInt(str)}
 
-var tn       = argv.start || 0;				// Start test Number
-var alltests = s2b(argv.alltests || "true");
+var start    = s2i(argv.start || 0); // Start test Number
+var onetest  = s2b(argv.onetest || "true");
 var Ntests   = argv.ntests;
 var port     = argv.port || 8004;
 var testfile = argv.testfile || './test/failing-tests.js';
@@ -35,28 +36,33 @@ eval(fs.readFileSync(testfile,'utf8'));
 // DataCache server to use
 var server  = "http://localhost:"+port+"/";	
 
-
 console.log("--------------------------------------------------------")
 console.log("--------------------------------------------------------")
 
-runtest(tn,1);
+var m = 1;
+runtest(0,m);
 
 function gettests(m) {
 
 	var xtests = [];
 
 	//console.log("Creating urls for test "+m)
+	if (onetest) {
+		testsr = tests.slice(start,start+1);
+	} else {
+		testsr = tests.slice(start);
+	}
 
-	for (var z = 0;z<tests.length;z++) {
+	for (var z = 0;z<testsr.length;z++) {
 		xtests[z] = {};
-		xtests[z].test = tests[z].test || "";
-		xtests[z].note = tests[z].note || "";
+		xtests[z].test = testsr[z].test || "";
+		xtests[z].note = testsr[z].note || "";
 
 		if (m == 1) {
-			xtests[z].url = server + "?usecache=false&" + tests[z].url;
+			xtests[z].url = server + "?usecache=false&" + testsr[z].url;
 		}
 		if (m == 2) {
-			xtests[z].url = server + "?" + tests[z].url;
+			xtests[z].url = server + "?" + testsr[z].url;
 		}
 	}
 
@@ -77,7 +83,7 @@ function diff(f1,f2) {
 function command(jj,m) {
 	var xtests = gettests(m);
 	var com = "";
-	var fname = "test/output/out." + jj + "." + m;
+	var fname = "test/output/out." + (jj+start) + "." + m;
 
 	if (xtests[jj].url.match("stop") && !xtests[jj].url.match("urilist")) {
 		//com = 'curl -s -g "' + xtests[jj].url + '" | gunzip > ' + fname;
@@ -98,19 +104,19 @@ function runtest(jj,m) {
 	var xtests = gettests(m);
 	var xcom = command(jj,m);
 
-	console.log("\nTest "+jj)
+	console.log("\nTest "+(jj+start));
 	console.log("Executing "+xcom)
 	
-	var fname = "test/output/out." + jj + "." + m;
+	var fname = "test/output/out." + (jj+start) + "." + m;
 	child = exec(xcom, function (error, stdout, stderr) {
 	    	console.log("Reading "+fname);
 	    	data = fs.readFileSync(fname);
 	    	if (xtests[jj].test) {
-	    	    console.log("Request "+jj+" completed.  Running test.");
+	    	    console.log("Request "+(jj+start)+" completed.  Running test.");
 	    		ret = xtests[jj].test(data);
 	    	} else {
 	    	    console.log("Request "+jj+" completed.  Comparing output.");
-	    		ret = diff("test/output0/out." + jj + ".0","test/output/out." + jj + "." + m);
+	    		ret = diff("test/output0/out." + (jj+start) + ".0","test/output/out." + (jj+start) + "." + m);
 	    	}
 		if (ret == true) {
 			runtest.sum = runtest.sum+1;
@@ -135,11 +141,11 @@ function runtest(jj,m) {
 			runtest(jj+1,m);
 		} else {
 			console.log("")
-			if (alltests) {
-				if (runtest.sum == tests.length) {
-					logc((runtest.sum)+ "/" + tests.length + " tests passed.",10);
+			if (!onetest) {
+				if (runtest.sum == xtests.length) {
+					logc((runtest.sum)+ "/" + xtests.length + " tests passed.",10);
 				} else {
-					logc((runtest.sum)+ "/" + tests.length + " tests passed.",9);
+					logc((runtest.sum)+ "/" + xtests.length + " tests passed.",9);
 				}
 			}
 			

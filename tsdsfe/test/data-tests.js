@@ -1,42 +1,11 @@
-var os      = require("os");
-
 var tests = [];
-
 i = 0;
+
 tests[i] = {};
 tests[i].url = "catalog=SWPC/GOES/Primary/Particle/PT1M&dataset=Gp_particles&parameters=E_gt_4.0&start=-P3D&stop=-P1D";
 tests[i].test = function (data) {
 	var len = data.toString().split("\n").length;
 	console.log("File should have 577 newlines.  Found: " + len);
-	if (len == 577) {return true;} else {return false}
-};
-
-i = i+1;
-tests[i] = {};
-tests[i].url = "catalog=SWPC/GOES/Primary/Particle/PT1M&dataset=Gp_particles&parameters=E_gt_4.0&start=-P3D&stop=-P1D&outformat=0";
-tests[i].test = function (data) {
-	var len = data.toString().split("\n").length;
-	console.log("File should have 577 newlines.  Found: " + len );
-	if (len == 577) {return true;} else {return false}
-};
-
-// If outformat > 0, subsetting is done within granule.
-i = i+1;
-tests[i] = {};
-tests[i].url = "catalog=SWPC/GOES/Primary/Particle/PT1M&dataset=Gp_particles&parameters=E_gt_4.0&start=-P3D&stop=-P1D&outformat=1";
-tests[i].test = function (data) {
-	var len = data.toString().split("\n").length;
-	console.log("File should have 577 newlines.  Found: " + len );
-	if (len == 577) {return true;} else {return false}
-};
-
-// If outformat > 0, subsetting is done within granule.
-i = i+1;
-tests[i] = {};
-tests[i].url = "catalog=SWPC/GOES/Primary/Particle/PT1M&dataset=Gp_particles&parameters=E_gt_4.0&start=-P3D&stop=-P1D&outformat=2";
-tests[i].test = function (data) {
-	var len = data.toString().split("\n").length;
-	console.log("File should have 577 newlines.  Found: " + len );
 	if (len == 577) {return true;} else {return false}
 };
 
@@ -51,40 +20,12 @@ tests[i].test = function (data) {
 
 i = i+1;
 tests[i] = {};
-tests[i].url = "catalog=USGS/Mag/RT/PT1M&dataset=BDT&parameters=H&start=-P3D&stop=P0D&outformat=0";
-tests[i].test = function (data) {
-	var len = data.toString().split("\n").length;
-	console.log("File should have 4321 newlines.  Found: " + len );
-	if (len == 4321) {return true;} else {return false}
-};
-
-i = i+1;
-tests[i] = {};
-tests[i].url = "catalog=USGS/Mag/RT/PT1M&dataset=BDT&parameters=H&start=-P3D&stop=P0D&outformat=1";
-tests[i].test = function (data) {
-	var len = data.toString().split("\n").length;
-	console.log("File should have 4321 newlines.  Found: " + len );
-	if (len == 4321) {return true;} else {return false}
-};
-
-i = i+1;
-tests[i] = {};
-tests[i].url = "catalog=USGS/Mag/RT/PT1M&dataset=BDT&parameters=H&start=-P3D&stop=P0D&outformat=2";
-tests[i].test = function (data) {
-	var len = data.toString().split("\n").length;
-	console.log("File should have 4321 newlines.  Found: " + len );
-	if (len == 4321) {return true;} else {return false}
-};
-
-i = i+1;
-tests[i] = {};
-tests[i].url = "catalog=USGS/Mag/RT/PT1S&dataset=BDT&parameters=H&start=-P2D&stop=P0D&outformat=1";
+tests[i].url = "catalog=USGS/Mag/RT/PT1S&dataset=BDT&parameters=H&start=-P2D&stop=P0D";
 tests[i].test = function (data) {
 	var len = data.toString().split("\n").length;
 	console.log("File should have 172801 newlines.  Found: " + len );
 	if (len == 172801) {return true;} else {return false}
 };
-
 
 i = i+1;
 tests[i] = {};
@@ -98,7 +39,7 @@ tests[i].note = 'This test sometimes fails at end of month because files will co
 
 i = i+1;
 tests[i] = {};
-tests[i].url = "catalog=Kyoto/Dst/RT/PT1H&dataset=Dst&parameters=Dst&start=-P3D&stop=P0D&outformat=1";
+tests[i].url = "catalog=Kyoto/Dst/RT/PT1H&dataset=Dst&parameters=Dst&start=-P3D&stop=P0D";
 tests[i].test = function (data) {
 	var len = data.toString().split("\n").length;
 	console.log("File should have 73 newlines.  Found: " + len );
@@ -108,7 +49,7 @@ tests[i].note = 'This test sometimes fails at end of month because files will co
 
 i = i+1;
 tests[i] = {};
-tests[i].url = "catalog=SSCWeb&dataset=ace&parameters=X_TOD&start=2014-07-10&stop=2014-07-14&outformat=0";
+tests[i].url = "catalog=SSCWeb&dataset=ace&parameters=X_TOD&start=2014-07-10&stop=2014-07-14";
 tests[i].test = function (data) {
 	var len = data.toString().split("\n").length;
 	console.log("File should have 481 newlines.  Found: " + len );
@@ -117,27 +58,7 @@ tests[i].test = function (data) {
 
 i = i+1;
 tests[i] = {};
-tests[i].url = "catalog=SSCWeb&dataset=ace&parameters=X_TOD&start=2014-07-10&stop=2014-07-14&outformat=1";
-tests[i].test = function (data) {
-	var len = data.toString().split("\n").length;
-	console.log("File should have 481 newlines.  Found: " + len );
-	if (len == 481) {return true;} else {return false}
-};
-tests[i].note = ''
-
-i = i+1;
-tests[i] = {};
-tests[i].url = "catalog=SSCWeb&dataset=ace&parameters=X_TOD&start=2014-07-10&stop=2014-07-14&outformat=2";
-tests[i].test = function (data) {
-	var len = data.toString().split("\n").length;
-	console.log("File should have 481 newlines.  Found: " + len );
-	if (len == 481) {return true;} else {return false}
-};
-tests[i].note = ''
-
-i = i+1;
-tests[i] = {};
-tests[i].url = "catalog=SuperMAG/PT1M&dataset=BLC&parameters=B_N&start=-P3D&stop=1990-01-10&outformat=1";
+tests[i].url = "catalog=SuperMAG/PT1M&dataset=BLC&parameters=B_N&start=-P3D&stop=1990-01-10";
 tests[i].test = function (data) {
 	var len = data.toString().split("\n").length;
 	console.log("File should have 4321 newlines.  Found: " + len );
@@ -147,7 +68,37 @@ tests[i].note = ''
 
 i = i+1;
 tests[i] = {};
-tests[i].url = "catalog=CARISMA/FGM/PT1S&dataset=ANNA&parameters=X&start=-P2D&stop=2014-09-30&outformat=0";
+tests[i].url = "catalog=IMAGE/PT1M&dataset=ABK&parameters=X&start=-P3D&stop=2014-09-30";
+tests[i].test = function (data) {
+	var len = data.toString().split("\n").length;
+	console.log("File should have 4321 newlines.  Found: " + len );
+	if (len == 4321) {return true;} else {return false}
+};
+tests[i].note = ''
+
+i = i+1;
+tests[i] = {};
+tests[i].url = "catalog=IMAGE/PT20S&dataset=ALT&parameters=X&start=-P2D&stop=1991-08-31";
+tests[i].test = function (data) {
+	var len = data.toString().split("\n").length;
+	console.log("File should have 8641 newlines.  Found: " + len );
+	if (len == 8641) {return true;} else {return false}
+};
+tests[i].note = ''
+
+i = i+1;
+tests[i] = {};
+tests[i].url = "catalog=IMAGE/PT10S&dataset=ABK&parameters=X&start=-P2D&stop=2014-09-30";
+tests[i].test = function (data) {
+	var len = data.toString().split("\n").length;
+	console.log("File should have 17281 newlines.  Found: " + len );
+	if (len == 17281) {return true;} else {return false}
+};
+tests[i].note = ''
+
+i = i+1;
+tests[i] = {};
+tests[i].url = "catalog=CARISMA/FGM/PT1S&dataset=ANNA&parameters=X&start=-P2D&stop=2014-09-30";
 tests[i].test = function (data) {
 	var len = data.toString().split("\n").length;
 	console.log("File should have 172801 newlines.  Found: " + len );
@@ -157,7 +108,7 @@ tests[i].note = ''
 
 i = i+1;
 tests[i] = {};
-tests[i].url = "catalog=INTERMAGNET/PT1M&dataset=AAA&parameters=X&start=-P3D&stop=2012-12-31&outformat=0";
+tests[i].url = "catalog=INTERMAGNET/PT1M&dataset=AAA&parameters=X&start=-P3D&stop=2012-12-31";
 tests[i].test = function (data) {
 	var len = data.toString().split("\n").length;
 	console.log("File should have 4321 newlines.  Found: " + len );
@@ -166,43 +117,10 @@ tests[i].test = function (data) {
 
 i = i+1;
 tests[i] = {};
-tests[i].url = "catalog=INTERMAGNET/PT1S&dataset=AAE&parameters=X&start=-P2D&stop=2012-11-30&outformat=0";
+tests[i].url = "catalog=INTERMAGNET/PT1S&dataset=AAE&parameters=X&start=-P2D&stop=2012-11-30";
 tests[i].test = function (data) {
 	var len = data.toString().split("\n").length;
 	console.log("File should have 172801 newlines.  Found: " + len );
 	if (len == 172801) {return true;} else {return false}
 };
 tests[i].note = ''
-
-// This only tests if script is returned.
-// TODO: Call command line MATLAB.
-i = i+1;
-tests[i] = {};
-tests[i].url = "catalog=SSCWeb&dataset=ace&parameters=X_TOD&start=-P3D&stop=2014-07-14&return=idl";
-tests[i].test = function (data) {
-	var len = data.length;console.log("File should > 500 bytes.  Found: " + len );
-	if (len > 500) {return true;} else {return false}
-};
-
-i = i+1;
-tests[i] = {};
-tests[i].url = "catalog=SSCWeb;SSCWeb&dataset=ace&parameters=X_TOD&start=1998-01-01&stop=1998-01-04T01:00:00Z";
-
-i = i+1;
-if (os.hostname() === "mag") {
-	tests[i] = {};
-	tests[i].url = "catalog=SSCWeb&dataset=ace&parameters=X_TOD&start=-P3D&stop=2014-07-14&return=png";
-	tests[i].test = function (data) {
-		var len = data.length;
-		console.log("File should > 1e4 bytes.  Found: " + len );
-		if (len > 1e4) {
-			return true;
-		} else {
-			return false;
-		}
-	};
-}
-
-//tests[i] = {};
-//tests[i].url = "catalog=SSCWeb;SSCWeb&dataset=ace;ace&parameters=X_TOD;Y_TOD&start=1998-01-01;1998-01-04&stop=1998-01-04;1998-01-08";
-//tests[i].note = ''

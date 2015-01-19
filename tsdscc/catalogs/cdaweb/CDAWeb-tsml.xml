@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<catalog xmlns:xlink="http://www.w3.org/1999/xlink" id="CDAWeb" name="CDAWeb data">
+  <documentation xlink:href="http://cdaweb.gsfc.nasa.gov/" xlink:title="CDAWeb web page"/>
+  <documentation xlink:href="http://github.com/tsds/tsds2/tsdscc/catalogs/cdaweb" xlink:title="Catalog generation software"/>
+  <documentation xlink:href="/" xlink:title="Catalog generation date: 2015-01-18T23:56:19.862Z"/>
+  <dataset id="AC_H0_MFI" name="" label="H0 - ACE Magnetic Field 16-Second Level 2 Data - N. Ness (Bartol Research Institute)" timecolumns="1,2" timeformat="$d-$m-$Y $H:$M:$S" lineregex="^[0-9][0-9]">
+    <documentation xlink:href="http://cdaweb.gsfc.nasa.gov/misc/NotesA.html#AC_H0_MFI" xlink:title="Dataset Information from CDAWeb">Dataset Information from CDAWeb</documentation>
+    <documentation xlink:href="http://www.srl.caltech.edu/ACE/ASC/level2/index.html" xlink:title="the ACE Science Center Level 2 Data website">Release notes and other info available at</documentation>
+    <documentation>
+#              ************************************
+#              *****    GLOBAL ATTRIBUTES    ******
+#              ************************************
+#
+#     TITLE                           ACE&gt; Magnetometer Parameters
+#     PROJECT                         ISTP&gt;International Solar-Terrestrial Physics
+#     DISCIPLINE                      Space Physics&gt;Interplanetary Studies
+#     SOURCE_NAME                     AC&gt;Advanced Composition Explorer
+#     DATA_TYPE                       H0&gt;16-Sec Level 2 Data
+#     DESCRIPTOR                      MAG&gt;ACE Magnetic Field Instrument
+#     DATA_VERSION                    4
+#     GENERATED_BY                    ACE Science Center
+#     GENERATION_DATE                 20041028
+#     LINK_TEXT                       Release notes and other info available at
+#     LINK_TITLE                      the ACE Science Center Level 2 Data website
+#     HTTP_LINK                       http://www.srl.caltech.edu/ACE/ASC/level2/index.html
+#     TEXT                            MAG - ACE Magnetic Field Experiment
+#     MODS                            Initial Release 9/7/01
+#     ADID_REF                        NSSD0327
+#     LOGICAL_FILE_ID                 ac_h0_mfi_00000000_v01
+#     LOGICAL_SOURCE                  AC_H0_MFI
+#     LOGICAL_SOURCE_DESCRIPTION      H0 - ACE Magnetic Field 16-Second Level 2 Data
+#     PI_NAME                         N. Ness
+#     PI_AFFILIATION                  Bartol Research Institute
+#     MISSION_GROUP                   ACE
+#     INSTRUMENT_TYPE                 Magnetic Fields (space)
+#     TIME_RESOLUTION                 16 second
+#     WEB_SITE                        http://www.srl.caltech.edu/ACE/
+#     ACKNOWLEDGEMENT                 Please acknowledge the Principal
+#     RULES_OF_USE                    See the rules of use available from the ACE
+#     ALT_LOGICAL_SOURCE              ACE_MAG_Solar-Wind-Magnetic-Field-Level2-H0_16sec_cdf
+#     SPASE_DATASETRESOURCEID         spase://VHO/NumericalData/ACE/MAG/L2_PT16S
+</documentation>
+    <timeCoverage>
+      <Start>1997-09-02T00:00:12.000Z</Start>
+      <End>2014-08-13T23:59:56.000Z</End>
+    </timeCoverage>
+    <variables>
+      <variable id="Magnitude" name="magnetic_field>magnitude" label="B-field magnitude" units="nT" type="scalar" fillvalue="" rendering="" columns="3" urltemplate="http://cdaweb.gsfc.nasa.gov/WS/cdasr/1/dataviews/sp_phys/datasets/AC_H0_MFI/data/$Y$m$dT000000Z,$Y$m${d;offset=1}T000000Z/Magnitude?format=text"/>
+      <variable id="BGSEc" name="magnetic_field" label="Magnetic Field Vector in GSE Cartesian coordinates (16 sec)" units="nT,nT,nT" type="vector" fillvalue="" rendering="" columns="3,4,5" urltemplate="http://cdaweb.gsfc.nasa.gov/WS/cdasr/1/dataviews/sp_phys/datasets/AC_H0_MFI/data/$Y$m$dT000000Z,$Y$m${d;offset=1}T000000Z/BGSEc?format=text"/>
+      <variable id="BGSM" name="" label="Magnetic field vector in GSM coordinates (16 sec)" units="nT,nT,nT" type="vector" fillvalue="" rendering="" columns="3,4,5" urltemplate="http://cdaweb.gsfc.nasa.gov/WS/cdasr/1/dataviews/sp_phys/datasets/AC_H0_MFI/data/$Y$m$dT000000Z,$Y$m${d;offset=1}T000000Z/BGSM?format=text"/>
+      <variable id="dBrms" name="magnetic_field>rms" label="RMS of Magnetic Field (16 sec period)" units="nT" type="scalar" fillvalue="" rendering="" columns="3" urltemplate="http://cdaweb.gsfc.nasa.gov/WS/cdasr/1/dataviews/sp_phys/datasets/AC_H0_MFI/data/$Y$m$dT000000Z,$Y$m${d;offset=1}T000000Z/dBrms?format=text"/>
+      <variable id="SC_pos_GSE" name="position>gse_cartesian" label="ACE s/c position, 3 comp. in GSE coord." units="km,km,km" type="vector" fillvalue="" rendering="" columns="3,4,5" urltemplate="http://cdaweb.gsfc.nasa.gov/WS/cdasr/1/dataviews/sp_phys/datasets/AC_H0_MFI/data/$Y$m$dT000000Z,$Y$m${d;offset=1}T000000Z/SC_pos_GSE?format=text"/>
+      <variable id="SC_pos_GSM" name="position>gsm_cartesian" label="ACE s/c position, 3 comp. in GSM coord." units="km,km,km" type="vector" fillvalue="" rendering="" columns="3,4,5" urltemplate="http://cdaweb.gsfc.nasa.gov/WS/cdasr/1/dataviews/sp_phys/datasets/AC_H0_MFI/data/$Y$m$dT000000Z,$Y$m${d;offset=1}T000000Z/SC_pos_GSM?format=text"/>
+    </variables>
+  </dataset>
+</catalog>
