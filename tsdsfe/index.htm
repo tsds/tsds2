@@ -83,10 +83,6 @@
 					console.log("Triggering select because initial hash is populated.");
 					triggerselect();
 				}			
-				//preview();
-				
-				//main();
-
 
 				return;
 
@@ -337,7 +333,13 @@
 				// Already have this info from getdas().
 				info = tsdsfeajax(i,"?catalog="+selected('catalog')+"&dataset="+selected('dataset')+"&parameters="+selected('parameters'));
 				var list = [];
+
+				list[1] = {};
+				list[1].label = info[0].dd.start.replace(/\n/g,"").substring(0,10);
+				list[1].value = info[0].dd.start.replace(/\n/g,"").substring(0,10);
+
 				list[0] = {};
+				list[0].selected = true;
 
 				if (info[0].dd.cadence === "") {
 					list[0].label = "-P3D";

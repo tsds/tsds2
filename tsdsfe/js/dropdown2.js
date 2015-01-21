@@ -114,16 +114,17 @@ function dropdown2(ids, names, funs, after, i, selected, callback) {
 						if (location.hash === "") {
 							var qs = {};
 						} else {
-							
 							var qs = $.parseQueryString();
 						}
 						console.log("dropdown(): Query string: " + JSON.stringify(qs))
 
-						qs[$("#dropdowns" + (i)).attr('name')] = $("#dropdowns"+i).val();
+						if ($("#dropdowns"+i).val())
+							qs[$("#dropdowns" + (i)).attr('name')] = $("#dropdowns"+i).val();
 						
 						console.log("dropdown(): Setting hashchange.byurledit to false");
 						$(window).hashchange.byurledit = false;
 
+						console.log($.param(qs))
 						location.hash = decodeURIComponent($.param(qs));
 
 						if (val) {
@@ -168,8 +169,6 @@ function dropdown2(ids, names, funs, after, i, selected, callback) {
 		$(this).parent().parent().attr('value',$(this).attr('value'));
 	});
 	
-
-	// If only one item, select it.
 	console.log("dropdown(): Calling " + funs[i].toString().substring(9,20));
 	var list = funs[i](i,selected);
 
@@ -190,9 +189,18 @@ function dropdown2(ids, names, funs, after, i, selected, callback) {
 
 	//console.log(list);
 	
+	// If only one item, select it.
 	if (list.length == 1) {
 		console.log("dropdown(): Triggering select on "+ids[i]);
 		$('input[id=' + ids[i] + ']').val(list[0].value).data("autocomplete")._trigger("select",event,{item:list[0].value});
+	} else {
+		// Select first item with attribute selected=true.
+		for (var k=0;k<list.length;k++) {
+			if (list[k].selected) {
+				console.log("dropdown(): Triggering select on "+ids[i]);
+				$('input[id=' + ids[i] + ']').val(list[k].value).data("autocomplete")._trigger("select",event,{item:list[k].value});
+			}
+		}
 	}
 	if (callback) {
 		console.log("dropdown(): Evaluating callback");
