@@ -2,21 +2,11 @@ var xml2js  = require('xml2js');
 var fs      = require('fs');
 var request = require("request");
 
-if (0) {
-	var parseString = require('xml2js').parseString;
-	var xml = "<root><doc id='1'>Hello xml2js!</doc><doc id='2'>Hello xml2js!</doc></root>"
-	parseString(xml, function (err, result) {
-	    console.dir(result);
-	    console.log(result.root)
-	var builder = new xml2js.Builder();
-	var xml = builder.buildObject(result);
-	console.log(xml)
-	});
-return;
+var keyre = /^AC_H0_MFI/;
+var keyre = /^AC_H1_SIS/;
+var keyre = /^AC_|^OMNI_/;
+//var keyre = /^OMNI_COHO/;
 
-}
-
-key = "AC_H0_MFI";
 var Nx = 0;
 var json = {};
 json.DatasetDescription = [];
@@ -30,6 +20,7 @@ json2tsml();
 return;
 
 reqobj = {uri: baseurl,headers: {'Accept':'application/json'}};
+console.log("Requesting: "+baseurl)
 request(reqobj, function (err,res,body) {
 	jsonAll = JSON.parse(body);
 
@@ -38,9 +29,14 @@ request(reqobj, function (err,res,body) {
 	var k = 0;
 	json.DatasetDescription = [];
 	for (var j = 0;j < Nall;j++) {
-		if (jsonAll.DatasetDescription[j].Id.match(/^AC_/)) {
+		if (keyre) {
+			if (jsonAll.DatasetDescription[j].Id.match(keyre)) {
+				json.DatasetDescription[k] = jsonAll.DatasetDescription[j];
+				k = k+1;
+			} 
+		} else {
 			json.DatasetDescription[k] = jsonAll.DatasetDescription[j];
-			k = k+1;
+			k = k+1;				
 		}
 	}
 	
@@ -84,9 +80,11 @@ function createtsml() {
 
 	for (var i = 0;i < json.DatasetDescription.length;i++) {
 
-		if (!json.DatasetDescription[i].Id.match("AC_H0_MFI")) {continue;}
+		if (keyre) {
+			if (!json.DatasetDescription[i].Id.match(keyre)) {continue;}
+		}
 
-		console.log(json.DatasetDescription[i]);
+		console.log("createtsml(): Working on dataset " + json.DatasetDescription[i].Id);
 		root.catalog["dataset"][i] = {};
 		root.catalog["dataset"][i]["$"] = {};
 		root.catalog["dataset"][i]["$"]["id"] = json.DatasetDescription[i].Id;
@@ -99,17 +97,28 @@ function createtsml() {
 		root.catalog["dataset"][i]["documentation"] = [];
 		root.catalog["dataset"][i]["documentation"][0] = {};
 		root.catalog["dataset"][i]["documentation"][0]["$"] = {};
-		root.catalog["dataset"][i]["documentation"][0]["$"]["xlink:href"] = json.DatasetDescription[i].Notes;
-		root.catalog["dataset"][i]["documentation"][0]["$"]["xlink:title"] = "Dataset Information from CDAWeb";
-		root.catalog["dataset"][i]["documentation"][0]["_"] = "Dataset Information from CDAWeb";
+		if (json.DatasetDescription[i].Notes) {
+			root.catalog["dataset"][i]["documentation"][0]["$"]["xlink:href"] = json.DatasetDescription[i].Notes;
+			root.catalog["dataset"][i]["documentation"][0]["$"]["xlink:title"] = "Dataset Information from CDAWeb";
+			root.catalog["dataset"][i]["documentation"][0]["_"] = "Dataset Information from CDAWeb";
+		} else {
+			root.catalog["dataset"][i]["documentation"][0]["$"]["xlink:href"] = "http://cdaweb.gsfc.nasa.gov/misc/Notes.html#"+json.DatasetDescription[i].Id;
+			root.catalog["dataset"][i]["documentation"][0]["$"]["xlink:title"] = "Dataset Information from CDAWeb";
+			root.catalog["dataset"][i]["documentation"][0]["_"] = "Dataset Information from CDAWeb";			
+		}
 
-		root.catalog["dataset"][i]["documentation"][1] = {};
-		root.catalog["dataset"][i]["documentation"][1]["$"] = {};
-		root.catalog["dataset"][i]["documentation"][1]["$"]["xlink:href"] = json.DatasetDescription[i].DatasetLink[0].Url;
-		root.catalog["dataset"][i]["documentation"][1]["$"]["xlink:title"] = json.DatasetDescription[i].DatasetLink[0].Title;
-		root.catalog["dataset"][i]["documentation"][1]["_"] = json.DatasetDescription[i].DatasetLink[0].Text;
+		if (json.DatasetDescription[i].DatasetLink) {
+			root.catalog["dataset"][i]["documentation"][1] = {};
+			root.catalog["dataset"][i]["documentation"][1]["$"] = {};
+			root.catalog["dataset"][i]["documentation"][1]["$"]["xlink:href"] = json.DatasetDescription[i].DatasetLink[0].Url;
+			root.catalog["dataset"][i]["documentation"][1]["$"]["xlink:title"] = json.DatasetDescription[i].DatasetLink[0].Title;
+			root.catalog["dataset"][i]["documentation"][1]["_"] = json.DatasetDescription[i].DatasetLink[0].Text;
+			dn = 2;
+		} else {
+			dn = 1;
+		}
 
-		root.catalog["dataset"][i]["documentation"][2] = {};
+		root.catalog["dataset"][i]["documentation"][dn] = {};
 		var head = json.DatasetDescription[i].VariableDescription[0].Header.split("\n");
 
 		var head2="\n#              ************************************\n#              *****    GLOBAL ATTRIBUTES    ******\n#              ************************************\n#\n";
@@ -119,8 +128,8 @@ function createtsml() {
 			}
 		}
 
-		root.catalog["dataset"][i]["documentation"][2] = {};
-		root.catalog["dataset"][i]["documentation"][2]["_"] = head2;
+		root.catalog["dataset"][i]["documentation"][dn] = {};
+		root.catalog["dataset"][i]["documentation"][dn]["_"] = head2;
 
 		root.catalog["dataset"][i]["timeCoverage"] = {};
 		root.catalog["dataset"][i]["timeCoverage"]["Start"] = json.DatasetDescription[i].TimeInterval.Start;
@@ -134,39 +143,41 @@ function createtsml() {
 
 		    var metaJson = json.DatasetDescription[i].VariableDescription[j].VariableInfo.split(/\r?\n/)
 				.map(function(d){
-					return d.split(/\s\s+/);
+					return d.split(/\s+/);
 				});
 
+			console.log("createtsml(): Header for " + json.DatasetDescription[i].VariableDescription[j].Name + ":");
+			console.log(metaJson);
 			for (var k=0;k<metaJson.length;k++) {
-				if (metaJson[k][0].match(/^dd\-mm\-yyyy/)) {
+				if (metaJson[k][0].match(/^EPOCH|^UT/)) { // Note, THEMIS ground magnetometer data use UT.
+
 					if (metaJson[k].length == 2) {
-							console.log("Scalar");						
-							json.DatasetDescription[i].VariableDescription[j].Ids = metaJson[k-2].slice(1);
-							json.DatasetDescription[i].VariableDescription[j].Labels = metaJson[k-1].slice(1);
-							json.DatasetDescription[i].VariableDescription[j].Units = metaJson[k].slice(1);
+							console.log("createtsml(): " + json.DatasetDescription[i].VariableDescription[j].Name + " is a scalar");
+							json.DatasetDescription[i].VariableDescription[j].Ids = metaJson[k].slice(1);
+							json.DatasetDescription[i].VariableDescription[j].Labels = metaJson[k].slice(1);
+							json.DatasetDescription[i].VariableDescription[j].Units = metaJson[k+1].slice(2);
 							json.DatasetDescription[i].VariableDescription[j].Type = "scalar";
 					}
-					if (metaJson[k].length == 4) {
-						json.DatasetDescription[i].VariableDescription[j].Ids = metaJson[k-2].slice(1);
-						json.DatasetDescription[i].VariableDescription[j].Labels = metaJson[k-1].slice(1);
-						json.DatasetDescription[i].VariableDescription[j].Units = metaJson[k].slice(1);
-						sameunits = true;
-						units = metaJson[k][1];
-						for (var m=2;m < metaJson[k].length;m++) {
-							if (metaJson[k][m] != units) {
-								sameunits = false;
-							}
-						}
-						if (sameunits) {
-							console.log("Vector with same units");
+					if (metaJson[k].length > 2) {
+						if (metaJson[k+1].slice(1)[0].match(/@_/)) {
+							json.DatasetDescription[i].VariableDescription[j].Ids = metaJson[k].slice(1);
+							json.DatasetDescription[i].VariableDescription[j].Labels = metaJson[k+1].slice(1);
+							json.DatasetDescription[i].VariableDescription[j].Units = metaJson[k+2].slice(2);
+							console.log(json.DatasetDescription[i].VariableDescription[j].Labels)
+							console.log("createtsml(): " + json.DatasetDescription[i].VariableDescription[j].Name + " is a vector");
 							json.DatasetDescription[i].VariableDescription[j].Type = "vector";
-							// Vector with same units
+						} else {
+							json.DatasetDescription[i].VariableDescription[j].Ids = metaJson[k].slice(1);
+							json.DatasetDescription[i].VariableDescription[j].Labels = metaJson[k].slice(1);
+							json.DatasetDescription[i].VariableDescription[j].Units = metaJson[k+1].slice(2);
+							console.log("createtsml(): " + json.DatasetDescription[i].VariableDescription[j].Name + " are scalars");
+							json.DatasetDescription[i].VariableDescription[j].Type = "scalars";
 						}
 					}
 				}
 			}
 			json.DatasetDescription[i].VariableDescription[j].Header = '';
-			console.log(json.DatasetDescription[i].VariableDescription[j])
+			//console.log(json.DatasetDescription[i].VariableDescription[j])
 		}
 
         if (0) {
@@ -192,13 +203,17 @@ function createtsml() {
 			root.catalog["dataset"][i]["variables"]["variable"][j]["$"]["label"] = json.DatasetDescription[i].VariableDescription[j].LongDescription;
 			root.catalog["dataset"][i]["variables"]["variable"][j]["$"]["units"] = json.DatasetDescription[i].VariableDescription[j].Units;
 			root.catalog["dataset"][i]["variables"]["variable"][j]["$"]["type"] = json.DatasetDescription[i].VariableDescription[j].Type;
-			root.catalog["dataset"][i]["variables"]["variable"][j]["$"]["fillvalue"] = "";
+			root.catalog["dataset"][i]["variables"]["variable"][j]["$"]["fillvalue"] = "-1.00000E+31";
 			root.catalog["dataset"][i]["variables"]["variable"][j]["$"]["rendering"] = "";
+			root.catalog["dataset"][i]["variables"]["variable"][j]["$"]["columnLabels"] = json.DatasetDescription[i].VariableDescription[j].Labels;
 			if (json.DatasetDescription[i].VariableDescription[j].Type == "scalar") {
 				root.catalog["dataset"][i]["variables"]["variable"][j]["$"]["columns"] = "3";
 			}
 			if (json.DatasetDescription[i].VariableDescription[j].Type == "vector") {
 				root.catalog["dataset"][i]["variables"]["variable"][j]["$"]["columns"] = "3,4,5";
+			}
+			if (json.DatasetDescription[i].VariableDescription[j].Type == "scalars") {
+				root.catalog["dataset"][i]["variables"]["variable"][j]["$"]["columns"] = "3-"+(json.DatasetDescription[i].VariableDescription[j].Labels.length+3);
 			}
 
 			root.catalog["dataset"][i]["variables"]["variable"][j]["$"]["urltemplate"] = "http://cdaweb.gsfc.nasa.gov/WS/cdasr/1/dataviews/sp_phys/datasets/"
@@ -207,21 +222,26 @@ function createtsml() {
 																+json.DatasetDescription[i].VariableDescription[j].Name
 																+"?format=text";
 
+			console.log(root.catalog["dataset"][i]["variables"]["variable"][j])
+
 		}
 
+
+		var builder = new xml2js.Builder();
+		var xml = builder.buildObject(root);
 
 	}
 	// Convert JSON object to XML.
 	var builder = new xml2js.Builder();
 	var xml = builder.buildObject(root);
 	fs.writeFileSync("CDAWeb-tsml.xml",xml);
-	console.log("Wrote CDAWeb-tsml.xml");
+	console.log("createtsml(): Wrote CDAWeb-tsml.xml");
 }
 
 function json2tsml() {
 	
 	var files = fs.readdirSync("./json");
-	console.log(files[0]);
+	console.log("json2tsml(): Reading " + files[0]);
 
 	var k = 0;
 
@@ -230,10 +250,11 @@ function json2tsml() {
 		var data = fs.readFileSync("./json/"+files[i]);
 		jsonx = JSON.parse(data);
 
-		if (!files[i].match("AC_H0_MFI")) {continue;}
+		if (keyre) {
+			if (!files[i].match(keyre)) {continue;}
+		}
 
 		json.DatasetDescription[k] = jsonx;
-		//console.log(json)
 
 		k = k+1;
 	}
