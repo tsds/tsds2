@@ -806,7 +806,7 @@ function dataset(options, catalogs, cb) {
 			for (var i = 0;i < datasets.length;i++) {
 				dresp[i]         = {};
 				dresp[i].value   = datasets[i]["$"]["id"] || datasets[i]["$"]["ID"];
-				dresp[i].label   = datasets[i]["$"]["name"] || dresp[i].value;
+				dresp[i].label   = datasets[i]["$"]["label"] || datasets[i]["$"]["name"] || dresp[i].value;
 				dresp[i].catalog = parents[i];
 
 				//console.log(options.dataset)
