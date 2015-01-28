@@ -1,6 +1,19 @@
 iframe,#previewimgs {
-	font-size:100%;
+	font-size: 100%;
   	border: 1px solid green;
 	margin: 5px 0;
 	padding: 3px;
+}
+body {
+	font-family: Veranda, Arial, sans-serif;
+	font-size: 1em;
+}
+.ui-widget {
+	font-family: Veranda, Arial, sans-serif;
+	font-size: 1em;
+};
+.ui-widget input {
+	font-family: Veranda, Arial, sans-serif;
+	font-size: 1em;
+	font-weight: normal;	
 }

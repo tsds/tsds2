@@ -7,9 +7,13 @@ function dropdown2(ids, names, funs, after, i, selected, callback) {
 	
 	function settoggle(i) {
 		$("#"+ids[i]+"list").unbind('click');
-		console.log("dropdown(): Setting click event on "+ids[i]+"list");
+		console.log("dropdown.settoggle(): Setting click event on "+ids[i]+"list element.");
 		$("#"+ids[i]+"list").
-			click(function (){$("#"+ids[i]).attr('value','').css('color','black').autocomplete('search').focus();});
+			click(function (){
+				// Note that search event is not defined.
+				console.log("dropdown.settoggle.click(): Removing text from "+ids[i]+"list entry area and binding AJAX search event.");
+				$("#"+ids[i]).attr('vallast',$("#"+ids[i]).attr('value')).attr('value','').css('color','black').autocomplete('search').focus();
+			});
 	}
 		
 	function ac(i,list) {
@@ -24,35 +28,37 @@ function dropdown2(ids, names, funs, after, i, selected, callback) {
 			},
 			blur: function(event) {
 				// Never triggers.
-				console.log("dropdown(): Blur event triggered on "+ id + " with value " + ui.item.value);
+				console.log("dropdown.ac.change(): Blur event triggered on "+ id + " with value " + ui.item.value);
 				event.preventDefault();
 				},
 			//search: function (event) {funs[i].onselect();},
 			change: function(event,ui) {
-				console.log("dropdown(): Change event triggered on " + id);
 				id = $(this).attr('id');
+				console.log("dropdown.ac.change(): "+id+" change event triggered.");
+
 				var i = parseInt($(this).parent().parent().attr("id").replace(/[a-z]/gi,""));
 				
 				// Blur event above never triggers.
 				$('input[id=' + id + ']').unbind('blur');
+				console.log("dropdown.ac.change(): Binding blur event on " + id);
 				$('input[id=' + id + ']').blur(function () {
 					id = $(this).attr('id')
-					console.log("dropdown(): Blur event triggered on "+id);
+					console.log("dropdown.ac.change(): Blur event triggered on "+id);
 					var val = $('input[id=' + id + ']').parent().parent().attr('value');
 					var vallast = $('input[id=' + id + ']').parent().parent().attr('valuelast');
-					console.log("value: " + val)
-					console.log("valuelast: " + vallast);
+					console.log("dropdown.ac.change(): value = " + val)
+					console.log("dropdown.ac.change(): valuelast = " + vallast);
 					if (typeof(val) === "undefined" && typeof(vallast) === "undefined") {
 						console.log("dropdown(): val and valuelast are undefined. Closing "+id);
 						$('input[id=' + id + ']').autocomplete("close");//._trigger("change");
 						return;
 					}
-					if (val === vallast) {
-						console.log("dropdown(): val and valuelast identical. Selecting "+val);
+					if ((val === vallast)) {
+						console.log("dropdown.ac.change(): val and valuelast for " + id + " are identical. Selecting "+val+".");
 						$('input[id=' + id + ']').val(val).data("autocomplete")._trigger("select",event,{item:val});
 						$('input[id=' + id + ']').autocomplete("close");
 					} else {
-						console.log("dropdown(): val and valuelast are different.  Closing and triggering select.")
+						console.log("dropdown.ac.change(): val and valuelast are different.  Closing and triggering select.")
 						$('input[id=' + id + ']').autocomplete("close");
 						//console.log("blur() is setting vallast to " + val)
 						//$('input[id=' + id + ']').parent().parent().attr('valuelast',val)
@@ -62,9 +68,14 @@ function dropdown2(ids, names, funs, after, i, selected, callback) {
 					
 				});
 
+				var vallast = $('input[id=' + id + ']').parent().parent().attr('valuelast');
+				if (vallast === "") {
+					//$(after+i).attr('name',id).attr('valuelast',val);
+				}
 				if (ui.item == null) {
 					ui.item = {};
-					console.log("ui.item == null.  Setting it to "+$('input[id=' + id + ']').parent().parent().attr('value')+" and triggering select.")
+					return;
+					console.log("dropdown.ac.change(): ui.item == null.  Setting it to "+$('input[id=' + id + ']').parent().parent().attr('value')+" and triggering select.")
 					ui.item.value = $('input[id=' + id + ']').parent().parent().attr('value');
 					$('input[id=' + id + ']').val(ui.item.value).data("autocomplete")._trigger("select",event,{item:ui.item.value});
 					
@@ -73,14 +84,15 @@ function dropdown2(ids, names, funs, after, i, selected, callback) {
 				
 				// This is to deal with the fact that change() is called on a blur event.
 				if (ui.item.value !== ui.item.valuelast) {
-					console.log("           and value has changed.  Removing all following drop-downs.");
+					console.log("dropdown.ac.change(): " + id + " value has changed.  Removing all following drop-downs.");
 					for (j = i+1; j < ids.length; j++) {
 						$(after + (j)).html('');
 						$(after + (j)).attr('value','')
 						$(after + (j)).attr('valuelast','')
 					}
 				} else {
-					console.log("           and value has not changed.  Not removing " + after+(i+1));
+					// This happens after a selection is made and then user clicks outside of drop-down list.
+					console.log("dropdown.ac.change(): " + id + " value has not changed.  Not removing " + after+(i+1));
 				}
 
 			},			
@@ -92,21 +104,26 @@ function dropdown2(ids, names, funs, after, i, selected, callback) {
 						if (typeof(ui.item) === "undefined") {
 							console.log("dropdown2: ui.item is undefined.  Setting valuelast to " + $('input[id=' + id + ']').parent().parent().attr('valuelast'))
 							var vallast = $('input[id=' + id + ']').parent().parent().attr('valuelast');
+
+							if (typeof(vallast) === "undefined") {
+								console.log("dropdown(): ui.item and valuelast are undefined. Closing "+id);
+								$('input[id=' + id + ']').autocomplete("close");//._trigger("change");
+							}
 							return;
 						}
+
 						val = ui.item.value || event.target.value;
 						
 						var vallast = $('input[id=' + id + ']').parent().parent().attr('valuelast');
 
-						console.log("ui.item.value : " + val)
-						console.log("valuelast: " + vallast)
+						console.log("dropdown.ac.select(): ui.item.value = " + val)
+						console.log("dropdown.ac.select(): valuelast = " + vallast)
 						
-
-						console.log("dropdown(): select() is setting value to " + val);
+						console.log("dropdown.ac.select(): Setting value to " + val);
 						$(after+i).attr('name',id).attr('value',val);
 						
 						if (typeof(vallast) === "undefined") {
-							console.log("dropdown(): select() is setting valuelast to " + val);
+							console.log("dropdown.ac.select(): Setting valuelast to " + val);
 							$(after+i).attr('name',id).attr('valuelast',val);
 						}
 						$(after+i).attr('name',id).attr('valuelast',val);
@@ -116,26 +133,29 @@ function dropdown2(ids, names, funs, after, i, selected, callback) {
 						} else {
 							var qs = $.parseQueryString();
 						}
-						console.log("dropdown(): Query string: " + JSON.stringify(qs))
+						console.log("dropdown.ac.select(): Query string before reading drop-down: " + JSON.stringify(qs))
 
-						if ($("#dropdowns"+i).val())
+						if ($("#dropdowns"+i).val()) {
 							qs[$("#dropdowns" + (i)).attr('name')] = $("#dropdowns"+i).val();
+						}
 						
-						console.log("dropdown(): Setting hashchange.byurledit to false");
+						console.log("dropdown.ac.select(): Query string after reading drop-down: " + JSON.stringify(qs))
+
+						console.log("dropdown.ac.select(): Setting hashchange.byurledit to false");
 						$(window).hashchange.byurledit = false;
 
-						console.log($.param(qs))
+						console.log("dropdown.ac.select(): Setting hash using query string.");
 						location.hash = decodeURIComponent($.param(qs));
 
 						if (val) {
 							ui.item.valuelast = ui.item.value;
 						}
 
-						if (val === vallast) {
-							console.log("dropdown(): New value is same as old.  Taking no action.");
+						if ((val === vallast)) {
+							console.log("dropdown.ac.select(): New value is same as old.  Taking no action.");
 							$('input[id=' + id + ']').autocomplete("close");
 						} else {
-							console.log("dropdown(): Removing all span elements after " + id);
+							console.log("dropdown.ac.select(): Removing all span elements after " + id);
 							//$('input[id=' + id + ']').parent().parent().nextAll("span").remove();
 							$("input[id='"+id+"']").parent().parent().nextAll("span").hide().html('').attr('value','').attr('valuelast','');
 							funs[i].onselect();
@@ -169,10 +189,10 @@ function dropdown2(ids, names, funs, after, i, selected, callback) {
 		$(this).parent().parent().attr('value',$(this).attr('value'));
 	});
 	
-	console.log("dropdown(): Calling " + funs[i].toString().substring(9,20));
+	console.log("dropdown(): Calling " + funs[i].toString().substring(9,20) + " with i="+i);
 	var list = funs[i](i,selected);
 
-	console.log("dropdown(): Calling ac().");
+	console.log("dropdown(): Calling dropdown.ac().");
 	ac(i,list);
 	settoggle(i);
 
