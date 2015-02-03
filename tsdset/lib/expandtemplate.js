@@ -15,7 +15,7 @@ function expandtemplate(options,callback) {
 	var proxy      = options.proxy;
 	var side       = "client";
 	
-	debug = true;
+	debug = false;
 
 	if (options.timeRange) {
 		timeRange = expandISO8601Duration(timeRange);
