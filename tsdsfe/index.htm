@@ -17,10 +17,10 @@
 		<script type="text/javascript" src="js/jquery.scrollTo-min.js"></script>
 		<script type="text/javascript" src="js/expandtemplate.js"></script>
 		<script type="text/javascript" src="js/dropdown2.js"></script>
+
 		<script>
 
 			TSDSFE   = location.href.split("#")[0]; // Get domain name of server.
-			AUTOPLOT = "http://autoplot.org/plot/dev/SimpleServlet"
 
 			$(function() {
 				main();
@@ -29,7 +29,7 @@
 			function main() {
 
 				//$('#cachecheckboxes').hide();
-
+				$('#cachecheckboxeslink').click(function () {$("#cachecheckboxes").toggle();});
 				// Default for using data cache is true.  Unselect checkbox if usecache=true is in URL.
 				if (location.hash.match("usecache=false")) {
 					$('#usecache').each(function(){ this.checked = false; });
@@ -60,6 +60,9 @@
 
 				// Default for metadatacache checkbox.
 				$('#usemetadatacache').each(function(){ this.checked = true; });
+
+				// Default for metadatacache checkbox.
+				$('#useimagecache').each(function(){ this.checked = true; });
 
 				// Create the first drop-down (subsequent drop-downs appear when something is selected).
 				dropdown2(["catalog","dataset","parameters","start","stop","outformat"],
@@ -155,7 +158,7 @@
 					tsdsfeajax.cache = {};
 				}
 				if (tsdsfeajax.cache[url]) {
-					console.log("tsdsfeajax(): Cache hit.");
+					console.log("tsdsfeajax(): Client-side cache hit.");
 					$('#status').html("Received <a target='_blank' href='" + url + "'>"+url.replace("&para","&#38;para")+"</a>");
 					return $.parseJSON(tsdsfeajax.cache[url]);
 				}
@@ -273,6 +276,8 @@
 					$('#cataloginfo').html("<b>Catalog information:</b>");
 					if (info.length > 0) {
 						$('#cataloginfo').append('<ul style="list-style-position: outside;">');	
+						$('#cataloginfo ul').append('<li style="">TSDS ID: ' +selected('catalog')+'</li>');
+
 						//console.log("Info: " + info[0].title);
 						for (j = 0;j < info.length;j++) {
 							if (!(info[j].title === "") && !(info[j].link === "")) {
@@ -310,6 +315,7 @@
 					$('#datasetinfo').html("<b>Dataset documentation:</b>")
 					$('#datasetinfo').show();					
 					$('#datasetinfo').append('<ul style="list-style-position: outside;">');
+					$('#datasetinfo ul').append('<li style="">TSDS ID: ' +selected('dataset')+'</li>');
 					if (info.length > 0) {
 						for (j = 0;j < info.length;j++) {
 							if (!(info[j].title === "") && !(info[j].link === "")) {
@@ -484,12 +490,22 @@
 						var range = das[0].dd.start + " through " + das[0].dd.stop;
 						var fills  = das[0].dd.fillvalue || "";
 						var units  = das[0].dd.units || "";
-						var labels = das[0].dd.label || "";	
-						$('#parameterinfo ul').append('<li style="">Labels: '+labels+'</li>');
-						$('#parameterinfo ul').append('<li style="">Units: ' +units+'</li>');
-						$('#parameterinfo ul').append('<li style="">Fills: ' +fills+'</li>');
+						var name  = das[0].dd.name || "";
+						var parameter  = das[0].dd.label || "";
+						var label = das[0].dd.label || "";	
+						var labels = das[0].dd.columnLabels || "";	
+						var id  = das[0].dd.id || "";
+						$('#parameterinfo ul').append('<li style="">TSDS ID: '+id+'</li>');
+						if (name !== "")
+							$('#parameterinfo ul').append('<li style="">Name: '+name+'</li>');
+						if (label !== "")
+							$('#parameterinfo ul').append('<li style="">Label: '+label+'</li>');
 						$('#parameterinfo ul').append('<li style="">Availability: ' +range+'</li>');
 						$('#parameterinfo ul').append('<li style="">Cadence: ' +das[0].dd.cadence+'</li>');
+						if (labels !== "")
+							$('#parameterinfo ul').append('<li style="">Column Labels: '+labels+'</li>');
+						$('#parameterinfo ul').append('<li style="">Column Units: ' +units+'</li>');
+						$('#parameterinfo ul').append('<li style="">Column Fills: ' +fills+'</li>');
 					} else {
 						$('#parameterinfo ul').append('<li style="">Parameter <b>' + selected("parameters") + '</b> was not found in <a href="' + TSDSFE + '?catalog='+selected('catalog')+'&dataset='+selected('dataset')+'&parameters=^.*">dataset list</a></li>');
 						
@@ -552,15 +568,15 @@
 				} else if (selected('outformat').match(/png|pdf|svg/)) {
 					url = TSDSFE+url+"&return=" + selected('outformat');
 					$("#imagediv").show();
-					$("#imagediv > div > a").text(url);
+					//$("#imagediv > div > a").text(url);
 					$("#imagediv > div > a").attr("href",url);
+					$("#imagediv > div > a").attr("title",url);
 					if (selected('outformat').match(/png|svg/)) {
-						$("#imagediv > img:first").attr("src",url).load(function () {$("#imagediv > img:last").hide();});
+						$("#imagediv #image").attr("src",url).load(function () {$("#imagediv #imageloading").hide();});
 					} else {
 						var curr = $("#imagediv div a");
-						$("#imagediv div").html(curr)
-						$("#imagediv div a").html("Download PDF")
-						$("#imagediv > img").hide();
+						$("#imagediv div").html(curr);
+						$("#imagediv div a").html("Download PDF");
 					}
 				} else if (selected('outformat') === 'debug')  {
 					url = url+"&out=asc"+"&stream=true&debug=true";
@@ -655,26 +671,20 @@
 						START_date.addDays(1);
 						var STOP_dateISO  = START_date.toISOString().replace(/T.*/,"");
 
-						 turl = "?catalog="+selected('catalog')+"&dataset="+selected('dataset')+"&parameters="+selected('parameters')+"&start="+START_dateISO+"&stop="+STOP_dateISO;
-						 url = TSDSFE + "tsdsfe.jyds?server="+TSDSFE+"&catalog="+selected('catalog')+"&dataset="+selected('dataset')+"&parameters="+selected('parameters')+"&timerange="+START_dateISO+"&outformat=1";
+						 ploturl = "?catalog="+selected('catalog')+"&dataset="+selected('dataset')+"&parameters="+selected('parameters')+"&start="+START_dateISO+"&stop="+STOP_dateISO+"&return=png";
+						 dataurl = TSDSFE + "tsdsfe.jyds?server="+TSDSFE+"&catalog="+selected('catalog')+"&dataset="+selected('dataset')+"&parameters="+selected('parameters')+"&timerange="+START_dateISO+"&outformat=1";
 
-
-						 if (labels !== "") url = url + "&labels="+labels;
-						 if (units !== "")  {url = url + " ["+units+"]" +"&units="+units;}
-						 if (fills !== "")  url = url + "&fills="+fills;
 
 						 if (!$("#usecache").is(":checked")) {
-								url = url + "&usecache=false";
-								turl = turl + "&usecache=false";
+								dataurl = dataurl + "&usecache=false";
+								okiturl = ploturl + "&usecache=false";
 						 }
 
 						 
-						 var aurl = AUTOPLOT + "?drawGrid=true&plot.xaxis.drawTickLabels=true&width=800&height=200&url=vap+jyds:" + encodeURIComponent(url);
-
-						links = "<a id='" + i + "' href='http://autoplot.org/autoplot.jnlp?open=vap+jyds:"+url+"'>View in Autoplot</a>";
+						links = "<a id='" + i + "' href='http://autoplot.org/autoplot.jnlp?open=vap+jyds:"+dataurl+"'>View in Autoplot</a>";
 						links = links + " | <a style='text-decoration:underline;cursor:pointer' onclick='viewdata("+i+")'>View Data</a> | <i id='"+i+"'>Requesting image</i>";
-						$("#previewimg").append("<div style='position:relative'><img onclick='imgclicked("+i+")' onload='imgloaded("+i+")' id='" + i + "' style='z-index: -1' src='"+aurl+"'></img><div style='position:absolute;left:0px;top:0px;font-size:8pt'>"+links+"</div></div>");
-						$("#previewimg").append("<div style='position:relative'><font size='-1'><a style='' id='" + i + "'></a></font><iframe width='98%' id='" + i + "' data='"+turl+"' style='display:none'></iframe></div>");
+						$("#previewimg").append("<div style='position:relative'><img onclick='imgclicked("+i+")' onload='imgloaded("+i+")' id='" + i + "' style='z-index: -1' src='"+ploturl+"'></img><div style='position:absolute;left:0px;top:0px;font-size:8pt'>"+links+"</div></div>");
+						$("#previewimg").append("<div style='position:relative'><font size='-1'><a style='' id='" + i + "'></a></font><iframe width='98%' id='" + i + "' data='"+dataurl+"' style='display:none'></iframe></div>");
 
 						//$("#img[id="+i+"]").click(function () {$(this).append("Hello")});
 						i = i + 1;
@@ -759,18 +769,15 @@
 	</head>
 
 	<body>	 		
-			<div style="text-align:center;position:absolute;top:0;left:14em;">
-				<font size="-1">
-					<span id="status" style="background-color:yellow;text-align:center"></span>
-				</font>
-			</div>
 
 		<div style="float:left;width:12em;margin-right:14px;margin-top:0em;">
-			<div id="cachecheckboxes">
+			<a style="text-decoration:underline;cursor:pointer" id="cachecheckboxeslink">Options</a>
+			<div id="cachecheckboxes" style="display:none">
 			<font size="-1">		
 				<div title="Show preview images of data over default time range when a parameter is selected."><input id="previewimgcheckbox" type="checkbox" value=""/>&nbsp;Show preview plots</div>
-				<div title="For fastest response time, use cached data.  Disable this for data that change frequently."><input id="usecache" type="checkbox" value=""/>&nbsp;Use cached data</div>
-				<div title="For fastest response time, use cached metadata.  Disable this for metadata that change frequently."><input id="usemetadatacache" type="checkbox" value=""/>&nbsp;Use cached metadata</div>
+				<div title="For fastest response time, use cached data (if available).  Disable this for data that change frequently."><input id="usecache" type="checkbox" value=""/>&nbsp;Use cached data</div>
+				<div title="For fastest response time, use cached metadata (if available).  Disable this for metadata that change frequently."><input id="usemetadatacache" type="checkbox" value=""/>&nbsp;Use cached metadata</div>
+				<div title="For fastest response time, use cached images (if available).  Disable this for data that change frequently."><input id="useimagecache" type="checkbox" value=""/>&nbsp;Use cached images</div>
 			</font>
 			</div>
 			<span id="dropdowns0" class="dropdown"></span>
@@ -781,9 +788,16 @@
 			<span id="dropdowns5" class="dropdown" style="display:none"></span>
 			<button type="button" style="background-color:white;color:black;border:1px solid black;" onclick="window.location=window.location.pathname">Clear</button>
 		</div>
-		<div id="overviewdiv" style="margin-left:14em;;margin-top:0em">
-			<br/>
+
+		<div style="text-align:left;top:0;left:14em;">
+			<font size="-1">
+				<span id="status" style="background-color:yellow;text-align:center"></span>
+			</font>
+		</div>
+
+		<div id="overviewdiv" style="margin-left:14em;margin-top:0em">
 			<p>
+				<br/>
 				<b>Overview:</b>
 				<ul>
 					<li>Build a <a href="http://tsds.org/tsdsfe">TSDS Front End (TSDSFE)</a> URL for downloading data, plots, and download scripts.</li>
@@ -802,17 +816,13 @@
 			</div>
 			<div id="imagediv" style="background-color:white;width:100%;height:100%;display:none;">
 				<p>
-					<div><a target="_blank">Direct link</a></div>
-					<img></img>
-					<img id="imgdivloading" src="css/ajax-loader.gif"/>
+					<div><a target="_blank">Direct link</a>&nbsp;&nbsp;<img id="imageloading" style="height:.7em;" src="css/ajax-loader.gif"/></div>
+					<img id="image"></img>
 				</p>
 			</div>
 			<div id="datadiv" style="display:none;background-color:white;align:left">
-				<p>
 					<div><a target="_blank">Direct link</a></div>
 					<iframe style="width:95%;height:100%;"></iframe>
-
-				</p>
 			</div>
 
 			<div id="cataloginfo" style="display:none;width:95%"></div>

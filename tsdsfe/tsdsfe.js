@@ -50,6 +50,7 @@ if (config.TSDSFE.match(/http:\/\/localhost/)) {
 // Serve files in these directories as static files
 app.use("/js", express.static(__dirname + "/js"));
 app.use("/css", express.static(__dirname + "/css"));
+app.use('/scripts', express.directory(__dirname + "/scripts"));
 app.use("/scripts", express.static(__dirname + "/scripts"));
 app.use("/catalogs", express.static(__dirname + "/catalogs"));
 
@@ -530,7 +531,7 @@ function getandparse(url,options,callback) {
 	function headthenfetch(url,type) {
 
 		// Do head request for file that contains list of datasets.
-		if (debugcache) console.log("getandparse(): Doing head request on "+url);
+		if (debugcache) console.log("headthenfetch(): Doing head request on "+url);
 		var hreq = request.head(url, function (herror, hresponse) {
 			if (!herror && hresponse.statusCode != 200) {
 				herror = true;
@@ -832,7 +833,7 @@ function dataset(options, catalogs, cb) {
 				if (dresp.length == 1 && options.dataset.substring(0,1) !== "^") {
 					if (typeof(datasets[z]["documentation"]) !== "undefined") {
 						for (var k = 0; k < datasets[z]["documentation"].length;k++) {
-							console.log(datasets[z]["documentation"][k])
+							//console.log(datasets[z]["documentation"][k])
 							dresp[k] = {};
 							dresp[k].title = "";
 							dresp[k].link = "";
@@ -908,6 +909,8 @@ function parameter(options, catalogs, datasets, cb) {
 		resp[i].value     = parameters[i]["$"]["id"] || parameters[i]["$"]["ID"];
 		resp[i].label     = parameters[i]["$"]["name"] || resp[i].value || "";
 		resp[i].units     = parameters[i]["$"]["units"] || "";
+		resp[i].columnLabels = parameters[i]["$"]["columnLabels"] || "";
+		resp[i].type = parameters[i]["$"]["type"] || "";
 		resp[i].catalog   = cats[i];
 		resp[i].dataset   = parents[i]["id"] || parents[i]["ID"];
 		resp[i].parameter = parameters[i]["$"]["id"] || parameters[i]["$"]["ID"];
@@ -924,6 +927,14 @@ function parameter(options, catalogs, datasets, cb) {
 		if (!('cadence' in resp[i].dd))      {resp[i].dd.cadence = parents[i]["cadence"]}
 		if (!('lineregex' in resp[i].dd))    {resp[i].dd.lineregex = parents[i]["lineregex"]}
 		if (!('fillvalue' in resp[i].dd))    {resp[i].dd.fillvalue = parameters[i]["$"]["fillvalue"] || ""}
+
+		if (resp[i].dd.columns.split(",").length > 1) {
+			if (resp[i].columnLabels === "") {
+				resp[i].columnLabels = resp[i].dd.columns;
+			}
+		}
+
+		if (debugapp) console.log(resp[i].dd)
 		
 		if (options.parameters !== "^.*") {				
 
@@ -944,8 +955,7 @@ function parameter(options, catalogs, datasets, cb) {
 				} else if (mt[0].length != value.length) {
 					delete resp[i];
 				} else {
-					if (debugapp)
-						console.log("parameter(): Match in catalog for requested parameter "+value+".")
+					if (debugapp) console.log("parameter(): Match in catalog for requested parameter "+value+".")
 				}
 			}
 		}
@@ -1119,23 +1129,35 @@ function parameter(options, catalogs, datasets, cb) {
 
 		url = config.JYDS + "?server="+config.TSDSFE+"&catalog="+resp[0].catalog+"&dataset="+resp[0].dataset+"&parameters="+resp[0].parameter+"&timerange="+start+"/"+stop;
 
+		if (resp[0].columnLabels) {
+			url = url + "&labels="+resp[0].columnLabels;
+		} else if (resp[0].label != "") {
+			url = url + "&labels="+resp[0].labels;
+		}
+		//if (resp[0].units != "")  {url = url +"&units="+resp[0].units;}
+		
+		if (resp[0].dd.fillvalue != "")  {url = url + "&fills="+resp[0].dd.fillvalue};
+
+		console.log("vap+jyds:"+url)
+
 		if (options.return === "jnlp") {
 			cb(301,"http://autoplot.org/autoplot.jnlp?open=vap+jyds:"+url);
 			return;
 		}
 
+
 		//console.log(resp[0].dd.fillvalue)
-		if (resp[0].label != "") {url = url + "&labels="+resp[0].label};
-		if (resp[0].units != "")  {url = url + " ["+resp[0].units+"]" +"&units="+resp[0].units;}
-		if (resp[0].dd.fillvalue != "")  {url = url + "&fills="+resp[0].dd.fillvalue};
+
 
 		var format = "image/png";
 		if (options.return === "pdf") {format = "application/pdf"}
 		if (options.return === "svg") {format = "image/svg%2Bxml"}
 		
-		var aurl = config.AUTOPLOT + "?drawGrid=true&format="+format+"&plot.xaxis.drawTickLabels=true&width=800&height=200&url=vap+jyds:" + encodeURIComponent(url);	
+		var aurl = config.AUTOPLOT + "?drawGrid=true&format="+format+"&plot.xaxis.drawTickLabels=true&column="+encodeURIComponent("0%+5em,100%-5em")+"&width=800&height=200&url=vap+jyds:" + encodeURIComponent(url);	
 
 		console.log(aurl)
+		//if (debugapp) console.log(url)
+
 
 		if (config.TSDSFE.match(/http:\/\/localhost/)) {
 			if (!config.AUTOPLOT.match(/http:\/\/localhost/)) {

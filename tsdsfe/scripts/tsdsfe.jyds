@@ -6,12 +6,12 @@ catalog    = getParam( 'catalog', 'SSCWeb', 'catalog' )
 dataset    = getParam( 'dataset', 'ace', 'dataset' )
 parameters = getParam( 'parameters', 'X_GEO', 'parameters' )
 server     = getParam( 'server', 'http://tsds.org/get/' )
-units      = getParam( 'units', 'R_E' )
+units      = getParam( 'units', '' )
 usecache   = getParam( 'usecache', 'true' )
 labels     = getParam( 'labels', '' )
 title      = getParam( 'title', 'def' )
 fills      = getParam( 'fills', '-1e31')
-fills      = float(fills)
+#fills      = float(fills)
 
 if ( title=='def' ):
   title= 'catalog: ' + catalog + ' | dataset: ' + dataset #+ ' | parameters: ' + parameters
@@ -46,21 +46,44 @@ try:
       if ( len(labels)==0 ):
           ll= parameters.split(',')  
       else:
-          ll= labels.split(',') 
+          ll= labels.split(',')
       eu= EnumerationUnits.create('default')
-      lenll= len(ll) 
+      lenll= len(ll)
+      units= units.split(',')
+      fills= fills.split(',')
+
+      if (ll > 1):
+           isscalar= False
+
+      #print len(set(units))
+      # Not working.   If units are not all the same, we need special treatment.
+      #if (len(units) > len(set(units)): Requires newer version of Python
+      for i in units:
+          if i != units[0]:
+            raise Exception(' tsds.jyds - Units must be same for all columns to plot.')
+            break
+
       llds= DDataSet.createRank1(lenll)
       for i in xrange(lenll):
-         llds[i]= eu.createDatum( ll[i] ).doubleValue(eu)
+         if (units[0] == ''):
+           llds[i]= eu.createDatum( ll[i]).doubleValue(eu)
+         else:
+           llds[i]= eu.createDatum( ll[i] + ' [' + units[0] + ']').doubleValue(eu)
+
       llds.putProperty( QDataSet.UNITS, eu )
       result= getDataSet( 'vap+dat:file://'+f.toString()+'?bundle=1:&depend0=field0' )
       result.putProperty( QDataSet.DEPEND_1, llds )
    else:
       result= getDataSet( 'vap+dat:file://'+f.toString() )
-   result.putProperty( QDataSet.TITLE, title )
-   result.putProperty( QDataSet.FILL_VALUE, fills )   
-   result.putProperty( QDataSet.UNITS, SemanticOps.lookupUnits(units) )
-   result.putProperty( QDataSet.LABEL, labels )
+   
+   if (isscalar):
+     result.putProperty( QDataSet.TITLE, title )
+     result.putProperty( QDataSet.UNITS, SemanticOps.lookupUnits(units) )
+     result.putProperty( QDataSet.LABEL, labels )
+     result.putProperty( QDataSet.FILL_VALUE, float(fills[0]) )   
+   else:
+     result.putProperty( QDataSet.TITLE, title + ' | parameter: ' + parameters)
+     result.putProperty( QDataSet.FILL_VALUE, float(fills[0]) )   
 
 except org.virbo.datasource.HtmlResponseIOException,ex:
    raise org.das2.dataset.NoDataInIntervalException('No data in interval')

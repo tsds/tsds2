@@ -2,10 +2,11 @@
 % Data will be placed in matrix named D.
 % Column labels will be placed in cell array named L.
 
-SVR   = '__SERVER__'
-QS    = '__QUERYSTRING__'
+SVR   = '__SERVER__';
+QS    = '__QUERYSTRING__';
 
-D = urlread([SVR,'?',QS]); % Read data
+Ds = urlread([SVR,'?',QS]); % Read data
+D  = str2num(Ds);
 
 L  = {'Year','Month','Day','Hour','Minute','Second',__LABELS__};
 
