@@ -28,7 +28,7 @@ function dropdown2(ids, names, funs, after, i, selected, callback) {
 			},
 			blur: function(event) {
 				// Never triggers.
-				console.log("dropdown.ac.change(): Blur event triggered on "+ id + " with value " + ui.item.value);
+				console.log("dropdown.ac.blur(): Blur event triggered on "+ id + " with value " + ui.item.value);
 				event.preventDefault();
 				},
 			//search: function (event) {funs[i].onselect();},

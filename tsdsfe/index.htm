@@ -30,6 +30,7 @@
 
 				//$('#cachecheckboxes').hide();
 				$('#cachecheckboxeslink').click(function () {$("#cachecheckboxes").toggle();});
+				
 				// Default for using data cache is true.  Unselect checkbox if usecache=true is in URL.
 				if (location.hash.match("usecache=false")) {
 					$('#usecache').each(function(){ this.checked = false; });
@@ -568,13 +569,17 @@
 				} else if (selected('outformat').match(/png|pdf|svg/)) {
 					url = TSDSFE+url+"&return=" + selected('outformat');
 					$("#imagediv").show();
+					$("#imagediv #imageloading").show()
 					//$("#imagediv > div > a").text(url);
 					$("#imagediv > div > a").attr("href",url);
 					$("#imagediv > div > a").attr("title",url);
 					if (selected('outformat').match(/png|svg/)) {
-						$("#imagediv #image").attr("src",url).load(function () {$("#imagediv #imageloading").hide();});
+						$("#imagediv #image").attr("src",url).load(function () {
+							$("#imagediv #imageloading").hide();
+						});
 					} else {
 						var curr = $("#imagediv div a");
+						$("#imagediv #image").hide();
 						$("#imagediv div").html(curr);
 						$("#imagediv div a").html("Download PDF");
 					}
@@ -672,7 +677,7 @@
 						var STOP_dateISO  = START_date.toISOString().replace(/T.*/,"");
 
 						 ploturl = "?catalog="+selected('catalog')+"&dataset="+selected('dataset')+"&parameters="+selected('parameters')+"&start="+START_dateISO+"&stop="+STOP_dateISO+"&return=png";
-						 dataurl = TSDSFE + "tsdsfe.jyds?server="+TSDSFE+"&catalog="+selected('catalog')+"&dataset="+selected('dataset')+"&parameters="+selected('parameters')+"&timerange="+START_dateISO+"&outformat=1";
+						 dataurl = TSDSFE + "scripts/tsdsfe.jyds?server="+TSDSFE+"&catalog="+selected('catalog')+"&dataset="+selected('dataset')+"&parameters="+selected('parameters')+"&timerange="+START_dateISO+"&outformat=1";
 
 
 						 if (!$("#usecache").is(":checked")) {
@@ -774,7 +779,7 @@
 			<a style="text-decoration:underline;cursor:pointer" id="cachecheckboxeslink">Options</a>
 			<div id="cachecheckboxes" style="display:none">
 			<font size="-1">		
-				<div title="Show preview images of data over default time range when a parameter is selected."><input id="previewimgcheckbox" type="checkbox" value=""/>&nbsp;Show preview plots</div>
+				<div title="Show preview images (1 day of data per image) of data over default time range when a parameter is selected."><input id="previewimgcheckbox" type="checkbox" value=""/>&nbsp;Show preview plots</div>
 				<div title="For fastest response time, use cached data (if available).  Disable this for data that change frequently."><input id="usecache" type="checkbox" value=""/>&nbsp;Use cached data</div>
 				<div title="For fastest response time, use cached metadata (if available).  Disable this for metadata that change frequently."><input id="usemetadatacache" type="checkbox" value=""/>&nbsp;Use cached metadata</div>
 				<div title="For fastest response time, use cached images (if available).  Disable this for data that change frequently."><input id="useimagecache" type="checkbox" value=""/>&nbsp;Use cached images</div>

@@ -1129,12 +1129,13 @@ function parameter(options, catalogs, datasets, cb) {
 
 		url = config.JYDS + "?server="+config.TSDSFE+"&catalog="+resp[0].catalog+"&dataset="+resp[0].dataset+"&parameters="+resp[0].parameter+"&timerange="+start+"/"+stop;
 
-		if (resp[0].columnLabels) {
+		console.log(resp[0])
+		if (resp[0].columnLabels !== '') {
 			url = url + "&labels="+resp[0].columnLabels;
 		} else if (resp[0].label != "") {
-			url = url + "&labels="+resp[0].labels;
+			url = url + "&labels="+resp[0].label;
 		}
-		//if (resp[0].units != "")  {url = url +"&units="+resp[0].units;}
+		if (resp[0].units != "")  {url = url +"&units="+resp[0].units;}
 		
 		if (resp[0].dd.fillvalue != "")  {url = url + "&fills="+resp[0].dd.fillvalue};
 
