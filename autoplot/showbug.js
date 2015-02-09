@@ -5,6 +5,8 @@ var fs    = require("fs");
 //datafile = 'vap+cdf:file:/home/weigel/git/tsds2/autoplot/data/autoplot.cdf?BGSM';
 //datafile = 'vap+cdf:http://localhost:9000/autoplot.cdf?BGSM';
 datafile = 'vap+cdf:http://autoplot.org/data/autoplot.cdf?BGSM';
+datafile = 'vap+inline:rand(300)'  // loop will add 0,1,2,3,... in each step
+
 var Nrequests = parseInt(process.argv[2]);
 var Nservers = 1;
 
@@ -18,6 +20,9 @@ function run () {
 	to = new Date().getTime();
 	for (var i =0;i< Nrequests;i++) {
 		com = xcom.replace("BGSM.png","BGSM-"+i+".png");
+		if (datafile.match("inline")) {
+			com = com.replace(datafile,datafile+"+"+i);
+		}
 		console.log("Executing "+com);
 		child = exec(com,
 		  function (error, stdout, stderr) {
