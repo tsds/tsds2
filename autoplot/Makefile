@@ -20,13 +20,21 @@ clean:
 	rm -rf deps/*
 	rm -rf node_modules
 
-test:
-	node run.js --method=nailgun --id=MacBookAir
-	sleep 5;
-	node run.js --method=jetty --id=MacBookAir
+testjetty:
+	node runtests.js --Nrequests=50 --method=jetty --id=$(shell uname)
 
-servers:
-	node test.js --Nservers=10 --method=launch &
+testnailgun:
+	node runtests.js --Nrequests=50 --method=nailgun --id=$(shell uname)
+
+# Need to figure out how to kill jetty properly.
+killjetty:
+	ps aux | grep jetty | sed 's/\s\+/ /g' | cut -d' ' -f2 | xargs kill -9
+
+startjetty:
+	node test.js --Nservers=10 --method=launchjetty &
+
+startnailgun:
+	node test.js --Nservers=10 --method=launchnailgun &
 
 prep:
 	mkdir -p deps;
@@ -38,4 +46,4 @@ prep:
 	cd deps; mv AutoplotServlet.war jetty-distribution-8.1.16.v20140903/webapps
 	npm install yargs
 	cd data; sudo npm install http-server -g;
-	cd data; http-server -p 9000 &;
+	cd data; http-server -p 9000;

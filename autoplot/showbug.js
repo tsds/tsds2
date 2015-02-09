@@ -18,6 +18,7 @@ function run () {
 	to = new Date().getTime();
 	for (var i =0;i< Nrequests;i++) {
 		com = xcom.replace("BGSM.png","BGSM-"+i+".png");
+		console.log("Executing "+com);
 		child = exec(com,
 		  function (error, stdout, stderr) {
 		  	Nd = Nd+1;

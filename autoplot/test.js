@@ -19,10 +19,12 @@ var Nservers  = argv["Nservers"];
 var Nrequests = argv["Nrequests"];
 var method    = argv["method"];
 
-if (method === "launch") {
+if (method.match(/launch/)) {
+
 	for (var i =0;i< Nservers;i++) {
 
-		if (1) {
+		if (method === "launchnailgun") {
+
 		    var ng = "deps/nailgun-0.7.1/ng ng-stop --nailgun-port 7000; sleep 1; java -Djava.awt.headless=true -Djava.library.path=." +
 		                " -cp ./deps/autoplot.jar:./deps/nailgun-0.7.1/nailgun-0.7.1.jar:." +
 		                " com.martiansoftware.nailgun.NGServer 7000 &";
@@ -36,10 +38,11 @@ if (method === "launch") {
 			});
 		}
 
-		if (0) {
-	        com0 = "cd deps; cp -r jetty-distribution-8.1.16.v20140903/ jetty-8000;"
-	        var jet = com0 + "cd jetty-8000; java -jar start.jar jetty.port=8000 --stop; sleep 1; java -jar start.jar jetty.port=8000; curl http://localhost:8000/AutoplotServlet/SimpleServlet > /dev/null &";
-	        com = jet.replace(/8000/g,"800"+(i % Nservers));
+		if (method === "launchjetty") {
+		    com0 = "cd deps; cp -r jetty-distribution-8.1.16.v20140903/ jetty-6000;"
+		    //var jet = com0 + "cd jetty-8000; java -jar start.jar STOP.PORT=8000 STOP.KEY=8000 jetty.port=8000 --stop; sleep 1; java -jar start.jar STOP.PORT=8000 STOP.KEY=8000 jetty.port=8000; curl http://localhost:8000/AutoplotServlet/SimpleServlet > /dev/null &";
+			var jet = com0 + "cd jetty-6000; java -jar start.jar jetty.port=6000;";
+		    com = jet.replace(/6000/g,"600"+(i % Nservers));
 
 			console.log(com);
 			var child = exec(com,
@@ -49,8 +52,9 @@ if (method === "launch") {
 				return;
 			});
 		}
-		//setTimeout(run,5000);
+
 	}
+
 	return;
 } else {
 	run();
@@ -64,7 +68,7 @@ function run () {
 	            ' -u "'+datafile+'" -f png -o /tmp/BGSM.png';
     }
 	if (method == "jetty") {
-	    xcom = 'curl -s "http://localhost:8000/AutoplotServlet/SimpleServlet?url='+
+	    xcom = 'curl -s "http://localhost:6000/AutoplotServlet/SimpleServlet?url='+
 	            encodeURIComponent(datafile) + '" > /tmp/BGSM.png;'
     }
     
@@ -72,7 +76,7 @@ function run () {
 	to = new Date().getTime();
 	for (var i =0;i< Nrequests;i++) {
 		com = xcom.replace("BGSM.png","BGSM-"+i+".png");
-		com = com.replace("8000","800"+(i % Nservers));
+		com = com.replace("6000","600"+(i % Nservers));
 		com = com.replace("7000","700"+(i % Nservers));
 		//console.log(com);
 		//continue;
@@ -93,7 +97,7 @@ function run () {
                 }
 		  		console.log("Ncpus = " + Ncpus + " Nservers = " + Nservers +
 		  		             " Nruns = " + Nrequests + " Nbad = " + Nbad +
-		  		             " Method = " + method +
+		  		             " Method = " + method + " SizeLast = " + sizelast +
 		  		             " Time = "+(tf-to)+" ms");
 		  	}
 		    //console.log('stdout: ' + stdout);
