@@ -3,10 +3,11 @@ var sys   = require('sys');
 var fs    = require("fs");
 var os    = require("os");
 
-var argv      = require('yargs').default({Nrequests: 10, method: "nailgun"}).argv;
+var argv      = require('yargs').default({Nrequests: 10, Nservers: 10, method: "nailgun"}).argv;
 var method    = argv["method"];
 var id        = argv["id"];
 var Nrequests = argv["Nrequests"];
+var Nservers  = argv["Nservers"];
 
 var com = [];
 var k = 0;

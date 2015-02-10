@@ -1,0 +1,346 @@
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+Ncpus = 24 Nservers = 1 Nruns = 1 Nbad = 0 Method = nailgun SizeLast = 46982 Time = 194 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+Ncpus = 24 Nservers = 1 Nruns = 1 Nbad = 0 Method = nailgun SizeLast = 47146 Time = 91 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+Ncpus = 24 Nservers = 2 Nruns = 1 Nbad = 0 Method = nailgun SizeLast = 46982 Time = 88 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+Ncpus = 24 Nservers = 2 Nruns = 1 Nbad = 0 Method = nailgun SizeLast = 47540 Time = 92 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+Ncpus = 24 Nservers = 3 Nruns = 1 Nbad = 0 Method = nailgun SizeLast = 48005 Time = 93 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+Ncpus = 24 Nservers = 3 Nruns = 1 Nbad = 0 Method = nailgun SizeLast = 46171 Time = 91 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+Ncpus = 24 Nservers = 4 Nruns = 1 Nbad = 0 Method = nailgun SizeLast = 46474 Time = 91 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+Ncpus = 24 Nservers = 4 Nruns = 1 Nbad = 0 Method = nailgun SizeLast = 46657 Time = 91 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+Ncpus = 24 Nservers = 5 Nruns = 1 Nbad = 0 Method = nailgun SizeLast = 46320 Time = 87 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+Ncpus = 24 Nservers = 5 Nruns = 1 Nbad = 0 Method = nailgun SizeLast = 47448 Time = 93 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+Ncpus = 24 Nservers = 6 Nruns = 1 Nbad = 0 Method = nailgun SizeLast = 47023 Time = 91 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+Ncpus = 24 Nservers = 6 Nruns = 1 Nbad = 0 Method = nailgun SizeLast = 46846 Time = 92 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+Ncpus = 24 Nservers = 7 Nruns = 1 Nbad = 0 Method = nailgun SizeLast = 47507 Time = 92 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+Ncpus = 24 Nservers = 7 Nruns = 1 Nbad = 0 Method = nailgun SizeLast = 47040 Time = 93 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+Ncpus = 24 Nservers = 8 Nruns = 1 Nbad = 0 Method = nailgun SizeLast = 46918 Time = 92 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+Ncpus = 24 Nservers = 8 Nruns = 1 Nbad = 0 Method = nailgun SizeLast = 46185 Time = 93 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+Ncpus = 24 Nservers = 9 Nruns = 1 Nbad = 0 Method = nailgun SizeLast = 46471 Time = 93 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+Ncpus = 24 Nservers = 9 Nruns = 1 Nbad = 0 Method = nailgun SizeLast = 46859 Time = 92 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+Ncpus = 24 Nservers = 10 Nruns = 1 Nbad = 0 Method = nailgun SizeLast = 47109 Time = 93 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+Ncpus = 24 Nservers = 10 Nruns = 1 Nbad = 0 Method = nailgun SizeLast = 47401 Time = 94 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+1" -f png -o /tmp/BGSM-1.png
+Ncpus = 24 Nservers = 1 Nruns = 2 Nbad = 0 Method = nailgun SizeLast = 46406 Time = 102 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+1" -f png -o /tmp/BGSM-1.png
+Ncpus = 24 Nservers = 1 Nruns = 2 Nbad = 0 Method = nailgun SizeLast = 46246 Time = 117 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+deps/nailgun-0.7.1/ng --nailgun-port 7001 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+1" -f png -o /tmp/BGSM-1.png
+Ncpus = 24 Nservers = 2 Nruns = 2 Nbad = 1 Method = nailgun SizeLast = 46820 Time = 97 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+deps/nailgun-0.7.1/ng --nailgun-port 7001 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+1" -f png -o /tmp/BGSM-1.png
+Ncpus = 24 Nservers = 2 Nruns = 2 Nbad = 1 Method = nailgun SizeLast = 46698 Time = 98 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+deps/nailgun-0.7.1/ng --nailgun-port 7001 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+1" -f png -o /tmp/BGSM-1.png
+Ncpus = 24 Nservers = 3 Nruns = 2 Nbad = 1 Method = nailgun SizeLast = 46751 Time = 106 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+deps/nailgun-0.7.1/ng --nailgun-port 7001 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+1" -f png -o /tmp/BGSM-1.png
+Ncpus = 24 Nservers = 3 Nruns = 2 Nbad = 1 Method = nailgun SizeLast = 46540 Time = 95 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+deps/nailgun-0.7.1/ng --nailgun-port 7001 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+1" -f png -o /tmp/BGSM-1.png
+Ncpus = 24 Nservers = 4 Nruns = 2 Nbad = 1 Method = nailgun SizeLast = 46064 Time = 96 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+deps/nailgun-0.7.1/ng --nailgun-port 7001 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+1" -f png -o /tmp/BGSM-1.png
+Ncpus = 24 Nservers = 4 Nruns = 2 Nbad = 1 Method = nailgun SizeLast = 46472 Time = 95 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+deps/nailgun-0.7.1/ng --nailgun-port 7001 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+1" -f png -o /tmp/BGSM-1.png
+Ncpus = 24 Nservers = 5 Nruns = 2 Nbad = 1 Method = nailgun SizeLast = 46809 Time = 102 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+deps/nailgun-0.7.1/ng --nailgun-port 7001 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+1" -f png -o /tmp/BGSM-1.png
+Ncpus = 24 Nservers = 5 Nruns = 2 Nbad = 1 Method = nailgun SizeLast = 46632 Time = 101 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+deps/nailgun-0.7.1/ng --nailgun-port 7001 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+1" -f png -o /tmp/BGSM-1.png
+Ncpus = 24 Nservers = 6 Nruns = 2 Nbad = 1 Method = nailgun SizeLast = 46425 Time = 102 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+deps/nailgun-0.7.1/ng --nailgun-port 7001 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+1" -f png -o /tmp/BGSM-1.png
+Ncpus = 24 Nservers = 6 Nruns = 2 Nbad = 1 Method = nailgun SizeLast = 47453 Time = 102 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+deps/nailgun-0.7.1/ng --nailgun-port 7001 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+1" -f png -o /tmp/BGSM-1.png
+Ncpus = 24 Nservers = 7 Nruns = 2 Nbad = 1 Method = nailgun SizeLast = 45373 Time = 94 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+deps/nailgun-0.7.1/ng --nailgun-port 7001 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+1" -f png -o /tmp/BGSM-1.png
+Ncpus = 24 Nservers = 7 Nruns = 2 Nbad = 1 Method = nailgun SizeLast = 46005 Time = 96 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+deps/nailgun-0.7.1/ng --nailgun-port 7001 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+1" -f png -o /tmp/BGSM-1.png
+Ncpus = 24 Nservers = 8 Nruns = 2 Nbad = 1 Method = nailgun SizeLast = 47130 Time = 95 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+deps/nailgun-0.7.1/ng --nailgun-port 7001 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+1" -f png -o /tmp/BGSM-1.png
+Ncpus = 24 Nservers = 8 Nruns = 2 Nbad = 1 Method = nailgun SizeLast = 46630 Time = 94 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+deps/nailgun-0.7.1/ng --nailgun-port 7001 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+1" -f png -o /tmp/BGSM-1.png
+Ncpus = 24 Nservers = 9 Nruns = 2 Nbad = 1 Method = nailgun SizeLast = 46951 Time = 97 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+deps/nailgun-0.7.1/ng --nailgun-port 7001 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+1" -f png -o /tmp/BGSM-1.png
+Ncpus = 24 Nservers = 9 Nruns = 2 Nbad = 1 Method = nailgun SizeLast = 47232 Time = 94 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+deps/nailgun-0.7.1/ng --nailgun-port 7001 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+1" -f png -o /tmp/BGSM-1.png
+Ncpus = 24 Nservers = 10 Nruns = 2 Nbad = 1 Method = nailgun SizeLast = 46755 Time = 94 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+deps/nailgun-0.7.1/ng --nailgun-port 7001 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+1" -f png -o /tmp/BGSM-1.png
+Ncpus = 24 Nservers = 10 Nruns = 2 Nbad = 1 Method = nailgun SizeLast = 47115 Time = 95 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+1" -f png -o /tmp/BGSM-1.png
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+2" -f png -o /tmp/BGSM-2.png
+Ncpus = 24 Nservers = 1 Nruns = 3 Nbad = 0 Method = nailgun SizeLast = 47129 Time = 123 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+1" -f png -o /tmp/BGSM-1.png
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+2" -f png -o /tmp/BGSM-2.png
+Ncpus = 24 Nservers = 1 Nruns = 3 Nbad = 0 Method = nailgun SizeLast = 47768 Time = 126 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+deps/nailgun-0.7.1/ng --nailgun-port 7001 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+1" -f png -o /tmp/BGSM-1.png
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+2" -f png -o /tmp/BGSM-2.png
+Ncpus = 24 Nservers = 2 Nruns = 3 Nbad = 2 Method = nailgun SizeLast = 47353 Time = 102 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+deps/nailgun-0.7.1/ng --nailgun-port 7001 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+1" -f png -o /tmp/BGSM-1.png
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+2" -f png -o /tmp/BGSM-2.png
+Ncpus = 24 Nservers = 2 Nruns = 3 Nbad = 2 Method = nailgun SizeLast = 47260 Time = 107 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+deps/nailgun-0.7.1/ng --nailgun-port 7001 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+1" -f png -o /tmp/BGSM-1.png
+deps/nailgun-0.7.1/ng --nailgun-port 7002 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+2" -f png -o /tmp/BGSM-2.png
+Ncpus = 24 Nservers = 3 Nruns = 3 Nbad = 2 Method = nailgun SizeLast = 46260 Time = 99 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+deps/nailgun-0.7.1/ng --nailgun-port 7001 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+1" -f png -o /tmp/BGSM-1.png
+deps/nailgun-0.7.1/ng --nailgun-port 7002 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+2" -f png -o /tmp/BGSM-2.png
+Ncpus = 24 Nservers = 3 Nruns = 3 Nbad = 2 Method = nailgun SizeLast = 46346 Time = 112 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+deps/nailgun-0.7.1/ng --nailgun-port 7001 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+1" -f png -o /tmp/BGSM-1.png
+deps/nailgun-0.7.1/ng --nailgun-port 7002 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+2" -f png -o /tmp/BGSM-2.png
+Ncpus = 24 Nservers = 4 Nruns = 3 Nbad = 2 Method = nailgun SizeLast = 46793 Time = 100 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+deps/nailgun-0.7.1/ng --nailgun-port 7001 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+1" -f png -o /tmp/BGSM-1.png
+deps/nailgun-0.7.1/ng --nailgun-port 7002 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+2" -f png -o /tmp/BGSM-2.png
+Ncpus = 24 Nservers = 4 Nruns = 3 Nbad = 2 Method = nailgun SizeLast = 46530 Time = 120 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+deps/nailgun-0.7.1/ng --nailgun-port 7001 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+1" -f png -o /tmp/BGSM-1.png
+deps/nailgun-0.7.1/ng --nailgun-port 7002 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+2" -f png -o /tmp/BGSM-2.png
+Ncpus = 24 Nservers = 5 Nruns = 3 Nbad = 2 Method = nailgun SizeLast = 46601 Time = 115 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+deps/nailgun-0.7.1/ng --nailgun-port 7001 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+1" -f png -o /tmp/BGSM-1.png
+deps/nailgun-0.7.1/ng --nailgun-port 7002 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+2" -f png -o /tmp/BGSM-2.png
+Ncpus = 24 Nservers = 5 Nruns = 3 Nbad = 2 Method = nailgun SizeLast = 45597 Time = 107 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+deps/nailgun-0.7.1/ng --nailgun-port 7001 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+1" -f png -o /tmp/BGSM-1.png
+deps/nailgun-0.7.1/ng --nailgun-port 7002 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+2" -f png -o /tmp/BGSM-2.png
+Ncpus = 24 Nservers = 6 Nruns = 3 Nbad = 2 Method = nailgun SizeLast = 46987 Time = 97 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+deps/nailgun-0.7.1/ng --nailgun-port 7001 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+1" -f png -o /tmp/BGSM-1.png
+deps/nailgun-0.7.1/ng --nailgun-port 7002 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+2" -f png -o /tmp/BGSM-2.png
+Ncpus = 24 Nservers = 6 Nruns = 3 Nbad = 2 Method = nailgun SizeLast = 47146 Time = 136 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+deps/nailgun-0.7.1/ng --nailgun-port 7001 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+1" -f png -o /tmp/BGSM-1.png
+deps/nailgun-0.7.1/ng --nailgun-port 7002 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+2" -f png -o /tmp/BGSM-2.png
+Ncpus = 24 Nservers = 7 Nruns = 3 Nbad = 2 Method = nailgun SizeLast = 47033 Time = 108 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+deps/nailgun-0.7.1/ng --nailgun-port 7001 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+1" -f png -o /tmp/BGSM-1.png
+deps/nailgun-0.7.1/ng --nailgun-port 7002 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+2" -f png -o /tmp/BGSM-2.png
+Ncpus = 24 Nservers = 7 Nruns = 3 Nbad = 2 Method = nailgun SizeLast = 46875 Time = 96 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+deps/nailgun-0.7.1/ng --nailgun-port 7001 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+1" -f png -o /tmp/BGSM-1.png
+deps/nailgun-0.7.1/ng --nailgun-port 7002 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+2" -f png -o /tmp/BGSM-2.png
+Ncpus = 24 Nservers = 8 Nruns = 3 Nbad = 2 Method = nailgun SizeLast = 46889 Time = 95 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+deps/nailgun-0.7.1/ng --nailgun-port 7001 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+1" -f png -o /tmp/BGSM-1.png
+deps/nailgun-0.7.1/ng --nailgun-port 7002 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+2" -f png -o /tmp/BGSM-2.png
+Ncpus = 24 Nservers = 8 Nruns = 3 Nbad = 2 Method = nailgun SizeLast = 46969 Time = 98 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+deps/nailgun-0.7.1/ng --nailgun-port 7001 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+1" -f png -o /tmp/BGSM-1.png
+deps/nailgun-0.7.1/ng --nailgun-port 7002 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+2" -f png -o /tmp/BGSM-2.png
+Ncpus = 24 Nservers = 9 Nruns = 3 Nbad = 2 Method = nailgun SizeLast = 47391 Time = 97 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+deps/nailgun-0.7.1/ng --nailgun-port 7001 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+1" -f png -o /tmp/BGSM-1.png
+deps/nailgun-0.7.1/ng --nailgun-port 7002 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+2" -f png -o /tmp/BGSM-2.png
+Ncpus = 24 Nservers = 9 Nruns = 3 Nbad = 2 Method = nailgun SizeLast = 45727 Time = 96 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+deps/nailgun-0.7.1/ng --nailgun-port 7001 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+1" -f png -o /tmp/BGSM-1.png
+deps/nailgun-0.7.1/ng --nailgun-port 7002 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+2" -f png -o /tmp/BGSM-2.png
+Ncpus = 24 Nservers = 10 Nruns = 3 Nbad = 2 Method = nailgun SizeLast = 46231 Time = 98 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+deps/nailgun-0.7.1/ng --nailgun-port 7001 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+1" -f png -o /tmp/BGSM-1.png
+deps/nailgun-0.7.1/ng --nailgun-port 7002 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+2" -f png -o /tmp/BGSM-2.png
+Ncpus = 24 Nservers = 10 Nruns = 3 Nbad = 2 Method = nailgun SizeLast = 46846 Time = 97 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+1" -f png -o /tmp/BGSM-1.png
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+2" -f png -o /tmp/BGSM-2.png
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+3" -f png -o /tmp/BGSM-3.png
+Ncpus = 24 Nservers = 1 Nruns = 4 Nbad = 0 Method = nailgun SizeLast = 47255 Time = 135 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+1" -f png -o /tmp/BGSM-1.png
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+2" -f png -o /tmp/BGSM-2.png
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+3" -f png -o /tmp/BGSM-3.png
+Ncpus = 24 Nservers = 1 Nruns = 4 Nbad = 0 Method = nailgun SizeLast = 46937 Time = 139 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+deps/nailgun-0.7.1/ng --nailgun-port 7001 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+1" -f png -o /tmp/BGSM-1.png
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+2" -f png -o /tmp/BGSM-2.png
+deps/nailgun-0.7.1/ng --nailgun-port 7001 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+3" -f png -o /tmp/BGSM-3.png
+Ncpus = 24 Nservers = 2 Nruns = 4 Nbad = 3 Method = nailgun SizeLast = 47325 Time = 119 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+deps/nailgun-0.7.1/ng --nailgun-port 7001 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+1" -f png -o /tmp/BGSM-1.png
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+2" -f png -o /tmp/BGSM-2.png
+deps/nailgun-0.7.1/ng --nailgun-port 7001 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+3" -f png -o /tmp/BGSM-3.png
+Ncpus = 24 Nservers = 2 Nruns = 4 Nbad = 3 Method = nailgun SizeLast = 47009 Time = 107 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+deps/nailgun-0.7.1/ng --nailgun-port 7001 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+1" -f png -o /tmp/BGSM-1.png
+deps/nailgun-0.7.1/ng --nailgun-port 7002 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+2" -f png -o /tmp/BGSM-2.png
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+3" -f png -o /tmp/BGSM-3.png
+Ncpus = 24 Nservers = 3 Nruns = 4 Nbad = 3 Method = nailgun SizeLast = 47309 Time = 105 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+deps/nailgun-0.7.1/ng --nailgun-port 7001 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+1" -f png -o /tmp/BGSM-1.png
+deps/nailgun-0.7.1/ng --nailgun-port 7002 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+2" -f png -o /tmp/BGSM-2.png
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+3" -f png -o /tmp/BGSM-3.png
+Ncpus = 24 Nservers = 3 Nruns = 4 Nbad = 3 Method = nailgun SizeLast = 46608 Time = 105 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+deps/nailgun-0.7.1/ng --nailgun-port 7001 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+1" -f png -o /tmp/BGSM-1.png
+deps/nailgun-0.7.1/ng --nailgun-port 7002 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+2" -f png -o /tmp/BGSM-2.png
+deps/nailgun-0.7.1/ng --nailgun-port 7003 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+3" -f png -o /tmp/BGSM-3.png
+Ncpus = 24 Nservers = 4 Nruns = 4 Nbad = 3 Method = nailgun SizeLast = 46903 Time = 237 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+deps/nailgun-0.7.1/ng --nailgun-port 7001 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+1" -f png -o /tmp/BGSM-1.png
+deps/nailgun-0.7.1/ng --nailgun-port 7002 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+2" -f png -o /tmp/BGSM-2.png
+deps/nailgun-0.7.1/ng --nailgun-port 7003 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+3" -f png -o /tmp/BGSM-3.png
+Ncpus = 24 Nservers = 4 Nruns = 4 Nbad = 3 Method = nailgun SizeLast = 47584 Time = 110 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+deps/nailgun-0.7.1/ng --nailgun-port 7001 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+1" -f png -o /tmp/BGSM-1.png
+deps/nailgun-0.7.1/ng --nailgun-port 7002 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+2" -f png -o /tmp/BGSM-2.png
+deps/nailgun-0.7.1/ng --nailgun-port 7003 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+3" -f png -o /tmp/BGSM-3.png
+Ncpus = 24 Nservers = 5 Nruns = 4 Nbad = 3 Method = nailgun SizeLast = 47146 Time = 104 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+deps/nailgun-0.7.1/ng --nailgun-port 7001 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+1" -f png -o /tmp/BGSM-1.png
+deps/nailgun-0.7.1/ng --nailgun-port 7002 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+2" -f png -o /tmp/BGSM-2.png
+deps/nailgun-0.7.1/ng --nailgun-port 7003 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+3" -f png -o /tmp/BGSM-3.png
+Ncpus = 24 Nservers = 5 Nruns = 4 Nbad = 3 Method = nailgun SizeLast = 47126 Time = 107 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+deps/nailgun-0.7.1/ng --nailgun-port 7001 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+1" -f png -o /tmp/BGSM-1.png
+deps/nailgun-0.7.1/ng --nailgun-port 7002 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+2" -f png -o /tmp/BGSM-2.png
+deps/nailgun-0.7.1/ng --nailgun-port 7003 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+3" -f png -o /tmp/BGSM-3.png
+Ncpus = 24 Nservers = 6 Nruns = 4 Nbad = 3 Method = nailgun SizeLast = 47024 Time = 112 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+deps/nailgun-0.7.1/ng --nailgun-port 7001 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+1" -f png -o /tmp/BGSM-1.png
+deps/nailgun-0.7.1/ng --nailgun-port 7002 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+2" -f png -o /tmp/BGSM-2.png
+deps/nailgun-0.7.1/ng --nailgun-port 7003 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+3" -f png -o /tmp/BGSM-3.png
+Ncpus = 24 Nservers = 6 Nruns = 4 Nbad = 3 Method = nailgun SizeLast = 47581 Time = 107 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+deps/nailgun-0.7.1/ng --nailgun-port 7001 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+1" -f png -o /tmp/BGSM-1.png
+deps/nailgun-0.7.1/ng --nailgun-port 7002 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+2" -f png -o /tmp/BGSM-2.png
+deps/nailgun-0.7.1/ng --nailgun-port 7003 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+3" -f png -o /tmp/BGSM-3.png
+Ncpus = 24 Nservers = 7 Nruns = 4 Nbad = 3 Method = nailgun SizeLast = 46903 Time = 102 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+deps/nailgun-0.7.1/ng --nailgun-port 7001 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+1" -f png -o /tmp/BGSM-1.png
+deps/nailgun-0.7.1/ng --nailgun-port 7002 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+2" -f png -o /tmp/BGSM-2.png
+deps/nailgun-0.7.1/ng --nailgun-port 7003 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+3" -f png -o /tmp/BGSM-3.png
+Ncpus = 24 Nservers = 7 Nruns = 4 Nbad = 3 Method = nailgun SizeLast = 47092 Time = 105 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+deps/nailgun-0.7.1/ng --nailgun-port 7001 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+1" -f png -o /tmp/BGSM-1.png
+deps/nailgun-0.7.1/ng --nailgun-port 7002 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+2" -f png -o /tmp/BGSM-2.png
+deps/nailgun-0.7.1/ng --nailgun-port 7003 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+3" -f png -o /tmp/BGSM-3.png
+Ncpus = 24 Nservers = 8 Nruns = 4 Nbad = 3 Method = nailgun SizeLast = 47504 Time = 115 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+deps/nailgun-0.7.1/ng --nailgun-port 7001 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+1" -f png -o /tmp/BGSM-1.png
+deps/nailgun-0.7.1/ng --nailgun-port 7002 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+2" -f png -o /tmp/BGSM-2.png
+deps/nailgun-0.7.1/ng --nailgun-port 7003 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+3" -f png -o /tmp/BGSM-3.png
+Ncpus = 24 Nservers = 8 Nruns = 4 Nbad = 3 Method = nailgun SizeLast = 45722 Time = 110 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+deps/nailgun-0.7.1/ng --nailgun-port 7001 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+1" -f png -o /tmp/BGSM-1.png
+deps/nailgun-0.7.1/ng --nailgun-port 7002 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+2" -f png -o /tmp/BGSM-2.png
+deps/nailgun-0.7.1/ng --nailgun-port 7003 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+3" -f png -o /tmp/BGSM-3.png
+Ncpus = 24 Nservers = 9 Nruns = 4 Nbad = 3 Method = nailgun SizeLast = 45956 Time = 113 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+deps/nailgun-0.7.1/ng --nailgun-port 7001 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+1" -f png -o /tmp/BGSM-1.png
+deps/nailgun-0.7.1/ng --nailgun-port 7002 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+2" -f png -o /tmp/BGSM-2.png
+deps/nailgun-0.7.1/ng --nailgun-port 7003 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+3" -f png -o /tmp/BGSM-3.png
+Ncpus = 24 Nservers = 9 Nruns = 4 Nbad = 3 Method = nailgun SizeLast = 46955 Time = 122 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+deps/nailgun-0.7.1/ng --nailgun-port 7001 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+1" -f png -o /tmp/BGSM-1.png
+deps/nailgun-0.7.1/ng --nailgun-port 7002 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+2" -f png -o /tmp/BGSM-2.png
+deps/nailgun-0.7.1/ng --nailgun-port 7003 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+3" -f png -o /tmp/BGSM-3.png
+Ncpus = 24 Nservers = 10 Nruns = 4 Nbad = 3 Method = nailgun SizeLast = 46905 Time = 105 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+deps/nailgun-0.7.1/ng --nailgun-port 7001 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+1" -f png -o /tmp/BGSM-1.png
+deps/nailgun-0.7.1/ng --nailgun-port 7002 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+2" -f png -o /tmp/BGSM-2.png
+deps/nailgun-0.7.1/ng --nailgun-port 7003 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+3" -f png -o /tmp/BGSM-3.png
+Ncpus = 24 Nservers = 10 Nruns = 4 Nbad = 3 Method = nailgun SizeLast = 48429 Time = 100 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+1" -f png -o /tmp/BGSM-1.png
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+2" -f png -o /tmp/BGSM-2.png
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+3" -f png -o /tmp/BGSM-3.png
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+4" -f png -o /tmp/BGSM-4.png
+Ncpus = 24 Nservers = 1 Nruns = 5 Nbad = 0 Method = nailgun SizeLast = 47273 Time = 178 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+1" -f png -o /tmp/BGSM-1.png
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+2" -f png -o /tmp/BGSM-2.png
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+3" -f png -o /tmp/BGSM-3.png
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+4" -f png -o /tmp/BGSM-4.png
+Ncpus = 24 Nservers = 1 Nruns = 5 Nbad = 0 Method = nailgun SizeLast = 47838 Time = 167 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+deps/nailgun-0.7.1/ng --nailgun-port 7001 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+1" -f png -o /tmp/BGSM-1.png
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+2" -f png -o /tmp/BGSM-2.png
+deps/nailgun-0.7.1/ng --nailgun-port 7001 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+3" -f png -o /tmp/BGSM-3.png
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+4" -f png -o /tmp/BGSM-4.png
+Ncpus = 24 Nservers = 2 Nruns = 5 Nbad = 4 Method = nailgun SizeLast = 46891 Time = 125 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+deps/nailgun-0.7.1/ng --nailgun-port 7001 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+1" -f png -o /tmp/BGSM-1.png
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+2" -f png -o /tmp/BGSM-2.png
+deps/nailgun-0.7.1/ng --nailgun-port 7001 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+3" -f png -o /tmp/BGSM-3.png
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+4" -f png -o /tmp/BGSM-4.png
+Ncpus = 24 Nservers = 2 Nruns = 5 Nbad = 4 Method = nailgun SizeLast = 46192 Time = 126 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+deps/nailgun-0.7.1/ng --nailgun-port 7001 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+1" -f png -o /tmp/BGSM-1.png
+deps/nailgun-0.7.1/ng --nailgun-port 7002 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+2" -f png -o /tmp/BGSM-2.png
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+3" -f png -o /tmp/BGSM-3.png
+deps/nailgun-0.7.1/ng --nailgun-port 7001 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+4" -f png -o /tmp/BGSM-4.png
+Ncpus = 24 Nservers = 3 Nruns = 5 Nbad = 4 Method = nailgun SizeLast = 46417 Time = 203 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+deps/nailgun-0.7.1/ng --nailgun-port 7001 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+1" -f png -o /tmp/BGSM-1.png
+deps/nailgun-0.7.1/ng --nailgun-port 7002 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+2" -f png -o /tmp/BGSM-2.png
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+3" -f png -o /tmp/BGSM-3.png
+deps/nailgun-0.7.1/ng --nailgun-port 7001 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+4" -f png -o /tmp/BGSM-4.png
+Ncpus = 24 Nservers = 3 Nruns = 5 Nbad = 4 Method = nailgun SizeLast = 47127 Time = 218 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+deps/nailgun-0.7.1/ng --nailgun-port 7001 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+1" -f png -o /tmp/BGSM-1.png
+deps/nailgun-0.7.1/ng --nailgun-port 7002 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+2" -f png -o /tmp/BGSM-2.png
+deps/nailgun-0.7.1/ng --nailgun-port 7003 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+3" -f png -o /tmp/BGSM-3.png
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+4" -f png -o /tmp/BGSM-4.png
+Ncpus = 24 Nservers = 4 Nruns = 5 Nbad = 4 Method = nailgun SizeLast = 46767 Time = 195 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+deps/nailgun-0.7.1/ng --nailgun-port 7001 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+1" -f png -o /tmp/BGSM-1.png
+deps/nailgun-0.7.1/ng --nailgun-port 7002 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+2" -f png -o /tmp/BGSM-2.png
+deps/nailgun-0.7.1/ng --nailgun-port 7003 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+3" -f png -o /tmp/BGSM-3.png
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+4" -f png -o /tmp/BGSM-4.png
+Ncpus = 24 Nservers = 4 Nruns = 5 Nbad = 4 Method = nailgun SizeLast = 47208 Time = 102 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+deps/nailgun-0.7.1/ng --nailgun-port 7001 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+1" -f png -o /tmp/BGSM-1.png
+deps/nailgun-0.7.1/ng --nailgun-port 7002 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+2" -f png -o /tmp/BGSM-2.png
+deps/nailgun-0.7.1/ng --nailgun-port 7003 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+3" -f png -o /tmp/BGSM-3.png
+deps/nailgun-0.7.1/ng --nailgun-port 7004 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+4" -f png -o /tmp/BGSM-4.png
+Ncpus = 24 Nservers = 5 Nruns = 5 Nbad = 4 Method = nailgun SizeLast = 47055 Time = 244 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+deps/nailgun-0.7.1/ng --nailgun-port 7001 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+1" -f png -o /tmp/BGSM-1.png
+deps/nailgun-0.7.1/ng --nailgun-port 7002 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+2" -f png -o /tmp/BGSM-2.png
+deps/nailgun-0.7.1/ng --nailgun-port 7003 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+3" -f png -o /tmp/BGSM-3.png
+deps/nailgun-0.7.1/ng --nailgun-port 7004 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+4" -f png -o /tmp/BGSM-4.png
+Ncpus = 24 Nservers = 5 Nruns = 5 Nbad = 4 Method = nailgun SizeLast = 46609 Time = 138 ms
+deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+0" -f png -o /tmp/BGSM-0.png
+deps/nailgun-0.7.1/ng --nailgun-port 7001 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+1" -f png -o /tmp/BGSM-1.png
+deps/nailgun-0.7.1/ng --nailgun-port 7002 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+2" -f png -o /tmp/BGSM-2.png
+deps/nailgun-0.7.1/ng --nailgun-port 7003 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+3" -f png -o /tmp/BGSM-3.png
+deps/nailgun-0.7.1/ng --nailgun-port 7004 org.virbo.autoplot.AutoplotServer  -u "vap+inline:rand(300)+4" -f png -o /tmp/BGSM-4.png
+Ncpus = 24 Nservers = 6 Nruns = 5 Nbad = 4 Method = nailgun SizeLast = 46271 Time = 122 ms

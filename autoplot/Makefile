@@ -41,12 +41,7 @@ testnailgun:
 	rm -f data/run_nailgun_$(shell uname).txt
 	node runtests.js --Nrequests=50 --method=nailgun --id=$(shell uname)
 
-# Need to figure out how to kill jetty properly.
-killjetty:
-	ps aux | grep "jetty.port" | sed 's/\s\+/ /g' | cut -d' ' -f2 | xargs kill -9
-
 startjetty:
-	- make killjetty
 	node test.js --Nservers=10 --method=launchjetty &
 
 startnailgun:

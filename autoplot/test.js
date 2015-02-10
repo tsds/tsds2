@@ -9,6 +9,7 @@ var Ncpus = os.cpus().length;
 datafile = 'vap+bin:file:/Users/robertweigel/Desktop/autoplot/data/a.bin';
 //datafile = 'vap+cdf:file:/Users/robertweigel/Desktop/autoplot/data/autoplot.cdf?BGSM';
 //datafile = 'vap+cdf:http://localhost:9000/autoplot.cdf?BGSM';
+//datafile = 'vap+inline:rand(300)+ii'  // loop will add 0,1,2,3,... in each step
 
 var argv = require('yargs')
                 .default({ Nservers : 10, Nrequests : 1, method: "nailgun"})
@@ -25,7 +26,7 @@ if (method.match(/launch/)) {
 
 		if (method === "launchnailgun") {
 
-		    var ng = "deps/nailgun-0.7.1/ng ng-stop --nailgun-port 7000; sleep 1; java -Djava.awt.headless=true -Djava.library.path=." +
+		    var ng = "deps/nailgun-0.7.1/ng ng-stop --nailgun-port 7000; java -Djava.awt.headless=true -Djava.library.path=." +
 		                " -cp ./deps/autoplot.jar:./deps/nailgun-0.7.1/nailgun-0.7.1.jar:." +
 		                " com.martiansoftware.nailgun.NGServer 7000 &";
 		    com = ng.replace(/7000/g,"700"+(i % Nservers));
@@ -41,7 +42,8 @@ if (method.match(/launch/)) {
 		if (method === "launchjetty") {
 		    com0 = "cd deps; cp -r jetty-distribution-8.1.16.v20140903/ jetty-6000;"
 		    //var jet = com0 + "cd jetty-8000; java -jar start.jar STOP.PORT=8000 STOP.KEY=8000 jetty.port=8000 --stop; sleep 1; java -jar start.jar STOP.PORT=8000 STOP.KEY=8000 jetty.port=8000; curl http://localhost:8000/AutoplotServlet/SimpleServlet > /dev/null &";
-			var jet = com0 + "cd jetty-6000; java -jar start.jar jetty.port=6000;";
+			//var jet = com0 + "cd jetty-6000; java -jar start.jar jetty.port=6000;";
+		    var jet = com0 + "cd jetty-6000; JETTY_PORT=6000 bash bin/jetty.sh -d stop; JETTY_PORT=6000 bash bin/jetty.sh -d start"
 		    com = jet.replace(/6000/g,"600"+(i % Nservers));
 
 			console.log(com);
@@ -62,6 +64,7 @@ if (method.match(/launch/)) {
 
 function run () {
 
+
     if (method === "nailgun") {
 	    xcom = 'deps/nailgun-0.7.1/ng --nailgun-port 7000' + 
 	            ' org.virbo.autoplot.AutoplotServer '+
@@ -71,7 +74,7 @@ function run () {
 	    xcom = 'curl -s "http://localhost:6000/AutoplotServlet/SimpleServlet?url='+
 	            encodeURIComponent(datafile) + '" > /tmp/BGSM.png;'
     }
-    
+
 	var Nd = 0;
 	to = new Date().getTime();
 	for (var i =0;i< Nrequests;i++) {
@@ -80,6 +83,10 @@ function run () {
 		com = com.replace("7000","700"+(i % Nservers));
 		//console.log(com);
 		//continue;
+		if (com.match("ii")) {
+			com = com.replace("ii",i);
+		} 
+		//console.log(com)
 		child = exec(com,
 		  function (error, stdout, stderr) {
 		  	Nd = Nd+1;
