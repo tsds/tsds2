@@ -1,4 +1,3 @@
-
 function s2b(str) {if (str === "true") {return true} else {return false}}
 function s2i(str) {return parseInt(str)}
 
@@ -69,8 +68,10 @@ app.get('/', function (req, res) {
 // Start the server
 server
 	.listen(config.PORT)
-	.setTimeout(config.TIMEOUT,function() {console.log("TSDSFE server timeout ("+(config.TIMEOUT/(100*60))+" minutes).")});
-
+	.setTimeout(config.TIMEOUT,
+		function() {
+			console.log("TSDSFE server timeout ("+(config.TIMEOUT/(100*60))+" minutes).")
+		});
 
 var CDIR = config.CACHEDIR;
 if (!config.CACHEDIR.match(/^\//)) {
@@ -100,16 +101,22 @@ function handleRequest(req, res) {
 	options.req = req;
 
 	// Metadata responses are cached as files with filename based on MD5 hash of request.
+	// TODO: Sort URL so a=b&c=d and c=d&a=b are treated as equivalent.
+	// TODO: Create lock file while json and image files are being written.
 	var urlsig = crypto.createHash("md5").update(req.originalUrl).digest("hex");	
-
 	var cfile  = CDIR + urlsig + ".json";
+	var ifile  = CDIR + urlsig + "." + options.return;
 
 	// No cache will exist if one of outformat={0,1,2} is selected.  Data are not cached by TSDSFE.
 	if (debugcache) {
 		if (fs.existsSync(cfile)) {
-			if (debugcache) console.log("handleRequest(): Metadata response cache found for url = " + req.originalUrl);
+			if (debugcache) {
+				console.log("handleRequest(): Metadata response cache found for url = ");
+				console.log("handleRequest(): " + req.originalUrl);
+			}
 		} else {
-			if (debugcache) console.log("handleRequest(): Metadata response cache not found for url = " + req.originalUrl);
+			console.log("handleRequest(): Metadata response cache not found for url = ");
+			console.log("handleRequest(): " + req.originalUrl);
 		}
 	}
 	
@@ -121,7 +128,34 @@ function handleRequest(req, res) {
 		fs.createReadStream(cfile).pipe(res);
 		return;
 	} else {
-		if (debugcache) console.log("handleRequest(): Not using metadata response cache file if found because usemetadatacache = false.")
+		if (debugcache) console.log("handleRequest(): Not using metadata response cache file if found because usemetadatacache = false or file does not exist.")
+	}
+
+	if ((options.return == "png") || (options.return == "pdf") || (options.return == "svg")) {
+		var isimagereq = true;
+	} else {
+		var isimagereq = false;
+	}
+
+	if (debugcache && isimagereq) {
+		if (fs.existsSync(ifile)) {
+			console.log("handleRequest(): Image response cache found for url = ");
+			console.log("handleRequest(): " + req.originalUrl);
+		} else {
+			console.log("handleRequest(): Image response cache not found for url = ");
+			console.log("handleRequest(): " + req.originalUrl);
+		}
+	}
+	
+	if (options.useimagecache && options.useimagecache && fs.existsSync(ifile) && isimagereq) {
+		if (debugcache) {
+			console.log("handleRequest(): Using response cache file.");
+		}
+		// Send the cached response and return
+		fs.createReadStream(ifile).pipe(res);
+		return;
+	} else {
+		if (debugcache) console.log("handleRequest(): Not using image response cache file if found because useimagecache or usedatacache = false or file does not exist.")
 	}
 
 	// Catch case where ?catalog=CATALOG&return={tsds,autoplot-bookmarks,spase}
@@ -327,14 +361,24 @@ function handleRequest(req, res) {
 
 				res0.setTimeout(1000*60*15,function () {console.log("--- Timeout for\n\t"+data)});
 
+				if (isimagereq) {
+					istream = fs.createWriteStream(ifile);
+				}
 				res0
 					.on('data', function(chunk) {
 						res.write(chunk);
+						if (isimagereq) {
+							istream.write(chunk);
+						}
 						if (debugapp) {
 							if (data.length == 0) console.log("stream(): Got first chunk of size "+chunk.length+".");
 						}
 					})
 					.on('end', function() {
+						if (isimagereq) {
+							istream.end();
+						}
+						if (debugcache) {console.log("stream(): Finished writing " + ifile)}
 						if (debugapp) console.log('stream(): Got end.');
 						Nc = Nc + 1;
 						if (Nc == N) {
@@ -348,6 +392,9 @@ function handleRequest(req, res) {
 					.on('error',function (err) {
 						console.log(err);
 						console.log(res0);
+						if (debugcache) {console.log("stream(): Deleting image cache file due to error.")}
+						fs.unlinkSync(ifile);
+
 					});
 			}).on('error', function (err) {
 				console.log("Error when attempting to get: ");
@@ -456,8 +503,7 @@ function parseOptions(req) {
 		options.outformat = "json";
 	}
 
-	// Not implemented.
-	//options.useimagecache = s2b(req.query.useimagecache || req.body.useimagecache     || "true");
+	options.useimagecache = s2b(req.query.useimagecache || req.body.useimagecache     || "true");
 	
 	return options;
 }
@@ -1091,9 +1137,11 @@ function parameter(options, catalogs, datasets, cb) {
 		return;
 	}
 
-	if (options.return === "png" || options.return === "pdf" || options.return === "svg" || options.return === "jnlp" || options.return === "matlab" || options.return === "idl") {
-		// If more than one resp, this won't work.
+	if (options.return === "png"    || options.return === "pdf"  || 
+		options.return === "svg"    || options.return === "jnlp" || 
+		options.return === "matlab" || options.return === "idl") {
 
+		// If more than one resp, this won't work.
 		var Labels = "'";
 		var Parameters = "";
 		for (var z = 0;z<resp.length;z++) {
@@ -1106,16 +1154,25 @@ function parameter(options, catalogs, datasets, cb) {
 			if (options.return === "matlab") var ext = "m";
 			if (options.return === "idl") var ext = "pro";
 
-			if (config.TSDSFE.match(/http:\/\/localhost/)) {
-				console.log("Warning: stream(): Possible configuration error.  Serving an IDL or MATLAB script containing a TSDSFE URL that is localhost")
-				//cb(501,"Server configuration error related to address of TSDSFE ("+config.TSDSFE+").");
-				//return;
-			}
-
 			var script = fs.readFileSync(__dirname + "/scripts/tsdsfe."+ext).toString();
 
-			script = script.replace("__SERVER__",config.TSDSFE).replace("__QUERYSTRING__","catalog="+resp[0].catalog+"&dataset="+resp[0].dataset+"&parameters="+Parameters.slice(0,-1)+"&start="+start+"&stop="+stop+"&outformat=2");
+			script = script
+						.replace("__SERVER__",config.TSDSFE)
+						.replace("__QUERYSTRING__",
+									"catalog="+resp[0].catalog+
+									"&dataset="+resp[0].dataset+
+									"&parameters="+Parameters.slice(0,-1)+
+									"&start="+start+
+									"&stop="+stop+
+									"&outformat=2");
 			script = script.replace("__LABELS__",Labels.slice(0,-2));
+			if (config.TSDSFE.match(/http:\/\/localhost/)) {
+				console.log("Warning: stream(): Possible configuration error.  Serving an IDL or MATLAB script containing a TSDSFE URL that is localhost")
+				script=script.replace("__COMMENT__","Warning: Possible TSDSFE configuration error - script contains a TSDSFE URL that is localhost")
+			} else {
+				script=script.replace("__COMMENT__","")
+			}
+
 			cb(200,script);
 			return;
 		}
@@ -1129,7 +1186,7 @@ function parameter(options, catalogs, datasets, cb) {
 
 		url = config.JYDS + "?server="+config.TSDSFE+"&catalog="+resp[0].catalog+"&dataset="+resp[0].dataset+"&parameters="+resp[0].parameter+"&timerange="+start+"/"+stop;
 
-		console.log(resp[0])
+		//console.log(resp[0])
 		if (resp[0].columnLabels !== '') {
 			url = url + "&labels="+resp[0].columnLabels;
 		} else if (resp[0].label != "") {
@@ -1139,26 +1196,19 @@ function parameter(options, catalogs, datasets, cb) {
 		
 		if (resp[0].dd.fillvalue != "")  {url = url + "&fills="+resp[0].dd.fillvalue};
 
-		console.log("vap+jyds:"+url)
+		if (debugapp) console.log("vap+jyds:"+url)
 
 		if (options.return === "jnlp") {
 			cb(301,"http://autoplot.org/autoplot.jnlp?open=vap+jyds:"+url);
 			return;
 		}
 
-
-		//console.log(resp[0].dd.fillvalue)
-
-
 		var format = "image/png";
 		if (options.return === "pdf") {format = "application/pdf"}
 		if (options.return === "svg") {format = "image/svg%2Bxml"}
 		
 		var aurl = config.AUTOPLOT + "?drawGrid=true&format="+format+"&plot.xaxis.drawTickLabels=true&column="+encodeURIComponent("0%+5em,100%-5em")+"&width=800&height=200&url=vap+jyds:" + encodeURIComponent(url);	
-
-		console.log(aurl)
-		//if (debugapp) console.log(url)
-
+		if (debugapp) console.log(aurl)
 
 		if (config.TSDSFE.match(/http:\/\/localhost/)) {
 			if (!config.AUTOPLOT.match(/http:\/\/localhost/)) {
@@ -1171,10 +1221,6 @@ function parameter(options, catalogs, datasets, cb) {
 		return;
 	}
 
-	if (debugapp) {
-		//console.log("parameter(): options = ")
-		//console.log(options);
-	}
 	if (options.return === "dd") {
 		ddresp = [];
 		for (var z = 0;z<resp.length;z++) {
@@ -1222,7 +1268,6 @@ function parameter(options, catalogs, datasets, cb) {
 				+"&streamGzip=false"
 				;
 
-
 		// Remove name=value when value === "".
 		dc = dc.replace(/[^=&]+=(&|$)/g,"").replace(/&$/,"");
 		if (!options.usecache) dc = dc+"&forceUpdate=true&forceWrite=true"
@@ -1233,8 +1278,6 @@ function parameter(options, catalogs, datasets, cb) {
 			return;
 		}
 
-		//dc = dc+"&return=stream&lineRegExp="+resp[0].dd.lineregex + "&timecolumns="+resp[0].dd.timecolumns+"&timeformat="+resp[0].dd.timeformat+"&streamFilterReadColumns="+columns+"&lineFormatter=formattedTime&outformat="+options.outformat;
-		//console.log(dc)
 		cb(0,dc);
 		return;
 	}
