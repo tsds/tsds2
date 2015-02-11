@@ -2,6 +2,8 @@
 ; Data will be placed in matrix named D.
 ; Column labels will be placed in string array named L.
 
+; __COMMENT__
+
 SVR  = "__SERVER__"
 QS   = "__QUERYSTRING__"
 
