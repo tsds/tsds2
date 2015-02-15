@@ -23,6 +23,17 @@ var util    = require("util");
 var clc     = require('cli-color');
 var os      = require("os");
 
+process.on('exit', function () {
+	console.log('Received exit signal.  Removing partially written files.');
+	// TODO: 
+	// Remove partially written files by inspecting cache/locks/*.writing
+	// Remove streaming locks by inspecting cache/locks/*.streaming
+	console.log('Done.  Exiting.');
+})
+process.on('SIGINT', function () {
+	process.exit();
+});
+
 function logc(str,color) {var msg = clc.xterm(color); console.log(msg(str));};
 
 var expandISO8601Duration = require(__dirname + "/../tsdset/lib/expandtemplate").expandISO8601Duration;
@@ -101,35 +112,11 @@ function handleRequest(req, res) {
 	options.req = req;
 
 	// Metadata responses are cached as files with filename based on MD5 hash of request.
-	// TODO: Sort URL so a=b&c=d and c=d&a=b are treated as equivalent.
+	// TODO: Sort URL so a=b&c=d and c=d&a=b are treated as equivalent.  Don't include use*cache parameters.
 	// TODO: Create lock file while json and image files are being written.
 	var urlsig = crypto.createHash("md5").update(req.originalUrl).digest("hex");	
 	var cfile  = CDIR + urlsig + ".json";
-	var ifile  = CDIR + urlsig + "." + options.return;
-
-	// No cache will exist if one of outformat={0,1,2} is selected.  Data are not cached by TSDSFE.
-	if (debugcache) {
-		if (fs.existsSync(cfile)) {
-			if (debugcache) {
-				console.log("handleRequest(): Metadata response cache found for url = ");
-				console.log("handleRequest(): " + req.originalUrl);
-			}
-		} else {
-			console.log("handleRequest(): Metadata response cache not found for url = ");
-			console.log("handleRequest(): " + req.originalUrl);
-		}
-	}
-	
-	if (options.usemetadatacache && fs.existsSync(cfile)) {
-		if (debugcache) {
-			console.log("handleRequest(): Using response cache file.");
-		}
-		// Send the cached response and finish
-		fs.createReadStream(cfile).pipe(res);
-		return;
-	} else {
-		if (debugcache) console.log("handleRequest(): Not using metadata response cache file if found because usemetadatacache = false or file does not exist.")
-	}
+	var ifile  = CDIR + urlsig + "." + options.return
 
 	if ((options.return == "png") || (options.return == "pdf") || (options.return == "svg")) {
 		var isimagereq = true;
@@ -137,40 +124,76 @@ function handleRequest(req, res) {
 		var isimagereq = false;
 	}
 
-	if (debugcache && isimagereq) {
-		if (fs.existsSync(ifile)) {
-			console.log("handleRequest(): Image response cache found for url = ");
-			console.log("handleRequest(): " + req.originalUrl);
-		} else {
-			console.log("handleRequest(): Image response cache not found for url = ");
-			console.log("handleRequest(): " + req.originalUrl);
-		}
-	}
-	
-	if (options.useimagecache && options.useimagecache && fs.existsSync(ifile) && isimagereq) {
+	// No cache will exist if one of format={0,1,2} is selected.  Data are not cached by TSDSFE.
+	if (!isimagereq) {
 		if (debugcache) {
-			console.log("handleRequest(): Using response cache file.");
+			if (fs.existsSync(cfile)) {
+				if (debugcache) {
+					console.log("handleRequest(): Metadata response cache found for url = ");
+					console.log("handleRequest(): " + req.originalUrl);
+				}
+			} else {
+				console.log("handleRequest(): Metadata response cache not found for url = ");
+				console.log("handleRequest(): " + req.originalUrl);
+			}
 		}
-		// Send the cached response and return
-		fs.createReadStream(ifile).pipe(res);
-		return;
+		
+		if (options.usemetadatacache && fs.existsSync(cfile)) {
+			if (debugcache) {
+				console.log("handleRequest(): Using response cache file.");
+			}
+			// Send the cached response and finish
+			fs.createReadStream(cfile).pipe(res);
+			return;
+		} else {
+			if (debugcache && !isimagereq) console.log("handleRequest(): Not using metadata response cache file if found because usemetadatacache = false or file does not exist.")
+		}
 	} else {
-		if (debugcache) console.log("handleRequest(): Not using image response cache file if found because useimagecache or usedatacache = false or file does not exist.")
+		if (debugcache) {
+			if (fs.existsSync(ifile)) {
+				console.log("handleRequest(): Image response cache found for url = ");
+				console.log("handleRequest(): " + req.originalUrl);
+			} else {
+				console.log("handleRequest(): Image response cache not found for url = ");
+				console.log("handleRequest(): " + req.originalUrl);
+			}
+		}
+		if (options.useimagecache && fs.existsSync(ifile) && !fs.existsSync(ifile + ".writing")) {
+			if (debugcache) {
+				console.log("handleRequest(): Using response cache file.");
+			}
+			// Send the cached response and return
+			fs.writeFileSync(ifile + ".streaming","");
+			if (debugcache) console.log("handleRequest(): Writing " + ifile + ".streaming");
+			var stream = fs.createReadStream(ifile);
+			stream.pipe(res);
+			stream.on('error', function () {
+				if (debugcache) console.log("handleRequest(): Removing " + ifile + ".streaming"); 
+				fs.unlinkSync(ifile + ".streaming");
+			});
+			stream.on('close', function () {
+				if (debugcache) console.log("handleRequest(): Removing " + ifile + ".streaming"); 
+				fs.unlinkSync(ifile + ".streaming");
+			});
+			return;
+		} else {
+			if (debugcache) console.log("handleRequest(): Not using image response cache file if found because useimagecache or usedatacache = false or file does not exist or file is being written.")
+		}
 	}
 
 	// Catch case where ?catalog=CATALOG&return={tsds,autoplot-bookmarks,spase}
 	if ( (options.return === "autoplot-bookmarks") || (options.return === "tsds") ) {
 
-		if (options.outformat == 1) {
-			options.outformat = "xml";
+		if (options.format == 1) {
+			options.format = "xml";
 		}
 
 		if (debugapp) console.log("handleRequest(): Request is for " + options.return)
-		if (options.outformat === "json") {
+		if (options.format === "json") {
 			res.setHeader("Content-Type","application/json"); 
 		} else {
 			res.setHeader("Content-Type","text/xml"); 
-			options.outformat = "xml";
+			options.format = "xml";
 		}
 
 		// Get list of all catalogs and their URLs		
@@ -190,7 +213,7 @@ function handleRequest(req, res) {
 					// Request the matched catalog and parse it.
 					if (options.return === "tsds") {
 						getandparse(url,options,function (ret) {
-							if (options.outformat === "xml") {
+							if (options.format === "xml") {
 								if (debugapp) console.log("handleRequest(): Sending TSDS XML.");
 								res.write(ret.toString());	
 								res.end();									
@@ -202,11 +225,11 @@ function handleRequest(req, res) {
 					}
 
 					if (options.return === "autoplot-bookmarks") {
-						var outformat = options.outformat;
-						options.outformat = "json"; // This causes getandparse to return TSDS JSON, which tsds2bookmarks requires.
+						var format = options.format;
+						options.format = "json"; // This causes getandparse to return TSDS JSON, which tsds2bookmarks requires.
 						if (debugapp) console.log("handleRequest(): Calling getandparse() with URL " + url)
 						getandparse(url,options,function (ret) {
-							options.outformat = outformat;
+							options.format = format;
 							var tsds2other = require(__dirname + "/js/tsds2other.js").tsds2other;
 							if (debugapp) console.log("handleRequest(): Converting TSDS XML catalog to Autoplot bookmark XML.");
 
@@ -229,7 +252,7 @@ function handleRequest(req, res) {
 							}
 
 							function finish(ret) {
-								if (outformat === "xml") {
+								if (format === "xml") {
 									res.write(ret.toString());
 									res.end();
 								} else {
@@ -323,12 +346,12 @@ function handleRequest(req, res) {
 			// files, which most browsers don't handle.  Result is first file is displayed and
 			// then trailing garbage.  See
 			// http://stackoverflow.com/questions/16740034/http-how-to-send-multiple-pre-cached-gzipped-chunks
-			if ((options.attach) && ((options.return === "stream") || (options.return === "redirect"))) {
+			if ((options.attach) && ((options.return === "data") || (options.return === "redirect"))) {
 				if (req.headers['accept-encoding']) {
 					if (req.headers['accept-encoding'].match("gzip")) {
-						res.setHeader('Content-Encoding','gzip');
+						//res.setHeader('Content-Encoding','gzip');
 						// Request a gzipped stream from DataCache.
-						data = data.replace("streamGzip=false","streamGzip=true");
+						//data = data.replace("streamGzip=false","streamGzip=true");
 					}
 				}
 				//var fname = req.originalUrl;//.replace(/^&/,"").replace(/\&/g,"_").replace(/\=/g,"-")+"txt";
@@ -362,12 +385,24 @@ function handleRequest(req, res) {
 				res0.setTimeout(1000*60*15,function () {console.log("--- Timeout for\n\t"+data)});
 
 				if (isimagereq) {
-					istream = fs.createWriteStream(ifile);
+					var writeok = true;
+					if (fs.existsSync(ifile + ".streaming")) {
+						if (debugcache) {console.log("stream(): File is being streamed.  Not writing to cache.")};
+						writeok = false;
+					}
+					if (fs.existsSync(ifile + ".writing")) {
+						if (debugcache) {console.log("stream(): File is being written and streamed.  Not writing to cache.")};
+						writeok = false;
+					}
+					if (writeok) {
+						fs.writeFileSync(ifile + ".writing","");
+						istream = fs.createWriteStream(ifile);
+					}
 				}
 				res0
 					.on('data', function(chunk) {
 						res.write(chunk);
-						if (isimagereq) {
+						if (isimagereq && writeok) {
 							istream.write(chunk);
 						}
 						if (debugapp) {
@@ -375,10 +410,12 @@ function handleRequest(req, res) {
 						}
 					})
 					.on('end', function() {
-						if (isimagereq) {
+						if (isimagereq && writeok) {
 							istream.end();
+							fs.unlinkSync(ifile + ".writing");
 						}
-						if (debugcache) {console.log("stream(): Finished writing " + ifile)}
+						// If N > 0, could use convert image1.png image2.png image3.png -append stack.png
+						if (debugcache && isimagereq) {console.log("stream(): Finished writing " + ifile + " and removing .writing file.")}
 						if (debugapp) console.log('stream(): Got end.');
 						Nc = Nc + 1;
 						if (Nc == N) {
@@ -468,20 +505,63 @@ function parseOptions(req) {
 	options.start        = req.query.start        || req.body.start        || "";
 	options.stop         = req.query.stop         || req.body.stop         || "";
 	options.timerange    = req.query.timerange    || req.body.timerange    || "";
-	options.return       = req.query.return       || req.body.return       || "stream";
-	options.outformat    = req.query.outformat    || req.body.outformat    || "1";
+	options.return       = req.query.return       || req.body.return       || "data";
+	options.format       = req.query.format       || req.body.format       || "";
+	options.style        = req.query.style        || req.body.style        || "";
 	options.filter       = req.query.filter       || req.body.filter       || "";
 	options.filterWindow = req.query.filterWindow || req.body.filterWindow || "";
 	options.usecache     = s2b(req.query.usecache || req.body.usecache     || "true"); // Send DataCache parameter usecache.
 	options.attach       = s2b(req.query.attach   || req.body.attach       || "true");
+	options.useimagecache = s2b(req.query.useimagecache || req.body.useimagecache     || "true");
 
+	
+	if ((options.return === "image") && (options.style === "0")) {
+		options.style = "drawGrid=true"+
+						"&color=%230000ff"+
+						"&backgroundColor=none"+
+						"&foregroundColor=%23000000"+
+						"&column="+encodeURIComponent("0%+5em,100%-6em")+
+						"&row="+encodeURIComponent("0%+2em,100%-4em")+
+						"&width=800"+
+						"&height=200";
+	}
+
+	if ((options.return === "image") && (options.style === "1")) {
+		options.style = "drawGrid=true"+
+						"&color=%23ffff00"+
+						"&backgroundColor=%23000000"+
+						"&foregroundColor=%23ffff00"+
+						"&column="+encodeURIComponent("0%+5em,100%-6em")+
+						"&row="+encodeURIComponent("0%+2em,100%-4em")+
+						"&width=800"+
+						"&height=200";
+	}
+
+	if ((options.return === "image") && (options.style === "2")) {
+		options.style = "drawGrid=false"+
+						"&backgroundColor=none"+
+						"&column="+encodeURIComponent("0%+0px,100%-0px")+
+						"&row="+encodeURIComponent("0%+0px,100%-0px")+
+						"&width=800"+
+						"&height=100";
+	}
+
+	if ((options.return === "image") && (options.format === "")) {
+		options.format = "png";
+	}
+	if ((options.return === "data") && (options.format === "")) {
+		options.format = "1";
+	}
+	if ((options.return === "script") && (options.format === "")) {
+		options.format = "matlab";
+	}
 	//plotoptions      = "width=500&height=100&font=sans-8&column=10em%2C100%25-3em&row=1em%2C100%25-4em&renderType=&color=%230000ff&fillColor=%23aaaaff&foregroundColor=%23ffffff&backgroundColor=%23000000";
 
 	// Always use TSDSFE cache and don't try to see if update exists.  If false and update fails, cache will be used
 	// and warning given in header.
 	options.usemetadatacache = s2b(req.query.usemetadatacache || req.body.usemetadatacache || "false");
 	
-	if ((options.start === "") && (options.start === "") && (options.return === "stream")) {
+	if ((options.start === "") && (options.start === "") && (options.return === "data")) {
 		if (debugapp) console.log("parseOptions(): No start and stop given.  Resetting return to dd")
 		options.return = "dd";
 	}
@@ -490,20 +570,18 @@ function parseOptions(req) {
 		options.stop  = options.timerange.split("/")[1];
 	}
 
-	if (options.return === "tsds" && options.outformat != "json") {
-		options.outformat = "xml";
+	if (options.return === "tsds" && options.format != "json") {
+		options.format = "xml";
 	}
-	if (options.return === "autoplot-bookmarks" && options.outformat != "json") {
-		options.outformat = "xml";
+	if (options.return === "autoplot-bookmarks" && options.format != "json") {
+		options.format = "xml";
 	}
 
 	if (options.return === "dd" || options.return.match("urilist")) {
 		// options.return === "urilistflat" is technically not a JSON format, but processing is same
 		// until just before response is sent.
-		options.outformat = "json";
+		options.format = "json";
 	}
-
-	options.useimagecache = s2b(req.query.useimagecache || req.body.useimagecache     || "true");
 	
 	return options;
 }
@@ -512,9 +590,9 @@ function parseOptions(req) {
 function getandparse(url,options,callback) {
 
 	// Retrieves XML or JSON from a URL and stores XML and JSON as a cache file.
-	// Callback is passed XML or JSON depending on options.outformat.
+	// Callback is passed XML or JSON depending on options.format.
 
-	if (debugapp) console.log("getandparse(): Called with outformat = "+options.outformat);
+	if (debugapp) console.log("getandparse(): Called with format = "+options.format);
 	
 	var urlsig = crypto.createHash("md5").update(url).digest("hex");	
 
@@ -528,7 +606,7 @@ function getandparse(url,options,callback) {
 	var cfilexml = config.CACHEDIR+urlsig+".xml";
 
 	// Don't do head requests if cache file exists and usemetadatacache=true.
-	if (!options.outformat != "xml" && fs.existsSync(cfilejson) && options.usemetadatacache) {
+	if (!options.format != "xml" && fs.existsSync(cfilejson) && options.usemetadatacache) {
 		// If cache file exists and always using metadata cache
 		if (debugcache) {
 			console.log("getandparse(): usemetadatacache = true and cache file for url = " + url);
@@ -539,7 +617,7 @@ function getandparse(url,options,callback) {
 		callback(tmp);
 		return;
 	}
-	if (options.outformat != "xml" && fs.existsSync(cfilexml) && options.usemetadatacache) {
+	if (options.format != "xml" && fs.existsSync(cfilexml) && options.usemetadatacache) {
 		// If cache file exists and always using metadata cache
 		if (debugcache) {
 			console.log("getandparse(): usemetadatacache = true and cache file exists.  Reading cache file for url = " + url);
@@ -552,19 +630,19 @@ function getandparse(url,options,callback) {
 	}
 
 	// Do head request and fetch if necessary.  Cache if fetched.
-	if (options.outformat !== "xml" && fs.existsSync(cfilejson)) {
+	if (options.format !== "xml" && fs.existsSync(cfilejson)) {
 		if (debugcache) console.log("getandparse(): Cache file found for url = " + url);
 		headthenfetch(url,"json");
 		return;
 	}
-	if (options.outformat === "xml" && fs.existsSync(cfilexml)) {
+	if (options.format === "xml" && fs.existsSync(cfilexml)) {
 		if (debugcache) console.log("getandparse(): Cache file found for url = " + url);
 		headthenfetch(url,"xml");
 		return;
 	}
 
 	// Fetch and then cache.
-	if (options.outformat != "xml") {
+	if (options.format != "xml") {
 		if (debugcache) console.log("getandparse(): No cache file found for url = " + url);
 		fetch(url,"json");
 		return;
@@ -650,7 +728,7 @@ function getandparse(url,options,callback) {
 					if (debugapp) console.log("fetch(): but found cached file. Using it.");
 					// TODO: Add a header noting expired cache found but cache was used (because failed request).
 					var tmp = fs.readFileSync(cfile+"."+type).toString();
-					if (options.outformat == "json") { 
+					if (options.format == "json") { 
 						var tmp = JSON.parse(tmp);
 					}
 					callback(tmp);
@@ -676,7 +754,7 @@ function getandparse(url,options,callback) {
 			}
 
 			if (isxml) {
-				if (options.outformat === "xml") {
+				if (options.format === "xml") {
 					if (debugapp) console.log("fetch(): Returning XML.");
 
 					if (debugapp) console.log("fetch(): Calling callback(xml).");
@@ -709,7 +787,7 @@ function getandparse(url,options,callback) {
 					});
 				}
 			} else {
-				if (options.outformat === "xml") {
+				if (options.format === "xml") {
 					var builder = new xml2js.Builder();
 					var xml = builder.buildObject(JSON.parse(body));
 
@@ -1122,7 +1200,7 @@ function parameter(options, catalogs, datasets, cb) {
 		return;
 	}
 
-	if (options.return === "viviz") {
+	if (options.return === "image" && options.format === "viviz") {
 		var viviz = config.VIVIZ 
 					+ "#" 
 					+ config.TSDSFE 
@@ -1137,9 +1215,7 @@ function parameter(options, catalogs, datasets, cb) {
 		return;
 	}
 
-	if (options.return === "png"    || options.return === "pdf"  || 
-		options.return === "svg"    || options.return === "jnlp" || 
-		options.return === "matlab" || options.return === "idl") {
+	if (options.return === "image" || options.return === "script") {
 
 		// If more than one resp, this won't work.
 		var Labels = "'";
@@ -1149,10 +1225,10 @@ function parameter(options, catalogs, datasets, cb) {
 			Labels = Labels + resp[z].parameter + " [" + resp[z].dd.units + "]','";
 		}
 
-		if ((options.return === "matlab") || (options.return === "idl")) {
+		if ((options.return === "script")) {
 
-			if (options.return === "matlab") var ext = "m";
-			if (options.return === "idl") var ext = "pro";
+			if (options.format === "matlab") var ext = "m";
+			if (options.format === "idl") var ext = "pro";
 
 			var script = fs.readFileSync(__dirname + "/scripts/tsdsfe."+ext).toString();
 
@@ -1164,7 +1240,7 @@ function parameter(options, catalogs, datasets, cb) {
 									"&parameters="+Parameters.slice(0,-1)+
 									"&start="+start+
 									"&stop="+stop+
-									"&outformat=2");
+									"&format=2");
 			script = script.replace("__LABELS__",Labels.slice(0,-2));
 			if (config.TSDSFE.match(/http:\/\/localhost/)) {
 				console.log("Warning: stream(): Possible configuration error.  Serving an IDL or MATLAB script containing a TSDSFE URL that is localhost")
@@ -1204,11 +1280,13 @@ function parameter(options, catalogs, datasets, cb) {
 		}
 
 		var format = "image/png";
-		if (options.return === "pdf") {format = "application/pdf"}
-		if (options.return === "svg") {format = "image/svg%2Bxml"}
+		if (options.format === "pdf") {format = "application/pdf"}
+		if (options.format === "svg") {format = "image/svg%2Bxml"}
 		
-		var aurl = config.AUTOPLOT + "?drawGrid=true&format="+format+"&plot.xaxis.drawTickLabels=true&column="+encodeURIComponent("0%+5em,100%-5em")+"&width=800&height=200&url=vap+jyds:" + encodeURIComponent(url);	
-		if (debugapp) console.log(aurl)
+		var aurl = config.AUTOPLOT + "?format="+format+"&" + options.style + "&url=vap+jyds:" + encodeURIComponent(url);	
+		console.log("-------")
+		//if (debugapp) 
+			console.log(aurl)
 
 		if (config.TSDSFE.match(/http:\/\/localhost/)) {
 			if (!config.AUTOPLOT.match(/http:\/\/localhost/)) {
@@ -1237,12 +1315,12 @@ function parameter(options, catalogs, datasets, cb) {
 
 
 			ddresp[z].urltemplate = "";
-			if (options.outformat === "1") {
+			if (options.format === "1") {
 				ddresp[z].columns = "" + (z+2);
 				ddresp[z].timeFormat = "%Y-%m-%DT%H%M%SZ";
 				ddresp[z].timeColumns = ""+1;
 			}
-			if (options.outformat === "2") {
+			if (options.format === "2") {
 				ddresp[z].columns = "" + (z+7);
 				ddresp[z].timeFormat = "%Y %m %D %H %M %S";
 				ddresp[z].timeColumns = "1,2,3,4,5,6";
@@ -1253,14 +1331,14 @@ function parameter(options, catalogs, datasets, cb) {
 		return;
 	}
 	
-	if ((options.return === "stream") || (options.return === "redirect")) {				 
+	if ((options.return === "data") || (options.return === "redirect")) {				 
 		dc = dc
 				+"&return=stream"
 				+"&lineRegExp="+(resp[0].dd.lineregex || "")
 				+"&timecolumns="+(resp[0].dd.timecolumns || "")
 				+"&timeformat="+(resp[0].dd.timeformat || "")
 				+"&streamFilterReadColumns="+columns
-				+"&streamFilterTimeFormat="+options.outformat
+				+"&streamFilterTimeFormat="+options.format
 				+"&streamFilterComputeFunction="+options.filter
 				+"&streamFilterComputeWindow="+options.filterWindow
 				+"&streamFilterExcludeColumnValues="+(resp[0].dd.fillvalue || "")

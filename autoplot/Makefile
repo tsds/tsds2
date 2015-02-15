@@ -16,6 +16,7 @@
 # For most recent Nailgun (0.9), download from source.
 # git clone https://github.com/martylamb/nailgun.git
 
+
 clean:
 	rm -rf deps/*
 	rm -rf node_modules
@@ -49,6 +50,10 @@ startnailgun:
 
 prep:
 	mkdir -p deps;
+	curl "https://raw.githubusercontent.com/bahamas10/css-color-names/master/css-color-names.json" > ../tsdsfe/js/css-color-names.json
+	javac ListFonts.java
+	java ListFonts > ../tsdsfe/js/autoplotserverfonts.json
+
 	curl http://autoplot.org/jnlp/latest/autoplot.jar > deps/autoplot.jar
 	curl http://autoplot.org/hudson/job/autoplot-jar-servlet/lastSuccessfulBuild/artifact/autoplot/AutoplotServlet/dist/AutoplotServlet.war > deps/AutoplotServlet.war
 	cd deps; unzip ../pkgs/nailgun-0.7.1.zip

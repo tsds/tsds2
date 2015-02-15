@@ -74,7 +74,7 @@ function dropdown2(ids, names, funs, after, i, selected, callback) {
 				}
 				if (ui.item == null) {
 					ui.item = {};
-					return;
+					//return;
 					console.log("dropdown.ac.change(): ui.item == null.  Setting it to "+$('input[id=' + id + ']').parent().parent().attr('value')+" and triggering select.")
 					ui.item.value = $('input[id=' + id + ']').parent().parent().attr('value');
 					$('input[id=' + id + ']').val(ui.item.value).data("autocomplete")._trigger("select",event,{item:ui.item.value});
@@ -158,7 +158,9 @@ function dropdown2(ids, names, funs, after, i, selected, callback) {
 							console.log("dropdown.ac.select(): Removing all span elements after " + id);
 							//$('input[id=' + id + ']').parent().parent().nextAll("span").remove();
 							$("input[id='"+id+"']").parent().parent().nextAll("span").hide().html('').attr('value','').attr('valuelast','');
-							funs[i].onselect();
+							if (funs[i].onselect) {
+								funs[i].onselect();
+							}
 							dropdown2(ids, names, funs, after, i+1, val, callback);
 							$(after+(i+1)).show();
 						}
@@ -167,6 +169,7 @@ function dropdown2(ids, names, funs, after, i, selected, callback) {
 			},
 			minLength: 0
 		}).click(function () {
+			//alert('clicked')
 			if (!$(this).attr('value'))
 				$(this).attr('value','').css('color','black').autocomplete('search');
 		});
@@ -199,11 +202,15 @@ function dropdown2(ids, names, funs, after, i, selected, callback) {
 	$('input[id=' + ids[i] + ']').keypress(function(e) {
 		  	console.log( "dropdown(): Handler for .keypress() called." );
 		    var val = $(this).parent().parent().attr('value');
-		    if(e.keyCode == 13)
-		    {
+		    if(e.keyCode == 13) {
 		    	console.log("dropdown(): Triggering keyCode " + e.keyCode)
 		    	$('input[id=' + ids[i] + ']').val(val).data("autocomplete")._trigger("change",event,{item:val});
 		    	$('input[id=' + ids[i] + ']').blur();
+		    }
+		    if (e.keyCode == 9) { // TAB
+		    	console.log('TAB')
+		    	//e.preventDefault();
+		    	//$('input[id=' + ids[i+1] + ']').click();
 		    }
 	});
 

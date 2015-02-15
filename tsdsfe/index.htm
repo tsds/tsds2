@@ -17,7 +17,6 @@
 		<script type="text/javascript" src="js/jquery.scrollTo-min.js"></script>
 		<script type="text/javascript" src="js/expandtemplate.js"></script>
 		<script type="text/javascript" src="js/dropdown2.js"></script>
-
 		<script>
 
 			TSDSFE   = location.href.split("#")[0]; // Get domain name of server.
@@ -25,6 +24,11 @@
 			$(function() {
 				main();
 			})
+
+			var FONTS = [];
+			var COLORS = {};
+			$.getJSON( "js/css-color-names.json", function( data ) {COLORS=data;});
+			$.getJSON( "js/autoplotserverfonts.json", function( data ) {FONTS=data;});
 
 			function main() {
 
@@ -66,9 +70,9 @@
 				$('#useimagecache').each(function(){ this.checked = true; });
 
 				// Create the first drop-down (subsequent drop-downs appear when something is selected).
-				dropdown2(["catalog","dataset","parameters","start","stop","outformat"],
-							["Catalog","Datasets","Parameters","Start","Stop","Output"],
-							[catalogs,datasets,parameters,starttime,stoptime,outformat],
+				dropdown2(["catalog","dataset","parameters","start","stop","return","format","style"],
+							["Catalog","Datasets","Parameters","Start","Stop","Return","Format","Style"],
+							[catalogs,datasets,parameters,starttime,stoptime,returntype,format,style],
 							"#dropdowns",0,"");
 
 				// If initial URL has arguments after #, trigger select on dropdowns.
@@ -450,7 +454,7 @@
 				stoptime.onselect = function () {
 					preview();
 					$('#datadiv').hide();
-					$('#outputinfo').show();				
+					$('#returninfo').show();				
 				}
 
 				// No need to do this again ...
@@ -529,21 +533,64 @@
 				return list;
 			}
 			
-			function outformat(i) {
-				outformat.onselect = function () {
-					dorequest();
-					//updatehash(i,"output");
-				}
+			function returntype(i) {
+				returntype.onselect = function () {
+					$('#formatinfo'+selected('return')).show();				
+				}				
 				values = [
-							{label:"Data (native)", value:"0"},
-							{label:"Data (iso)",value:"1"},
-							{label:"Data (yyyy mm dd hh mm ss)",value:"2"},
-							{label:"PNG",value:"png"},
-							{label:"PDF",value:"pdf"},
-							{label:"SVG",value:"svg"},
-							{label:"Gallery",value:"viviz"},
-							{label:"IDL (script)",value:"idl"},
-							{label:"MATLAB (script)",value:"matlab"}
+							{label:"Data", value:"data"},
+							{label:"Image", value:"image"},
+							{label:"Script", value:"script"}
+
+						];
+				return values;
+			}
+
+			function format(i) {
+				format.onselect = function () {
+					if (!selected("return").match("image")) {
+						dorequest();
+					} else {
+						$("#styleinfoimage").show();
+					}
+				}
+				if (selected("return").match("data")) {
+					format.values = [
+										{label:"Data (native)", value:"0"},
+										{label:"Data (iso)",value:"1"},
+										{label:"Data (yyyy mm dd hh mm ss)",value:"2"}
+									];
+				}
+				if (selected("return").match("image")) {
+					values = [
+								{label:"PNG",value:"png"},
+								{label:"PDF",value:"pdf"},
+								{label:"SVG",value:"svg"},
+								{label:"Gallery",value:"viviz"}
+							];					
+				}
+				if (selected("return").match("script")) {
+					values = [
+								{label:"IDL (script)",value:"idl"},
+								{label:"MATLAB (script)",value:"matlab"}
+							];
+				}
+
+				return values;
+			}
+
+			function style(i) {
+				style.onselect = function () {
+					dorequest();
+					$('#styleinfo'+selected('style')).show();				
+				}				
+				values = [
+							{label:"Default", value:"0"},
+							{label:"Custom", value:"custom"},
+							{label:"None/Black/Blue", value:"0"},
+							{label:"Black/Yellow/Yellow", value:"1"},
+							{label:"Sparkline", value:"2"}
+
 						];
 				return values;
 			}
@@ -557,23 +604,23 @@
 							+"&start="+selected('start')
 							+"&stop="+selected('stop');
 				
-				if (selected('outformat').match(/matlab|idl|viviz/)) {
-					url = url+"&return=" + selected('outformat');
-					if (selected('outformat').match("viviz")) {
-						location.href = url;
-						return;
-					}
+				if (selected('format').match(/matlab|idl/)) {
+					url = url+"&return=script&format=" + selected('format');
 					$("#dlframe").html("");
 					$("#dldiv").show();
 					$("#dlframe").attr("src",url);
-				} else if (selected('outformat').match(/png|pdf|svg/)) {
-					url = TSDSFE+url+"&return=" + selected('outformat');
+				} else if (selected('return').match(/image/)) {
+					if (selected('format').match("viviz")) {
+						location.href = url;
+						return;
+					}
+					url = TSDSFE+url+"&return=image&format=" + selected('format')+"&style=" + selected('style');
 					$("#imagediv").show();
 					$("#imagediv #imageloading").show()
 					//$("#imagediv > div > a").text(url);
 					$("#imagediv > div > a").attr("href",url);
 					$("#imagediv > div > a").attr("title",url);
-					if (selected('outformat').match(/png|svg/)) {
+					if (selected('format').match(/png|svg/)) {
 						$("#imagediv #image").attr("src",url).load(function () {
 							$("#imagediv #imageloading").hide();
 						});
@@ -583,14 +630,14 @@
 						$("#imagediv div").html(curr);
 						$("#imagediv div a").html("Download PDF");
 					}
-				} else if (selected('outformat') === 'debug')  {
+				} else if (selected('format') === 'debug')  {
 					url = url+"&out=asc"+"&stream=true&debug=true";
 					$("#debugdiv").show();
 					$("#debugframe").attr("src",url);
 				} else {
 					url = TSDSFE+url;
-					if (selected('outformat') !== "0") { 
-						url = url + "&outformat="+selected('outformat');
+					if (selected('format') !== "0") { 
+						url = url + "&format="+selected('format');
 					}
 					if (!$("#usecache").is(":checked")) {
 						url = url + "&usecache=false";
@@ -618,7 +665,7 @@
 			function preview() {
 				$('#outputinfo').show();
 				$('#dldiv').hide();
-				//location.hash = location.hash.replace("&outformat=0","");
+				//location.hash = location.hash.replace("&format=0","");
 				if (!$("#usecache").is(":checked") && !location.hash.match("usecache=false")) {
 					//location.hash = location.hash + "&usecache=false";
 				}  
@@ -677,7 +724,7 @@
 						var STOP_dateISO  = START_date.toISOString().replace(/T.*/,"");
 
 						 ploturl = "?catalog="+selected('catalog')+"&dataset="+selected('dataset')+"&parameters="+selected('parameters')+"&start="+START_dateISO+"&stop="+STOP_dateISO+"&return=png";
-						 dataurl = TSDSFE + "scripts/tsdsfe.jyds?server="+TSDSFE+"&catalog="+selected('catalog')+"&dataset="+selected('dataset')+"&parameters="+selected('parameters')+"&timerange="+START_dateISO+"&outformat=1";
+						 dataurl = TSDSFE + "scripts/tsdsfe.jyds?server="+TSDSFE+"&catalog="+selected('catalog')+"&dataset="+selected('dataset')+"&parameters="+selected('parameters')+"&timerange="+START_dateISO+"&format=1";
 
 
 						 if (!$("#usecache").is(":checked")) {
@@ -739,8 +786,8 @@
 				list[3] = {label:"SPIDR",value:"spidr",url:"catalog=spidr&dataset=amie_ae&parameters=amie_ae&version=0&start=1991-01-01&stop=1991-01-11"};
 				list[4] = {label:"USGS 1-minute",value:"usgs1m",url:"catalog=USGS/RT/PT1M&dataset=BRW&parameters=H&start=2013-05-02&stop=2013-05-05"};
 				list[5] = {label:"USGS 1-second",value:"usgs1s",url:"catalog=USGS/RT/PT1S&dataset=BRW&parameters=H&start=2013-05-02&stop=2013-05-05"};
-				list[6] = {label:"SWPC AK/2DayFile",value:"SWPC AK/2DayFile",url:"catalog=SWPC/AK/2DayFile&dataset=AK&parameters=BoulderK&start=-PT2D&stop=PT0D&outformat=0"};
-				list[7] = {label:"SWPC AK",value:"SWPC AK",url:"catalog=SWPC/AK&dataset=AK&parameters=BoulderK&start=-PT5D&stop=-PT2D&outformat=0"};
+				list[6] = {label:"SWPC AK/2DayFile",value:"SWPC AK/2DayFile",url:"catalog=SWPC/AK/2DayFile&dataset=AK&parameters=BoulderK&start=-PT2D&stop=PT0D&format=0"};
+				list[7] = {label:"SWPC AK",value:"SWPC AK",url:"catalog=SWPC/AK&dataset=AK&parameters=BoulderK&start=-PT5D&stop=-PT2D&format=0"};
 				list[8] = {label:"Linkcheck",value:"Linkcheck",url:"catalog=Autoplot/Linkcheck&dataset=1&parameters=ResponseTime&start=2012-12-07&stop=2012-12-09"};
 
 				//list[6] = {label:"ISIS-2",value:"ISIS-2",url:"catalog=NSSDC/ISIS-2&dataset=CEP&parameters=L_value&start=1971-04-14&stop=1971-04-16"};
@@ -776,14 +823,16 @@
 	<body>	 		
 
 		<div style="float:left;width:12em;margin-right:14px;margin-top:0em;">
-			<a style="text-decoration:underline;cursor:pointer" id="cachecheckboxeslink">Options</a>
+			<a style="text-decoration:underline;cursor:pointer" id="cachecheckboxeslink">
+				Options
+			</a>
 			<div id="cachecheckboxes" style="display:none">
-			<font size="-1">		
-				<div title="Show preview images (1 day of data per image) of data over default time range when a parameter is selected."><input id="previewimgcheckbox" type="checkbox" value=""/>&nbsp;Show preview plots</div>
-				<div title="For fastest response time, use cached data (if available).  Disable this for data that change frequently."><input id="usecache" type="checkbox" value=""/>&nbsp;Use cached data</div>
-				<div title="For fastest response time, use cached metadata (if available).  Disable this for metadata that change frequently."><input id="usemetadatacache" type="checkbox" value=""/>&nbsp;Use cached metadata</div>
-				<div title="For fastest response time, use cached images (if available).  Disable this for data that change frequently.  Image cache is not used if cached option is not selected."><input id="useimagecache" type="checkbox" value=""/>&nbsp;Use cached images</div>
-			</font>
+				<font size="-1">		
+					<div title="Show preview images (1 day of data per image) of data over default time range when a parameter is selected."><input id="previewimgcheckbox" type="checkbox" value=""/>&nbsp;Show preview plots</div>
+					<div title="For fastest response time, use cached data (if available).  Disable this for data that change frequently."><input id="usecache" type="checkbox" value=""/>&nbsp;Use cached data</div>
+					<div title="For fastest response time, use cached metadata (if available).  Disable this for metadata that change frequently."><input id="usemetadatacache" type="checkbox" value=""/>&nbsp;Use cached metadata</div>
+					<div title="For fastest response time, use cached images (if available).  Disable this for data that change frequently.  Image cache is not used if cached option is not selected."><input id="useimagecache" type="checkbox" value=""/>&nbsp;Use cached images</div>
+				</font>
 			</div>
 			<span id="dropdowns0" class="dropdown"></span>
 			<span id="dropdowns1" class="dropdown" style="display:none"></span>
@@ -791,7 +840,11 @@
 			<span id="dropdowns3" class="dropdown" style="display:none"></span>
 			<span id="dropdowns4" class="dropdown" style="display:none"></span>
 			<span id="dropdowns5" class="dropdown" style="display:none"></span>
-			<button type="button" style="background-color:white;color:black;border:1px solid black;" onclick="window.location=window.location.pathname">Clear</button>
+			<span id="dropdowns6" class="dropdown" style="display:none"></span>
+			<span id="dropdowns7" class="dropdown" style="display:none"></span>
+			<button type="button" style="background-color:white;color:black;border:1px solid black;" onclick="window.location=window.location.pathname">
+				Clear
+			</button>
 		</div>
 
 		<div style="text-align:left;top:0;left:14em;">
@@ -833,21 +886,49 @@
 			<div id="cataloginfo" style="display:none;width:95%"></div>
 			<div id="datasetinfo" style="display:none;width:95%"></div>
 			<div id="parameterinfo" style="display:none;width:95%"></div>
-			<div id="outputinfo" style="display:none;width:95%">
-				<b>Output options:</b>
+			<div id="returninfo" style="display:none;width:95%">
+				<b>Return options:</b>
+				<ul>
+					<li>Data - Data over selected time range</li>
+					<li>Image - <a href="http://autoplot.org/">Autoplot</a> graphic of data over selected time range</li>
+					<li>Script - A script that reads data into memory for various programing languages</li>
+				</ul>
+			</div>			
+			<div id="formatinfodata" style="display:none;width:95%">
+				<b>Format options:</b>
 				<ul>
 					<li>0: Native (if original was ASCII, otherwise same as option 1)</code></li>
 					<li>1: Space-separated values with <a href="http://www.w3.org/TR/NOTE-datetime">ISO8601</a> timestamps (e.g., <code>2000-01-01T00:00:00.0 1.1 9.0)</code></li>
 					<li>2: Space-separated values with Year Month Day Hour Minute Seconds timestamps</li>
-					<li>PNG - A single PNG image with data over selected time range</li>
-					<li>PDF - A single PDF file with data over selected time range</li>
-					<li>SVG - A single SVG file with data over selected time range</li>
+				</ul>
+			</div>			
+			<div id="formatinfoimage" style="display:none;width:95%">
+				<b>Format options:</b>
+				<ul>
+					<li>PNG - A PNG image with data over selected time range</li>
+					<li>PDF - A PDF file with data over selected time range</li>
+					<li>SVG - A SVG file with data over selected time range</li>
 					<li>Gallery - A <a href="http://viviz.org/">ViViz</a> gallery of PNG images of data over selected time range (one day of data per image)</li>
-					<li>SVG - A single SVG file with data over selected time range</li>
+				</ul>
+			</div>			
+			<div id="formatinfoscript" style="display:none;width:95%">
+				<b>Format options:</b>
+				<ul>
 					<li>IDL (script) - A script that when executed in IDL, creates a data array <code>D</code> and label array <code>L</code>.</li>
 					<li>MATLAB (script) - A script that when executed in MATLAB, creates a data array <code>D</code> and label array <code>L</code>.</li>
 				</ul>
 			</div>			
+
+			<div id="styleinfoimage" style="display:none;width:95%">
+				<b>Style options</b> (Background/Text/Symbol):
+				<ul>
+					<li>Custom - Show drop-downs for plot style.</li>
+					<li>0 - None/Black/Blue (default)</li>
+					<li>1 - Black/Yellow/Yellow</li>
+					<li>2 - Spark Line</li>
+				</ul>
+			</div>			
+
 		</div>
 		<div id="debugdiv" style="margin-left:14em;background-color:white;width:100%;height:100%;display:none;">
 			<div><b>Debug info</b></div>
