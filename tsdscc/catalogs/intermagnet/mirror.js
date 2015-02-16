@@ -61,6 +61,8 @@ if (Nd == 1) {
     }
 }
 
+return;
+
 if (0) {
 if (process.argv[3]) {
     if (process.argv[3].match(/[A-Z]/)) {
@@ -239,6 +241,9 @@ function get(urls,files) {
 			if (!fs.existsSync(f1) && !fs.existsSync(f2)) {
 			    console.log(files.length + " 1. Did not find " + f1);
 			    console.log(files.length + " 1. Did not find " + f2);
+			    if (Nd == 1) {
+				fs.writeFileSync(mirrordir+TLC+"/"+cadence+"/"+files[0]+".x","");
+			    }
 			    if (files[0].match(".gz")) {
 				urls[0]  = urls[0].replace(/\.gz/g,"");
 				files[0] = files[0].replace(".gz","");

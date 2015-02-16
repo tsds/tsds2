@@ -1,6 +1,4 @@
 // TODO: Add
-
-// TODO: Add
 // http://tsds.org/get/?catalog=SSCWeb&dataset=^a.*
 // response array should have at least 12 objects.
 
@@ -120,7 +118,7 @@ tests[i].test = function (data) {
 
 i = i+1;
 tests[i] = {};
-tests[i].url = "catalog=SSCWeb&return=tsds&outformat=json";
+tests[i].url = "catalog=SSCWeb&return=tsds&format=json";
 tests[i].test = function (data) {
 					var len = data.length;
 					var N = 2451662;
@@ -150,7 +148,7 @@ tests[i].test = function (data) {
 
 i = i+1;
 tests[i] = {};
-tests[i].url = "catalog=SSCWeb&return=autoplot-bookmarks&outformat=json";
+tests[i].url = "catalog=SSCWeb&return=autoplot-bookmarks&format=json";
 tests[i].test = function (data) {
 					var len = data.length;
 					var N = 2082927;

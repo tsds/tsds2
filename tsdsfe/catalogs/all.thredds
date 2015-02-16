@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <catalog name="Time Series Data Server Uploads THREDDS Catalog" xmlns="http://www.unidata.ucar.edu/namespaces/thredds/InvCatalog/v1.0" xmlns:xlink="http://www.w3.org/1999/xlink">
 	<catalogRef ID="CDAWeb" xlink:title="CDAWeb" xlink:href="CDAWeb/CDAWeb.xml"/>
-
 	<catalogRef ID="SSCWeb" xlink:title="SSCWeb" xlink:href="SSCWeb/SSCWeb.xml"/>
 	<catalogRef ID="SuperMAG/PT1M" xlink:title="SuperMAG/PT1M" xlink:href="SuperMAG/PT1M.xml"/>
-
 	<catalogRef ID="Kyoto/Dst/RT/PT1H" xlink:title="Kyoto real-time Dst" xlink:href="Kyoto/Dst/RT/PT1H.xml"/>
 	<catalogRef ID="USGS/Dst/RT/PT1H" xlink:title="USGS/Dst/RT/PT1H" xlink:href="USGS/Dst/RT/PT1H.xml"/>
 	<catalogRef ID="USGS/Dst/RT/PT1M" xlink:title="USGS/Dst/RT/PT1M" xlink:href="USGS/Dst/RT/PT1M.xml"/>

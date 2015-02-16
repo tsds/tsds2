@@ -1,20 +1,19 @@
-
 // Run all tests:
 //		nodejs test/test.js --testfile=test/metadata-tests.js
 //		nodejs test/test.js --testfile=test/data-tests.js
 //		nodejs test/test.js --testfile=test/failing-tests.js
 //
 // Run one test:
-//		nodejs test/test.js --start=4
+//		nodejs test/test.js --start=4 --onetest=true
 // Run all tests starting at test #:
-//		nodejs test/test.js --start=4 --onetest=false
+//		nodejs test/test.js --start=4
 
 var fs       = require("fs");
 var sys      = require('sys');
 var exec     = require('child_process').exec;
 var spawn    = require('child_process').spawn;
 var request  = require("request");
-var	express  = require('express');
+var express  = require('express');
 var http     = require('http');
 var url      = require('url');
 var zlib     = require('zlib');
@@ -27,13 +26,13 @@ function s2b(str) {if (str === "true") {return true} else {return false}}
 function s2i(str) {return parseInt(str)}
 
 var start    = s2i(argv.start || 0); // Start test Number
-var onetest  = s2b(argv.onetest || "true");
+var onetest  = s2b(argv.onetest || "false");
 var Ntests   = argv.ntests;
 var port     = argv.port || 8004;
 var testfile = argv.testfile || './test/failing-tests.js';
 eval(fs.readFileSync(testfile,'utf8'));
 
-// DataCache server to use
+// TSDS server to use
 var server  = "http://localhost:"+port+"/";	
 
 console.log("--------------------------------------------------------")
@@ -59,7 +58,7 @@ function gettests(m) {
 		xtests[z].note = testsr[z].note || "";
 
 		if (m == 1) {
-			xtests[z].url = server + "?usecache=false&" + testsr[z].url;
+			xtests[z].url = server + "?usedatacache=false&useimagecache=false&usemetadatacache=false&" + testsr[z].url;
 		}
 		if (m == 2) {
 			xtests[z].url = server + "?" + testsr[z].url;

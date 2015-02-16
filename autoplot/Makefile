@@ -1,3 +1,7 @@
+# To install jetty and start
+# make install
+# make start
+
 # OS-X: Need to execute
 # ulimit -S -n 2048
 #
@@ -16,12 +20,28 @@
 # For most recent Nailgun (0.9), download from source.
 # git clone https://github.com/martylamb/nailgun.git
 
+JETTY=jetty-distribution-8.1.16.v20140903
+
+start:
+	cd deps/$(JETTY); JETTY_PORT=8001 bash bin/jetty.sh -d start;
+
+stop:
+	cd deps/$(JETTY); JETTY_PORT=8001 bash bin/jetty.sh -d stop; 
+
+install:
+	mkdir -p deps;
+	javac ListFonts.java
+	java ListFonts > ../tsdsfe/js/autoplotserverfonts.json
+	curl http://autoplot.org/jnlp/latest/autoplot.jar > deps/autoplot.jar
+	curl http://autoplot.org/hudson/job/autoplot-jar-servlet/lastSuccessfulBuild/artifact/autoplot/AutoplotServlet/dist/AutoplotServlet.war > deps/AutoplotServlet.war
+	cd deps; unzip ../pkgs/$(JETTY).zip
+	cd deps; mv AutoplotServlet.war $(JETTY)/webapps
 
 clean:
 	rm -rf deps/*
 	rm -rf node_modules
 
-all:
+xall:
 	curl http://autoplot.org/jnlp/latest/autoplot.jar > deps/autoplot.jar
 	cd deps; unzip ../pkgs/nailgun-0.7.1.zip
 	cd deps/nailgun-0.7.1; make
@@ -48,12 +68,12 @@ startjetty:
 startnailgun:
 	node test.js --Nservers=10 --method=launchnailgun &
 
+#curl "https://raw.githubusercontent.com/bahamas10/css-color-names/master/css-color-names.json" > ../tsdsfe/js/css-color-names.json
+
 prep:
 	mkdir -p deps;
-	curl "https://raw.githubusercontent.com/bahamas10/css-color-names/master/css-color-names.json" > ../tsdsfe/js/css-color-names.json
 	javac ListFonts.java
 	java ListFonts > ../tsdsfe/js/autoplotserverfonts.json
-
 	curl http://autoplot.org/jnlp/latest/autoplot.jar > deps/autoplot.jar
 	curl http://autoplot.org/hudson/job/autoplot-jar-servlet/lastSuccessfulBuild/artifact/autoplot/AutoplotServlet/dist/AutoplotServlet.war > deps/AutoplotServlet.war
 	cd deps; unzip ../pkgs/nailgun-0.7.1.zip

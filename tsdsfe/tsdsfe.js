@@ -80,8 +80,9 @@ app.get('/', function (req, res) {
 server
 	.listen(config.PORT)
 	.setTimeout(config.TIMEOUT,
-		function() {
-			console.log("TSDSFE server timeout ("+(config.TIMEOUT/(100*60))+" minutes).")
+		function(obj) {
+			console.log("TSDSFE server timeout ("+(config.TIMEOUT/(1000*60))+" minutes).");
+			if (obj) console.log(obj);
 		});
 
 var CDIR = config.CACHEDIR;
@@ -511,7 +512,7 @@ function parseOptions(req) {
 	options.type         = req.query.type         || req.body.type         || "";
 	options.filter       = req.query.filter       || req.body.filter       || "";
 	options.filterWindow = req.query.filterWindow || req.body.filterWindow || "";
-	options.usecache     = s2b(req.query.usecache || req.body.usecache     || "true"); // Send DataCache parameter usecache.
+	options.usedatacache     = s2b(req.query.usedatacache || req.body.usedatacache     || "true"); // Send DataCache parameter usedatacache.
 	options.attach       = s2b(req.query.attach   || req.body.attach       || "true");
 	options.useimagecache = s2b(req.query.useimagecache || req.body.useimagecache     || "true");
 
@@ -524,7 +525,7 @@ function parseOptions(req) {
 						"&color=%230000ff"+
 						"&backgroundColor=none"+
 						"&foregroundColor=%23000000"+
-						"&column="+encodeURIComponent("0%+5em,100%-6em")+
+						"&column="+encodeURIComponent("0%+6em,100%-5em")+
 						"&row="+encodeURIComponent("0%+2em,100%-4em")+
 						"&width=800"+
 						"&height=200";
@@ -535,7 +536,7 @@ function parseOptions(req) {
 						"&color=%23ffff00"+
 						"&backgroundColor=%23000000"+
 						"&foregroundColor=%23ffff00"+
-						"&column="+encodeURIComponent("0%+5em,100%-6em")+
+						"&column="+encodeURIComponent("0%+6em,100%-6em")+
 						"&row="+encodeURIComponent("0%+2em,100%-4em")+
 						"&width=800"+
 						"&height=200";
@@ -853,7 +854,6 @@ function catalog(options, cb) {
 			}
 		}
 
-
 		// Now we have a list of URLs for catalogs associated with the catalog pattern.
 		// Remove empty elements of array. (Needed?)
 		resp = resp.filter(function(n){return n});
@@ -918,15 +918,19 @@ function dataset(options, catalogs, cb) {
 		var parent = result["catalog"]["$"]["id"] || result["catalog"]["$"]["ID"];
 		var tmparr = result["catalog"]["dataset"];
 		datasets = datasets.concat(tmparr);
-		while (parents.length < datasets.length) {parents = parents.concat(parent)}
+		while (parents.length < datasets.length) {
+		    parents = parents.concat(parent);
+		}
 
-	    //console.log(catalogs[afterparse.j-1].value)
-		if (parent !== catalogs[afterparse.j-1].value) {
+		// TODO: This won't catch case when pattern is used; afterparse may not have been called with results in same order as catalog array.
+		if (catalogs.length == 1) {
+		    if (parent !== catalogs[afterparse.j-1].value) {
 			console.log("ID of catalog in THREDDS specified with a URL does not match ID of catalog found in catalog.");
-			console.log("ID in THREDDS: "+parent);
-			console.log("ID in catalog: "+catalogs[afterparse.j-1].value);
+			console.log("\tID in THREDDS ["+config.CATALOG+"]: "+parent);
+			console.log("\tID in catalog ["+catalogs[afterparse.j-1].href+"]: "+catalogs[afterparse.j-1].value);
 			options.res.status(502).send("ID of catalog found in "+catalogs[afterparse.j-1].href+" does not match ID associated with URL in "+config.CATALOG);
-		    return;
+			return;
+		    }
 		}
 		var dresp = [];
 
@@ -1249,7 +1253,7 @@ function parameter(options, catalogs, datasets, cb) {
 			script = script.replace("__LABELS__",Labels.slice(0,-2));
 			if (config.TSDSFE.match(/http:\/\/localhost/)) {
 				console.log("Warning: stream(): Possible configuration error.  Serving an IDL or MATLAB script containing a TSDSFE URL that is localhost")
-				script=script.replace("__COMMENT__","Warning: Possible TSDSFE configuration error - script contains a TSDSFE URL that is localhost")
+				script=script.replace("__COMMENT__","!!! Warning: Possible TSDSFE configuration error - script contains a TSDSFE URL that is localhost")
 			} else {
 				script=script.replace("__COMMENT__","")
 			}
@@ -1361,7 +1365,7 @@ function parameter(options, catalogs, datasets, cb) {
 
 		// Remove name=value when value === "".
 		dc = dc.replace(/[^=&]+=(&|$)/g,"").replace(/&$/,"");
-		if (!options.usecache) dc = dc+"&forceUpdate=true&forceWrite=true"
+		if (!options.usedatacache) dc = dc+"&forceUpdate=true&forceWrite=true"
 
 		if (options.return === "redirect") {
 			// If more than one resp, this won't work.

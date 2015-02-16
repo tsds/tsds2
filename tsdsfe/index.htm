@@ -35,25 +35,25 @@
 				//$('#cachecheckboxes').hide();
 				$('#cachecheckboxeslink').click(function () {$("#cachecheckboxes").toggle();});
 				
-				// Default for using data cache is true.  Unselect checkbox if usecache=true is in URL.
-				if (location.hash.match("usecache=false")) {
-					$('#usecache').each(function(){ this.checked = false; });
+				// Default for using data cache is true.  Unselect checkbox if usedatacache=true is in URL.
+				if (location.hash.match("usedatacache=false")) {
+					$('#usedatacache').each(function(){ this.checked = false; });
 					if (location.hash === "") {
 						var qs = {};
 					} else {
 						var qs = $.parseQueryString();
 					}
-					qs["usecache"] = "false"; 
+					qs["usedatacache"] = "false"; 
 					console.log(qs)					
 					location.hash=decodeURIComponent($.param(qs));;
 				} else {
-					$('#usecache').each(function(){ this.checked = true; });
+					$('#usedatacache').each(function(){ this.checked = true; });
 					if (location.hash === "") {
 						var qs = {};
 					} else {
 						var qs = $.parseQueryString();
 					}
-					qs["usecache"]="true";
+					qs["usedatacache"]="true";
 				}
 				
 				// Default for preview checkbox is always false.
@@ -730,8 +730,8 @@
 					if (selected('format') !== "0") { 
 						url = url + "&format="+selected('format');
 					}
-					if (!$("#usecache").is(":checked")) {
-						url = url + "&usecache=false";
+					if (!$("#usedatacache").is(":checked")) {
+						url = url + "&usedatacache=false";
 					}
 
 					// To work-around bug in how browsers mis-handle concatenated gzip files.
@@ -755,8 +755,8 @@
 
 			function preview() {
 				//location.hash = location.hash.replace("&format=0","");
-				if (!$("#usecache").is(":checked") && !location.hash.match("usecache=false")) {
-					//location.hash = location.hash + "&usecache=false";
+				if (!$("#usedatacache").is(":checked") && !location.hash.match("usedatacache=false")) {
+					//location.hash = location.hash + "&usedatacache=false";
 				}  
 				
 				if (!$("#previewimgcheckbox").is(":checked") && !location.hash.match("preview=false")) {
@@ -816,9 +816,9 @@
 						 dataurl = TSDSFE + "scripts/tsdsfe.jyds?server="+TSDSFE+"&catalog="+selected('catalog')+"&dataset="+selected('dataset')+"&parameters="+selected('parameters')+"&timerange="+START_dateISO+"&format=1";
 
 
-						 if (!$("#usecache").is(":checked")) {
-								dataurl = dataurl + "&usecache=false";
-								okiturl = ploturl + "&usecache=false";
+						 if (!$("#usedatacache").is(":checked")) {
+								dataurl = dataurl + "&usedatacache=false";
+								okiturl = ploturl + "&usedatacache=false";
 						 }
 
 						 
@@ -916,7 +916,7 @@
 			<div id="cachecheckboxes" style="display:none">
 				<font size="-1">		
 					<div title="Show preview images (1 day of data per image) of data over default time range when a parameter is selected."><input id="previewimgcheckbox" type="checkbox" value=""/>&nbsp;Show preview plots</div>
-					<div title="For fastest response time, use cached data (if available).  Disable this for data that change frequently."><input id="usecache" type="checkbox" value=""/>&nbsp;Use cached data</div>
+					<div title="For fastest response time, use cached data (if available).  Disable this for data that change frequently."><input id="usedatacache" type="checkbox" value=""/>&nbsp;Use cached data</div>
 					<div title="For fastest response time, use cached metadata (if available).  Disable this for metadata that change frequently."><input id="usemetadatacache" type="checkbox" value=""/>&nbsp;Use cached metadata</div>
 					<div title="For fastest response time, use cached images (if available).  Disable this for data that change frequently.  Image cache is not used if cached data option is not selected."><input id="useimagecache" type="checkbox" value=""/>&nbsp;Use cached images</div>
 				</font>

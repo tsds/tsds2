@@ -2,23 +2,23 @@ exports.config = function config() {
 
 	var out = {};
 
+	// Port
+	out["PORT"] = 8004;
+
 	// Location of back-end data DataCache program
 	out["DC"] = "http://localhost:7999/sync/";
+
+	// Location of Autoplot Servlet that creates preview plots
+	out["AUTOPLOT"] = "http://localhost:8001/AutoplotServlet/SimpleServlet";
+
+	// Autoplot script that create preview plot
+	out["JYDS"] = "http://localhost:"+out["PORT"]+"/scripts/tsdsfe.jyds";
 
 	// How long to wait for DataCache to return a response.
 	out["TIMEOUT"] = 1000*60*15;
 
-	// Location of Autoplot Servlet that creates preview plots
-	out["AUTOPLOT"] = "http://autoplot.org/plot/SimpleServlet";
-
-	// Autoplot script that create preview plot
-	out["JYDS"] = "http://autoplot.org/git/jyds/tsdsfe.jyds";
-
-	// Port
-	out["PORT"] = 8004;
-
 	// Location to access data that will appear in MATLAB/IDL/Python scripts.
-	// Typical Apache setting to serve data from http://server/tsdsfe:
+	// Typical Apache setting to serve data from http://server/tsds:
 	//
 	// ProxyPass /tsds http://localhost:port retry=1
 	// ProxyPassReverse /tsds http://localhost:port
@@ -26,11 +26,15 @@ exports.config = function config() {
 	// and
 	//
 	// out["TSDSFE"] = "http://server/tsds/"
-	// Note that if this default setting is used, options for return={png,pdf,svg,matlab,idl}
-	// will probably not work.  For images, the Autoplot servlet will told to request data from a localhost TSDSDFE server.
-	// and not this server.  The IDL and MATLAB scripts will attempt to access data from a localhost TSDSFE server.
+	//
+	// Note that if this default setting is used, options for
+	// return={png,pdf,svg,matlab,idl} will probably not work.
+	// For images, the Autoplot servlet will told to request data
+	// from a localhost TSDSDFE server.  and not this server.  The
+	// IDL and MATLAB scripts will attempt to access data from a
+	// localhost TSDSFE server.
+
 	out["TSDSFE"] = "http://tsds.org/get/";
-	
 
 	// Location of the master catalog.  May be a URL or directory.
 	// If leading /, path is treated as absolute.
