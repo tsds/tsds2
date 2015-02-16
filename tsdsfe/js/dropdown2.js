@@ -4,7 +4,11 @@ function dropdown2(ids, names, funs, after, i, selected, callback) {
 	if (arguments.length < 6) {selected = "";};
 
 	if (i == ids.length) {return;}
-	
+	if (funs[i].show) {
+		if (!funs[i].show()) {
+			return;
+		}
+	}
 	function settoggle(i) {
 		$("#"+ids[i]+"list").unbind('click');
 		console.log("dropdown.settoggle(): Setting click event on "+ids[i]+"list element.");
@@ -161,6 +165,17 @@ function dropdown2(ids, names, funs, after, i, selected, callback) {
 							if (funs[i].onselect) {
 								funs[i].onselect();
 							}
+
+							console.log("---")
+							//var qs = $.parseQueryString();
+							//console.log(qs);
+							qs = {};
+							for (j = 0;j < i+1;j++) {
+								qs[$("#dropdowns" + (j)).attr('name')] = $("#dropdowns"+j).val();
+							}
+							console.log(qs)
+							location.hash = decodeURIComponent($.param(qs));
+
 							dropdown2(ids, names, funs, after, i+1, val, callback);
 							$(after+(i+1)).show();
 						}

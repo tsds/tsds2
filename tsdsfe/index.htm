@@ -251,14 +251,43 @@
 				return $("span[name='"+name+"']").attr('value');
 			}
 
-			function hidedivs() {
-				// Hide all informational divs.
-				$('#datasetinfo').html("");
-				$('#parameterinfo').html("");
-				$('#outputinfo').hide();
-				$('#datadiv').hide();
-				$('#previewimgdiv').hide();
-				$('#overviewdiv').hide();
+			function hidedivs(selected) {
+				if (selected==="catalogs") {
+					$('#datasetinfo').html("");
+					$('#parameterinfo').html("");
+					$('#outputinfo').hide();
+					$('#returninfo').hide();
+					$('#styleinfoimage').hide();
+					$('#datadiv').hide();
+					$('#imagediv').hide();
+					$('#imagediv #image').attr("src","");
+					$('#imagediv a').attr("src","");
+					$('#previewimgdiv').hide();
+					$('#overviewdiv').hide();
+				}
+				if (selected==="datasets") {
+					$('#parameterinfo').html("");
+					$('#outputinfo').hide();
+					$('#returninfo').hide();
+					$('#styleinfoimage').hide();
+					$('#datadiv').hide();
+					$('#imagediv').hide();
+					$('#imagediv #image').attr("src","");
+					$('#imagediv a').attr("src","");
+					$('#previewimgdiv').hide();
+					$('#overviewdiv').hide();
+				}
+				if (selected==="parameters") {
+					$('#outputinfo').hide();
+					$('#returninfo').hide();
+					$('#styleinfoimage').hide();
+					$('#datadiv').hide();
+					$('#imagediv').hide();
+					$('#imagediv #image').attr("src","");
+					$('#imagediv a').attr("src","");
+					$('#previewimgdiv').hide();
+					$('#overviewdiv').hide();
+				}
 			}
 			
 			function catalogs(i) {
@@ -299,7 +328,7 @@
 					$('#catalogtinfo ul').append('</ul>');
 
 					$('#cataloginfo').show();
-					hidedivs();
+					hidedivs("catalogs");
 				};
 
 				return tsdsfeajax(i,"?catalog=^.*");
@@ -318,7 +347,6 @@
 				datasets.onselect = function () {
 					info = tsdsfeajax(i,"?catalog="+selected('catalog')+"&dataset="+selected('dataset'));
 					$('#datasetinfo').html("<b>Dataset documentation:</b>")
-					$('#datasetinfo').show();					
 					$('#datasetinfo').append('<ul style="list-style-position: outside;">');
 					$('#datasetinfo ul').append('<li style="">TSDS ID: ' +selected('dataset')+'</li>');
 					if (info.length > 0) {
@@ -344,11 +372,8 @@
 						}
 					}
 					$('#datasetinfo ul').append('</ul>');
-					$('#parameterinfo').html("");
-					$('#outputinfo').hide();
-					$('#datadiv').hide();
-					$('#previewimgdiv').hide();
-					$('#overviewdiv').hide();
+					$('#datasetinfo').show();					
+					hidedivs("datasets");
 				};
 
 				var list = null;
@@ -484,7 +509,8 @@
 				parameters.onselect = function () {
 					console.log('parameters.onselect(): Called.');
 
-					$('#datadiv').hide();					
+					$('#datadiv').hide();
+					$('#imagediv').hide();					
 					var das = getdas();
 
 					$('#parameterinfo').html("<b>Parameter information:</b>")
@@ -516,6 +542,7 @@
 						
 					}
 					$('#parameterinfo').append('</ul>');
+					hidedivs("parameters")
 				};
 
 				parameters.list = tsdsfeajax(i,"?catalog="+selected('catalog')+"&dataset="+selected('dataset')+"&parameters=^.*");
@@ -535,7 +562,12 @@
 			
 			function returntype(i) {
 				returntype.onselect = function () {
-					$('#formatinfo'+selected('return')).show();				
+					$("#styleinfoimage").hide();
+					$('#formatinfodata').hide();
+					$('#formatinfoimage').hide();
+					$('#formatinfoscript').hide();
+					$('#formatinfo'+selected('return')).show();
+					hidedivs("return");
 				}				
 				values = [
 							{label:"Data", value:"data"},
@@ -549,12 +581,15 @@
 			function format(i) {
 				format.onselect = function () {
 					if (!selected("return").match("image")) {
+						$("#styleinfoimage").hide();
 						dorequest();
 					} else {
 						$("#styleinfoimage").show();
 					}
+					hidedivs("format");
 				}
 				if (selected("return").match("data")) {
+
 					values = [
 								{label:"Data (native)", value:"0"},
 								{label:"Data (iso)",value:"1"},
@@ -582,13 +617,19 @@
 			function style(i) {
 				style.onselect = function () {
 					dorequest();
-					$('#styleinfo'+selected('style')).show();				
-				}				
+					hidedivs("style");
+				}
+				style.show = function () {
+					if (selected("return") === "image") {
+						return true;
+					} else {
+						return false;
+					}
+				}
 				values = [
 							{label:"None/Black/Blue", value:"0", selected:true},
 							{label:"Black/Yellow/Yellow", value:"1"},
 							{label:"Sparkline", value:"2"}
-
 						];
 				return values;
 			}
@@ -602,7 +643,7 @@
 							+"&start="+selected('start')
 							+"&stop="+selected('stop');
 				
-				if (selected('format').match(/matlab|idl/)) {
+				if (selected('return').match(/script/)) {
 					url = url+"&return=script&format=" + selected('format');
 					$("#dlframe").html("");
 					$("#dldiv").show();
@@ -871,10 +912,8 @@
 				<iframe id="dlframe" style="width:95%;height:20em;"></iframe>
 			</div>
 			<div id="imagediv" style="background-color:white;width:100%;height:100%;display:none;">
-				<p>
-					<div><a target="_blank">Direct link</a>&nbsp;&nbsp;<img id="imageloading" style="height:.7em;" src="css/ajax-loader.gif"/></div>
-					<img id="image"></img>
-				</p>
+				<div><a target="_blank">Direct link</a>&nbsp;&nbsp;<img id="imageloading" style="height:.7em;" src="css/ajax-loader.gif"/></div>
+				<img id="image"></img>
 			</div>
 			<div id="datadiv" style="display:none;background-color:white;align:left">
 					<div><a target="_blank">Direct link</a></div>
