@@ -514,7 +514,10 @@ function parseOptions(req) {
 	options.attach       = s2b(req.query.attach   || req.body.attach       || "true");
 	options.useimagecache = s2b(req.query.useimagecache || req.body.useimagecache     || "true");
 
-	
+
+	if ((options.return === "image") && (options.style === "")) {
+		options.style === "0"
+	}	
 	if ((options.return === "image") && (options.style === "0")) {
 		options.style = "drawGrid=true"+
 						"&color=%230000ff"+
@@ -549,6 +552,7 @@ function parseOptions(req) {
 	if ((options.return === "image") && (options.format === "")) {
 		options.format = "png";
 	}
+
 	if ((options.return === "data") && (options.format === "")) {
 		options.format = "1";
 	}

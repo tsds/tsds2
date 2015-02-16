@@ -214,7 +214,7 @@ function dropdown2(ids, names, funs, after, i, selected, callback) {
 		    }
 	});
 
-	//console.log(list);
+	console.log(list);
 	
 	// If only one item, select it.
 	if (list.length == 1) {

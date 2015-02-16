@@ -555,11 +555,11 @@
 					}
 				}
 				if (selected("return").match("data")) {
-					format.values = [
-										{label:"Data (native)", value:"0"},
-										{label:"Data (iso)",value:"1"},
-										{label:"Data (yyyy mm dd hh mm ss)",value:"2"}
-									];
+					values = [
+								{label:"Data (native)", value:"0"},
+								{label:"Data (iso)",value:"1"},
+								{label:"Data (yyyy mm dd hh mm ss)",value:"2"}
+							];
 				}
 				if (selected("return").match("image")) {
 					values = [
@@ -585,9 +585,7 @@
 					$('#styleinfo'+selected('style')).show();				
 				}				
 				values = [
-							{label:"Default", value:"0"},
-							{label:"Custom", value:"custom"},
-							{label:"None/Black/Blue", value:"0"},
+							{label:"None/Black/Blue", value:"0", selected:true},
 							{label:"Black/Yellow/Yellow", value:"1"},
 							{label:"Sparkline", value:"2"}
 
@@ -723,7 +721,7 @@
 						START_date.addDays(1);
 						var STOP_dateISO  = START_date.toISOString().replace(/T.*/,"");
 
-						 ploturl = "?catalog="+selected('catalog')+"&dataset="+selected('dataset')+"&parameters="+selected('parameters')+"&start="+START_dateISO+"&stop="+STOP_dateISO+"&return=png";
+						 ploturl = "?catalog="+selected('catalog')+"&dataset="+selected('dataset')+"&parameters="+selected('parameters')+"&start="+START_dateISO+"&stop="+STOP_dateISO+"&return=image";
 						 dataurl = TSDSFE + "scripts/tsdsfe.jyds?server="+TSDSFE+"&catalog="+selected('catalog')+"&dataset="+selected('dataset')+"&parameters="+selected('parameters')+"&timerange="+START_dateISO+"&format=1";
 
 
@@ -831,7 +829,7 @@
 					<div title="Show preview images (1 day of data per image) of data over default time range when a parameter is selected."><input id="previewimgcheckbox" type="checkbox" value=""/>&nbsp;Show preview plots</div>
 					<div title="For fastest response time, use cached data (if available).  Disable this for data that change frequently."><input id="usecache" type="checkbox" value=""/>&nbsp;Use cached data</div>
 					<div title="For fastest response time, use cached metadata (if available).  Disable this for metadata that change frequently."><input id="usemetadatacache" type="checkbox" value=""/>&nbsp;Use cached metadata</div>
-					<div title="For fastest response time, use cached images (if available).  Disable this for data that change frequently.  Image cache is not used if cached option is not selected."><input id="useimagecache" type="checkbox" value=""/>&nbsp;Use cached images</div>
+					<div title="For fastest response time, use cached images (if available).  Disable this for data that change frequently.  Image cache is not used if cached data option is not selected."><input id="useimagecache" type="checkbox" value=""/>&nbsp;Use cached images</div>
 				</font>
 			</div>
 			<span id="dropdowns0" class="dropdown"></span>
@@ -882,16 +880,13 @@
 					<div><a target="_blank">Direct link</a></div>
 					<iframe style="width:95%;height:100%;"></iframe>
 			</div>
-
-			<div id="cataloginfo" style="display:none;width:95%"></div>
-			<div id="datasetinfo" style="display:none;width:95%"></div>
-			<div id="parameterinfo" style="display:none;width:95%"></div>
-			<div id="returninfo" style="display:none;width:95%">
-				<b>Return options:</b>
+			<div id="styleinfoimage" style="display:none;width:95%">
+				<b>Style options</b> (Background/Text/Symbol):
 				<ul>
-					<li>Data - Data over selected time range</li>
-					<li>Image - <a href="http://autoplot.org/">Autoplot</a> graphic of data over selected time range</li>
-					<li>Script - A script that reads data into memory for various programing languages</li>
+					<li>Custom - Show drop-downs for plot style.</li>
+					<li>0 - None/Black/Blue (default)</li>
+					<li>1 - Black/Yellow/Yellow</li>
+					<li>2 - Spark Line</li>
 				</ul>
 			</div>			
 			<div id="formatinfodata" style="display:none;width:95%">
@@ -919,17 +914,20 @@
 				</ul>
 			</div>			
 
-			<div id="styleinfoimage" style="display:none;width:95%">
-				<b>Style options</b> (Background/Text/Symbol):
+
+			<div id="returninfo" style="display:none;width:95%">
+				<b>Return options:</b>
 				<ul>
-					<li>Custom - Show drop-downs for plot style.</li>
-					<li>0 - None/Black/Blue (default)</li>
-					<li>1 - Black/Yellow/Yellow</li>
-					<li>2 - Spark Line</li>
+					<li>Data - Data over selected time range</li>
+					<li>Image - <a href="http://autoplot.org/">Autoplot</a> graphic of data over selected time range</li>
+					<li>Script - A script that reads data into memory for various programing languages</li>
 				</ul>
 			</div>			
-
+			<div id="parameterinfo" style="display:none;width:95%"></div>
+			<div id="datasetinfo" style="display:none;width:95%"></div>
+			<div id="cataloginfo" style="display:none;width:95%"></div>
 		</div>
+
 		<div id="debugdiv" style="margin-left:14em;background-color:white;width:100%;height:100%;display:none;">
 			<div><b>Debug info</b></div>
 			<iframe id="debugframe" style="width:95%;height:100%;"></iframe>
@@ -940,6 +938,7 @@
 				<img src=""></img>
 			</div> 
 		</div>
+
 	</body>
 	
 </html>
