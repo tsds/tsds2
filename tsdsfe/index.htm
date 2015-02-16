@@ -255,9 +255,12 @@
 				if (selected==="catalogs") {
 					$('#datasetinfo').html("");
 					$('#parameterinfo').html("");
-					$('#outputinfo').hide();
 					$('#returninfo').hide();
+					$('#formatinfodata').hide();
+					$('#formatinfoscript').hide();
+					$('#formatinfoimage').hide();
 					$('#styleinfoimage').hide();
+					$('#scriptdiv').hide();
 					$('#datadiv').hide();
 					$('#imagediv').hide();
 					$('#imagediv #image').attr("src","");
@@ -267,9 +270,12 @@
 				}
 				if (selected==="datasets") {
 					$('#parameterinfo').html("");
-					$('#outputinfo').hide();
 					$('#returninfo').hide();
+					$('#formatinfodata').hide();
+					$('#formatinfoscript').hide();
+					$('#formatinfoimage').hide();
 					$('#styleinfoimage').hide();
+					$('#scriptdiv').hide();
 					$('#datadiv').hide();
 					$('#imagediv').hide();
 					$('#imagediv #image').attr("src","");
@@ -278,10 +284,34 @@
 					$('#overviewdiv').hide();
 				}
 				if (selected==="parameters") {
-					$('#outputinfo').hide();
 					$('#returninfo').hide();
+					$('#formatinfodata').hide();
+					$('#formatinfoscript').hide();
+					$('#formatinfoimage').hide();
 					$('#styleinfoimage').hide();
+					$('#scriptdiv').hide();
 					$('#datadiv').hide();
+					$('#imagediv').hide();
+					$('#imagediv #image').attr("src","");
+					$('#imagediv a').attr("src","");
+					$('#previewimgdiv').hide();
+					$('#overviewdiv').hide();
+				}
+				if (selected === "return") {
+					$('#formatinfodata').hide();
+					$('#formatinfoscript').hide();
+					$('#formatinfoimage').hide();
+					$('#styleinfoimage').hide();
+					$('#scriptdiv').hide();
+					$('#datadiv').hide();
+					$('#imagediv').hide();
+					$('#imagediv #image').attr("src","");
+					$('#imagediv a').attr("src","");
+					$('#previewimgdiv').hide();
+					$('#overviewdiv').hide();
+				}
+				if (selected==="format") {
+					$('#styleinfoimage').hide();
 					$('#imagediv').hide();
 					$('#imagediv #image').attr("src","");
 					$('#imagediv a').attr("src","");
@@ -412,7 +442,6 @@
 			function starttime(i) {
 				starttime.onselect = function () {
 					$('#datadiv').hide();
-					$('#outputinfo').hide();
 				};
 
 				// Already have this info from getdas().
@@ -562,12 +591,8 @@
 			
 			function returntype(i) {
 				returntype.onselect = function () {
-					$("#styleinfoimage").hide();
-					$('#formatinfodata').hide();
-					$('#formatinfoimage').hide();
-					$('#formatinfoscript').hide();
-					$('#formatinfo'+selected('return')).show();
 					hidedivs("return");
+					$('#formatinfo'+selected('return')).show();
 				}				
 				values = [
 							{label:"Data", value:"data"},
@@ -586,10 +611,10 @@
 					} else {
 						$("#styleinfoimage").show();
 					}
+					$("#"+selected("return")+"div").show();
 					hidedivs("format");
 				}
 				if (selected("return").match("data")) {
-
 					values = [
 								{label:"Data (native)", value:"0"},
 								{label:"Data (iso)",value:"1"},
@@ -617,7 +642,6 @@
 			function style(i) {
 				style.onselect = function () {
 					dorequest();
-					hidedivs("style");
 				}
 				style.show = function () {
 					if (selected("return") === "image") {
@@ -646,7 +670,6 @@
 				if (selected('return').match(/script/)) {
 					url = url+"&return=script&format=" + selected('format');
 					$("#dlframe").html("");
-					$("#dldiv").show();
 					$("#dlframe").attr("src",url);
 				} else if (selected('return').match(/image/)) {
 					if (selected('format').match("viviz")) {
@@ -702,8 +725,6 @@
 			}
 
 			function preview() {
-				$('#outputinfo').show();
-				$('#dldiv').hide();
 				//location.hash = location.hash.replace("&format=0","");
 				if (!$("#usecache").is(":checked") && !location.hash.match("usecache=false")) {
 					//location.hash = location.hash + "&usecache=false";
@@ -844,8 +865,6 @@
 					}
 					location.hash = list[k].url;
 					preview();
-					$('#outputinfo').hide();
-
 					triggerselect();
 
 				};
@@ -908,7 +927,7 @@
 		<br/>
 	
 		<div id="infodiv" style="margin-left:14em;;margin-top:0em;">		
-			<div id="dldiv" style="background-color:white;display:none;">
+			<div id="scriptdiv" style="background-color:white;display:none;">
 				<iframe id="dlframe" style="width:95%;height:20em;"></iframe>
 			</div>
 			<div id="imagediv" style="background-color:white;width:100%;height:100%;display:none;">
