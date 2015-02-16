@@ -6,7 +6,7 @@ eval(fs.readFileSync(__dirname +'/lib/head.js', 'utf8'));
 if (typeof(process.argv[2]) !== "undefined" && isNaN(process.argv[2])) {
 	runtests(process.argv[2],process.argv[3] || false, process.argv[4] || false); return;
 } else {
-	var port = process.argv[2] || 8001;
+	var port = process.argv[2] || 8003;
 }
 
 // https://github.com/mikeal/request/issues/350
@@ -26,6 +26,48 @@ app.use("/deps", express.static(__dirname + "/deps"));
 app.use("/lib", express.static(__dirname + "/lib"));
 app.use("/tests", express.static(__dirname + "/tests"));
 app.use("/html", express.static(__dirname + "/html"));
+
+app.get('/proxy', function (req0, res0) {
+
+	function parsereq(req, res) {
+
+	    urlx = "";
+	    // ?http://server/query?name=value&name=value
+	    // ?server/query?name=value&name=value
+	    for (var name in req.query) {
+		var urlx = name + "=" + req.query[name] + "&";
+	    }
+	    
+	    // ?url=http://server/query?name=value&name=value
+	    // ?url=server/query?name=value&name=value
+	    if (req.query.url === "") {res.send("URL must be specified\n");return "";}
+	    
+	    // Remove trailing &
+	    urlx.replace(/\&$/,'');
+
+	    urlx = req.query.url || urlx || res.send("URL must be specified\n");
+	    if (!urlx.match(/^http\:\/\//)) {urlx = "http://" + urlx;}
+	    return url.parse(urlx);
+	}
+
+	parts = parsereq(req0,res0);
+	if (parts === "") return;
+	console.log(parts);
+	    
+	var options = {host: parts.hostname, port: parts.port, path: parts.path,agent:false};
+	console.log(options);
+	if (!parts.hostname.match("www.google.com") && !parts.hostname.match("autoplot.org") && !parts.hostname.match("filefinder.elasticbeanstalk.com") ) {
+	    res0.send(500,"Not allowed");
+	}
+
+	var req = http.request(options, function(res) {
+		res.setEncoding('utf8');
+		res.on('data', function (chunk) {res0.write(chunk);});
+		res.on('end',function () {res0.end();});
+		req.on('error', function(e) {console.log('Problem with request: ' + e.message)});
+	    }).on('error', function(e) {res0.send(404,"Problem with request: " + e.message)})
+	    req.end();
+    })
 
 app.get('/expandDD.htm', function (req, res) {
 	res.contentType("html");

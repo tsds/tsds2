@@ -26,10 +26,10 @@
 
 	xtic = new Date();
 	var Expander = [];
-	Expander[0]  = "/";
+	Expander[0]  = window.location.pathname.split("/").slice(0,-1).join("/")+"/";
 	Expander[1]  = "http://autoplot.org/plot/dev/SecureScriptServlet";
 	Expander[2]  = "http://filefinder.elasticbeanstalk.com/v1/finder";	
-	var Proxy    = "http://localhost:8002/proxy?url=";
+	var Proxy    = window.location.pathname.split("/").slice(0,-1).join("/")+"/proxy/?url=";
 
 	function expanderurl(check) {
 		var id = '#generateclient';
@@ -178,11 +178,11 @@
 		</form>
 	 	<input id="GenerateURLs" type="button" value="Generate URLs">
 	 	using
-	 	<select style="width:8em;height:1.5em" id='generateclient'>
-  				<option value="browser">browser</option>
-  				<option value="server">node.js server</option>
-  				<option value="autoplot">autoplot servlet</option>
-  				<!--option value="filefinder">filefinder server</option  -->
+	 	<select style="width:17em;height:1.5em" id='generateclient'>
+  				<option value="browser">Browser (using TSDS expander)</option>
+  				<option value="server">Server (using TSDS expander)</option>
+  				<option value="autoplot">Autoplot server</option>
+  				<!--option value="filefinder">FileFinder server</option-->
 		</select>
 		<br/>
 		Generated URLs <span id="urlsreport" class="report"></span>
@@ -190,11 +190,11 @@
 		<br/>
 	 	<input id="CheckURLs" type="button" value="Generate and Check">
 	 	using
-	 	<select style="width:8em;height:1.5em" id='checkclient'>
-  				<option value="browser">browser</option>
-  				<option value="server">node.js server</option>
-  				<option value="autoplot">autoplot servlet</option>
-  				<option value="filefinder">filefinder server</option>
+	 	<select style="width:17em;height:1.5em" id='checkclient'>
+  				<option value="browser">Browser (using TSDS expander)</option>
+  				<option value="server">Server (using TSDS expander)</option>
+  				<option value="autoplot">Autoplot server</option>
+  				<option value="filefinder">FileFinder server</option>
 		</select>
 		<span id="report" style="display:none"></span>
 	 	<br/>		
