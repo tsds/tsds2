@@ -508,6 +508,7 @@ function parseOptions(req) {
 	options.return       = req.query.return       || req.body.return       || "data";
 	options.format       = req.query.format       || req.body.format       || "";
 	options.style        = req.query.style        || req.body.style        || "";
+	options.type         = req.query.type         || req.body.type         || "";
 	options.filter       = req.query.filter       || req.body.filter       || "";
 	options.filterWindow = req.query.filterWindow || req.body.filterWindow || "";
 	options.usecache     = s2b(req.query.usecache || req.body.usecache     || "true"); // Send DataCache parameter usecache.
@@ -1264,7 +1265,13 @@ function parameter(options, catalogs, datasets, cb) {
 		start = tmp.split("/")[0].substring(0,10);
 		stop = tmp.split("/")[1].substring(0,10);
 
-		url = config.JYDS + "?server="+config.TSDSFE+"&catalog="+resp[0].catalog+"&dataset="+resp[0].dataset+"&parameters="+resp[0].parameter+"&timerange="+start+"/"+stop;
+		url = config.JYDS +
+				"?server="+config.TSDSFE+
+				"&catalog="+resp[0].catalog+
+				"&dataset="+resp[0].dataset+
+				"&parameters="+resp[0].parameter+
+				"&timerange="+start+"/"+stop+
+				"&type="+options.type;
 
 		//console.log(resp[0])
 		if (resp[0].columnLabels !== '') {
@@ -1291,6 +1298,8 @@ function parameter(options, catalogs, datasets, cb) {
 		console.log("-------")
 		//if (debugapp) 
 			console.log(aurl)
+
+		console.log("vap+jyds:"+url);
 
 		if (config.TSDSFE.match(/http:\/\/localhost/)) {
 			if (!config.AUTOPLOT.match(/http:\/\/localhost/)) {

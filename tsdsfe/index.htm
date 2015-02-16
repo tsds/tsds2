@@ -70,9 +70,9 @@
 				$('#useimagecache').each(function(){ this.checked = true; });
 
 				// Create the first drop-down (subsequent drop-downs appear when something is selected).
-				dropdown2(["catalog","dataset","parameters","start","stop","return","format","style"],
-							["Catalog","Datasets","Parameters","Start","Stop","Return","Format","Style"],
-							[catalogs,datasets,parameters,starttime,stoptime,returntype,format,style],
+				dropdown2(["catalog","dataset","parameters","start","stop","return","format","type","style"],
+							["Catalog","Datasets","Parameters","Start","Stop","Return","Format","Type","Style"],
+							[catalogs,datasets,parameters,starttime,stoptime,returntype,format,type,style],
 							"#dropdowns",0,"");
 
 				// If initial URL has arguments after #, trigger select on dropdowns.
@@ -298,6 +298,7 @@
 					$('#overviewdiv').hide();
 				}
 				if (selected === "return") {
+					$("#typeinfoimage").hide();
 					$('#formatinfodata').hide();
 					$('#formatinfoscript').hide();
 					$('#formatinfoimage').hide();
@@ -606,12 +607,12 @@
 			function format(i) {
 				format.onselect = function () {
 					if (!selected("return").match("image")) {
-						$("#styleinfoimage").hide();
+						$("#typeinfoimage").hide();
 						dorequest();
+						$("#"+selected("return")+"div").show();
 					} else {
-						$("#styleinfoimage").show();
+						$("#typeinfoimage").show();
 					}
-					$("#"+selected("return")+"div").show();
 					hidedivs("format");
 				}
 				if (selected("return").match("data")) {
@@ -639,9 +640,37 @@
 				return values;
 			}
 
+			function type(i) {
+				type.onselect = function () {
+					if (!selected("return").match("image")) {
+						$("#styleinfoimage").hide();
+						
+					} else {
+						$("#styleinfoimage").show();
+					}
+					hidedivs("type");
+				}
+				type.show = function () {
+					if (selected("return") === "image") {
+						return true;
+					} else {
+						return false;
+					}
+				}
+				values = [
+							{label:"Time Series", value:"timeseries", selected:"true"},
+							{label:"Autocorrelation", value:"autocorrelation"},
+							{label:"Histogram", value:"histogram"},
+							{label:"Periodogram", value:"periodogram"},
+							{label:"Spectrogram", value:"spectrogram"}
+						];
+				return values;
+			}
+
 			function style(i) {
 				style.onselect = function () {
 					dorequest();
+					$("#"+selected("return")+"div").show();
 				}
 				style.show = function () {
 					if (selected("return") === "image") {
@@ -676,7 +705,7 @@
 						location.href = url;
 						return;
 					}
-					url = TSDSFE+url+"&return=image&format=" + selected('format')+"&style=" + selected('style');
+					url = TSDSFE+url+"&return=image&format="+selected('format')+"&type="+selected('type')+"&style="+selected('style');
 					$("#imagediv").show();
 					$("#imagediv #imageloading").show()
 					//$("#imagediv > div > a").text(url);
@@ -900,6 +929,7 @@
 			<span id="dropdowns5" class="dropdown" style="display:none"></span>
 			<span id="dropdowns6" class="dropdown" style="display:none"></span>
 			<span id="dropdowns7" class="dropdown" style="display:none"></span>
+			<span id="dropdowns8" class="dropdown" style="display:none"></span>
 			<button type="button" style="background-color:white;color:black;border:1px solid black;" onclick="window.location=window.location.pathname">
 				Clear
 			</button>
@@ -947,6 +977,16 @@
 					<li>2 - Spark Line</li>
 				</ul>
 			</div>			
+			<div id="typeinfoimage" style="display:none;width:95%">
+				<b>Image type options:</b>
+				<ul>
+					<li>Time Series (default)</li>
+					<li>Histogram</li>
+					<li>Autocorrelation</li>
+					<li>Periodogram</li>
+					<li>Spectrogram</li>
+				</ul>
+			</div>			
 			<div id="formatinfodata" style="display:none;width:95%">
 				<b>Format options:</b>
 				<ul>
@@ -971,8 +1011,6 @@
 					<li>MATLAB (script) - A script that when executed in MATLAB, creates a data array <code>D</code> and label array <code>L</code>.</li>
 				</ul>
 			</div>			
-
-
 			<div id="returninfo" style="display:none;width:95%">
 				<b>Return options:</b>
 				<ul>
