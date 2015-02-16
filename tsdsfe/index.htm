@@ -701,11 +701,11 @@
 					$("#dlframe").html("");
 					$("#dlframe").attr("src",url);
 				} else if (selected('return').match(/image/)) {
+					url = TSDSFE+url+"&return=image&format="+selected('format')+"&type="+selected('type')+"&style="+selected('style');
 					if (selected('format').match("viviz")) {
 						location.href = url;
 						return;
 					}
-					url = TSDSFE+url+"&return=image&format="+selected('format')+"&type="+selected('type')+"&style="+selected('style');
 					$("#imagediv").show();
 					$("#imagediv #imageloading").show()
 					//$("#imagediv > div > a").text(url);

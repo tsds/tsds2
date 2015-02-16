@@ -1216,7 +1216,10 @@ function parameter(options, catalogs, datasets, cb) {
 					+ "%3Fcatalog%3D" + options.catalog
 					+ "%26dataset%3D" + options.dataset
 					+ "%26parameters%3D" + options.parameters
-					+ "%26return%3Dpng%26"
+					+ "%26return%3Dimage"
+					+ "%26format%3Dpng"
+					+ "%26type%3D"+options.type
+		                        + "%26style%3D0"
 					+ "&strftime=start%3D-P1D%26stop%3D$Y-$m-$d"
 					+ "&start=" + options.start
 					+ "&stop=" + options.stop;

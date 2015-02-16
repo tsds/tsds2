@@ -11,8 +11,10 @@ exports.config = function config() {
 	// Location of Autoplot Servlet that creates preview plots
 	out["AUTOPLOT"] = "http://localhost:8001/AutoplotServlet/SimpleServlet";
 
-	// Autoplot script that create preview plot
+	// Autoplot script that creates preview plot
 	out["JYDS"] = "http://localhost:"+out["PORT"]+"/scripts/tsdsfe.jyds";
+
+	out["VIVIZ"] = "http://tsds.org/gallery/";
 
 	// How long to wait for DataCache to return a response.
 	out["TIMEOUT"] = 1000*60*15;
