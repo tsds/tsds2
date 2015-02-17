@@ -1150,6 +1150,12 @@ function parameter(options, catalogs, datasets, cb) {
 	// DATE1/DATE2         = DATE1/DATE2
 	// DURATION1/DURATION2 = now+DURATION1/now+DURATION2
 
+	if ((options.start === '') && (options.stop !== '')) {
+	    options.start = "-P1D";
+	}
+	if ((options.stop === '') && (options.start !== '')) {
+	    options.stop = "P1D";
+	}
 	start = options.start || resp[0].dd.start;
 	stop  = options.stop  || resp[0].dd.start;
 
