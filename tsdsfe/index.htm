@@ -627,6 +627,7 @@
 								{label:"PNG",value:"png"},
 								{label:"PDF",value:"pdf"},
 								{label:"SVG",value:"svg"},
+								{label:"JNLP",value:"jnlp"},
 								{label:"Gallery",value:"viviz"}
 							];					
 				}
@@ -719,7 +720,12 @@
 						var curr = $("#imagediv div a");
 						$("#imagediv #image").hide();
 						$("#imagediv div").html(curr);
-						$("#imagediv div a").html("Download PDF");
+			                        if (selected('format').match(/pdf/)) {
+			                            $("#imagediv div a").html("Download PDF");
+			                        }
+			                        if (selected('format').match(/jnlp/)) {
+			                            $("#imagediv div a").html("Download JNLP");
+			                        }
 					}
 				} else if (selected('format') === 'debug')  {
 					url = url+"&out=asc"+"&stream=true&debug=true";
@@ -1001,6 +1007,7 @@
 					<li>PNG - A PNG image with data over selected time range</li>
 					<li>PDF - A PDF file with data over selected time range</li>
 					<li>SVG - A SVG file with data over selected time range</li>
+					<li>JNLP - A JNLP file that downloads and installs Autoplot with data in selected time range.</li>
 					<li>Gallery - A <a href="http://viviz.org/">ViViz</a> gallery of PNG images of data over selected time range (one day of data per image)</li>
 				</ul>
 			</div>			

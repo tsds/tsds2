@@ -82,7 +82,7 @@ server
 	.setTimeout(config.TIMEOUT,
 		function(obj) {
 			console.log("TSDSFE server timeout ("+(config.TIMEOUT/(1000*60))+" minutes).");
-			if (obj) console.log(obj);
+		      if (obj) console.log(obj.server._events.request);
 		});
 
 var CDIR = config.CACHEDIR;
@@ -1298,7 +1298,7 @@ function parameter(options, catalogs, datasets, cb) {
 
 		if (debugapp) console.log("vap+jyds:"+url)
 
-		if (options.return === "jnlp") {
+		if (options.format === "jnlp") {
 			cb(301,"http://autoplot.org/autoplot.jnlp?open=vap+jyds:"+url);
 			return;
 		}

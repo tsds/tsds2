@@ -38,6 +38,9 @@ line1= fo.readLine()
 print line1
 fo.close()
 
+if line1 is None:
+   raise Exception(' tsds.jyds - No data from '+surl)
+
 try:
    from org.virbo.dataset import SemanticOps
    from org.das2.datum import EnumerationUnits
