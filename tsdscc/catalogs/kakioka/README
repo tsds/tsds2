@@ -1,3 +1,5 @@
+/bin/bash -c 'WORDS=("PLEASE HELP ME" "I AM SO ALONE" "TO ARMS MY BROTHERS" "PSSSSST" "HEY, LISTEN." "DEATH TO ALL" "DUM DEE DEE DUM DEE DUM" "THE HUNGER IS OVERWHELMING" "OVER HERE" "DONT EVER LEAVE ME" "DUCK DUCK GOOSE"); i=0;while [ 1 = 1 ]; do echo "${WORDS[$i]}"; i=$((i + 1)); sleep 1; done'
+
 Kakioka geomagnetic field
 
 Average 1-hour (00-59)  
@@ -40,6 +42,8 @@ http://www.kakioka-jma.go.jp/metadata/orders/new?id=864&locale=en
 
 Extract authenticity_token
 <meta content="qpP6L7P6asIceqigmR2odIPj4MAC+RafTDQP2Qlz9n0=" name="csrf-token" />
+
+http://www.kakioka-jma.go.jp/metadata/orders/new?id=864&locale=en
 
 utf8:✓
 authenticity_token:5LuFy2uPwDBYtWqP4n+eoQnURdZiRsvmKhf//ArEy/Q=
