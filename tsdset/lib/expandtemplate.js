@@ -9,13 +9,11 @@ function expandtemplate(options,callback) {
 	var template   = options.template;
 	var timeRange  = options.timeRange;
 	var indexRange = options.indexRange;
-	var type       = options.type;
-	var check      = options.check;
-	var debug      = options.debug;
+	var type       = options.type || "strftime";
+	var check      = options.check || false;
+	var debug      = options.debug || false;
 	var proxy      = options.proxy;
 	var side       = "client";
-	
-	debug = false;
 
 	if (options.timeRange) {
 		timeRange = expandISO8601Duration(timeRange);
