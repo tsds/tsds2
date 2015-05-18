@@ -795,6 +795,7 @@
 					// When tsdsfe.jyds and servlet understand http://tsds.org/dd, will use that notation.				
 					
 					fills  = das[0].dd.fillvalue.replace("e+","e") || ""; // So no need to encode fill value.
+					fills  = das[0].dd.fillvalue.replace("E+","E") || ""; // So no need to encode fill value.
 					units  = das[0].dd.units || "";
 					labels = das[0].dd.name || "";
 					units = units.replace(/\^/g,"**") || "";
@@ -936,7 +937,7 @@
 			<span id="dropdowns6" class="dropdown" style="display:none"></span>
 			<span id="dropdowns7" class="dropdown" style="display:none"></span>
 			<span id="dropdowns8" class="dropdown" style="display:none"></span>
-			<button type="button" style="background-color:white;color:black;border:1px solid black;" onclick="window.location=window.location.pathname">
+			<button type="button" title="re-set drop-downs" style="background-color:white;color:black;border:1px solid black;" onclick="window.location=window.location.pathname">
 				Clear
 			</button>
 		</div>
@@ -996,7 +997,7 @@
 			<div id="formatinfodata" style="display:none;width:95%">
 				<b>Format options:</b>
 				<ul>
-					<li>0: Native (if original was ASCII, otherwise same as option 1)</code></li>
+					<li>0: Native (if original was ASCII, otherwise same as option 1)</li>
 					<li>1: Space-separated values with <a href="http://www.w3.org/TR/NOTE-datetime">ISO8601</a> timestamps (e.g., <code>2000-01-01T00:00:00.0 1.1 9.0)</code></li>
 					<li>2: Space-separated values with Year Month Day Hour Minute Seconds timestamps</li>
 				</ul>
