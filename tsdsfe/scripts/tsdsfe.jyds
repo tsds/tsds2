@@ -13,9 +13,8 @@ title      = getParam( 'title', 'def' )
 fills      = getParam( 'fills', '-1e31')
 #fills      = float(fills)
 process    = getParam( 'type', 'timeseries', 'plot type', ['timeseries','autocorrelation','histogram','periodogram','spectrogram'] )
-
 if ( title=='def' ):
-  title= 'catalog: ' + catalog + ' | dataset: ' + dataset #+ ' | parameters: ' + parameters
+  title= 'Catalog: ' + catalog + ' | Dataset: ' + dataset #+ ' | Parameters: ' + parameters
 print 'v20140718_1057'
 #print parameters
 
@@ -35,18 +34,23 @@ f = downloadResourceAsTempFile( URL( surl ), monitor )
 from java.io import FileReader, BufferedReader
 fo= BufferedReader( FileReader(f) )
 line1= fo.readLine()
-print line1
-fo.close()
 
 if line1 is None:
    raise Exception(' tsds.jyds - No data from '+surl)
+
+print 'First line: ' + line1
+print 'Labels:' + labels
+print 'Fills:'
+print fills
+
+fo.close()
+
 
 try:
    from org.virbo.dataset import SemanticOps
    from org.das2.datum import EnumerationUnits
    from org.virbo.dataset import DDataSet
    if ( 1 ):
-      print 'labels', labels
       if ( len(labels)==0 ):
           ll= parameters.split(',')  
       else:
