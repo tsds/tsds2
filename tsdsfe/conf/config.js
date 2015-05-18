@@ -20,6 +20,9 @@ exports.config = function config() {
 	//out["JYDS"] = "http://localost:"+out["PORT"]+"/scripts/tsdsfe.jyds";
 	out["JYDS"] = "http://localhost:"+out["PORT"]+"/scripts/tsdsfe.jyds";
 
+	// Most Apache servers have this set at 100
+	out["maxSockets"] = 100;
+
 	// Location to access data that will appear in MATLAB/IDL/Python scripts.
 	// Typical Apache setting to serve data from http://server/tsdsfe:
 	//
@@ -53,6 +56,10 @@ exports.config = function config() {
 	// File system location to store cached metadata.  If leading /, path is treated as absolute.
 	// Otherwise it is relative to directory of tsdsfe.js.
 	out["CACHEDIR"] = "cache/";
+
+	// File system location to store logs.  If leading /, path is treated as absolute.
+	// Otherwise it is relative to directory of tsdsfe.js.
+	out["LOGDIR"] = "log/";
 
 	// urltemplate.replace("mirror:http://",out["MIRROR"]) is executed before
 	// DataCache is called.

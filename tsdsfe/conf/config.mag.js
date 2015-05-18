@@ -19,6 +19,9 @@ exports.config = function config() {
 	// How long to wait for DataCache to return a response.
 	out["TIMEOUT"] = 1000*60*15;
 
+	// Most Apache servers have this set at 100
+	out["maxSockets"] = 100;
+	
 	// Location to access data that will appear in MATLAB/IDL/Python scripts.
 	// Typical Apache setting to serve data from http://server/tsds:
 	//
@@ -57,6 +60,10 @@ exports.config = function config() {
 	// File system location to store cached metadata.  If leading /, path is treated as absolute.
 	// Otherwise it is relative to directory of tsdsfe.js.
 	out["CACHEDIR"] = "cache/";
+
+	// File system location to store logs.  If leading /, path is treated as absolute.
+	// Otherwise it is relative to directory of tsdsfe.js.
+	out["LOGDIR"] = "log/";
 
 	out["MIRROR"] = "http://mag.gmu.edu/mirror/"
 
