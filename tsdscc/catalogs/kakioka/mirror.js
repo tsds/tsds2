@@ -1,6 +1,3 @@
-var catalog = "CARISMA";
-//var catalog = "CANOPUS";
-
 var request = require('request');
 var jsdom   = require("jsdom");
 var fs      = require('fs');
@@ -15,9 +12,23 @@ var expandtemplate = require(__dirname + "/../../../tsdset/lib/expandtemplate").
 
 options = {};
 options.template = "$Y-$m-$d";
-options.timeRange = "1997-12-31/1998-12-31";
+//options.timeRange = "2012-12-14/2015-01-31";
+options.timeRange = "1997-01-01/2015-01-31";
 options.debug = true;
 
+var type = "Geomagnetic";
+var type = "Geoelectric";
+// Variables that could be extracted.
+if (type == "Geomagnetic") {
+    var id = "1046";
+    var Data_num = "1143";
+    var Name = "Geomagnetic field";
+} else {
+    var id = "1063";
+    var Data_num = "2141";
+    var Name = "Geoelectric field";
+    options.timeRange = "1997-05-07/2015-01-31";
+}
 var list = expandtemplate(options);
 
 login();
@@ -26,7 +37,7 @@ function login() {
 	//Cookie = res.headers["set-cookie"][0];
 	// Read page with jQuery.
 	var options = 	{
-						url: "http://www.kakioka-jma.go.jp/metadata/orders/new?id=864&locale=en",
+						url: "http://www.kakioka-jma.go.jp/metadata/orders/new?id="+id+"&locale=en",
 						headers: {
 							"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.76 Safari/537.36"
 							},
@@ -34,7 +45,10 @@ function login() {
 					};
 
 	request.get(options, function (err,res,body) {
+		if (err) console.log(err);
 		Cookie = res.headers["set-cookie"][0].split(";")[0];
+		console.log('_____________________________________________________________________________');
+		console.log("Read cookie from response headers of "+options.url);
 		console.log(Cookie)
 		login2(body,Cookie);
 	});
@@ -52,16 +66,17 @@ function login2(body,Cookie) {
 			//var hidden = $("fieldset input[type*='hidden']");
 			//console.log($("li"))
 			var tok = $("input[name='authenticity_token']").attr('value')
+			console.log('_____________________________________________________________________________');
+			console.log("Read authenticity_token from response body.");
 			console.log("Token: " + tok);
-			var Data_num = $("order_Data_num").attr('value');
-			var Data_num = 1143;
+			//var Data_num = $("order_Data_num").attr('value');
 
 			// Seems that order[Start_date ... does not matter.
 			var form = {
 							"utf8": "✓",
 							"authenticity_token": tok,
 							"order[Data_num]": Data_num,
-							"order[Name]": "Geomagnetic field",
+							"order[Name]": Name,
 							"order[Station]": "Kakioka Magnetic Observatory",
 							"order[IAGA_code]": "KAK",
 							"order[Interval]": "1-decisecond (instantaneous)",
@@ -91,6 +106,7 @@ function login2(body,Cookie) {
 								}
 							};
 
+			console.log("__________________________________________________________________");
 			console.log("POST 1: Requesting create file page.");
 			console.log(options);
 	        // POST request.
@@ -123,6 +139,7 @@ function login2(body,Cookie) {
 										followAllRedirects: true
 									};
 
+					console.log("__________________________________________________________________");
 					console.log("POST 2: Requesting file creation.");
 					console.log(options);
 			        request.post(options, function (err,res,body) {
@@ -158,6 +175,7 @@ function login2(body,Cookie) {
 										};
 
 							setTimeout(function () {
+								console.log("__________________________________________________________________");
 								console.log("POST 3: Requesting file.");
 								console.log(options);
 				        		request.post(options, function (err,res,body) {
