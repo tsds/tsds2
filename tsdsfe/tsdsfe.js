@@ -1,12 +1,3 @@
-function s2b(str) {if (str === "true") {return true} else {return false}}
-function s2i(str) {return parseInt(str)}
-
-// Get port number from command line option.
-var port          = s2i(process.argv[2] || 8000);
-var debugapp      = s2b(process.argv[3] || "false");
-var debugcache    = s2b(process.argv[4] || "false");
-var debugstream   = s2b(process.argv[5] || "false");
-
 // Dependencies
 var fs      = require('fs');
 var request = require("request");
@@ -23,6 +14,18 @@ var util    = require("util");
 var clc     = require('cli-color');
 var os      = require("os");
 
+var expandISO8601Duration = require(__dirname + "/../tsdset/lib/expandtemplate").expandISO8601Duration;
+
+// Helper functions
+function s2b(str) {if (str === "true") {return true} else {return false}}
+function s2i(str) {return parseInt(str)}
+
+// Command line arguments
+var port          = s2i(process.argv[2] || 8000);
+var debugapp      = s2b(process.argv[3] || "false");
+var debugcache    = s2b(process.argv[4] || "false");
+var debugstream   = s2b(process.argv[5] || "false");
+
 process.on('exit', function () {
 	console.log('Received exit signal.  Removing partially written files.');
 	// TODO: 
@@ -33,13 +36,6 @@ process.on('exit', function () {
 process.on('SIGINT', function () {
 	process.exit();
 });
-
-function logc(str,color) {var msg = clc.xterm(color); console.log(msg(str));};
-
-var expandISO8601Duration = require(__dirname + "/../tsdset/lib/expandtemplate").expandISO8601Duration;
-
-// Most Apache servers have this set at 100
-http.globalAgent.maxSockets = 100;  
 
 if (fs.existsSync(__dirname + "/conf/config."+os.hostname()+".js")) {
 	// Look for host-specific config file conf/config.hostname.js.
@@ -53,27 +49,39 @@ if (fs.existsSync(__dirname + "/conf/config."+os.hostname()+".js")) {
 
 if (config.TSDSFE.match(/http:\/\/localhost/)) {
 	if (!config.AUTOPLOT.match(/http:\/\/localhost/)) {
-		console.log("Warning: stream(): Image request will not work because Autoplot image servlet specified by config.AUTOPLOT must be localhost if config.TSDSFE is localhost.")
+		console.log("Warning: stream(): Image request will not work because Autoplot image servlet specified by config.AUTOPLOT must be localhost if config.TSDSFE is localhost.");
 	}
 }
 
-// Serve files in these directories as static files
-app.use("/js", express.static(__dirname + "/js"));
-app.use("/css", express.static(__dirname + "/css"));
-app.use('/scripts', express.directory(__dirname + "/scripts"));
-app.use("/scripts", express.static(__dirname + "/scripts"));
-app.use("/catalogs", express.static(__dirname + "/catalogs"));
+// In more recent versions of node.js, is set at Infinity.
+// Previously it was 5.  Apache uses 100.
+http.globalAgent.maxSockets = config.maxSockets;  
 
+// Serve files in these directories as static files and allow directory listings.
+app.use("/js", express.static(__dirname + "/js"));
+app.use('/js', express.directory(__dirname + "/js"));
+app.use("/css", express.static(__dirname + "/css"));
+app.use('/css', express.directory(__dirname + "/css"));
+app.use("/scripts", express.static(__dirname + "/scripts"));
+app.use('/scripts', express.directory(__dirname + "/scripts"));
+app.use("/catalogs", express.static(__dirname + "/catalogs"));
+app.use("/catalogs", express.directory(__dirname + "/catalogs"));
+app.use("/log", express.static(__dirname + "/log"));
+app.use("/log", express.directory(__dirname + "/log"));
+
+// Compress response (depending on request headers).
 app.use(express.compress());
 
 // Main entry point
 app.get('/', function (req, res) {
 	if (Object.keys(req.query).length === 0) {
+		// If no query parameters, return index.htm
 		res.contentType("html");
 		res.send(fs.readFileSync(__dirname+"/index.htm"));
-		return;
+	} else {
+		// Call main entry function
+		handleRequest(req,res);
 	}
-	handleRequest(req,res);
 })
 
 // Start the server
@@ -82,22 +90,81 @@ server
 	.setTimeout(config.TIMEOUT,
 		function(obj) {
 			console.log("TSDSFE server timeout ("+(config.TIMEOUT/(1000*60))+" minutes).");
-		      if (obj) console.log(obj.server._events.request);
+		      if (obj) {
+		    	  // For debugging.  Still getting mysterious timeouts.
+		    	  console.log(obj.server._events.request);
+		      }
 		});
 
-var CDIR = config.CACHEDIR;
+// Local cache directory
+var CDIR = config.CACHEDIR
 if (!config.CACHEDIR.match(/^\//)) {
-	CDIR   = __dirname+"/cache/";
+	// If relative path given for CACHEDIR, prepend with __dirname.
+	CDIR   = __dirname+"/cache/"
 }
 if (!fs.existsSync(CDIR)) {
+	// Create cache directory if not found
 	fs.mkdirSync(CDIR)
+}
+// Local log directory
+var LOGDIR = config.LOGDIR
+if (!config.CACHEDIR.match(/^\//)) {
+	// If relative path given for CACHEDIR, prepend with __dirname.
+	LOGDIR   = __dirname+"/log/"
+}
+if (!fs.existsSync(LOGDIR)) {
+	// Create log directory if not found
+	fs.mkdirSync(LOGDIR)
 }
 
 logc((new Date()).toISOString() + " - [tsdsfe] listening on port "+config.PORT,10);
 
+// Log to console with color
+function logc(str,color) {
+	var msg = clc.xterm(color);
+	console.log(msg(str));
+}
+
+// Log to file
+function logf(message){
+
+	if (!logf.nwriting) logf.nwriting = 0;
+	if (!logf.entries) logf.entries = "";
+
+	logf.nwriting = logf.nwriting + 1;
+
+	var entry = (new Date()).toISOString() + "," + message + "\n";
+
+	logf.entries = logf.entries + entry;
+
+	// Prevent too many files from being open at the same time.
+	if (logf.nwriting < 10) {
+
+		var tmp = new Date();
+		var yyyymmdd = tmp.toISOString().substring(0,10);
+		
+		// Write to requests.log
+		var file = LOGDIR + "tsdsfe_"+yyyymmdd+".log";
+
+		fs.appendFile(file, logf.entries, 
+			function(err){
+				logf.entries = "";
+				logf.nwriting = logf.nwriting - 1;
+				if (err) console.log(err);
+			});
+	}
+}
+
 function handleRequest(req, res) {
 
 	var options = parseOptions(req);
+
+	// Log Date, IP address information, request URL to file
+	var message =  req.connection.remoteAddress + "," + req.originalUrl;		
+	if (req.headers['X-Forwarded-For']) {
+		var message = req.headers['X-Forwarded-For'].replace(",",";") + req.originalUrl + ",";
+	} 
+	logf(message);
 
 	if (debugapp) {
 		console.log("handleRequest(): Handling " + req.originalUrl);
@@ -1032,7 +1099,6 @@ function parameter(options, catalogs, datasets, cb) {
 		while (parents.length < parameters.length) {
 			parents.push(parent)
 			cats.push(cat);
-			//console.log(parents.length)
 		}
 	}							
 		
@@ -1043,7 +1109,7 @@ function parameter(options, catalogs, datasets, cb) {
 		resp[i].label     = parameters[i]["$"]["name"] || resp[i].value || "";
 		resp[i].units     = parameters[i]["$"]["units"] || "";
 		resp[i].columnLabels = parameters[i]["$"]["columnLabels"] || "";
-		resp[i].type = parameters[i]["$"]["type"] || "";
+		resp[i].type      = parameters[i]["$"]["type"] || "";
 		resp[i].catalog   = cats[i];
 		resp[i].dataset   = parents[i]["id"] || parents[i]["ID"];
 		resp[i].parameter = parameters[i]["$"]["id"] || parameters[i]["$"]["ID"];
@@ -1067,7 +1133,7 @@ function parameter(options, catalogs, datasets, cb) {
 			}
 		}
 
-		if (debugapp) console.log(resp[i].dd)
+		//if (debugapp) console.log(resp[i].dd)
 		
 		if (options.parameters !== "^.*") {				
 
@@ -1088,7 +1154,7 @@ function parameter(options, catalogs, datasets, cb) {
 				} else if (mt[0].length != value.length) {
 					delete resp[i];
 				} else {
-					if (debugapp) console.log("parameter(): Match in catalog for requested parameter "+value+".")
+					if (debugapp) console.log("parameter(): Match in catalog for requested parameter "+value+".");
 				}
 			}
 		}
@@ -1225,7 +1291,7 @@ function parameter(options, catalogs, datasets, cb) {
 					+ "%26return%3Dimage"
 					+ "%26format%3Dpng"
 					+ "%26type%3D"+options.type
-		                        + "%26style%3D0"
+		            + "%26style%3D0"
 					+ "&strftime=start%3D-P1D%26stop%3D$Y-$m-$d"
 					+ "&start=" + options.start
 					+ "&stop=" + options.stop;
