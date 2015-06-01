@@ -20,7 +20,7 @@ exports.config = function config() {
 	//out["JYDS"] = "http://localost:"+out["PORT"]+"/scripts/tsdsfe.jyds";
 	out["JYDS"] = "http://localhost:"+out["PORT"]+"/scripts/tsdsfe.jyds";
 
-	// Most Apache servers have this set at 100
+	// Default Apache server has this set at 100
 	out["maxSockets"] = 100;
 
 	// Location to access data that will appear in MATLAB/IDL/Python scripts.

@@ -16,10 +16,10 @@ exports.config = function config() {
 
 	out["VIVIZ"] = "http://tsds.org/gallery/";
 
-	// How long to wait for DataCache to return a response.
+	// TSDSFE server timeout time.
 	out["TIMEOUT"] = 1000*60*15;
 
-	// Most Apache servers have this set at 100
+	// Default Apache server has this set at 100
 	out["maxSockets"] = 100;
 	
 	// Location to access data that will appear in MATLAB/IDL/Python scripts.
@@ -65,6 +65,8 @@ exports.config = function config() {
 	// Otherwise it is relative to directory of tsdsfe.js.
 	out["LOGDIR"] = "log/";
 
+	out["LOGHEADER"] = "x-tsdsfe-log";
+	
 	out["MIRROR"] = "http://mag.gmu.edu/mirror/"
 
 	return out;

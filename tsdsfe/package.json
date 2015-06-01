@@ -8,6 +8,7 @@
 		"exec-sync": "*",
 		"minimist": "*",
 		"cli-color": "*",
+		"mkdirp": "*",
 		"treeify": "https://github.com/rweigel/treeify/tarball/master",
 		"datacache": "https://github.com/rweigel/datacache/tarball/master"
 	},
