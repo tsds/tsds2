@@ -1,0 +1,6 @@
+Ephemeris values for the {{DATASET}} satellite from SSCWeb [1, 2] was obtained through the TSDS interface [3, 4] on {{DATE}}.
+
+[1] McGuire, R. E., Burley, R. J., Candey, R. M., Kessel, R. L., & Kovalick, T. J. (2000). CDAWeb and SSCWeb: Enabling correlative international Sun-Earth-connections science entering the era of IMAGE and Cluster. Eos Trans. AGU, 81, 19.
+[2] http://sscweb.gsfc.nasa.gov/
+[3] Weigel, R. S., Lindholm, D. M., Wilson, A., & Faden, J. (2010). TSDS: high-performance merge, subset, and filter software for time series-like data. Earth Science Informatics, 3(1-2), 29-40.
+[4] http://tsds.org/get/ 

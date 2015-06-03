@@ -23,7 +23,34 @@
 
 			$(function() {
 				main();
+				setInterval(checkstatus,1000);
 			})
+
+			function checkstatus(){
+				$.ajax({
+					type: "GET",
+					url: TSDSFE + "status",
+					async: true,
+					dataType: "json",
+					success: function (data,textStatus, jqXHR) {
+
+						for (key in data) {
+							if (!data[key].state) {
+									//console.log(data[key].message);
+									if ($("#statusinfo ul").find("#"+key).length == 0) {
+										$("#statusinfo ul").append("<li id='"+key+"'>" + data[key].message + "</li>")
+										$("#statusinfo").show();
+									}
+								} else {
+									$("#statusinfo ul").find("#"+key).remove();
+								}
+							}
+							if ($("#statusinfo ul li").length == 0) {
+								$("#statusinfo").hide();
+							}
+						}
+					})
+			}
 
 			var FONTS = [];
 			var COLORS = {};
@@ -157,6 +184,12 @@
 
 				url = TSDSFE + url;
 				$('#status').show();
+
+				// TSDSFE default is usemetadatacache=true.  Must explicity
+				// set in URL otherwise.
+				if (!$("#usemetadatacache").is(":checked")) {
+					url = url + "&usemetadatacache=false";
+				}
 
 				// Client-side cache of response.
 				if (typeof(tsdsfeajax.cache) === "undefined") {
@@ -329,12 +362,6 @@
 					console.log("catalogs.onselect(): Called");
 					
 					var url = "?catalog="+selected('catalog');
-
-					// TSDSFE default is usemetadatacache=true.  Must explicity
-					// set in URL otherwise.
-					if (!$("#usemetadatacache").is(":checked")) {
-						url = url + "&usemetadatacache=false";
-					}
 					
 					info = tsdsfeajax(i,url);
 					catalog.info = info;
@@ -390,7 +417,12 @@
 								if (info[j].text.match("/>")) { // Guess HTML
 
 								} else {
-									$('#datasetinfo ul').append('<li><a style="text-decoration:underline;cursor:pointer" onclick="showpre(this)">Other documentation:</a><pre style="display:none;overflow-x:scroll;">'+info[j].text+'</pre></li>');
+									var label =  info[j].title || "Other documentation";
+									if (label.match("acknowledgement")) {
+										$('#datasetinfo ul').append('<li>'+label+':<br/><br/><font size=-1>'+info[j].text.replace(/\n/g,"<br/>")+'</font></li>');
+									} else {
+										$('#datasetinfo ul').append('<li><a style="text-decoration:underline;cursor:pointer" onclick="showpre(this)">'+label+':</a><pre style="display:none;overflow-x:scroll;">'+info[j].text+'</pre></li>');
+									}
 								}
 							}
 						}
@@ -1028,8 +1060,14 @@
 				</ul>
 			</div>			
 			<div id="parameterinfo" style="display:none;width:95%"></div>
+			<div id="citeinfo" style="display:none;width:95%"></div>
 			<div id="datasetinfo" style="display:none;width:95%"></div>
 			<div id="cataloginfo" style="display:none;width:95%"></div>
+			<div id="statusinfo" style="display:none;width:95%">
+				<b>Note:</b>
+				<ul>
+				</ul>
+			</div>
 		</div>
 
 		<div id="debugdiv" style="margin-left:14em;background-color:white;width:100%;height:100%;display:none;">

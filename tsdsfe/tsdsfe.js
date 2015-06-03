@@ -79,13 +79,35 @@ app.use("/log", express.directory(__dirname + "/log"));
 // Compress response (depending on request headers).
 app.use(express.compress());
 
+status = {};
+status["VIVIZ"] = {}
+status["VIVIZ"]["state"] = true;
+status["VIVIZ"]["message"] = "Connection to ViViz server has failed.  Requests for galleries will fail.  Removing option to view images as a gallery.  A notice of this failure was sent to the site administrator.";                                                                      
+
+status["DATACACHE"] = {}
+status["DATACACHE"]["state"] = true;
+status["DATACACHE"]["message"] = "Connection to DataCache server has failed.  Requests for metadata will continue to work, but requests for data and images will fail.  A notice of this failure was sent to the site administrator.";                                                                      
+
+status["AUTOPLOT"] = {}
+status["AUTOPLOT"]["state"] = true;
+status["AUTOPLOT"]["message"] = "Connection to Autoplot image server has failed.  Removing option to view images.  A notice of this failure was sent to the site administrator.";
+
+// Get the status of services used by TSDSFE.
+app.get('/status', function (req, res) {
+	res.send(JSON.stringify(status))
+})
+
+// Test a request using curl-test.sh, which displays log information associated with request from DataCache and TSDSFE.
 app.get('/test', function (req, res) {
 	var com = 'test/curl-test.sh "' + req.protocol + '://' + req.host + ":" + port + req.originalUrl.replace("test","") + '"'
-	console.log(com)
 	var child = require('child_process').exec(com)
 	child.stdout.on('data', function (buffer) {
 		// [1m and [0m are open and close bold tags for shell.
-		res.write(buffer.toString().replace('[1m','').replace('[0m',''))
+		if (req.headers['user-agent'].match("curl")) {
+			res.write(buffer.toString())
+		} else {
+			res.write(buffer.toString().replace('[1m','').replace('[0m',''))			
+		}
 	});
 	child.stdout.on('end', function() { 
 		res.end()
@@ -107,7 +129,6 @@ app.get('/', function (req, res) {
 
 // Start the server
 server.listen(config.PORT)
-
 
 server.on('connection', function(socket) {
 
@@ -156,13 +177,39 @@ if (!fs.existsSync(CDIR)) {
 // Create directories if needed.
 config = log.init(config)
 
+
 log.logc((new Date()).toISOString() + " - [tsdsfe] listening on port "+config.PORT,10);
+
+setInterval(checkdeps, 10000)
+
+function checkdeps() {
+	request(config.VIVIZ, function (err,depsres,depsbody) {
+		if (err) console.log(err)
+		if (depsres.statusCode != "200") {
+			console.log("Problem with "+config.VIVIZ)
+			status["VIVIZ"]["state"] = false;
+		} else {
+			status["VIVIZ"]["state"] = true;
+		}
+	});
+
+	request(config.AUTOPLOT + "?url=vap+inline:randn(100)", function (err,depsres,depsbody) {
+		if (err) console.log(err)
+		if (depsres.statusCode != "200") {
+			console.log("Problem with "+config.AUTOPLOT)
+			status["AUTOPLOT"]["state"] = false;
+		} else {
+			status["AUTOPLOT"]["state"] = true;
+		}
+	});
+
+}
 
 function handleRequest(req, res) {
 
 	var message =  req.connection.remoteAddress + "," + req.originalUrl;		
-	if (req.headers['X-Forwarded-For']) {
-		var message = req.headers['X-Forwarded-For'].replace(",",";") + req.originalUrl + ",";
+	if (req.headers['x-forwarded-for']) {
+		var message = req.headers['x-forwarded-for'].split(",")[0] + "," + req.originalUrl + ",";
 	} 
 
 	// Create detailed log file name based on current time and other information.
@@ -178,7 +225,8 @@ function handleRequest(req, res) {
 	if (debugapp) {
 		log.logres("Configuration file = "+JSON.stringify(config.CONFIGFILE), res)
 		log.logres("Configuration file contents = "+JSON.stringify(config), res)
-		log.logres("req.headers['X-Forwarded-For'] = " + JSON.stringify(req.headers['X-Forwarded-For']), res)
+		log.logres("req.headers = "+JSON.stringify(req.headers), res)
+		log.logres("req.headers['x-forwarded-for'] = " + JSON.stringify(req.headers['x-forwarded-for']), res)
 		log.logres("req.connection.remoteAddress = " + JSON.stringify(req.connection.remoteAddress), res)
 		log.logres("req.originalUrl = " + JSON.stringify(req.originalUrl), res)
 		log.logres("options = " + JSON.stringify(options), res)
@@ -195,10 +243,13 @@ function handleRequest(req, res) {
 	//res.header('Access-Control-Allow-Headers', 'Content-Type');
 
 	if ( (options.return === "log") ) {
+		console.log(options)
+		var excludeIPs = "f528764d"
 		// Get directory listing and start streaming lines in files that match catalog=CATALOG
-	    var com = 'grep --no-filename -e ' + options.catalog + ' ' + config.LOGDIRAPP + "*.log"
+	    var com = "grep --no-filename -e '" + req.originalUrl.replace("&return=log","").replace("/?","") + "' " + config.LOGDIRAPPPUBLIC + "*.log | grep -v " + excludeIPs + " | cut -f1,3,4 -d,"
 	    var child = require('child_process').exec(com)
-	    log.logres("Sending output of shell command "+com, res)
+	    console.log(com)
+	    log.logres("Sending output of shell command: "+com, res)
 	    child.stdout.on('data', function (buffer) {
 	    	res.write(buffer.toString())
 	    });
@@ -1265,10 +1316,24 @@ function dataset(options, catalogs, cb) {
 								dresp[k].text  = datasets[z]["documentation"][k];
 						}
 					} else {
-						dresp[0] = {};
-						dresp[0].title = "No dataset documentation in catalog";
-						dresp[0].link  = "";
-						dresp[0].text  = "";							
+						dresp[k] = {};
+						dresp[k].title = "No dataset documentation in catalog";
+						dresp[k].link  = "";
+						dresp[k].text  = "";							
+					}
+					// TODO: Do the following using getandparse().  Document how it works.
+					console.log(datasets[z])
+					var filecite = __dirname + "/" + catalogs[afterparse.j-1].href.replace(config.TSDSFE,"").replace(/\.xml|\.json/,'.cite');
+					if (fs.existsSync(filecite)) {
+						var text = fs.readFileSync(filecite)
+									 .toString()
+									 .replace("{{DATASET}}",datasets[z]["$"].name)
+									 .replace("{{DATE}}",new Date().toISOString().substring(0,10));
+						var k = dresp.length;
+						dresp[k] = {};
+						dresp[k].title = "Suggested dataset acknowledgement";
+						dresp[k].link  = "";
+						dresp[k].text  = text;												
 					}
 					cb(200,dresp);
 				} else {

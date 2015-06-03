@@ -1,6 +1,7 @@
 var fs     = require("fs") ;
 var clc    = require('cli-color');
 var mkdirp = require("mkdirp");
+var crypto = require("crypto");
 
 // Create directories, add absolute paths if needed.
 function init(config) {
@@ -11,17 +12,24 @@ function init(config) {
 		// If relative path given for CACHEDIR, prepend with __dirname.
 		config.LOGDIR   = __dirname+"/log/"
 	}
-	config.LOGDIRAPP = config.LOGDIR + "application/";
+	config.LOGDIRAPPPRIVATE = config.LOGDIR + "application-private/";
 	// Log directory for application
-	if (!fs.existsSync(config.LOGDIRAPP)) {
+	if (!fs.existsSync(config.LOGDIRAPPPRIVATE)) {
 		// Create log directory if not found
-		mkdirp.sync(config.LOGDIRAPP)
+		mkdirp.sync(config.LOGDIRAPPPRIVATE)
 	}
+	config.LOGDIRAPPPUBLIC = config.LOGDIR + "application-public/";
+	// Log directory for application
+	if (!fs.existsSync(config.LOGDIRAPPPUBLIC)) {
+		// Create log directory if not found
+		mkdirp.sync(config.LOGDIRAPPPUBLIC)
+	}
+
 	// Log directory for requests
 	config.LOGDIRRES = config.LOGDIR + "requests/";
 	if (!fs.existsSync(config.LOGDIRRES)) {
 		// Create log directory if not found
-		mkdirp.sync(config.LOGDIRRES)
+		mkdirp.sync(config.LOGDIR)
 	}
 	return config
 }
@@ -57,13 +65,19 @@ exports.logres = logres;
 function logapp(message, res) {
 
 	if (!logapp.nwriting) logapp.nwriting = 0;
-	if (!logapp.entries) logapp.entries = "";
+	if (!logapp.entriespublic) logapp.entriespublic = "";
+	if (!logapp.entriesprivate) logapp.entriesprivate = "";
 
 	logapp.nwriting = logapp.nwriting + 1;
 
 	var entry = (new Date()).toISOString() + "," + message + "\n";
 
-	logapp.entries = logapp.entries + entry;
+	var entrypublic = entry.split(",");
+	// Create MD5 hash of IP address.  Use only first 8 bytes.  
+	entrypublic[2] = crypto.createHash("md5").update(entrypublic[2]).digest("hex").substring(0,8)
+
+	logapp.entriespublic = logapp.entriespublic + entrypublic
+	logapp.entriesprivate = logapp.entriesprivate + entry;
 
 	// Prevent too many files from being open at the same time.
 	if (logapp.nwriting < 10) {
@@ -72,14 +86,22 @@ function logapp(message, res) {
 		var yyyymmdd = tmp.toISOString().substring(0,10);
 		
 		// Write to requests.log
-		var file = res.config.LOGDIRAPP + "tsdsfe_"+yyyymmdd+".log";
+		var fileprivate = res.config.LOGDIRAPPPRIVATE + "tsdsfe_"+yyyymmdd+".log";
+		var filepublic = res.config.LOGDIRAPPPUBLIC + "tsdsfe_"+yyyymmdd+".log";
 
-		fs.appendFile(file, logapp.entries, 
+		fs.appendFile(fileprivate, logapp.entriesprivate, 
 			function(err){
-				logapp.entries = "";
+				logapp.entriesprivate = "";
 				logapp.nwriting = logapp.nwriting - 1;
 				if (err) console.log(err);
 			});
+		fs.appendFile(filepublic, logapp.entriespublic, 
+				function(err){
+					logapp.entriespublic = "";
+					logapp.nwriting = logapp.nwriting - 1;
+					if (err) console.log(err);
+				});
+
 	}
 }
 exports.logapp = logapp;

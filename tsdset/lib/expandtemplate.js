@@ -12,9 +12,9 @@ function expandtemplate(options,callback) {
 	var type       = options.type || "strftime";
 	var check      = options.check || false;
 	var debug      = options.debug || false;
+	var log        = options.log   || false;
 	var proxy      = options.proxy;
 	var side       = "client";
-
 	if (options.timeRange) {
 		timeRange = expandISO8601Duration(timeRange);
 		var Start = timeRange.split("/")[0];
@@ -32,17 +32,58 @@ function expandtemplate(options,callback) {
 		var Step  = indexRange.split("/")[2];
 	}
 
-	if (debug) console.log("Start: " + Start);
-	if (debug) console.log("Stop:  " + Stop);
-	if (debug) console.log("Step:  " + Step);
+	var logstr = "";
+	if (debug) {
+		if (log) {
+			logstr = logstr + "," + "Start: " + Start + "," + ",Stop: " + Stop + ", Step: "+Step;
+		} else {
+			console.log("Start: " + Start);
+			console.log("Stop:  " + Stop);
+			console.log("Step:  " + Step);
+		}
+	}
 
-	if (Start.length == 13) {Start = Start + ":00:00";}
-	if (Stop.length == 13) {Stop = Stop + ":00:00";}
-	if (Start.length == 16) {Start = Start + ":00";}
-	if (Stop.length == 16) {Stop = Stop + ":00";}
+	if (Start.length == 13) {
+		Start = Start + ":00:00";
+		if (debug) {
+			if (log) {
+				logstr = logstr + "," + "Start: " + Start;
+			} else {
+				console.log("Start: " + Start);
+			}
+		}
+	}
+	if (Stop.length == 13) {
+		Stop = Stop + ":00:00";
+		if (debug) {
+			if (log) {
+				logstr = logstr + "," + "Stop: " + Stop;
+			} else {
+				console.log("Stop: " + Stop);
+			}
+		}
+	}
+	if (Start.length == 16) {
+		Start = Start + ":00";
+		if (debug) {
+			if (log) {
+				logstr = logstr + "," + "Start: " + Start;
+			} else {
+				console.log("Start: " + Start);
+			}
+		}
+	}
+	if (Stop.length == 16) {
+		Stop = Stop + ":00";
+		if (debug) {
+			if (log) {
+				logstr = logstr + "," + "Stop: " + Stop;
+			} else {
+				console.log("Stop: " + Stop);
+			}
+		}
+	}
 
-	if (debug) console.log("Start: " + Start);
-	if (debug) console.log("Stop:  " + Stop);
 
 	var tic = new Date().getTime();
 	var files   = [];
@@ -59,8 +100,8 @@ function expandtemplate(options,callback) {
 		// Allow identifiers to be a $.  Internally use %.
 		template = template.replace(/\$/g,'%');
 
-		if (typeof(Start) === "string") Start = parseInt(Start);	
-		if (typeof(Stop) === "string") Stop = parseInt(Stop);
+		if (typeof(Start) === "string") {Start = parseInt(Start);}	
+		if (typeof(Stop) === "string") {Stop = parseInt(Stop);}
 		if (typeof(Step) === "string") {Step = parseInt(Step);} else {Step = 1;}
 			
 		var k = Start;
@@ -79,16 +120,30 @@ function expandtemplate(options,callback) {
 		// Allow identifiers to be a %.  Internally use $.
 		template = template.replace(/\%/g,'$');
 
-		if (debug) console.log("template      = " + template);
+		if (debug) {
+			if (log) {
+				//logstr = logstr + ",template = " + template;
+			} else {
+				console.log("template = " + template);
+			}
+		}
 
 		// Remove time zone with substr(0,25).		
 		var START_dateinc  = new Date(new Date(Start).toUTCString().substr(0, 25));
 		var START_dateoff  = new Date(new Date(Start).toUTCString().substr(0, 25));
 		var STOP_date      = new Date(new Date(Stop).toUTCString().substr(0, 25));
 
-		if (debug) console.log("START_dateinc: " + START_dateinc);
-		if (debug) console.log("STOP_dateoff:  " + START_dateoff);
-		if (debug) console.log("Step:  " + Step);
+		if (debug) {
+			if (log) {
+				logstr = logstr + "," + "START_dateinc: " + START_dateinc;
+				logstr = logstr + "," + "STOP_dateoff:  " + START_dateoff;
+				logstr = logstr + "," + "Step:  " + Step;
+			} else {
+				console.log("START_dateinc: " + START_dateinc);
+				console.log("STOP_dateoff:  " + START_dateoff);
+				console.log("Step:  " + Step);				
+			}
+		}
 
 		var addinc = {};
 		var addoff = {};
@@ -124,11 +179,24 @@ function expandtemplate(options,callback) {
 		for (i = 0; i < codes.length;i++)
 		 	if (template.match("$"+codes[i]) && allzero(addoff)) addoff[keys[i]] = 1;
 						
-		if (debug) {console.log("addoff");console.log(addoff);}
-		if (debug) {console.log("addinc");console.log(addinc);}
+		if (debug) {
+			if (log) {
+				logstr = logstr + "," + "addoff="+JSON.stringify(addoff);
+				logstr = logstr + "," + "addoff="+JSON.stringify(addinc);
+				logstr = logstr + "," + "START_dateinc=" + JSON.stringify(START_dateinc);
+				//logstr = logstr + "," + "template="+JSON.stringify(template);
+			} else {
+				console.log("addoff");
+				console.log(addoff);
+				console.log("addinc");
+				console.log(addinc);
+				console.log("template");
+				console.log(template);
+				console.log("START_dateinc");
+				console.log(START_dateinc);				
+			}
+		}
 
-		if (debug) console.log(template);
-		if (debug) console.log(START_dateinc);
 		
 		var i = 0;
 		
@@ -160,7 +228,9 @@ function expandtemplate(options,callback) {
 			}
 
 		}	
-		if (!callback) return files;
+		if (!callback) {
+//			return files;
+		}
 		if (check) return head(files,proxy,headcomplete);
 		if (!check) return finished();
 		
@@ -169,19 +239,32 @@ function expandtemplate(options,callback) {
 	function allzero(obj) {for (var prop in obj) {if (obj[prop] > 0) return false} return true}
 
 	function finished() {
+
 		var elapsed = new Date().getTime() - tic;
 		if (debug) {
 			if (check) {
-				console.log("Generated and checked " + files.length + " URLs in " + elapsed + " ms (" + Math.round(elapsed/files.length) + " ms per)");
+				if (log) {
+					logstr = logstr + ", Generated and checked " + files.length + " URLs in " + elapsed + " ms (" + Math.round(elapsed/files.length) + " ms per)";
+				} else {
+					console.log("Generated and checked " + files.length + " URLs in " + elapsed + " ms (" + Math.round(elapsed/files.length) + " ms per)");
+				}
 			} else {
-				console.log("Generated " + files.length + " URLs in " + elapsed + " ms (" + Math.round(files.length/elapsed) + " per ms)");
+				if (log) {
+					logstr = logstr + ", Generated " + files.length + " URLs in " + elapsed + " ms (" + Math.round(files.length/elapsed) + " per ms)";					
+				} else {
+					console.log("Generated " + files.length + " URLs in " + elapsed + " ms (" + Math.round(files.length/elapsed) + " per ms)");
+				}
 			}
 		}
 		
 		if (callback) {
 			callback(files,headers,options);
 		} else {
-			return files;
+			if (log) {
+				return {files: files, log: logstr}
+			} else {
+				return files
+			}
 		}
 	}
 	
