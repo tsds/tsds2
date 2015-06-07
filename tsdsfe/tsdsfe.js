@@ -177,7 +177,6 @@ if (!fs.existsSync(CDIR)) {
 // Create directories if needed.
 config = log.init(config)
 
-
 log.logc((new Date()).toISOString() + " - [tsdsfe] listening on port "+config.PORT,10);
 
 setInterval(checkdeps, 10000)
