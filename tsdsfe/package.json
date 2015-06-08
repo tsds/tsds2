@@ -9,6 +9,7 @@
 		"minimist": "*",
 		"cli-color": "*",
 		"mkdirp": "*",
+		"tsdset": "https://github.com/rweigel/tsdset/tarball/master",
 		"treeify": "https://github.com/rweigel/treeify/tarball/master",
 		"datacache": "https://github.com/rweigel/datacache/tarball/master",
 		"viviz": "https://github.com/rweigel/viviz/tarball/master"

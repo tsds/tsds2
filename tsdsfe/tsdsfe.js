@@ -15,7 +15,7 @@ var os      = require("os");
 
 var log     = require("./node_modules/datacache/log.js");
 
-var expandISO8601Duration = require(__dirname + "/../tsdset/lib/expandtemplate").expandISO8601Duration;
+var expandISO8601Duration = require("./node_modules/tsdset/lib/expandtemplate").expandISO8601Duration;
 
 // Helper functions
 function s2b(str) {if (str === "true") {return true} else {return false}}
