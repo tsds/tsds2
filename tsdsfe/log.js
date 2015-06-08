@@ -25,11 +25,11 @@ function init(config) {
 		mkdirp.sync(config.LOGDIRAPPPUBLIC)
 	}
 
-	// Log directory for requests
-	config.LOGDIRRES = config.LOGDIR + "requests/";
+	// Log directory for responses
+	config.LOGDIRRES = config.LOGDIR + "responses/";
 	if (!fs.existsSync(config.LOGDIRRES)) {
 		// Create log directory if not found
-		mkdirp.sync(config.LOGDIR)
+		mkdirp.sync(config.LOGDIRRES)
 	}
 	return config
 }
@@ -37,7 +37,7 @@ exports.init = init;
 
 // Log to console with color
 function logc(str,color) {
-	var msg = clc.xterm(color);
+	var msg = clc.xterm(color)
 	console.log(msg(str));
 }
 exports.logc = logc;

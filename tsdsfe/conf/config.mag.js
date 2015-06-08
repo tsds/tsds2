@@ -2,11 +2,14 @@ exports.config = function config() {
 
 	var out = {};
 
+	// How often to check dependencies (ms)
+	out["DEPCHECKPERIOD"] = 10000;
+
 	// Port
 	out["PORT"] = 8004;
 
 	// Location of back-end data DataCache program
-	out["DC"] = "http://localhost:7999/sync/";
+	out["DATACACHE"] = "http://localhost:7999/sync/";
 
 	// Location of Autoplot Servlet that creates preview plots
 	out["AUTOPLOT"] = "http://localhost:8001/AutoplotServlet/SimpleServlet";

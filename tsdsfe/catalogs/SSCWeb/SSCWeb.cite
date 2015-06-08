@@ -1,6 +1,17 @@
-Ephemeris values for the {{DATASET}} satellite from SSCWeb [1, 2] was obtained through the TSDS interface [3, 4] on {{DATE}}.
-
-[1] McGuire, R. E., Burley, R. J., Candey, R. M., Kessel, R. L., & Kovalick, T. J. (2000). CDAWeb and SSCWeb: Enabling correlative international Sun-Earth-connections science entering the era of IMAGE and Cluster. Eos Trans. AGU, 81, 19.
-[2] http://sscweb.gsfc.nasa.gov/
-[3] Weigel, R. S., Lindholm, D. M., Wilson, A., & Faden, J. (2010). TSDS: high-performance merge, subset, and filter software for time series-like data. Earth Science Informatics, 3(1-2), 29-40.
-[4] http://tsds.org/get/ 
+<p>
+Ephemeris values for the {{DATASET}} satellite from SSCWeb<sup>[1,2]</sup> was obtained through the TSDS<sup>[3]</sup> interface<sup>[4]</sup> on {{DATE}}.
+</p>
+<ol>
+	<li>
+		<a href="http://dx.doi.org/10.1029/2000JA900193">McGuire, R. E., Burley, R. J., Candey, R. M., Kessel, R. L., & Kovalick, T. J. (2000). CDAWeb and SSCWeb: Enabling correlative international Sun-Earth-connections science entering the era of IMAGE and Cluster. Eos Trans. AGU, 81, 19.</a>
+	</li>
+	<li>
+		<a href="http://sscweb.gsfc.nasa.gov/">http://sscweb.gsfc.nasa.gov/</a>
+	</li>
+	<li>
+		<a href="http://dx.doi.org/10.1007/s12145-010-0059-y">Weigel, R. S., Lindholm, D. M., Wilson, A., & Faden, J. (2010). TSDS: high-performance merge, subset, and filter software for time series-like data. Earth Science Informatics, 3(1-2), 29-40.</a>
+	</li>
+	<li>
+		<a href="http://tsds.org/get/">http://tsds.org/</a>
+	</li>
+</ol>

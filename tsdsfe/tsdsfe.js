@@ -13,7 +13,7 @@ var crypto  = require("crypto");
 var util    = require("util");
 var os      = require("os");
 
-var log    = require("./log.js");
+var log     = require("./log.js");
 
 var expandISO8601Duration = require(__dirname + "/../tsdset/lib/expandtemplate").expandISO8601Duration;
 
@@ -22,21 +22,21 @@ function s2b(str) {if (str === "true") {return true} else {return false}}
 function s2i(str) {return parseInt(str)}
 
 // Command line arguments
-var port          = s2i(process.argv[2] || 8000);
-var debugapp      = s2b(process.argv[3] || "false");
-var debugcache    = s2b(process.argv[4] || "false");
-var debugstream   = s2b(process.argv[5] || "false");
+var port          = s2i(process.argv[2] || 8000)
+var debugapp      = s2b(process.argv[3] || "false")
+var debugcache    = s2b(process.argv[4] || "false")
+var debugstream   = s2b(process.argv[5] || "false")
 
 process.on('exit', function () {
-	console.log('Received exit signal.  Removing partially written files.');
+	console.log('Received exit signal.  Removing partially written files.')
 	// TODO: 
 	// Remove partially written files by inspecting cache/locks/*.writing
 	// Remove streaming locks by inspecting cache/locks/*.streaming
-	console.log('Done.  Exiting.');
+	console.log('Done.  Exiting.')
 })
 process.on('SIGINT', function () {
-	process.exit();
-});
+	process.exit()
+})
 
 if (fs.existsSync(__dirname + "/conf/config."+os.hostname()+".js")) {
 	// Look for host-specific config file conf/config.hostname.js.
@@ -52,12 +52,6 @@ if (fs.existsSync(__dirname + "/conf/config."+os.hostname()+".js")) {
 	}
 	var config = require(__dirname + "/conf/config.js").config();
 	config.CONFIGFILE = __dirname + "/conf/config.js";
-}
-
-if (config.TSDSFE.match(/http:\/\/localhost/)) {
-	if (!config.AUTOPLOT.match(/http:\/\/localhost/)) {
-		console.log("Warning: stream(): Image request will not work because Autoplot image servlet specified by config.AUTOPLOT must be localhost if config.TSDSFE is localhost.");
-	}
 }
 
 // In more recent versions of node.js, is set at Infinity.
@@ -177,30 +171,88 @@ if (!fs.existsSync(CDIR)) {
 // Create directories if needed.
 config = log.init(config)
 
-log.logc((new Date()).toISOString() + " - [tsdsfe] listening on port "+config.PORT,10);
+log.logc((new Date()).toISOString() + " - [tsdsfe] Listening on port "+config.PORT,10);
 
-setInterval(checkdeps, 10000)
+checkdeps(true)
+setInterval(checkdeps, config.DEPCHECKPERIOD)
 
-function checkdeps() {
-	request(config.VIVIZ, function (err,depsres,depsbody) {
-		if (err) console.log(err)
-		if (depsres.statusCode != "200") {
-			console.log("Problem with "+config.VIVIZ)
-			status["VIVIZ"]["state"] = false;
-		} else {
-			status["VIVIZ"]["state"] = true;
-		}
-	});
+// Check and report on state of dependencies
+function checkdeps(startup) {
 
-	request(config.AUTOPLOT + "?url=vap+inline:randn(100)", function (err,depsres,depsbody) {
-		if (err) console.log(err)
-		if (depsres.statusCode != "200") {
-			console.log("Problem with "+config.AUTOPLOT)
-			status["AUTOPLOT"]["state"] = false;
-		} else {
-			status["AUTOPLOT"]["state"] = true;
-		}
-	});
+	request(config.VIVIZ,
+		function (err,depsres,depsbody) {
+			if (err) {
+				if (startup || status["VIVIZ"]["state"]) {
+					log.logc((new Date()).toISOString() + " - [tsdsfe] Error when testing ViViz: "+config.VIVIZ,160)
+				}
+				status["VIVIZ"]["state"] = false;
+				return
+			}
+			if (depsres.statusCode != "200") {
+				if (status["VIVIZ"]["state"]) {
+					log.logc((new Date()).toISOString() + " - [tsdsfe] Problem with ViViz: "+config.VIVIZ,160)
+				}
+				status["VIVIZ"]["state"] = false;
+			} else {
+				if (!status["VIVIZ"]["state"]) {
+					log.logc((new Date()).toISOString() + " - [tsdsfe] Problem resolved with ViViz: "+config.VIVIZ,10)
+				}
+				status["VIVIZ"]["state"] = true;
+			}
+		});
+
+	request(config.AUTOPLOT + "?url=vap+inline:randn(100)", 
+		function (err,depsres,depsbody) {
+			if (err) {
+				if (startup || status["AUTOPLOT"]["state"]) {
+					log.logc((new Date()).toISOString() + " - [tsdsfe] Error when testing Autoplot: "+config.AUTOPLOT,160)
+				}
+				status["AUTOPLOT"]["state"] = false
+				return
+			}
+
+			if (startup) {
+				if (config.TSDSFE.match(/http:\/\/localhost/)) {
+					if (!config.AUTOPLOT.match(/http:\/\/localhost/)) {
+						log.logc((new Date()).toISOString() + " - [tsdsfe] Warning: Image request will not work because Autoplot image servlet specified by config.AUTOPLOT must be localhost if config.TSDSFE is localhost.",10);
+					}
+				}
+			}
+
+			if (depsres.statusCode != "200") {
+				if (status["AUTOPLOT"]["state"]) {
+					log.logc("Problem with "+config.AUTOPLOT,160)
+				}
+				status["AUTOPLOT"]["state"] = false;
+			} else {
+				if (!status["AUTOPLOT"]["state"]) {
+					log.logc((new Date()).toISOString() + " - [tsdsfe] Problem resolved with Autoplot: "+config.AUTOPLOT,10)
+				}
+				status["AUTOPLOT"]["state"] = true;
+			}
+		});
+
+	request(config.DATACACHE + "?source="+config.DATACACHE.replace("/sync","")+"demo/file1.txt", 
+		function (err,depsres,depsbody) {
+			if (err) {
+				if (startup || status["DATACACHE"]["state"]) {
+					log.logc((new Date()).toISOString() + " - [tsdsfe] Error when testing DataCache: "+config.DATACACHE,160)
+				}
+				status["DATACACHE"]["state"] = false
+				return
+			}
+			if (depsres.statusCode != "200") {
+				if (status["DATACACHE"]["state"]) {
+					log.logc((new Date()).toISOString() + " - [tsdsfe] Problem with DataCache: "+config.DATACACHE, 160)
+				}
+				status["DATACACHE"]["state"] = false;
+			} else {
+				if (!status["DATACACHE"]["state"]) {
+					log.logc((new Date()).toISOString() + " - [tsdsfe] Problem resolved with DataCache: "+config.DATACACHE, 10)
+				}
+				status["DATACACHE"]["state"] = true;
+			}
+		});
 
 }
 
@@ -1321,7 +1373,7 @@ function dataset(options, catalogs, cb) {
 						dresp[k].text  = "";							
 					}
 					// TODO: Do the following using getandparse().  Document how it works.
-					console.log(datasets[z])
+					//console.log(datasets[z])
 					var filecite = __dirname + "/" + catalogs[afterparse.j-1].href.replace(config.TSDSFE,"").replace(/\.xml|\.json/,'.cite');
 					if (fs.existsSync(filecite)) {
 						var text = fs.readFileSync(filecite)
@@ -1550,9 +1602,9 @@ function parameter(options, catalogs, datasets, cb) {
 	}
 
 	if (args) {
-		var dc = config.DC+"?"+args+"&timeRange="+start+"/"+stop;
+		var dc = config.DATACACHE+"?"+args+"&timeRange="+start+"/"+stop;
 	} else {
-		var dc = config.DC+"?timeRange="+start+"/"+stop;
+		var dc = config.DATACACHE+"?timeRange="+start+"/"+stop;
 	}
 	
 	if (options.return === "urilist") {

@@ -2,11 +2,14 @@ exports.config = function config() {
 
 	var out = {};
 
+	// How often to check dependencies (ms)
+	out["DEPCHECKPERIOD"] = 10000;
+
 	// Port to run TSDSFE on.
 	out["PORT"] = 8004;
 
 	// Location of back-end data DataCache program
-	out["DC"] = "http://localhost:7999/sync/";
+	out["DATACACHE"] = "http://localhost:7999/sync/";
 
 	// How long to wait for DataCache to return a response in milliseconds.
 	out["TIMEOUT"] = 1000*60*15;

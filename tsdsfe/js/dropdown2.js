@@ -3,10 +3,10 @@ function dropdown2(ids, names, funs, after, i, selected, callback) {
 	if (arguments.length < 5) {i = 0;};
 	if (arguments.length < 6) {selected = "";};
 
-	if (i == ids.length) {return;}
+	if (i == ids.length) {return}
 	if (funs[i].show) {
 		if (!funs[i].show()) {
-			return;
+			return
 		}
 	}
 	function settoggle(i) {
@@ -177,7 +177,16 @@ function dropdown2(ids, names, funs, after, i, selected, callback) {
 							location.hash = decodeURIComponent($.param(qs));
 
 							dropdown2(ids, names, funs, after, i+1, val, callback);
-							$(after+(i+1)).show();
+							if (i+1 == funs.length) return
+							if (funs[i+1].show) {
+								if (!funs[i+1].show()) {
+									return
+								} else {
+									$(after+(i+1)).show()
+								}
+							} else {
+								$(after+(i+1)).show()
+							}
 						}
 						//console.log("dropdown2: Calling blur().")
 						//$('input[id=' + id + ']').blur().unbind('blur');						

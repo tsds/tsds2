@@ -419,7 +419,7 @@
 								} else {
 									var label =  info[j].title || "Other documentation";
 									if (label.match("acknowledgement")) {
-										$('#datasetinfo ul').append('<li>'+label+':<br/><br/><font size=-1>'+info[j].text.replace(/\n/g,"<br/>")+'</font></li>');
+										$('#datasetinfo ul').append('<li>'+label+':<font size=-1>'+info[j].text+'</font></li>');
 									} else {
 										$('#datasetinfo ul').append('<li><a style="text-decoration:underline;cursor:pointer" onclick="showpre(this)">'+label+':</a><pre style="display:none;overflow-x:scroll;">'+info[j].text+'</pre></li>');
 									}
@@ -676,14 +676,15 @@
 			function type(i) {
 				type.onselect = function () {
 					if (!selected("return").match("image")) {
-						$("#styleinfoimage").hide();
-						
+						$("#styleinfoimage").hide();						
 					} else {
 						$("#styleinfoimage").show();
 					}
 					hidedivs("type");
 				}
 				type.show = function () {
+					console.log("++++++type.show")
+					//console.log( arguments.callee.caller.toString())
 					if (selected("return") === "image") {
 						return true;
 					} else {
@@ -1030,7 +1031,7 @@
 				<b>Format options:</b>
 				<ul>
 					<li>0: Native (if original was ASCII, otherwise same as option 1)</li>
-					<li>1: Space-separated values with <a href="http://www.w3.org/TR/NOTE-datetime">ISO8601</a> timestamps (e.g., <code>2000-01-01T00:00:00.0 1.1 9.0)</code></li>
+					<li>1: Space-separated values with <a href="http://www.w3.org/TR/NOTE-datetime">ISO8601</a> timestamps (e.g., <code>2000&#8209;01&#8209;01T00:00:00.0&nbsp;1.1&nbsp;9.0)</code></li>
 					<li>2: Space-separated values with Year Month Day Hour Minute Seconds timestamps</li>
 				</ul>
 			</div>			
@@ -1041,7 +1042,7 @@
 					<li>PDF - A PDF file with data over selected time range</li>
 					<li>SVG - A SVG file with data over selected time range</li>
 					<li>JNLP - A JNLP file that downloads and installs Autoplot with data in selected time range.</li>
-					<li>Gallery - A <a href="http://viviz.org/">ViViz</a> gallery of PNG images of data over selected time range (one day of data per image)</li>
+					<li>Gallery - A gallery of PNG images of data over selected time range (one day of data per image)</li>
 				</ul>
 			</div>			
 			<div id="formatinfoscript" style="display:none;width:95%">
@@ -1055,7 +1056,7 @@
 				<b>Return options:</b>
 				<ul>
 					<li>Data - Data over selected time range</li>
-					<li>Image - <a href="http://autoplot.org/">Autoplot</a> graphic of data over selected time range</li>
+					<li>Image - <a href="http://autoplot.org/">Autoplot</a> graphic or <a href="http://viviz.org/">ViViz</a> gallery of data over selected time range</li>
 					<li>Script - A script that reads data into memory for various programing languages</li>
 				</ul>
 			</div>			
