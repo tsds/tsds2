@@ -15,7 +15,7 @@ exports.config = function config() {
 	out["TIMEOUT"] = 1000*60*15;
 
 	// Location of Autoplot Servlet that creates preview plots
-	out["AUTOPLOT"] = "http://localhost:8082/AutoplotServlet/SimpleServlet";
+	out["AUTOPLOT"] = "http://localhost:8001/AutoplotServlet/SimpleServlet";
 
 	out["VIVIZ"] = "http://localhost:8005/";
 
@@ -67,6 +67,8 @@ exports.config = function config() {
 	// urltemplate.replace("mirror:http://",out["MIRROR"]) is executed before
 	// DataCache is called.
 	out["MIRROR"] = "http://mag.gmu.edu/mirror/";
+
+	out["LOGHEADER"] = "x-tsdsfe-log";
 
 	return out;
 }

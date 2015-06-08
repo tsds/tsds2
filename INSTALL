@@ -1,0 +1,2 @@
+git clone http://github.com/tsds/tsds2
+cd tsds2; make install

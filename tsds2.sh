@@ -4,9 +4,16 @@
 #
 # NOT TESTED
 
-MEMORY=--max-old-space-size=1900
-DIR=/usr/local/tsds2
+LOG=/var/log
+USER=www-data
 NODE=/usr/bin/nodejs
+
+LOG=/tmp
+USER=robertweigel
+NODE=/usr/local/bin/node
+APP=`pwd`/tsdsfe/
+
+MEMORY=--max-old-space-size=1900
 
 PORTDATACACHE=7999
 PORTAUTOPLOT=8001
@@ -14,29 +21,32 @@ PORTDATAVIVIZ=8002
 PORTTSDSET=8003
 PORTTSDSFE=8004
 
-LOGTSDSFE=/var/log/tsdsfe
-LOGDATACACHE=/var/log/datacache
-LOGAUTOPLOT=/var/log/autoplot
-LOGVIVIZ=/var/log/viviz
+LOGTSDSFE=$LOG/tsdsfe
+LOGTSDSET=$LOG/tsdset
+LOGDATACACHE=$LOG/datacache
+LOGAUTOPLOT=$LOG/autoplot
+LOGVIVIZ=$LOG/viviz
+
+echo $LOGTSDSFE
 
 mkdir -p $LOGTSDSFE
-sudo chown www-data $LOGTSDSFE
+sudo chown $USER $LOGTSDSFE
 mkdir -p $LOGTSDSET
-sudo chown www-data $LOGTSDSET
+sudo chown $USER $LOGTSDSET
 mkdir -p $LOGDATACACHE
-sudo chown www-data $LOGDATACACHE
+sudo chown $USER $LOGDATACACHE
 mkdir -p $LOGAUTOPLOT
-sudo chown www-data $LOGAUTOPLOT
+sudo chown $USER $LOGAUTOPLOT
 mkdir -p $LOGVIVIZ
-sudo chown www-data $LOGVIVIZ
+sudo chown $USER $LOGVIVIZ
 
 case $1 in
         start)
-                sudo -u www-data $NODE $MEMORY $APP/node_modules/datacache/app.js $PORTDATACACHE 2>&1 | tee $LOGDATACACHE/datacache.log
-                cd $APP/autoplot/jetty; sudo -u www-data JETTY_PORT=$PORTAUTOPLOT bash bin/jetty.sh -d start 2>&1 | tee $LOGAUTOPLOT/autoplot.log 
-                sudo -u www-data $NODE $APP/node_modules/viviz/viviz.js $PORTVIVIZ 2>&1 | tee $LOGVIVIZ/viviz.log
-                sudo -u www-data $NODE $APP/tsdset/app.js $PORTTSDSET 2>&1 | tee $LOGTSDSET/tsdset.log
-                sudo -u www-data $NODE $APP/tsdsfe/tsdsfe.js $PORTTSDSFE 2>&1 | tee $LOGTSDSFE/tsdsfe.log
+                sudo -u $USER $NODE $MEMORY $APP/node_modules/datacache/app.js $PORTDATACACHE 2>&1 | tee $LOGDATACACHE/datacache.log
+                cd $APP/autoplot/jetty; sudo -u $USER JETTY_PORT=$PORTAUTOPLOT bash bin/jetty.sh -d start 2>&1 | tee $LOGAUTOPLOT/autoplot.log 
+                sudo -u $USER $NODE $APP/node_modules/viviz/viviz.js $PORTVIVIZ 2>&1 | tee $LOGVIVIZ/viviz.log
+                sudo -u $USER $NODE $APP/tsdset/app.js $PORTTSDSET 2>&1 | tee $LOGTSDSET/tsdset.log
+                sudo -u $USER $NODE $APP/tsdsfe/tsdsfe.js $PORTTSDSFE 2>&1 | tee $LOGTSDSFE/tsdsfe.log
         ;;
         stop)
                 pid=`pgrep -f "$NODE $APP/tsdsfe/tsdsfe.js $PORTTSDSFE"` 2>&1 | tee $LOGTSDSFE/tsdsfe.log

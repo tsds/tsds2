@@ -13,7 +13,7 @@ var crypto  = require("crypto");
 var util    = require("util");
 var os      = require("os");
 
-var log     = require("./log.js");
+var log     = require("./node_modules/datacache/log.js");
 
 var expandISO8601Duration = require(__dirname + "/../tsdset/lib/expandtemplate").expandISO8601Duration;
 
@@ -617,7 +617,9 @@ function handleRequest(req, res) {
 
 			var sreq = http.get(data, function(res0) {
 
-				log.logres("Headers from " + data + ":" + res0.headers, res)
+				if (debugstream) {
+					log.logres("Headers from " + data + ":" + JSON.stringify(res0.headers), res)
+				}
 				res.setHeader('x-datacache-log',res0.headers['x-datacache-log'])
 
 				if (res0.headers['x-tsdsfe-warning'])
@@ -639,7 +641,13 @@ function handleRequest(req, res) {
 				});
 
 				if (isimagereq) {
-					var writeok = true;
+					if (res0.statusCode != 200) {
+						var writeok = false;
+						log.logres("Image request response not 200.  Not writing image to cache.", res)						
+					} else {
+						var writeok = true;						
+					}
+
 					if (fs.existsSync(ifile + ".streaming")) {
 						if (debugcache) {
 							log.logres("File is being streamed.  Not writing image to cache.", res)
@@ -659,10 +667,12 @@ function handleRequest(req, res) {
 						fs.writeFileSync(ifile + ".writing","");
 						istream = fs.createWriteStream(ifile);
 						istream.on('finish',function () {
-							if (debugcache) {
-								log.logres("Finished writing image.  Removing (sync) " + ifile + ".writing", res)
+							if (writeok) {
+								if (debugcache) {
+									log.logres("Finished writing image.  Removing (sync) " + ifile + ".writing", res)
+								}
+								fs.unlinkSync(ifile + ".writing");
 							}
-							fs.unlinkSync(ifile + ".writing");
 						})
 					}
 				}
@@ -692,7 +702,9 @@ function handleRequest(req, res) {
 
 						// If N > 0, could use convert image1.png image2.png image3.png -append stack.png
 						if (debugcache && isimagereq) {
-							log.logres("Finished writing " + ifile + " and removing .writing file.", res)
+							if (writeok) {
+								log.logres("Finished writing " + ifile + " and removing .writing file.", res)
+							}
 						}
 						if (debugapp) {
 							log.logres('Got end.', options.res)
