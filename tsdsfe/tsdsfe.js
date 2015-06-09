@@ -13,9 +13,21 @@ var crypto  = require("crypto");
 var util    = require("util");
 var os      = require("os");
 
-var log     = require("./node_modules/datacache/log.js");
+if (fs.existsSync("../../datacache/log.js")) {
+	// Development
+	var log = require("../../datacache/log.js");
+} else {
+	// Production
+	var log = require("./node_modules/datacache/log.js");
+}
 
-var expandISO8601Duration = require("./node_modules/tsdset/lib/expandtemplate").expandISO8601Duration;
+if (fs.existsSync("../../tsdset/lib/expandtemplate.js")) {
+	// Development
+	var expandISO8601Duration = require("../../tsdset/lib/expandtemplate.js").expandISO8601Duration;
+} else {
+	// Production
+	var expandISO8601Duration = require("./node_modules/tsdset/lib/expandtemplate").expandISO8601Duration;
+}
 
 // Helper functions
 function s2b(str) {if (str === "true") {return true} else {return false}}
@@ -27,12 +39,21 @@ var debugapp      = s2b(process.argv[3] || "false")
 var debugcache    = s2b(process.argv[4] || "false")
 var debugstream   = s2b(process.argv[5] || "false")
 
+process.on('uncaughtException', function(err) {
+	if (err.errno === 'EADDRINUSE') {
+		console.log("[tsdsfe] - Address already in use.");
+	} else {
+		console.log(err);
+	}
+	process.exit(1);
+})
+
 process.on('exit', function () {
-	console.log('Received exit signal.  Removing partially written files.')
+	console.log('[tsdsfe] - Received exit signal.  Removing partially written files.')
 	// TODO: 
 	// Remove partially written files by inspecting cache/locks/*.writing
 	// Remove streaming locks by inspecting cache/locks/*.streaming
-	console.log('Done.  Exiting.')
+	console.log('[tsdsfe] - Done.  Exiting.')
 })
 process.on('SIGINT', function () {
 	process.exit()
@@ -93,8 +114,9 @@ app.get('/status', function (req, res) {
 
 // Test a request using curl-test.sh, which displays log information associated with request from DataCache and TSDSFE.
 app.get('/test', function (req, res) {
-	var com = 'test/curl-test.sh "' + req.protocol + '://' + req.host + ":" + port + req.originalUrl.replace("test","") + '"'
+	var com = __dirname + '/test/curl-test.sh "' + req.protocol + '://' + req.host + ":" + port + req.originalUrl.replace("test","") + '"'
 	var child = require('child_process').exec(com)
+	console.log(com)
 	child.stdout.on('data', function (buffer) {
 		// [1m and [0m are open and close bold tags for shell.
 		if (req.headers['user-agent'].match("curl")) {
@@ -158,17 +180,23 @@ server.on('connection', function(socket) {
 })
 
 // Local cache directory
-var CDIR = config.CACHEDIR
 if (!config.CACHEDIR.match(/^\//)) {
 	// If relative path given for CACHEDIR, prepend with __dirname.
-	CDIR   = __dirname+"/cache/"
+	config.CACHEDIR = __dirname+"/cache/"
 }
-if (!fs.existsSync(CDIR)) {
+if (!fs.existsSync(config.CACHEDIR)) {
 	// Create cache directory if not found
-	fs.mkdirSync(CDIR)
+	fs.mkdirSync(config.CACHEDIR)
 }
 
 // Create directories if needed.
+
+// Base log directory
+if (!config.LOGDIR.match(/^\//)) {
+	// If relative path given for CACHEDIR, prepend with __dirname.
+	config.LOGDIR   = __dirname+"/log/"
+}
+
 config = log.init(config)
 
 log.logc((new Date()).toISOString() + " - [tsdsfe] Listening on port "+config.PORT,10);
@@ -322,8 +350,8 @@ function handleRequest(req, res) {
 	var urlreduced = req.originalUrl.replace(/&use.*cache=(true|false)&*/,"")
 
 	var urlsig = crypto.createHash("md5").update(urlreduced).digest("hex")	
-	var cfile  = CDIR + urlsig + ".json"
-	var ifile  = CDIR + urlsig + "." + options.return
+	var cfile  = config.CACHEDIR + urlsig + ".json"
+	var ifile  = config.CACHEDIR + urlsig + "." + options.return
 
 	if ((options.format == "png") || (options.format == "pdf") || (options.format == "svg")) {
 		var isimagereq = true
@@ -466,7 +494,7 @@ function handleRequest(req, res) {
 
 							// Filename signature is based on input + transformation code.
 							var retsig  = crypto.createHash("md5").update(JSON.stringify(ret)+tsds2other.toString()).digest("hex");
-							var retfile = CDIR + retsig + ".xml";
+							var retfile = config.CACHEDIR + retsig + ".xml";
 
 							if (fs.existsSync(retfile)) {
 								if (debugcache) {
@@ -764,8 +792,8 @@ function handleRequest(req, res) {
 
 			if (data.length > 0) {
 				// Cache the JSON.
-				if (!fs.existsSync(CDIR)) {
-					fs.mkdirSync(CDIR);
+				if (!fs.existsSync(config.CACHEDIR)) {
+					fs.mkdirSync(config.CACHEDIR);
 				}
 				fs.writeFileSync(cfile,JSON.stringify(data));
 				if (debugcache)  {

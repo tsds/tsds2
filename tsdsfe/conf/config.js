@@ -17,7 +17,7 @@ exports.config = function config() {
 	// Location of Autoplot Servlet that creates preview plots
 	out["AUTOPLOT"] = "http://localhost:8001/AutoplotServlet/SimpleServlet";
 
-	out["VIVIZ"] = "http://localhost:8005/";
+	out["VIVIZ"] = "http://localhost:8002/";
 
 	// Autoplot script that creates preview plot
 	//out["JYDS"] = "http://localost:"+out["PORT"]+"/scripts/tsdsfe.jyds";

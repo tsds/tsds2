@@ -13,8 +13,8 @@ echo "---------"
 curl -v -D /tmp/tmp.header "$1"
 echo ""
 
-grep "x-tsdsfe-log" /tmp/tmp.header | perl -pe 's/.*: /cat ..\/log\/requests\//' | perl -pe 's/\r//' > /tmp/tmp.sh
-grep "x-tsdsfe-warning" /tmp/tmp.header | perl -pe 's/.*: /cat ..\/log\/requests\//' | perl -pe 's/\r//' >> /tmp/tmp.sh
+grep "x-tsdsfe-log" /tmp/tmp.header | perl -pe 's/.*: /cat .\/log\/responses\//' | perl -pe 's/\r//' > /tmp/tmp.sh
+grep "x-tsdsfe-warning" /tmp/tmp.header | perl -pe 's/.*: /cat .\/log\/responses\//' | perl -pe 's/\r//' >> /tmp/tmp.sh
 
 echo "----------------"
 echo -e "\033[1mResponse header:\033[0m"
@@ -25,8 +25,8 @@ echo -e "\033[1mTSDSFE Response file:\033[0m"
 echo "--------------"
 source /tmp/tmp.sh
 
-grep "x-datacache-log" /tmp/tmp.header | perl -pe 's/.*: /cat ~\/git\/datacache\/log\/requests\//' | perl -pe 's/\r//' > /tmp/tmp2.sh
-grep "x-datacache-warning" /tmp/tmp.header | perl -pe 's/.*: /cat ~\/git\/datacache\/requests\//' | perl -pe 's/\r//' >> /tmp/tmp2.sh
+grep "x-datacache-log" /tmp/tmp.header | perl -pe 's/.*: /cat ..\/..\/datacache\/log\/responses\//' | perl -pe 's/\r//' > /tmp/tmp2.sh
+grep "x-datacache-warning" /tmp/tmp.header | perl -pe 's/.*: /cat ..\/..\/datacache\/responses\//' | perl -pe 's/\r//' >> /tmp/tmp2.sh
 echo "--------------"
 echo -e "\033[1mDataCache Response file:\033[0m"
 echo "--------------"

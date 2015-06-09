@@ -36,6 +36,7 @@ install:
 	curl http://autoplot.org/hudson/job/autoplot-jar-servlet/lastSuccessfulBuild/artifact/autoplot/AutoplotServlet/dist/AutoplotServlet.war > deps/AutoplotServlet.war
 	cd deps; unzip ../pkgs/$(JETTY).zip
 	cd deps; mv AutoplotServlet.war $(JETTY)/webapps
+	ln -s deps/$(JETTY) deps/jetty
 
 clean:
 	rm -rf deps/*
