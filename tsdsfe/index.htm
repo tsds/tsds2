@@ -298,6 +298,9 @@
 					$('#imagediv').hide();
 					$('#imagediv #image').attr("src","");
 					$('#imagediv a').attr("src","");
+					$('#gallerydiv').hide();
+					$('#gallerydiv iframe').attr("src","");
+					$('#gallerydiv a').attr("src","");
 					$('#previewimgdiv').hide();
 					$('#overviewdiv').hide();
 				}
@@ -313,6 +316,9 @@
 					$('#imagediv').hide();
 					$('#imagediv #image').attr("src","");
 					$('#imagediv a').attr("src","");
+					$('#gallerydiv').hide();
+					$('#gallerydiv iframe').attr("src","");
+					$('#gallerydiv a').attr("src","");
 					$('#previewimgdiv').hide();
 					$('#overviewdiv').hide();
 				}
@@ -327,6 +333,9 @@
 					$('#imagediv').hide();
 					$('#imagediv #image').attr("src","");
 					$('#imagediv a').attr("src","");
+					$('#gallerydiv').hide();
+					$('#gallerydiv iframe').attr("src","");
+					$('#gallerydiv a').attr("src","");
 					$('#previewimgdiv').hide();
 					$('#overviewdiv').hide();
 				}
@@ -341,6 +350,9 @@
 					$('#imagediv').hide();
 					$('#imagediv #image').attr("src","");
 					$('#imagediv a').attr("src","");
+					$('#gallerydiv').hide();
+					$('#gallerydiv iframe').attr("src","");
+					$('#gallerydiv a').attr("src","");
 					$('#previewimgdiv').hide();
 					$('#overviewdiv').hide();
 				}
@@ -349,6 +361,9 @@
 					$('#imagediv').hide();
 					$('#imagediv #image').attr("src","");
 					$('#imagediv a').attr("src","");
+					$('#gallerydiv').hide();
+					$('#gallerydiv iframe').attr("src","");
+					$('#gallerydiv a').attr("src","");
 					$('#previewimgdiv').hide();
 					$('#overviewdiv').hide();
 				}
@@ -640,8 +655,8 @@
 				format.onselect = function () {
 					if (!selected("return").match("image")) {
 						$("#typeinfoimage").hide();
-						dorequest();
 						$("#"+selected("return")+"div").show();
+						dorequest();
 					} else {
 						$("#typeinfoimage").show();
 					}
@@ -704,7 +719,7 @@
 			function style(i) {
 				style.onselect = function () {
 					dorequest();
-					$("#"+selected("return")+"div").show();
+					//$("#"+selected("return")+"div").show();
 				}
 				style.show = function () {
 					if (selected("return") === "image") {
@@ -737,9 +752,17 @@
 				} else if (selected('return').match(/image/)) {
 					url = TSDSFE+url+"&return=image&format="+selected('format')+"&type="+selected('type')+"&style="+selected('style');
 					if (selected('format').match("viviz")) {
-						location.href = url;
-						return;
+						//location.href = url;
+						//window.open(url)
+						$("#gallerydiv").show();
+						$("#gallerydiv > div > a").attr("href",url);
+						$("#gallerydiv > div > a").attr("title",url);
+						$("#gallerydiv > iframe").contents().find("body").html('');
+						$("#gallerydiv > iframe").attr("src",url);
+						$("#imagediv").hide();
+						return
 					}
+
 					$("#imagediv").show();
 					$("#imagediv #imageloading").show()
 					//$("#imagediv > div > a").text(url);
@@ -753,12 +776,12 @@
 						var curr = $("#imagediv div a");
 						$("#imagediv #image").hide();
 						$("#imagediv div").html(curr);
-			                        if (selected('format').match(/pdf/)) {
-			                            $("#imagediv div a").html("Download PDF");
-			                        }
-			                        if (selected('format').match(/jnlp/)) {
-			                            $("#imagediv div a").html("Download JNLP");
-			                        }
+						if (selected('format').match(/pdf/)) {
+							$("#imagediv div a").html("Download PDF");
+						}
+						if (selected('format').match(/jnlp/)) {
+							$("#imagediv div a").html("Download JNLP");
+						}
 					}
 				} else if (selected('format') === 'debug')  {
 					url = url+"&out=asc"+"&stream=true&debug=true";
@@ -1003,6 +1026,10 @@
 			<div id="imagediv" style="background-color:white;width:100%;height:100%;display:none;">
 				<div><a target="_blank">Direct link</a>&nbsp;&nbsp;<img id="imageloading" style="height:.7em;" src="css/ajax-loader.gif"/></div>
 				<img id="image"></img>
+			</div>
+			<div id="gallerydiv" style="height:100%;display:none;background-color:white;align:left">
+				<div><a target="_blank">Direct link</a></div>
+				<iframe style="width:95%;height:600px;"></iframe>
 			</div>
 			<div id="datadiv" style="display:none;background-color:white;align:left">
 					<div><a target="_blank">Direct link</a></div>
