@@ -22,8 +22,11 @@
 
 JETTY=jetty-distribution-8.1.16.v20140903
 
+#JAVA_OPTIONS="-DAUTOPLOT_HOME=/tmp -Xmx512m -XX:+CMSClassUnloadingEnabled -XX:MaxPermSize=128m"
+
+# AUTOPLOT_HOME part not working
 start:
-	cd deps/$(JETTY); JETTY_PORT=8001 bash bin/jetty.sh -d start;
+	cd deps/$(JETTY); JAVA_OPTIONS=-DAUTOPLOT_DATA=/tmp JETTY_PORT=8001 bash bin/jetty.sh -d start;
 
 stop:
 	cd deps/$(JETTY); JETTY_PORT=8001 bash bin/jetty.sh -d stop; 
