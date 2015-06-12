@@ -10,7 +10,7 @@
 # make all
 # make showbug
 #
-# To test performance of nailgun[jetty] for different numbers of servers/
+# To test performance of nailgun [jetty] for different numbers of servers/
 # number of near-simultaneous requests, execute
 # make prep
 # make startnailgun [startjetty]
@@ -20,13 +20,15 @@
 # For most recent Nailgun (0.9), download from source.
 # git clone https://github.com/martylamb/nailgun.git
 
+# curl "https://raw.githubusercontent.com/bahamas10/css-color-names/master/css-color-names.json" > ../tsdsfe/js/css-color-names.json
+
 JETTY=jetty-distribution-8.1.16.v20140903
 
-#JAVA_OPTIONS="-DAUTOPLOT_HOME=/tmp -Xmx512m -XX:+CMSClassUnloadingEnabled -XX:MaxPermSize=128m"
+#JAVA_OPTIONS="-DAUTOPLOT_DATA=/tmp -Xmx512m -XX:+CMSClassUnloadingEnabled -XX:MaxPermSize=128m"
 
-# AUTOPLOT_HOME part not working
+# AUTOPLOT_DATA part not working
 start:
-	cd deps/$(JETTY); JAVA_OPTIONS=-DAUTOPLOT_DATA=/tmp JETTY_PORT=8001 bash bin/jetty.sh -d start;
+	cd deps/$(JETTY); JAVA_OPTIONS=-DAUTOPLOT_DATA=/tmp/tmp2 JETTY_PORT=8001 bash bin/jetty.sh -d start;
 
 stop:
 	cd deps/$(JETTY); JETTY_PORT=8001 bash bin/jetty.sh -d stop; 
@@ -40,6 +42,7 @@ install:
 	cd deps; unzip ../pkgs/$(JETTY).zip
 	cd deps; mv AutoplotServlet.war $(JETTY)/webapps
 	ln -s deps/$(JETTY) deps/jetty
+	npm install
 
 clean:
 	rm -rf deps/*
@@ -71,8 +74,6 @@ startjetty:
 
 startnailgun:
 	node test.js --Nservers=10 --method=launchnailgun &
-
-#curl "https://raw.githubusercontent.com/bahamas10/css-color-names/master/css-color-names.json" > ../tsdsfe/js/css-color-names.json
 
 prep:
 	mkdir -p deps;
