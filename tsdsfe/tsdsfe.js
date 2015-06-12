@@ -37,6 +37,7 @@ var port          = s2i(process.argv[2] || "8000")
 var debugapp      = s2b(process.argv[3] || "false")
 var debugcache    = s2b(process.argv[4] || "false")
 var debugstream   = s2b(process.argv[5] || "false")
+var depscheck     = s2b(process.argv[6] || "true")
 
 process.on('uncaughtException', function(err) {
 	if (err.errno === 'EADDRINUSE') {
@@ -192,8 +193,10 @@ config = log.init(config)
 
 log.logc((new Date()).toISOString() + " - [tsdsfe] Listening on port "+config.PORT,10)
 
-//checkdeps(true)
-//setInterval(checkdeps, config.DEPCHECKPERIOD)
+if (depscheck) {
+	checkdeps(true)
+	setInterval(checkdeps, config.DEPCHECKPERIOD)
+}
 
 // Check and report on state of dependencies
 function checkdeps(startup) {
@@ -240,7 +243,8 @@ function checkdeps(startup) {
 
 			if (depsres.statusCode != "200") {
 				if (status["AUTOPLOT"]["state"]) {
-					log.logc("Problem with "+config.AUTOPLOT,160)
+					log.logc(" - [tsdsfe] Problem with "+config.AUTOPLOT,160)
+					console.log(depsbody)
 				}
 				status["AUTOPLOT"]["state"] = false;
 			} else {
