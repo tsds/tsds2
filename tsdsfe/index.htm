@@ -239,33 +239,6 @@
 
 				return $.parseJSON(xret);				
 			}
-
-			function getdas(attr) {
-
-				// Get parameter metadata.				
-				turl = "?catalog="+selected('catalog')+"&dataset="+selected('dataset')+"&parameters="+selected('parameters');
-				console.log("getdas(): Requesting " + turl);
-				
-				$.ajax({
-					type: "GET",
-					url: turl,
-					async: false,
-					dataType: "text",
-					success: function (data,textStatus, jqXHR) {
-						ret = data;
-					},
-					error: function (xhr, textStatus, errorThrown) {
-						$('#status').text('getdas(): Failed to get attribute information.');
-					}
-				});
-				try {
-					eval("ret = " + ret);
-				} catch (err) {
-					console.log("getdas(): Something went wrong with request.");
-					ret = "";
-				}
-				return ret;				
-			}
 						
 			function selected(name) {
 				// Determine the value selected.
@@ -493,7 +466,6 @@
 					$('#datadiv').hide();
 				};
 
-				// Already have this info from getdas().
 				info = tsdsfeajax(i,"?catalog="+selected('catalog')+"&dataset="+selected('dataset')+"&parameters="+selected('parameters'));
 				var list = [];
 
@@ -589,7 +561,7 @@
 
 					$('#datadiv').hide();
 					$('#imagediv').hide();					
-					var das = getdas();
+					var das = tsdsfeajax(i,"?catalog="+selected('catalog')+"&dataset="+selected('dataset')+"&parameters="+selected('parameters'));
 
 					$('#parameterinfo').html("<b>Parameter information:</b>")
 					$('#parameterinfo').show();					
@@ -840,9 +812,7 @@
 					var Ndays      = Math.round((STOP_ms-START_ms)/(1000*24*60*60));
 
 					$('#status').text('Requesting parameter metadata.');
-					das = getdas();
-					console.log("das");
-					console.log(das);
+					var das = tsdsfeajax(i,"?catalog="+selected('catalog')+"&dataset="+selected('dataset')+"&parameters="+selected('parameters'));
 					
 					Units = new Array();
 					Fills = new Array();
