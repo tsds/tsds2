@@ -28,24 +28,28 @@ JETTY=jetty-distribution-8.1.16.v20140903
 
 # AUTOPLOT_DATA part not working
 start:
-	cd deps/$(JETTY); JAVA_OPTIONS=-DAUTOPLOT_DATA=../../autoplot_data JETTY_PORT=8001 bash bin/jetty.sh -d start;
+	cd deps/jetty; JAVA_OPTIONS=-DAUTOPLOT_DATA=../../autoplot_data JETTY_PORT=8001 bash bin/jetty.sh -d start;
 
 stop:
-	cd deps/$(JETTY); JETTY_PORT=8001 bash bin/jetty.sh -d stop; 
+	cd deps/jetty; JETTY_PORT=8001 bash bin/jetty.sh -d stop; 
+
+test:
+	curl "http://localhost:8001/AutoplotServlet/SimpleServlet?url=vap+inline:rand(300)"
 
 install:
 	mkdir -p autoplot_data/server
-	cp deps/whitelist.txt autoplot_data/server
+	#cp deps/whitelist.txt autoplot_data/server
 	mkdir -p deps;
-	javac ListFonts.java
-	java ListFonts > ../tsdsfe/js/autoplotserverfonts.json
-	curl http://autoplot.org/jnlp/latest/autoplot.jar > deps/autoplot.jar
+	#javac ListFonts.java
+	#java ListFonts > ../tsdsfe/js/autoplotserverfonts.json
+	#curl http://autoplot.org/jnlp/latest/autoplot.jar > deps/autoplot.jar
 	curl http://autoplot.org/hudson/job/autoplot-jar-servlet/lastSuccessfulBuild/artifact/autoplot/AutoplotServlet/dist/AutoplotServlet.war > deps/AutoplotServlet.war
-	cd deps; unzip -o ../pkgs/$(JETTY).zip
+	cd deps; unzip -q -o ../pkgs/$(JETTY).zip
 	cd deps; mv AutoplotServlet.war $(JETTY)/webapps
-	- ln -s deps/$(JETTY) deps/jetty
+	cd deps; rm -f jetty; ln -s $(JETTY) jetty
 
 clean:
+	rm -f *.class
 	rm -rf deps/*
 	rm -rf node_modules
 
