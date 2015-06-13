@@ -24,25 +24,26 @@
 
 JETTY=jetty-distribution-8.1.16.v20140903
 
-#JAVA_OPTIONS="-DAUTOPLOT_DATA=/tmp -Xmx512m -XX:+CMSClassUnloadingEnabled -XX:MaxPermSize=128m"
+#JAVA_OPTIONS="-DAUTOPLOT_DATA=autoplot_data -Xmx512m -XX:+CMSClassUnloadingEnabled -XX:MaxPermSize=128m"
 
 # AUTOPLOT_DATA part not working
 start:
-	cd deps/$(JETTY); JAVA_OPTIONS=-DAUTOPLOT_DATA=/tmp/tmp2 JETTY_PORT=8001 bash bin/jetty.sh -d start;
+	cd deps/$(JETTY); JAVA_OPTIONS=-DAUTOPLOT_DATA=../../autoplot_data JETTY_PORT=8001 bash bin/jetty.sh -d start;
 
 stop:
 	cd deps/$(JETTY); JETTY_PORT=8001 bash bin/jetty.sh -d stop; 
 
 install:
+	mkdir -p autoplot_data/server
+	cp deps/whitelist.txt autoplot_data/server
 	mkdir -p deps;
 	javac ListFonts.java
 	java ListFonts > ../tsdsfe/js/autoplotserverfonts.json
 	curl http://autoplot.org/jnlp/latest/autoplot.jar > deps/autoplot.jar
 	curl http://autoplot.org/hudson/job/autoplot-jar-servlet/lastSuccessfulBuild/artifact/autoplot/AutoplotServlet/dist/AutoplotServlet.war > deps/AutoplotServlet.war
-	cd deps; unzip ../pkgs/$(JETTY).zip
+	cd deps; unzip -o ../pkgs/$(JETTY).zip
 	cd deps; mv AutoplotServlet.war $(JETTY)/webapps
-	ln -s deps/$(JETTY) deps/jetty
-	npm install
+	- ln -s deps/$(JETTY) deps/jetty
 
 clean:
 	rm -rf deps/*

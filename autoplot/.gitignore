@@ -1,3 +1,4 @@
 *.class
 deps/
 node_modules/
+autoplot_data/
