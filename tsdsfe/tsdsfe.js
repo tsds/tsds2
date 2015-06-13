@@ -49,10 +49,15 @@ process.on('uncaughtException', function(err) {
 })
 
 process.on('exit', function () {
-	console.log('[tsdsfe] - Received exit signal.  Removing partially written files.')
+
+	console.log('[tsdsfe] - Received exit signal.  [NOT IMPLEMENTED] Removing partially written files.')
 	// TODO: 
 	// Remove partially written files by inspecting cache/locks/*.writing
 	// Remove streaming locks by inspecting cache/locks/*.streaming
+
+	console.log('[tsdsfe] - Stopping datacache server.')
+	startdeps.datacache.kill('SIGINT')
+	
 	console.log('[tsdsfe] - Done.  Exiting.')
 })
 process.on('SIGINT', function () {
@@ -194,8 +199,55 @@ config = log.init(config)
 log.logc((new Date()).toISOString() + " - [tsdsfe] Listening on port "+config.PORT,10)
 
 if (depscheck) {
-	checkdeps(true)
 	setInterval(checkdeps, config.DEPCHECKPERIOD)
+}
+
+startdeps('datacache')
+startdeps('viviz')
+
+function startdeps(dep) {
+
+	var spawn = require('child_process').spawn
+
+	if (dep === 'datacache') {
+		if (fs.existsSync("../../datacache/")) {
+			options = {"cwd": "../../datacache/"}
+		} else {
+			options = {"cwd": "./node_modules/datacache/"}
+		}
+	
+		startdeps.datacache = spawn('node', ['app.js', config.DATACACHE.replace(/\D/g,''), '--debugall=true'],options)
+		
+		startdeps.datacache.stdout.on('data', function (data) {
+		  process.stdout.write(data);
+		})
+		startdeps.datacache.stderr.on('data', function (data) {
+			pconsole.log('error: ' + data);
+		})
+		startdeps.datacache.on('close', function (code) {
+			console.log('process exited with code: ' + code);
+		})	
+	}
+	if (dep === 'viviz') {
+		if (fs.existsSync("../../viviz/")) {
+			options = {"cwd": "../../viviz/"}
+		} else {
+			options = {"cwd": "./node_modules/viviz/"}
+		}
+	
+		startdeps.viviz = spawn('node', ['viviz.js', config.VIVIZ.replace(/\D/g,'')],options)
+		
+		startdeps.viviz.stdout.on('data', function (data) {
+		  process.stdout.write(data);
+		})
+		startdeps.viviz.stderr.on('data', function (data) {
+			pconsole.log('error: ' + data);
+		})
+		startdeps.viviz.on('close', function (code) {
+			console.log('process exited with code: ' + code);
+		})	
+	}
+
 }
 
 // Check and report on state of dependencies
@@ -223,6 +275,32 @@ function checkdeps(startup) {
 			}
 		});
 
+	var teststr = "demo/file1.txt&forceUpdate=true&forceWrite=true&debugall=false"
+		request(config.DATACACHE + "?source=" + config.DATACACHE.replace("/sync","") + teststr, 
+			function (err,depsres,depsbody) {
+				if (err) {
+					if (startup || status["DATACACHE"]["state"]) {
+						log.logc((new Date()).toISOString() + " - [tsdsfe] Error when testing DataCache: "+config.DATACACHE,160)
+					}
+					status["DATACACHE"]["state"] = false
+					log.logc((new Date()).toISOString() + " - [tsdsfe] Starting DataCache: "+config.DATACACHE,10)
+					return
+				}
+				if (depsres.statusCode != "200") {
+					if (status["DATACACHE"]["state"]) {
+						log.logc((new Date()).toISOString() + " - [tsdsfe] Problem with DataCache: "+config.DATACACHE, 160)
+					}
+					status["DATACACHE"]["state"] = false
+				} else {
+					if (!status["DATACACHE"]["state"]) {
+						log.logc((new Date()).toISOString() + " - [tsdsfe] Problem resolved with DataCache: "+config.DATACACHE, 10)
+					}
+					status["DATACACHE"]["state"] = true
+				}
+			});
+
+	return
+	
 	request(config.AUTOPLOT + "?url=vap+inline:randn(100)", 
 		function (err,depsres,depsbody) {
 			if (err) {
@@ -243,7 +321,7 @@ function checkdeps(startup) {
 
 			if (depsres.statusCode != "200") {
 				if (status["AUTOPLOT"]["state"]) {
-					log.logc(" - [tsdsfe] Problem with "+config.AUTOPLOT,160)
+					log.logc((new Date()).toISOString() + " - [tsdsfe] Problem with "+config.AUTOPLOT,160)
 					console.log(depsbody)
 				}
 				status["AUTOPLOT"]["state"] = false;
@@ -254,29 +332,6 @@ function checkdeps(startup) {
 				status["AUTOPLOT"]["state"] = true;
 			}
 		})
-
-	var teststr = "demo/file1.txt&forceUpdate=true&forceWrite=true"
-	request(config.DATACACHE + "?source=" + config.DATACACHE.replace("/sync","") + teststr, 
-		function (err,depsres,depsbody) {
-			if (err) {
-				if (startup || status["DATACACHE"]["state"]) {
-					log.logc((new Date()).toISOString() + " - [tsdsfe] Error when testing DataCache: "+config.DATACACHE,160)
-				}
-				status["DATACACHE"]["state"] = false
-				return
-			}
-			if (depsres.statusCode != "200") {
-				if (status["DATACACHE"]["state"]) {
-					log.logc((new Date()).toISOString() + " - [tsdsfe] Problem with DataCache: "+config.DATACACHE, 160)
-				}
-				status["DATACACHE"]["state"] = false
-			} else {
-				if (!status["DATACACHE"]["state"]) {
-					log.logc((new Date()).toISOString() + " - [tsdsfe] Problem resolved with DataCache: "+config.DATACACHE, 10)
-				}
-				status["DATACACHE"]["state"] = true
-			}
-		});
 
 }
 
@@ -306,7 +361,8 @@ function handleRequest(req, res) {
 		log.logres("req.originalUrl = " + JSON.stringify(req.originalUrl), res)
 		log.logres("options = " + JSON.stringify(options), res)
 	}
-
+	var addr = req.headers['x-forwarded-for'] || req.connection.remoteAddress
+	console.log((new Date()).toISOString() + " - [tsdsfe] Request from " + addr + ": " + req.originalUrl)
 	var options = parseOptions(req, res)
 	
 	if (typeof(options) === "undefined") {
