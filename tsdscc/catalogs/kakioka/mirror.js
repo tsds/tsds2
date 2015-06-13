@@ -7,8 +7,8 @@ var fs      = require( 'fs' );
 
 //var zlib    = require('zlib');
 
-var expandISO8601Duration = require(__dirname + "/../../../tsdset/lib/expandtemplate").expandISO8601Duration;
-var expandtemplate = require(__dirname + "/../../../tsdset/lib/expandtemplate").expandtemplate;
+var expandISO8601Duration = require(__dirname + "/node_modules/tsdset/lib/expandtemplate").expandISO8601Duration;
+var expandtemplate = require(__dirname + "/node_modules/tsdset/lib/expandtemplate").expandtemplate;
 
 options = {};
 options.template = "$Y-$m-$d";
@@ -143,14 +143,21 @@ function login2(body,Cookie) {
 					console.log("POST 2: Requesting file creation.");
 					console.log(options);
 			        request.post(options, function (err,res,body) {
-			        	if (err) console.log(err)
-			        		console.log(res.headers);
-			        		console.log(res.body);
+			        	if (err || res.headers.status != '200') {
+					    console.log("__________________________________________________________________")
+					    if (err) {console.log("Error:");console.log(err)}
+					    console.log("Headers:")
+			        	    console.log(res.headers)
+					    console.log("Body:")
+					    console.log(res.body)
+					    console.log("__________________________________________________________________")
+					}
 
+					
 			    			Cookie = res.headers["set-cookie"][0];
-							console.log(Cookie)
-							//console.log(body);
-							//console.log(res);
+						console.log(Cookie)
+						    //console.log(body);
+						    //console.log(res);
 							
 			        		var form = 
 			        					{
