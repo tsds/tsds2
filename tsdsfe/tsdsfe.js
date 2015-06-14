@@ -1,4 +1,3 @@
-// Dependencies
 var fs      = require('fs');
 var os      = require("os");
 var request = require("request");
@@ -11,33 +10,59 @@ var http    = require('http');
 var url     = require('url');
 var util    = require('util');
 var crypto  = require("crypto");
+var argv    = require('yargs')
+					.default({
+						'port': 8000,
+						'debugall': false,
+						'debugapp': false,
+						'debugcache': false,
+						'debugstream': false,
+						'depscheck': true,
+						'serverscheck': true
+					})
+					.argv
+
+if (argv.debugall) {
+	argv.debugapp = true;
+	argv.debugcache = true;
+	argv.debugstream = true;
+}
+
+var port          = argv.port
+var debugapp      = argv.debugapp
+var debugcache    = argv.debugcache
+var debugstream   = argv.debugstream
+var depscheck     = argv.depscheck
+var serverscheck  = argv.serverscheck
+
+if (argv.help || argv.h) {
+	console.log("Usage: node app.js [--port=number --debug{all,app,util,stream,plugin,template,scheduler,lineformatter}=true.]")
+	return
+}
 
 if (fs.existsSync("../../datacache/log.js")) {
 	// Development
+	var develdatacache = true;
 	var log = require("../../datacache/log.js")
 } else {
 	// Production
+	var develdatacache = false;
 	var log = require("./node_modules/datacache/log.js")
 }
 
 if (fs.existsSync("../../tsdset/lib/expandtemplate.js")) {
+	var develtsdset = true;
 	// Development
 	var expandISO8601Duration = require("../../tsdset/lib/expandtemplate.js").expandISO8601Duration
 } else {
 	// Production
+	var develtsdset = false;
 	var expandISO8601Duration = require("./node_modules/tsdset/lib/expandtemplate").expandISO8601Duration
 }
 
 // Helper functions
 function s2b(str) {if (str === "true") {return true} else {return false}}
 function s2i(str) {return parseInt(str)}
-
-// Command line arguments
-var port          = s2i(process.argv[2] || "8000")
-var debugapp      = s2b(process.argv[3] || "false")
-var debugcache    = s2b(process.argv[4] || "false")
-var debugstream   = s2b(process.argv[5] || "false")
-var depscheck     = s2b(process.argv[6] || "true")
 
 process.on('uncaughtException', function(err) {
 	if (err.errno === 'EADDRINUSE') {
@@ -50,13 +75,17 @@ process.on('uncaughtException', function(err) {
 
 process.on('exit', function () {
 
-	console.log('[tsdsfe] - Received exit signal.  [NOT IMPLEMENTED] Removing partially written files.')
+	console.log('[tsdsfe] - Received exit signal.')
+	log.logc('[tsdsfe] - (NOT IMPLEMENTED) Removing partially written files.',160)
 	// TODO: 
 	// Remove partially written files by inspecting cache/locks/*.writing
 	// Remove streaming locks by inspecting cache/locks/*.streaming
 
 	console.log('[tsdsfe] - Stopping datacache server.')
 	startdeps.datacache.kill('SIGINT')
+
+	console.log('[tsdsfe] - Stopping viviz server.')
+	startdeps.viviz.kill('SIGINT')
 	
 	console.log('[tsdsfe] - Done.  Exiting.')
 })
@@ -99,29 +128,21 @@ app.use("/log", express.directory(__dirname + "/log"))
 // Compress response (depending on request headers).
 app.use(express.compress())
 
-status = {};
-status["VIVIZ"] = {}
-status["VIVIZ"]["state"] = true;
-status["VIVIZ"]["message"] = "Connection to ViViz server has failed.  Requests for galleries will fail.  Removing option to view images as a gallery.  A notice of this failure was sent to the site administrator.";                                                                      
-
-status["DATACACHE"] = {}
-status["DATACACHE"]["state"] = true;
-status["DATACACHE"]["message"] = "Connection to DataCache server has failed.  Requests for metadata will continue to work, but requests for data and images will fail.  A notice of this failure was sent to the site administrator.";                                                                      
-
-status["AUTOPLOT"] = {}
-status["AUTOPLOT"]["state"] = true;
-status["AUTOPLOT"]["message"] = "Connection to Autoplot image server has failed.  Removing option to view images.  A notice of this failure was sent to the site administrator.";
-
 // Get the status of services used by TSDSFE.
 app.get('/status', function (req, res) {
-	res.send(JSON.stringify(status))
+	var c = {};
+	c.deps = checkdeps.status
+	c.servers = checkservers.status
+	res.send(JSON.stringify(c))
 })
 
 // Test a request using curl-test.sh, which displays log information associated with request from DataCache and TSDSFE.
 app.get('/test', function (req, res) {
-	var com = __dirname + '/test/curl-test.sh "' + req.protocol + '://' + req.host + ":" + port + req.originalUrl.replace("test","") + '"'
+	var com = __dirname + '/test/curl-test.sh "' + config.TSDSFE + req.originalUrl.replace("/test/","") + '"'
 	var child = require('child_process').exec(com)
-	console.log(com)
+	var addr = req.headers['x-forwarded-for'] || req.connection.remoteAddress
+	console.log((new Date()).toISOString() + " - [tsdsfe] Request from " + addr + ": " + req.originalUrl)
+	console.log((new Date()).toISOString() + " - [tsdsfe] Evaluating " + com.replace(__dirname,""))
 	child.stdout.on('data', function (buffer) {
 		// [1m and [0m are open and close bold tags for shell.
 		if (req.headers['user-agent'].match("curl")) {
@@ -144,6 +165,8 @@ app.get('/', function (req, res) {
 		res.send(fs.readFileSync(__dirname+"/index.htm"))
 	} else {
 		// Call main entry function
+		var addr = req.headers['x-forwarded-for'] || req.connection.remoteAddress
+		console.log((new Date()).toISOString() + " - [tsdsfe] Request from " + addr + ": " + req.originalUrl)
 		handleRequest(req,res)
 	}
 })
@@ -195,11 +218,27 @@ if (!config.LOGDIR.match(/^\//)) {
 }
 
 config = log.init(config)
-
-log.logc((new Date()).toISOString() + " - [tsdsfe] Listening on port "+config.PORT,10)
+var msg = "";
+if (develdatacache || develtsdset) {
+	var msg = "; Using devel version of:"
+}
+if (develdatacache) {
+	msg = msg + " datacache"
+}
+if (develtsdset) {
+	msg = msg + " tsdset"
+}
+log.logc((new Date()).toISOString() + " - [tsdsfe] Listening on port "+config.PORT + msg, 0)
 
 if (depscheck) {
 	setInterval(checkdeps, config.DEPCHECKPERIOD)
+}
+
+if (serverscheck) {
+	// Check servers 5 seconds after start-up
+	setTimeout(checkservers, 5000)
+	// Check servers every 60 seconds
+	setInterval(checkservers, 60000)
 }
 
 startdeps('datacache')
@@ -216,18 +255,20 @@ function startdeps(dep) {
 			options = {"cwd": "./node_modules/datacache/"}
 		}
 	
+		//child1 = spawn('ulimit', ['-n', '1024']);
 		startdeps.datacache = spawn('node', ['app.js', config.DATACACHE.replace(/\D/g,''), '--debugall=true'],options)
 		
 		startdeps.datacache.stdout.on('data', function (data) {
 		  process.stdout.write(data);
 		})
 		startdeps.datacache.stderr.on('data', function (data) {
-			pconsole.log('error: ' + data);
+			console.log((new Date()).toISOString() + " - [datacache] Error: " + data);
 		})
 		startdeps.datacache.on('close', function (code) {
-			console.log('process exited with code: ' + code);
+			console.log((new Date()).toISOString() + " - [datacache] Exited with code: " + code);
 		})	
 	}
+
 	if (dep === 'viviz') {
 		if (fs.existsSync("../../viviz/")) {
 			options = {"cwd": "../../viviz/"}
@@ -241,73 +282,124 @@ function startdeps(dep) {
 		  process.stdout.write(data);
 		})
 		startdeps.viviz.stderr.on('data', function (data) {
-			pconsole.log('error: ' + data);
+			console.log((new Date()).toISOString() + " - [viviz] Error: " + data);
 		})
 		startdeps.viviz.on('close', function (code) {
-			console.log('process exited with code: ' + code);
+			console.log((new Date()).toISOString() + " - [viviz] Exited with code: " + code);
 		})	
 	}
+
+}
+
+function checkservers() {
+
+	if (!checkservers.status) {
+		checkservers.status = {};
+		checkservers.status["SSCWeb"] = {}
+		if (!checkservers.status["SSCWeb"]["state"]) checkservers.status["SSCWeb"]["state"] = true
+		checkservers.status["SSCWeb"]["message"] = "Connection to SSCWeb server has failed.";
+		checkservers.status["SSCWeb"]["checkperiod"] = 60000;
+	}
+
+	checkservers.status["SSCWeb"]["lastcheck"] = (new Date).getTime();
+
+	request(config.TSDSFE + "?catalog=SSCWeb&dataset=ace&parameters=X_TOD&start=-P3D&stop=2014-08-17&return=data&usedatacache=false",
+		function (err,depsres,depsbody) {
+
+			if (err) {
+				if (startup || checkservers.status["SSCWeb"]["state"]) {
+					log.logc((new Date()).toISOString() + " - [tsdsfe] Error when testing SSCWeb:\n  "+err,160)
+				}
+				checkservers.status["SSCWeb"]["state"] = false;
+				return
+			}
+			if (depsres.statusCode != "200" || depsbody.length != 11880) {
+				
+				if (checkservers.status["SSCWeb"]["state"]) {
+					log.logc((new Date()).toISOString() + " - [tsdsfe] Problem with SSCWeb.",160)
+				}
+				checkservers.status["SSCWeb"]["state"] = false;
+			} else {
+				if (!checkservers.status["SSCWeb"]["state"]) {
+					log.logc((new Date()).toISOString() + " - [tsdsfe] Problem resolved with SSCWeb.",10)
+				}
+				checkservers.status["SSCWeb"]["state"] = true;
+			}
+		})
 
 }
 
 // Check and report on state of dependencies
 function checkdeps(startup) {
 
+	if (!checkdeps.status) {
+		checkdeps.status = {};
+		checkdeps.status["VIVIZ"] = {}
+		checkdeps.status["VIVIZ"]["state"] = true
+		checkdeps.status["VIVIZ"]["message"] = "Connection to ViViz server has failed.  Requests for galleries will fail.  Removing option to view images as a gallery.  A notice of this failure was sent to the site administrator.";
+
+		checkdeps.status["DATACACHE"] = {}
+		checkdeps.status["DATACACHE"]["state"] = true
+		checkdeps.status["DATACACHE"]["message"] = "Connection to DataCache server has failed.  Requests for metadata will continue to work, but requests for data and images will fail.  A notice of this failure was sent to the site administrator.";
+
+		checkdeps.status["AUTOPLOT"] = {}
+		checkdeps.status["AUTOPLOT"]["state"] = true
+		checkdeps.status["AUTOPLOT"]["message"] = "Connection to Autoplot image server has failed.  Removing option to view images.  A notice of this failure was sent to the site administrator.";
+	}
+
 	request(config.VIVIZ,
 		function (err,depsres,depsbody) {
 			if (err) {
-				if (startup || status["VIVIZ"]["state"]) {
-					log.logc((new Date()).toISOString() + " - [tsdsfe] Error when testing ViViz: "+config.VIVIZ,160)
+				if (startup || checkdeps.status["VIVIZ"]["state"]) {
+					log.logc((new Date()).toISOString() + " - [tsdsfe] Error when testing ViViz: "+config.VIVIZ+"\n  "+err,160)
 				}
-				status["VIVIZ"]["state"] = false;
+				checkdeps.status["VIVIZ"]["state"] = false;
 				return
 			}
 			if (depsres.statusCode != "200") {
-				if (status["VIVIZ"]["state"]) {
+				if (checkdeps.status["VIVIZ"]["state"]) {
 					log.logc((new Date()).toISOString() + " - [tsdsfe] Problem with ViViz: "+config.VIVIZ,160)
 				}
-				status["VIVIZ"]["state"] = false;
+				checkdeps.status["VIVIZ"]["state"] = false;
 			} else {
-				if (!status["VIVIZ"]["state"]) {
+				if (!checkdeps.status["VIVIZ"]["state"]) {
 					log.logc((new Date()).toISOString() + " - [tsdsfe] Problem resolved with ViViz: "+config.VIVIZ,10)
 				}
-				status["VIVIZ"]["state"] = true;
+				checkdeps.status["VIVIZ"]["state"] = true;
 			}
-		});
+		})
 
 	var teststr = "demo/file1.txt&forceUpdate=true&forceWrite=true&debugall=false"
 		request(config.DATACACHE + "?source=" + config.DATACACHE.replace("/sync","") + teststr, 
 			function (err,depsres,depsbody) {
 				if (err) {
-					if (startup || status["DATACACHE"]["state"]) {
-						log.logc((new Date()).toISOString() + " - [tsdsfe] Error when testing DataCache: "+config.DATACACHE,160)
+					if (startup || checkdeps.status["DATACACHE"]["state"]) {
+						log.logc((new Date()).toISOString() + " - [tsdsfe] Error when testing DataCache: "+config.DATACACHE+"\n  "+err,160)
 					}
-					status["DATACACHE"]["state"] = false
+					checkdeps.status["DATACACHE"]["state"] = false
 					log.logc((new Date()).toISOString() + " - [tsdsfe] Starting DataCache: "+config.DATACACHE,10)
 					return
 				}
 				if (depsres.statusCode != "200") {
-					if (status["DATACACHE"]["state"]) {
-						log.logc((new Date()).toISOString() + " - [tsdsfe] Problem with DataCache: "+config.DATACACHE, 160)
+					if (checkdeps.status["DATACACHE"]["state"]) {
+						log.logc((new Date()).toISOString() + " - [tsdsfe] Problem with DataCache: "+config.DATACACHE+"\n  "+err, 160)
 					}
-					status["DATACACHE"]["state"] = false
+					checkdeps.status["DATACACHE"]["state"] = false
 				} else {
-					if (!status["DATACACHE"]["state"]) {
+					if (!checkdeps.status["DATACACHE"]["state"]) {
 						log.logc((new Date()).toISOString() + " - [tsdsfe] Problem resolved with DataCache: "+config.DATACACHE, 10)
 					}
-					status["DATACACHE"]["state"] = true
+					checkdeps.status["DATACACHE"]["state"] = true
 				}
-			});
+			})
 
-	return
-	
-	request(config.AUTOPLOT + "?url=vap+inline:randn(100)", 
+	request(config.AUTOPLOT + "?url=vap%2Binline:randn(100)", 
 		function (err,depsres,depsbody) {
 			if (err) {
-				if (startup || status["AUTOPLOT"]["state"]) {
-					log.logc((new Date()).toISOString() + " - [tsdsfe] Error when testing Autoplot: "+config.AUTOPLOT,160)
+				if (startup || checkdeps.status["AUTOPLOT"]["state"]) {
+					log.logc((new Date()).toISOString() + " - [tsdsfe] Error when testing Autoplot: "+config.AUTOPLOT+"\n  "+err,160)
 				}
-				status["AUTOPLOT"]["state"] = false
+				checkdeps.status["AUTOPLOT"]["state"] = false
 				return
 			}
 
@@ -322,14 +414,19 @@ function checkdeps(startup) {
 			if (depsres.statusCode != "200") {
 				if (status["AUTOPLOT"]["state"]) {
 					log.logc((new Date()).toISOString() + " - [tsdsfe] Problem with "+config.AUTOPLOT,160)
-					console.log(depsbody)
+					var depsbodyv = depsbody.split("\n");
+					for (var i = 1; i < depsbodyv.length; i++) {
+						if (depsbodyv[i].match(/Error|org\.virbo/)) {
+							log.logc(" " + depsbodyv[i].replace(/<[^>]*>/g,"").replace("Server Error",""), 160)
+						}
+					}
 				}
-				status["AUTOPLOT"]["state"] = false;
+				checkdeps.status["AUTOPLOT"]["state"] = false;
 			} else {
-				if (!status["AUTOPLOT"]["state"]) {
+				if (!checkdeps.status["AUTOPLOT"]["state"]) {
 					log.logc((new Date()).toISOString() + " - [tsdsfe] Problem resolved with Autoplot: "+config.AUTOPLOT,10)
 				}
-				status["AUTOPLOT"]["state"] = true;
+				checkdeps.status["AUTOPLOT"]["state"] = true;
 			}
 		})
 
@@ -361,8 +458,7 @@ function handleRequest(req, res) {
 		log.logres("req.originalUrl = " + JSON.stringify(req.originalUrl), res)
 		log.logres("options = " + JSON.stringify(options), res)
 	}
-	var addr = req.headers['x-forwarded-for'] || req.connection.remoteAddress
-	console.log((new Date()).toISOString() + " - [tsdsfe] Request from " + addr + ": " + req.originalUrl)
+
 	var options = parseOptions(req, res)
 	
 	if (typeof(options) === "undefined") {

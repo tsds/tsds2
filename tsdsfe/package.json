@@ -9,6 +9,7 @@
 		"minimist": "*",
 		"cli-color": "*",
 		"mkdirp": "*",
+		"yargs": "*",
 		"tsdset": "https://github.com/rweigel/tsdset/tarball/master",
 		"treeify": "https://github.com/rweigel/treeify/tarball/master",
 		"datacache": "https://github.com/rweigel/datacache/tarball/master",

@@ -1,1 +1,1 @@
-../../tsdset/lib/expandtemplate.js
+../node_modules/tsdset/lib/expandtemplate.js

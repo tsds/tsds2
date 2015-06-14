@@ -23,11 +23,15 @@
 			TSDSFE   = location.href.split("#")[0]; // Get domain name of server.
 
 			$(function() {
+				checkstatus();
 				main();
 				setInterval(checkstatus,1000);
 			})
 
-			function checkstatus(){
+			function checkstatus() {
+				if (!checkstatus.deps) checkstatus.deps = {}
+				if (!checkstatus.servers) checkstatus.servers = {}
+
 				$.ajax({
 					type: "GET",
 					url: TSDSFE + "status",
@@ -35,11 +39,15 @@
 					dataType: "json",
 					success: function (data,textStatus, jqXHR) {
 
-						for (key in data) {
-							if (!data[key].state) {
+						console.log(data)
+						checkstatus.deps = data.deps
+						checkstatus.servers = data.servers
+
+						for (key in checkstatus.deps) {
+							if (!checkstatus.deps[key].state) {
 									//console.log(data[key].message);
 									if ($("#statusinfo ul").find("#"+key).length == 0) {
-										$("#statusinfo ul").append("<li id='"+key+"'>" + data[key].message + "</li>")
+										$("#statusinfo ul").append("<li id='"+key+"'>" + checkstatus.deps[key].message + "</li>")
 										$("#statusinfo").show();
 									}
 								} else {
@@ -357,17 +365,36 @@
 					$('#cataloginfo').html("<b>Catalog information:</b>");
 					if (info.length > 0) {
 						$('#cataloginfo').append('<ul style="list-style-position: outside;">');	
+
+						if (checkstatus.servers) {
+							if (checkstatus.servers[selected('catalog')]) {
+								if (!checkstatus.servers[selected('catalog')].state) {
+									$('#cataloginfo ul').append('<li style=""><span style="background-color:yellow">'+checkstatus.servers[selected('catalog')].message+'</span></li>');
+								}
+							}
+						}
+
 						$('#cataloginfo ul').append('<li style="">TSDS ID: ' +selected('catalog')+'</li>');
+
 
 						//console.log("Info: " + info[0].title);
 						for (j = 0;j < info.length;j++) {
 							if (!(info[j].title === "") && !(info[j].link === "")) {
 								$('#cataloginfo ul').append('<li style=""><a href="'+info[j].link+'" title="'+info[j].link+'">'+info[j].title+'</a></li>');
 							} else if ((info[j].title === "") && !(info[j].link === "")) {
-								$('#catalogtinfo ul').append('<li style=""><a href="'+info[j].link+'" title="'+info[j].link+'">'+info[j].link+'</a></li>');
+								$('#cataloginfo ul').append('<li style=""><a href="'+info[j].link+'" title="'+info[j].link+'">'+info[j].link+'</a></li>');
 							}
-						}						
+						}
  
+ 						if (checkstatus.servers) {
+							if (checkstatus.servers[selected('catalog')]) {
+								if (checkstatus.servers[selected('catalog')].state) {
+									var delta = (new Date).getTime()-checkstatus.servers[selected('catalog')].lastcheck;
+									$('#cataloginfo ul').append('<li style=""><span>SSCWeb server working.  Last check '+Math.round(delta/1000)+' seconds ago.  Check interval is '+checkstatus.servers[selected('catalog')].checkperiod/1000+' seconds.</span></li>');
+								}
+							}
+						}
+
 					} else if (info.length == 0) {
 						$('#cataloginfo').append('<ul style="list-style-position: outside;">');	
 						$('#cataloginfo ul').append('<li style="">Catalog <b>' + selected("catalog") + '</b> was not found in <a href="' + TSDSFE + '?catalogs=^.*">catalog list</a></li>');

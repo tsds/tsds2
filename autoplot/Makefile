@@ -35,6 +35,7 @@ stop:
 
 test:
 	curl "http://localhost:8001/AutoplotServlet/SimpleServlet?url=vap+inline:rand(300)"
+	curl "http://localhost:8001/AutoplotServlet/SimpleServlet?url=vap%2Binline:rand(300)"
 
 install:
 	mkdir -p autoplot_data/server

@@ -4,4 +4,4 @@ test/output/out*
 cache/
 .settings/
 log/
-./js/autoplotserverfonts.json
+js/autoplotserverfonts.json
