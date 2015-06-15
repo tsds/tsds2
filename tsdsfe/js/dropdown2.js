@@ -166,14 +166,14 @@ function dropdown2(ids, names, funs, after, i, selected, callback) {
 								funs[i].onselect();
 							}
 
-							console.log("---")
+							//console.log("---")
 							//var qs = $.parseQueryString();
 							//console.log(qs);
 							qs = {};
 							for (j = 0;j < i+1;j++) {
 								qs[$("#dropdowns" + (j)).attr('name')] = $("#dropdowns"+j).val();
 							}
-							console.log(qs)
+							//console.log(qs)
 							location.hash = decodeURIComponent($.param(qs));
 
 							dropdown2(ids, names, funs, after, i+1, val, callback);
@@ -216,7 +216,7 @@ function dropdown2(ids, names, funs, after, i, selected, callback) {
 		$(this).parent().parent().attr('value',$(this).attr('value'));
 	});
 	
-	console.log("dropdown(): Calling " + funs[i].toString().substring(9,20) + " with i="+i);
+	console.log("dropdown(): Calling " + funs[i].toString().substring(9,20) + " with i = "+i);
 	var list = funs[i](i,selected);
 
 	console.log("dropdown(): Calling dropdown.ac().");
@@ -238,7 +238,7 @@ function dropdown2(ids, names, funs, after, i, selected, callback) {
 		    }
 	});
 
-	console.log(list);
+	//console.log(list);
 	
 	// If only one item, select it.
 	if (list.length == 1) {

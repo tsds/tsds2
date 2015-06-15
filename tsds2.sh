@@ -40,6 +40,7 @@ sudo chown $USER $LOGVIVIZ
 
 case $1 in
         start)
+                ulimit -n 1024
                 echo "Starting DataCache"
                 sudo -u $USER $NODE $MEMORY $APP/node_modules/datacache/app.js $PORTDATACACHE 2>&1 | tee $LOGDATACACHE/datacache.log &
                 echo "Starting Jetty"

@@ -25,7 +25,7 @@
 			$(function() {
 				checkstatus();
 				main();
-				setInterval(checkstatus,1000);
+				setInterval(checkstatus,60000);
 			})
 
 			function checkstatus() {
@@ -39,9 +39,32 @@
 					dataType: "json",
 					success: function (data,textStatus, jqXHR) {
 
-						console.log(data)
-						checkstatus.deps = data.deps
+						if (Object.keys(data).length == 0) return
+							
 						checkstatus.servers = data.servers
+
+						if (checkstatus.servers[selected('catalog')]) {
+							if (!checkstatus.servers[selected('catalog')].state) {
+								$('#cataloginfo ul #statustrue').remove()
+								if ($('#cataloginfo ul #statusfalse').length == 0) {
+									$('#cataloginfo ul').append('<li id="statusfalse"><span style="background-color:yellow">'+checkstatus.servers[selected('catalog')].message+'</span></li>');
+								}
+							}
+						}
+						if (checkstatus.servers[selected('catalog')]) {
+							if (checkstatus.servers[selected('catalog')].state) {
+								var delta = (new Date).getTime()-checkstatus.servers[selected('catalog')].lastcheck;
+								$('#cataloginfo ul #statusfalse').remove()
+								 var title = 'Last check '+Math.round(delta/1000)+' seconds ago.  Check interval is '+checkstatus.servers[selected('catalog')].checkperiod/1000+' seconds.'
+								if ($('#cataloginfo ul #statustrue').length == 0) {
+									$('#cataloginfo ul').append('<li id="statustrue"><span title="'+title+'"">SSCWeb server working.</li>');
+								} else {
+									$('#cataloginfo ul #statustrue span').attr('title',title)
+								}
+							}
+						}
+
+						checkstatus.deps = data.deps
 
 						for (key in checkstatus.deps) {
 							if (!checkstatus.deps[key].state) {
@@ -239,8 +262,8 @@
 					}
 				});
 
-				console.log("tsdsfeajax(): Info returned by tsdsfeajax():")				
-				console.log($.parseJSON(xret));
+				//console.log("tsdsfeajax(): Info returned by tsdsfeajax():")				
+				//console.log($.parseJSON(xret));
 
 				// Cache response.
 				tsdsfeajax.cache[url] = xret;
@@ -256,7 +279,7 @@
 				if (location.hash !== "") {
 					var qs = $.parseQueryString();
 					if (qs[name]) {
-						console.log("selected(): Determining selected value for " + name + " using hash.  Value = "+qs[name]);
+						//console.log("selected(): Determining selected value for " + name + " using hash.  Value = "+qs[name]);
 						return qs[name];
 					}
 				}
@@ -365,17 +388,7 @@
 					$('#cataloginfo').html("<b>Catalog information:</b>");
 					if (info.length > 0) {
 						$('#cataloginfo').append('<ul style="list-style-position: outside;">');	
-
-						if (checkstatus.servers) {
-							if (checkstatus.servers[selected('catalog')]) {
-								if (!checkstatus.servers[selected('catalog')].state) {
-									$('#cataloginfo ul').append('<li style=""><span style="background-color:yellow">'+checkstatus.servers[selected('catalog')].message+'</span></li>');
-								}
-							}
-						}
-
 						$('#cataloginfo ul').append('<li style="">TSDS ID: ' +selected('catalog')+'</li>');
-
 
 						//console.log("Info: " + info[0].title);
 						for (j = 0;j < info.length;j++) {
@@ -385,16 +398,6 @@
 								$('#cataloginfo ul').append('<li style=""><a href="'+info[j].link+'" title="'+info[j].link+'">'+info[j].link+'</a></li>');
 							}
 						}
- 
- 						if (checkstatus.servers) {
-							if (checkstatus.servers[selected('catalog')]) {
-								if (checkstatus.servers[selected('catalog')].state) {
-									var delta = (new Date).getTime()-checkstatus.servers[selected('catalog')].lastcheck;
-									$('#cataloginfo ul').append('<li style=""><span>SSCWeb server working.  Last check '+Math.round(delta/1000)+' seconds ago.  Check interval is '+checkstatus.servers[selected('catalog')].checkperiod/1000+' seconds.</span></li>');
-								}
-							}
-						}
-
 					} else if (info.length == 0) {
 						$('#cataloginfo').append('<ul style="list-style-position: outside;">');	
 						$('#cataloginfo ul').append('<li style="">Catalog <b>' + selected("catalog") + '</b> was not found in <a href="' + TSDSFE + '?catalogs=^.*">catalog list</a></li>');

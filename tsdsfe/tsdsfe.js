@@ -12,7 +12,7 @@ var util    = require('util');
 var crypto  = require("crypto");
 var argv    = require('yargs')
 					.default({
-						'port': 8000,
+						'port': 8004,
 						'debugall': false,
 						'debugapp': false,
 						'debugcache': false,
@@ -28,15 +28,15 @@ if (argv.debugall) {
 	argv.debugstream = true;
 }
 
-var port          = argv.port
-var debugapp      = argv.debugapp
-var debugcache    = argv.debugcache
-var debugstream   = argv.debugstream
-var depscheck     = argv.depscheck
-var serverscheck  = argv.serverscheck
+var port          = s2i(argv.port)
+var debugapp      = s2b(argv.debugapp)
+var debugcache    = s2b(argv.debugcache)
+var debugstream   = s2b(argv.debugstream)
+var depscheck     = s2b(argv.depscheck)
+var serverscheck  = s2b(argv.serverscheck)
 
 if (argv.help || argv.h) {
-	console.log("Usage: node app.js [--port=number --debug{all,app,util,stream,plugin,template,scheduler,lineformatter}=true.]")
+	console.log("Usage: node tsdsfe.js [--port=8004 --debug{all,app,cache,stream}=false] [--{server,deps}check=true]")
 	return
 }
 
@@ -177,17 +177,20 @@ server.listen(config.PORT)
 server.on('connection', function(socket) {
 
 	if (false) {
+		var key = socket.remoteAddress+":"+socket.remotePort
+		console.log("Socket connected to "+key)
+
 		socket.on('disconnect', function(socket) {
-			console.log("Connection disconnected")
+			console.log("Socket disconnect to "+key)
 		})
 		socket.on('close', function(socket) {
-			console.log("Connection closed")
+			console.log("Socket closed to     "+key)
 		})
 		socket.on('end', function(socket) {
-			console.log("Connection ended")
+			console.log("Socket end to        "+key)
 		})
 		socket.on('timeout', function(socket) {
-			console.log("Socket timeout")
+			console.log("Socket timeout to    "+key)
 		})		  
 		socket.setTimeout(config.TIMEOUT,
 			function(obj) {
@@ -255,7 +258,6 @@ function startdeps(dep) {
 			options = {"cwd": "./node_modules/datacache/"}
 		}
 	
-		//child1 = spawn('ulimit', ['-n', '1024']);
 		startdeps.datacache = spawn('node', ['app.js', config.DATACACHE.replace(/\D/g,''), '--debugall=true'],options)
 		
 		startdeps.datacache.stdout.on('data', function (data) {
@@ -377,7 +379,7 @@ function checkdeps(startup) {
 						log.logc((new Date()).toISOString() + " - [tsdsfe] Error when testing DataCache: "+config.DATACACHE+"\n  "+err,160)
 					}
 					checkdeps.status["DATACACHE"]["state"] = false
-					log.logc((new Date()).toISOString() + " - [tsdsfe] Starting DataCache: "+config.DATACACHE,10)
+					//log.logc((new Date()).toISOString() + " - [tsdsfe] Starting DataCache: "+config.DATACACHE,10)
 					return
 				}
 				if (depsres.statusCode != "200") {
@@ -473,7 +475,12 @@ function handleRequest(req, res) {
 		console.log(options)
 		var excludeIPs = "f528764d"
 		// Get directory listing and start streaming lines in files that match catalog=CATALOG
-	    var com = "grep --no-filename -e '" + req.originalUrl.replace("&return=log","").replace("/?","") + "' " + config.LOGDIRAPPPUBLIC + "*.log | grep -v " + excludeIPs + " | cut -f1,3,4 -d,"
+	    var com = "grep --no-filename -e '" + 
+	    			req.originalUrl.replace("&return=log","").replace("/?","") + 
+	    			"' " + 
+	    			config.LOGDIRAPPPUBLIC + 
+	    			"*.log | grep -v " + excludeIPs + 
+	    			" | cut -f1,3,4 -d,";
 	    var child = require('child_process').exec(com)
 	    console.log(com)
 	    log.logres("Sending output of shell command: "+com, res)
