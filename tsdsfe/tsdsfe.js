@@ -10,22 +10,23 @@ var http    = require('http');
 var url     = require('url');
 var util    = require('util');
 var crypto  = require("crypto");
+var clc      = require('cli-color')
 var argv    = require('yargs')
 					.default({
 						'port': 8004,
-						'debugall': false,
-						'debugapp': false,
-						'debugcache': false,
-						'debugstream': false,
-						'depscheck': true,
-						'serverscheck': true
+						'debugall': "false",
+						'debugapp': "false",
+						'debugcache': "false",
+						'debugstream': "false",
+						'depscheck': "true",
+						'serverscheck': "true"
 					})
 					.argv
 
 if (argv.debugall) {
-	argv.debugapp = true;
-	argv.debugcache = true;
-	argv.debugstream = true;
+	argv.debugapp = "true";
+	argv.debugcache = "true";
+	argv.debugstream = "true";
 }
 
 var port          = s2i(argv.port)
@@ -68,7 +69,7 @@ process.on('uncaughtException', function(err) {
 	if (err.errno === 'EADDRINUSE') {
 		console.log("[tsdsfe] - Address already in use.")
 	} else {
-		console.log(err)
+		console.log(err.stack)
 	}
 	process.exit(1)
 })
@@ -76,18 +77,18 @@ process.on('uncaughtException', function(err) {
 process.on('exit', function () {
 
 	console.log('[tsdsfe] - Received exit signal.')
-	log.logc('[tsdsfe] - (NOT IMPLEMENTED) Removing partially written files.',160)
+	log.logc((new Date()).toISOString() + " [tsdsfe] (NOT IMPLEMENTED) Removing partially written files.",160)
 	// TODO: 
 	// Remove partially written files by inspecting cache/locks/*.writing
 	// Remove streaming locks by inspecting cache/locks/*.streaming
 
-	console.log('[tsdsfe] - Stopping datacache server.')
+	console.log((new Date()).toISOString() + " [tsdsfe] Stopping datacache server.")
 	startdeps.datacache.kill('SIGINT')
 
-	console.log('[tsdsfe] - Stopping viviz server.')
+	console.log((new Date()).toISOString() + " [tsdsfe] Stopping viviz server.")
 	startdeps.viviz.kill('SIGINT')
 	
-	console.log('[tsdsfe] - Done.  Exiting.')
+	console.log((new Date()).toISOString() + " [tsdsfe] Exiting.")
 })
 process.on('SIGINT', function () {
 	process.exit()
@@ -96,14 +97,14 @@ process.on('SIGINT', function () {
 if (fs.existsSync(__dirname + "/conf/config."+os.hostname()+".js")) {
 	// Look for host-specific config file conf/config.hostname.js.
 	if (debugapp) {
-		log.logc((new Date()).toISOString() + " - [tsdsfe] Using configuration file conf/config."+os.hostname()+".js",10)
+		console.log((new Date()).toISOString() + " [tsdsfe] Using configuration file conf/config."+os.hostname()+".js")
 	}
 	var config = require(__dirname + "/conf/config."+os.hostname()+".js").config()
 	config.CONFIGFILE = __dirname + "/conf/config."+os.hostname()+".js"
 } else {
 	// Default
 	if (debugapp) {
-		log.logc((new Date()).toISOString() + " - [tsdsfe] Using configuration file conf/config.js",10)
+		console.log((new Date()).toISOString() + " [tsdsfe] Using configuration file conf/config.js")
 	}
 	var config = require(__dirname + "/conf/config.js").config()
 	config.CONFIGFILE = __dirname + "/conf/config.js"
@@ -130,6 +131,8 @@ app.use(express.compress())
 
 // Get the status of services used by TSDSFE.
 app.get('/status', function (req, res) {
+	var addr = req.headers['x-forwarded-for'] || req.connection.remoteAddress
+	console.log((new Date()).toISOString() + " [tsdsfe] Request from " + addr + ": " + req.originalUrl)
 	var c = {};
 	c.deps = checkdeps.status
 	c.servers = checkservers.status
@@ -141,8 +144,8 @@ app.get('/test', function (req, res) {
 	var com = __dirname + '/test/curl-test.sh "' + config.TSDSFE + req.originalUrl.replace("/test/","") + '"'
 	var child = require('child_process').exec(com)
 	var addr = req.headers['x-forwarded-for'] || req.connection.remoteAddress
-	console.log((new Date()).toISOString() + " - [tsdsfe] Request from " + addr + ": " + req.originalUrl)
-	console.log((new Date()).toISOString() + " - [tsdsfe] Evaluating " + com.replace(__dirname,""))
+	console.log((new Date()).toISOString() + " [tsdsfe] Request from " + addr + ": " + req.originalUrl)
+	console.log((new Date()).toISOString() + " [tsdsfe] Evaluating " + com.replace(__dirname,""))
 	child.stdout.on('data', function (buffer) {
 		// [1m and [0m are open and close bold tags for shell.
 		if (req.headers['user-agent'].match("curl")) {
@@ -166,7 +169,7 @@ app.get('/', function (req, res) {
 	} else {
 		// Call main entry function
 		var addr = req.headers['x-forwarded-for'] || req.connection.remoteAddress
-		console.log((new Date()).toISOString() + " - [tsdsfe] Request from " + addr + ": " + req.originalUrl)
+		console.log((new Date()).toISOString() + " [tsdsfe] Request from " + addr + ": " + req.originalUrl)
 		handleRequest(req,res)
 	}
 })
@@ -231,7 +234,7 @@ if (develdatacache) {
 if (develtsdset) {
 	msg = msg + " tsdset"
 }
-log.logc((new Date()).toISOString() + " - [tsdsfe] Listening on port "+config.PORT + msg, 0)
+console.log((new Date()).toISOString() + " [tsdsfe] Listening on port "+config.PORT + clc.blue(msg))
 
 if (depscheck) {
 	setInterval(checkdeps, config.DEPCHECKPERIOD)
@@ -249,6 +252,8 @@ startdeps('viviz')
 
 function startdeps(dep) {
 
+	console.log((new Date()).toISOString() + " [tsdsfe] Starting "+dep)
+
 	var spawn = require('child_process').spawn
 
 	if (dep === 'datacache') {
@@ -258,16 +263,16 @@ function startdeps(dep) {
 			options = {"cwd": "./node_modules/datacache/"}
 		}
 	
-		startdeps.datacache = spawn('node', ['app.js', config.DATACACHE.replace(/\D/g,''), '--debugall=true'],options)
+		startdeps.datacache = spawn('node', ['app.js', config.DATACACHE.replace(/\D/g,''), '--debugall=false'],options)
 		
 		startdeps.datacache.stdout.on('data', function (data) {
 		  process.stdout.write(data);
 		})
 		startdeps.datacache.stderr.on('data', function (data) {
-			console.log((new Date()).toISOString() + " - [datacache] Error: " + data);
+			console.log((new Date()).toISOString() + " [tsdsfe] TSDSFE error: " + data);
 		})
 		startdeps.datacache.on('close', function (code) {
-			console.log((new Date()).toISOString() + " - [datacache] Exited with code: " + code);
+			console.log((new Date()).toISOString() + " [tsdsfe] TSDSFE exited with code: " + code);
 		})	
 	}
 
@@ -284,10 +289,10 @@ function startdeps(dep) {
 		  process.stdout.write(data);
 		})
 		startdeps.viviz.stderr.on('data', function (data) {
-			console.log((new Date()).toISOString() + " - [viviz] Error: " + data);
+			console.log((new Date()).toISOString() + " [tsdsfe] viviz error: " + data);
 		})
 		startdeps.viviz.on('close', function (code) {
-			console.log((new Date()).toISOString() + " - [viviz] Exited with code: " + code);
+			console.log((new Date()).toISOString() + " [tsdsfe] viviz exited with code: " + code);
 		})	
 	}
 
@@ -298,7 +303,9 @@ function checkservers() {
 	if (!checkservers.status) {
 		checkservers.status = {};
 		checkservers.status["SSCWeb"] = {}
-		if (!checkservers.status["SSCWeb"]["state"]) checkservers.status["SSCWeb"]["state"] = true
+		if (!checkservers.status["SSCWeb"]["state"]) {
+			checkservers.status["SSCWeb"]["state"] = true
+		}
 		checkservers.status["SSCWeb"]["message"] = "Connection to SSCWeb server has failed.";
 		checkservers.status["SSCWeb"]["checkperiod"] = 60000;
 	}
@@ -307,10 +314,9 @@ function checkservers() {
 
 	request(config.TSDSFE + "?catalog=SSCWeb&dataset=ace&parameters=X_TOD&start=-P3D&stop=2014-08-17&return=data&usedatacache=false",
 		function (err,depsres,depsbody) {
-
 			if (err) {
 				if (startup || checkservers.status["SSCWeb"]["state"]) {
-					log.logc((new Date()).toISOString() + " - [tsdsfe] Error when testing SSCWeb:\n  "+err,160)
+					log.logc((new Date()).toISOString() + " [tsdsfe] Error when testing SSCWeb:\n  "+err,160)
 				}
 				checkservers.status["SSCWeb"]["state"] = false;
 				return
@@ -318,12 +324,12 @@ function checkservers() {
 			if (depsres.statusCode != "200" || depsbody.length != 11880) {
 				
 				if (checkservers.status["SSCWeb"]["state"]) {
-					log.logc((new Date()).toISOString() + " - [tsdsfe] Problem with SSCWeb.",160)
+					log.logc((new Date()).toISOString() + " [tsdsfe] Problem with SSCWeb.",160)
 				}
 				checkservers.status["SSCWeb"]["state"] = false;
 			} else {
 				if (!checkservers.status["SSCWeb"]["state"]) {
-					log.logc((new Date()).toISOString() + " - [tsdsfe] Problem resolved with SSCWeb.",10)
+					log.logc((new Date()).toISOString() + " [tsdsfe] Problem resolved with SSCWeb.",10)
 				}
 				checkservers.status["SSCWeb"]["state"] = true;
 			}
@@ -353,19 +359,19 @@ function checkdeps(startup) {
 		function (err,depsres,depsbody) {
 			if (err) {
 				if (startup || checkdeps.status["VIVIZ"]["state"]) {
-					log.logc((new Date()).toISOString() + " - [tsdsfe] Error when testing ViViz: "+config.VIVIZ+"\n  "+err,160)
+					log.logc((new Date()).toISOString() + " [tsdsfe] Error when testing ViViz: "+config.VIVIZ+"\n  "+err,160)
 				}
 				checkdeps.status["VIVIZ"]["state"] = false;
 				return
 			}
 			if (depsres.statusCode != "200") {
 				if (checkdeps.status["VIVIZ"]["state"]) {
-					log.logc((new Date()).toISOString() + " - [tsdsfe] Problem with ViViz: "+config.VIVIZ,160)
+					log.logc((new Date()).toISOString() + " [tsdsfe] Problem with ViViz: "+config.VIVIZ,160)
 				}
 				checkdeps.status["VIVIZ"]["state"] = false;
 			} else {
 				if (!checkdeps.status["VIVIZ"]["state"]) {
-					log.logc((new Date()).toISOString() + " - [tsdsfe] Problem resolved with ViViz: "+config.VIVIZ,10)
+					log.logc((new Date()).toISOString() + " [tsdsfe] Problem resolved with ViViz: "+config.VIVIZ,10)
 				}
 				checkdeps.status["VIVIZ"]["state"] = true;
 			}
@@ -376,20 +382,20 @@ function checkdeps(startup) {
 			function (err,depsres,depsbody) {
 				if (err) {
 					if (startup || checkdeps.status["DATACACHE"]["state"]) {
-						log.logc((new Date()).toISOString() + " - [tsdsfe] Error when testing DataCache: "+config.DATACACHE+"\n  "+err,160)
+						log.logc((new Date()).toISOString() + " [tsdsfe] Error when testing DataCache: "+config.DATACACHE+"\n  "+err,160)
 					}
 					checkdeps.status["DATACACHE"]["state"] = false
-					//log.logc((new Date()).toISOString() + " - [tsdsfe] Starting DataCache: "+config.DATACACHE,10)
+					//log.logc((new Date()).toISOString() + " [tsdsfe] Starting DataCache: "+config.DATACACHE,10)
 					return
 				}
 				if (depsres.statusCode != "200") {
 					if (checkdeps.status["DATACACHE"]["state"]) {
-						log.logc((new Date()).toISOString() + " - [tsdsfe] Problem with DataCache: "+config.DATACACHE+"\n  "+err, 160)
+						log.logc((new Date()).toISOString() + " [tsdsfe] Problem with DataCache: "+config.DATACACHE+"\n  "+err, 160)
 					}
 					checkdeps.status["DATACACHE"]["state"] = false
 				} else {
 					if (!checkdeps.status["DATACACHE"]["state"]) {
-						log.logc((new Date()).toISOString() + " - [tsdsfe] Problem resolved with DataCache: "+config.DATACACHE, 10)
+						log.logc((new Date()).toISOString() + " [tsdsfe] Problem resolved with DataCache: "+config.DATACACHE, 10)
 					}
 					checkdeps.status["DATACACHE"]["state"] = true
 				}
@@ -399,7 +405,7 @@ function checkdeps(startup) {
 		function (err,depsres,depsbody) {
 			if (err) {
 				if (startup || checkdeps.status["AUTOPLOT"]["state"]) {
-					log.logc((new Date()).toISOString() + " - [tsdsfe] Error when testing Autoplot: "+config.AUTOPLOT+"\n  "+err,160)
+					log.logc((new Date()).toISOString() + " [tsdsfe] Error when testing Autoplot: "+config.AUTOPLOT+"\n  "+err,160)
 				}
 				checkdeps.status["AUTOPLOT"]["state"] = false
 				return
@@ -408,14 +414,14 @@ function checkdeps(startup) {
 			if (startup) {
 				if (config.TSDSFE.match(/http:\/\/localhost/)) {
 					if (!config.AUTOPLOT.match(/http:\/\/localhost/)) {
-						log.logc((new Date()).toISOString() + " - [tsdsfe] Warning: Image request will not work because Autoplot image servlet specified by config.AUTOPLOT must be localhost if config.TSDSFE is localhost.",10)
+						log.logc((new Date()).toISOString() + " [tsdsfe] Warning: Image request will not work because Autoplot image servlet specified by config.AUTOPLOT must be localhost if config.TSDSFE is localhost.",10)
 					}
 				}
 			}
 
 			if (depsres.statusCode != "200") {
-				if (status["AUTOPLOT"]["state"]) {
-					log.logc((new Date()).toISOString() + " - [tsdsfe] Problem with "+config.AUTOPLOT,160)
+				if (checkdeps.status["AUTOPLOT"]["state"]) {
+					log.logc((new Date()).toISOString() + " [tsdsfe] Problem with "+config.AUTOPLOT,160)
 					var depsbodyv = depsbody.split("\n");
 					for (var i = 1; i < depsbodyv.length; i++) {
 						if (depsbodyv[i].match(/Error|org\.virbo/)) {
@@ -426,7 +432,7 @@ function checkdeps(startup) {
 				checkdeps.status["AUTOPLOT"]["state"] = false;
 			} else {
 				if (!checkdeps.status["AUTOPLOT"]["state"]) {
-					log.logc((new Date()).toISOString() + " - [tsdsfe] Problem resolved with Autoplot: "+config.AUTOPLOT,10)
+					log.logc((new Date()).toISOString() + " [tsdsfe] Problem resolved with Autoplot: "+config.AUTOPLOT,10)
 				}
 				checkdeps.status["AUTOPLOT"]["state"] = true;
 			}

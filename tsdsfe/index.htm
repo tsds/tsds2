@@ -28,47 +28,49 @@
 				setInterval(checkstatus,60000);
 			})
 
-			function checkstatus() {
+			function showstatus() {
+				var catalog = selected('catalog')
+
+				if (typeof(catalog) === 'undefined') return
+				
+						if (!checkstatus.servers[catalog].state) {
+							$('#cataloginfo ul #statustrue').remove()
+							if ($('#cataloginfo ul #statusfalse').length == 0) {
+								$('#cataloginfo ul').append('<li id="statusfalse"><span style="background-color:yellow">'+checkstatus.servers[catalog].message+'</span></li>');
+							}
+						} else {
+							var delta = (new Date).getTime()-checkstatus.servers[catalog].lastcheck;
+							$('#cataloginfo ul #statusfalse').remove()
+							 var title = 'Last check '+Math.round(delta/1000)+' seconds ago.  Check interval is '+checkstatus.servers[catalog].checkperiod/1000+' seconds.'
+							if ($('#cataloginfo ul #statustrue').length == 0) {
+								$('#cataloginfo ul').append('<li id="statustrue"><span title="'+title+'"">SSCWeb server working.</li>');
+							} else {
+								$('#cataloginfo ul #statustrue span').attr('title',title)
+							}
+						}
+			}
+
+			function checkstatus(catalog) {
 				if (!checkstatus.deps) checkstatus.deps = {}
 				if (!checkstatus.servers) checkstatus.servers = {}
-
+				console.log("Checking status")
 				$.ajax({
 					type: "GET",
 					url: TSDSFE + "status",
 					async: true,
 					dataType: "json",
 					success: function (data,textStatus, jqXHR) {
+						console.log(data)
 
 						if (Object.keys(data).length == 0) return
 							
 						checkstatus.servers = data.servers
-
-						if (checkstatus.servers[selected('catalog')]) {
-							if (!checkstatus.servers[selected('catalog')].state) {
-								$('#cataloginfo ul #statustrue').remove()
-								if ($('#cataloginfo ul #statusfalse').length == 0) {
-									$('#cataloginfo ul').append('<li id="statusfalse"><span style="background-color:yellow">'+checkstatus.servers[selected('catalog')].message+'</span></li>');
-								}
-							}
-						}
-						if (checkstatus.servers[selected('catalog')]) {
-							if (checkstatus.servers[selected('catalog')].state) {
-								var delta = (new Date).getTime()-checkstatus.servers[selected('catalog')].lastcheck;
-								$('#cataloginfo ul #statusfalse').remove()
-								 var title = 'Last check '+Math.round(delta/1000)+' seconds ago.  Check interval is '+checkstatus.servers[selected('catalog')].checkperiod/1000+' seconds.'
-								if ($('#cataloginfo ul #statustrue').length == 0) {
-									$('#cataloginfo ul').append('<li id="statustrue"><span title="'+title+'"">SSCWeb server working.</li>');
-								} else {
-									$('#cataloginfo ul #statustrue span').attr('title',title)
-								}
-							}
-						}
-
 						checkstatus.deps = data.deps
-
+						
+						showstatus()
+						
 						for (key in checkstatus.deps) {
 							if (!checkstatus.deps[key].state) {
-									//console.log(data[key].message);
 									if ($("#statusinfo ul").find("#"+key).length == 0) {
 										$("#statusinfo ul").append("<li id='"+key+"'>" + checkstatus.deps[key].message + "</li>")
 										$("#statusinfo").show();
@@ -405,6 +407,13 @@
 					$('#catalogtinfo ul').append('</ul>');
 
 					$('#cataloginfo').show();
+
+					if (checkstatus.servers[selected('catalog')]) {
+						showstatus()
+					} else {
+						checkstatus()
+					}
+
 					hidedivs("catalogs");
 				};
 
