@@ -3,7 +3,10 @@ exports.config = function config() {
 	var out = {};
 
 	// How often to check dependencies (ms)
-	out["DEPCHECKPERIOD"] = 10000;
+	out["DEPSCHECKPERIOD"] = 10000;
+
+	// How often to check dependencies (ms)
+	out["SERVERCHECKPERIOD"] = 10000;
 
 	// Port
 	out["PORT"] = 8004;
