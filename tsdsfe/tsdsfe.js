@@ -41,6 +41,9 @@ if (argv.help || argv.h) {
 	return
 }
 
+//http://stackoverflow.com/questions/9768444/possible-eventemitter-memory-leak-detected
+process.setMaxListeners(0)
+
 if (fs.existsSync("../../datacache/log.js")) {
 	// Development
 	var develdatacache = true;
@@ -379,7 +382,7 @@ function checkdeps(startup) {
 			}
 		})
 
-	var teststr = "demo/file1.txt&forceUpdate=true&forceWrite=true&debugall=false"
+	var teststr = "test/data/file1.txt&forceUpdate=true&forceWrite=true&debugall=false"
 	request(config.DATACACHE + "?source=" + config.DATACACHE.replace("/sync","") + teststr, 
 		function (err,depsres,depsbody) {
 			if (err) {
