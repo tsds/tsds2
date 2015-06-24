@@ -16,19 +16,44 @@ options.template = "$Y-$m-$d";
 options.timeRange = "1997-01-01/2015-01-31";
 options.debug = true;
 
+var sta = "mem"
+
+var sta = "kak"
 var type = "Geomagnetic";
 var type = "Geoelectric";
-// Variables that could be extracted.
-if (type == "Geomagnetic") {
-    var id = "1046";
-    var Data_num = "1143";
-    var Name = "Geomagnetic field";
-} else {
-    var id = "1063";
-    var Data_num = "2141";
-    var Name = "Geoelectric field";
-    options.timeRange = "2002-09-03/2015-01-31";
+
+if (sta.match("kak")) {
+    if (type == "Geomagnetic") {
+	var id = "1046";
+	var Data_num = "1143";
+	var Name = "Geomagnetic field";
+    } else {
+	var id = "1063";
+	var Data_num = "2141";
+	var Name = "Geoelectric field";
+	options.timeRange = "2002-09-03/2015-01-31";
+    }
 }
+if (sta.match("mem")) {
+    if (type == "Geomagnetic") {
+	var id = "1050";
+	var Data_num = "1243";
+	var Name = "Geomagnetic field";
+	options.timeRange = "1997-04-01/2015-01-31";
+	// 1-second
+	// var id = "1049"
+	// var Data_num = "1231"
+    } else {
+	var id = "1067";
+	var Data_num = "2241";
+	var Name = "Geoelectric field";
+	options.timeRange = "1997-04-01/2015-01-31";
+	// 1-second
+	// var id = "1066"
+	// var Data_num = "2231"
+    }
+}
+
 var list = expandtemplate(options);
 
 login();
@@ -151,6 +176,9 @@ function login2(body,Cookie) {
 					    console.log("Body:")
 					    console.log(res.body)
 					    console.log("__________________________________________________________________")
+						list.shift();
+  				    if (list.length > 0) login();
+				    return
 					}
 
 					
