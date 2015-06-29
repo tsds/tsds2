@@ -3,7 +3,10 @@ exports.config = function config() {
 	var out = {};
 
 	// How often to check dependencies (ms)
-	out["DEPCHECKPERIOD"] = 2000;
+	out["DEPSCHECKPERIOD"] = 2000;
+
+	// How often to check dependencies (ms)
+	out["SERVERCHECKPERIOD"] = 10000;
 
 	// Port to run TSDSFE on.
 	out["PORT"] = 8004;
