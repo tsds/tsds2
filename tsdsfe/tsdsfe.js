@@ -226,6 +226,7 @@ if (!config.LOGDIR.match(/^\//)) {
 	config.LOGDIR   = __dirname+"/log/"
 }
 
+config.APPNAME = "tsdsfe"
 config = log.init(config)
 var msg = "";
 if (develdatacache || develtsdset) {
@@ -240,14 +241,18 @@ if (develtsdset) {
 console.log((new Date()).toISOString() + " [tsdsfe] Listening on port "+config.PORT + clc.blue(msg))
 
 if (depscheck) {
+	console.log((new Date()).toISOString() + " [tsdsfe] Checking dependencies every "+config.DEPSCHECKPERIOD/1000+" seconds.")
 	setInterval(checkdeps, config.DEPSCHECKPERIOD)
+} else {
+	console.log((new Date()).toISOString() + " [tsdsfe] Dependency checks disabled.")	
 }
 
 if (serverscheck) {
+	console.log((new Date()).toISOString() + " [tsdsfe] Checking servers in 5 seconds and then every 60 seconds.")
 	// Check servers 5 seconds after start-up
 	setTimeout(checkservers, 5000)
-	// Check servers every 60 seconds
-	setInterval(checkservers, 60000)
+} else {
+	console.log((new Date()).toISOString() + " [tsdsfe] Server checks disabled.")
 }
 
 startdeps('datacache')
@@ -255,7 +260,7 @@ startdeps('viviz')
 
 function startdeps(dep) {
 
-	console.log((new Date()).toISOString() + " [tsdsfe] Starting "+dep)
+	console.log((new Date()).toISOString() + " [tsdsfe] Starting dependency: "+dep)
 
 	var spawn = require('child_process').spawn
 
@@ -313,6 +318,8 @@ function checkservers() {
 		checkservers.status["SSCWeb"]["checkperiod"] = 60000;
 	}
 
+	setInterval(checkservers, checkservers.status["SSCWeb"]["checkperiod"])
+
 	checkservers.status["SSCWeb"]["lastcheck"] = (new Date).getTime();
 
 	request(config.TSDSFE + "?catalog=SSCWeb&dataset=ace&parameters=X_TOD&start=-P3D&stop=2014-08-17&return=data&usedatacache=false",
@@ -320,19 +327,29 @@ function checkservers() {
 			if (err) {
 				if (startup || checkservers.status["SSCWeb"]["state"]) {
 					log.logc((new Date()).toISOString() + " [tsdsfe] Error when testing SSCWeb:\n  "+err,160)
+					console.log(config.TSDSFE + "?catalog=SSCWeb&dataset=ace&parameters=X_TOD&start=-P3D&stop=2014-08-17&return=data&usedatacache=false")
+					log.logc((new Date()).toISOString() + " [tsdsfe] Next test in " + checkservers.status["SSCWeb"]["checkperiod"] + " ms.  Only success will be reported.", 160)
 				}
 				checkservers.status["SSCWeb"]["state"] = false;
 				return
 			}
-			if (depsres.statusCode != "200" || depsbody.length != 11880) {
-				
+			if (depsres.statusCode != "200" || depsbody.length != 8280) {
 				if (checkservers.status["SSCWeb"]["state"]) {
-					log.logc((new Date()).toISOString() + " [tsdsfe] Problem with SSCWeb.",160)
+					var msg = ""
+					if (depsres.statusCode != "200") {
+						msg = "Test request returned status code: "+depsres.statusCode+"; expected 200."
+					}
+					if (depsbody.length != 11880) {
+						msg = "Test request returned body of length: "+depsbody.length+"; expected 8280."
+					}
+					log.logc((new Date()).toISOString() + " [tsdsfe] Problem with SSCWeb: " + msg, 160);
+					console.log(config.TSDSFE + "?catalog=SSCWeb&dataset=ace&parameters=X_TOD&start=-P3D&stop=2014-08-17&return=data&usedatacache=false")
+					log.logc((new Date()).toISOString() + " [tsdsfe] Next test in " + checkservers.status["SSCWeb"]["checkperiod"] + " ms.  Only success will be reported.", 160)
 				}
 				checkservers.status["SSCWeb"]["state"] = false;
 			} else {
 				if (!checkservers.status["SSCWeb"]["state"]) {
-					log.logc((new Date()).toISOString() + " [tsdsfe] Problem resolved with SSCWeb.",10)
+					log.logc((new Date()).toISOString() + " [tsdsfe] Problem resolved with SSCWeb.", 10)
 				}
 				checkservers.status["SSCWeb"]["state"] = true;
 			}
@@ -363,7 +380,7 @@ function checkdeps(startup) {
 			if (err) {
 				if (startup || checkdeps.status["VIVIZ"]["state"]) {
 					log.logc((new Date()).toISOString() + " [tsdsfe] Error when testing ViViz server: "+config.VIVIZ+"\n  "+err,160)
-					log.logc((new Date()).toISOString() + " [tsdsfe] Next ViViz check in "+config.DEPSCHECKPERIOD+' ms',160)
+					log.logc((new Date()).toISOString() + " [tsdsfe] Next ViViz check in "+config.DEPSCHECKPERIOD+' ms.  Only success will be reported.',160)
 				}
 				checkdeps.status["VIVIZ"]["state"] = false;
 				return
@@ -371,7 +388,7 @@ function checkdeps(startup) {
 			if (depsres.statusCode != 200) {
 				if (checkdeps.status["VIVIZ"]["state"]) {
 					log.logc((new Date()).toISOString() + " [tsdsfe] Problem with ViViz server: "+config.VIVIZ,160)
-					log.logc((new Date()).toISOString() + " [tsdsfe] Next ViViz check in "+config.DEPSCHECKPERIOD+' ms',160)
+					log.logc((new Date()).toISOString() + " [tsdsfe] Next ViViz check in "+config.DEPSCHECKPERIOD+' ms.  Only success will be reported.',160)
 				}
 				checkdeps.status["VIVIZ"]["state"] = false;
 			} else {
@@ -388,7 +405,7 @@ function checkdeps(startup) {
 			if (err) {
 				if (startup || checkdeps.status["DATACACHE"]["state"]) {
 					log.logc((new Date()).toISOString() + " [tsdsfe] Error when testing DataCache server: "+config.DATACACHE+"\n  "+err,160)
-					log.logc((new Date()).toISOString() + " [tsdsfe] Next DataCache check in "+config.DEPSCHECKPERIOD+' ms',160)
+					log.logc((new Date()).toISOString() + " [tsdsfe] Next DataCache check in "+config.DEPSCHECKPERIOD+' ms.  Only success will be reported.',160)
 				}
 				checkdeps.status["DATACACHE"]["state"] = false
 				return
@@ -396,7 +413,7 @@ function checkdeps(startup) {
 			if (depsres.statusCode != 200) {
 				if (checkdeps.status["DATACACHE"]["state"]) {
 					log.logc((new Date()).toISOString() + " [tsdsfe] Problem with DataCache server "+config.DATACACHE+"\n  "+err, 160)
-					log.logc((new Date()).toISOString() + " [tsdsfe] Next DataCache check in "+config.DEPSCHECKPERIOD+' ms',160)
+					log.logc((new Date()).toISOString() + " [tsdsfe] Next DataCache check in "+config.DEPSCHECKPERIOD+' ms.  Only success will be reported.',160)
 				}
 				checkdeps.status["DATACACHE"]["state"] = false
 			} else {
@@ -412,7 +429,7 @@ function checkdeps(startup) {
 			if (err) {
 				if (startup || checkdeps.status["AUTOPLOT"]["state"]) {
 					log.logc((new Date()).toISOString() + " [tsdsfe] Error when testing Autoplot server: "+config.AUTOPLOT+"\n  "+err,160)
-					log.logc((new Date()).toISOString() + " [tsdsfe] Next Autoplot check in "+config.DEPSCHECKPERIOD+' ms',160)
+					log.logc((new Date()).toISOString() + " [tsdsfe] Next Autoplot check in "+config.DEPSCHECKPERIOD+' ms.  Only success will be reported.',160)
 				}
 				checkdeps.status["AUTOPLOT"]["state"] = false
 				return
@@ -433,7 +450,7 @@ function checkdeps(startup) {
 							log.logc(" " + depsbodyv[i].replace(/<[^>]*>/g,"").replace("Server Error",""), 160)
 						}
 					}
-					log.logc((new Date()).toISOString() + " [tsdsfe] Next Autoplot check in "+config.DEPSCHECKPERIOD+' ms',160)
+					log.logc((new Date()).toISOString() + " [tsdsfe] Next Autoplot check in "+config.DEPSCHECKPERIOD+' ms.  Only success will be reported.',160)
 				}
 				checkdeps.status["AUTOPLOT"]["state"] = false;
 			} else {
@@ -452,21 +469,25 @@ function handleRequest(req, res) {
 	//res.header('Access-Control-Allow-Methods', 'GET,POST');
 	//res.header('Access-Control-Allow-Headers', 'Content-Type');
 
-	var message =  req.connection.remoteAddress + "," + req.originalUrl	
-	if (req.headers['x-forwarded-for']) {
-		// Extract first IP address.  Other IPs are where request passed through and are ignored.
-		var message = req.headers['x-forwarded-for'].split(",")[0] + "," + req.originalUrl + ","
-	} 
+	res.config = config
 
-	// Create detailed log file name based on current time and other information.
-	var loginfo = crypto.createHash("md5").update((new Date()).toISOString() + message).digest("hex")
+	if (req.headers['x-forwarded-for']) {
+		var ip = req.headers['x-forwarded-for'].replace(/\s+/g,"")
+	} else {
+		var ip = req.connection.remoteAddress
+	}
+
+	// Create detailed log file name based on current time, originalUrl, and request IP address
+	var loginfo = crypto
+					.createHash("md5")
+					.update((new Date()).toISOString() + ip + req.originalUrl)
+					.digest("hex")
+					.substring(0,4)
+
+	log.logapp(ip + " " + loginfo + " " + req.originalUrl, config)
 
 	// Set log file name as response header
 	res.header('x-tsdsfe-log',loginfo)
-
-	res.config = config
-
-	log.logapp(loginfo + "," + message, res)
 
 	if (debugapp) {
 		log.logres("Configuration file = "+JSON.stringify(config.CONFIGFILE), res)
@@ -490,6 +511,7 @@ function handleRequest(req, res) {
 
 	if (options.return === "log") {
 		console.log(options)
+		// hash of 127.0.0.1 = f528764d
 		var excludeIPs = "f528764d"
 		// Get directory listing and start streaming lines in files that match catalog=CATALOG
 	    var com = "grep --no-filename -e"+

@@ -31,7 +31,7 @@ if (sta.match("kak")) {
 	var id = "1063";
 	var Data_num = "2141";
 	var Name = "Geoelectric field";
-	options.timeRange = "2002-09-03/2015-01-31";
+	options.timeRange = "2003-06-19/2015-01-31";
     }
 }
 if (sta.match("mem")) {

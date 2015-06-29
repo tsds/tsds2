@@ -36,14 +36,14 @@
 				if (!checkstatus.servers) {
 					$('#cataloginfo ul #statustrue').remove()
 					$('#cataloginfo ul #statusfalse').remove()
-					$('#cataloginfo ul').append('<li id="statusfalse"><span style="background-color:yellow">Data servers not being monitored.</span></li>');
+					$('#cataloginfo ul').append('<li id="statusfalse"><i>Data servers not being monitored.</i></li>');
 					return
 				}
 
 				if (!checkstatus.servers[catalog]) {
 					$('#cataloginfo ul #statustrue').remove()
 					$('#cataloginfo ul #statusfalse').remove()
-					$('#cataloginfo ul').append('<li id="statusfalse"><span style="background-color:yellow">This data servers is not being monitored.</span></li>');
+					$('#cataloginfo ul').append('<li id="statusfalse"><i>This data servers is not being monitored.</i></li>');
 					return
 				}
 				
