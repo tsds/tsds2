@@ -2,11 +2,11 @@
 <catalog id="USGS/Dst/RT/PT1M" name="Real Time Dst from USGS; 1-minute cadence.">
   <documentation xlink:href="http://magweb.cr.usgs.gov/data/magnetometer/" xlink:title="Catalog derived from inspection of http://magweb.cr.usgs.gov/data/indices/beta/Dst_minute/"/>
   <documentation xlink:href="http://github.com/tsds/tsds2/tsdscc/catalogs/usgs" xlink:title="Catalog generation program."/>
-  <documentation xlink:title="Catalog generation date: 2014-09-15T16:51:32.296Z"/>
+  <documentation xlink:title="Catalog generation date: 2015-06-29T16:36:12.978Z"/>
   <dataset id="Dst" name="Real-time Dst" label="Real-time Dst; one-minute cadence" timecolumns="1,2" timeformat="$Y-$m-$d,$H:$M:$S.$(millis)" lineregex="^[0-9]" urltemplate="http://magweb.cr.usgs.gov/data/magnetometer/$1/OneMinute/$2$Y$m$dvmin.min">
     <timeCoverage>
       <Start>2013-01-03</Start>
-      <End>2014-09-15</End>
+      <End>2015-06-29</End>
     </timeCoverage>
     <groups>
       <group id="H,D,Z" name="$1 HDZ components" label="$1 HDZ components" type="vector"/>

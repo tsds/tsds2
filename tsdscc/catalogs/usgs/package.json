@@ -5,6 +5,6 @@
     "request": "*",
     "crypto": "*",
     "xml2js": "*",
-    "jsdom": "*"
+    "jsdom": "3.*"
   }
 }

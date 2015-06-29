@@ -12,6 +12,11 @@ var Np = 1;
 
 var cadence = process.argv[2] || "PT1S";
 
+dir = '/OneMinute/'
+if (cadence === "PT1S") {
+	dir = '/OneSecond/';
+}
+
 console.log("Requesting data from " + url);
 request.get(url,
 		function (error, response, body) {
@@ -63,10 +68,10 @@ function populatetemplate() {
 	console.log("Wrote "+"./USGS_Mag_RT_"+cadence+"-tsds.xml");
 }
 
-function extractdata(body,what,station,cadence) {
+function extractdata(body,what,station) {
 	jsdom.env({
 		html: body,
-		scripts: ['./deps/jquery-1.5.min.js'],
+		scripts: ['https://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js'],
 		done: function(err, window) {
 
 			if (err) {
@@ -79,9 +84,9 @@ function extractdata(body,what,station,cadence) {
 			if (what === "stations") {
 				STATIONS = $('a').text().replace(/.*Directory(.*)/,'$1').split("/").slice(0,-1);
 				console.log("Extracting station list.  Found "+STATIONS.length);
-				findstartstop(STATIONS);
+				getdirectory(STATIONS);
 			} else {
-				console.log("Extracting start/stop for " + station + " (station " + Np + " of "+STATIONS.length+").");
+				console.log("Extracting start/stop for " + station);
 				var files = 
 							$('a')
 							.text()
@@ -116,28 +121,20 @@ function extractdata(body,what,station,cadence) {
 	});
 }
 
-function findstartstop(stations) {
+function getdirectory(stations) {
+	if (stations.length == 0) return
+	station = stations.shift();
+	var url = 'http://magweb.cr.usgs.gov/data/magnetometer/'+station+dir;
+	console.log("Requesting data from " + url);
 
-	dir = '/OneMinute/'
-	if (cadence === "PT1S") {
-		dir = '/OneSecond/';
-	}
-	for (var i = 0;i < stations.length;i++) {
-		var url = 'http://magweb.cr.usgs.gov/data/magnetometer/'+stations[i]+dir;
-		console.log("Requesting data from " + url);
-		getdirectory(url,stations[i],cadence);
-	}
-}
-
-function getdirectory(url,station,cadence) {
 	request.get(url,
 		function (error, response, body) {
 			if (!error && response.statusCode == 200) {
-				//console.log(response);
 				console.log("Received data from " + url);
-				extractdata(body,"startstop",station,cadence);
+				extractdata(body,"startstop",station);
+				getdirectory(stations)
 			} else {
-				console.log("Error");
+				console.log("Error when attempting to get " + url);
 			}
 		})
 }

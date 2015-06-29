@@ -15,7 +15,10 @@ if (cadence === "PT1M") {
 console.log("Requesting data from " + url);
 request.get(url,
 		function (error, response, body) {
-			if (!error && response.statusCode == 200) {
+		if (error) {
+			console.log(error);
+		}
+		if (!error && response.statusCode == 200) {
 				console.log("Done.");
 				extractdata(body);
 			}
@@ -44,13 +47,11 @@ function populatetemplate(STARTSTOP) {
 function extractdata(body) {
 	jsdom.env({
 		html: body,
-		scripts: ['./deps/jquery-1.5.min.js'],
+		scripts: ['https://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js'],
 		done: function(err, window) {
 
 			if (err) {
-				console.log("Error: "+err+" when processing data for "+station);
-				Np = Np+1;
-				return;
+				console.log("Error: "+err+" when processing data.")
 			}
 			var $ = window.jQuery;
 

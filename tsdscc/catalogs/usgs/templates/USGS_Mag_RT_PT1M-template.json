@@ -40,7 +40,7 @@
 							 		"timecolumns":"1,2",
 							 		"timeformat":"$Y-$m-$d,$H:$M:$S.$(millis)",
 							 		"lineregex":"^[0-9]",
-							 		"urltemplate":"http://magweb.cr.usgs.gov/data/indices/beta/Dst_minute/usgs$Y$m$ddst4.min"
+							 		"urltemplate":"http://magweb.cr.usgs.gov/data/magnetometer/$1/OneMinute/$2$Y$m$dvmin.min"
 								},
 							"timeCoverage": {"Start":"","End":""},
 							"groups": {"group":{"$": {"id":"H,D,Z", "name":"$1 HDZ components", "label":"$1 HDZ components", "type":"vector"}}},
