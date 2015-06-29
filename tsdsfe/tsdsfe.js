@@ -1,16 +1,18 @@
+// lsof -i -n -P | grep node
+
 var fs      = require('fs');
 var os      = require("os");
 var request = require("request");
-var	express = require('express');
-var	app     = express().use(express.bodyParser());
-var	server  = require("http").createServer(app);
+var express = require('express');
+var app     = express().use(express.bodyParser());
+var server  = require("http").createServer(app);
 var qs      = require('querystring');
 var xml2js  = require('xml2js');
 var http    = require('http');
 var url     = require('url');
 var util    = require('util');
 var crypto  = require("crypto");
-var clc      = require('cli-color')
+var clc     = require('cli-color')
 var argv    = require('yargs')
 					.default({
 						'port': 8004,
