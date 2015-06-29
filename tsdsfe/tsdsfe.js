@@ -45,6 +45,7 @@ if (argv.help || argv.h) {
 
 //http://stackoverflow.com/questions/9768444/possible-eventemitter-memory-leak-detected
 process.setMaxListeners(0)
+server.setMaxListeners(0)
 
 if (fs.existsSync("../../datacache/log.js")) {
 	// Development
@@ -1998,10 +1999,10 @@ function parameter(options, catalogs, datasets, cb) {
 				+"&timecolumns="+(resp[0].dd.timecolumns || "")
 				+"&timeformat="+(resp[0].dd.timeformat || "")
 				+"&streamFilterReadColumns="+columns
-				+"&streamFilterTimeFormat="+options.format
-				+"&streamFilterComputeFunction="+options.filter
-				+"&streamFilterComputeWindow="+options.filterWindow
-				+"&streamFilterExcludeColumnValues="+(resp[0].dd.fillvalue || "")
+				+"&streamFilterReadTimeFormat="+options.format
+				+"&streamFilterWriteComputeFunction="+options.filter
+				+"&streamFilterWriteComputeFunctionWindow="+options.filterWindow
+				+"&streamFilterWriteComputeFunctionExcludes="+(resp[0].dd.fillvalue || "")
 				+"&streamOrder=true"
 				+"&streamGzip=false"
 				;
@@ -2010,6 +2011,7 @@ function parameter(options, catalogs, datasets, cb) {
 		dc = dc.replace(/[^=&]+=(&|$)/g,"").replace(/&$/,"");
 		if (!options.usedatacache) dc = dc+"&forceUpdate=true&forceWrite=true"
 
+		console.log(dc)
 		if (options.return === "redirect") {
 			// If more than one resp, this won't work.
 			cb(302,dc);
