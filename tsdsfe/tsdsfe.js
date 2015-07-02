@@ -251,9 +251,9 @@ if (depscheck) {
 }
 
 if (serverscheck) {
-	console.log((new Date()).toISOString() + " [tsdsfe] Checking servers in 5 seconds and then every 60 seconds.")
-	// Check servers 5 seconds after start-up
-	setTimeout(checkservers, 5000)
+	console.log((new Date()).toISOString() + " [tsdsfe] Checking servers in 10 seconds and then every 60 seconds.")
+	// Check servers 10 seconds after start-up
+	setTimeout(checkservers, 10000)
 } else {
 	console.log((new Date()).toISOString() + " [tsdsfe] Server checks disabled.")
 }
@@ -280,10 +280,10 @@ function startdeps(dep) {
 		  process.stdout.write(data);
 		})
 		startdeps.datacache.stderr.on('data', function (data) {
-			console.log((new Date()).toISOString() + " [tsdsfe] TSDSFE error: " + data);
+			console.log((new Date()).toISOString() + " [tsdsfe] datacache stderr: " + data);
 		})
 		startdeps.datacache.on('close', function (code) {
-			console.log((new Date()).toISOString() + " [tsdsfe] TSDSFE exited with code: " + code);
+			console.log((new Date()).toISOString() + " [tsdsfe] datacache exited with code: " + code);
 		})	
 	}
 
@@ -321,32 +321,33 @@ function checkservers() {
 		checkservers.status["SSCWeb"]["checkperiod"] = 60000;
 	}
 
-	setInterval(checkservers, checkservers.status["SSCWeb"]["checkperiod"])
+	setTimeout(checkservers, checkservers.status["SSCWeb"]["checkperiod"])
 
 	checkservers.status["SSCWeb"]["lastcheck"] = (new Date).getTime();
 
-	request(config.TSDSFE + "?catalog=SSCWeb&dataset=ace&parameters=X_TOD&start=-P3D&stop=2014-08-17&return=data&usedatacache=false",
+	var testurl = "?catalog=SSCWeb&dataset=ace&parameters=X_TOD&start=2014-08-16&stop=2014-08-17&return=data&usedatacache=false"
+	request(config.TSDSFE + testurl,
 		function (err,depsres,depsbody) {
 			if (err) {
 				if (startup || checkservers.status["SSCWeb"]["state"]) {
 					log.logc((new Date()).toISOString() + " [tsdsfe] Error when testing SSCWeb:\n  "+err,160)
-					console.log(config.TSDSFE + "?catalog=SSCWeb&dataset=ace&parameters=X_TOD&start=-P3D&stop=2014-08-17&return=data&usedatacache=false")
+					log.logc(config.TSDSFE + testurl, 160)
 					log.logc((new Date()).toISOString() + " [tsdsfe] Next test in " + checkservers.status["SSCWeb"]["checkperiod"] + " ms.  Only success will be reported.", 160)
 				}
 				checkservers.status["SSCWeb"]["state"] = false;
 				return
 			}
-			if (depsres.statusCode != "200" || depsbody.length != 8280) {
+			if (depsres.statusCode != "200" || depsbody.length != 3960) {
 				if (checkservers.status["SSCWeb"]["state"]) {
 					var msg = ""
 					if (depsres.statusCode != "200") {
 						msg = "Test request returned status code: "+depsres.statusCode+"; expected 200."
 					}
 					if (depsbody.length != 11880) {
-						msg = "Test request returned body of length: "+depsbody.length+"; expected 8280."
+						msg = "Test request returned body of length: "+depsbody.length+"; expected 3960."
 					}
 					log.logc((new Date()).toISOString() + " [tsdsfe] Problem with SSCWeb: " + msg, 160);
-					console.log(config.TSDSFE + "?catalog=SSCWeb&dataset=ace&parameters=X_TOD&start=-P3D&stop=2014-08-17&return=data&usedatacache=false")
+					log.logc(config.TSDSFE + testurl, 160)
 					log.logc((new Date()).toISOString() + " [tsdsfe] Next test in " + checkservers.status["SSCWeb"]["checkperiod"] + " ms.  Only success will be reported.", 160)
 				}
 				checkservers.status["SSCWeb"]["state"] = false;
@@ -1996,10 +1997,9 @@ function parameter(options, catalogs, datasets, cb) {
 		dc = dc
 				+"&return=stream"
 				+"&lineRegExp="+(resp[0].dd.lineregex || "")
-				+"&timecolumns="+(resp[0].dd.timecolumns || "")
-				+"&timeformat="+(resp[0].dd.timeformat || "")
+				+"&streamFilterReadTimeFormat="+(resp[0].dd.timeformat || "")
 				+"&streamFilterReadColumns="+columns
-				+"&streamFilterReadTimeFormat="+options.format
+				+"&streamFilterWriteTimeFormat="+options.format
 				+"&streamFilterWriteComputeFunction="+options.filter
 				+"&streamFilterWriteComputeFunctionWindow="+options.filterWindow
 				+"&streamFilterWriteComputeFunctionExcludes="+(resp[0].dd.fillvalue || "")
@@ -2011,7 +2011,6 @@ function parameter(options, catalogs, datasets, cb) {
 		dc = dc.replace(/[^=&]+=(&|$)/g,"").replace(/&$/,"");
 		if (!options.usedatacache) dc = dc+"&forceUpdate=true&forceWrite=true"
 
-		console.log(dc)
 		if (options.return === "redirect") {
 			// If more than one resp, this won't work.
 			cb(302,dc);

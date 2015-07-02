@@ -34,8 +34,8 @@ stop:
 	cd deps/jetty; JETTY_PORT=8001 bash bin/jetty.sh -d stop; 
 
 test:
-	curl "http://localhost:8001/AutoplotServlet/SimpleServlet?url=vap+inline:rand(300)"
-	curl "http://localhost:8001/AutoplotServlet/SimpleServlet?url=vap%2Binline:rand(300)"
+	curl "http://localhost:8001/AutoplotServlet/SimpleServlet?url=vap%2Binline:rand(300)" > test.png
+	display test.png
 
 install:
 	mkdir -p autoplot_data/server
@@ -53,6 +53,7 @@ clean:
 	rm -f *.class
 	rm -rf deps/*
 	rm -rf node_modules
+	rm -f test.png
 
 xall:
 	curl http://autoplot.org/jnlp/latest/autoplot.jar > deps/autoplot.jar
