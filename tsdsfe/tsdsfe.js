@@ -448,6 +448,9 @@ function checkdeps(startup) {
 			if (depsres.statusCode != 200) {
 				if (checkdeps.status["AUTOPLOT"]["state"]) {
 					log.logc((new Date()).toISOString() + " [tsdsfe] Problem with Autoplot server: "+config.AUTOPLOT,160)
+					if (!depsbody) {
+					    log.logc(" Status code: " + depsres.statusCode, 160)
+					}
 					var depsbodyv = depsbody.split("\n");
 					for (var i = 1; i < depsbodyv.length; i++) {
 						if (depsbodyv[i].match(/Error|org\.virbo/)) {
