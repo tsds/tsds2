@@ -489,9 +489,11 @@ function handleRequest(req, res) {
 	// Set log file name as response header
 	res.header('x-tsdsfe-log',loginfo)
 
+	var options = parseOptions(req, res)
+	
 	if (debugapp) {
 		log.logres("Configuration file = "+JSON.stringify(config.CONFIGFILE), res)
-		log.logres("Configuration file contents = "+JSON.stringify(config), res)
+		//log.logres("Configuration file contents = "+JSON.stringify(config), res)
 		log.logres("req.headers = "+JSON.stringify(req.headers), res)
 		log.logres("req.headers['x-forwarded-for'] = " + JSON.stringify(req.headers['x-forwarded-for']), res)
 		log.logres("req.connection.remoteAddress = " + JSON.stringify(req.connection.remoteAddress), res)
@@ -499,8 +501,6 @@ function handleRequest(req, res) {
 		log.logres("options = " + JSON.stringify(options), res)
 	}
 
-	var options = parseOptions(req, res)
-	
 	options.res = res
 	options.req = req
 

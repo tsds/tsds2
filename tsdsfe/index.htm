@@ -26,6 +26,10 @@
 				checkstatus();
 				main();
 				setInterval(checkstatus,60000);
+				//var FONTS = [];
+				//var COLORS = {};
+				//$.getJSON( "js/css-color-names.json", function( data ) {COLORS=data;});
+				//$.getJSON( "js/autoplotserverfonts.json", function( data ) {FONTS=data;});
 			})
 
 			function showstatus() {
@@ -100,66 +104,62 @@
 					})
 			}
 
-			var FONTS = [];
-			var COLORS = {};
-			$.getJSON( "js/css-color-names.json", function( data ) {COLORS=data;});
-			//$.getJSON( "js/autoplotserverfonts.json", function( data ) {FONTS=data;});
-
 			function main() {
 
-				//$('#cachecheckboxes').hide();
-				$('#cachecheckboxeslink').click(function () {$("#cachecheckboxes").toggle();});
-				
-				// Default for using data cache is true.  Unselect checkbox if usedatacache=true is in URL.
-				if (location.hash.match("usedatacache=false")) {
-					$('#usedatacache').each(function(){ this.checked = false; });
-					if (location.hash === "") {
-						var qs = {};
-					} else {
-						var qs = $.parseQueryString();
-					}
-					qs["usedatacache"] = "false"; 
-					console.log(qs)					
-					location.hash=decodeURIComponent($.param(qs));;
+				// Show/Hide cache checkboxes
+				$('#cachecheckboxeslink').click(function () {
+					$("#cachecheckboxes").toggle()
+				})
+
+				if (location.hash === "") {
+					var qs = {}
 				} else {
-					$('#usedatacache').each(function(){ this.checked = true; });
-					if (location.hash === "") {
-						var qs = {};
-					} else {
-						var qs = $.parseQueryString();
-					}
-					qs["usedatacache"]="true";
+					var qs = $.parseQueryString()
+				}
+				
+				// Default for using data cache is true.
+				// Unselect checkbox if usedatacache=true is in URL.
+				if (location.hash.match("usedatacache=false")) {
+					$('#usedatacache').each(function(){ this.checked = false })
+					qs["usedatacache"] = "false"; 
+					// Put usedatacach=false into location.hash.
+					location.hash = decodeURIComponent($.param(qs))
+				} else {
+					$('#usedatacache').each(function(){ this.checked = true })
+					qs["usedatacache"] = "true"
 				}
 				
 				// Default for preview checkbox is always false.
 				if (location.hash.match("preview=false")) {
-					$('#previewimgcheckbox').each(function(){ this.checked = false; });
+					$('#previewimgcheckbox').each(function(){ this.checked = false })
 				} else {
-					$('#previewimgcheckbox').each(function(){ this.checked = false; });
+					$('#previewimgcheckbox').each(function(){ this.checked = false })
 				}
 
-				// Default for metadatacache checkbox.
-				$('#usemetadatacache').each(function(){ this.checked = true; });
+				// Default for usemetadatacache checkbox.
+				$('#usemetadatacache').each(function(){ this.checked = true })
 
-				// Default for metadatacache checkbox.
-				$('#useimagecache').each(function(){ this.checked = true; });
+				// Default for useimagecache checkbox.
+				$('#useimagecache').each(function(){ this.checked = true })
 
 				// Create the first drop-down (subsequent drop-downs appear when something is selected).
 				dropdown2(["catalog","dataset","parameters","start","stop","return","format","type","style"],
-							["Catalog","Datasets","Parameters","Start","Stop","Return","Format","Type","Style"],
-							[catalogs,datasets,parameters,starttime,stoptime,returntype,format,type,style],
-							"#dropdowns",0,"");
+						["Catalog","Datasets","Parameters","Start","Stop","Return","Format","Type","Style"],
+						[catalogs,datasets,parameters,starttime,stoptime,returntype,format,type,style],
+						"#dropdowns",0,"");
 
 				// If initial URL has arguments after #, trigger select on dropdowns.
-				if ( (location.hash !== "") && (location.hash !== "#catalog=^.*") ) {
-					console.log("Triggering select because initial hash is populated.");
-					triggerselect();
+				if ( location.hash !== "" && location.hash !== "#catalog=^.*" ) {
+					console.log("Triggering select because initial hash given.")
+					triggerselect()
 				}			
 
-				// Show test dropdown.
-				//dropdown2(["tests"],["Tests"],[tests],"#dropdownstest");
+				return
 
-				return; // Following code needs work.
+				// The following code needs work.
+
+				// Show test dropdown.
+				dropdown2(["tests"],["Tests"],[tests],"#dropdownstest");
 
 				// Update drop-downs when URL is changed manually.
 				console.log("Binding hashchange");
@@ -187,7 +187,8 @@
 				});										
 			}
 
-			// See Harris' post at http://stackoverflow.com/questions/426258/how-do-i-check-a-checkbox-with-jquery-or-javascript
+			// See Harris' post at 
+			// http://stackoverflow.com/questions/426258/how-do-i-check-a-checkbox-with-jquery-or-javascript
 			(function( $ ) {
 				$.fn.checked = function(value) {
 					if(value === true || value === false) {
@@ -223,12 +224,14 @@
 					if (qs["catalog"] === "^.*") return;
 				}		
 				for (var id in qs) {
-					console.log("Triggering select for drop-down with id = "+id);
-					$("#"+id).val(qs[id]).data("autocomplete")._trigger("select",event,{item:qs[id]});
+					console.log("Triggering select for drop-down with id = "+id)
+					$("#" + id).val(qs[id])
+								.data("autocomplete")
+								._trigger("select", event, {item:qs[id]})
 				}
 			}				
 
-			function tsdsfeajax(i,url) {
+			function tsdsfeajax(i, url) {
 
 				url = TSDSFE + url;
 				$('#status').show();
@@ -306,7 +309,7 @@
 			}
 
 			function hidedivs(selected) {
-				if (selected==="catalogs") {
+				if (selected === "catalogs") {
 					$('#datasetinfo').html("");
 					$('#parameterinfo').html("");
 					$('#returninfo').hide();
@@ -325,7 +328,7 @@
 					$('#previewimgdiv').hide();
 					$('#overviewdiv').hide();
 				}
-				if (selected==="datasets") {
+				if (selected === "datasets") {
 					$('#parameterinfo').html("");
 					$('#returninfo').hide();
 					$('#formatinfodata').hide();
@@ -343,7 +346,7 @@
 					$('#previewimgdiv').hide();
 					$('#overviewdiv').hide();
 				}
-				if (selected==="parameters") {
+				if (selected === "parameters") {
 					$('#returninfo').hide();
 					$('#formatinfodata').hide();
 					$('#formatinfoscript').hide();
@@ -377,7 +380,7 @@
 					$('#previewimgdiv').hide();
 					$('#overviewdiv').hide();
 				}
-				if (selected==="format") {
+				if (selected === "format") {
 					$('#styleinfoimage').hide();
 					$('#imagediv').hide();
 					$('#imagediv #image').attr("src","");
@@ -395,16 +398,18 @@
 				catalogs.onselect = function () {
 
 					// Triggered when a catalog is selected in drop-down.
-					console.log("catalogs.onselect(): Called");
+					console.log("catalogs.onselect(): Called")
 					
-					var url = "?catalog="+selected('catalog');
+					var url = "?catalog=" + selected('catalog')
 					
 					info = tsdsfeajax(i,url);
 					catalog.info = info;
 					$('#cataloginfo').html("<b>Catalog information:</b>");
 					if (info.length > 0) {
-						$('#cataloginfo').append('<ul style="list-style-position: outside;">');	
-						$('#cataloginfo ul').append('<li style="">TSDS ID: ' +selected('catalog')+'</li>');
+						$('#cataloginfo')
+							.append('<ul style="list-style-position:outside;">')
+						$('#cataloginfo ul')
+							.append('<li>TSDS ID: ' +selected('catalog')+'</li>')
 
 						//console.log("Info: " + info[0].title);
 						for (j = 0;j < info.length;j++) {
