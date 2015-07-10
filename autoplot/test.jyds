@@ -1,0 +1,1 @@
+result= link( timegen('2014-001T00:00','60s',1440), accum( randn( 1440 ) ) )

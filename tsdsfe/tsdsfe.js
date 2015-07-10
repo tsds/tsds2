@@ -444,11 +444,12 @@ function checkdeps(startup) {
 					log.logc((new Date()).toISOString() + " [tsdsfe] Problem with Autoplot server: "+config.AUTOPLOT,160)
 					if (!depsbody) {
 					    log.logc(" Status code: " + depsres.statusCode, 160)
-					}
-					var depsbodyv = depsbody.split("\n");
-					for (var i = 1; i < depsbodyv.length; i++) {
-						if (depsbodyv[i].match(/Error|org\.virbo/)) {
-							log.logc(" " + depsbodyv[i].replace(/<[^>]*>/g,"").replace("Server Error",""), 160)
+					} else {
+						var depsbodyv = depsbody.split("\n");
+						for (var i = 1; i < depsbodyv.length; i++) {
+							if (depsbodyv[i].match(/Error|org\.virbo/)) {
+								log.logc(" " + depsbodyv[i].replace(/<[^>]*>/g,"").replace("Server Error",""), 160)
+							}
 						}
 					}
 					log.logc((new Date()).toISOString() + " [tsdsfe] Next Autoplot check in "+config.DEPSCHECKPERIOD+' ms.  Only success will be reported.',160)
@@ -514,24 +515,24 @@ function handleRequest(req, res) {
 		// hash of 127.0.0.1 = f528764d
 		var excludeIPs = "f528764d"
 		// Get directory listing and start streaming lines in files that match catalog=CATALOG
-	    var com = "grep --no-filename -e" +
-	    			" '" + 
-	    			req.originalUrl.replace("&return=log","").replace("/?","") + 
-	    			"' " + 
-	    			config.LOGDIRAPPPUBLIC + 
-	    			"*.log" +
-	    			" | grep -v " + excludeIPs + 
-	    			" | cut -f1,3,4 -d,";
-	    var child = require('child_process').exec(com)
-		log.logres("Sending output of shell command: " + com, res)
-	    child.stdout.on('data', function (buffer) {
-	    	res.write(buffer.toString())
-	    })
-	    child.stdout.on('end', function() { 
-	    	log.logres("Finished sending output of shell command.  Sending res.end().", res)
-	    	res.end()
-	    })
-	    return
+		var com = "grep --no-filename -e"+
+		" '" + 
+		req.originalUrl.replace("&return=log","").replace("/?","") + 
+		"' " + 
+		config.LOGDIRAPPPUBLIC + "*.log" +
+		" | grep -v " + excludeIPs + 
+		" | cut -f1,3,4 -d,";
+		var child = require('child_process').exec(com)
+		console.log(com)
+		log.logres("Sending output of shell command: "+com, res)
+		child.stdout.on('data', function (buffer) {
+			res.write(buffer.toString())
+		})
+		child.stdout.on('end', function() { 
+			log.logres("Finished sending output of shell command.  Sending res.end().", res)
+			res.end()
+		})
+		return
 	}
 	
 	// Metadata and images responses are cached as files with filename based on MD5 hash of request.
@@ -1548,13 +1549,13 @@ function dataset(options, catalogs, cb) {
 
 		// TODO: This won't catch case when pattern is used; afterparse may not have been called with results in same order as catalog array.
 		if (catalogs.length == 1) {
-		    if (parent !== catalogs[afterparse.j-1].value) {
-		    	log.logres("ID of catalog in THREDDS specified with a URL does not match ID of catalog found in catalog.", options.res)
-		    	log.logres("\tID in THREDDS ["+config.CATALOG+"]: "+parent, options.res)
-		    	log.logres("\tID in catalog ["+catalogs[afterparse.j-1].href+"]: "+catalogs[afterparse.j-1].value, options.res)
-		    	options.res.status(502).send("ID of catalog found in "+catalogs[afterparse.j-1].href+" does not match ID associated with URL in "+config.CATALOG);
-		    	return
-		    }
+			if (parent !== catalogs[afterparse.j-1].value) {
+				log.logres("ID of catalog in THREDDS specified with a URL does not match ID of catalog found in catalog.", options.res)
+				log.logres("\tID in THREDDS ["+config.CATALOG+"]: "+parent, options.res)
+				log.logres("\tID in catalog ["+catalogs[afterparse.j-1].href+"]: "+catalogs[afterparse.j-1].value, options.res)
+				options.res.status(502).send("ID of catalog found in "+catalogs[afterparse.j-1].href+" does not match ID associated with URL in "+config.CATALOG);
+				return
+			}
 		}
 		var dresp = []
 
