@@ -26,12 +26,18 @@ JETTY=jetty-distribution-8.1.16.v20140903
 
 JAVA_OPTIONS="-DAUTOPLOT_DATA=/tmp/autoplot_data -Xmx512m -XX:+CMSClassUnloadingEnabled -XX:MaxPermSize=128m"
 
-# AUTOPLOT_DATA part not working
 start:
-	cd deps/jetty; JAVA_OPTIONS=-DAUTOPLOT_DATA=/tmp/autoplot_data JETTY_PORT=8001 bash bin/jetty.sh -d start;
+	cd deps/jetty; JAVA_OPTIONS=$(JAVA_OPTIONS) JETTY_PORT=8001 bash bin/jetty.sh -d start;
+
+#	cd deps/jetty; JAVA_OPTIONS=-DAUTOPLOT_DATA=/tmp/autoplot_data JETTY_PORT=8001 bash bin/jetty.sh -d start;
 
 stop:
 	cd deps/jetty; JETTY_PORT=8001 bash bin/jetty.sh -d stop; 
+
+test2:
+	http-server -p 8999 &
+	sleep 1; curl "http://localhost:8001/AutoplotServlet/SimpleServlet?format=image/png&url=vap%2Bjyds:http%3A%2F%2Flocalhost%3A8999%2Ftest.jyds" > test2.png
+	display test2.png
 
 test:
 	curl "http://localhost:8001/AutoplotServlet/SimpleServlet?url=vap%2Binline:rand(300)" > test.png
