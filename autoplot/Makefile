@@ -28,7 +28,7 @@ JETTY=jetty-distribution-8.1.16.v20140903
 
 # AUTOPLOT_DATA part not working
 start:
-	cd deps/jetty; JAVA_OPTIONS=-DAUTOPLOT_DATA=../../autoplot_data JETTY_PORT=8001 bash bin/jetty.sh -d start;
+	cd deps/jetty; JAVA_OPTIONS=-DAUTOPLOT_DATA=/tmp/autoplot_data JETTY_PORT=8001 bash bin/jetty.sh -d start;
 
 stop:
 	cd deps/jetty; JETTY_PORT=8001 bash bin/jetty.sh -d stop; 
