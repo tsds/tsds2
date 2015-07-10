@@ -1,9 +1,5 @@
 #!/usr/bin/sh
 
-echo "Starting datacache server."
-nodejs node_modules/datacache/app.js --port=7999 &
-PID1=$!
-
 echo "Starting TSDSFE server."
 nodejs tsdsfe.js 8004 &
 PID2=$!
@@ -21,6 +17,6 @@ nodejs test/test.js --testfile=test/image-tests.js
 
 RESULT=$?
 
-kill $PID1 $PID2
+kill $PID2
 
 exit $RESULT
