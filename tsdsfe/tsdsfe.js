@@ -889,13 +889,18 @@ function handleRequest(req, res) {
 						}
 						fs.writeFileSync(ifile + ".writing","")
 						istream = fs.createWriteStream(ifile)
-						istream.on('finish',function () {
-							if (writeok) {
+						istream
+							.on('finish',function () {
 								if (debugcache) {
 									log.logres("Finished writing image.  Removing (sync) " + ifile + ".writing", res)
 								}
 								fs.unlinkSync(ifile + ".writing")
+							})
+						.on('error', function () {
+							if (debugcache) {
+								log.logres("Error when attempting to write image to cache.  Removing (sync) " + ifile + ".streaming", res)
 							}
+							fs.unlinkSync(ifile + ".streaming")
 						})
 					}
 				}
