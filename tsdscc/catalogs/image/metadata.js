@@ -102,7 +102,7 @@ function createtsml (list) {
 		root.catalog["dataset"][i]["$"]["name"] = NAME;
 		root.catalog["dataset"][i]["$"]["label"] = "Data source institute: " + SOURCE;
 		root.catalog["dataset"][i]["$"]["timecolumns"] = "1,2,3,4,5,6";
-		root.catalog["dataset"][i]["$"]["timeformat"] = "$Y $m $d $H $M $S";
+		root.catalog["dataset"][i]["$"]["timeformat"] = "$Y,$m,$d,$H,$M,$S";
 		root.catalog["dataset"][i]["$"]["urltemplate"] = "mirror:http://space.fmi.fi/"+MAG+"/"+cadence+"/"+"$Y$m$d"+MAG+".col2.gz";
 		root.catalog["dataset"][i]["$"]["lineregex"] = "^[0-9]";
 
