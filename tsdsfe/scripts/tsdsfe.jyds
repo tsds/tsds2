@@ -31,6 +31,10 @@ print surl
 f = downloadResourceAsTempFile( URL( surl ), monitor ) 
 #print 'File: '+f.toString()
 
+#from java.io import File
+#f = File('/Users/robertweigel/autoplot_data/fscache/temp/tsds.org/get/000000000@099de20fd')
+#print 'xFile: '+f.toString()
+
 from java.io import FileReader, BufferedReader
 fo= BufferedReader( FileReader(f) )
 line1= fo.readLine()
