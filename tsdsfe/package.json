@@ -2,11 +2,9 @@
 	"name": "tsdsfe",
   	"version": "0.1.0",
 	"dependencies": {
-		"xml2js"  : "*",
 		"request" : "2.9.203",
 		"express" : "3.0.0",
-		"exec-sync": "*",
-		"minimist": "*",
+		"xml2js"  : "*",
 		"cli-color": "*",
 		"mkdirp": "*",
 		"yargs": "*",
