@@ -1,29 +1,30 @@
 // lsof -i -n -P | grep node
 
-var fs      = require('fs');
-var os      = require("os");
-var request = require("request");
-var express = require('express');
-var app     = express().use(express.bodyParser());
-var server  = require("http").createServer(app);
-var qs      = require('querystring');
-var xml2js  = require('xml2js');
-var http    = require('http');
-var url     = require('url');
-var util    = require('util');
-var crypto  = require("crypto");
+var fs      = require('fs')
+var os      = require("os")
+var request = require("request")
+var express = require('express')
+var app     = express().use(express.bodyParser())
+var server  = require("http").createServer(app)
+var qs      = require('querystring')
+var xml2js  = require('xml2js')
+var http    = require('http')
+var url     = require('url')
+var util    = require('util')
+var crypto  = require("crypto")
 var clc     = require('cli-color')
 var argv    = require('yargs')
-					.default({
-						'port': 8004,
-						'debugall': "false",
-						'debugapp': "false",
-						'debugcache': "false",
-						'debugstream': "false",
-						'depscheck': "true",
-						'serverscheck': "true"
-					})
-					.argv
+				.default
+				({
+					'port': 8004,
+					'debugall': "false",
+					'debugapp': "false",
+					'debugcache': "false",
+					'debugstream': "false",
+					'depscheck': "true",
+					'serverscheck': "true"
+				})
+				.argv
 
 if (argv.debugall) {
 	argv.debugapp = "true"
@@ -31,15 +32,17 @@ if (argv.debugall) {
 	argv.debugstream = "true"
 }
 
-var port          = s2i(argv.port)
-var debugapp      = s2b(argv.debugapp)
-var debugcache    = s2b(argv.debugcache)
-var debugstream   = s2b(argv.debugstream)
-var depscheck     = s2b(argv.depscheck)
-var serverscheck  = s2b(argv.serverscheck)
+var port         = s2i(argv.port)
+var debugapp     = s2b(argv.debugapp)
+var debugcache   = s2b(argv.debugcache)
+var debugstream  = s2b(argv.debugstream)
+var depscheck    = s2b(argv.depscheck)
+var serverscheck = s2b(argv.serverscheck)
 
 if (argv.help || argv.h) {
-	console.log("Usage: node tsdsfe.js [--port=8004 --debug{all,app,cache,stream} false] [--{servers,deps}check true]")
+	console.log("Usage: node tsdsfe.js [--port=8004 "
+		+ "--debug{all,app,cache,stream} false "
+		+ "--{servers,deps}check true]")
 	return
 }
 
@@ -60,11 +63,15 @@ if (fs.existsSync("../../datacache/log.js")) {
 if (fs.existsSync("../../tsdset/lib/expandtemplate.js")) {
 	// Development
 	var develtsdset = true
-	var expandISO8601Duration = require("../../tsdset/lib/expandtemplate.js").expandISO8601Duration
+	var expandISO8601Duration = 
+			require("../../tsdset/lib/expandtemplate.js")
+			.expandISO8601Duration
 } else {
 	// Production
 	var develtsdset = false
-	var expandISO8601Duration = require("./node_modules/tsdset/lib/expandtemplate").expandISO8601Duration
+	var expandISO8601Duration = 
+			require("./node_modules/tsdset/lib/expandtemplate")
+			.expandISO8601Duration
 }
 
 // Helper functions
@@ -87,9 +94,11 @@ process.on('SIGINT', function () {
 
 process.on('exit', function () {
 	console.log('[tsdsfe] - Received exit signal.')
-	log.logc((new Date()).toISOString() + " [tsdsfe] (NOT IMPLEMENTED) Removing partially written files.",160)
+	log.logc((new Date()).toISOString() 
+		+ " [tsdsfe] (NOT IMPLEMENTED) Removing partially written files.", 160)
 
-	console.log((new Date()).toISOString() + " [tsdsfe] Stopping datacache server.")
+	console.log((new Date()).toISOString() 
+		+ " [tsdsfe] Stopping datacache server.")
 	startdeps.datacache.kill('SIGINT')
 
 	console.log((new Date()).toISOString() + " [tsdsfe] Stopping viviz server.")
@@ -102,14 +111,17 @@ process.on('exit', function () {
 if (fs.existsSync(__dirname + "/conf/config."+os.hostname()+".js")) {
 	// Look for host-specific config file conf/config.hostname.js.
 	if (debugapp) {
-		console.log((new Date()).toISOString() + " [tsdsfe] Using configuration file conf/config."+os.hostname()+".js")
+		console.log((new Date()).toISOString() 
+			+ " [tsdsfe] Using configuration file conf/config."
+			+ os.hostname() + ".js")
 	}
-	var config = require(__dirname + "/conf/config."+os.hostname()+".js").config()
-	config.CONFIGFILE = __dirname + "/conf/config."+os.hostname()+".js"
+	var config = require(__dirname + "/conf/config." + os.hostname() + ".js").config()
+	config.CONFIGFILE =  __dirname + "/conf/config." + os.hostname() + ".js"
 } else {
 	// Default
 	if (debugapp) {
-		console.log((new Date()).toISOString() + " [tsdsfe] Using configuration file conf/config.js")
+		console.log((new Date()).toISOString() 
+			+ " [tsdsfe] Using configuration file conf/config.js")
 	}
 	var config = require(__dirname + "/conf/config.js").config()
 	config.CONFIGFILE = __dirname + "/conf/config.js"
@@ -132,7 +144,6 @@ app.use(express.compress())
 // Get the status of services used by TSDSFE.
 app.get('/status', function (req, res) {
 	var addr = req.headers['x-forwarded-for'] || req.connection.remoteAddress
-	//console.log((new Date()).toISOString() + " [tsdsfe] Request from " + addr + ": " + req.originalUrl)
 	var c = {};
 	c.deps = checkdeps.status
 	c.servers = checkservers.status
@@ -240,7 +251,7 @@ console.log(ds() + " [tsdsfe] Listening on port " + config.PORT + clc.blue(msg))
 
 if (depscheck) {
 	console.log(ds() + " [tsdsfe] Checking dependencies every " 
-					+ config.DEPSCHECKPERIOD/1000 + " seconds.")
+					 + config.DEPSCHECKPERIOD/1000 + " seconds.")
 	setInterval(checkdeps, config.DEPSCHECKPERIOD)
 } else {
 	console.log(ds() + " [tsdsfe] Dependency checks disabled.")	
@@ -248,7 +259,8 @@ if (depscheck) {
 
 if (serverscheck) {
 	// Check servers 5 seconds after start-up
-	console.log(ds() + " [tsdsfe] Checking servers in 5 seconds and then every 60 seconds.")
+	console.log(ds() 
+		+ " [tsdsfe] Checking servers in 5 seconds and then every 60 seconds.")
 	setTimeout(checkservers, 5000)
 } else {
 	console.log(ds() + " [tsdsfe] Server checks disabled.")
@@ -259,16 +271,18 @@ startdeps('viviz')
 
 function startdeps(dep) {
 
-	console.log((new Date()).toISOString() + " [tsdsfe] Starting dependency: "+dep)
 
 	var spawn = require('child_process').spawn
 
 	if (dep === 'datacache') {
+
 		if (fs.existsSync("../../datacache/")) {
-			options = {"cwd": "../../datacache/"}
+			depdir = "../../datacache/"
 		} else {
-			options = {"cwd": "./node_modules/datacache/"}
+			depdir = "./node_modules/datacache/"
 		}
+		options = {"cwd": depdir}
+		console.log((new Date()).toISOString() + " [tsdsfe] Starting dependency: "+dep+" in "+depdir)
 	
 		startdeps.datacache = spawn('node', ['app.js', config.DATACACHE.replace(/\D/g,''), '--debugall='+argv.debugall],options)
 		
@@ -285,10 +299,12 @@ function startdeps(dep) {
 
 	if (dep === 'viviz') {
 		if (fs.existsSync("../../viviz/")) {
-			options = {"cwd": "../../viviz/"}
+			depdir = "../../viviz/"
 		} else {
-			options = {"cwd": "./node_modules/viviz/"}
+			depdir = "./node_modules/viviz/"
 		}
+		options = {"cwd": depdir}
+		console.log((new Date()).toISOString() + " [tsdsfe] Starting dependency: "+dep+" in "+depdir)
 	
 		startdeps.viviz = spawn('node', ['viviz.js', config.VIVIZ.replace(/\D/g,'')],options)
 		
@@ -2023,5 +2039,4 @@ function parameter(options, catalogs, datasets, cb) {
 	}
 
 	cb(500,"Query parameter return="+options.return+" not recognized.");
-
 }
