@@ -27,6 +27,7 @@ JETTY=jetty-distribution-8.1.16.v20140903
 JAVA_OPTIONS="-DAUTOPLOT_DATA=/tmp/autoplot_data -Xmx512m -XX:+CMSClassUnloadingEnabled -XX:MaxPermSize=128m"
 
 start:
+	mkdir -p /tmp/autoplot_data/server; cp whitelist.txt /tmp/autoplot_data/server
 	cd deps/jetty; JAVA_OPTIONS=$(JAVA_OPTIONS) JETTY_PORT=8001 bash bin/jetty.sh -d start;
 
 #	cd deps/jetty; JAVA_OPTIONS=-DAUTOPLOT_DATA=/tmp/autoplot_data JETTY_PORT=8001 bash bin/jetty.sh -d start;
