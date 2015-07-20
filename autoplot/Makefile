@@ -23,25 +23,35 @@
 # curl "https://raw.githubusercontent.com/bahamas10/css-color-names/master/css-color-names.json" > ../tsdsfe/js/css-color-names.json
 
 JETTY=jetty-distribution-8.1.16.v20140903
+AUTOPLOT_DATA=/tmp/autoplot_data
 
-JAVA_OPTIONS="-DAUTOPLOT_DATA=/tmp/autoplot_data -Xmx512m -XX:+CMSClassUnloadingEnabled -XX:MaxPermSize=128m"
+JAVA_OPTIONS="-DAUTOPLOT_DATA=$(AUTOPLOT_DATA) -Xmx512m -XX:+CMSClassUnloadingEnabled -XX:MaxPermSize=128m"
 
 start:
-	mkdir -p /tmp/autoplot_data/server; cp whitelist.txt /tmp/autoplot_data/server
+	#mkdir -p /tmp/autoplot_data/server; cp whitelist.txt /tmp/autoplot_data/server
+	rm -rf $(AUTOPLOT_DATA)
 	cd deps/jetty; JAVA_OPTIONS=$(JAVA_OPTIONS) JETTY_PORT=8001 bash bin/jetty.sh -d start;
-
-#	cd deps/jetty; JAVA_OPTIONS=-DAUTOPLOT_DATA=/tmp/autoplot_data JETTY_PORT=8001 bash bin/jetty.sh -d start;
+	#cd deps/jetty; JAVA_OPTIONS=-DAUTOPLOT_DATA=/tmp/autoplot_data JETTY_PORT=8001 bash bin/jetty.sh -d start;
 
 stop:
 	cd deps/jetty; JETTY_PORT=8001 bash bin/jetty.sh -d stop; 
 
 test2:
+	- pkill -f "node /usr/bin/http-server"
+	sleep 1;
 	http-server -p 8999 &
-	sleep 1; curl "http://localhost:8001/AutoplotServlet/SimpleServlet?format=image/png&url=vap%2Bjyds:http%3A%2F%2Flocalhost%3A8999%2Ftest.jyds" > test2.png
-	display test2.png
+	head "$(AUTOPLOT_DATA)/server/whitelist.txt"
+	curl "http://localhost:8001/AutoplotServlet/ServletInfo"
+	sleep 5; curl "http://localhost:8001/AutoplotServlet/SimpleServlet?format=image/png&url=vap%2Bjyds:http%3A%2F%2Flocalhost%3A8999%2Ftest.jyds" > test2a.png
+	head test2a.png
+	curl "http://localhost:8001/AutoplotServlet/SimpleServlet?format=image/png&url=http%3A%2F%2Flocalhost%3A8999%2Ftest.jyds" > test2b.png
+	head test2b.png
+
+	#display test2.png
 
 test:
 	curl "http://localhost:8001/AutoplotServlet/SimpleServlet?url=vap%2Binline:rand(300)" > test.png
+	ls -l test.png
 	display test.png
 
 install:
