@@ -49,7 +49,6 @@ print fills
 
 fo.close()
 
-
 try:
    from org.virbo.dataset import SemanticOps
    from org.das2.datum import EnumerationUnits
@@ -72,7 +71,7 @@ try:
       #if (len(units) > len(set(units)): Requires newer version of Python
       for i in units:
           if i != units[0]:
-            raise Exception(' tsds.jyds - Units must be same for all columns to plot.')
+            raise Exception(' tsdsfe.jyds - Units must be same for all columns to plot.')
             break
 
       llds= DDataSet.createRank1(lenll)
