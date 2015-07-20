@@ -22,6 +22,10 @@ exports.config = function config() {
 
 	out["VIVIZ"] = "http://tsds.org/gallery/";
 
+	out["PNGQUANT"] = "deps/bin/pngquant"
+
+	out["CONVERT"]  = "/usr/local/bin/convert"
+
 	// TSDSFE server timeout time.
 	out["TIMEOUT"] = 1000*60*15;
 

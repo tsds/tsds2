@@ -22,6 +22,10 @@ exports.config = function config() {
 
 	out["VIVIZ"] = "http://localhost:8002/";
 
+	out["PNGQUANT"] = "deps/bin/pngquant"
+
+	out["CONVERT"]  = "/usr/local/bin/convert"
+
 	// Autoplot script that creates preview plot
 	//out["JYDS"] = "http://localost:"+out["PORT"]+"/scripts/tsdsfe.jyds";
 	out["JYDS"] = "http://localhost:"+out["PORT"]+"/scripts/tsdsfe.jyds";
