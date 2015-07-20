@@ -235,6 +235,15 @@ if (!config.LOGDIR.match(/^\//)) {
 	config.LOGDIR   = __dirname+"/log/"
 }
 
+var pngquant_exists = false
+if (fs.existsSync(config.PNGQUANT)) {
+	pngquant_exists = true
+}
+var convert_exists = false
+if (fs.existsSync(config.CONVERT)) {
+	convert_exists = true
+}
+
 config.APPNAME = "tsdsfe"
 config = log.init(config)
 var msg = "";
@@ -249,6 +258,12 @@ if (develtsdset) {
 }
 console.log(ds() + " [tsdsfe] Listening on port " + config.PORT + clc.blue(msg))
 
+if (!pngquant_exists) {
+	console.log(ds() + " [tsdsfe] Note: " + config.PNGQUANT + " not found.  Image file size will not be reduced.")
+}
+if (!pngquant_exists) {
+	console.log(ds() + " [tsdsfe] Note: " + config.CONVERT + " not found.  Canvas size for Autoplot image will be based on smallest width.")
+}
 if (depscheck) {
 	console.log(ds() + " [tsdsfe] Checking dependencies every " 
 					 + config.DEPSCHECKPERIOD/1000 + " seconds.")
@@ -270,7 +285,6 @@ startdeps('datacache')
 startdeps('viviz')
 
 function startdeps(dep) {
-
 
 	var spawn = require('child_process').spawn
 
@@ -387,6 +401,7 @@ function checkdeps(startup) {
 		checkdeps.status["AUTOPLOT"] = {}
 		checkdeps.status["AUTOPLOT"]["state"] = true
 		checkdeps.status["AUTOPLOT"]["message"] = "Connection to Autoplot image server has failed.  Removing option to view images.  A notice of this failure was sent to the site administrator.";
+
 	}
 
 	request(config.VIVIZ,
@@ -507,7 +522,7 @@ function handleRequest(req, res) {
 	res.header('x-tsdsfe-log',loginfo)
 
 	var options = parseOptions(req, res)
-	
+
 	if (debugapp) {
 		log.logres("Configuration file = "+JSON.stringify(config.CONFIGFILE), res)
 		//log.logres("Configuration file contents = "+JSON.stringify(config), res)
@@ -555,14 +570,37 @@ function handleRequest(req, res) {
 	// TODO: Sort URL so a=b&c=d and c=d&a=b are treated as equivalent.
 	// TODO: Create lock file while json cache file is being written.
 
-	// Don't include cache option in signature for cache filename.  Replace use.*cache=(true|false) with "" in request URL.
-	var urlreduced = req.originalUrl.replace(/&use.*cache=(true|false)&*/,"")
+	var urlo = req.originalUrl.split("&")
+	var urlr = []
+	var k = 0
+	for (var j in urlo) {
+		if (!urlo[j].match("cache") && !urlo[j].match("image.")) {
+			urlr[k] = urlo[j]
+			k = k+1;
+		}
+	}
+	var urlreduced = urlr.join("&")
+	//console.log("Original URL: "+req.originalUrl)
+	//console.log("Reduced URL: " + urlreduced)
 
 	var urlsig = crypto.createHash("md5").update(urlreduced).digest("hex")	
+
 	// JSON cache filename
 	var cfile  = config.CACHEDIR + urlsig + ".json"
-	// Image cache filename
-	var ifile  = config.CACHEDIR + urlsig + "." + options.return
+
+	// Base image
+	var ifile = config.CACHEDIR + urlsig 
+				+ "." + options.image.width
+				+ "x" + options.image.height
+				+ "." + options.format
+
+	// Returned image.  If sizes differ, returned image will be a converted
+	// version of base image.  (To address issue that for small canvas sizes,
+ 	// Autoplot produces images with text that takes up most of the canvas.)
+	var ifiler = config.CACHEDIR + urlsig 
+				+ "." + options.image.widthr
+				+ "x" + options.image.heightr
+				+ "." + options.format
 
 	if ((options.format == "png") || (options.format == "pdf") || (options.format == "svg")) {
 		var isimagereq = true
@@ -592,47 +630,50 @@ function handleRequest(req, res) {
 		}
 	} else {
 		if (debugcache) {
-			if (fs.existsSync(ifile)) {
+			if (fs.existsSync(ifiler)) {
 				log.logres("Image response cache found for originalUrl = " + req.originalUrl, res)
 			} else {
 				log.logres("Image response cache found for originalUrl = " + req.originalUrl, res)
 			}
 		}
 		if (options.useimagecache) {
-		  	if (fs.existsSync(ifile) && !fs.existsSync(ifile + ".writing")) {
+		  	if (fs.existsSync(ifiler) && !fs.existsSync(ifiler + ".writing")) {
 				if (debugcache) {
 					log.logres("Using response cache file.", res)
-					log.logres("Writing (sync) " + ifile + ".streaming", res)
+					log.logres("Writing (sync) " + ifiler + ".streaming", res)
 				}
 
 				// Write lock file
-				fs.writeFileSync(ifile + ".streaming","")
+				fs.writeFileSync(ifiler + ".streaming","")
 
 				if (debugcache) {
-					log.logres("Streaming " + ifile, res)
+					log.logres("Streaming " + ifiler, res)
 				}			
 
 				// Send the cached response and return		
-				var stream = fs.createReadStream(ifile)
+				var stream = fs.createReadStream(ifiler)
 				stream
-					.pipe(res)
 					.on('error', function () {
 						if (debugcache) {
-							log.logres("Error when attempting to stream cached image.  Removing (sync) " + ifile + ".streaming", res)
+							log.logres("Error when attempting to stream cached image.", res)
+							log.logres("Removing (sync) " + ifiler.replace(__dirname,""), res)
 						}
-						fs.unlinkSync(ifile + ".streaming")
+						fs.unlinkSync(ifiler + ".streaming")
 					})
 					.on('end', function () {
 						if (debugcache) {
-							log.logres("Finished streaming cached image. Removing (sync) " + ifile + ".streaming", res)
+							log.logres("Finished streaming cached image.", res)
+							log.logres("Removing (sync) " + ifiler.replace(__dirname,""), res)
 						}
-						fs.unlinkSync(ifile + ".streaming")
+						fs.unlinkSync(ifiler + ".streaming")
 					})
+				stream.pipe(res)
 				return
 			}
 		} else {
 			if (debugcache) {
-				log.logres("Not using image response cache file if found because useimagecache = false.", res)
+				log.logres("Not using image response cache file if"
+							+ " found because useimagecache = false.", res)
 			}
 		}
 	}
@@ -843,12 +884,118 @@ function handleRequest(req, res) {
 
 			// If stream was called with a URL, pipe the data through.
 			if (debugapp) {
-				log.logres("Streaming from "+data, options.res)
+				log.logres("Streaming from " + data, options.res)
 			}
-			
-			//Better method for Nc == 0
-			//request.get(data).pipe(res);
-			//return;
+
+			if (isimagereq && options.format !== "png") {
+				request.get(data).pipe(res)
+			}
+
+			if (isimagereq && options.format === "png") {
+
+				if (options.image.widthr !== options.image.width) {
+
+					var sizeo = options.image.width + "x" + options.image.height
+					var sizer = options.image.widthr + "x" + options.image.heightr
+
+					if (debugstream) {
+						log.logres("Creating and returning smaller image based on larger image.", res)
+						log.logres("Base size: "+sizeo+"; Returned size: "+sizer, res)
+
+					}
+
+					var child = require('child_process')
+
+					// ifiler write stream
+					var ifilerws = fs.createWriteStream(ifiler);
+					var convertr  = child.spawn(config.CONVERT,['-quality','100','-resize',sizer,'-','-'])
+					var pngquantr = child.spawn(config.PNGQUANT,['--quality','10','-'])
+					
+					// ifile write stream
+					var ifilews  = fs.createWriteStream(ifile);
+					var pngquant = child.spawn(config.PNGQUANT,['--quality','10','-'])
+
+					// Pipe pngquantr stdout to ifiler
+					pngquantr.stdout.pipe(ifilerws)
+
+					// Pipe pngquantr stdout to resposse
+					pngquantr.stdout.pipe(res)
+
+					// Pipe convertr stdout into pngquant stdin
+					convertr.stdout.pipe(pngquantr.stdin)
+
+					// Pipe pngquant stdout to ifile
+					pngquant.stdout.pipe(ifilews)
+
+					// Pipe request data into pngquant stdin
+					request.get(data).pipe(pngquant.stdin)					
+
+					// Pipe request data into convertr stdin
+					request.get(data).pipe(convertr.stdin)					
+
+					return
+				} else {
+
+					if (debugstream) {
+						log.logres("Not creating scaled image based on larger image.", res)
+					}
+
+					if (!pngquant_exists) {
+						if (debugstream) {
+							log.logres(config.PNGQUANT + " not found.  Not reducing image size with pngquant.", res)
+						}
+						request.get(data).pipe(res)
+						return
+					}
+
+					if (debugstream) {
+						log.logres("Reducing image size with pngquant.", res)
+					}
+
+					var child = require('child_process')
+
+					// ifile write stream
+					var ifilews  = fs.createWriteStream(ifile);
+					var pngquant = child.spawn(config.PNGQUANT,['--quality','10','-'])
+
+					// Pipe pngquant stdout to ifile
+					pngquant.stdout.pipe(ifilews)
+
+					// Pipe pngquant stdout to response
+					pngquant.stdout.pipe(res)
+
+					// Pipe request data into pngquant stdin
+					request
+					.get(data)
+					.on('error', function (err) {
+						console.log(err)
+						var tmpstr  = "Error when attempting to retrieve data from data from " + data
+						var tmpstr2 = "Error " + err.code + " when attempting to retrieve data from data from " + data.split("?")[0]
+						res.setHeader('x-tsdsfe-error',tmpstr2)
+						log.logres(tmpstr, res)
+						res.status(502).send(tmpstr)
+					})
+ 					.on('response', function(res0) {
+ 						if (res0.statusCode !== "200") {
+ 							// TODO: Abort and send error.
+ 						}
+						if (debugstream) {
+							log.logres("Headers from " + data + ":" + JSON.stringify(res0.headers), res)
+						}
+						if (res0.headers['content-type']) {
+							res.setHeader('content-type',res0.headers['content-type'])
+						}
+						if (res0.headers['x-datacache-log']) {
+							res.setHeader('x-datacache-log',res0.headers['x-datacache-log'])
+						}
+						if (res0.headers['x-tsdsfe-warning']) {
+							res.setHeader('x-tsdsfe-warning',res0.headers['x-tsdsfe-warning'])
+						}
+  					})
+  					.pipe(pngquant.stdin)
+					return
+				}
+			}
 
 			// Request data from URL.
 			var urldata = "";
@@ -861,9 +1008,9 @@ function handleRequest(req, res) {
 				if (res0.headers['x-datacache-log']) {
 					res.setHeader('x-datacache-log',res0.headers['x-datacache-log'])
 				}
-
-				if (res0.headers['x-tsdsfe-warning'])
+				if (res0.headers['x-tsdsfe-warning']) {
 					res.setHeader('x-tsdsfe-warning',res0.headers['x-tsdsfe-warning'])
+				}
 							
 				if (Nc == 0) {
 					if (res0.headers["content-type"])
@@ -888,13 +1035,13 @@ function handleRequest(req, res) {
 						var writeok = true;						
 					}
 
-					if (fs.existsSync(ifile + ".streaming")) {
+					if (fs.existsSync(ifiler + ".streaming")) {
 						if (debugcache) {
 							log.logres("File is being streamed.  Not writing image to cache.", res)
 						}
 						writeok = false;
 					}
-					if (fs.existsSync(ifile + ".writing")) {
+					if (fs.existsSync(ifiler + ".writing")) {
 						if (debugcache) {
 							log.logres("File is being written.  Not writing image to cache.", res)
 						}
@@ -902,30 +1049,71 @@ function handleRequest(req, res) {
 					}
 					if (writeok) {
 						if (debugcache) {
-							log.logres("Writing (sync) " + ifile + ".writing", res)
+							log.logres("Writing (sync) " + ifiler + ".writing", res)
 						}
-						fs.writeFileSync(ifile + ".writing","")
-						istream = fs.createWriteStream(ifile)
+						fs.writeFileSync(ifiler + ".writing","")
+						istream = fs.createWriteStream(ifiler)
 						istream
 							.on('finish',function () {
-								if (debugcache) {
-									log.logres("Finished writing image.  Removing (sync) " + ifile + ".writing", res)
+								if (!fs.existsSync("deps/bin/pngquant")) {
+									if (debugcache) {
+										log.logres("deps/bin/pngquant not found.  Not creating smaller version of png.", res)
+										log.logres("Finished writing image.  Removing (sync) " + ifiler + ".writing", res)
+									}
+									fs.unlinkSync(ifiler + ".writing")
+									return
 								}
-								fs.unlinkSync(ifile + ".writing")
+								var child = require('child_process')
+								var com = 'deps/bin/pngquant -f --ext .quant.png --quality 10'+' '+ifiler
+
+								log.logres("Creating smaller png of full using " + com, res)
+								child.exec(com , function(error, stdout, stderr) {
+									if (debugcache) {
+										log.logres("Finished writing image and smaller version.  Removing (sync) " + ifile + ".writing", res)
+									}
+									fs.unlinkSync(ifiler + ".writing")
+									if (error) console.log(error)
+									if (stdout) console.log(stdout)
+									if (stderr) console.log(stderr)
+								})
+
+								if (0) {
+									for (var i = 0; i < ifilea.length; i++) {
+										var com1 = 'convert -geometry ' + widtha[i+1] + ' ' + ifile + ' ' + ifilea[i]
+										var com2 = 'deps/bin/pngquant -f --ext .quant.png --quality 10'+' '+ifilea[i]
+										var com = com1 + "; " + com2
+										log.logres("Evaluating "+com, res)
+										child.exec(com , function(error, stdout, stderr) {
+											if (debugcache) {
+												log.logres("Finished writing alternative images and smaller version.", res)
+											}
+											if (error) console.log(error)
+											if (stdout) console.log(stdout)
+											if (stderr) console.log(stderr)
+										})
+									}
+								}
+
 							})
-						.on('error', function () {
+						.on('error', function (err) {
+							if (err) console.log(err)
 							if (debugcache) {
-								log.logres("Error when attempting to write image to cache.  Removing (sync) " + ifile + ".streaming", res)
+								log.logres("Error when attempting to write image to cache. Error = " + err + " Removing (sync) " + ifile + ".streaming", res)
 							}
-							fs.unlinkSync(ifile + ".streaming")
+							console.log("Removing: "+ifile + ".streaming")
+							// Test in case finish triggered first then error.
+							if (fs.existsSync(ifile + ".streaming")) {
+								fs.unlinkSync(ifile + ".streaming")
+							}
 						})
 					}
 				}
 				res0
 					.on('data', function(chunk) {
 						// Send chunk to client
+
 						res.write(chunk);
-						
+
 						if (isimagereq && writeok) {
 							// Write chunk to cache file.
 							istream.write(chunk);
@@ -1059,6 +1247,7 @@ function parseOptions(req, res) {
 	options.filterWindow = req.query.filterWindow || req.body.filterWindow || "";
 	options.attach       = s2b(req.query.attach   || req.body.attach       || "true");
 
+
 	// If any of the cache options are false and update fails, cache will be used if found (and warning is given in header).
  	// Sent as DataCache parameter.
 	options.usedatacache     = s2b(req.query.usedatacache     || req.body.usedatacache     || "true")
@@ -1068,37 +1257,88 @@ function parseOptions(req, res) {
 	options.usemetadatacache = s2b(req.query.usemetadatacache || req.body.usemetadatacache || "true") 
 
 	// TODO: If any input option is not in list of valid inputs, send warning in header.
+
+	if ((options.return === "image") && (options.type === "")) {
+		options.type = "timeseries"
+	}	
 	
 	if ((options.return === "image") && (options.style === "")) {
-		options.style === "0"
+		options.style = "0"
 	}	
+
+	options.image = {};
+	options.image.width   = req.query['image.width']  || ""
+	options.image.height  = req.query['image.height'] || ""
+	options.image.widthr  = req.query['image.width']  || ""
+	options.image.heightr = req.query['image.height'] || ""
+
+	if (options.image.width) {
+		var widtha  = options.image.width.split(",")
+		var heighta = options.image.height.split(",")
+		if (widtha.length > 0) {
+			var maxw = parseFloat(widtha[0])
+			var maxh = parseFloat(heighta[0])
+			// First element is returned image size
+			// that will be scaled based on max width.
+			options.image.widthr  = maxw 
+			options.image.heightr = maxh 
+			var tmpw,tmph
+			for (var i in widtha) {
+				tmpw = parseFloat(widtha[i])
+				tmph = parseFloat(heighta[i])
+				if (tmpw > maxw) {
+					maxw = tmpw;
+					maxh = tmph;
+				}
+			}
+			// Max element is original image size that will be reduced to widthr.
+			options.image.width  = maxw 
+			options.image.height = maxh 
+		}
+	}
+
 	if ((options.return === "image") && (options.style === "0")) {
-		options.style = "drawGrid=true"+
-						"&color=%230000ff"+
-						"&backgroundColor=none"+
-						"&foregroundColor=%23000000"+
-						"&column="+encodeURIComponent("0%+6em,100%-5em")+
-						"&row="+encodeURIComponent("0%+2em,100%-4em")+
-						"&width=800"+
-						"&height=200";
+
+		options.image.width   = options.image.width  || "800"
+		options.image.height  = options.image.height || "200"
+		options.image.widthr  = options.image.widthr  || "800"
+		options.image.heightr = options.image.heightr || "200"
+
+		options.stylestr =   "drawGrid=true"
+							+ "&backgroundColor=none"
+							+ "&foregroundColor=%23000000"
+							+ "&column="+ encodeURIComponent("0%+6em,100%-5em")
+							+ "&row="   + encodeURIComponent("0%+2em,100%-4em")
+							+ "&width=" + options.image.width
+							+ "&height="+ options.image.height
+
 	}
 	if ((options.return === "image") && (options.style === "1")) {
-		options.style = "drawGrid=true"+
-						"&color=%23ffff00"+
-						"&backgroundColor=%23000000"+
-						"&foregroundColor=%23ffff00"+
-						"&column="+encodeURIComponent("0%+6em,100%-6em")+
-						"&row="+encodeURIComponent("0%+2em,100%-4em")+
-						"&width=800"+
-						"&height=200";
+		options.image.width   = options.image.width  || "800"
+		options.image.height  = options.image.height || "200"
+		options.image.widthr  = options.image.widthr  || "800"
+		options.image.heightr = options.image.heightr || "200"
+
+		options.stylestr =   "drawGrid=true"
+							+ "&backgroundColor=%23000000"
+							+ "&foregroundColor=%23ffff00"
+							+ "&column="+encodeURIComponent("0%+6em,100%-6em")
+							+ "&row="+encodeURIComponent("0%+2em,100%-4em")
+							+ "&width="+options.image.width
+							+ "&height="+options.image.height
 	}
 	if ((options.return === "image") && (options.style === "2")) {
-		options.style = "drawGrid=false"+
-						"&backgroundColor=none"+
-						"&column="+encodeURIComponent("0%+0px,100%-0px")+
-						"&row="+encodeURIComponent("0%+0px,100%-0px")+
-						"&width=800"+
-						"&height=100";
+		options.image.width   = options.image.width  || "800"
+		options.image.height  = options.image.height || "100"
+		options.image.widthr  = options.image.widthr  || "800"
+		options.image.heightr = options.image.heightr || "200"
+
+		options.stylestr =   "drawGrid=false"
+							+ "&backgroundColor=none"
+							+ "&column="+encodeURIComponent("0%+0px,100%-0px")
+							+ "&row="+encodeURIComponent("0%+0px,100%-0px")
+							+ "&width="+options.image.width
+							+ "&height="+options.image.height
 	}
 
 	if ((options.return === "image") && (options.format === "")) {
@@ -1696,7 +1936,6 @@ function parameter(options, catalogs, datasets, cb) {
 		resp[i].value     = parameters[i]["$"]["id"] || parameters[i]["$"]["ID"];
 		resp[i].label     = parameters[i]["$"]["name"] || resp[i].value || "";
 		resp[i].units     = parameters[i]["$"]["units"] || "";
-		resp[i].columnLabels = parameters[i]["$"]["columnLabels"] || "";
 		resp[i].type      = parameters[i]["$"]["type"] || "";
 		resp[i].catalog   = cats[i];
 		resp[i].dataset   = parents[i]["id"] || parents[i]["ID"];
@@ -1714,12 +1953,6 @@ function parameter(options, catalogs, datasets, cb) {
 		if (!('cadence' in resp[i].dd))      {resp[i].dd.cadence = parents[i]["cadence"]}
 		if (!('lineregex' in resp[i].dd))    {resp[i].dd.lineregex = parents[i]["lineregex"]}
 		if (!('fillvalue' in resp[i].dd))    {resp[i].dd.fillvalue = parameters[i]["$"]["fillvalue"] || ""}
-
-		if (resp[i].dd.columns.split(",").length > 1) {
-			if (resp[i].columnLabels === "") {
-				resp[i].columnLabels = resp[i].dd.columns;
-			}
-		}
 		
 		if (options.parameters !== "^.*") {				
 
@@ -1863,30 +2096,38 @@ function parameter(options, catalogs, datasets, cb) {
 	}
 	
 	if (options.return === "urilist") {
-		cb(0,dc+"&return=urilist");
-		return;
+		cb(0,dc + "&return=urilist")
+		return
 	}
 	if (options.return === "urilistflat") {
-		cb(0,dc+"&return=urilistflat");
-		return;
+		cb(0,dc + "&return=urilistflat")
+		return
 	}
 
 	if (options.return === "image" && options.format === "viviz") {
+		var dirprefix = config.TSDSFE 
+						+ "?catalog="    + options.catalog
+						+ "&dataset="    + options.dataset
+						+ "&parameters=" + options.parameters
+						+ "&return=image"
+						+ "&format=png"
+						+ "&type="  + options.type
+		            	+ "&style=" + options.style
+
 		var viviz = config.VIVIZ 
 					+ "#" 
-					+ config.TSDSFE 
-					+ "%3Fcatalog%3D" + options.catalog
-					+ "%26dataset%3D" + options.dataset
-					+ "%26parameters%3D" + options.parameters
-					+ "%26return%3Dimage"
-					+ "%26format%3Dpng"
-					+ "%26type%3D"+options.type
-		            + "%26style%3D0"
-					+ "&strftime=start%3D-P1D%26stop%3D$Y-$m-$d"
+					+ "dirprefix=" 
+					+   encodeURIComponent(dirprefix)
+					+ "&fulldir="
+					+ 	encodeURIComponent("&image.width=800&image.height=200")
+					//+ "&thumbdir="
+					//+ 	encodeURIComponent("&image.width=400&image.height=100")
+					+ "&strftime="
+					+ 	encodeURIComponent("&start=-P1D&stop=$Y-$m-$d")
 					+ "&start=" + options.start
-					+ "&stop=" + options.stop;
-		cb(302,viviz);
-		return;
+					+ "&stop="  + options.stop;
+		cb(302, viviz)
+		return
 	}
 
 	if (options.return === "image" || options.return === "script") {
@@ -1933,39 +2174,67 @@ function parameter(options, catalogs, datasets, cb) {
 		start = tmp.split("/")[0].substring(0,10);
 		stop = tmp.split("/")[1].substring(0,10);
 
-		url = config.JYDS +
-				"?server="+config.TSDSFE+
-				"&catalog="+resp[0].catalog+
-				"&dataset="+resp[0].dataset+
-				"&parameters="+resp[0].parameter+
-				"&timerange="+start+"/"+stop+
-				"&type="+options.type;
+		var labels = "";
+		var units = "";
+		var fills = "";
+		for (var z = 0; z < resp.length;z++) {
 
-		if (resp[0].columnLabels !== '') {
-			url = url + "&labels="+resp[0].columnLabels;
-		} else if (resp[0].label != "") {
-			url = url + "&labels="+resp[0].label;
-		}
-		if (resp[0].units != "")  {url = url +"&units="+resp[0].units;}
-		
-		if (resp[0].dd.fillvalue != "")  {url = url + "&fills="+resp[0].dd.fillvalue};
+			if (resp[z].label != "") {
+				labels = labels + resp[z].label + ",";
+			}
+			if (resp[z].units != "")  {
+				units = units + resp[z].units + ","
+			}
+			
+			if (resp[z].dd.fillvalue != "")  {
+				fills = fills +resp[z].dd.fillvalue + ","
+			}
 
-		if (debugapp) {
-			log.logres("vap+jyds:"+url, options.res)
 		}
 
+		var jydsargs =    "?labels=" + labels.slice(0,-1) 
+						+ "&units=" + units.slice(0,-1) 
+						+ "&fills=" + fills.slice(0,-1)						
+						+ "&catalog="+options.catalog
+						+ "&dataset="+options.dataset
+						+ "&parameters="+options.parameters
+						+ "&timerange="+start+"/"+stop
+						+ "&type="+options.type
+						+ "&server=" + config.TSDSFE; 
+
+
+		config.JNLP = "http://autoplot.org/autoplot.jnlp"
+		var jnlpargs = "?open=vap+jyds:"
+
+		console.log("JYDS    : " + config.JYDS)
+		console.log("jydsargs: " + jydsargs + "\n")
+
+	
 		if (options.format === "jnlp") {
-			cb(301,"http://autoplot.org/autoplot.jnlp?open=vap+jyds:"+url);
-			return;
+			console.log("JNLP:     " + config.JNLP + "\n")
+			console.log("jnlpargs: " + jnlpargs + "JYDS + jydsargs\n")
+			// Should be using the following, but the script for autoplot.jnlp
+			// does not decode the argument of open.
+			//cb(301,config.JNLP + jnlpargs + encodeURIComponent(config.JYDS + jydsargs))
+			// This works:
+			//console.log("jnlpargs: " + jnlpargs + "encodeURIComponent(JYDS + jydsargs)\n")
+			cb(301,config.JNLP + jnlpargs + config.JYDS + jydsargs)
+			return
 		}
 
 		var format = "image/png";
 		if (options.format === "pdf") {format = "application/pdf"}
 		if (options.format === "svg") {format = "image/svg%2Bxml"}
-		
-		var aurl = config.AUTOPLOT + "?format="+format+"&" + options.style + "&url=vap+jyds:" + encodeURIComponent(url);	
 
-		log.logres("vap+jyds:"+url, options.res);
+		var apargs = "?format="+format
+					+ "&" + options.stylestr
+					+ "&url=vap+jyds:"
+
+		console.log("AUTOPLOT: " + config.AUTOPLOT)
+		console.log("apargs: " + apargs + "encodeURIComponent(JYDS + jydsargs)\n")	
+		var aurl = config.AUTOPLOT + apargs + encodeURIComponent(config.JYDS + jydsargs)
+		console.log("Making request to: AUTOPLOT + apargs + encodeURIComponent(config.JYDS + jydsargs)")
+		console.log("i.e.,\n"+aurl+"\n")
 
 		if (config.TSDSFE.match(/http:\/\/localhost/)) {
 			if (!config.AUTOPLOT.match(/http:\/\/localhost/)) {
@@ -1974,8 +2243,8 @@ function parameter(options, catalogs, datasets, cb) {
 				return;
 			}
 		}
-		cb(0,aurl);
-		return;
+		cb(0, aurl)
+		return
 	}
 
 	if (options.return === "dd") {
@@ -1991,7 +2260,6 @@ function parameter(options, catalogs, datasets, cb) {
 			ddresp[z].columnRenderings = resp[z].dd.rendering;
 			ddresp[z].start = resp[z].dd.start;
 			ddresp[z].stop = resp[z].dd.stop;
-
 
 			ddresp[z].urltemplate = "";
 			if (options.format === "1") {
