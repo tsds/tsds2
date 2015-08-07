@@ -1,6 +1,60 @@
-# To install jetty and start
-# make install
-# make start
+# To install jetty and start:
+# make install && make start
+#
+# Test with:
+# make test
+
+JETTY=jetty-distribution-8.1.16.v20140903
+AUTOPLOT_DATA=/tmp/autoplot_data
+JAVA_OPTIONS="-DAUTOPLOT_DATA=$(AUTOPLOT_DATA) -Xmx512m -XX:+CMSClassUnloadingEnabled"
+
+WARURL="http://autoplot.org/hudson/job/autoplot-jar-servlet/lastSuccessfulBuild/artifact/autoplot/AutoplotServlet/dist/AutoplotServlet.war"
+
+start:
+	cp jetty-logging.xml deps/jetty/etc
+	cd deps/jetty; JAVA_OPTIONS=$(JAVA_OPTIONS) JETTY_PORT=8001 bash bin/jetty.sh start;
+
+stop:
+	cd deps/jetty; JETTY_PORT=8001 bash bin/jetty.sh stop; 
+
+test:
+	echo "Testing http://localhost:8001/AutoplotServlet/SimpleServlet?url=vap%2Binline:rand(300)"
+	curl -s "http://localhost:8001/AutoplotServlet/SimpleServlet?url=vap%2Binline:rand(300)" > test.png
+	test -n "$$(find test.png -a -size +10k)" # Failure file size is < 10k.  Not a robust test.
+	echo "PASS"
+
+install:
+	mkdir -p deps;
+	curl $(WARURL) > deps/AutoplotServlet.war
+	cd deps; unzip -q -o ../pkgs/$(JETTY).zip
+	cd deps; mv AutoplotServlet.war $(JETTY)/webapps
+	cd deps; rm -f jetty; ln -s $(JETTY) jetty
+
+clean:
+	rm -rf $(AUTOPLOT_DATA)
+	rm -f *.class
+	rm -rf deps/*
+	rm -rf node_modules
+	rm -f test.png
+
+# curl "https://raw.githubusercontent.com/bahamas10/css-color-names/master/css-color-names.json" > ../tsdsfe/js/css-color-names.json
+fontlist:
+	javac ListFonts.java
+	java ListFonts > ../tsdsfe/js/autoplotserverfonts.json
+	curl http://autoplot.org/jnlp/latest/autoplot.jar > deps/autoplot.jar
+
+test2:
+	- pkill -f "node /usr/bin/http-server"
+	sleep 1;
+	http-server -p 8999 &
+	head "$(AUTOPLOT_DATA)/server/whitelist.txt"
+	curl "http://localhost:8001/AutoplotServlet/ServletInfo"
+	sleep 5; curl "http://localhost:8001/AutoplotServlet/SimpleServlet?format=image/png&url=vap%2Bjyds:http%3A%2F%2Flocalhost%3A8999%2Ftest.jyds" > test2a.png
+	head test2a.png
+	curl "http://localhost:8001/AutoplotServlet/SimpleServlet?format=image/png&url=http%3A%2F%2Flocalhost%3A8999%2Ftest.jyds" > test2b.png
+	head test2b.png
+	#display test2.png
+
 
 # OS-X: Need to execute
 # ulimit -S -n 2048
@@ -19,58 +73,6 @@
 #
 # For most recent Nailgun (0.9), download from source.
 # git clone https://github.com/martylamb/nailgun.git
-
-# curl "https://raw.githubusercontent.com/bahamas10/css-color-names/master/css-color-names.json" > ../tsdsfe/js/css-color-names.json
-
-JETTY=jetty-distribution-8.1.16.v20140903
-AUTOPLOT_DATA=/tmp/autoplot_data
-
-JAVA_OPTIONS="-DAUTOPLOT_DATA=$(AUTOPLOT_DATA) -Xmx512m -XX:+CMSClassUnloadingEnabled -XX:MaxPermSize=128m"
-
-start:
-	#mkdir -p /tmp/autoplot_data/server; cp whitelist.txt /tmp/autoplot_data/server
-	rm -rf $(AUTOPLOT_DATA)
-	cd deps/jetty; JAVA_OPTIONS=$(JAVA_OPTIONS) JETTY_PORT=8001 bash bin/jetty.sh -d start;
-	#cd deps/jetty; JAVA_OPTIONS=-DAUTOPLOT_DATA=/tmp/autoplot_data JETTY_PORT=8001 bash bin/jetty.sh -d start;
-
-stop:
-	cd deps/jetty; JETTY_PORT=8001 bash bin/jetty.sh -d stop; 
-
-test2:
-	- pkill -f "node /usr/bin/http-server"
-	sleep 1;
-	http-server -p 8999 &
-	head "$(AUTOPLOT_DATA)/server/whitelist.txt"
-	curl "http://localhost:8001/AutoplotServlet/ServletInfo"
-	sleep 5; curl "http://localhost:8001/AutoplotServlet/SimpleServlet?format=image/png&url=vap%2Bjyds:http%3A%2F%2Flocalhost%3A8999%2Ftest.jyds" > test2a.png
-	head test2a.png
-	curl "http://localhost:8001/AutoplotServlet/SimpleServlet?format=image/png&url=http%3A%2F%2Flocalhost%3A8999%2Ftest.jyds" > test2b.png
-	head test2b.png
-
-	#display test2.png
-
-test:
-	curl "http://localhost:8001/AutoplotServlet/SimpleServlet?url=vap%2Binline:rand(300)" > test.png
-	ls -l test.png
-	display test.png
-
-install:
-	mkdir -p autoplot_data/server
-	#cp deps/whitelist.txt autoplot_data/server
-	mkdir -p deps;
-	#javac ListFonts.java
-	#java ListFonts > ../tsdsfe/js/autoplotserverfonts.json
-	#curl http://autoplot.org/jnlp/latest/autoplot.jar > deps/autoplot.jar
-	curl http://autoplot.org/hudson/job/autoplot-jar-servlet/lastSuccessfulBuild/artifact/autoplot/AutoplotServlet/dist/AutoplotServlet.war > deps/AutoplotServlet.war
-	cd deps; unzip -q -o ../pkgs/$(JETTY).zip
-	cd deps; mv AutoplotServlet.war $(JETTY)/webapps
-	cd deps; rm -f jetty; ln -s $(JETTY) jetty
-
-clean:
-	rm -f *.class
-	rm -rf deps/*
-	rm -rf node_modules
-	rm -f test.png
 
 xall:
 	curl http://autoplot.org/jnlp/latest/autoplot.jar > deps/autoplot.jar
