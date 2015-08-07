@@ -114,12 +114,18 @@ process.on('exit', function () {
 	clc.red(ds() 
 		+ " [tsdsfe] (NOT IMPLEMENTED) Removing partially written files.")
 
-	console.log(ds() 
-		+ " [tsdsfe] Stopping datacache server.")
-	startdeps.datacache.kill('SIGINT')
+	if (startdeps.datacache) {
+		console.log(ds() + " [tsdsfe] Stopping datacache server.")
+		startdeps.datacache.kill('SIGINT')
+	}
 
-	console.log(ds() + " [tsdsfe] Stopping viviz server.")
-	startdeps.viviz.kill('SIGINT')
+	if (startdeps.viviz) {
+		console.log(ds() + " [tsdsfe] Stopping viviz server.")
+		startdeps.viviz.kill('SIGINT')
+	}
+
+	console.log(ds() + " [tsdsfe] Stopping autoplot server.")
+	stopdeps('autoplot')
 	
 	console.log(ds() + " [tsdsfe] Exiting.")
 })
@@ -262,8 +268,7 @@ if (fs.existsSync(config.PNGQUANT)) {
 }
 if (!pngquant_exists) {
 	console.log(ds() + " [tsdsfe] Note: " 
-		+ clc.blue(config.PNGQUANT + " not found."
-		+ " Image file size will not be reduced."))
+		+ clc.blue(config.PNGQUANT.replace(__dirname+"/","") + " not found.  Image file size will not be reduced."))
 }
 
 var convert_exists = false
@@ -313,10 +318,60 @@ if (argv.checkservers) {
 
 startdeps('datacache')
 startdeps('viviz')
+startdeps('autoplot')
 
+function stopdeps(dep) {
+
+		var spawn = require('child_process').spawnSync
+
+		depdir = "../autoplot/"
+
+		options = {"cwd": depdir}
+
+		str = spawn('make',['-s','stop'], options)
+		if (str.stdout.toString() !== "")
+			console.log(ds() + " [tsdsfe] autoplot stdout: " + str.stdout.toString().replace(/\n$/,""))
+		if (str.stderr.toString() !== "") {
+			console.log(str.stderr.length)
+			console.log(ds() + " [tsdsfe] autoplot stderr: " + str.stderr)
+		}
+
+}
 function startdeps(dep) {
 
 	var spawn = require('child_process').spawn
+
+	if (dep === 'autoplot') {
+
+		depdir = "../autoplot/"
+		options = {"cwd": depdir}
+
+		var APPORT = config.AUTOPLOT.replace(/.*:([0-9].*?)\/.*/g,'$1')
+		if (APPORT.length === config.AUTOPLOT) {
+			// No port number given.  Assume 80.
+			APPORT = "80"
+		}
+		console.log(ds() 
+				+ " [tsdsfe] Starting dependency " 
+				+ dep + " in " + depdir + " on port " + APPORT)
+
+		startdeps.datacache = spawn('make',['start'], options)
+		
+		startdeps.datacache.stdout.on('data', function (data) {
+			if (data) {
+				if (data.toString().match("Already Running"))
+					console.log(ds() + " [tsdsfe] autoplot is already running.")
+			}
+		})
+		startdeps.datacache.stderr.on('data', function (data) {
+			if (data) {
+				console.log(ds() + " [tsdsfe] autoplot stderr: " + data)
+			}
+		})
+		startdeps.datacache.on('close', function (code) {
+			console.log(ds() + " [tsdsfe] autoplot exited with code: " + code)
+		})	
+	}
 
 	if (dep === 'datacache') {
 
