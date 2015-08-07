@@ -319,6 +319,7 @@ if (argv.checkservers) {
 startdeps('datacache')
 startdeps('viviz')
 startdeps('autoplot')
+<<<<<<< HEAD
 
 function stopdeps(dep) {
 
@@ -336,6 +337,25 @@ function stopdeps(dep) {
 			console.log(ds() + " [tsdsfe] autoplot stderr: " + str.stderr)
 		}
 
+=======
+
+function stopdeps(dep) {
+
+		var spawn = require('child_process').spawnSync
+
+		depdir = "../autoplot/"
+
+		options = {"cwd": depdir}
+
+		str = spawn('make',['-s','stop'], options)
+		if (str.stdout.toString() !== "")
+			console.log(ds() + " [tsdsfe] autoplot stdout: " + str.stdout.toString().replace(/\n$/,""))
+		if (str.stderr.toString() !== "") {
+			console.log(str.stderr.length)
+			console.log(ds() + " [tsdsfe] autoplot stderr: " + str.stderr)
+		}
+
+>>>>>>> 19e909170302e40985b3061711938f080f153bc8
 }
 function startdeps(dep) {
 
@@ -364,9 +384,13 @@ function startdeps(dep) {
 			}
 		})
 		startdeps.datacache.stderr.on('data', function (data) {
+<<<<<<< HEAD
 			if (data) {
 				console.log(ds() + " [tsdsfe] autoplot stderr: " + data)
 			}
+=======
+			//console.log(ds() + " [tsdsfe] autoplot stderr: " + data)
+>>>>>>> 19e909170302e40985b3061711938f080f153bc8
 		})
 		startdeps.datacache.on('close', function (code) {
 			console.log(ds() + " [tsdsfe] autoplot exited with code: " + code)

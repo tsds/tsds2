@@ -1,4 +1,6 @@
-i = i+1;
+var tests = [];
+i = 0;
+
 tests[i] = {};
 tests[i].url = "catalog=USGS/Mag/RT/PT1S&dataset=BDT&parameters=H&start=-P2D&stop=P0D";
 tests[i].test = function (data) {
