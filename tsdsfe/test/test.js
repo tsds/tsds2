@@ -1,35 +1,45 @@
 // Run all tests:
-//		nodejs test/test.js --testfile=test/metadata-tests.js
-//		nodejs test/test.js --testfile=test/data-tests.js
-//		nodejs test/test.js --testfile=test/failing-tests.js
+//		node test/test.js --testfile test/metadata-tests.js
+//		node test/test.js --testfile test/data-tests.js
+//		node test/test.js --testfile test/failing-tests.js
 //
 // Run one test:
-//		nodejs test/test.js --start=4 --onetest=true
-// Run all tests starting at test #:
-//		nodejs test/test.js --start=4
+//		node test/test.js --start 4 --onetest true
+// Run all tests starting at test #4:
+//		node test/test.js --start 4
 
 var fs       = require("fs");
 var sys      = require('sys');
 var exec     = require('child_process').exec;
+var execSync = require('child_process').execSync;
+//var execSync = require("exec-sync");
 var spawn    = require('child_process').spawn;
 var request  = require("request");
 var express  = require('express');
 var http     = require('http');
 var url      = require('url');
 var zlib     = require('zlib');
-var execSync = require("exec-sync");
-var argv     = require('minimist')(process.argv.slice(2));
 var clc      = require('cli-color');
+var argv    = require('yargs')
+				.default
+				({
+					'port': 8004,
+					'start': "0",
+					'onetest': "false",
+					'N': "1",
+					'testfile': "./test/failing-tests.js",
+				})
+				.argv
 
 function logc(str,color) {var msg = clc.xterm(color); console.log(msg(str));};
 function s2b(str) {if (str === "true") {return true} else {return false}}
 function s2i(str) {return parseInt(str)}
 
-var start    = s2i(argv.start || 0); // Start test Number
-var onetest  = s2b(argv.onetest || "false");
-var Ntests   = argv.ntests;
-var port     = argv.port || 8004;
-var testfile = argv.testfile || './test/failing-tests.js';
+var port     = argv.port;
+var start    = s2i(argv.start); // Start test Number
+var onetest  = s2b(argv.onetest);
+var Ntests   = s2i(argv.N);
+var testfile = argv.testfile;
 eval(fs.readFileSync(testfile,'utf8'));
 
 // TSDS server to use

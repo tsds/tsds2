@@ -2,29 +2,11 @@ var tests = [];
 i = 0;
 
 tests[i] = {};
-tests[i].url = "catalog=SWPC/GOES/Primary/Particle/PT1M&dataset=Gp_particles&parameters=E_gt_4.0&start=-P3D&stop=-P1D";
-tests[i].test = function (data) {
-	var len = data.toString().split("\n").length;
-	console.log("File should have 577 newlines.  Found: " + len);
-	if (len == 577) {return true;} else {return false}
-};
-
-i = i+1;
-tests[i] = {};
 tests[i].url = "catalog=USGS/Mag/RT/PT1M&dataset=BDT&parameters=H&start=-P3D&stop=P0D";
 tests[i].test = function (data) {
 	var len = data.toString().split("\n").length;
 	console.log("File should have 4321 newlines.  Found: " + len );
 	if (len == 4321) {return true;} else {return false}
-};
-
-i = i+1;
-tests[i] = {};
-tests[i].url = "catalog=USGS/Mag/RT/PT1S&dataset=BDT&parameters=H&start=-P2D&stop=P0D";
-tests[i].test = function (data) {
-	var len = data.toString().split("\n").length;
-	console.log("File should have 172801 newlines.  Found: " + len );
-	if (len == 172801) {return true;} else {return false}
 };
 
 i = i+1;
@@ -114,13 +96,3 @@ tests[i].test = function (data) {
 	console.log("File should have 4321 newlines.  Found: " + len );
 	if (len == 4321) {return true;} else {return false}
 };
-
-i = i+1;
-tests[i] = {};
-tests[i].url = "catalog=INTERMAGNET/PT1S&dataset=AAE&parameters=X&start=-P2D&stop=2012-11-30";
-tests[i].test = function (data) {
-	var len = data.toString().split("\n").length;
-	console.log("File should have 172801 newlines.  Found: " + len );
-	if (len == 172801) {return true;} else {return false}
-};
-tests[i].note = ''

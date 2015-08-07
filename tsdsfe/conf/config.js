@@ -2,6 +2,8 @@ exports.config = function config() {
 
 	var out = {};
 
+	out["APPNAME"] = "tsdsfe";
+
 	// How often to check dependencies (ms)
 	out["DEPSCHECKPERIOD"] = 2000;
 

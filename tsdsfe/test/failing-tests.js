@@ -1,6 +1,14 @@
 var tests = [];
 i = 0;
 
+tests[i] = {};
+tests[i].url = "catalog=SWPC/GOES/Primary/Particle/PT1M&dataset=Gp_particles&parameters=E_gt_4.0&start=-P3D&stop=-P1D";
+tests[i].test = function (data) {
+	var len = data.toString().split("\n").length;
+	console.log("File should have 577 newlines.  Found: " + len);
+	if (len == 577) {return true;} else {return false}
+}
+
 i = i+1;
 tests[i] = {};
 tests[i].url = "catalog=SWPC/AK&dataset=AK&parameters=PlanetaryK&start=-P10D&stop=-P2D";
