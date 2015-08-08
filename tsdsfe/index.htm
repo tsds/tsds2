@@ -154,12 +154,13 @@
 					triggerselect()
 				}			
 
+				// Show test dropdown.
+				dropdown2(["tests"],["Examples"],[tests],"#dropdownstest");
+
 				return
 
 				// The following code needs work.
 
-				// Show test dropdown.
-				dropdown2(["tests"],["Tests"],[tests],"#dropdownstest");
 
 				// Update drop-downs when URL is changed manually.
 				console.log("Binding hashchange");
@@ -1024,7 +1025,7 @@
 			<span id="dropdowns6" class="dropdown" style="display:none"></span>
 			<span id="dropdowns7" class="dropdown" style="display:none"></span>
 			<span id="dropdowns8" class="dropdown" style="display:none"></span>
-			<button type="button" title="re-set drop-downs" style="background-color:white;color:black;border:1px solid black;" onclick="window.location=window.location.pathname">
+			<button type="button" title="re-set drop-downs" style="background-color:white;color:black;border:1px solid black;margin-top:5px" onclick="window.location=window.location.pathname">
 				Clear
 			</button>
 		</div>
@@ -1040,10 +1041,10 @@
 				<br/>
 				<b>Overview:</b>
 				<ul>
-					<li>Build a <a href="http://tsds.org/tsdsfe">TSDS Front End (TSDSFE)</a> URL for downloading data, plots, and download scripts.</li>
-					<li>Begin by selecting a catalog.</li>
+					<li>Use this interface to build a <a href="http://tsds.org/tsdsfe">TSDS Front End (TSDSFE)</a> URL for viewing data and creating IDL/MATLAB/Python scripts that download data.</li>
+					<li>Begin building a URL by selecting a catalog on the left or try an example query below.</li>
 				</ul>
-				<div style="margin-left:2.5em;margin-top:-1em;width:10em;" >
+				<div style="margin-left:2.5em;margin-top:-10px;width:10em;" >
 					<span id="dropdownstest0"></span>
 				</div>
 			</p>

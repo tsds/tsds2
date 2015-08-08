@@ -212,6 +212,7 @@ app.get('/', function (req, res) {
 server.listen(config.PORT)
 
 console.log(ds() + " [tsdsfe] Listening on port " + config.PORT)
+console.log(ds() + " [tsdsfe] See " + config.TSDSFE)
 
 // For debugging.  Still getting mysterious timeouts.
 server.on('connection', function(socket) {
