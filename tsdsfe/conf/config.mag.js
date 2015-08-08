@@ -17,10 +17,12 @@ exports.config = function config() {
 	// Location of Autoplot Servlet that creates preview plots
 	out["AUTOPLOT"] = "http://localhost:8001/AutoplotServlet/SimpleServlet";
 
+	out["VIVIZ"] = "http://localhost:8002/";
+
+	out["VIVIZEXTERNAL"] = "http://tsds.org/gallery/";
+
 	// Autoplot script that creates preview plot
 	out["JYDS"] = "http://localhost:"+out["PORT"]+"/scripts/tsdsfe.jyds";
-
-	out["VIVIZ"] = "http://tsds.org/gallery/";
 
 	out["PNGQUANT"] = "deps/bin/pngquant"
 

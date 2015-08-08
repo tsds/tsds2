@@ -26,7 +26,7 @@ var argv    = require('yargs')
 					'debugcache': "false",
 					'debugstream': "false",
 					'debugconsole': "false",
-					'checkdeps': "false",
+					'checkdeps': "true",
 					'checkservers': "false"
 				})
 				.argv
@@ -166,8 +166,14 @@ app.use(express.compress())
 app.get('/status', function (req, res) {
 	var addr = req.headers['x-forwarded-for'] || req.connection.remoteAddress
 	var c = {};
-	c.deps = checkdeps.status
-	c.servers = checkservers.status
+	if (checkdeps.status) {
+		c.deps = checkdeps.status
+	}
+	if (checkservers) {
+		if (checkservers.status) {
+			c.servers = checkservers.status
+		}
+	}
 	res.send(JSON.stringify(c))
 })
 
@@ -348,9 +354,9 @@ function startdeps(dep) {
 		options = {"cwd": depdir}
 
 		var APPORT = config.AUTOPLOT.replace(/.*:([0-9].*?)\/.*/g,'$1')
-		if (APPORT.length === config.AUTOPLOT) {
-			// No port number given.  Assume 80.
-			APPORT = "80"
+		if (APPORT.length === config.AUTOPLOT.length) {
+			console.error('AUTOPLOT URL in configuration must have a port: ' + config.AUTOPLOT)
+			return
 		}
 		console.log(ds() 
 				+ " [tsdsfe] Starting dependency " 
@@ -382,9 +388,9 @@ function startdeps(dep) {
 		options = {"cwd": depdir}
 
 		var DCPORT = config.DATACACHE.replace(/.*:([0-9].*?)\/.*/g,'$1')
-		if (DCPORT.length === config.DATACACHE) {
-			// No port number given.  Assume 80.
-			DCPORT = "80"
+		if (DCPORT.length == config.DATACACHE.length) {
+			console.error('DATACACHE URL in configuration must have a port: ' + config.DATACACHE)
+			return
 		}
 		console.log(ds() 
 				+ " [tsdsfe] Starting dependency " 
@@ -418,9 +424,10 @@ function startdeps(dep) {
 		options = {"cwd": depdir}
 
 		var VVPORT = config.VIVIZ.replace(/.*:([0-9].*?)\/.*/g,'$1')
-		if (VVPORT.length === config.VIVIZ) {
-			// No port number given.  Assume 80.
-			VVPORT = "80"
+
+		if (VVPORT.length == config.VIVIZ.length) {
+			console.error('VIVIZ URL in configuration must have a port: ' + config.VIVIZ)
+			return
 		}
 		console.log(ds() 
 				+ " [tsdsfe] Starting dependency " 
@@ -432,7 +439,8 @@ function startdeps(dep) {
 			if (debugall) {process.stdout.write(data)}
 		})
 		startdeps.viviz.stderr.on('data', function (data) {
-			console.log(ds() + " [tsdsfe] viviz error: " + data);
+			if (data)
+				console.log(ds() + " [tsdsfe] viviz error: " + data.toString().replace(/\n$/,""));
 		})
 		startdeps.viviz.on('close', function (code) {
 			console.log(ds() + " [tsdsfe] viviz exited with code: " + code);
@@ -2083,7 +2091,7 @@ function parameter(options, catalogs, datasets, res, cb) {
 						+ "&type="  + options.type
 		            	+ "&style=" + options.style
 
-		var viviz = config.VIVIZ 
+		var viviz = config.VIVIZEXTERNAL 
 					+ "#" 
 					+ "dirprefix=" 
 					+   encodeURIComponent(dirprefix)

@@ -24,6 +24,9 @@ exports.config = function config() {
 
 	out["VIVIZ"] = "http://localhost:8002/";
 
+	// Possibly public URL for redirect.
+	out["VIVIZEXTERNAL"] = "http://localhost:8002/";
+
 	out["PNGQUANT"] = "deps/bin/pngquant"
 
 	out["CONVERT"]  = "/usr/local/bin/convert"
