@@ -1,12 +1,22 @@
 
+UNAME_S := $(shell uname -s)
+
+ifeq ($(UNAME_S),Linux)
+pngquant:
+    git clone git://github.com/pornel/pngquant.git
+    cd pngquant; make
+endif
+
+ifeq ($(UNAME_S),Darwin)
+pngquant:
+	mkdir -p pngquant
+	mkdir -p bin
+	cd pngquant; tar zxvf ../pngquant.tar.gz
+	cp pngquant/pngquant bin
+
 # TODO: Install imagemagick locally?
 # No: see /usr/local section of
 # https://github.com/Homebrew/homebrew/blob/master/share/doc/homebrew/FAQ.md
-
-pngquant:
-	mkdir -p deps/pngquant
-	cd deps/pngquant; tar zxvf ../pngquant.tar.gz; make
-	cd deps/pngquant; cp pngquant ../bin
 
 imagemagick:
 	brew install ImageMagick
@@ -15,4 +25,11 @@ imagemagick:
 imagemagick2:
 	sudo chown root:wheel `which brew`
 	sudo brew install ImageMagick
+
+endif
+
+clean:
+	rm -f bin/*
+	rm -rf pngquant
+
 

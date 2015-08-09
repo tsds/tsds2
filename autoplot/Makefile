@@ -15,7 +15,7 @@ start:
 	cd deps/jetty; JAVA_OPTIONS=$(JAVA_OPTIONS) JETTY_PORT=8001 bash bin/jetty.sh start;
 
 stop:
-	cd deps/jetty; JETTY_PORT=8001 bash bin/jetty.sh stop; 
+	- cd deps/jetty; JETTY_PORT=8001 bash bin/jetty.sh stop; 
 
 test:
 	echo "Testing http://localhost:8001/AutoplotServlet/SimpleServlet?url=vap%2Binline:rand(300)"
