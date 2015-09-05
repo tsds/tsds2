@@ -1,3 +1,9 @@
+var fs      = require('fs')
+var request = require("request")
+var clc     = require('cli-color')
+
+function ds() {return (new Date()).toISOString()}
+
 function stopdeps(dep) {
 
 		var spawn = require('child_process').spawnSync
@@ -17,7 +23,7 @@ function stopdeps(dep) {
 }
 exports.stopdeps = stopdeps
 
-function startdeps(dep) {
+function startdeps(dep, config) {
 
 	var spawn = require('child_process').spawn
 
@@ -73,12 +79,14 @@ function startdeps(dep) {
 									[
 										'app.js', 
 										'--port ' + DCPORT,
-										'--debugall' + argv.debugall
+										'--debugall ' + config.argv.debugall
 									],
 									options)
 		
 		startdeps.datacache.stdout.on('data', function (data) {
-			if (debugall) {process.stdout.write(data)}
+			if (config.argv.debugall === 'true') 
+				{process.stdout.write(data)
+			}
 		})
 		startdeps.datacache.stderr.on('data', function (data) {
 			console.log(ds() + " [tsdsfe] datacache stderr: " + data)
@@ -109,7 +117,9 @@ function startdeps(dep) {
 		startdeps.viviz = spawn('node', ['viviz.js', VVPORT], options)
 		
 		startdeps.viviz.stdout.on('data', function (data) {
-			if (debugall) {process.stdout.write(data)}
+			if (config.argv.debugall === 'true') {
+				process.stdout.write(data)
+			}
 		})
 		startdeps.viviz.stderr.on('data', function (data) {
 			if (data)
@@ -123,7 +133,7 @@ function startdeps(dep) {
 exports.startdeps = startdeps
 
 // Check and report on state of dependencies
-function checkdeps() {
+function checkdeps(config) {
 
 	if (!checkdeps.status) {
 		checkdeps.status = {};
@@ -177,7 +187,7 @@ function checkdeps() {
 		}
 	)
 
-	var teststr = "test/data/file1.txt&forceUpdate=true&forceWrite=true"
+	var teststr = "test/data/file1.txt&forceUpdate=true&forceWrite=true&istest=true"
 	request(config.DATACACHE 
 				+ "?source=" 
 				+ config.DATACACHE.replace("/sync","") 

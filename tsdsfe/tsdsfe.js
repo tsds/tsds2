@@ -117,14 +117,14 @@ process.on('exit', function () {
 	clc.red(ds() 
 		+ " [tsdsfe] (NOT IMPLEMENTED) Removing partially written files.")
 
-	if (startdeps.datacache) {
+	if (deps.startdeps.datacache) {
 		console.log(ds() + " [tsdsfe] Stopping datacache server.")
-		startdeps.datacache.kill('SIGINT')
+		deps.startdeps.datacache.kill('SIGINT')
 	}
 
-	if (startdeps.viviz) {
+	if (deps.startdeps.viviz) {
 		console.log(ds() + " [tsdsfe] Stopping viviz server.")
-		startdeps.viviz.kill('SIGINT')
+		deps.startdeps.viviz.kill('SIGINT')
 	}
 
 	console.log(ds() + " [tsdsfe] Stopping autoplot server.")
@@ -153,6 +153,7 @@ if (fs.existsSync(__dirname + "/conf/config." + os.hostname() + ".js")) {
 	var config = require(__dirname + "/conf/config.js").config()
 	config.CONFIGFILE = __dirname + "/conf/config.js"
 }
+config.argv = argv
 
 // In more recent versions of node.js, is set at Infinity.
 // Previously it was 5.  Apache uses 100.
@@ -318,7 +319,7 @@ if (argv.checkdeps) {
 	var deps = require('./deps.js')
 	console.log(ds() + " [tsdsfe] Checking dependencies every " 
 					 + config.DEPSCHECKPERIOD/1000 + " seconds.")
-	setInterval(deps.checkdeps, config.DEPSCHECKPERIOD)
+	setInterval(function() {deps.checkdeps(config)}, config.DEPSCHECKPERIOD)
 } else {
 	console.log(ds() + " [tsdsfe] Note: "
 					 + clc.blue("Dependency checks disabled."))
@@ -335,9 +336,9 @@ if (argv.checkservers) {
 					 + clc.blue("Server checks disabled."))
 }
 
-deps.startdeps('datacache')
-deps.startdeps('viviz')
-deps.startdeps('autoplot')
+deps.startdeps('datacache', config)
+deps.startdeps('viviz', config)
+deps.startdeps('autoplot', config)
 
 function handleRequest(req, res) {
 
