@@ -1,2 +1,12 @@
-git clone http://github.com/tsds/tsds2
-cd tsds2; make install
+# Install
+
+	git clone http://github.com/tsds/tsds2
+	cd tsds2; make install
+
+# Start
+
+	make start
+
+# Test
+
+	make test
