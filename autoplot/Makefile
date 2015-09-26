@@ -35,7 +35,7 @@ test2:
 	echo "Running test in 3 seconds."
 	sleep 3; curl -s "$(SERVLETBASE)/SimpleServlet?format=image/png&url=vap%2Bjyds:http%3A%2F%2Flocalhost%3A8999%2Ftest.jyds" > test2a.png
 	test -n "$$(find test2a.png -maxdepth 1 -size +10k)"
-	echo "PASS"
+	echo -e "\033[1;32mPASS\033[0m"
 
 #head "$(AUTOPLOT_DATA)/server/whitelist.txt"
 #curl "$(SERVLETBASE)/ServletInfo"
