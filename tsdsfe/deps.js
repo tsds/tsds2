@@ -81,16 +81,17 @@ function startdeps(dep, config) {
 		startdeps.datacache = spawn('node',
 									[
 										'app.js', 
-										'--port ' + DCPORT,
-										'--debugall ' + config.argv.debugall
+										'--port',DCPORT,
+										'--debugall',config.argv.debugall
 									],
 									options)
 		
 		startdeps.datacache.stdout.on('data', function (data) {
 			if (config.argv.debugall === 'true') {
-				if (!data.toString().match("istest=true") && 
-					!data.toString().match("[datacache]")) {
-					process.stdout.write("datacache: " + data)
+				if (data.toString().indexOf("istest=true") == -1) {
+					//if (data.toString().indexOf("[datacache]") == -1) {
+						process.stdout.write(data.toString())
+					//}
 				}
 			}
 		})
