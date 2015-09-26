@@ -1,10 +1,10 @@
 
 UNAME_S := $(shell uname -s)
-
 ifeq ($(UNAME_S),Linux)
 pngquant:
-    git clone git://github.com/pornel/pngquant.git
-    cd pngquant; make
+	echo $(UNAME_S)
+	git clone git://github.com/pornel/pngquant.git
+	cd pngquant; make
 endif
 
 ifeq ($(UNAME_S),Darwin)
