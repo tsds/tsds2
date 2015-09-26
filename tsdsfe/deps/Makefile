@@ -4,7 +4,8 @@ ifeq ($(UNAME_S),Linux)
 pngquant:
 	echo $(UNAME_S)
 	git clone git://github.com/pornel/pngquant.git
-	cd pngquant; make
+	cd pngquant; make;
+	mkdir bin; mv pngquant bin
 endif
 
 ifeq ($(UNAME_S),Darwin)
