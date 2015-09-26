@@ -80,16 +80,6 @@ tests[i].note = ''
 
 i = i+1;
 tests[i] = {};
-tests[i].url = "catalog=CARISMA/FGM/PT1S&dataset=ANNA&parameters=X&start=-P2D&stop=2014-09-30";
-tests[i].test = function (data) {
-	var len = data.toString().split("\n").length;
-	console.log("File should have 172801 newlines.  Found: " + len );
-	if (len == 172801) {return true;} else {return false}
-};
-tests[i].note = ''
-
-i = i+1;
-tests[i] = {};
 tests[i].url = "catalog=INTERMAGNET/PT1M&dataset=AAA&parameters=X&start=-P3D&stop=2012-12-31";
 tests[i].test = function (data) {
 	var len = data.toString().split("\n").length;
