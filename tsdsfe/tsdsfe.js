@@ -25,10 +25,10 @@ var argv    = require('yargs')
 				({
 					'port': 8004,
 					'debugall': "false",
+					'debugconsole': "false",
 					'debugapp': "false",
 					'debugcache': "false",
 					'debugstream': "false",
-					'debugconsole': "false",
 					'checkdeps': "true",
 					'checkservers': "false"
 				})
@@ -41,7 +41,7 @@ var debug = {}
 for (key in argv) {
 	if (key.search(/^debug/) != -1) {
 		key2 = key.replace('debug',"")
-		if (argv.debugall == "true") {
+		if (argv.debugall === "true") {
 			debug[key2] = true
 		} else {
 			debug[key2] = s2b(argv[key])
@@ -297,9 +297,24 @@ if (fs.existsSync(config.CONVERT)) {
 	convert_exists = true
 }
 if (!convert_exists) {
-	console.log(ds() + " [tsdsfe] Note: " 
-			+ clc.blue(config.CONVERT + " not found."
-			+ " Canvas size for Autoplot image will be based on smallest width."))
+	var result = ""
+	try {
+		var execSync = require('child_process').execSync;
+		var result = execSync('which convert').toString().replace(/\n/,"");
+		console.log(ds() + " [tsdsfe] Note: " 
+				+ clc.blue(config.CONVERT 
+				+ " specified in "
+				+ config.CONFIGFILE.replace(__dirname+"/","")
+				+ " not found. Using found "
+				+ result))
+		convert_exists = true
+		config.CONVERT = result;
+	} catch (e) {}
+	if (!convert_exists) {
+		console.log(ds() + " [tsdsfe] Note: " 
+				+ clc.blue(config.CONVERT + " not found and 'which convert' did not return path."
+				+ " Canvas size for Autoplot image will be based on smallest width."))
+	}
 }
 
 config = log.init(config)
@@ -350,7 +365,7 @@ function handleRequest(req, res) {
 
 	res.options = JSON.parse(JSON.stringify(options))
 
-	log.logapp(options.ip + " " + req.originalUrl, config)
+	//log.logapp(options.ip + " " + req.originalUrl, config)
 
 	// Set log file name as response header
 	res.header('x-tsdsfe-log', options.logsig)
@@ -1054,6 +1069,8 @@ function parseOptions(req, res) {
 	options.logcolor = Math.round(255*parseFloat(Math.random().toString().substring(1)));
 	options.logfile  = config.LOGDIRRES + logsig
 	options.logsig   = logsig
+
+	log.logres("Request from " + options.ip + " " + req.originalUrl, options)
 
 	// If any of the cache options are false and update fails, cache will be used if found (and warning is given in header).
  	// Sent as DataCache parameter.
