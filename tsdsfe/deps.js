@@ -14,7 +14,8 @@ function stopdeps(dep) {
 
 		str = spawn('make',['-s','stop'], options)
 		if (str.stdout.toString() !== "")
-			console.log(ds() + " [tsdsfe] autoplot stdout: " + str.stdout.toString().replace(/\n$/,""))
+			console.log(ds() + " [tsdsfe] autoplot stdout: "
+							 + str.stdout.toString().replace(/\n$/,""))
 		if (str.stderr.toString() !== "") {
 			console.log(str.stderr.length)
 			console.log(ds() + " [tsdsfe] autoplot stderr: " + str.stderr)
@@ -34,7 +35,8 @@ function startdeps(dep, config) {
 
 		var APPORT = config.AUTOPLOT.replace(/.*:([0-9].*?)\/.*/g,'$1')
 		if (APPORT.length === config.AUTOPLOT.length) {
-			console.error('AUTOPLOT URL in configuration must have a port: ' + config.AUTOPLOT)
+			console.error('AUTOPLOT URL in configuration must have a port: '
+							+ config.AUTOPLOT)
 			return
 		}
 		console.log(ds() 
@@ -68,7 +70,8 @@ function startdeps(dep, config) {
 
 		var DCPORT = config.DATACACHE.replace(/.*:([0-9].*?)\/.*/g,'$1')
 		if (DCPORT.length == config.DATACACHE.length) {
-			console.error('DATACACHE URL in configuration must have a port: ' + config.DATACACHE)
+			console.error('DATACACHE URL in configuration must have a port: '
+							+ config.DATACACHE)
 			return
 		}
 		console.log(ds() 
@@ -84,8 +87,11 @@ function startdeps(dep, config) {
 									options)
 		
 		startdeps.datacache.stdout.on('data', function (data) {
-			if (config.argv.debugall === 'true') 
-				{process.stdout.write(data)
+			if (config.argv.debugall === 'true') {
+				if (!data.toString().match("istest=true") && 
+					!data.toString().match("[datacache]")) {
+					process.stdout.write("datacache: " + data)
+				}
 			}
 		})
 		startdeps.datacache.stderr.on('data', function (data) {
