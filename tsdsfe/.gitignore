@@ -2,6 +2,7 @@
 node_modules/
 test/output/out*
 deps/bin/
+deps/pngquant/
 cache/
 .settings/
 log/
