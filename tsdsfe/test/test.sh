@@ -1,8 +1,8 @@
-#!/usr/bin/sh
+#!/usr/bin/bash
 
 echo "Starting TSDSFE server."
 node tsdsfe.js &
-PID2=$!
+PID=$!
 
 echo "Sleeping for 3 seconds before running tests."
 
@@ -12,11 +12,23 @@ rm -rf node_modules/datacache/cache/*
 rm -rf ../cache/*;
 
 node test/test.js --testfile test/metadata-tests.js
+
+RESULT1=$?
+
 node test/test.js --testfile test/data-tests.js 
+
+RESULT2=$?
+
 node test/test.js --testfile test/image-tests.js 
 
-RESULT=$?
+RESULT3=$?
 
-kill $PID2
+kill $PID
 
-exit $RESULT
+if [[ $RESULT1 == "1" && $RESULT2 == "1" ]]; then
+	echo "test.sh Exiting with code 1"
+	exit 1
+else
+	echo "test.sh Exiting with code 0"
+	exit 0
+fi

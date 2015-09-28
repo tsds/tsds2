@@ -1,6 +1,6 @@
 {
 	"name": "tsdsfe",
-  	"version": "0.1.1",
+  	"version": "0.1.2",
   	"engines":{"node": "0.12.x"},
 	"dependencies": {
 		"request" : "2.9.203",
@@ -16,7 +16,7 @@
 	},
 	"scripts": {
 		"start": "node tsdsfe.js",
-		"preinstall": "cd deps; make pngquant; cd ../../autoplot/; make install; make stop; make start",
-		"test": "sh test/test.sh"
+		"preinstall": "cd deps; make bin/pngquant; cd ../../autoplot/; make install; make stop; make start",
+		"test": "bash test/test.sh"
 	}
 }
