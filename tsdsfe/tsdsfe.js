@@ -105,7 +105,7 @@ process.on('uncaughtException', function(err) {
 	} else {
 		console.log(err.stack)
 	}
-	fs.writeFileSync('tsds.error', err);	
+	fs.writeFileSync('tsds.error', err);
 	process.exit(1)
 })
 
@@ -142,9 +142,9 @@ if (fs.existsSync(__dirname + "/conf/config." + os.hostname() + ".js")) {
 					+ " [tsdsfe] Using configuration file conf/config."
 					+ os.hostname() + ".js")
 	}
-	var config = require(__dirname 
-						+ "/conf/config." + os.hostname() + ".js").config()
-	config.CONFIGFILE = __dirname + "/conf/config." + os.hostname() + ".js"
+	var tmpfname = __dirname + "/conf/config." + os.hostname() + ".js"
+	var config = require(tmpfname).config()
+	config.CONFIGFILE = tmpfname
 } else {
 	// Default
 	if (debugapp && debugconsole) {
@@ -224,39 +224,33 @@ app.get('/', function (req, res) {
 	}
 })
 
-// Start the server
-server.listen(config.PORT)
-
-console.log(ds() + " [tsdsfe] Listening on port " + config.PORT)
-console.log(ds() + " [tsdsfe] See " + config.TSDSFE)
-
-// For debugging.  Still getting mysterious timeouts.
+// For debugging mysterious timeouts.
 if (false) {
-server.on('connection', function(socket) {
-		var key = socket.remoteAddress+":"+socket.remotePort
-		console.log("Socket connected to "+key)
+	server.on('connection', function(socket) {
+			var key = socket.remoteAddress+":"+socket.remotePort
+			console.log("Socket connected to "+key)
 
-		socket.on('disconnect', function(socket) {
-			console.log("Socket disconnect to "+key)
-		})
-		socket.on('close', function(socket) {
-			console.log("Socket closed to     "+key)
-		})
-		socket.on('end', function(socket) {
-			console.log("Socket end to        "+key)
-		})
-		socket.on('timeout', function(socket) {
-			console.log("Socket timeout to    "+key)
-		})		  
-		socket.setTimeout(config.TIMEOUT,
-			function(obj) {
-				console.log("TSDSFE server timeout ("+(config.TIMEOUT/(1000*60))+" minutes).")
-				server.getConnections(function(err,cnt) {console.log(cnt)})
-				if (obj) {
-					console.log(obj._events.request)
-				}
-		})
-})
+			socket.on('disconnect', function(socket) {
+				console.log("Socket disconnect to "+key)
+			})
+			socket.on('close', function(socket) {
+				console.log("Socket closed to     "+key)
+			})
+			socket.on('end', function(socket) {
+				console.log("Socket end to        "+key)
+			})
+			socket.on('timeout', function(socket) {
+				console.log("Socket timeout to    "+key)
+			})		  
+			socket.setTimeout(config.TIMEOUT,
+				function(obj) {
+					console.log("TSDSFE server timeout ("+(config.TIMEOUT/(1000*60))+" minutes).")
+					server.getConnections(function(err,cnt) {console.log(cnt)})
+					if (obj) {
+						console.log(obj._events.request)
+					}
+			})
+	})
 }
 
 // Local cache directory
@@ -275,6 +269,7 @@ if (!config.LOGDIR.match(/^\//)) {
 	config.LOGDIR = __dirname + "/log/"
 }
 
+// Look for PNGQuant (for reducing png sizes by 80%)
 var pngquant_exists = false
 if (!config.PNGQUANT.match(/^\//)) {
 	// If relative path given, prepend with __dirname.
@@ -289,6 +284,7 @@ if (!pngquant_exists) {
 		+ " not found.  Image file size will not be reduced."))
 }
 
+// Look for ImageMagick convert (for resizing images)
 var convert_exists = false
 if (!config.CONVERT.match(/^\//)) {
 	// If relative path given, prepend with __dirname.
@@ -318,6 +314,7 @@ if (!convert_exists) {
 	}
 }
 
+// Initialize logging.
 config = log.init(config)
 
 var msg = "";
@@ -355,6 +352,12 @@ if (argv.checkservers) {
 deps.startdeps('datacache', config)
 deps.startdeps('viviz', config)
 deps.startdeps('autoplot', config)
+
+// Start the server.  TODO: Wait until deps are ready.
+server.listen(config.PORT)
+
+console.log(ds() + " [tsdsfe] Listening on port " + config.PORT)
+console.log(ds() + " [tsdsfe] See " + config.TSDSFE)
 
 function handleRequest(req, res) {
 
@@ -1016,7 +1019,6 @@ function handleRequest(req, res) {
 			}
 		}
 	}		
-
 }
 
 function parseOptions(req, res) {
