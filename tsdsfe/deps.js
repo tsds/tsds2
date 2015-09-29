@@ -96,7 +96,8 @@ function startdeps(dep, config) {
 			}
 		})
 		startdeps.datacache.stderr.on('data', function (data) {
-			console.log(ds() + " [tsdsfe] datacache stderr: " + data)
+			if (data)
+				console.log(ds() + " [tsdsfe] datacache error: " + data.toString().replace(/\n$/,""))
 		})
 		startdeps.datacache.on('close', function (code) {
 			console.log(ds() + " [tsdsfe] datacache exited with code: " + code)
