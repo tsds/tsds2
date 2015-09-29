@@ -1,6 +1,7 @@
 {
 	"name": "tsdsfe",
-  	"version": "0.1.0",
+  	"version": "0.1.2",
+  	"engines":{"node": "0.12.x"},
 	"dependencies": {
 		"request" : "2.9.203",
 		"express" : "3.0.0",
@@ -9,13 +10,13 @@
 		"mkdirp": "*",
 		"yargs": "*",
 		"tsdset": "https://github.com/rweigel/tsdset/tarball/master",
-		"treeify": "https://github.com/rweigel/treeify/tarball/master",
 		"datacache": "https://github.com/rweigel/datacache/tarball/master",
-		"viviz": "https://github.com/rweigel/viviz/tarball/master"
+		"viviz": "https://github.com/rweigel/viviz/tarball/master",
+		"treeify": "https://github.com/rweigel/treeify/tarball/master"
 	},
 	"scripts": {
 		"start": "node tsdsfe.js",
-		"preinstall": "cd deps; make pngquant; cd ../../autoplot/; make install; make start",
-		"test": "sh test/test.sh"
+		"preinstall": "cd deps; make bin/pngquant; cd ../../autoplot/; make install; make stop; make start",
+		"test": "bash test/test.sh"
 	}
 }

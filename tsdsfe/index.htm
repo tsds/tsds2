@@ -47,7 +47,7 @@
 				if (!checkstatus.servers[catalog]) {
 					$('#cataloginfo ul #statustrue').remove()
 					$('#cataloginfo ul #statusfalse').remove()
-					$('#cataloginfo ul').append('<li id="statusfalse"><i>This data servers is not being monitored.</i></li>');
+					$('#cataloginfo ul').append('<li id="statusfalse"><i>This data server is not being monitored.</i></li>');
 					return
 				}
 				
@@ -229,6 +229,7 @@
 					$("#" + id).val(qs[id])
 								.data("autocomplete")
 								._trigger("select", event, {item:qs[id]})
+					alert(qs[id])
 				}
 			}				
 
@@ -965,7 +966,7 @@
 
 				var list = new Array();
 				list[0] = {label:"SSCWeb",value:"sscweb",url:"catalog=SSCWeb&dataset=ace&parameters=X_TOD&start=-P3D&stop=2014-08-17&return=image&format=viviz&type=timeseries&style=0"};
-				list[1] = {label:"CDAWeb",value:"cdaweb",url:"catalog=cdaweb&dataset=A1_K0_MPA&parameters=dens_lop&start=2001-08-31&stop=2001-09-10"};
+				list[1] = {label:"SSCWeb/active/X_TOD",value:"sscweb",url:"catalog=SSCWeb&dataset=active&parameters=X_TOD&start=-P3D&stop=1991-10-04&return=image&format=png&type=timeseries&style=0"};
 				list[2] = {label:"SuperMAG",value:"supermag",url:"catalog=supermag&dataset=BLC&parameters=N&start=-PT3D&stop=1980-01-10"};
 				list[3] = {label:"SPIDR",value:"spidr",url:"catalog=spidr&dataset=amie_ae&parameters=amie_ae&version=0&start=1991-01-01&stop=1991-01-11"};
 				list[4] = {label:"USGS 1-minute",value:"usgs1m",url:"catalog=USGS/RT/PT1M&dataset=BRW&parameters=H&start=2013-05-02&stop=2013-05-05"};
@@ -988,9 +989,8 @@
 						if (list[k].value === vid) {break} else {k = k+1}
 					}
 					location.hash = list[k].url;
-					preview();
+					//preview();
 					triggerselect();
-
 				};
 				
 				//location.search = $.query.set("catalog","SSCWeb").toString();

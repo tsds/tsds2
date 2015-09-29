@@ -20,7 +20,7 @@ var http     = require('http');
 var url      = require('url');
 var zlib     = require('zlib');
 var clc      = require('cli-color');
-var argv    = require('yargs')
+var argv     = require('yargs')
 				.default
 				({
 					'port': 8004,

@@ -1,14 +1,15 @@
 
 UNAME_S := $(shell uname -s)
-
 ifeq ($(UNAME_S),Linux)
-pngquant:
-    git clone git://github.com/pornel/pngquant.git
-    cd pngquant; make
+bin/pngquant:
+	echo $(UNAME_S)
+	- git clone git://github.com/pornel/pngquant.git
+	cd pngquant; make;
+	mkdir -p bin; mv pngquant/pngquant bin
 endif
 
 ifeq ($(UNAME_S),Darwin)
-pngquant:
+bin/pngquant:
 	mkdir -p pngquant
 	mkdir -p bin
 	cd pngquant; tar zxvf ../pngquant.tar.gz

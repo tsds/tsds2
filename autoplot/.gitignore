@@ -2,3 +2,4 @@
 deps/
 node_modules/
 autoplot_data/
+test*.png

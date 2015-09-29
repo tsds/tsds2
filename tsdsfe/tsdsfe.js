@@ -12,6 +12,9 @@ var util    = require('util')
 var crypto  = require("crypto")
 var clc     = require('cli-color')
 
+var servers = require('./servers.js')
+var deps    = require('./deps.js')
+
 // Helper functions
 function s2b(str) {if (str === "true") {return true} else {return false}}
 function s2i(str) {return parseInt(str)}
@@ -22,10 +25,10 @@ var argv    = require('yargs')
 				({
 					'port': 8004,
 					'debugall': "false",
+					'debugconsole': "false",
 					'debugapp': "false",
 					'debugcache': "false",
 					'debugstream': "false",
-					'debugconsole': "false",
 					'checkdeps': "true",
 					'checkservers': "false"
 				})
@@ -38,7 +41,7 @@ var debug = {}
 for (key in argv) {
 	if (key.search(/^debug/) != -1) {
 		key2 = key.replace('debug',"")
-		if (argv.debugall == "true") {
+		if (argv.debugall === "true") {
 			debug[key2] = true
 		} else {
 			debug[key2] = s2b(argv[key])
@@ -102,6 +105,7 @@ process.on('uncaughtException', function(err) {
 	} else {
 		console.log(err.stack)
 	}
+	fs.writeFileSync('tsds.error', err);
 	process.exit(1)
 })
 
@@ -114,18 +118,18 @@ process.on('exit', function () {
 	clc.red(ds() 
 		+ " [tsdsfe] (NOT IMPLEMENTED) Removing partially written files.")
 
-	if (startdeps.datacache) {
+	if (deps.startdeps.datacache) {
 		console.log(ds() + " [tsdsfe] Stopping datacache server.")
-		startdeps.datacache.kill('SIGINT')
+		deps.startdeps.datacache.kill('SIGINT')
 	}
 
-	if (startdeps.viviz) {
+	if (deps.startdeps.viviz) {
 		console.log(ds() + " [tsdsfe] Stopping viviz server.")
-		startdeps.viviz.kill('SIGINT')
+		deps.startdeps.viviz.kill('SIGINT')
 	}
 
 	console.log(ds() + " [tsdsfe] Stopping autoplot server.")
-	stopdeps('autoplot')
+	deps.stopdeps('autoplot')
 	
 	console.log(ds() + " [tsdsfe] Exiting.")
 })
@@ -138,22 +142,26 @@ if (fs.existsSync(__dirname + "/conf/config." + os.hostname() + ".js")) {
 					+ " [tsdsfe] Using configuration file conf/config."
 					+ os.hostname() + ".js")
 	}
-	var config = require(__dirname + "/conf/config." + os.hostname() + ".js").config()
-	config.CONFIGFILE = __dirname + "/conf/config." + os.hostname() + ".js"
+	var tmpfname = __dirname + "/conf/config." + os.hostname() + ".js"
+	var config = require(tmpfname).config()
+	config.CONFIGFILE = tmpfname
 } else {
 	// Default
 	if (debugapp && debugconsole) {
-		console.log(ds() + " [tsdsfe] Using configuration file conf/config.js")
+		console.log(ds() 
+					+ " [tsdsfe] Using configuration file conf/config.js")
 	}
 	var config = require(__dirname + "/conf/config.js").config()
 	config.CONFIGFILE = __dirname + "/conf/config.js"
 }
+config.argv = argv
 
 // In more recent versions of node.js, is set at Infinity.
 // Previously it was 5.  Apache uses 100.
 http.globalAgent.maxSockets = config.maxSockets
 
-// Serve files in these directories as static files and allow directory listings.
+// Serve files in these directories as static files and allow
+// directory listings.
 var dirs = ["js","css","scripts","catalogs","log"]
 for (var i in dirs) {
 	app.use("/" + dirs[i], express.static(__dirname + "/" + dirs[i]))
@@ -165,9 +173,11 @@ app.use(express.compress())
 // Get the status of services used by TSDSFE.
 app.get('/status', function (req, res) {
 	var addr = req.headers['x-forwarded-for'] || req.connection.remoteAddress
-	var c = {};
-	if (checkdeps.status) {
-		c.deps = checkdeps.status
+	var c = {}
+	if (deps) {
+		if (deps.checkdeps.status) {
+			c.deps = deps.checkdeps.status
+		}
 	}
 	if (checkservers) {
 		if (checkservers.status) {
@@ -200,7 +210,7 @@ app.get('/test', function (req, res) {
 	return
 })
 
-// Main entry point
+// Main entry route
 app.get('/', function (req, res) {
 	if (Object.keys(req.query).length === 0) {
 		// If no query parameters, return index.htm
@@ -214,40 +224,34 @@ app.get('/', function (req, res) {
 	}
 })
 
-// Start the server
-server.listen(config.PORT)
+// For debugging mysterious timeouts.
+if (false) {
+	server.on('connection', function(socket) {
+			var key = socket.remoteAddress+":"+socket.remotePort
+			console.log("Socket connected to "+key)
 
-console.log(ds() + " [tsdsfe] Listening on port " + config.PORT)
-console.log(ds() + " [tsdsfe] See " + config.TSDSFE)
-
-// For debugging.  Still getting mysterious timeouts.
-server.on('connection', function(socket) {
-	if (false) {
-		var key = socket.remoteAddress+":"+socket.remotePort
-		console.log("Socket connected to "+key)
-
-		socket.on('disconnect', function(socket) {
-			console.log("Socket disconnect to "+key)
-		})
-		socket.on('close', function(socket) {
-			console.log("Socket closed to     "+key)
-		})
-		socket.on('end', function(socket) {
-			console.log("Socket end to        "+key)
-		})
-		socket.on('timeout', function(socket) {
-			console.log("Socket timeout to    "+key)
-		})		  
-		socket.setTimeout(config.TIMEOUT,
-			function(obj) {
-				console.log("TSDSFE server timeout ("+(config.TIMEOUT/(1000*60))+" minutes).")
-				server.getConnections(function(err,cnt) {console.log(cnt)})
-				if (obj) {
-					console.log(obj._events.request)
-				}
-		})
-	}
-})
+			socket.on('disconnect', function(socket) {
+				console.log("Socket disconnect to "+key)
+			})
+			socket.on('close', function(socket) {
+				console.log("Socket closed to     "+key)
+			})
+			socket.on('end', function(socket) {
+				console.log("Socket end to        "+key)
+			})
+			socket.on('timeout', function(socket) {
+				console.log("Socket timeout to    "+key)
+			})		  
+			socket.setTimeout(config.TIMEOUT,
+				function(obj) {
+					console.log("TSDSFE server timeout ("+(config.TIMEOUT/(1000*60))+" minutes).")
+					server.getConnections(function(err,cnt) {console.log(cnt)})
+					if (obj) {
+						console.log(obj._events.request)
+					}
+			})
+	})
+}
 
 // Local cache directory
 if (!config.CACHEDIR.match(/^\//)) {
@@ -265,6 +269,7 @@ if (!config.LOGDIR.match(/^\//)) {
 	config.LOGDIR = __dirname + "/log/"
 }
 
+// Look for PNGQuant (for reducing png sizes by 80%)
 var pngquant_exists = false
 if (!config.PNGQUANT.match(/^\//)) {
 	// If relative path given, prepend with __dirname.
@@ -275,9 +280,11 @@ if (fs.existsSync(config.PNGQUANT)) {
 }
 if (!pngquant_exists) {
 	console.log(ds() + " [tsdsfe] Note: " 
-		+ clc.blue(config.PNGQUANT.replace(__dirname+"/","") + " not found.  Image file size will not be reduced."))
+		+ clc.blue(config.PNGQUANT.replace(__dirname+"/","") 
+		+ " not found.  Image file size will not be reduced."))
 }
 
+// Look for ImageMagick convert (for resizing images)
 var convert_exists = false
 if (!config.CONVERT.match(/^\//)) {
 	// If relative path given, prepend with __dirname.
@@ -287,15 +294,33 @@ if (fs.existsSync(config.CONVERT)) {
 	convert_exists = true
 }
 if (!convert_exists) {
-	console.log(ds() + " [tsdsfe] Note: " 
-			+ clc.blue(config.CONVERT + " not found."
-			+ " Canvas size for Autoplot image will be based on smallest width."))
+	var result = ""
+	try {
+		var execSync = require('child_process').execSync;
+		var result = execSync('which convert').toString().replace(/\n/,"");
+		console.log(ds() + " [tsdsfe] Note: " 
+				+ clc.blue(config.CONVERT 
+				+ " specified in "
+				+ config.CONFIGFILE.replace(__dirname+"/","")
+				+ " not found. Using found "
+				+ result))
+		convert_exists = true
+		config.CONVERT = result;
+	} catch (e) {}
+	if (!convert_exists) {
+		console.log(ds() + " [tsdsfe] Note: " 
+				+ clc.blue(config.CONVERT + " not found and 'which convert' did not return path."
+				+ " Canvas size for Autoplot image will be based on smallest width."))
+	}
 }
 
+// Initialize logging.
 config = log.init(config)
 
 var msg = "";
-if (develdatacache || develtsdset || develviviz) {msg = "Using devel version of:"}
+if (develdatacache || develtsdset || develviviz) {
+	msg = "Using devel version of:"
+}
 if (develdatacache) {msg = msg + " datacache"}
 if (develviviz) {msg = msg + " viviz"}
 if (develtsdset) {msg = msg + " tsdset"}
@@ -304,16 +329,17 @@ if (msg !== "") {
 }
 
 if (argv.checkdeps) {
+	var deps = require('./deps.js')
 	console.log(ds() + " [tsdsfe] Checking dependencies every " 
 					 + config.DEPSCHECKPERIOD/1000 + " seconds.")
-	setInterval(checkdeps, config.DEPSCHECKPERIOD)
+	setInterval(function() {deps.checkdeps(config)}, config.DEPSCHECKPERIOD)
 } else {
 	console.log(ds() + " [tsdsfe] Note: "
 					 + clc.blue("Dependency checks disabled."))
 }
 
 if (argv.checkservers) {
-	var checkservers = require('./checkservers.js').checkservers
+	var checkservers = require('./servers.js').checkservers
 	// Check servers 5 seconds after start-up
 	console.log(ds() 
 		+ " [tsdsfe] Checking servers in 5 seconds and then every 60 seconds.")
@@ -323,286 +349,15 @@ if (argv.checkservers) {
 					 + clc.blue("Server checks disabled."))
 }
 
-startdeps('datacache')
-startdeps('viviz')
-startdeps('autoplot')
+deps.startdeps('datacache', config)
+deps.startdeps('viviz', config)
+deps.startdeps('autoplot', config)
 
-function stopdeps(dep) {
+// Start the server.  TODO: Wait until deps are ready.
+server.listen(config.PORT)
 
-		var spawn = require('child_process').spawnSync
-
-		depdir = "../autoplot/"
-
-		options = {"cwd": depdir}
-
-		str = spawn('make',['-s','stop'], options)
-		if (str.stdout.toString() !== "")
-			console.log(ds() + " [tsdsfe] autoplot stdout: " + str.stdout.toString().replace(/\n$/,""))
-		if (str.stderr.toString() !== "") {
-			console.log(str.stderr.length)
-			console.log(ds() + " [tsdsfe] autoplot stderr: " + str.stderr)
-		}
-
-}
-function startdeps(dep) {
-
-	var spawn = require('child_process').spawn
-
-	if (dep === 'autoplot') {
-
-		depdir = "../autoplot/"
-		options = {"cwd": depdir}
-
-		var APPORT = config.AUTOPLOT.replace(/.*:([0-9].*?)\/.*/g,'$1')
-		if (APPORT.length === config.AUTOPLOT.length) {
-			console.error('AUTOPLOT URL in configuration must have a port: ' + config.AUTOPLOT)
-			return
-		}
-		console.log(ds() 
-				+ " [tsdsfe] Starting dependency " 
-				+ dep + " in " + depdir + " on port " + APPORT)
-
-		startdeps.datacache = spawn('make',['start'], options)
-		
-		startdeps.datacache.stdout.on('data', function (data) {
-			if (data) {
-				if (data.toString().match("Already Running"))
-					console.log(ds() + " [tsdsfe] autoplot is already running.")
-			}
-		})
-		startdeps.datacache.stderr.on('data', function (data) {
-			//console.log(ds() + " [tsdsfe] autoplot stderr: " + data)
-		})
-		startdeps.datacache.on('close', function (code) {
-			console.log(ds() + " [tsdsfe] autoplot exited with code: " + code)
-		})	
-	}
-
-	if (dep === 'datacache') {
-
-		if (fs.existsSync("../../datacache/")) {
-			depdir = "../../datacache/"
-		} else {
-			depdir = "./node_modules/datacache/"
-		}
-		options = {"cwd": depdir}
-
-		var DCPORT = config.DATACACHE.replace(/.*:([0-9].*?)\/.*/g,'$1')
-		if (DCPORT.length == config.DATACACHE.length) {
-			console.error('DATACACHE URL in configuration must have a port: ' + config.DATACACHE)
-			return
-		}
-		console.log(ds() 
-				+ " [tsdsfe] Starting dependency " 
-				+ dep + " in " + depdir + " on port " + DCPORT)
-
-		startdeps.datacache = spawn('node',
-									[
-										'app.js', 
-										'--port ' + DCPORT,
-										'--debugall' + argv.debugall
-									],
-									options)
-		
-		startdeps.datacache.stdout.on('data', function (data) {
-			if (debugall) {process.stdout.write(data)}
-		})
-		startdeps.datacache.stderr.on('data', function (data) {
-			console.log(ds() + " [tsdsfe] datacache stderr: " + data)
-		})
-		startdeps.datacache.on('close', function (code) {
-			console.log(ds() + " [tsdsfe] datacache exited with code: " + code)
-		})	
-	}
-
-	if (dep === 'viviz') {
-		if (fs.existsSync("../../viviz/")) {
-			depdir = "../../viviz/"
-		} else {
-			depdir = "./node_modules/viviz/"
-		}
-		options = {"cwd": depdir}
-
-		var VVPORT = config.VIVIZ.replace(/.*:([0-9].*?)\/.*/g,'$1')
-
-		if (VVPORT.length == config.VIVIZ.length) {
-			console.error('VIVIZ URL in configuration must have a port: ' + config.VIVIZ)
-			return
-		}
-		console.log(ds() 
-				+ " [tsdsfe] Starting dependency " 
-				+ dep + " in " + depdir + " on port " + VVPORT)
-
-		startdeps.viviz = spawn('node', ['viviz.js', VVPORT], options)
-		
-		startdeps.viviz.stdout.on('data', function (data) {
-			if (debugall) {process.stdout.write(data)}
-		})
-		startdeps.viviz.stderr.on('data', function (data) {
-			if (data)
-				console.log(ds() + " [tsdsfe] viviz error: " + data.toString().replace(/\n$/,""));
-		})
-		startdeps.viviz.on('close', function (code) {
-			console.log(ds() + " [tsdsfe] viviz exited with code: " + code);
-		})	
-	}
-}
-
-// Check and report on state of dependencies
-function checkdeps() {
-
-	if (!checkdeps.status) {
-		checkdeps.status = {};
-		checkdeps.status["VIVIZ"] = {}
-		checkdeps.status["VIVIZ"]["state"] = true
-		checkdeps.status["VIVIZ"]["message"] = "Connection to ViViz server has failed.  Requests for galleries will fail.  Removing option to view images as a gallery.  A notice of this failure was sent to the site administrator.";
-
-		checkdeps.status["DATACACHE"] = {}
-		checkdeps.status["DATACACHE"]["state"] = true
-		checkdeps.status["DATACACHE"]["message"] = "Connection to DataCache server has failed.  Requests for metadata will continue to work, but requests for data and images will fail.  A notice of this failure was sent to the site administrator.";
-
-		checkdeps.status["AUTOPLOT"] = {}
-		checkdeps.status["AUTOPLOT"]["state"] = true
-		checkdeps.status["AUTOPLOT"]["message"] = "Connection to Autoplot image server has failed.  Removing option to view images.  A notice of this failure was sent to the site administrator.";
-
-	}
-
-	request(config.VIVIZ,
-		function (err,depsres,depsbody) {
-			if (err) {
-				if (checkdeps.started || checkdeps.status["VIVIZ"]["state"]) {
-					clc.red(ds() 
-						+ " [tsdsfe] Error when testing ViViz server: "
-						+ config.VIVIZ + "\n  " + err)
-					clc.red(ds() 
-						+ " [tsdsfe] Next ViViz check in "
-						+ config.DEPSCHECKPERIOD
-						+ ' ms.  Only success will be reported.')
-				}
-				checkdeps.status["VIVIZ"]["state"] = false;
-				return
-			}
-			if (depsres.statusCode != 200) {
-				if (checkdeps.status["VIVIZ"]["state"]) {
-					clc.red(ds()
-						+ " [tsdsfe] Problem with ViViz server: "
-						+ config.VIVIZ)
-					clc.red(ds() 
-						+ " [tsdsfe] Next ViViz check in "
-						+ config.DEPSCHECKPERIOD
-						+ ' ms.  Only success will be reported.')
-				}
-				checkdeps.status["VIVIZ"]["state"] = false;
-			} else {
-				if (!checkdeps.status["VIVIZ"]["state"]) {
-					clc.green(ds() 
-						+ " [tsdsfe] Problem resolved with ViViz server: "
-						+ config.VIVIZ)
-				}
-				checkdeps.status["VIVIZ"]["state"] = true;
-			}
-		})
-
-	var teststr = "test/data/file1.txt&forceUpdate=true&forceWrite=true"
-	request(config.DATACACHE 
-				+ "?source=" 
-				+ config.DATACACHE.replace("/sync","") 
-				+ teststr, 
-		function (err,depsres,depsbody) {
-			if (err) {
-				if (checkdeps.started || checkdeps.status["DATACACHE"]["state"]) {
-					clc.red(ds() 
-						+ " [tsdsfe] Error when testing DataCache server: "
-						+ config.DATACACHE+"\n  " + err)
-					clc.red(ds()
-						+ " [tsdsfe] Next DataCache check in "
-						+ config.DEPSCHECKPERIOD
-						+ ' ms.  Only success will be reported.')
-				}
-				checkdeps.status["DATACACHE"]["state"] = false
-				return
-			}
-			if (depsres.statusCode != 200) {
-				if (checkdeps.status["DATACACHE"]["state"]) {
-					clc.red(ds() 
-						+ " [tsdsfe] Problem with DataCache server "
-						+ config.DATACACHE+"\n  " + err)
-					clc.red(ds()
-						+ " [tsdsfe] Next DataCache check in "
-						+ config.DEPSCHECKPERIOD
-						+ ' ms.  Only success will be reported.')
-				}
-				checkdeps.status["DATACACHE"]["state"] = false
-			} else {
-				if (!checkdeps.status["DATACACHE"]["state"]) {
-					clc.green(ds()
-						+ " [tsdsfe] Problem resolved with DataCache server: "
-						+ config.DATACACHE)
-				}
-				checkdeps.status["DATACACHE"]["state"] = true
-			}
-		})
-
-	request(config.AUTOPLOT + "?url=vap%2Binline:randn(100)", 
-		function (err,depsres,depsbody) {
-			if (err) {
-				if (checkdeps.started || checkdeps.status["AUTOPLOT"]["state"]) {
-					clc.red(ds() 
-						+ " [tsdsfe] Error when testing Autoplot server: "
-						+ config.AUTOPLOT + "\n  " + err)
-					clc.red(ds() 
-						+ " [tsdsfe] Next Autoplot check in "
-						+ config.DEPSCHECKPERIOD
-						+ ' ms.  Only success will be reported.')
-				}
-				checkdeps.status["AUTOPLOT"]["state"] = false
-				return
-			}
-			if (checkdeps.started) {
-				if (config.TSDSFE.match(/http:\/\/localhost/)) {
-					if (!config.AUTOPLOT.match(/http:\/\/localhost/)) {
-						clc.yellow(ds() 
-							+ " [tsdsfe] Warning: Image request will not work"
-							+ " because Autoplot image servlet specified by "
-							+ " config.AUTOPLOT must be localhost if "
-							+ " config.TSDSFE is localhost.")
-					}
-				}
-			}
-			if (depsres.statusCode != 200) {
-				if (checkdeps.status["AUTOPLOT"]["state"]) {
-					clc.red(ds()
-						+ " [tsdsfe] Problem with Autoplot server: "
-						+ config.AUTOPLOT)
-					if (!depsbody) {
-					    lclc.red(" Status code: " + depsres.statusCode, 160)
-					} else {
-						var depsbodyv = depsbody.split("\n");
-						for (var i = 1; i < depsbodyv.length; i++) {
-							if (depsbodyv[i].match(/Error|org\.virbo/)) {
-								clc.red(" " + 
-										depsbodyv[i]
-										.replace(/<[^>]*>/g,"")
-										.replace("Server Error",""))
-							}
-						}
-					}
-					clc.red(ds() 
-							+ " [tsdsfe] Next Autoplot check in "
-							+ config.DEPSCHECKPERIOD
-							+ ' ms.  Only success will be reported.')
-				}
-				checkdeps.status["AUTOPLOT"]["state"] = false;
-			} else {
-				if (!checkdeps.status["AUTOPLOT"]["state"]) {
-					clc.green(ds() 
-						+ " [tsdsfe] Problem resolved with Autoplot server: "
-						+ config.AUTOPLOT)
-				}
-				checkdeps.status["AUTOPLOT"]["state"] = true;
-			}
-		})
-}
+console.log(ds() + " [tsdsfe] Listening on port " + config.PORT)
+console.log(ds() + " [tsdsfe] See " + config.TSDSFE)
 
 function handleRequest(req, res) {
 
@@ -614,7 +369,7 @@ function handleRequest(req, res) {
 
 	res.options = JSON.parse(JSON.stringify(options))
 
-	log.logapp(options.ip + " " + req.originalUrl, config)
+	//log.logapp(options.ip + " " + req.originalUrl, config)
 
 	// Set log file name as response header
 	res.header('x-tsdsfe-log', options.logsig)
@@ -630,7 +385,8 @@ function handleRequest(req, res) {
 	options.req = req
 
 	if (typeof(options) === "undefined") {
-		log.logres("Error parsing options.  502 was sent.", res.options)
+		// TODO: Implement this.
+		log.logres("Error parsing options.  Sent 502.", res.options)
 		return
 	}
 
@@ -638,14 +394,15 @@ function handleRequest(req, res) {
 		console.log(options)
 		// hash of 127.0.0.1 = f528764d
 		var excludeIPs = "f528764d"
-		// Get directory listing and start streaming lines in files that match catalog=CATALOG
-		var com = "grep --no-filename -e"+
-		" '" + 
-		req.originalUrl.replace("&return=log","").replace("/?","") + 
-		"' " + 
-		config.LOGDIRAPPPUBLIC + "*.log" +
-		" | grep -v " + excludeIPs + 
-		" | cut -f1,3,4 -d,";
+		// Get directory listing and start streaming lines in files
+		// that match catalog=CATALOG
+		var com = "grep --no-filename -e"
+			+ " '"
+			+ req.originalUrl.replace("&return=log", "").replace("/?", "")
+			+ "' " 
+			+ config.LOGDIRAPPPUBLIC + "*.log"
+			+ " | grep -v " + excludeIPs
+			+ " | cut -f1,3,4 -d,";
 		var child = require('child_process').exec(com)
 		console.log(com)
 		log.logres("Sending output of shell command: "+com, res.options)
@@ -653,7 +410,8 @@ function handleRequest(req, res) {
 			res.write(buffer.toString())
 		})
 		child.stdout.on('end', function() { 
-			log.logres("Finished sending output of shell command.  Sending res.end().", res.options)
+			log.logres("Finished sending output of shell command."
+						+ " Sending res.end().", res.options)
 			res.end()
 		})
 		return
@@ -667,7 +425,8 @@ function handleRequest(req, res) {
 	var urlr = []
 	var k = 0
 	for (var j in urlo) {
-		if ((!urlo[j].match("cache") && !urlo[j].match("image.")) || urlo[j].match("image.quant")) {
+		if ((!urlo[j].match("cache") && !urlo[j].match("image."))
+			|| urlo[j].match("image.quant")) {
 			urlr[k] = urlo[j]
 			k = k+1;
 		}
@@ -695,7 +454,9 @@ function handleRequest(req, res) {
 				+ "x" + options.image.heightr
 				+ "." + options.format
 
-	if ((options.format == "png") || (options.format == "pdf") || (options.format == "svg")) {
+	if ((options.format === "png") 
+			|| (options.format === "pdf") 
+			|| (options.format === "svg")) {
 		var isimagereq = true
 	} else {
 		var isimagereq = false
@@ -747,7 +508,9 @@ function handleRequest(req, res) {
 					})
 					.on('end', function () {
 						log.logres("Stream end event.", res.options)
-						log.logres("Removing (sync) " + ifiler.replace(__dirname,"")+ ".streaming", res.options)
+						log.logres("Removing (sync) " 
+							+ ifiler.replace(__dirname,"")
+							+ ".streaming", res.options)
 						fs.unlinkSync(ifiler + ".streaming")
 					})
 				stream.pipe(res)
@@ -755,7 +518,8 @@ function handleRequest(req, res) {
 			}
 		} else {
 			log.logres("Not using image response cache file if"
-						+ " found because useimagecache = false.", res.options)
+						+ " found because useimagecache = false.", 
+						res.options)
 		}
 	}
 
@@ -782,7 +546,8 @@ function handleRequest(req, res) {
 
 			catalogjson = JSON.parse(catbody);
 
-			// Iterate through catalog and find one that matches requested catalog.
+			// Iterate through catalog and find one that matches
+			// requested catalog.
 			for (var i = 0;i < catalogjson.length;i++) {
 
 				if (catalogjson[i].label.match(options.catalog)) {
@@ -871,7 +636,8 @@ function handleRequest(req, res) {
 		var starts      = options.start.split(";")
 		var stops       = options.stop.split(";")
 		
-		log.logres("handleRequest(): Concatenated parameter request. N = "+N, res.options)
+		log.logres("handleRequest(): Concatenated parameter request. N = "
+						+ N, res.options)
 		
 		var Options = [];
 
@@ -902,8 +668,8 @@ function handleRequest(req, res) {
 		
 		log.logres("Stream called.", res.options)
 
-		// TODO: Not all stream options will work for requests that span multiple catalogs.
-		// Document and fix.
+		// TODO: Not all stream options will work for requests that
+		// span multiple catalogs.  Document and fix.
 
 		if (status == 0) {
 
@@ -1253,7 +1019,6 @@ function handleRequest(req, res) {
 			}
 		}
 	}		
-
 }
 
 function parseOptions(req, res) {
@@ -1307,6 +1072,8 @@ function parseOptions(req, res) {
 	options.logcolor = Math.round(255*parseFloat(Math.random().toString().substring(1)));
 	options.logfile  = config.LOGDIRRES + logsig
 	options.logsig   = logsig
+
+	log.logres("Request from " + options.ip + " " + req.originalUrl, options)
 
 	// If any of the cache options are false and update fails, cache will be used if found (and warning is given in header).
  	// Sent as DataCache parameter.
