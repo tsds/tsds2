@@ -4,3 +4,4 @@ node_js:
 notifications:
   email:
     - Robert.S.Weigel+travis@gmail.com
+script: cd tsdsfe && npm install && npm test

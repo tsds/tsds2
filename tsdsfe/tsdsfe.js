@@ -106,7 +106,8 @@ process.on('uncaughtException', function(err) {
 	} else {
 		console.log(err.stack)
 	}
-	fs.writeFileSync('tsds.error', err);
+	var tmps = ds();
+	fs.appendFileSync('tsds-error-'+tmps.slice(0,-5)+".log", err)
 	process.exit(1)
 })
 
