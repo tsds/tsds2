@@ -107,7 +107,7 @@ process.on('uncaughtException', function(err) {
 		console.log(err.stack)
 	}
 	var tmps = ds();
-	fs.appendFileSync('tsds-error-'+tmps.slice(0,-5)+".log", err)
+	fs.appendFileSync('tsds-error-'+tmps.split(" ")[0]+".log", err)
 	process.exit(1)
 })
 
@@ -335,6 +335,7 @@ if (msg !== "") {
 
 if (argv.checkdeps) {
 	var deps = require('./deps.js')
+	//setTimeout(function () {deps.checkdeps(config)}, 5000)
 	console.log(ds() + "Checking dependencies every " 
 					 + config.DEPSCHECKPERIOD/1000 + " seconds.")
 	setInterval(function() {deps.checkdeps(config)}, config.DEPSCHECKPERIOD)
@@ -345,8 +346,7 @@ if (argv.checkdeps) {
 if (argv.checkservers) {
 	var checkservers = require('./servers.js').checkservers
 	// Check servers 5 seconds after start-up
-	console.log(ds() 
-		+ "Checking servers in 5 seconds and then every 60 seconds.")
+	console.log(ds() + "Checking servers in 5 seconds.")
 	setTimeout(function () {checkservers(config)}, 5000)
 } else {
 	console.log(ds() + "Note: " + clc.blue("Server checks disabled."))
