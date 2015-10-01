@@ -23,7 +23,7 @@ node test/test.js --testfile test/image-tests.js
 
 RESULT3=$?
 
-kill $PID
+kill -s "SIGINT" $PID
 
 if [[ $RESULT1 == "1" && $RESULT2 == "1" ]]; then
 	echo "test.sh Exiting with code 1"

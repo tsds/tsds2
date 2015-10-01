@@ -17,6 +17,6 @@
 	"scripts": {
 		"start": "node tsdsfe.js",
 		"preinstall": "cd deps; make bin/pngquant; cd ../../autoplot/; make install; make stop; make start",
-		"test": "bash test/test.sh"
+		"test": "bash test/test.sh  2>&1 | tee test/test.log"
 	}
 }
