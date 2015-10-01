@@ -103,6 +103,7 @@ function dropdown2(ids, names, funs, after, i, selected, callback) {
 			select: function(event,ui) {
 						id = $(this).attr('id');
 						var i = parseInt($(this).parent().parent().attr("id").replace(/[a-z]/gi,""));
+						var p = $(this).parent().parent();
 						console.log("dropdown(): Select event triggered on " + id);
 
 						if (typeof(ui.item) === "undefined") {
@@ -118,19 +119,19 @@ function dropdown2(ids, names, funs, after, i, selected, callback) {
 
 						val = ui.item.value || event.target.value;
 						
-						var vallast = $('input[id=' + id + ']').parent().parent().attr('valuelast');
+						var vallast = $(p).attr('valuelast');
 
 						console.log("dropdown.ac.select(): ui.item.value = " + val)
 						console.log("dropdown.ac.select(): valuelast = " + vallast)
 						
 						console.log("dropdown.ac.select(): Setting value to " + val);
-						$(after+i).attr('name',id).attr('value',val);
+						$(p).attr('name',id).attr('value',val);
 						
 						if (typeof(vallast) === "undefined") {
 							console.log("dropdown.ac.select(): Setting valuelast to " + val);
 							$(after+i).attr('name',id).attr('valuelast',val);
 						}
-						$(after+i).attr('name',id).attr('valuelast',val);
+						$(p).attr('name',id).attr('valuelast',val);
 
 						if (location.hash === "") {
 							var qs = {};
@@ -138,9 +139,9 @@ function dropdown2(ids, names, funs, after, i, selected, callback) {
 							var qs = $.parseQueryString();
 						}
 						console.log("dropdown.ac.select(): Query string before reading drop-down: " + JSON.stringify(qs))
-
-						if ($("#dropdowns"+i).val()) {
-							qs[$("#dropdowns" + (i)).attr('name')] = $("#dropdowns"+i).val();
+						console.log($(p))
+						if ($(p).val()) {
+							qs[$(p).attr('name')] = $(p).val();
 						}
 						
 						console.log("dropdown.ac.select(): Query string after reading drop-down: " + JSON.stringify(qs))
@@ -150,7 +151,7 @@ function dropdown2(ids, names, funs, after, i, selected, callback) {
 
 						console.log("dropdown.ac.select(): Setting hash using query string.");
 						location.hash = decodeURIComponent($.param(qs));
-
+						// /return
 						if (val) {
 							ui.item.valuelast = ui.item.value;
 						}
@@ -159,22 +160,23 @@ function dropdown2(ids, names, funs, after, i, selected, callback) {
 							console.log("dropdown.ac.select(): New value is same as old.  Taking no action.");
 							$('input[id=' + id + ']').autocomplete("close");
 						} else {
-							console.log("dropdown.ac.select(): Removing all span elements after " + id);
-							//$('input[id=' + id + ']').parent().parent().nextAll("span").remove();
+							console.log("dropdown.ac.select(): Clearing values in all drop-downs after " + id);
 							$("input[id='"+id+"']").parent().parent().nextAll("span").hide().html('').attr('value','').attr('valuelast','');
+
+							console.log("---")
+							//var qs = $.parseQueryString();
+							console.log(qs);
+							qs = {};
+							for (j = 0;j < i+1;j++) {
+								qs[$(after+j).attr('name')] = $(after+j).val();
+							}
+							console.log(qs)
+							location.hash = decodeURIComponent($.param(qs));
+							console.log(after)
+
 							if (funs[i].onselect) {
 								funs[i].onselect();
 							}
-
-							//console.log("---")
-							//var qs = $.parseQueryString();
-							//console.log(qs);
-							qs = {};
-							for (j = 0;j < i+1;j++) {
-								qs[$("#dropdowns" + (j)).attr('name')] = $("#dropdowns"+j).val();
-							}
-							//console.log(qs)
-							location.hash = decodeURIComponent($.param(qs));
 
 							dropdown2(ids, names, funs, after, i+1, val, callback);
 							if (i+1 == funs.length) return
@@ -210,7 +212,7 @@ function dropdown2(ids, names, funs, after, i, selected, callback) {
 		.append('<label id="'+ids[i]+'list" class="dropdown2" title="Show full list" style="width:1em;display:table-cell;cursor:pointer">&#9660;</label>');
 	
 
-	// Append is syncronous, so this won't happen before element is in DOM.
+	// Append is synchronous, so this won't happen before element is in DOM.
 	// Allow entries not in list.
 	$(after + (i) + ' input[id=' + ids[i] + ']').live('input',function () {
 		$(this).parent().parent().attr('value',$(this).attr('value'));

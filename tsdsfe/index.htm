@@ -25,7 +25,7 @@
 			$(function() {
 				checkstatus();
 				main();
-				setInterval(checkstatus,60000);
+				setInterval(checkstatus,10000);
 				//var FONTS = [];
 				//var COLORS = {};
 				//$.getJSON( "js/css-color-names.json", function( data ) {COLORS=data;});
@@ -40,7 +40,7 @@
 				if (!checkstatus.servers) {
 					$('#cataloginfo ul #statustrue').remove()
 					$('#cataloginfo ul #statusfalse').remove()
-					$('#cataloginfo ul').append('<li id="statusfalse"><i>Data servers not being monitored.</i></li>');
+					$('#cataloginfo ul').append('<li id="statusfalse"><i>Data servers are not being monitored.</i></li>');
 					return
 				}
 
@@ -229,7 +229,7 @@
 					$("#" + id).val(qs[id])
 								.data("autocomplete")
 								._trigger("select", event, {item:qs[id]})
-					alert(qs[id])
+					//alert(qs[id])
 				}
 			}				
 
@@ -946,6 +946,25 @@
 			}
 
 			function tests(i) {
+
+				tests.onselect = function () {
+					console.log('test selected');
+					vid = $("#dropdownstest0").attr('value');
+					console.log(vid);
+					var k = 0;
+					while (true) {
+						if (list[k].value === vid) {break} else {k = k+1}
+					}
+
+					location.hash = list[k].value;
+					//alert(list[k].value)
+					//preview();
+					triggerselect();
+				};
+
+								
+				//location.search = $.query.set("catalog","SSCWeb").toString();
+
 				// Use for testing random?
 				function autoselect(el,N) {
 					$(el+"list").click();
@@ -965,9 +984,10 @@
 				})
 
 				var list = new Array();
-				list[0] = {label:"IMAGE/PT1M/ABK",value:"IMAGE",url:"catalog=IMAGE/PT1M&dataset=ABK&parameters=X&start=-P3D&stop=2014-09-30&return=image&format=png&type=timeseries&style=0"};
-				list[1] = {label:"SSCWeb/active/X_TOD",value:"sscweb",url:"catalog=SSCWeb&dataset=active&parameters=X_TOD&start=-P3D&stop=1991-10-04&return=image&format=png&type=timeseries&style=0"};
-				list[2] = {label:"SuperMAG",value:"supermag",url:"catalog=supermag&dataset=BLC&parameters=N&start=-PT3D&stop=1980-01-10"};
+				list[0] = {label:"IMAGE/PT1M/ABK",value:"catalog=IMAGE/PT1M&dataset=ABK&parameters=X&start=-P3D&stop=2014-09-30&return=image&format=png&type=timeseries&style=0"};
+				list[1] = {label:"SSCWeb/active/X_TOD",value:"catalog=SSCWeb&dataset=active&parameters=X_TOD&start=-P3D&stop=1991-10-04&return=image&format=png&type=timeseries&style=0"};
+				list[2] = {label:"SuperMAG/AAA/B_N",value:"catalog=SuperMAG/PT1M&dataset=AAA&parameters=B_N&start=-PT3D&stop=2013-12-31"};
+
 				list[3] = {label:"SPIDR",value:"spidr",url:"catalog=spidr&dataset=amie_ae&parameters=amie_ae&version=0&start=1991-01-01&stop=1991-01-11"};
 				list[4] = {label:"USGS 1-minute",value:"usgs1m",url:"catalog=USGS/RT/PT1M&dataset=BRW&parameters=H&start=2013-05-02&stop=2013-05-05"};
 				list[5] = {label:"USGS 1-second",value:"usgs1s",url:"catalog=USGS/RT/PT1S&dataset=BRW&parameters=H&start=2013-05-02&stop=2013-05-05"};
@@ -978,22 +998,6 @@
 				//list[6] = {label:"ISIS-2",value:"ISIS-2",url:"catalog=NSSDC/ISIS-2&dataset=CEP&parameters=L_value&start=1971-04-14&stop=1971-04-16"};
 				//list[7] = {label:"TSX-5",value:"TSX-5",url:"catalog=ViRBO/TSX-5/EPHX&dataset=ephx&parameters=PitchAngle&start=2000-08-15&stop=2000-08-17"};
 				//				list[5] = {label:"ISIS-1",value:"ISIS-1",url:"catalog=NSSDC/ISIS-1&dataset=CEP&start=1969-01-30&stop=1969-02-19&parameters=Altitude"};
-
-				
-				tests.onselect = function () {
-					console.log('test selected');
-					vid = $("#dropdownstest0").attr('value');
-					console.log(vid);
-					var k = 0;
-					while (true) {
-						if (list[k].value === vid) {break} else {k = k+1}
-					}
-					location.hash = list[k].url;
-					//preview();
-					triggerselect();
-				};
-				
-				//location.search = $.query.set("catalog","SSCWeb").toString();
 				
 				return list;
 			}
@@ -1070,7 +1074,6 @@
 			<div id="styleinfoimage" style="display:none;width:95%">
 				<b>Style options</b> (Background/Text/Symbol):
 				<ul>
-					<li>Custom - Show drop-downs for plot style.</li>
 					<li>0 - None/Black/Blue (default)</li>
 					<li>1 - Black/Yellow/Yellow</li>
 					<li>2 - Spark Line</li>
