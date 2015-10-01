@@ -19,7 +19,7 @@ function checkservers(config, server) {
 	if (!checkservers.status[server]) {
 
 		checkservers.status[server] = {}
-		checkservers.status[server]["state"] = false
+		checkservers.status[server]["state"] = true
 		checkservers.status[server]["checkperiod"] = 60000
 		checkservers.status[server]["testnum"] = 0
 		checkservers(config, server)
@@ -36,14 +36,14 @@ function checkservers(config, server) {
 			function (err,depsres,depsbody) {
 				if (err) {
 					if (checkservers.status["SSCWeb"]["testnum"] == 0 || checkservers.status["SSCWeb"]["state"]) {
-						log.logc(ds() 
+						console.log(ds() 
 							+ "Error when testing SSCWeb:\n  "
-							+ err,160)
-						console.log(config.TSDSFE + testurl, 160)
+							+ err)
+						console.log(config.TSDSFE + testurl)
 						console.log(ds()
 							+ "Next test in "
 							+ checkservers.status["SSCWeb"]["checkperiod"]
-							+ " ms.  Only success will be reported.", 160)
+							+ " ms.  Only success will be reported.")
 					}
 					checkservers.status["SSCWeb"]["state"] = false;
 					checkservers.status[server]["message"] = "Connection to SSCWeb server has failed."
@@ -60,18 +60,18 @@ function checkservers(config, server) {
 							msg = "Test request returned body of length: "
 									+ depsbody.length+"; expected 3960."
 						}
-						console.log(ds() + "Problem with SSCWeb: " + msg, 160)
-						console.log(config.TSDSFE + testurl, 160)
+						console.log(ds() + "Problem with SSCWeb test response: " + msg)
+						console.log(config.TSDSFE + testurl)
 						console.log(ds() 
 									+ "Next test in " 
 									+ checkservers.status["SSCWeb"]["checkperiod"] 
-									+ " ms.  Only success will be reported.", 160)
+									+ " ms.  Only success will be reported.")
 					}
 					checkservers.status["SSCWeb"]["state"] = false;
 					checkservers.status[server]["message"] = "Connection to SSCWeb server has failed."
 				} else {
 					if (!checkservers.status["SSCWeb"]["state"]) {
-						console.log(ds() + "Problem resolved with SSCWeb.", 10)
+						console.log(ds() + "Problem resolved with SSCWeb.")
 					}
 					checkservers.status["SSCWeb"]["state"] = true
 					checkservers.status[server]["message"] = "Connection to SSCWeb working."

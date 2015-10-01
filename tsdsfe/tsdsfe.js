@@ -714,6 +714,7 @@ function handleRequest(req, res) {
 			if (isimagereq && options.format !== "png") {
 				var ifilews  = fs.createWriteStream(ifile)
 				var rd = request.get(data);
+				// TODO: Check for error here.
 				rd.pipe(res)
 				rd.pipe(ifilews)
 				return
