@@ -2,7 +2,7 @@ var fs      = require('fs')
 var request = require("request")
 var clc     = require('cli-color')
 
-function ds() {return (new Date()).toISOString()}
+function ds() {return (new Date()).toISOString() + " [tsdsfe] "}
 
 function stopdeps(dep) {
 
@@ -14,11 +14,11 @@ function stopdeps(dep) {
 
 		str = spawn('make',['-s','stop'], options)
 		if (str.stdout.toString() !== "")
-			console.log(ds() + " [tsdsfe] autoplot stdout: "
+			console.log(ds() + "autoplot stdout: "
 							 + str.stdout.toString().replace(/\n$/,""))
 		if (str.stderr.toString() !== "") {
 			console.log(str.stderr.length)
-			console.log(ds() + " [tsdsfe] autoplot stderr: " + str.stderr)
+			console.log(ds() + "autoplot stderr: " + str.stderr)
 		}
 
 }
@@ -27,6 +27,7 @@ exports.stopdeps = stopdeps
 function startdeps(dep, config) {
 
 	var spawn = require('child_process').spawn
+	var execSync = require('child_process').execSync
 
 	if (dep === 'autoplot') {
 
@@ -40,7 +41,7 @@ function startdeps(dep, config) {
 			return
 		}
 		console.log(ds() 
-				+ " [tsdsfe] Starting dependency " 
+				+ "Starting dependency " 
 				+ dep + " in " + depdir + " on port " + APPORT)
 
 		startdeps.datacache = spawn('make',['start'], options)
@@ -48,14 +49,14 @@ function startdeps(dep, config) {
 		startdeps.datacache.stdout.on('data', function (data) {
 			if (data) {
 				if (data.toString().match("Already Running"))
-					console.log(ds() + " [tsdsfe] autoplot is already running.")
+					console.log(ds() + "autoplot is already running.")
 			}
 		})
 		startdeps.datacache.stderr.on('data', function (data) {
-			//console.log(ds() + " [tsdsfe] autoplot stderr: " + data)
+			//console.log(ds() + "autoplot stderr: " + data)
 		})
 		startdeps.datacache.on('close', function (code) {
-			console.log(ds() + " [tsdsfe] autoplot exited with code: " + code)
+			console.log(ds() + "autoplot exited with code: " + code)
 		})	
 	}
 
@@ -74,15 +75,28 @@ function startdeps(dep, config) {
 							+ config.DATACACHE)
 			return
 		}
+
+		// If tsdsfe.js was sent SIGKILL, other spawned processes won't be
+		// killed; and a SIGKILL event cannot have a listener in node. 
+		// The following kills a spawned datacache server processes before 
+		// starting again provided the process string of the spawned process
+		// matches a specified string.  The --usedby argument is not used
+		// by app.js but is used constrain what the process that is killed.
+		var pstr = "node app.js --port " + DCPORT + ' --usedby tsdsfe ' + config.PORT
+		//console.log(ds() + "Sending SIGINT to any process matching " + pstr)
+		var com = "pkill --signal SIGINT --full '" + pstr + "'"
+		execSync(com)
+
 		console.log(ds() 
-				+ " [tsdsfe] Starting dependency " 
+				+ "Starting dependency " 
 				+ dep + " in " + depdir + " on port " + DCPORT)
 
 		startdeps.datacache = spawn('node',
 									[
 										'app.js', 
 										'--port',DCPORT,
-										'--debugall',config.argv.debugall
+										'--usedby','tsdsfe '+config.PORT,
+										'--debugall',config.argv.debugall,
 									],
 									options)
 		
@@ -97,10 +111,10 @@ function startdeps(dep, config) {
 		})
 		startdeps.datacache.stderr.on('data', function (data) {
 			if (data)
-				console.log(ds() + " [tsdsfe] datacache error: " + data.toString().replace(/\n$/,""))
+				console.log(ds() + "datacache error: " + data.toString().replace(/\n$/,""))
 		})
 		startdeps.datacache.on('close', function (code) {
-			console.log(ds() + " [tsdsfe] datacache exited with code: " + code)
+			console.log(ds() + "datacache exited with code: " + code)
 		})	
 	}
 
@@ -118,11 +132,24 @@ function startdeps(dep, config) {
 			console.error('VIVIZ URL in configuration must have a port: ' + config.VIVIZ)
 			return
 		}
+
+		// See explanation in datacache section for an explanation of the
+		// of the following.
+		var pstr = "node viviz.js --port " + VVPORT + ' --usedby tsdsfe ' + config.PORT
+		//console.log(ds() + "Sending SIGINT to any process matching " + pstr)
+		var com = "pkill --signal SIGINT --full '" + pstr + "'"
+		execSync(com)
+
 		console.log(ds() 
-				+ " [tsdsfe] Starting dependency " 
+				+ "Starting dependency " 
 				+ dep + " in " + depdir + " on port " + VVPORT)
 
-		startdeps.viviz = spawn('node', ['viviz.js', VVPORT], options)
+		startdeps.viviz = spawn('node', 
+							[
+								'viviz.js','--port',VVPORT,
+								'--usedby','tsdsfe '+config.PORT
+							]
+							, options)
 		
 		startdeps.viviz.stdout.on('data', function (data) {
 			if (config.argv.debugall === 'true') {
@@ -131,10 +158,10 @@ function startdeps(dep, config) {
 		})
 		startdeps.viviz.stderr.on('data', function (data) {
 			if (data)
-				console.log(ds() + " [tsdsfe] viviz error: " + data.toString().replace(/\n$/,""));
+				console.log(ds() + "viviz error: " + data.toString().replace(/\n$/,""));
 		})
 		startdeps.viviz.on('close', function (code) {
-			console.log(ds() + " [tsdsfe] viviz exited with code: " + code);
+			console.log(ds() + "viviz exited with code: " + code);
 		})	
 	}
 }
@@ -147,7 +174,7 @@ function checkdeps(config) {
 		checkdeps.status = {};
 		checkdeps.status["VIVIZ"] = {}
 		checkdeps.status["VIVIZ"]["state"] = true
-		checkdeps.status["VIVIZ"]["message"] = "Connection to ViViz server has failed.  Requests for galleries will fail.  Removing option to view images as a gallery.";
+		checkdeps.status["VIVIZ"]["message"] = "Connection to ViViz server has failed.  Requests for galleries will fail.";
 
 		checkdeps.status["DATACACHE"] = {}
 		checkdeps.status["DATACACHE"]["state"] = true
@@ -155,7 +182,7 @@ function checkdeps(config) {
 
 		checkdeps.status["AUTOPLOT"] = {}
 		checkdeps.status["AUTOPLOT"]["state"] = true
-		checkdeps.status["AUTOPLOT"]["message"] = "Connection to Autoplot image server has failed.  Removing option to view images.";
+		checkdeps.status["AUTOPLOT"]["message"] = "Connection to Autoplot image server has failed.";
 	}
 
 	request(config.VIVIZ,
@@ -163,10 +190,10 @@ function checkdeps(config) {
 			if (err) {
 				if (checkdeps.started || checkdeps.status["VIVIZ"]["state"]) {
 					clc.red(ds() 
-						+ " [tsdsfe] Error when testing ViViz server: "
+						+ "Error when testing ViViz server: "
 						+ config.VIVIZ + "\n  " + err)
 					clc.red(ds() 
-						+ " [tsdsfe] Next ViViz check in "
+						+ "Next ViViz check in "
 						+ config.DEPSCHECKPERIOD
 						+ ' ms.  Only success will be reported.')
 				}
@@ -176,10 +203,10 @@ function checkdeps(config) {
 			if (depsres.statusCode != 200) {
 				if (checkdeps.status["VIVIZ"]["state"]) {
 					clc.red(ds()
-						+ " [tsdsfe] Problem with ViViz server: "
+						+ "Problem with ViViz server: "
 						+ config.VIVIZ)
 					clc.red(ds() 
-						+ " [tsdsfe] Next ViViz check in "
+						+ "Next ViViz check in "
 						+ config.DEPSCHECKPERIOD
 						+ ' ms.  Only success will be reported.')
 				}
@@ -187,7 +214,7 @@ function checkdeps(config) {
 			} else {
 				if (!checkdeps.status["VIVIZ"]["state"]) {
 					clc.green(ds() 
-						+ " [tsdsfe] Problem resolved with ViViz server: "
+						+ "Problem resolved with ViViz server: "
 						+ config.VIVIZ)
 				}
 				checkdeps.status["VIVIZ"]["state"] = true;
@@ -204,10 +231,10 @@ function checkdeps(config) {
 			if (err) {
 				if (checkdeps.started || checkdeps.status["DATACACHE"]["state"]) {
 					clc.red(ds() 
-						+ " [tsdsfe] Error when testing DataCache server: "
+						+ "Error when testing DataCache server: "
 						+ config.DATACACHE+"\n  " + err)
 					clc.red(ds()
-						+ " [tsdsfe] Next DataCache check in "
+						+ "Next DataCache check in "
 						+ config.DEPSCHECKPERIOD
 						+ ' ms.  Only success will be reported.')
 				}
@@ -217,10 +244,10 @@ function checkdeps(config) {
 			if (depsres.statusCode != 200) {
 				if (checkdeps.status["DATACACHE"]["state"]) {
 					clc.red(ds() 
-						+ " [tsdsfe] Problem with DataCache server "
+						+ "Problem with DataCache server "
 						+ config.DATACACHE+"\n  " + err)
 					clc.red(ds()
-						+ " [tsdsfe] Next DataCache check in "
+						+ "Next DataCache check in "
 						+ config.DEPSCHECKPERIOD
 						+ ' ms.  Only success will be reported.')
 				}
@@ -228,7 +255,7 @@ function checkdeps(config) {
 			} else {
 				if (!checkdeps.status["DATACACHE"]["state"]) {
 					clc.green(ds()
-						+ " [tsdsfe] Problem resolved with DataCache server: "
+						+ "Problem resolved with DataCache server: "
 						+ config.DATACACHE)
 				}
 				checkdeps.status["DATACACHE"]["state"] = true
@@ -241,10 +268,10 @@ function checkdeps(config) {
 			if (err) {
 				if (checkdeps.started || checkdeps.status["AUTOPLOT"]["state"]) {
 					clc.red(ds() 
-						+ " [tsdsfe] Error when testing Autoplot server: "
+						+ "Error when testing Autoplot server: "
 						+ config.AUTOPLOT + "\n  " + err)
 					clc.red(ds() 
-						+ " [tsdsfe] Next Autoplot check in "
+						+ "Next Autoplot check in "
 						+ config.DEPSCHECKPERIOD
 						+ ' ms.  Only success will be reported.')
 				}
@@ -255,7 +282,7 @@ function checkdeps(config) {
 				if (config.TSDSFE.match(/http:\/\/localhost/)) {
 					if (!config.AUTOPLOT.match(/http:\/\/localhost/)) {
 						clc.yellow(ds() 
-							+ " [tsdsfe] Warning: Image request will not work"
+							+ "Warning: Image request will not work"
 							+ " because Autoplot image servlet specified by "
 							+ " config.AUTOPLOT must be localhost if "
 							+ " config.TSDSFE is localhost.")
@@ -265,7 +292,7 @@ function checkdeps(config) {
 			if (depsres.statusCode != 200) {
 				if (checkdeps.status["AUTOPLOT"]["state"]) {
 					clc.red(ds()
-						+ " [tsdsfe] Problem with Autoplot server: "
+						+ "Problem with Autoplot server: "
 						+ config.AUTOPLOT)
 					if (!depsbody) {
 					    lclc.red(" Status code: " + depsres.statusCode, 160)
@@ -281,7 +308,7 @@ function checkdeps(config) {
 						}
 					}
 					clc.red(ds() 
-							+ " [tsdsfe] Next Autoplot check in "
+							+ "Next Autoplot check in "
 							+ config.DEPSCHECKPERIOD
 							+ ' ms.  Only success will be reported.')
 				}
@@ -289,7 +316,7 @@ function checkdeps(config) {
 			} else {
 				if (!checkdeps.status["AUTOPLOT"]["state"]) {
 					clc.green(ds() 
-						+ " [tsdsfe] Problem resolved with Autoplot server: "
+						+ "Problem resolved with Autoplot server: "
 						+ config.AUTOPLOT)
 				}
 				checkdeps.status["AUTOPLOT"]["state"] = true;

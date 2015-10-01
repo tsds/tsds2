@@ -18,7 +18,7 @@ var deps    = require('./deps.js')
 // Helper functions
 function s2b(str) {if (str === "true") {return true} else {return false}}
 function s2i(str) {return parseInt(str)}
-function ds() {return (new Date()).toISOString()}
+function ds() {return (new Date()).toISOString() + " [tsdsfe] "}
 
 var argv    = require('yargs')
 				.default
@@ -30,7 +30,7 @@ var argv    = require('yargs')
 					'debugcache': "false",
 					'debugstream': "false",
 					'checkdeps': "true",
-					'checkservers': "false"
+					'checkservers': "true"
 				})
 				.argv
 
@@ -58,8 +58,9 @@ var debugconsole = s2b(argv.debugconsole)
 
 if (argv.help || argv.h) {
 	console.log("Usage: node tsdsfe.js [--port=8004 "
-		+ "--debug{all,app,cache,stream,console} false "
-		+ "--check{servers,deps} true]")
+					+ "--debug{all,app,cache,stream,console} false "
+					+ "--check{servers,deps} true]"
+				)
 	return
 }
 
@@ -101,7 +102,7 @@ if (fs.existsSync("../../tsdset/lib/expandtemplate.js")) {
 
 process.on('uncaughtException', function(err) {
 	if (err.errno === 'EADDRINUSE') {
-		console.log("[tsdsfe] - Address already in use.")
+		console.log(ds() + "Address already in use.")
 	} else {
 		console.log(err.stack)
 	}
@@ -114,24 +115,24 @@ process.on('SIGINT', function () {
 })
 
 process.on('exit', function () {
-	console.log('[tsdsfe] - Received exit signal.')
+	console.log(ds() + "Received exit signal.")
 	clc.red(ds() 
-		+ " [tsdsfe] (NOT IMPLEMENTED) Removing partially written files.")
+		+ "(NOT IMPLEMENTED) Removing partially written files.")
 
 	if (deps.startdeps.datacache) {
-		console.log(ds() + " [tsdsfe] Stopping datacache server.")
+		console.log(ds() + "Stopping datacache server.")
 		deps.startdeps.datacache.kill('SIGINT')
 	}
 
 	if (deps.startdeps.viviz) {
-		console.log(ds() + " [tsdsfe] Stopping viviz server.")
+		console.log(ds() + "Stopping viviz server.")
 		deps.startdeps.viviz.kill('SIGINT')
 	}
 
-	console.log(ds() + " [tsdsfe] Stopping autoplot server.")
+	console.log(ds() + "Stopping autoplot server.")
 	deps.stopdeps('autoplot')
 	
-	console.log(ds() + " [tsdsfe] Exiting.")
+	console.log(ds() + "Exiting.")
 })
 
 // Read configuration file in conf/ directory.
@@ -139,7 +140,7 @@ if (fs.existsSync(__dirname + "/conf/config." + os.hostname() + ".js")) {
 	// Look for host-specific config file conf/config.hostname.js.
 	if (debugapp && debugconsole) {
 		console.log(ds() 
-					+ " [tsdsfe] Using configuration file conf/config."
+					+ "Using configuration file conf/config."
 					+ os.hostname() + ".js")
 	}
 	var tmpfname = __dirname + "/conf/config." + os.hostname() + ".js"
@@ -148,8 +149,7 @@ if (fs.existsSync(__dirname + "/conf/config." + os.hostname() + ".js")) {
 } else {
 	// Default
 	if (debugapp && debugconsole) {
-		console.log(ds() 
-					+ " [tsdsfe] Using configuration file conf/config.js")
+		console.log(ds() + "Using configuration file conf/config.js")
 	}
 	var config = require(__dirname + "/conf/config.js").config()
 	config.CONFIGFILE = __dirname + "/conf/config.js"
@@ -192,10 +192,12 @@ app.get('/status', function (req, res) {
 app.get('/test', function (req, res) {
 	var com = __dirname + '/test/curl-test.sh "' 
 				+ config.TSDSFE + req.originalUrl.replace("/test/","") + '"'
-	var child = require('child_process').exec(com)
+
 	var addr  = req.headers['x-forwarded-for'] || req.connection.remoteAddress
-	console.log(ds() + " [tsdsfe] Request from " + addr + " for " + req.originalUrl)
-	console.log(ds() + " [tsdsfe] Evaluating " + com.replace(__dirname,""))
+	console.log(ds() + "Request from " + addr + " for " + req.originalUrl)
+	console.log(ds() + "Evaluating " + com.replace(__dirname,""))
+
+	var child = require('child_process').exec(com)
 
 	child.stdout.on('data', function (buffer) {
 		if (req.headers['user-agent'].match("curl")) {
@@ -219,7 +221,7 @@ app.get('/', function (req, res) {
 	} else {
 		// Call main entry function
 		var addr = req.headers['x-forwarded-for'] || req.connection.remoteAddress
-		console.log(ds() + " [tsdsfe] Request from " + addr + ": " + req.originalUrl)
+		console.log(ds() + "Request from " + addr + ": " + req.originalUrl)
 		handleRequest(req,res)
 	}
 })
@@ -279,7 +281,7 @@ if (fs.existsSync(config.PNGQUANT)) {
 	pngquant_exists = true
 }
 if (!pngquant_exists) {
-	console.log(ds() + " [tsdsfe] Note: " 
+	console.log(ds() + "Note: " 
 		+ clc.blue(config.PNGQUANT.replace(__dirname+"/","") 
 		+ " not found.  Image file size will not be reduced."))
 }
@@ -298,7 +300,7 @@ if (!convert_exists) {
 	try {
 		var execSync = require('child_process').execSync;
 		var result = execSync('which convert').toString().replace(/\n/,"");
-		console.log(ds() + " [tsdsfe] Note: " 
+		console.log(ds() + "Note: " 
 				+ clc.blue(config.CONVERT 
 				+ " specified in "
 				+ config.CONFIGFILE.replace(__dirname+"/","")
@@ -308,9 +310,11 @@ if (!convert_exists) {
 		config.CONVERT = result;
 	} catch (e) {}
 	if (!convert_exists) {
-		console.log(ds() + " [tsdsfe] Note: " 
-				+ clc.blue(config.CONVERT + " not found and 'which convert' did not return path."
-				+ " Canvas size for Autoplot image will be based on smallest width."))
+		console.log(ds() + "Note: " 
+				+ clc.blue(config.CONVERT 
+				+ " not found and 'which convert'"
+				+ " did not return path. Canvas size"
+				+ " for Autoplot image will be based on smallest width."))
 	}
 }
 
@@ -325,28 +329,26 @@ if (develdatacache) {msg = msg + " datacache"}
 if (develviviz) {msg = msg + " viviz"}
 if (develtsdset) {msg = msg + " tsdset"}
 if (msg !== "") {
-	console.log(ds() + " [tsdsfe] Note: " + clc.blue(msg))
+	console.log(ds() + "Note: " + clc.blue(msg))
 }
 
 if (argv.checkdeps) {
 	var deps = require('./deps.js')
-	console.log(ds() + " [tsdsfe] Checking dependencies every " 
+	console.log(ds() + "Checking dependencies every " 
 					 + config.DEPSCHECKPERIOD/1000 + " seconds.")
 	setInterval(function() {deps.checkdeps(config)}, config.DEPSCHECKPERIOD)
 } else {
-	console.log(ds() + " [tsdsfe] Note: "
-					 + clc.blue("Dependency checks disabled."))
+	console.log(ds() + "Note: " + clc.blue("Dependency checks disabled."))
 }
 
 if (argv.checkservers) {
 	var checkservers = require('./servers.js').checkservers
 	// Check servers 5 seconds after start-up
 	console.log(ds() 
-		+ " [tsdsfe] Checking servers in 5 seconds and then every 60 seconds.")
+		+ "Checking servers in 5 seconds and then every 60 seconds.")
 	setTimeout(function () {checkservers(config)}, 5000)
 } else {
-	console.log(ds() + " [tsdsfe] Note: "
-					 + clc.blue("Server checks disabled."))
+	console.log(ds() + "Note: " + clc.blue("Server checks disabled."))
 }
 
 deps.startdeps('datacache', config)
@@ -356,8 +358,7 @@ deps.startdeps('autoplot', config)
 // Start the server.  TODO: Wait until deps are ready.
 server.listen(config.PORT)
 
-console.log(ds() + " [tsdsfe] Listening on port " + config.PORT)
-console.log(ds() + " [tsdsfe] See " + config.TSDSFE)
+console.log(ds() + "Listening on port " + config.PORT + ". See " + config.TSDSFE)
 
 function handleRequest(req, res) {
 
@@ -1307,7 +1308,8 @@ function getandparse(url, options, res, cb) {
 			var found = true
 
 			if (age <= 0) {
-				log.logres("Cache file has not expired.  Reading cache file "+(cfile+"."+type).replace(__dirname,""), res.options)
+				log.logres("Cache file has not expired.  Reading cache file "
+						+ (cfile+"."+type).replace(__dirname,""), res.options)
 				log.logres("for URL " + hresponse.request.uri.href, res.options)
 				log.logres("Reading cache file (sync) ", res.options)
 				var tmp = fs.readFileSync(cfile+"."+type).toString()
@@ -1341,11 +1343,14 @@ function getandparse(url, options, res, cb) {
 			log.logres("Done fetching.", res.options)
 
 			if (error) {
-				log.logres("Error when attempting to access " + url + " :" + JSON.stringify(error), res.options)
+				log.logres("Error when attempting to access " 
+							+ url + " :" 
+							+ JSON.stringify(error), res.options)
 			}
 
 			if (response.statusCode != 200) {
-				log.logres("Status code was not 200 when attempting to access " + url, res.options)
+				log.logres("Status code was not 200 when attempting to access " 
+								+ url, res.options)
 			}
 
 			if (error || response.statusCode != 200) {

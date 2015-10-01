@@ -1,5 +1,7 @@
 var request = require("request")
 
+function ds() {return (new Date()).toISOString() + " [tsdsfe] "}
+
 function checkservers(config) {
 
 	if (!checkservers.status) {
@@ -21,12 +23,12 @@ function checkservers(config) {
 		function (err,depsres,depsbody) {
 			if (err) {
 				if (startup || checkservers.status["SSCWeb"]["state"]) {
-					log.logc((new Date()).toISOString() 
-						+ " [tsdsfe] Error when testing SSCWeb:\n  "
+					log.logc(ds() 
+						+ "Error when testing SSCWeb:\n  "
 						+ err,160)
 					log.logc(config.TSDSFE + testurl, 160)
-					log.logc((new Date()).toISOString()
-						+ " [tsdsfe] Next test in "
+					log.logc(ds()
+						+ "Next test in "
 						+ checkservers.status["SSCWeb"]["checkperiod"]
 						+ " ms.  Only success will be reported.", 160)
 				}
@@ -44,19 +46,17 @@ function checkservers(config) {
 						msg = "Test request returned body of length: "
 								+ depsbody.length+"; expected 3960."
 					}
-					log.logc((new Date()).toISOString() 
-								+ " [tsdsfe] Problem with SSCWeb: " + msg, 160)
+					log.logc(ds() + "Problem with SSCWeb: " + msg, 160)
 					log.logc(config.TSDSFE + testurl, 160)
-					log.logc((new Date()).toISOString() 
-								+ " [tsdsfe] Next test in " 
+					log.logc(ds() 
+								+ "Next test in " 
 								+ checkservers.status["SSCWeb"]["checkperiod"] 
 								+ " ms.  Only success will be reported.", 160)
 				}
 				checkservers.status["SSCWeb"]["state"] = false;
 			} else {
 				if (!checkservers.status["SSCWeb"]["state"]) {
-					log.logc((new Date()).toISOString() 
-								+ " [tsdsfe] Problem resolved with SSCWeb.", 10)
+					log.logc(ds() + "Problem resolved with SSCWeb.", 10)
 				}
 				checkservers.status["SSCWeb"]["state"] = true
 			}
