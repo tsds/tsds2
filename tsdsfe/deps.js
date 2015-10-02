@@ -295,7 +295,7 @@ function checkdeps(config) {
 						+ "Problem with Autoplot server: "
 						+ config.AUTOPLOT)
 					if (!depsbody) {
-					    lclc.red(" Status code: " + depsres.statusCode, 160)
+					    clc.red(" Status code: " + depsres.statusCode, 160)
 					} else {
 						var depsbodyv = depsbody.split("\n");
 						for (var i = 1; i < depsbodyv.length; i++) {
