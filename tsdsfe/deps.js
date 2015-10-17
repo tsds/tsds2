@@ -84,8 +84,19 @@ function startdeps(dep, config) {
 		// by app.js but is used constrain what the process that is killed.
 		var pstr = "node app.js --port " + DCPORT + ' --usedby tsdsfe ' + config.PORT
 		//console.log(ds() + "Sending SIGINT to any process matching " + pstr)
-		var com = "pkill --signal SIGINT --full '" + pstr + "'"
-		execSync(com)
+
+		if (process.platform.match("darwin")) {
+			var com = "pkill -2 -f '" + pstr + "'"
+			try {
+				execSync(com)
+			} catch (err) {
+				// Catch error if process not matched
+				//console.log(err)
+			}
+		} else {
+			var com = "pkill --signal SIGINT --full '" + pstr + "'"
+			execSync(com)
+		}
 
 		console.log(ds() 
 				+ "Starting dependency " 
@@ -137,8 +148,19 @@ function startdeps(dep, config) {
 		// of the following.
 		var pstr = "node viviz.js --port " + VVPORT + ' --usedby tsdsfe ' + config.PORT
 		//console.log(ds() + "Sending SIGINT to any process matching " + pstr)
-		var com = "pkill --signal SIGINT --full '" + pstr + "'"
-		execSync(com)
+
+		if (process.platform.match("darwin")) {
+			var com = "pkill -2 -f '" + pstr + "'"
+			try {
+				execSync(com)
+			} catch (err) {
+				// Catch error if process not matched
+				//console.log(err)
+			}
+		} else {
+			var com = "pkill --signal SIGINT --full '" + pstr + "'"
+			execSync(com)
+		}
 
 		console.log(ds() 
 				+ "Starting dependency " 
