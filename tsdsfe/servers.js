@@ -1,83 +1,201 @@
 var request = require("request")
+var fs      = require('fs')
+var mkdirp  = require('mkdirp')
 
 function ds() {return (new Date()).toISOString() + " [tsdsfe] "}
 
 function checkservers(config, server) {
 
-	// [{server: "SSCWeb", url: "", check: function (body) {} }, {server: "IMAGE", url: "", check: function (body) {} }]
+	var TESTS =
+		{
+			"ViViz":
+			{
+				"check": function (body) {
+							if (!body) {
+								console.log("!body is true")
+								return false
+							}
+							return true
+						},
+				"type": "dependency",
+				"interval": config.DEPSCHECKPERIOD,
+				"url": config.VIVIZ
+			},
+			"DataCache":
+			{
+				"check": function (body) {
+
+							if (!body) {
+								console.log("!body is true")
+								return false
+							}
+							var len = 32204
+							if (body.length == len) {
+								return true
+							} else {
+								console.log("body.length == "+len+" returned false.  body.length = "+body.length)
+								return false
+							}
+						},
+				"type": "dependency",
+				"interval": config.DEPSCHECKPERIOD,
+				"url": config.DATACACHE + "?source=" + config.DATACACHE.replace("/sync","") + "test/data/file1.txt&forceUpdate=true&forceWrite=true&return=stream&istest=true"
+			},
+			"Autoplot":
+			{
+				"check": function (body,headers) {
+
+							if (!body) {
+								console.log("!body is true")
+								return false
+							}
+
+							//console.log(headers)
+							// Crude and delicate method to extract metadata from PNG.
+							//console.log(body.toString().substring(0,1000))
+							//console.log(body.toString().match(/plotInfo([\s\S]*) \]}/)[0])
+
+							if (headers["content-type"] === "image/png") {
+								return true
+							}
+							console.log(body)
+							return false
+						},
+				"type": "dependency",
+				"interval": config.DEPSCHECKPERIOD,
+				"url": config.AUTOPLOT + "?url=vap%2Binline:linspace(0,1,10)"
+			},
+			"SSCWeb":
+			{
+				"check": function (body) {
+							if (!body) return false
+							return body.length == 3960
+						},
+				"type": "server",
+				"interval": 60000,
+				"url": config.TSDSFE + "?catalog=SSCWeb&dataset=ace&parameters=X_TOD&start=2014-08-16&stop=2014-08-17&return=data&usedatacache=false&istest=true"
+			},
+			"IMAGE/PT1M":
+			{
+				"check": function (body) {
+							if (!body) return false
+							return body.length == 142560
+						},
+				"type": "server",
+				"interval": 60000,
+				"url": config.TSDSFE + "?catalog=IMAGE/PT1M&dataset=ABK&parameters=X&start=-P3D&stop=2014-09-30&return=data&usedatacache=false&istest=true"
+			},
+			"SuperMAG/PT1M":
+			{
+				"check": function (body) {
+							if (!body) return false
+							return body.length == 126561
+						},
+				"type": "server",
+				"interval": 600000,
+				"url": config.TSDSFE + "?catalog=SuperMAG/PT1M&dataset=AAA&parameters=B_N&start=-PT3D&stop=2013-12-31&return=data&usedatacache=false&istest=true"
+			}
+		}
+
 	if (!checkservers.status) {
 		checkservers.status = {};
-		server = "SSCWeb"
 		var k = 0;
-		//for (var key in SERVERTESTS) {
-		//  Stagger initialization of each test by k seconds.
-		//	setInterval(function() {checkservers(config, SERVERTEST[key])}, 1000*k)
-		//  k = k+1;
-		//}
-	}
-
-	if (!checkservers.status[server]) {
-
-		checkservers.status[server] = {}
-		checkservers.status[server]["state"] = true
-		checkservers.status[server]["checkperiod"] = 60000
-		checkservers.status[server]["testnum"] = 0
-		checkservers(config, server)
-		setInterval(function() {checkservers(config, server)}, checkservers.status[server]["checkperiod"])
+		for (var key in TESTS) {
+			if (config.argv.checkdeps && TESTS[key].type === "dependency") {
+				checkservers(config, key)
+			}
+			if (config.argv.checkservers && TESTS[key].type === "server") {
+				checkservers(config, key)
+			}
+			// Stagger initialization of each test by k seconds.
+			//setInterval(function() {checkservers(config, key)}, 1000*k)
+			//k = k+1
+		}
 		return
 	}
 
-	checkservers.status[server]["lastcheck"] = (new Date).getTime();
+	if (!checkservers.status[server]) {
+		var dir = __dirname + "/log/servers/" + server
+		mkdirp.sync(dir);
 
-	if (server === "SSCWeb") {
-
-		var testurl = "?catalog=SSCWeb&dataset=ace&parameters=X_TOD&start=2014-08-16&stop=2014-08-17&return=data&usedatacache=false"
-		request(config.TSDSFE + testurl,
-			function (err,depsres,depsbody) {
-				if (err) {
-					if (checkservers.status["SSCWeb"]["testnum"] == 0 || checkservers.status["SSCWeb"]["state"]) {
-						console.log(ds() 
-							+ "Error when testing SSCWeb:\n  "
-							+ err)
-						console.log(config.TSDSFE + testurl)
-						console.log(ds()
-							+ "Next test in "
-							+ checkservers.status["SSCWeb"]["checkperiod"]
-							+ " ms.  Only success will be reported.")
-					}
-					checkservers.status["SSCWeb"]["state"] = false;
-					checkservers.status[server]["message"] = "Connection to SSCWeb server has failed."
-					return
-				}
-				if (depsres.statusCode != "200" || depsbody.length != 3960) {
-					if (checkservers.status["SSCWeb"]["state"]) {
-						var msg = ""
-						if (depsres.statusCode != "200") {
-							msg = "Test request returned status code: "
-									+ depsres.statusCode+"; expected 200."
-						}
-						if (depsbody.length != 11880) {
-							msg = "Test request returned body of length: "
-									+ depsbody.length+"; expected 3960."
-						}
-						console.log(ds() + "Problem with SSCWeb test response: " + msg)
-						console.log(config.TSDSFE + testurl)
-						console.log(ds() 
-									+ "Next test in " 
-									+ checkservers.status["SSCWeb"]["checkperiod"] 
-									+ " ms.  Only success will be reported.")
-					}
-					checkservers.status["SSCWeb"]["state"] = false;
-					checkservers.status[server]["message"] = "Connection to SSCWeb server has failed."
-				} else {
-					if (!checkservers.status["SSCWeb"]["state"]) {
-						console.log(ds() + "Problem resolved with SSCWeb.")
-					}
-					checkservers.status["SSCWeb"]["state"] = true
-					checkservers.status[server]["message"] = "Connection to SSCWeb working."
-				}
-			}
-		)
+		checkservers.status[server] = {}
+		checkservers.status[server]["state"] = true
+		checkservers.status[server]["checkperiod"] = TESTS[server]["interval"]
+		checkservers.status[server]["testnum"] = 0
+		checkservers.status[server]["url"] = TESTS[server]["url"]
+		checkservers.status[server]["type"] = TESTS[server]["type"]
+		checkservers(config, server)
+		setInterval(function() {checkservers(config, server)},
+					checkservers.status[server]["checkperiod"])
+		return
 	}
+
+	checkservers.status[server]["lastcheck"] = (new Date).getTime()
+	function logit(stat, size) {
+		dt = (new Date()).getTime() - checkservers.status[server]["lastcheck"]
+		message = (new Date()).toISOString() + " " + dt + " " + stat + " " + size + "\n"
+		//console.log(server + " " + message)
+		var dir = __dirname + "/log/servers/" + server
+		fs.appendFile(dir + "/" + (new Date()).toISOString().substring(0,10)+".txt", message)
+	}
+
+	//console.log(ds() + "Running test: " + TESTS[server]["url"])
+	request(TESTS[server]["url"],
+		function (err,depsres,depsbody) {
+			if (err) {
+				if (checkservers.status[server]["testnum"] == 0 || checkservers.status[server]["state"]) {
+					console.log(ds() 
+						+ "Error when testing " + server + ":\n  "
+						+ err)
+					console.log(config.TSDSFE + TESTS[server]["url"])
+					console.log(ds()
+						+ "Next test in "
+						+ checkservers.status[server]["checkperiod"]
+						+ " ms.  Only success will be reported.")
+				}
+				checkservers.status[server]["state"] = false;
+				checkservers.status[server]["message"] = "Connection to " + server + " server has failed."
+				logit(depsres.statusCode,-1)
+				return
+			}
+
+			var ok = TESTS[server]["check"](depsbody,depsres.headers)
+			if (depsres.statusCode != 200 || !ok) {
+				var msg = ""
+				if (depsres.statusCode != "200") {
+					msg = "Test request returned status code: "
+							+ depsres.statusCode + "; expected 200."
+					logit(depsres.statusCode,-1)
+				}
+				if (!ok) {
+					msg = "Test failed."
+					var len = -1;
+					if (depsres.body) {
+						len = depsres.body.length
+					}
+					logit(depsres.statusCode,len)
+				}
+				console.log(ds() + "Problem with " + server + ": " + msg)
+				console.log("\tTest URL: " + TESTS[server]["url"])
+				console.log(ds() 
+							+ "Next test in " 
+							+ checkservers.status[server]["checkperiod"] 
+							+ " ms.")
+				//if (checkservers.status[server]["state"]) {
+				// If last state was working and this test failed.
+				//}
+				checkservers.status[server]["state"] = false;
+				checkservers.status[server]["message"] = "Connection to " + server + " server has failed."
+			} else {
+				if (!checkservers.status[server]["state"]) {
+					console.log(ds() + "Problem resolved with " + server + ".")
+				}
+				checkservers.status[server]["state"] = true
+				checkservers.status[server]["message"] = "Connection to " + server + " working."
+				logit(depsres.statusCode,depsres.body.length)
+			}
+		}
+	)
+
 }
 exports.checkservers = checkservers

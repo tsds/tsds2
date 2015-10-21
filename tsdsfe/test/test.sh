@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 
 echo "Starting TSDSFE server."
-node tsdsfe.js &
+node tsdsfe.js --checkservers false --checkdeps false &
 PID=$!
 
 echo "Sleeping for 3 seconds before running tests."

@@ -7,3 +7,5 @@ cache/
 .settings/
 log/
 js/autoplotserverfonts.json
+test/test.log
+*.log

@@ -20,7 +20,6 @@ function stopdeps(dep) {
 			console.log(str.stderr.length)
 			console.log(ds() + "autoplot stderr: " + str.stderr)
 		}
-
 }
 exports.stopdeps = stopdeps
 
@@ -101,13 +100,13 @@ function startdeps(dep, config) {
 									options)
 		
 		startdeps.datacache.stdout.on('data', function (data) {
-			if (config.argv.debugall === 'true') {
+			//if (config.argv.debugall === 'true') {
 				if (data.toString().indexOf("istest=true") == -1) {
 					//if (data.toString().indexOf("[datacache]") == -1) {
 						process.stdout.write(data.toString())
 					//}
 				}
-			}
+			//}
 		})
 		startdeps.datacache.stderr.on('data', function (data) {
 			if (data)
@@ -166,162 +165,3 @@ function startdeps(dep, config) {
 	}
 }
 exports.startdeps = startdeps
-
-// Check and report on state of dependencies
-function checkdeps(config) {
-
-	if (!checkdeps.status) {
-		checkdeps.status = {};
-		checkdeps.status["VIVIZ"] = {}
-		checkdeps.status["VIVIZ"]["state"] = true
-		checkdeps.status["VIVIZ"]["message"] = "Connection to ViViz server has failed.  Requests for galleries will fail.";
-
-		checkdeps.status["DATACACHE"] = {}
-		checkdeps.status["DATACACHE"]["state"] = true
-		checkdeps.status["DATACACHE"]["message"] = "Connection to DataCache server has failed.  Requests for metadata will continue to work, but requests for data and images will fail.";
-
-		checkdeps.status["AUTOPLOT"] = {}
-		checkdeps.status["AUTOPLOT"]["state"] = true
-		checkdeps.status["AUTOPLOT"]["message"] = "Connection to Autoplot image server has failed.";
-	}
-
-	request(config.VIVIZ,
-		function (err,depsres,depsbody) {
-			if (err) {
-				if (checkdeps.started || checkdeps.status["VIVIZ"]["state"]) {
-					clc.red(ds() 
-						+ "Error when testing ViViz server: "
-						+ config.VIVIZ + "\n  " + err)
-					clc.red(ds() 
-						+ "Next ViViz check in "
-						+ config.DEPSCHECKPERIOD
-						+ ' ms.  Only success will be reported.')
-				}
-				checkdeps.status["VIVIZ"]["state"] = false;
-				return
-			}
-			if (depsres.statusCode != 200) {
-				if (checkdeps.status["VIVIZ"]["state"]) {
-					clc.red(ds()
-						+ "Problem with ViViz server: "
-						+ config.VIVIZ)
-					clc.red(ds() 
-						+ "Next ViViz check in "
-						+ config.DEPSCHECKPERIOD
-						+ ' ms.  Only success will be reported.')
-				}
-				checkdeps.status["VIVIZ"]["state"] = false;
-			} else {
-				if (!checkdeps.status["VIVIZ"]["state"]) {
-					clc.green(ds() 
-						+ "Problem resolved with ViViz server: "
-						+ config.VIVIZ)
-				}
-				checkdeps.status["VIVIZ"]["state"] = true;
-			}
-		}
-	)
-
-	var teststr = "test/data/file1.txt&forceUpdate=true&forceWrite=true&istest=true"
-	request(config.DATACACHE 
-				+ "?source=" 
-				+ config.DATACACHE.replace("/sync","") 
-				+ teststr, 
-		function (err,depsres,depsbody) {
-			if (err) {
-				if (checkdeps.started || checkdeps.status["DATACACHE"]["state"]) {
-					clc.red(ds() 
-						+ "Error when testing DataCache server: "
-						+ config.DATACACHE+"\n  " + err)
-					clc.red(ds()
-						+ "Next DataCache check in "
-						+ config.DEPSCHECKPERIOD
-						+ ' ms.  Only success will be reported.')
-				}
-				checkdeps.status["DATACACHE"]["state"] = false
-				return
-			}
-			if (depsres.statusCode != 200) {
-				if (checkdeps.status["DATACACHE"]["state"]) {
-					clc.red(ds() 
-						+ "Problem with DataCache server "
-						+ config.DATACACHE+"\n  " + err)
-					clc.red(ds()
-						+ "Next DataCache check in "
-						+ config.DEPSCHECKPERIOD
-						+ ' ms.  Only success will be reported.')
-				}
-				checkdeps.status["DATACACHE"]["state"] = false
-			} else {
-				if (!checkdeps.status["DATACACHE"]["state"]) {
-					clc.green(ds()
-						+ "Problem resolved with DataCache server: "
-						+ config.DATACACHE)
-				}
-				checkdeps.status["DATACACHE"]["state"] = true
-			}
-		}
-	)
-
-	request(config.AUTOPLOT + "?url=vap%2Binline:randn(100)", 
-		function (err,depsres,depsbody) {
-			if (err) {
-				if (checkdeps.started || checkdeps.status["AUTOPLOT"]["state"]) {
-					clc.red(ds() 
-						+ "Error when testing Autoplot server: "
-						+ config.AUTOPLOT + "\n  " + err)
-					clc.red(ds() 
-						+ "Next Autoplot check in "
-						+ config.DEPSCHECKPERIOD
-						+ ' ms.  Only success will be reported.')
-				}
-				checkdeps.status["AUTOPLOT"]["state"] = false
-				return
-			}
-			if (checkdeps.started) {
-				if (config.TSDSFE.match(/http:\/\/localhost/)) {
-					if (!config.AUTOPLOT.match(/http:\/\/localhost/)) {
-						clc.yellow(ds() 
-							+ "Warning: Image request will not work"
-							+ " because Autoplot image servlet specified by "
-							+ " config.AUTOPLOT must be localhost if "
-							+ " config.TSDSFE is localhost.")
-					}
-				}
-			}
-			if (depsres.statusCode != 200) {
-				if (checkdeps.status["AUTOPLOT"]["state"]) {
-					clc.red(ds()
-						+ "Problem with Autoplot server: "
-						+ config.AUTOPLOT)
-					if (!depsbody) {
-					    clc.red(" Status code: " + depsres.statusCode, 160)
-					} else {
-						var depsbodyv = depsbody.split("\n");
-						for (var i = 1; i < depsbodyv.length; i++) {
-							if (depsbodyv[i].match(/Error|org\.virbo/)) {
-								clc.red(" " + 
-										depsbodyv[i]
-										.replace(/<[^>]*>/g,"")
-										.replace("Server Error",""))
-							}
-						}
-					}
-					clc.red(ds() 
-							+ "Next Autoplot check in "
-							+ config.DEPSCHECKPERIOD
-							+ ' ms.  Only success will be reported.')
-				}
-				checkdeps.status["AUTOPLOT"]["state"] = false;
-			} else {
-				if (!checkdeps.status["AUTOPLOT"]["state"]) {
-					clc.green(ds() 
-						+ "Problem resolved with Autoplot server: "
-						+ config.AUTOPLOT)
-				}
-				checkdeps.status["AUTOPLOT"]["state"] = true;
-			}
-		}
-	)
-}
-exports.checkdeps = checkdeps

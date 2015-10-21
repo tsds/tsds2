@@ -12,8 +12,7 @@ var util    = require('util')
 var crypto  = require("crypto")
 var clc     = require('cli-color')
 
-var servers = require('./servers.js')
-var deps    = require('./deps.js')
+var deps = require('./deps.js')
 
 // Helper functions
 function s2b(str) {if (str === "true") {return true} else {return false}}
@@ -24,44 +23,46 @@ var argv    = require('yargs')
 				.default
 				({
 					'port': 8004,
-					'debugall': "false",
-					'debugconsole': "false",
-					'debugapp': "false",
-					'debugcache': "false",
-					'debugstream': "false",
+					'debugtoconsole': "",
+					'debugtofile': "",
 					'checkdeps': "true",
 					'checkservers': "true"
 				})
 				.argv
 
+var debugs = 'all,app,stream'
+if (argv.help || argv.h) {
+	console.log("Usage: node tsdsfe.js [--port PORT"
+					+ " --debugto{file,console} {"+debugs+"}"
+					+ " --check{servers,deps} true|false]"
+				)
+	return
+}
+
 argv.checkdeps = s2b(argv.checkdeps)
 argv.checkservers = s2b(argv.checkservers)
 
 var debug = {}
-for (key in argv) {
-	if (key.search(/^debug/) != -1) {
-		key2 = key.replace('debug',"")
-		if (argv.debugall === "true") {
-			debug[key2] = true
-		} else {
-			debug[key2] = s2b(argv[key])
-		}
-	}			
+debug["tofile"] = {};
+var tmpa = argv.debugtofile.split(",")
+for (var i = 0; i < tmpa.length; i++) {
+	if (tmpa[i] !== "") debug["tofile"][tmpa[i]] = true
+}
+// torf = true or false.  Place in object so we don't need to
+// count keys each time logger.  If false, no logging is needed.
+debug["tofile"]["torf"] = false
+if (Object.keys(debug["tofile"]).length > 1) {
+	debug["tofile"]["torf"] = true
 }
 
-var port         = s2i(argv.port)
-var debugall     = s2b(argv.debugall)
-var debugapp     = s2b(argv.debugapp)
-var debugcache   = s2b(argv.debugcache)
-var debugstream  = s2b(argv.debugstream)
-var debugconsole = s2b(argv.debugconsole)
-
-if (argv.help || argv.h) {
-	console.log("Usage: node tsdsfe.js [--port=8004 "
-					+ "--debug{all,app,cache,stream,console} false "
-					+ "--check{servers,deps} true]"
-				)
-	return
+debug["toconsole"] = {};
+var tmpb = argv.debugtoconsole.split(",")
+for (var i = 0; i < tmpb.length; i++) {
+	if (tmpb[i] !== "") debug["toconsole"][tmpb[i]] = true
+}
+debug["toconsole"]["torf"] = false
+if (Object.keys(debug["toconsole"]).length > 1) {
+	debug["tofile"]["torf"] = true
 }
 
 //http://stackoverflow.com/questions/9768444/possible-eventemitter-memory-leak-detected
@@ -102,7 +103,7 @@ if (fs.existsSync("../../tsdset/lib/expandtemplate.js")) {
 
 process.on('uncaughtException', function(err) {
 	if (err.errno === 'EADDRINUSE') {
-		console.log(ds() + "Address already in use.")
+		console.log(ds() + "Port " + config.PORT + " already in use.")
 	} else {
 		console.log(err.stack)
 	}
@@ -139,23 +140,25 @@ process.on('exit', function () {
 // Read configuration file in conf/ directory.
 if (fs.existsSync(__dirname + "/conf/config." + os.hostname() + ".js")) {
 	// Look for host-specific config file conf/config.hostname.js.
-	if (debugapp && debugconsole) {
-		console.log(ds() 
+	console.log(ds() 
 					+ "Using configuration file conf/config."
 					+ os.hostname() + ".js")
-	}
 	var tmpfname = __dirname + "/conf/config." + os.hostname() + ".js"
 	var config = require(tmpfname).config()
 	config.CONFIGFILE = tmpfname
 } else {
 	// Default
-	if (debugapp && debugconsole) {
-		console.log(ds() + "Using configuration file conf/config.js")
-	}
+	console.log(ds() + "Using configuration file conf/config.js")
 	var config = require(__dirname + "/conf/config.js").config()
 	config.CONFIGFILE = __dirname + "/conf/config.js"
 }
 config.argv = argv
+
+if (argv.port) {
+	port = s2i(argv.port)
+} else {
+	port = config.PORT
+}
 
 // In more recent versions of node.js, is set at Infinity.
 // Previously it was 5.  Apache uses 100.
@@ -175,14 +178,17 @@ app.use(express.compress())
 app.get('/status', function (req, res) {
 	var addr = req.headers['x-forwarded-for'] || req.connection.remoteAddress
 	var c = {}
-	if (deps) {
-		if (deps.checkdeps.status) {
-			c.deps = deps.checkdeps.status
-		}
-	}
+	c.servers = {}
+	c.deps = {}
 	if (checkservers) {
 		if (checkservers.status) {
-			c.servers = checkservers.status
+			for (var key in checkservers.status)
+				if (checkservers.status[key].type === "server") {
+					c.servers[key] = checkservers.status[key]
+				}
+				if (checkservers.status[key].type === "dependency") {
+					c.deps[key] = checkservers.status[key]
+				}
 		}
 	}
 	res.send(JSON.stringify(c))
@@ -222,7 +228,9 @@ app.get('/', function (req, res) {
 	} else {
 		// Call main entry function
 		var addr = req.headers['x-forwarded-for'] || req.connection.remoteAddress
-		console.log(ds() + "Request from " + addr + ": " + req.originalUrl)
+		if (req.originalUrl.toString().indexOf("istest=true") == -1) {
+			console.log(ds() + "Request from " + addr + ": " + req.originalUrl)
+		}
 		handleRequest(req,res)
 	}
 })
@@ -334,11 +342,9 @@ if (msg !== "") {
 }
 
 if (argv.checkdeps) {
-	var deps = require('./deps.js')
 	//setTimeout(function () {deps.checkdeps(config)}, 5000)
 	console.log(ds() + "Checking dependencies every " 
 					 + config.DEPSCHECKPERIOD/1000 + " seconds.")
-	setInterval(function() {deps.checkdeps(config)}, config.DEPSCHECKPERIOD)
 } else {
 	console.log(ds() + "Note: " + clc.blue("Dependency checks disabled."))
 }
@@ -357,9 +363,9 @@ deps.startdeps('viviz', config)
 deps.startdeps('autoplot', config)
 
 // Start the server.  TODO: Wait until deps are ready.
-server.listen(config.PORT)
+server.listen(port)
 
-console.log(ds() + "Listening on port " + config.PORT + ". See " + config.TSDSFE)
+console.log(ds() + "Listening on port " + port + ". See " + config.TSDSFE)
 
 function handleRequest(req, res) {
 
@@ -371,7 +377,7 @@ function handleRequest(req, res) {
 
 	res.options = JSON.parse(JSON.stringify(options))
 
-	//log.logapp(options.ip + " " + req.originalUrl, config)
+	log.logapp(options.ip + " " + req.originalUrl, config)
 
 	// Set log file name as response header
 	res.header('x-tsdsfe-log', options.logsig)
@@ -668,7 +674,7 @@ function handleRequest(req, res) {
 
 	function stream(status, data, res) {
 		
-		log.logres("Stream called.", res.options)
+		log.logres("Stream called.", res.options, "stream")
 
 		// TODO: Not all stream options will work for requests that
 		// span multiple catalogs.  Document and fix.
@@ -677,7 +683,7 @@ function handleRequest(req, res) {
 
 			// If data was not a URL, send it.
 			if (!data.match(/^http/)) {
-				log.logres("Sending "+data, res.options)
+				log.logres("Sending "+data, res.options, "stream")
 				res.write(data)
 				
 				Nc = Nc + 1
@@ -709,12 +715,20 @@ function handleRequest(req, res) {
 			}
 
 			// If stream was called with a URL, pipe the data through.
-			log.logres("Streaming from " + data, res.options)
+			log.logres("Streaming from " + data, res.options, "stream")
 
 			if (isimagereq && options.format !== "png") {
 				var ifilews  = fs.createWriteStream(ifile)
-				var rd = request.get(data);
 				// TODO: Check for error here.
+				var rd = request
+							.get(data)
+							.on('response', function(response) {
+								console.log(response.statusCode) // 200
+								console.log(response.headers['content-type']) // 'image/png'
+							})
+							.on('error', function(err) {
+    							console.log(err)
+  							})
 				rd.pipe(res)
 				rd.pipe(ifilews)
 				return
@@ -823,14 +837,15 @@ function handleRequest(req, res) {
 						var tmpstr  = "Error when attempting to retrieve data from data from " + data
 						var tmpstr2 = "Error " + err.code + " when attempting to retrieve data from data from " + data.split("?")[0]
 						res.setHeader('x-tsdsfe-error',tmpstr2)
-						log.logres(tmpstr, res.options)
+						log.logres(tmpstr, res.options, "stream")
 						res.status(502).send(tmpstr)
 					})
 						.on('response', function(res0) {
 							if (res0.statusCode !== "200") {
 								// TODO: Abort and send error.
 							}
-						log.logres("Headers from " + data + ":" + JSON.stringify(res0.headers), res.options)
+						log.logres("Headers :" 
+									+ JSON.stringify(res0.headers), res.options, "stream")
 						if (res0.headers['content-type']) {
 							res.setHeader('content-type',res0.headers['content-type'])
 						}
@@ -851,7 +866,7 @@ function handleRequest(req, res) {
 
 			var sreq = http.get(data, function(res0) {
 
-				log.logres("Headers from " + data + ":" + JSON.stringify(res0.headers), res.options)
+				log.logres("Headers :" + JSON.stringify(res0.headers), res.options, "stream")
 
 				if (res0.headers['x-datacache-log']) {
 					res.setHeader('x-datacache-log',res0.headers['x-datacache-log'])
@@ -878,37 +893,37 @@ function handleRequest(req, res) {
 				if (isimagereq) {
 					if (res0.statusCode != 200) {
 						var writeok = false;
-						log.logres("Image request response not 200.  Not writing image to cache.", res.options)						
+						log.logres("Image request response not 200.  Not writing image to cache.", res.options, "stream")						
 					} else {
 						var writeok = true;						
 					}
 
 					if (fs.existsSync(ifiler + ".streaming")) {
-						log.logres("File is being streamed.  Not writing image to cache.", res.options)
+						log.logres("File is being streamed.  Not writing image to cache.", res.options, "stream")
 						writeok = false;
 					}
 					if (fs.existsSync(ifiler + ".writing")) {
-						log.logres("File is being written.  Not writing image to cache.", res.options)
+						log.logres("File is being written.  Not writing image to cache.", res.options, "stream")
 						writeok = false;
 					}
 					if (writeok) {
-						log.logres("Writing (sync) " + ifiler + ".writing", res.options)
+						log.logres("Writing (sync) " + ifiler + ".writing", res.options, "stream")
 						fs.writeFileSync(ifiler + ".writing","")
 						istream = fs.createWriteStream(ifiler)
 						istream
 							.on('finish',function () {
 								if (!fs.existsSync("deps/bin/pngquant")) {
-									log.logres("deps/bin/pngquant not found.  Not creating smaller version of png.", res.options)
-									log.logres("Finished writing image.  Removing (sync) " + ifiler + ".writing", res.options)
+									log.logres("deps/bin/pngquant not found.  Not creating smaller version of png.", res.options, "stream")
+									log.logres("Finished writing image.  Removing (sync) " + ifiler + ".writing", res.options, "stream")
 									fs.unlinkSync(ifiler + ".writing")
 									return
 								}
 								var child = require('child_process')
 								var com = 'deps/bin/pngquant -f --ext .quant.png --quality 10'+' '+ifiler
 
-								log.logres("Creating smaller png of full using " + com, res.options)
+								log.logres("Creating smaller png of full using " + com, res.options, "stream")
 								child.exec(com , function(error, stdout, stderr) {
-									log.logres("Finished writing image and smaller version.  Removing (sync) " + ifile + ".writing", res.options)
+									log.logres("Finished writing image and smaller version.  Removing (sync) " + ifile + ".writing", res.options, "stream")
 									fs.unlinkSync(ifiler + ".writing")
 									if (error) console.log(error)
 									if (stdout) console.log(stdout)
@@ -918,8 +933,8 @@ function handleRequest(req, res) {
 							})
 						.on('error', function (err) {
 							if (err) console.log(err)
-							log.logres("Error when attempting to write image to cache. Error = " + err + " Removing (sync) " + ifile + ".streaming", res.options)
-							console.log("Removing: "+ifile + ".streaming")
+							log.logres("Error when attempting to write image to cache. Error = " + err + " Removing (sync) " + ifile + ".streaming", res.options, "stream")
+							console.log("Removing: "+ifile + ".streaming", res.options, "stream")
 							// Test in case finish triggered first then error.
 							if (fs.existsSync(ifile + ".streaming")) {
 								fs.unlinkSync(ifile + ".streaming")
@@ -938,49 +953,49 @@ function handleRequest(req, res) {
 							istream.write(chunk);
 						}
 
-						if (data.length == 0) {
-							log.logres("Recieved first chunk of image request of size " + chunk.length + " . Straming it and writing chunk to cache file.", res.options)
+						if (data.length != 0) {
+							log.logres("Recieved chunk of size " + chunk.length + ". Streaming it and writing chunk to cache file.", res.options, "stream")
 						}
 					})
 					.on('end', function() {
 						if (isimagereq && writeok) {
-							log.logres("Finished recieving image.  Calling end event for image write stream.", res.options)
+							log.logres("Finished recieving data.  Calling end event for write stream.", res.options, "stream")
 							istream.end();
 						}
 
 						// If N > 0, could use convert image1.png image2.png image3.png -append stack.png
 						if (isimagereq) {
 							if (writeok) {
-								log.logres("Finished writing " + ifile + " and removing .writing file.", res.options)
+								log.logres("Finished writing " + ifile + " and removing .writing file.", res.options, "stream")
 							}
 						}
-						log.logres('Got end.', res.options)
+						log.logres('Got end.', res.options, "stream")
 						Nc = Nc + 1;
 						if (Nc == N) {
-							log.logres("Calling res.end().", res.options)
+							log.logres("Calling res.end().", res.options, "stream")
 							res.end();
 						} else {
-							log.logres("Calling catalog with Nc="+Nc, res.options)
+							log.logres("Calling catalog with Nc="+Nc, res.options, "stream")
 							catalog(Options[Nc], res, stream);
 						}
 					})
 					.on('error',function (err) {
-						log.logres("Error for request to " + data + ": " + JSON.stringify(err), debugconsole)
+						log.logres("Error for request to " + data + ": " + JSON.stringify(err), res.options, "stream")
 						console.log(err)
 						console.log(res0)
-						log.logres("Deleting image cache file due to error.", res.options)
+						log.logres("Deleting image cache file due to error.", res.options, "stream")
 						fs.unlinkSync(ifile)
 					})
 			}).on('error', function (err) {
 				var tmpstr = "Error when attempting to retrieve data from data from upstream server "+data.split("/")[2]
-				log.logres(tmpstr, res.options)
+				log.logres(tmpstr, res.options, "stream")
 				res.status(502).send(tmpstr)
 			})
 		} else if (status == 301 || status == 302) {
-			log.logres("Redirecting to "+data, res.options)
+			log.logres("Redirecting to "+data, res.options, "stream")
 			res.redirect(status,data);
 		} else {
-			log.logres("Sending JSON.", res.options)
+			log.logres("Sending JSON.", res.options, "stream")
 
 			if (typeof(data) === "string") {
 				// Script.
@@ -1004,9 +1019,9 @@ function handleRequest(req, res) {
 					fs.mkdirSync(config.CACHEDIR)
 				}
 				fs.writeFileSync(cfile,JSON.stringify(data))
-				log.logres("Wrote JSON request cache file " + cfile.replace(__dirname,""), res.options)
+				log.logres("Wrote JSON request cache file " + cfile.replace(__dirname,""), res.options, "stream")
 			} else {
-				log.logres("JSON for " + req.originalUrl + " has zero length.  Not writing cache file.", res.options)
+				log.logres("JSON for " + req.originalUrl + " has zero length.  Not writing cache file.", res.options, "stream")
 			}
 
 			Nc = Nc + 1
@@ -1017,7 +1032,7 @@ function handleRequest(req, res) {
 				}
 				res.end()
 			} else {
-				log.logres("Calling catalog() again.", res.options)
+				log.logres("Calling catalog() again.", res.options, "stream")
 				catalog(Options[Nc], res, stream)
 			}
 		}
@@ -1043,21 +1058,8 @@ function parseOptions(req, res) {
 	options.filter       = req.query.filter       || req.body.filter       || "";
 	options.filterWindow = req.query.filterWindow || req.body.filterWindow || "";
 	options.attach       = s2b(req.query.attach   || req.body.attach       || "true");
+	options.istest       = s2b(req.query.istest   || req.body.istest       || "false");
 
-	options.debug = {}
-
-	options.debug["app"]     = req.query.debugapp       || req.body.debugapp
-	options.debug["stream"]  = req.query.debugstream    || req.body.debugstream
-	options.debug["cache"]   = req.query.debugutil      || req.body.debugutil
-
-	// Over-ride true debug option if command line debug option is not true.
-	for (key in debug) {
-		if (debug[key] && options.debug[key] === "true") {
-			options.debug[key] = true
-		} else {
-			options.debug[key] = debug[key]
-		}
-	}
 
 	if (req.headers['x-forwarded-for']) {
 		options.ip = req.headers['x-forwarded-for'].replace(/\s+/g,"")
@@ -1075,8 +1077,10 @@ function parseOptions(req, res) {
 	options.logcolor = Math.round(255*parseFloat(Math.random().toString().substring(1)));
 	options.logfile  = config.LOGDIRRES + logsig
 	options.logsig   = logsig
+	options.debug    = debug
+	options.config   = config
 
-	log.logres("Request from " + options.ip + " " + req.originalUrl, options)
+	log.logres("Request from " + options.ip + " " + req.originalUrl, options, "app")
 
 	// If any of the cache options are false and update fails, cache will be used if found (and warning is given in header).
  	// Sent as DataCache parameter.
@@ -1229,7 +1233,7 @@ function getandparse(url, options, res, cb) {
 	// Retrieves XML or JSON from a URL and stores XML and JSON as a cache file.
 	// Callback is passed XML or JSON depending on options.format.
 
-	log.logres("Called with format = " + options.format, res.options)
+	log.logres("Called with format=" + options.format + "; url=" + url, res.options)
 	
 	var urlsig = crypto.createHash("md5").update(url).digest("hex")
 
@@ -1541,7 +1545,7 @@ function dataset(options, catalogs, res, cb) {
 	var parents = []
 	var dresp = []
 
-	log.logres("dataset(): Called.", res.options)
+	log.logres("Called.", res.options)
 
 	// Loop over each catalog
 	for (var i = 0; i < catalogs.length;i++) {
@@ -1846,6 +1850,10 @@ function parameter(options, catalogs, datasets, res, cb) {
 		var dc = config.DATACACHE+"?timeRange="+start+"/"+stop;
 	}
 	
+	if (options.istest) {
+		dc = dc + "&istest=true"
+	}
+
 	if (options.return === "urilist") {
 		cb(0,dc + "&return=urilist",res)
 		return
@@ -1921,7 +1929,8 @@ function parameter(options, catalogs, datasets, res, cb) {
 
 		var tmp = expandISO8601Duration(start+"/"+stop,{debug:false})
 
-		// For now, don't use relative times because TSDS interpretation is different from Autoplot (TSDS should change to match Autoplot's.)
+		// For now, don't use relative times because TSDS interpretation is
+		// different from Autoplot (TSDS should change to match Autoplot's.)
 		start = tmp.split("/")[0].substring(0,10);
 		stop = tmp.split("/")[1].substring(0,10);
 
@@ -1957,13 +1966,12 @@ function parameter(options, catalogs, datasets, res, cb) {
 		config.JNLP = "http://autoplot.org/autoplot.jnlp"
 		var jnlpargs = "?open=vap+jyds:"
 
-		console.log("JYDS    : " + config.JYDS)
-		console.log("jydsargs: " + jydsargs + "\n")
+		log.logres("JYDS    : " + config.JYDS, options)
+		log.logres("jydsargs: " + jydsargs, options)
 
-	
 		if (options.format === "jnlp") {
-			console.log("JNLP:     " + config.JNLP + "\n")
-			console.log("jnlpargs: " + jnlpargs + "JYDS + jydsargs\n")
+			log.logres("JNLP:     " + config.JNLP, options)
+			log.logres("jnlpargs: " + jnlpargs + "JYDS + jydsargs", options)
 			// Should be using the following, but the script for autoplot.jnlp
 			// does not decode the argument of open.
 			//cb(301,config.JNLP + jnlpargs + encodeURIComponent(config.JYDS + jydsargs))
@@ -1981,11 +1989,11 @@ function parameter(options, catalogs, datasets, res, cb) {
 					+ "&" + options.stylestr
 					+ "&url=vap+jyds:"
 
-		console.log("AUTOPLOT: " + config.AUTOPLOT)
-		console.log("apargs: " + apargs + "encodeURIComponent(JYDS + jydsargs)\n")	
+		log.logres("AUTOPLOT: " + config.AUTOPLOT, options)
+		log.logres("apargs: " + apargs + "encodeURIComponent(JYDS + jydsargs)", options)	
 		var aurl = config.AUTOPLOT + apargs + encodeURIComponent(config.JYDS + jydsargs)
-		console.log("Making request to: AUTOPLOT + apargs + encodeURIComponent(config.JYDS + jydsargs)")
-		console.log("i.e.,\n"+aurl+"\n")
+		log.logres("Making request to: AUTOPLOT + apargs + encodeURIComponent(config.JYDS + jydsargs)", options)
+		log.logres("i.e.,\n"+aurl, options)
 
 		if (config.TSDSFE.match(/http:\/\/localhost/)) {
 			if (!config.AUTOPLOT.match(/http:\/\/localhost/)) {

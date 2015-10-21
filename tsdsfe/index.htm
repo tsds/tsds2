@@ -61,7 +61,7 @@
 					$('#cataloginfo ul #statusfalse').remove()
 					 var title = 'Last check '+Math.round(delta/1000)+' seconds ago.  Check interval is '+checkstatus.servers[catalog].checkperiod/1000+' seconds.'
 					if ($('#cataloginfo ul #statustrue').length == 0) {
-						$('#cataloginfo ul').append('<li id="statustrue"><span title="'+title+'"">SSCWeb server working.</li>');
+						$('#cataloginfo ul').append('<li id="statustrue"><span title="'+title+'"">'+catalog+' server working. <a href="/log/servers/'+catalog+'/">History</a></li>');
 					} else {
 						$('#cataloginfo ul #statustrue span').attr('title',title)
 					}
