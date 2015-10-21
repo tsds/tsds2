@@ -1,0 +1,187 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+	<title>TSDS Catalog Creator</title>
+	<link rel="stylesheet" href="deps/codemirror-2.3/lib/codemirror.css">		
+	<link rel="stylesheet" type="text/css" href="asset/main.css">
+	<link rel="icon" type="image/ico" href="asset/favicon.ico"/>
+
+ 	<script src="deps/1.7.2/jquery.min.js"></script>
+	<script src="deps/jquery.parsequerystring.js"></script>
+ 	<script src="deps/autosize/jquery.autosize-min.js"></script>
+
+ 	<script src="singular.js"></script>
+ 	<script src="main.js"></script>
+ 	<script src="parseQueryString.js"></script>
+
+	<script>
+
+		$(document).ready(function(){
+			var q = "uri=$Y$m$d.dat&start=2001-01-01&stop=2001-01-03"
+			var q = "uri=$Y$m$d.dat&start=2001-01-01&stop=2001-01-03&columns=2,3"
+
+			location.hash = q
+			qs = $.parseQueryString(q)
+			console.log(qs)
+			qs = parseQueryString(q)
+			console.log(qs)
+	
+			for (key in qs) {
+				console.log("Setting " + key + " to " + qs[key])
+				$("#" + key).text(qs[key])
+			}
+
+			cat = main(qs)
+
+			$("#catalog").text(JSON.stringify(cat, null, 3))
+			$('#catalog').autosize()
+
+		})
+	</script>
+</head>
+<body>
+	<div style="width:50%">
+		<hr/>
+		<div class="optional">
+			Catalog ID
+			<input type="text" id="catalogID"></input>
+		</div>
+		<div class="optional">
+			Catalog Label
+			<input type="text" id="catalogLabel"></input>
+		</div>
+		<div class="optional">
+			Dataset ID(s)
+			<textarea type="text" id="datasetID"></textarea>
+		</div>
+		<div class="optional">
+			Dataset Label(s)
+			<textarea type="text" id="datasetLabel"></textarea>
+		</div>
+		<div class="required">
+			Start Date(s) (ISO8601)
+			<textarea id="start"></textarea>
+		</div>
+		<div class="required">
+			Stop Date(s) (ISO8601)
+			<textarea id="stop"></textarea>
+		</div>
+		<div class="required">
+			URI Template(s) ($1 refers to Dataset ID)
+			<textarea id="uri"></textarea>
+		</div>
+		<hr/>
+		<div class="optional">
+			Time Columns (default = 1)
+			<input type="text" id="timeColumns"></input>
+		</div>
+		<div class="optional">
+			Time Format (if empty, and time is one column, is assumed to be ISO861)
+			<input type="text" id="timeFormat"></input>
+		</div>
+		<div class="optional">
+			Time Units
+			<input type="text" id="timeUnits"></input>
+		</div>
+		<div class="optional">
+			Time Label
+			<input type="text" id="timeLabel"></input>
+		</div>
+		<div class="optional">	
+			Time Intervals
+			<input type="text" id="timeIntervals"></input>
+		</div>
+		<br/>
+		<div class="optional">
+			Data Columns
+			<input type="text" id="columns"></input>
+		</div>
+		<div class="optional">
+			Data Column Units
+			<input type="text" id="columnUnits"></input>
+		</div>
+		<div class="optional">
+			Data Column Labels
+			<input type="text" id="columnLabels"></input>
+		</div>
+		<div class="optional">
+			Data Column Label Values
+			<input type="text" id="columnLabelValues"></input>
+		</div>
+		<br/>
+		<div class="optional">
+			Data Column IDs
+			<input type="text" id="columnIDs"></input>
+		</div>
+		<div class="optional">
+			Data Column Types
+			<input type="text" id="columnTypes"></input>
+		</div>
+		<div class="optional">
+			Data Column Renderings
+			<input type="text" id="columnRenderings"></input>
+		</div>
+		<div class="optional">
+			Data Column Fill Values
+			<input type="text" id="columnFillValues"></input>
+		</div>
+		<div class="optional">
+			Data Column Channel Centers
+			<input type="text" id="columnChannelCenters"></input>
+		</div>
+		<div class="optional">
+			Data Column Channel Center Units
+			<input type="text" id="columnChannelCenters"></input>
+		</div>
+		<div class="optional">
+			Data Column Channel Center Labels
+			<input type="text" id="columnCenterLabels"></input>
+		</div>
+		<div class="optional">
+			Data Column Group IDs
+			<input type="text" id="groupIDs"></input>
+		</div>
+		<div class="optional">
+			Data Column Group Labels
+			<input type="text" id="groupLabels"></input>
+		</div>
+		<br/>
+		<div class="optional">
+			Skip Lines
+			<input type="text" id="skipLines"></input>
+		</div>
+		<div class="optional">
+			Data Line Regular Expression
+			<input type="text" id="lineRegex"></input>
+		</div>
+		<div class="optional">
+			Comment Character
+			<input type="text" id="commentChar"></input>
+		</div>
+		<div class="optional">
+			Data Delimiter
+			<input type="text" id="delim"></input>
+		</div>
+		<div class="optional">
+			Data Regular Expression
+			<input type="text" id="regex"></input>
+		</div>
+		<div class="optional">
+			Data Format
+			<input type="text" id="format"></input>
+		</div>
+		<div class="optional">
+			Data Line Format
+			<input type="text" id="DataLineFormat"></input>
+		</div>
+		<div class="optional">
+			Data Reader
+			<input type="text" id="DataReader"></input>
+		</div>
+		<hr/>
+		<pre id="catalog">
+		</pre>
+	</div>
+</body>
+</html>

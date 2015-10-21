@@ -1320,7 +1320,10 @@ function getandparse(url, options, res, cb) {
 				log.logres("Reading cache file (sync) ", res.options)
 				var tmp = fs.readFileSync(cfile+"."+type).toString()
 				if (type === "json") {	
-					var tmp = JSON.parse(tmp)
+					log.logres("Parsing cache file.", res.options)
+					console.log(tmp)
+					tmp2 = JSON.parse(tmp)
+					console.log(tmp2)
 				}
 				log.logres("Done.", res.options)
 				cb(tmp)
@@ -1443,7 +1446,7 @@ function getandparse(url, options, res, cb) {
 					log.logres("Done.", res.options)
 				} else {
 					log.logres("Calling cb(json).", res.options)
-					cb(body)
+					cb(JSON.parse(body))
 				}				
 				log.logres("Writing JSON cache file for url = " + url, res.options)
 				fs.writeFileSync(cfilejson,JSON.stringify(body))
@@ -1509,14 +1512,17 @@ function catalog(options, res, cb) {
 				// If only one catalog matched pattern.
 				getandparse(resp[0].href,options, res,
 					function (result) {
+						console.log(result)
 						var oresp = []
 						oresp[0] = {}
 						oresp[0].title = "Catalog configuration"
 						oresp[0].link  = resp[0].href
-						for (var k = 1; k < result["catalog"]["documentation"].length;k++) {
-							oresp[k] = {}
-							oresp[k].title = result["catalog"]["documentation"][k-1]["$"]["xlink:title"]
-							oresp[k].link  = result["catalog"]["documentation"][k-1]["$"]["xlink:href"]
+						if (result["catalog"]["documentation"]) {
+							for (var k = 1; k < result["catalog"]["documentation"].length;k++) {
+								oresp[k] = {}
+								oresp[k].title = result["catalog"]["documentation"][k-1]["$"]["xlink:title"]
+								oresp[k].link  = result["catalog"]["documentation"][k-1]["$"]["xlink:href"]
+							}
 						}
 						cb(200, oresp, res)
 					})
@@ -1559,6 +1565,8 @@ function dataset(options, catalogs, res, cb) {
 		// TODO: Deal with case of result === "", which means getandparse() failed.
 		afterparse.j = afterparse.j+1
 
+		console.log(typeof(result))
+		console.log(result)
 		var parent = result["catalog"]["$"]["id"] || result["catalog"]["$"]["ID"]
 		var tmparr = result["catalog"]["dataset"]
 		datasets = datasets.concat(tmparr)
@@ -1570,8 +1578,8 @@ function dataset(options, catalogs, res, cb) {
 		if (catalogs.length == 1) {
 			if (parent !== catalogs[afterparse.j-1].value) {
 				log.logres("ID of catalog in THREDDS specified with a URL does not match ID of catalog found in catalog.", res.options)
-				log.logres("\tID in THREDDS ["+config.CATALOG+"]: "+parent, res.options)
-				log.logres("\tID in catalog ["+catalogs[afterparse.j-1].href+"]: "+catalogs[afterparse.j-1].value, res.options)
+				log.logres("ID in THREDDS ["+config.CATALOG+"]: "+parent, res.options)
+				log.logres("ID in catalog ["+catalogs[afterparse.j-1].href+"]: "+catalogs[afterparse.j-1].value, res.options)
 				options.res.status(502).send("ID of catalog found in "+catalogs[afterparse.j-1].href+" does not match ID associated with URL in "+config.CATALOG);
 				return
 			}

@@ -21,4 +21,5 @@
 	<catalogRef ID="WDC/PT1H" xlink:title="WDC/PT1H" xlink:href="WDC/PT1H.xml"/>
 	<catalogRef ID="SWPC/AK/2DayFile" xlink:title="SWPC/AK/2DayFile" xlink:href="SWPC/AK/2DayFile.xml"/>
 	<catalogRef ID="SWPC/AK" xlink:title="SWPC/AK" xlink:href="SWPC/AK.xml"/>
+	<catalogRef ID="Test/1" xlink:title="Test/1" xlink:href="Test1.json"/>
 </catalog>
