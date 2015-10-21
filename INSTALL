@@ -7,6 +7,8 @@
 
 	make start
 
+Then browse to http://localhost:8004/
+
 # Test
 
 	make test
