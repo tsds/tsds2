@@ -38,8 +38,8 @@ test2:
 	echo -e "\033[1;32mPASS\033[0m"
 
 test3:
-	watch -n 2 curl -s "http://localhost:8001/AutoplotServlet/SimpleServlet?url=vap%2Binline:linspace(0,1,10)" | grep ERROR
-
+	while true; do sleep 1; date | tee -a /tmp/test3.log; curl -s "http://localhost:8001/AutoplotServlet/SimpleServlet?url=vap%2Binline:linspace(0,1,10)" | grep ERROR 2>&1 | tee -a /tmp/test3.log; done
+ 
 #head "$(AUTOPLOT_DATA)/server/whitelist.txt"
 #curl "$(SERVLETBASE)/ServletInfo"
 #head test2a.png
