@@ -7,7 +7,7 @@
 PORT=8001
 AUTOPLOT_DATA=/tmp/autoplot_data
 JETTY=jetty-distribution-8.1.16.v20140903
-JAVA_OPTIONS="-DAUTOPLOT_DATA=$(AUTOPLOT_DATA) -Xmx512m -XX:+CMSClassUnloadingEnabled"
+JAVA_OPTIONS="-DAUTOPLOT_DATA=$(AUTOPLOT_DATA) -Xmx1024m -XX:+CMSClassUnloadingEnabled"
 SERVLETBASE="http://localhost:$(PORT)/AutoplotServlet"
 WARURL="http://autoplot.org/hudson/job/autoplot-jar-servlet/lastSuccessfulBuild/artifact/autoplot/AutoplotServlet/dist/AutoplotServlet.war"
 
@@ -36,6 +36,9 @@ test2:
 	sleep 3; curl -s "$(SERVLETBASE)/SimpleServlet?format=image/png&url=vap%2Bjyds:http%3A%2F%2Flocalhost%3A8999%2Ftest.jyds" > test2a.png
 	test -n "$$(find test2a.png -maxdepth 1 -size +10k)"
 	echo -e "\033[1;32mPASS\033[0m"
+
+test3:
+	watch -n 2 curl -s "http://localhost:8001/AutoplotServlet/SimpleServlet?url=vap%2Binline:linspace(0,1,10)" | grep ERROR
 
 #head "$(AUTOPLOT_DATA)/server/whitelist.txt"
 #curl "$(SERVLETBASE)/ServletInfo"
