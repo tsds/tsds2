@@ -11,7 +11,6 @@ usecache   = getParam( 'usecache', 'true' )
 labels     = getParam( 'labels', '' )
 title      = getParam( 'title', 'def' )
 fills      = getParam( 'fills', '-1e31')
-#fills      = float(fills)
 process    = getParam( 'type', 'timeseries', 'plot type', ['timeseries','autocorrelation','histogram','periodogram','spectrogram'] )
 if ( title=='def' ):
   title= 'Catalog: ' + catalog + ' | Dataset: ' + dataset #+ ' | Parameters: ' + parameters
@@ -40,12 +39,11 @@ fo= BufferedReader( FileReader(f) )
 line1= fo.readLine()
 
 if line1 is None:
-   raise Exception(' tsds.jyds - No data from '+surl)
+   raise Exception(' tsdsfe.jyds - No data from '+surl)
 
 print 'First line: ' + line1
 print 'Labels:' + labels
-print 'Fills:'
-print fills
+print 'Fills:' + fills
 
 fo.close()
 
@@ -91,10 +89,15 @@ try:
      result.putProperty( QDataSet.TITLE, title )
      result.putProperty( QDataSet.UNITS, SemanticOps.lookupUnits(units) )
      result.putProperty( QDataSet.LABEL, labels )
-     result.putProperty( QDataSet.FILL_VALUE, float(fills[0]) )   
    else:
      result.putProperty( QDataSet.TITLE, title + ' | parameter: ' + parameters)
-     result.putProperty( QDataSet.FILL_VALUE, float(fills[0]) )   
+
+
+   try:
+     fv= float(fills[0])
+     result.putProperty( QDataSet.FILL_VALUE, fv )   
+   except:
+     print "Could not convert " + fills[0] + " to a float"
 
 except org.virbo.datasource.HtmlResponseIOException,ex:
    raise org.das2.dataset.NoDataInIntervalException('Problem with response')

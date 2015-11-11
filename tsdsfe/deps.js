@@ -106,7 +106,7 @@ function startdeps(dep, config) {
 										'app.js', 
 										'--port',DCPORT,
 										'--usedby','tsdsfe '+config.PORT,
-										'--debugall',config.argv.debugall,
+										'--debugtoconsole',config.argv.debugtoconsole,
 									],
 									options)
 		

@@ -98,13 +98,20 @@ function checkservers(config, server) {
 		}
 
 	if (!checkservers.status) {
+
+
 		checkservers.status = {};
 		var k = 0;
 		for (var key in TESTS) {
 			if (config.argv.checkdeps && TESTS[key].type === "dependency") {
+				console.log(ds() + "Checking dependency " + key + " every " 
+								 + TESTS[key].interval/1000 + " seconds.")
+
 				checkservers(config, key)
 			}
 			if (config.argv.checkservers && TESTS[key].type === "server") {
+				console.log(ds() + "Checking server " + key + " every " 
+								 + TESTS[key].interval/1000 + " seconds.")
 				checkservers(config, key)
 			}
 			// Stagger initialization of each test by k seconds.
@@ -155,7 +162,7 @@ function checkservers(config, server) {
 				}
 				checkservers.status[server]["state"] = false;
 				checkservers.status[server]["message"] = "Connection to " + server + " server has failed."
-				logit(depsres.statusCode,-1)
+				logit(0,-1)
 				return
 			}
 
@@ -166,9 +173,8 @@ function checkservers(config, server) {
 					msg = "Test request returned status code: "
 							+ depsres.statusCode + "; expected 200."
 					logit(depsres.statusCode,-1)
-				}
-				if (!ok) {
-					msg = "Test failed."
+				} else if (!ok) {
+					msg = "Test on response headers and body returned did not pass."
 					var len = -1;
 					if (depsres.body) {
 						len = depsres.body.length

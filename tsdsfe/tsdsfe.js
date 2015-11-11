@@ -352,7 +352,7 @@ if (argv.checkdeps) {
 if (argv.checkservers) {
 	var checkservers = require('./servers.js').checkservers
 	// Check servers 5 seconds after start-up
-	console.log(ds() + "Checking servers in 5 seconds.")
+	console.log(ds() + "Starting checks in 5 seconds.")
 	setTimeout(function () {checkservers(config)}, 5000)
 } else {
 	console.log(ds() + "Note: " + clc.blue("Server checks disabled."))
@@ -954,7 +954,11 @@ function handleRequest(req, res) {
 						}
 
 						if (data.length != 0) {
-							log.logres("Recieved chunk of size " + chunk.length + ". Streaming it and writing chunk to cache file.", res.options, "stream")
+							if (isimagereq && writeok) {
+								log.logres("Recieved chunk of size " + chunk.length + ". Streaming it and writing chunk to cache file.", res.options, "stream")
+							}
+						} else {
+								log.logres("Recieved chunk of size " + chunk.length + ". Streaming it.", "stream")
 						}
 					})
 					.on('end', function() {
@@ -1233,7 +1237,7 @@ function getandparse(url, options, res, cb) {
 	// Retrieves XML or JSON from a URL and stores XML and JSON as a cache file.
 	// Callback is passed XML or JSON depending on options.format.
 
-	log.logres("Called with format=" + options.format + "; url=" + url, res.options)
+	log.logres("Called with format = " + options.format + "; url = " + url, res.options)
 	
 	var urlsig = crypto.createHash("md5").update(url).digest("hex")
 
@@ -1321,12 +1325,13 @@ function getandparse(url, options, res, cb) {
 				var tmp = fs.readFileSync(cfile+"."+type).toString()
 				if (type === "json") {	
 					log.logres("Parsing cache file.", res.options)
-					console.log(tmp)
-					tmp2 = JSON.parse(tmp)
-					console.log(tmp2)
+					var tmp2 = JSON.parse(tmp)
+					log.logres("Done.", res.options)
+					cb(tmp2)
+				} else {
+					log.logres("Done.", res.options)
+					cb(tmp)
 				}
-				log.logres("Done.", res.options)
-				cb(tmp)
 			} else {
 				log.logres("Cache file has expired.", res.options)
 				fetch(url,type,true)
@@ -1502,7 +1507,12 @@ function catalog(options, res, cb) {
 		// Remove empty elements of array. (Needed?)
 		resp = resp.filter(function(n){return n})
 		if (resp.length == 0) {
-			log.logres("Error: No matching catalogs.", res.options)
+			log.logres("Error: No matching catalogs in list.", res.options)
+			var list = "List:"
+			for (var i = 0; i < catalogRefs.length;i++) {
+				list = list + " " + catalogRefs[i]["$"]["ID"] 
+			}
+			log.logres(list, res.options)
 		}
 
 		if (options.dataset === "") {
@@ -1512,7 +1522,7 @@ function catalog(options, res, cb) {
 				// If only one catalog matched pattern.
 				getandparse(resp[0].href,options, res,
 					function (result) {
-						console.log(result)
+						//console.log(result)
 						var oresp = []
 						oresp[0] = {}
 						oresp[0].title = "Catalog configuration"
@@ -1565,11 +1575,25 @@ function dataset(options, catalogs, res, cb) {
 		// TODO: Deal with case of result === "", which means getandparse() failed.
 		afterparse.j = afterparse.j+1
 
-		console.log(typeof(result))
-		console.log(result)
+		if (typeof(result) === "string") {
+			console.log("Variable returned is string?!  Try parsing again ...")
+			result = JSON.parse(result)
+		}
+
+		//console.log(typeof(JSON.parse(result)))
+		//console.log(result)
 		var parent = result["catalog"]["$"]["id"] || result["catalog"]["$"]["ID"]
+
 		var tmparr = result["catalog"]["dataset"]
 		datasets = datasets.concat(tmparr)
+		if (result["catalog"]["timeCoverage"]) {
+			var Start = result["catalog"]["timeCoverage"][0]["Start"]
+			if (Start)
+				Start = Start[0]
+			var End = result["catalog"]["timeCoverage"][0]["End"]
+			if (End)
+				End = End[0]
+		}
 		while (parents.length < datasets.length) {
 		    parents = parents.concat(parent)
 		}
@@ -1577,11 +1601,11 @@ function dataset(options, catalogs, res, cb) {
 		// TODO: This won't catch case when pattern is used; afterparse may not have been called with results in same order as catalog array.
 		if (catalogs.length == 1) {
 			if (parent !== catalogs[afterparse.j-1].value) {
-				log.logres("ID of catalog in THREDDS specified with a URL does not match ID of catalog found in catalog.", res.options)
-				log.logres("ID in THREDDS ["+config.CATALOG+"]: "+parent, res.options)
-				log.logres("ID in catalog ["+catalogs[afterparse.j-1].href+"]: "+catalogs[afterparse.j-1].value, res.options)
-				options.res.status(502).send("ID of catalog found in "+catalogs[afterparse.j-1].href+" does not match ID associated with URL in "+config.CATALOG);
-				return
+				log.logres("WARNING: ID of catalog in THREDDS specified with a URL does not match ID of catalog found in catalog.", res.options)
+				log.logres("WARNING: ID in THREDDS ["+config.CATALOG+"] is "+parent, res.options)
+				log.logres("WARNING: ID in catalog ["+catalogs[afterparse.j-1].href+"] is "+catalogs[afterparse.j-1].value, res.options)
+				//options.res.status(502).send("ID of catalog found in "+catalogs[afterparse.j-1].href+" does not match ID associated with URL in "+config.CATALOG);
+				//return
 			}
 		}
 		var dresp = []
@@ -1590,6 +1614,17 @@ function dataset(options, catalogs, res, cb) {
 		if (afterparse.j == catalogs.length) {
 
 			for (var i = 0;i < datasets.length;i++) {
+				if (Start) {
+					datasets[i]["timeCoverage"] = {}
+					datasets[i]["timeCoverage"]["Start"] = Start
+				}
+				if (End) {
+					if (!datasets[i]["timeCoverage"]) {
+						datasets[i]["timeCoverage"] = {}
+					}
+					datasets[i]["timeCoverage"]["End"] = End
+				}
+
 				dresp[i]         = {}
 				dresp[i].value   = datasets[i]["$"]["id"] || datasets[i]["$"]["ID"]
 				dresp[i].label   = datasets[i]["$"]["label"] || datasets[i]["$"]["name"] || dresp[i].value
@@ -1675,22 +1710,24 @@ function parameter(options, catalogs, datasets, res, cb) {
 	var parents = [];
 	var cats = [];
 	var resp = [];
-	
+	//console.log(catalogs)
 	for (var i = 0;i < datasets.length;i++) {
 		parameters = parameters.concat(datasets[i].variables[0].variable);
 		var parent = datasets[i]["$"];
 
 		var timeCoverage = datasets[i].timeCoverage;
+		//console.log(timeCoverage)
 		if (timeCoverage) {
-			parent.start    = timeCoverage[0].Start[0];
+			if (timeCoverage.Start)
+				parent.start = timeCoverage.Start
 
 			parent.stop = "P0D";
-			if (timeCoverage[0].End)
-				parent.stop     = timeCoverage[0].End[0];
+			if (timeCoverage.End)
+				parent.stop = timeCoverage.End;
 
 			parent.cadence = "";
-			if (timeCoverage[0].Cadence)
-				parent.cadence  = timeCoverage[0].Cadence[0];
+			if (timeCoverage.Cadence)
+				parent.cadence = timeCoverage.Cadence;
 
 		}
 		var cat = catalogs[i];
@@ -1698,30 +1735,43 @@ function parameter(options, catalogs, datasets, res, cb) {
 			parents.push(parent)
 			cats.push(cat);
 		}
-	}							
-		
+	}						
+
+	//console.log(datasets)
+	//console.log(parameters)
 	for (var i = 0;i < parameters.length;i++) {
 			
-		resp[i]           = {};
-		resp[i].value     = parameters[i]["$"]["id"] || parameters[i]["$"]["ID"];
-		resp[i].label     = parameters[i]["$"]["name"] || resp[i].value || "";
-		resp[i].units     = parameters[i]["$"]["units"] || "";
-		resp[i].type      = parameters[i]["$"]["type"] || "";
-		resp[i].catalog   = cats[i];
-		resp[i].dataset   = parents[i]["id"] || parents[i]["ID"];
-		resp[i].parameter = parameters[i]["$"]["id"] || parameters[i]["$"]["ID"];
-		resp[i].dd        = parameters[i]["$"];
-		
-		if (!('urltemplate' in resp[i].dd))  {resp[i].dd.urltemplate = parents[i]["urltemplate"]}
-		if (!('urlsouce' in resp[i].dd))     {resp[i].dd.urlsource = parents[i]["urlsource"]}
-		if (!('urlprocessor' in resp[i].dd)) {resp[i].dd.urlprocessor = parents[i]["urlprocessor"]}
-		if (!('timeformat' in resp[i].dd))   {resp[i].dd.timeformat = parents[i]["timeformat"]}
-		if (!('timecolumns' in resp[i].dd))  {resp[i].dd.timecolumns = parents[i]["timecolumns"]}
+		var id = parameters[i]["$"]["id"] || parameters[i]["$"]["ID"] || ""
+
+		if (id === "") {
+
+			if (parameters[i]["$"]["columns"].match(/,|-/)) {
+				id = "cols" + parameters[i]["$"]["columns"]
+			} else {
+				id = "col" + parameters[i]["$"]["columns"]
+			}
+		}
+
+		resp[i]            = {};
+		resp[i].value      = id;
+		resp[i].catalog    = cats[i];
+		resp[i].dataset    = parents[i]["id"] || parents[i]["ID"];
+		resp[i].parameters = id;
+		resp[i].dd         = parameters[i]["$"];
+
+		//console.log(parents)
+		if (!('urltemplate' in resp[i].dd))  {resp[i].dd.urltemplate = parents[i]["urltemplate"] || ""}
+		if (!('timeformat' in resp[i].dd))   {resp[i].dd.timeformat = parents[i]["timeformat"] || "$Y-$m-$dT$H:$M:$S.$(millis)Z"}
+		if (!('timecolumns' in resp[i].dd))  {resp[i].dd.timecolumns = parents[i]["timecolumns"] || resp[i].dd.timeformat.split(/,|\s/).length}
 		if (!('columns' in resp[i].dd))      {resp[i].dd.columns = parents[i]["columns"]}
 		if (!('start' in resp[i].dd))        {resp[i].dd.start = parents[i]["start"]}
 		if (!('stop' in resp[i].dd))         {resp[i].dd.stop = parents[i]["stop"]}
-		if (!('cadence' in resp[i].dd))      {resp[i].dd.cadence = parents[i]["cadence"]}
-		if (!('lineregex' in resp[i].dd))    {resp[i].dd.lineregex = parents[i]["lineregex"]}
+
+		if (!('urlsource' in resp[i].dd))    {resp[i].dd.urlsource = parents[i]["urlsource"] || ""}
+		if (!('urlprocessor' in resp[i].dd)) {resp[i].dd.urlprocessor = parents[i]["urlprocessor"] || ""}
+
+		if (!('cadence' in resp[i].dd))      {resp[i].dd.cadence = parents[i]["cadence"] || ""}
+		if (!('lineregex' in resp[i].dd))    {resp[i].dd.lineregex = parents[i]["lineregex"] || ""}
 		if (!('fillvalue' in resp[i].dd))    {resp[i].dd.fillvalue = parameters[i]["$"]["fillvalue"] || ""}
 		
 		if (options.parameters !== "^.*") {				
@@ -1729,7 +1779,7 @@ function parameter(options, catalogs, datasets, res, cb) {
 			var value = resp[i].value;
 
 			if (options.parameters.substring(0,1) === "^") {
-				if (!(parameters[i]["$"]["id"].match(options.parameters))) {
+				if (!(resp[i].parameters.match(options.parameters))) {
 					delete resp[i];
 				}
 			} else  {
@@ -1745,10 +1795,12 @@ function parameter(options, catalogs, datasets, res, cb) {
 			}
 		}
 	}
+
 	resp = resp.filter(function(n){return n});
 
 	if ((options.parameters === "^.*") || (options.start === "" && options.stop === "")) {
-		cb(200,resp, res);
+		//console.log(cb.toString().substring(0,20))
+		cb(200, resp, res);
 		return;
 	}
 	
@@ -1942,33 +1994,26 @@ function parameter(options, catalogs, datasets, res, cb) {
 		start = tmp.split("/")[0].substring(0,10);
 		stop = tmp.split("/")[1].substring(0,10);
 
-		var labels = "";
-		var units = "";
-		var fills = "";
-		for (var z = 0; z < resp.length;z++) {
-
-			if (resp[z].label != "") {
-				labels = labels + resp[z].label + ",";
-			}
-			if (resp[z].units != "")  {
-				units = units + resp[z].units + ","
-			}
-			
-			if (resp[z].dd.fillvalue != "")  {
-				fills = fills +resp[z].dd.fillvalue + ","
-			}
-
+		var extra = ""
+		if (resp[0].label) {
+			extra = extra + "&labels=" + resp[0].labels
+		} else {
+			extra = extra + "&labels=" + resp[0].parameters
+		}
+		if (resp[0].units) {
+			extra = extra + "&units=" + resp[0].units
+		}
+		if (resp[0].fills) {
+			extra = extra + "&fills=" + resp[0].fills
 		}
 
-		var jydsargs =    "?labels=" + labels.slice(0,-1) 
-						+ "&units=" + units.slice(0,-1) 
-						+ "&fills=" + fills.slice(0,-1)						
-						+ "&catalog="+options.catalog
-						+ "&dataset="+options.dataset
-						+ "&parameters="+options.parameters
-						+ "&timerange="+start+"/"+stop
-						+ "&type="+options.type
-						+ "&server=" + config.TSDSFE; 
+		var jydsargs = 	  "?catalog=" + options.catalog
+						+ "&dataset=" + options.dataset
+						+ "&parameters=" + options.parameters
+						+ "&timerange=" + start+"/"+stop
+						+ "&type=" + options.type
+						+ "&server=" + config.TSDSFE
+						+ extra
 
 
 		config.JNLP = "http://autoplot.org/autoplot.jnlp"
@@ -2002,7 +2047,8 @@ function parameter(options, catalogs, datasets, res, cb) {
 		var aurl = config.AUTOPLOT + apargs + encodeURIComponent(config.JYDS + jydsargs)
 		log.logres("Making request to: AUTOPLOT + apargs + encodeURIComponent(config.JYDS + jydsargs)", options)
 		log.logres("i.e.,\n"+aurl, options)
-
+		console.log(config.JYDS + jydsargs)
+		console.log(aurl)
 		if (config.TSDSFE.match(/http:\/\/localhost/)) {
 			if (!config.AUTOPLOT.match(/http:\/\/localhost/)) {
 				log.logres("Error: stream(): Autoplot image servlet specified by config.AUTOPLOT must be localhost if config.TSDSFE is localhost.", res.options)
