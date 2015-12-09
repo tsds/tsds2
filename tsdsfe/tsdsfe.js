@@ -342,9 +342,6 @@ if (msg !== "") {
 }
 
 if (argv.checkdeps) {
-	//setTimeout(function () {deps.checkdeps(config)}, 5000)
-	console.log(ds() + "Checking dependencies every " 
-					 + config.DEPSCHECKPERIOD/1000 + " seconds.")
 } else {
 	console.log(ds() + "Note: " + clc.blue("Dependency checks disabled."))
 }
@@ -1932,19 +1929,16 @@ function parameter(options, catalogs, datasets, res, cb) {
 						+ "&format=png"
 						+ "&type="  + options.type
 		            	+ "&style=" + options.style
+ 						+ "&image.width=800&image.height=200"
 
 		var viviz = config.VIVIZEXTERNAL 
-					+ "#" 
-					+ "dirprefix=" 
-					+   encodeURIComponent(dirprefix)
-					+ "&fulldir="
-					+ 	encodeURIComponent("&image.width=800&image.height=200")
-					//+ "&thumbdir="
-					//+ 	encodeURIComponent("&image.width=400&image.height=100")
+					+ "#"
+					+ "&dir="
+					+ encodeURIComponent(dirprefix)
 					+ "&strftime="
-					+ 	encodeURIComponent("&start=-P1D&stop=$Y-$m-$d")
+					+ encodeURIComponent("&start=-P1D&stop=$Y-$m-$d")
 					+ "&start=" + options.start
-					+ "&stop="  + options.stop;
+					+ "&stop="  + options.stop
 		cb(302, viviz, res)
 		return
 	}

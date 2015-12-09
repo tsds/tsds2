@@ -145,7 +145,7 @@ function startdeps(dep, config) {
 
 		// See explanation in datacache section for an explanation of the
 		// of the following.
-		var pstr = "node viviz.js --port " + VVPORT + ' --usedby tsdsfe ' + config.PORT
+		var pstr = "node viviz-server.js --port " + VVPORT + ' --usedby tsdsfe ' + config.PORT
 		//console.log(ds() + "Sending SIGINT to any process matching " + pstr)
 
 		if (process.platform.match("darwin")) {
@@ -167,7 +167,7 @@ function startdeps(dep, config) {
 
 		startdeps.viviz = spawn('node', 
 							[
-								'viviz.js','--port',VVPORT,
+								'viviz-server.js','--port',VVPORT,
 								'--usedby','tsdsfe '+config.PORT
 							]
 							, options)
