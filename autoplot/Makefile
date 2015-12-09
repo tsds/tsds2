@@ -8,7 +8,8 @@ PORT=8001
 AUTOPLOT_DATA=/tmp/autoplot_data
 JETTY=jetty-distribution-8.1.16.v20140903
 JAVA_OPTIONS="-DAUTOPLOT_DATA=$(AUTOPLOT_DATA) -Xmx1024m -XX:+CMSClassUnloadingEnabled"
-JAVA="/usr/local/jdk1.8.0_66/jre/bin/java"
+#JAVA="/usr/local/jdk1.8.0_66/jre/bin/java"
+JAVA="java"
 SERVLETBASE="http://localhost:$(PORT)/AutoplotServlet"
 WARURL="http://autoplot.org/hudson/job/autoplot-jar-servlet/lastSuccessfulBuild/artifact/autoplot/AutoplotServlet/dist/AutoplotServlet.war"
 
