@@ -31,16 +31,19 @@ var argv    = require('yargs')
 				.argv
 
 var debugs = 'all,app,stream'
+var startdep = 'all,none,autoplot,datacache,viviz'
 if (argv.help || argv.h) {
 	console.log("Usage: node tsdsfe.js [--port PORT"
 					+ " --debugto{file,console} {"+debugs+"}"
 					+ " --check{servers,deps} true|false]"
+					+ " --startdeps true|false"
 				)
 	return
 }
 
 argv.checkdeps = s2b(argv.checkdeps)
 argv.checkservers = s2b(argv.checkservers)
+argv.startdeps = s2b(argv.startdeps)
 
 var debug = {}
 debug["tofile"] = {};
@@ -60,9 +63,8 @@ var tmpb = argv.debugtoconsole.split(",")
 for (var i = 0; i < tmpb.length; i++) {
 	if (tmpb[i] !== "") debug["toconsole"][tmpb[i]] = true
 }
-debug["toconsole"]["torf"] = false
 if (Object.keys(debug["toconsole"]).length > 1) {
-	debug["tofile"]["torf"] = true
+	debug["toconsole"]["torf"] = true
 }
 
 //http://stackoverflow.com/questions/9768444/possible-eventemitter-memory-leak-detected
@@ -1044,7 +1046,7 @@ function parseOptions(req, res) {
 
 	var options = {}
 
-	options.all          = req.query.all          || req.query.body        || "/catalogs/all.thredds";
+	options.all          = req.query.all          || req.body.all          || "/catalogs/all.thredds";
 	options.catalog      = req.query.catalog      || req.body.catalog      || "^.*";
 	options.dataset      = req.query.dataset      || req.body.dataset      || "";
 	options.parameters   = req.query.parameters   || req.body.parameters   || "";
@@ -1061,6 +1063,18 @@ function parseOptions(req, res) {
 	options.attach       = s2b(req.query.attach   || req.body.attach       || "true");
 	options.istest       = s2b(req.query.istest   || req.body.istest       || "false");
 
+	options.dd           =  req.query.dd          || req.query.dd          || "";
+
+	var expandDD = require('./js/expandDD.js').expandDD
+
+	var q = "uri=$Y$m$d.dat&start=2001-01-01&stop=2001-01-03"
+	var q = "uri=$Y$m$d.dat&start=2001-01-01&stop=2001-01-03&columns=2,3"
+
+	cat = expandDD(q)
+
+	console.log(JSON.stringify(cat, null, 4))
+
+	console.log(options.dd)
 
 	if (req.headers['x-forwarded-for']) {
 		options.ip = req.headers['x-forwarded-for'].replace(/\s+/g,"")
@@ -1612,14 +1626,16 @@ function dataset(options, catalogs, res, cb) {
 
 			for (var i = 0;i < datasets.length;i++) {
 				if (Start) {
-					datasets[i]["timeCoverage"] = {}
-					datasets[i]["timeCoverage"]["Start"] = Start
+					datasets[i]["timeCoverage"] = []
+					datasets[i]["timeCoverage"][0] = {}
+					datasets[i]["timeCoverage"][0]["Start"] = Start
 				}
 				if (End) {
 					if (!datasets[i]["timeCoverage"]) {
-						datasets[i]["timeCoverage"] = {}
+						datasets[i]["timeCoverage"] = []
+						datasets[i]["timeCoverage"][0] = {}
 					}
-					datasets[i]["timeCoverage"]["End"] = End
+					datasets[i]["timeCoverage"][0]["End"] = End
 				}
 
 				dresp[i]         = {}
@@ -1712,21 +1728,26 @@ function parameter(options, catalogs, datasets, res, cb) {
 		parameters = parameters.concat(datasets[i].variables[0].variable);
 		var parent = datasets[i]["$"];
 
-		var timeCoverage = datasets[i].timeCoverage;
-		//console.log(timeCoverage)
+		var timeCoverage = datasets[i].timeCoverage[0];
 		if (timeCoverage) {
-			if (timeCoverage.Start)
-				parent.start = timeCoverage.Start
+			if (timeCoverage.Start) {
+				parent.start = timeCoverage.Start[0]
+			}
+			
+			if (timeCoverage.End) {
+				parent.stop = timeCoverage.End[0];
+			} else {
+				parent.stop = "P0D";	
+			}
 
-			parent.stop = "P0D";
-			if (timeCoverage.End)
-				parent.stop = timeCoverage.End;
-
-			parent.cadence = "";
-			if (timeCoverage.Cadence)
-				parent.cadence = timeCoverage.Cadence;
+			if (timeCoverage.Cadence) {
+				parent.cadence = timeCoverage.Cadence[0];
+			} else {
+				parent.cadence = "";				
+			}
 
 		}
+
 		var cat = catalogs[i];
 		while (parents.length < parameters.length) {
 			parents.push(parent)
