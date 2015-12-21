@@ -22,16 +22,6 @@ var argv    = require('yargs')
 var port = argv.port
 var qs   = argv.qs
 
-var main = require('./main.js').main
-
-var q = "uri=$Y$m$d.dat&start=2001-01-01&stop=2001-01-03"
-var q = "uri=$Y$m$d.dat&start=2001-01-01&stop=2001-01-03&columns=2,3"
-
-cat = main(q)
-
-console.log(JSON.stringify(cat,null,4))
-
-return
 
 // Log to console with color
 console.logc = function (str,color) {var msg = clc.xterm(color); console.log(msg(str))}
