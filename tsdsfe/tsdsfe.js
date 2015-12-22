@@ -26,24 +26,29 @@ var argv    = require('yargs')
 					'debugtoconsole': "",
 					'debugtofile': "",
 					'checkdeps': "true",
-					'checkservers': "true"
+					'checkservers': "true",
+					'startdeps': "true"
 				})
 				.argv
 
 var debugs = 'all,app,stream'
-var startdep = 'all,none,autoplot,datacache,viviz'
 if (argv.help || argv.h) {
 	console.log("Usage: node tsdsfe.js [--port PORT"
 					+ " --debugto{file,console} {"+debugs+"}"
-					+ " --check{servers,deps} true|false]"
-					+ " --startdeps true|false"
+					+ " --check{servers,deps} true|false"
+					+ " --startdeps true|false]"
 				)
 	return
 }
 
-argv.checkdeps = s2b(argv.checkdeps)
+argv.checkdeps    = s2b(argv.checkdeps)
 argv.checkservers = s2b(argv.checkservers)
-argv.startdeps = s2b(argv.startdeps)
+argv.startdeps    = s2b(argv.startdeps)
+
+if (!argv.startdeps) {
+	argv.checkdeps = false
+	argv.checkservers = false
+}
 
 var debug = {}
 debug["tofile"] = {};
@@ -119,9 +124,8 @@ process.on('SIGINT', function () {
 })
 
 process.on('exit', function () {
-	console.log(ds() + "Received exit signal.")
-	clc.red(ds() 
-		+ "(NOT IMPLEMENTED) Removing partially written files.")
+	console.log("\n" + ds() + "Received exit signal.")
+	console.log(ds() + clc.red("(NOT IMPLEMENTED) Removing partially written files."))
 
 	if (deps.startdeps.datacache) {
 		console.log(ds() + "Stopping datacache server.")
@@ -133,8 +137,10 @@ process.on('exit', function () {
 		deps.startdeps.viviz.kill('SIGINT')
 	}
 
-	console.log(ds() + "Stopping autoplot server.")
-	deps.stopdeps('autoplot')
+	if (deps.startdeps.autoplot) {
+		console.log(ds() + "Stopping autoplot server.")
+		deps.startdeps.autoplot.kill('SIGINT')
+	}
 	
 	console.log(ds() + "Exiting.")
 })
@@ -168,7 +174,7 @@ http.globalAgent.maxSockets = config.maxSockets
 
 // Serve files in these directories as static files and allow
 // directory listings.
-var dirs = ["js","css","scripts","catalogs","log"]
+var dirs = ["js","css","scripts","catalogs","log","test/data"]
 for (var i in dirs) {
 	app.use("/" + dirs[i], express.static(__dirname + "/" + dirs[i]))
 	app.use("/" + dirs[i], express.directory(__dirname + "/" + dirs[i]))
@@ -339,12 +345,9 @@ if (develdatacache || develtsdset || develviviz) {
 if (develdatacache) {msg = msg + " datacache"}
 if (develviviz) {msg = msg + " viviz"}
 if (develtsdset) {msg = msg + " tsdset"}
-if (msg !== "") {
-	console.log(ds() + "Note: " + clc.blue(msg))
-}
+if (msg !== "") {console.log(ds() + "Note: " + clc.blue(msg))}
 
-if (argv.checkdeps) {
-} else {
+if (!argv.checkdeps) {
 	console.log(ds() + "Note: " + clc.blue("Dependency checks disabled."))
 }
 
@@ -357,9 +360,14 @@ if (argv.checkservers) {
 	console.log(ds() + "Note: " + clc.blue("Server checks disabled."))
 }
 
-deps.startdeps('datacache', config)
-deps.startdeps('viviz', config)
-deps.startdeps('autoplot', config)
+if (argv.startdeps) {
+	deps.startdeps('datacache', config)
+	deps.startdeps('viviz', config)
+	deps.startdeps('autoplot', config)
+} else {
+	console.log(ds() + "Note: " + clc.blue("Dependencies will not be started."))
+}
+
 
 // Start the server.  TODO: Wait until deps are ready.
 server.listen(port)
@@ -1063,18 +1071,17 @@ function parseOptions(req, res) {
 	options.attach       = s2b(req.query.attach   || req.body.attach       || "true");
 	options.istest       = s2b(req.query.istest   || req.body.istest       || "false");
 
-	options.dd           =  req.query.dd          || req.query.dd          || "";
+	options.dd           =  req.query.dd          || req.body.dd          || "";
 
-	var expandDD = require('./js/expandDD.js').expandDD
-
-	var q = "uri=$Y$m$d.dat&start=2001-01-01&stop=2001-01-03"
-	var q = "uri=$Y$m$d.dat&start=2001-01-01&stop=2001-01-03&columns=2,3"
-
-	cat = expandDD(q)
-
-	console.log(JSON.stringify(cat, null, 4))
-
-	console.log(options.dd)
+	if (options.dd !== "") {
+		var expandDD = require('./js/expandDD.js').expandDD
+		console.log(options.dd)
+		cat = expandDD(decodeURIComponent(options.dd))
+		var ddfile = crypto.createHash("md5").update(decodeURIComponent(options.dd)).digest("hex")
+		fs.writeFileSync("catalogs/dd/" + ddfile,JSON.stringify(cat))
+		options.catalog = ddfile
+		options.all = ""
+	}
 
 	if (req.headers['x-forwarded-for']) {
 		options.ip = req.headers['x-forwarded-for'].replace(/\s+/g,"")
@@ -1087,7 +1094,6 @@ function parseOptions(req, res) {
 					.createHash("md5")
 					.update(ds() + options.ip + req.originalUrl)
 					.digest("hex")
-					.substring(0,4)
 
 	options.logcolor = Math.round(255*parseFloat(Math.random().toString().substring(1)));
 	options.logfile  = config.LOGDIRRES + logsig
@@ -1476,8 +1482,39 @@ function getandparse(url, options, res, cb) {
 // (will call stream() if only catalog information was requested.)
 function catalog(options, res, cb) {
 
-	log.logres("Called", res.options)
+	log.logres("Called.", res.options)
+
+	if (res.options.all === "") {
+		//var data = fs.readFileSync("catalogs/dd/" + options.catalog)
+		//result = JSON.parse(data)
+		var result = 
+			{
+				"catalog": 
+					{
+						"$":
+							{
+								'name': 'Catalog',
+								'xmlns': 'http://www.unidata.ucar.edu/namespaces/thredds/InvCatalog/v1.0',
+								'xmlns:xlink': 'http://www.w3.org/1999/xlink'
+							},
+						"catalogRef":
+							[{
+								"$":
+									{
+										'ID': options.catalog,
+										'xlink:title': '',
+										'xlink:href': "dd/" + options.catalog
+									}
+							}]
+					}
+			}
+		//console.log(result)
+		afterparse(result)
+		return
+	}
 	
+	//console.log(res.options)
+	// Get and parse all.xml
 	getandparse(config.CATALOG, options, res, afterparse)
 
 	function afterparse(result) {
@@ -1605,6 +1642,7 @@ function dataset(options, catalogs, res, cb) {
 			if (End)
 				End = End[0]
 		}
+
 		while (parents.length < datasets.length) {
 		    parents = parents.concat(parent)
 		}
@@ -1628,14 +1666,14 @@ function dataset(options, catalogs, res, cb) {
 				if (Start) {
 					datasets[i]["timeCoverage"] = []
 					datasets[i]["timeCoverage"][0] = {}
-					datasets[i]["timeCoverage"][0]["Start"] = Start
+					datasets[i]["timeCoverage"][0]["Start"] = [Start]
 				}
 				if (End) {
 					if (!datasets[i]["timeCoverage"]) {
 						datasets[i]["timeCoverage"] = []
 						datasets[i]["timeCoverage"][0] = {}
 					}
-					datasets[i]["timeCoverage"][0]["End"] = End
+					datasets[i]["timeCoverage"][0]["End"] = [End]
 				}
 
 				dresp[i]         = {}
