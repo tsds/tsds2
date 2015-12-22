@@ -4,25 +4,6 @@ var clc     = require('cli-color')
 
 function ds() {return (new Date()).toISOString() + " [tsdsfe] "}
 
-function stopdeps(dep) {
-
-		var spawn = require('child_process').spawnSync
-
-		depdir = "../autoplot/"
-
-		options = {"cwd": depdir}
-
-		str = spawn('make',['-s','stop'], options)
-		if (str.stdout.toString() !== "")
-			console.log(ds() + "autoplot stdout: "
-							 + str.stdout.toString().replace(/\n$/,""))
-		if (str.stderr.toString() !== "") {
-			console.log(str.stderr.length)
-			console.log(ds() + "autoplot stderr: " + str.stderr)
-		}
-}
-exports.stopdeps = stopdeps
-
 function startdeps(dep, config) {
 
 	var spawn = require('child_process').spawn
@@ -43,18 +24,35 @@ function startdeps(dep, config) {
 				+ "Starting dependency " 
 				+ dep + " in " + depdir + " on port " + APPORT)
 
-		startdeps.datacache = spawn('make',['start'], options)
-		
-		startdeps.datacache.stdout.on('data', function (data) {
+		startdeps.autoplot = spawn('make',['start'], options)
+
+		startdeps.autoplot.kill = function () {
+			var spawn = require('child_process').spawnSync
+
+			depdir = "../autoplot/"
+
+			options = {"cwd": depdir}
+
+			str = spawn('make',['-s','stop'], options)
+			if (str.stdout.toString() !== "")
+				console.log(ds() + "autoplot stdout: "
+								 + str.stdout.toString().replace(/\n$/,""))
+			if (str.stderr.toString() !== "") {
+				console.log(str.stderr.length)
+				console.log(ds() + "autoplot stderr: " + str.stderr)
+			}
+		}
+
+		startdeps.autoplot.stdout.on('data', function (data) {
 			if (data) {
 				if (data.toString().match("Already Running"))
 					console.log(ds() + "autoplot is already running.")
 			}
 		})
-		startdeps.datacache.stderr.on('data', function (data) {
-			//console.log(ds() + "autoplot stderr: " + data)
+		startdeps.autoplot.stderr.on('data', function (data) {
+			console.log(ds() + "autoplot stderr: " + data)
 		})
-		startdeps.datacache.on('close', function (code) {
+		startdeps.autoplot.on('close', function (code) {
 			console.log(ds() + "autoplot exited with code: " + code)
 		})	
 	}
