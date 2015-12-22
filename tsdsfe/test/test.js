@@ -66,13 +66,15 @@ function gettests(m) {
 		xtests[z] = {};
 		xtests[z].test = testsr[z].test || "";
 		xtests[z].note = testsr[z].note || "";
-
+				
 		if (m == 1) {
 			xtests[z].url = server + "?usedatacache=false&useimagecache=false&usemetadatacache=false&" + testsr[z].url;
 		}
 		if (m == 2) {
 			xtests[z].url = server + "?" + testsr[z].url;
 		}
+		xtests[z].url = xtests[z].url.replace("__SERVER__",server)
+
 	}
 
 	return xtests;

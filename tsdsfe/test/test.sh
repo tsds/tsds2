@@ -13,19 +13,23 @@ rm -rf ../cache/*;
 
 node test/test.js --testfile test/metadata-tests.js
 
-RESULT1=$?
+RESULT=$?
 
 node test/test.js --testfile test/data-tests.js 
 
-RESULT2=$?
+RESULT+=$?
 
 node test/test.js --testfile test/image-tests.js 
 
-RESULT3=$?
+RESULT+=$?
+
+node test/test.js --testfile test/dd-tests.js 
+
+RESULT+=$?
 
 kill -s "SIGINT" $PID
 
-if [[ $RESULT1 == "1" && $RESULT2 == "1" ]]; then
+if [[ $RESULT != "1" ]]; then
 	echo "test.sh Exiting with code 1"
 	exit 1
 else
