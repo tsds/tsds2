@@ -4,7 +4,7 @@ var mkdirp  = require('mkdirp')
 
 function ds() {return (new Date()).toISOString() + " [tsdsfe] "}
 
-function checkservers(config, server) {
+function tests(config, server) {
 
 	var TESTS =
 		{
@@ -73,6 +73,7 @@ function checkservers(config, server) {
 						},
 				"type": "server",
 				"interval": 60000,
+				"respectHeaders": false,
 				"url": config.TSDSFE + "?catalog=SSCWeb&dataset=ace&parameters=X_TOD&start=2014-08-16&stop=2014-08-17&return=data&usedatacache=false&istest=true"
 			},
 			"IMAGE/PT1M":
@@ -97,8 +98,19 @@ function checkservers(config, server) {
 			}
 		}
 
-	if (!checkservers.status) {
+	if (server) {
+		return TESTS[server]
+	} else {
+		return TESTS
+	}
+}
+exports.tests = tests
 
+function checkservers(config, server) {
+
+	TESTS = tests(config)
+
+	if (!checkservers.status) {
 
 		checkservers.status = {};
 		var k = 0;
