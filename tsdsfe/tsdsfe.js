@@ -543,9 +543,6 @@ function handleRequest(req, res) {
 
 		log.logres("Request is for " + options.return, res.options)
 
-		if (options.format == 1) {
-			options.format = "xml"
-		}
 		if (options.format === "json") {
 			res.setHeader("Content-Type", "application/json")
 		} else {
@@ -553,80 +550,85 @@ function handleRequest(req, res) {
 			options.format = "xml"
 		}
 
-		// Get list of all catalogs and their URLs		
-		url = config["TSDSFE"] + "?catalog=^.*"
-		log.logres("Requesting "+url, res.options)
-
-		request(url, function (err,catres,catbody) {
-
-			catalogjson = JSON.parse(catbody);
-
-			// Iterate through catalog and find one that matches
-			// requested catalog.
-			for (var i = 0;i < catalogjson.length;i++) {
-
-				if (catalogjson[i].label.match(options.catalog)) {
-					url = catalogjson[i].href;
-
-					log.logres("Calling getandparse() with URL " + url, res.options)
-
-					// Request the matched catalog and parse it.
-					if (options.return === "tsds") {
-						getandparse(url,options,res,function (ret) {
-							if (options.format === "xml") {
-								log.logres("Sending TSDS XML.", res.options)
-								res.write(ret.toString())
-								res.end()					
-							} else {
-								res.write(JSON.stringify(ret))
-								res.end()													
-							}
-						})
-					}
-
-					if (options.return === "autoplot-bookmarks") {
-						var format = options.format
-						// This causes getandparse to return TSDS JSON, which tsds2bookmarks requires.
-						options.format = "json"
-						log.logres("Calling getandparse() with URL " + url, res.options)
-						getandparse(url,options,res,function (ret) {
-							options.format = format
-							var tsds2other = require(__dirname + "/js/tsds2other.js").tsds2other
-
-							log.logres("Converting TSDS XML catalog to Autoplot bookmark XML.", res.options)
-
-							// Filename signature is based on input + transformation code.
-							var retsig  = crypto.createHash("md5").update(JSON.stringify(ret)+tsds2other.toString()).digest("hex")
-							var retfile = config.CACHEDIR + retsig + ".xml"
-
-							if (fs.existsSync(retfile)) {
-								log.logres("Cache of autoplot-bookmarks file found for input "+url, res.options)
-								ret = fs.readFileSync(retfile)
-								finish(ret)
-							} else {
-								log.logres("No cache of autoplot-bookmarks file found for input = "+url, res.options)
-								tsds2other(ret, "autoplot-bookmarks", function (ret) {
-									finish(ret)
-									log.logres("Writing cache file for autoplot-bookmarks for input = "+url, res.options)
-									fs.writeFileSync(retfile,ret)
-								})
-								
-							}
-
-							function finish(ret) {
-								if (format === "xml") {
-									res.write(ret.toString())
-									res.end()
-								} else {
-									res.write(JSON.stringify(ret))
-									res.end()																						
-								}
-							}
-						})
+		if (options.all === "-") {
+			finish(config["TSDSFE"] + "catalogs/dd/" + options.catalog)
+		} else {
+			// Get list of all catalogs and their URLs
+			url = config["TSDSFE"] + "?catalog=^.*" + "&usemetadatacache="+options.usemetadatacache
+			log.logres("Requesting "+url, res.options)
+			request(url, function (err,catres,catbody) {
+				catalogjson = JSON.parse(catbody);
+				// Iterate through list of catalogs and find one that matches
+				// requested catalog.
+				for (var i = 0;i < catalogjson.length;i++) {
+					if (catalogjson[i].label.match(options.catalog)) {
+						url = catalogjson[i].href;
+						break
 					}
 				}
-			}			
-		})
+				finish(url)
+			})
+		}
+
+		function finish(url) {
+
+			log.logres("Calling getandparse() with URL " + url, res.options)
+
+			// Request the matched catalog and parse it.
+			if (options.return === "tsds") {
+				getandparse(url,options,res,function (ret) {
+					if (options.format === "xml") {
+						log.logres("Sending TSDS XML.", res.options)
+						res.write(ret.toString())
+						res.end()					
+					} else {
+						typeof(ret)
+						res.write(JSON.stringify(ret))
+						res.end()													
+					}
+				})
+			}
+
+			if (options.return === "autoplot-bookmarks") {
+				var format = options.format
+				// This causes getandparse to return TSDS JSON, which tsds2bookmarks requires.
+				options.format = "json"
+				log.logres("Calling getandparse() with URL " + url, res.options)
+				getandparse(url,options,res,function (ret) {
+					options.format = format
+					var tsds2other = require(__dirname + "/js/tsds2other.js").tsds2other
+
+					log.logres("Converting TSDS XML catalog to Autoplot bookmark XML.", res.options)
+
+					// Filename signature is based on input + transformation code.
+					var retsig  = crypto.createHash("md5").update(JSON.stringify(ret)+tsds2other.toString()).digest("hex")
+					var retfile = config.CACHEDIR + retsig + ".xml"
+
+					if (fs.existsSync(retfile)) {
+						log.logres("Cache of autoplot-bookmarks file found for input "+url, res.options)
+						ret = fs.readFileSync(retfile)
+						finish(ret)
+					} else {
+						log.logres("No cache of autoplot-bookmarks file found for input = "+url, res.options)
+						tsds2other(ret, "autoplot-bookmarks", function (ret) {
+							finish(ret)
+							log.logres("Writing cache file for autoplot-bookmarks for input = "+url, res.options)
+							fs.writeFileSync(retfile,ret)
+						})	
+					}
+
+					function finish(ret) {
+						if (format === "xml") {
+							res.write(ret.toString())
+							res.end()
+						} else {
+							res.write(JSON.stringify(ret))
+							res.end()																						
+						}
+					}
+				})
+			}
+		}
 		return
 	}
 
@@ -851,7 +853,7 @@ function handleRequest(req, res) {
 							if (res0.statusCode !== "200") {
 								// TODO: Abort and send error.
 							}
-						log.logres("Headers :" 
+						log.logres("Headers: " 
 									+ JSON.stringify(res0.headers), res.options, "stream")
 						if (res0.headers['content-type']) {
 							res.setHeader('content-type',res0.headers['content-type'])
@@ -873,7 +875,7 @@ function handleRequest(req, res) {
 
 			var sreq = http.get(data, function(res0) {
 
-				log.logres("Headers :" + JSON.stringify(res0.headers), res.options, "stream")
+				log.logres("Headers: " + JSON.stringify(res0.headers), res.options, "stream")
 
 				if (res0.headers['x-datacache-log']) {
 					res.setHeader('x-datacache-log',res0.headers['x-datacache-log'])
@@ -949,10 +951,11 @@ function handleRequest(req, res) {
 						})
 					}
 				}
+
+				res.write("Time" + " " + res.dd[0].columnIDs + "\n")
 				res0
 					.on('data', function(chunk) {
 						// Send chunk to client
-
 						res.write(chunk);
 
 						if (isimagereq && writeok) {
@@ -963,9 +966,9 @@ function handleRequest(req, res) {
 						if (data.length != 0) {
 							if (isimagereq && writeok) {
 								log.logres("Recieved chunk of size " + chunk.length + ". Streaming it and writing chunk to cache file.", res.options, "stream")
+							} else {
+								log.logres("Recieved chunk of size " + chunk.length + ". Streaming it.", res.options, "stream")
 							}
-						} else {
-								log.logres("Recieved chunk of size " + chunk.length + ". Streaming it.", "stream")
 						}
 					})
 					.on('end', function() {
@@ -1073,15 +1076,6 @@ function parseOptions(req, res) {
 
 	options.dd           =  req.query.dd          || req.body.dd          || "";
 
-	if (options.dd !== "") {
-		var expandDD = require('./js/expandDD.js').expandDD
-		console.log(options.dd)
-		cat = expandDD(decodeURIComponent(options.dd))
-		var ddfile = crypto.createHash("md5").update(decodeURIComponent(options.dd)).digest("hex")
-		fs.writeFileSync("catalogs/dd/" + ddfile,JSON.stringify(cat))
-		options.catalog = ddfile
-		options.all = ""
-	}
 
 	if (req.headers['x-forwarded-for']) {
 		options.ip = req.headers['x-forwarded-for'].replace(/\s+/g,"")
@@ -1102,6 +1096,17 @@ function parseOptions(req, res) {
 	options.config   = config
 
 	log.logres("Request from " + options.ip + " " + req.originalUrl, options, "app")
+
+	if (options.dd !== "") {
+		var expandDD = require('./js/expandDD.js').expandDD
+		log.logres("Input is dd: " + options.dd, options, "app")
+		cat = expandDD(decodeURIComponent(options.dd))
+		var ddfile = crypto.createHash("md5").update(decodeURIComponent(options.dd)).digest("hex")
+		log.logres("Writing (sync) " + "catalogs/dd/" + ddfile, options, "app")
+		fs.writeFileSync("catalogs/dd/" + ddfile,JSON.stringify(cat))
+		options.catalog = ddfile
+		options.all = "-"
+	}
 
 	// If any of the cache options are false and update fails, cache will be used if found (and warning is given in header).
  	// Sent as DataCache parameter.
@@ -1239,7 +1244,8 @@ function parseOptions(req, res) {
 		options.format = "xml"
 	}
 
-	if (options.return === "dd" || options.return.match("urilist")) {
+	//if (options.return === "dd" || options.return.match("urilist")) {
+	if (options.return.match("urilist")) {
 		// options.return === "urilistflat" is technically not a JSON format, 
 		// but processing is same until just before response is sent.
 		options.format = "json"
@@ -1248,7 +1254,7 @@ function parseOptions(req, res) {
 	return options
 }
 
-// Get XML from URL and convert to JSON.
+// Get XML or JSON from URL and convert to JSON or XML.
 function getandparse(url, options, res, cb) {
 
 	// Retrieves XML or JSON from a URL and stores XML and JSON as a cache file.
@@ -1272,7 +1278,7 @@ function getandparse(url, options, res, cb) {
 		if (options.format !== "xml" && fs.existsSync(cfilejson)) {
 			log.logres("usemetadatacache = true and JSON cache file found for url = " + url, res.options)
 			log.logres("Reading and parsing JSON cache file (sync).", res.options)
-			var tmp = JSON.parse(fs.readFileSync(cfilejson).toString())
+			var tmp = JSON.parse(fs.readFileSync(cfilejson))
 			log.logres("Done.", res.options)
 			cb(tmp)
 			return
@@ -1300,7 +1306,7 @@ function getandparse(url, options, res, cb) {
 	}
 
 	// Fetch and then cache.
-	if (options.format != "xml") {
+	if (options.format !== "xml") {
 		log.logres("No cache file found for url = " + url, res.options)
 		fetch(url,"json")
 		return
@@ -1336,7 +1342,7 @@ function getandparse(url, options, res, cb) {
 
 			if (age <= 0) {
 				log.logres("Cache file has not expired.  Reading cache file "
-						+ (cfile+"."+type).replace(__dirname,""), res.options)
+						+ (cfile+"."+type).replace(__dirname,"/cache/"), res.options)
 				log.logres("for URL " + hresponse.request.uri.href, res.options)
 				log.logres("Reading cache file (sync) ", res.options)
 				var tmp = fs.readFileSync(cfile+"."+type).toString()
@@ -1471,22 +1477,22 @@ function getandparse(url, options, res, cb) {
 					cb(JSON.parse(body))
 				}				
 				log.logres("Writing JSON cache file for url = " + url, res.options)
-				fs.writeFileSync(cfilejson,JSON.stringify(body))
+				//fs.writeFileSync(cfilejson,JSON.stringify(body))
+				fs.writeFileSync(cfilejson, body)
 				log.logres("Done.", res.options)
 			}
 		})
 	}
 }
 
-// After catalog() executes, it either calls dataset() or stream()
-// (will call stream() if only catalog information was requested.)
+// After catalog() executes, it either calls dataset() or stream().
+// (Calls stream() only if catalog information was requested.)
 function catalog(options, res, cb) {
 
 	log.logres("Called.", res.options)
 
-	if (res.options.all === "") {
-		//var data = fs.readFileSync("catalogs/dd/" + options.catalog)
-		//result = JSON.parse(data)
+	if (res.options.all === "-") {
+		// Creates an equivalent of all.xml
 		var result = 
 			{
 				"catalog": 
@@ -1552,7 +1558,7 @@ function catalog(options, res, cb) {
 		}
 
 		// Now we have a list of URLs for catalogs associated with the catalog pattern.
-		// Remove empty elements of array. (Needed?)
+		// Remove empty elements of array. (TODO: Needed?)
 		resp = resp.filter(function(n){return n})
 		if (resp.length == 0) {
 			log.logres("Error: No matching catalogs in list.", res.options)
@@ -1943,9 +1949,8 @@ function parameter(options, catalogs, datasets, res, cb) {
 		return;
 	}
 
-	//if (Date.parse(start) > Date.parse(stop)) {
 	if ((new Date(start)).getTime() > (new Date(stop)).getTime()) {	
-		cb(500,"Start time is after stop time.",res);
+		cb(500,"Start time is after stop time.", res);
 		return;
 	}
 
@@ -2113,33 +2118,34 @@ function parameter(options, catalogs, datasets, res, cb) {
 		return
 	}
 
-	if (options.return === "dd") {
-		ddresp = [];
-		for (var z = 0;z<resp.length;z++) {
-			//ddresp[z] = resp[z].dd;
-			ddresp[z] = {};
-			ddresp[z].columnIDs        = resp[z].dd.ID;
-			ddresp[z].columnLabels     = resp[z].dd.label;
-			ddresp[z].columnUnits      = resp[z].dd.units;
-			ddresp[z].columnTypes      = resp[z].dd.type;
-			ddresp[z].columnFillValues = resp[z].dd.fillvalue;
-			ddresp[z].columnRenderings = resp[z].dd.rendering;
-			ddresp[z].start = resp[z].dd.start;
-			ddresp[z].stop = resp[z].dd.stop;
+	ddresp = [];
+	for (var z = 0;z<resp.length;z++) {
+		//ddresp[z] = resp[z].dd;
+		ddresp[z] = {};
+		ddresp[z].columnIDs        = resp[z].dd.id;
+		ddresp[z].columnLabels     = resp[z].dd.label;
+		ddresp[z].columnUnits      = resp[z].dd.units;
+		ddresp[z].columnTypes      = resp[z].dd.type;
+		ddresp[z].columnFillValues = resp[z].dd.fillvalue;
+		ddresp[z].columnRenderings = resp[z].dd.rendering;
+		ddresp[z].start = resp[z].dd.start;
+		ddresp[z].stop = resp[z].dd.stop;
 
-			ddresp[z].urltemplate = "";
-			if (options.format === "1") {
-				ddresp[z].columns = "" + (z+2);
-				ddresp[z].timeFormat = "%Y-%m-%DT%H%M%SZ";
-				ddresp[z].timeColumns = ""+1;
-			}
-			if (options.format === "2") {
-				ddresp[z].columns = "" + (z+7);
-				ddresp[z].timeFormat = "%Y %m %D %H %M %S";
-				ddresp[z].timeColumns = "1,2,3,4,5,6";
-			}
+		ddresp[z].urltemplate = "";
+
+		if (options.format === "1") {
+			ddresp[z].columns = "" + (z+2);
+			ddresp[z].timeFormat = "%Y-%m-%DT%H%M%SZ";
+			ddresp[z].timeColumns = ""+1;
 		}
-		
+		if (options.format === "2") {
+			ddresp[z].columns = "" + (z+7);
+			ddresp[z].timeFormat = "%Y %m %D %H %M %S";
+			ddresp[z].timeColumns = "1,2,3,4,5,6";
+		}
+	}
+
+	if (options.return === "dd") {		
 		cb(200,ddresp,res);
 		return;
 	}
@@ -2162,15 +2168,19 @@ function parameter(options, catalogs, datasets, res, cb) {
 		dc = dc.replace(/[^=&]+=(&|$)/g,"").replace(/&$/,"");
 		if (!options.usedatacache) dc = dc+"&forceUpdate=true&forceWrite=true"
 
+		var tests = require('./servers.js').tests
+		if (!tests.respectHeaders) {
+			dc = dc + "&respectHeaders=false"
+		}
 		if (options.return === "redirect") {
 			// If more than one resp, this won't work.
 			cb(302,dc,res);
 			return;
 		}
-
-		cb(0,dc,res);
+		res.dd = ddresp
+		cb(0,dc,res)
 		return;
 	}
 
-	cb(500,"Query parameter return="+options.return+" not recognized.",res);
+	cb(500,"Query parameter return=" + options.return + " not recognized.", res)
 }
