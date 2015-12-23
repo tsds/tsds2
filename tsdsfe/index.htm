@@ -61,7 +61,11 @@
 					$('#cataloginfo ul #statusfalse').remove()
 					 var title = 'Last check '+Math.round(delta/1000)+' seconds ago.  Check interval is '+checkstatus.servers[catalog].checkperiod/1000+' seconds.'
 					if ($('#cataloginfo ul #statustrue').length == 0) {
-						$('#cataloginfo ul').append('<li id="statustrue"><span title="'+title+'"">'+catalog+' server working. <a href="/log/servers/'+catalog+'/">History</a></li>');
+						var url = "?dd=" + encodeURIComponent("uri="+location.origin+location.pathname+"log/servers/"+catalog+
+							"/$Y-$m-$d.txt&start=-P10D&stop=P0D&columns=2,3")
+							+ "&dataset=1&parameters=col2&start=-P10D&stop=P0D"
+
+						$('#cataloginfo ul').append('<li id="statustrue"><span title="'+title+'"">'+catalog+' server working. <a href="'+url+'">History</a></li>');
 					} else {
 						$('#cataloginfo ul #statustrue span').attr('title',title)
 					}
