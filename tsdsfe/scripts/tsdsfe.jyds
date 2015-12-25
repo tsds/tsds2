@@ -22,7 +22,7 @@ tf    = TimeParser.create('$Y-$m-$d')
 start = tf.format( drtr.min(), None )
 stop  = tf.format( drtr.max(), None )
 
-surl = server + "?" + "catalog=" + catalog + "&dataset=" + dataset + "&parameters=" + parameters + "&start=" + start + "&stop=" + stop + "&outformat=1&stream=true&usedatacache="+usecache
+surl = server + "?" + "catalog=" + catalog + "&dataset=" + dataset + "&parameters=" + parameters + "&start=" + start + "&stop=" + stop
 print surl
 
 # note the server may provide a valid but html response.
