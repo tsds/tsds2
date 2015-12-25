@@ -1,15 +1,16 @@
 var tests = [];
 i = 0;
 
-tests[i] = {};
-tests[i].url = "catalog=USGS/Mag/RT/PT1M&dataset=BDT&parameters=H&start=-P3D&stop=P0D";
-tests[i].test = function (data) {
-	var len = data.toString().split("\n").length;
-	console.log("File should have 4321 newlines.  Found: " + len );
-	if (len == 4321) {return true;} else {return false}
-};
+if (0) {
+	tests[i] = {};
+	tests[i].url = "catalog=USGS/Mag/RT/PT1M&dataset=BDT&parameters=H&start=-P3D&stop=P0D";
+	tests[i].test = function (data) {
+		var len = data.toString().split("\n").length;
+		console.log("File should have 4321 newlines.  Found: " + len );
+		if (len == 4321) {return true;} else {return false}
+	};
+}
 
-i = i+1;
 tests[i] = {};
 tests[i].url = "catalog=Kyoto/Dst/RT/PT1H&dataset=Dst&parameters=Dst&start=-P3D&stop=P0D";
 tests[i].test = function (data) {
