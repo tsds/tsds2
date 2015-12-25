@@ -190,14 +190,18 @@ app.get('/status', function (req, res) {
 	c.deps = {}
 	if (checkservers) {
 		if (checkservers.status) {
-			for (var key in checkservers.status)
+			for (var key in checkservers.status) {
 				if (checkservers.status[key].type === "server") {
 					c.servers[key] = checkservers.status[key]
 				}
 				if (checkservers.status[key].type === "dependency") {
 					c.deps[key] = checkservers.status[key]
 				}
+			}
 		}
+	}
+	if (Object.keys(c.deps).length == 0) {
+		c.deps["active"] = argv.startdeps
 	}
 	res.send(JSON.stringify(c))
 })
@@ -842,11 +846,15 @@ function handleRequest(req, res) {
 					request
 					.get(data)
 					.on('error', function (err) {
-						console.log(err)
-						var tmpstr  = "Error when attempting to retrieve data from data from " + data
+						var tmpstr  = "Error '" + err.code + "' when attempting to retrieve data from data from " + data
 						var tmpstr2 = "Error " + err.code + " when attempting to retrieve data from data from " + data.split("?")[0]
 						res.setHeader('x-tsdsfe-error',tmpstr2)
-						log.logres(tmpstr, res.options, "stream")
+						log.logres(tmpstr2, res.options, "stream")
+						log.logres("Removing " + ifile, res.options, "stream")
+						if (fs.existsSync(ifile)) {
+							fs.unlinkSync(ifile)
+						}
+
 						res.status(502).send(tmpstr)
 					})
 						.on('response', function(res0) {
@@ -952,7 +960,10 @@ function handleRequest(req, res) {
 					}
 				}
 
-				res.write("Time" + " " + res.dd[0].columnIDs + "\n")
+				if (options.style === "header") {
+					res.write("Time" + " " + res.dd[0].columnIDs + "\n")
+				}
+				//console.log(res.dd[0])
 				res0
 					.on('data', function(chunk) {
 						// Send chunk to client
@@ -1126,6 +1137,10 @@ function parseOptions(req, res) {
 		options.style = "0"
 	}	
 
+	if ((options.return === "data") && (options.style === "")) {
+		options.style = "noheader"
+	}	
+
 	options.image = {};
 	options.image.quant   = s2b(req.query['image.quant']  || "true")
 	options.image.width   = req.query['image.width']  || ""
@@ -1206,7 +1221,7 @@ function parseOptions(req, res) {
 		options.format = "png";
 	}
 	if ((options.return === "data") && (options.format === "")) {
-		options.format = "1";
+		options.format = "ascii-1";
 	}
 	if ((options.return === "script") && (options.format === "")) {
 		options.format = "matlab";
@@ -1406,7 +1421,7 @@ function getandparse(url, options, res, cb) {
 						res.header('x-tsdsfe-warning',"Used cache because failed request for " + url)
 					}
 					var tmp = fs.readFileSync(cfile+"."+type).toString()
-					if (options.format == "json") { 
+					if (options.format === "json") { 
 						var tmp = JSON.parse(tmp)
 					}
 					cb(tmp)
@@ -1534,7 +1549,7 @@ function catalog(options, res, cb) {
 
 		log.logres("Setting xmlbase to " + xmlbase, res.options)
 
-		log.logres("Found " + catalogRefs.length + " catalogRef nodes.", res.options)
+		log.logres("Found " + catalogRefs.length + " catalogRef node(s).", res.options)
 
 		// Loop over each catalogRef and remove ones that don't match pattern.
 		for (var i = 0;i < catalogRefs.length;i++) {
@@ -1561,12 +1576,26 @@ function catalog(options, res, cb) {
 		// Remove empty elements of array. (TODO: Needed?)
 		resp = resp.filter(function(n){return n})
 		if (resp.length == 0) {
-			log.logres("Error: No matching catalogs in list.", res.options)
-			var list = "List:"
-			for (var i = 0; i < catalogRefs.length;i++) {
-				list = list + " " + catalogRefs[i]["$"]["ID"] 
+			if (res.options.all === "-") {
+				log.logres("Error: No matching catalogs in list.", res.options)
+				var list = "List:"
+				for (var i = 0; i < catalogRefs.length;i++) {
+					list = list + " " + catalogRefs[i]["$"]["ID"] 
+				}
+				log.logres(list, res.options)
+				cb(500,"Error: No matching catalogs with ID="+options.catalog+"in "+options.all+". Options are" + list.join("\n"),res);
+				return
+			} else {
+				// If catalog is a dd md5, this will work.
+				log.logres("No matches.  Try again with res.options.all = -.", res.options)
+				// TODO: Check if dd file exists.  If not send error "Catalog with ID not fund in catalogs/dd".
+				// Otherwise response is something like
+				// Error when attempting to access
+				// http://localhost:8004/catalogs/dd/xf5e6af45e1430aa4b2e3f0ea964f7985 and no cached version found
+				res.options.all = "-"
+				catalog(options, res, cb)
+				return
 			}
-			log.logres(list, res.options)
 		}
 
 		if (options.dataset === "") {
@@ -1812,6 +1841,7 @@ function parameter(options, catalogs, datasets, res, cb) {
 			} else {
 				id = "col" + parameters[i]["$"]["columns"]
 			}
+			parameters[i]["$"]["id"] = id
 		}
 
 		resp[i]            = {};
@@ -1922,23 +1952,32 @@ function parameter(options, catalogs, datasets, res, cb) {
 	if ((options.stop === '') && (options.start !== '')) {
 	    options.stop = "P1D";
 	}
-	start = options.start || resp[0].dd.start;
-	stop  = options.stop  || resp[0].dd.start;
+	var start = options.start || resp[0].dd.start;
+	var stop  = options.stop  || resp[0].dd.start;
 
 	var tmp = expandISO8601Duration(start+"/"+stop,{debug:false});
 
-	//start = tmp.split("/")[0].substring(0,10);
-	//stop = tmp.split("/")[1].substring(0,10);
+	var tmpdd = expandISO8601Duration(resp[0].dd.start+"/"+resp[0].dd.stop,{debug:false});
 
-	start = tmp.split("/")[0].replace("T00:00:00.000Z","");
-	stop = tmp.split("/")[1].replace("T00:00:00.000Z","");
+	if (0) {
+		start  = tmp.split("/")[0].replace("T00:00:00.000Z","");
+		stop   = tmp.split("/")[1].replace("T00:00:00.000Z","");
+		startdd = tmpdd.split("/")[0].replace("T00:00:00.000Z","");
+		stopdd  = tmpdd.split("/")[1].replace("T00:00:00.000Z","");
+	}
 
-	log.logres("Requested start : " + options.start, options)
-	log.logres("Expanded start  : " + start, options)
-	log.logres("DD start        : " + resp[0].dd.start, options)
-	log.logres("Requested stop  : " + options.stop, options)
-	log.logres("Expanded stop   : " + stop, options)
-	log.logres("DD stop         : " + resp[0].dd.stop, options)
+	start  = tmp.split("/")[0];
+	stop   = tmp.split("/")[1];
+	startdd = tmpdd.split("/")[0];
+	stopdd  = tmpdd.split("/")[1];
+
+	log.logres("Requested start  : " + options.start, options)
+	log.logres("Expanded start   : " + start, options)
+	log.logres("DD start         : " + resp[0].dd.start, options)
+	log.logres("Expanded DD start: " + startdd, options)
+	log.logres("Requested stop   : " + options.stop, options)
+	log.logres("Expanded stop    : " + stop, options)
+	log.logres("Expanded DD stop : " + stopdd, options)
 
 	var urltemplate  = resp[0].dd.urltemplate.replace("mirror:http://",config.MIRROR);
 	var urlprocessor = resp[0].dd.urlprocessor;
@@ -1954,6 +1993,21 @@ function parameter(options, catalogs, datasets, res, cb) {
 		return;
 	}
 
+	if  ((new Date(startdd)).getTime() > (new Date(start)).getTime()) {
+		log.logres("Requested start < Catalog start.  Setting requested start to catalog start.", options)
+		start = startdd
+	}
+
+	if  ((new Date(stopdd)).getTime() < (new Date(stop)).getTime()) {
+		log.logres("Requested stop > Catalog stop.  Setting requested stop to catalog stop.", options)
+		res.options.stop = stopdd
+		stop = stopdd
+	}
+
+	res.options.start = start
+	res.options.stop = stop
+
+	//console.log(res.options)
 	var args = "";
 	if (urlprocessor) {
 		args = "&plugin="+urlprocessor;
@@ -2045,12 +2099,10 @@ function parameter(options, catalogs, datasets, res, cb) {
 			return;
 		}
 
-		var tmp = expandISO8601Duration(start+"/"+stop,{debug:false})
-
 		// For now, don't use relative times because TSDS interpretation is
 		// different from Autoplot (TSDS should change to match Autoplot's.)
-		start = tmp.split("/")[0].substring(0,10);
-		stop = tmp.split("/")[1].substring(0,10);
+		start = res.options.start.substring(0,10);
+		stop = res.options.stop.substring(0,10);
 
 		var extra = ""
 		if (resp[0].label) {
@@ -2101,12 +2153,11 @@ function parameter(options, catalogs, datasets, res, cb) {
 					+ "&url=vap+jyds:"
 
 		log.logres("AUTOPLOT: " + config.AUTOPLOT, options)
-		log.logres("apargs: " + apargs + "encodeURIComponent(JYDS + jydsargs)", options)	
+		log.logres("apargs: " + apargs + "encodeURIComponent(JYDS + jydsargs) = ", options)	
 		var aurl = config.AUTOPLOT + apargs + encodeURIComponent(config.JYDS + jydsargs)
 		log.logres("Making request to: AUTOPLOT + apargs + encodeURIComponent(config.JYDS + jydsargs)", options)
-		log.logres("i.e.,\n"+aurl, options)
-		console.log(config.JYDS + jydsargs)
-		console.log(aurl)
+		log.logres(aurl, options)
+		log.logres("JYDS URL: " + config.JYDS + jydsargs, options)
 		if (config.TSDSFE.match(/http:\/\/localhost/)) {
 			if (!config.AUTOPLOT.match(/http:\/\/localhost/)) {
 				log.logres("Error: stream(): Autoplot image servlet specified by config.AUTOPLOT must be localhost if config.TSDSFE is localhost.", res.options)
@@ -2133,12 +2184,13 @@ function parameter(options, catalogs, datasets, res, cb) {
 
 		ddresp[z].urltemplate = "";
 
-		if (options.format === "1") {
+		//console.log(resp[z].dd)
+		if (typeof(options.format.match("ascii-1")) !== "null") {
 			ddresp[z].columns = "" + (z+2);
 			ddresp[z].timeFormat = "%Y-%m-%DT%H%M%SZ";
 			ddresp[z].timeColumns = ""+1;
 		}
-		if (options.format === "2") {
+		if (typeof(options.format.match("ascii-2")) !== "null") {
 			ddresp[z].columns = "" + (z+7);
 			ddresp[z].timeFormat = "%Y %m %D %H %M %S";
 			ddresp[z].timeColumns = "1,2,3,4,5,6";
@@ -2151,12 +2203,19 @@ function parameter(options, catalogs, datasets, res, cb) {
 	}
 	
 	if ((options.return === "data") || (options.return === "redirect")) {				 
+		var formatv = options.format.split("-")
+		if (formatv.length < 2) {
+			var format = 1
+		} else {
+			var format = formatv[1]
+		}
+
 		dc = dc
 				+"&return=stream"
 				+"&lineRegExp="+(resp[0].dd.lineregex || "")
 				+"&streamFilterReadTimeFormat="+(resp[0].dd.timeformat || "")
 				+"&streamFilterReadColumns="+columns
-				+"&streamFilterWriteTimeFormat="+options.format
+				+"&streamFilterWriteTimeFormat="+format
 				+"&streamFilterWriteComputeFunction="+options.filter
 				+"&streamFilterWriteComputeFunctionWindow="+options.filterWindow
 				+"&streamFilterWriteComputeFunctionExcludes="+(resp[0].dd.fillvalue || "")
