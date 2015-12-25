@@ -18,7 +18,7 @@
 		"start": "node tsdsfe.js",
 		"debug-note": "To debug, use npm run debug{1,2}.",
 		"debug1": "nodemon -w . -w js -w ../../datacache tsdsfe.js --debugtoconsole all --checkdeps false --checkservers false",
-		"debug2": "nodemon tsdsfe.js --debugtoconsole all --startdeps false",
+		"debug2": "nodemon -w . -w js -w ../../datacache tsdsfe.js --debugtoconsole all --startdeps false",
 		"preinstall": "cd deps; make bin/pngquant; cd ../../autoplot/; make install; make stop; make start",
 		"test": "bash test/test.sh  2>&1 | tee test/test.log"
 	}
