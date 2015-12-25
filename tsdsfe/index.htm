@@ -44,26 +44,27 @@
 					return
 				}
 
+				var url = "?dd=" + encodeURIComponent("uri="+location.origin+location.pathname+"log/servers/"+catalog+
+					"/$Y-$m-$d.txt&start=-P10D&stop=P0D&columns=2,3")
+					+ "&dataset=1&parameters=col2&start=-P10D&stop=P0D&return=image"
+
 				if (!checkstatus.servers[catalog]) {
 					$('#cataloginfo ul #statustrue').remove()
 					$('#cataloginfo ul #statusfalse').remove()
-					$('#cataloginfo ul').append('<li id="statusfalse"><i>The server for data in this catalog is not being monitored.</i></li>');
+					$('#cataloginfo ul').append('<li id="statusfalse"><i>The server for data in this catalog is not being monitored. </i><a href="'+url+'">History</a></li>');
 					return
 				}
 				
 				if (!checkstatus.servers[catalog].state) {
 					$('#cataloginfo ul #statustrue').remove()
 					if ($('#cataloginfo ul #statusfalse').length == 0) {
-						$('#cataloginfo ul').append('<li id="statusfalse"><span style="background-color:yellow">'+checkstatus.servers[catalog].message+'</span></li>');
+						$('#cataloginfo ul').append('<li id="statusfalse"><span style="background-color:yellow">'+checkstatus.servers[catalog].message+' </span><a href="'+url+'">History</a></li>');
 					}
 				} else {
 					var delta = (new Date).getTime()-checkstatus.servers[catalog].lastcheck;
 					$('#cataloginfo ul #statusfalse').remove()
 					 var title = 'Last check '+Math.round(delta/1000)+' seconds ago.  Check interval is '+checkstatus.servers[catalog].checkperiod/1000+' seconds.'
 					if ($('#cataloginfo ul #statustrue').length == 0) {
-						var url = "?dd=" + encodeURIComponent("uri="+location.origin+location.pathname+"log/servers/"+catalog+
-							"/$Y-$m-$d.txt&start=-P10D&stop=P0D&columns=2,3")
-							+ "&dataset=1&parameters=col2&start=-P10D&stop=P0D"
 
 						$('#cataloginfo ul').append('<li id="statustrue"><span title="'+title+'"">'+catalog+' server working. <a href="'+url+'">History</a></li>');
 					} else {
@@ -84,7 +85,13 @@
 					success: function (data,textStatus, jqXHR) {
 						console.log(data)
 
-						if (Object.keys(data).length == 0) return
+						if (!data.deps["active"]) {
+							$("#warning").text("Note that server dependencies are not enabled.  Requests for plots and data will not work.")
+							return
+						} else {
+							delete data.deps["active"]
+							$("#warning").text("")
+						}
 							
 						checkstatus.servers = data.servers
 						checkstatus.deps = data.deps
@@ -323,6 +330,7 @@
 					$('#formatinfoscript').hide();
 					$('#formatinfoimage').hide();
 					$('#styleinfoimage').hide();
+					$('#styleinfodata').hide();
 					$('#scriptdiv').hide();
 					$('#datadiv').hide();
 					$('#imagediv').hide();
@@ -341,6 +349,7 @@
 					$('#formatinfoscript').hide();
 					$('#formatinfoimage').hide();
 					$('#styleinfoimage').hide();
+					$('#styleinfodata').hide();
 					$('#scriptdiv').hide();
 					$('#datadiv').hide();
 					$('#imagediv').hide();
@@ -358,6 +367,7 @@
 					$('#formatinfoscript').hide();
 					$('#formatinfoimage').hide();
 					$('#styleinfoimage').hide();
+					$('#styleinfodata').hide();
 					$('#scriptdiv').hide();
 					$('#datadiv').hide();
 					$('#imagediv').hide();
@@ -375,6 +385,7 @@
 					$('#formatinfoscript').hide();
 					$('#formatinfoimage').hide();
 					$('#styleinfoimage').hide();
+					$('#styleinfodata').hide();
 					$('#scriptdiv').hide();
 					$('#datadiv').hide();
 					$('#imagediv').hide();
@@ -388,6 +399,7 @@
 				}
 				if (selected === "format") {
 					$('#styleinfoimage').hide();
+					$('#styleinfodata').hide();
 					$('#imagediv').hide();
 					$('#imagediv #image').attr("src","");
 					$('#imagediv a').attr("src","");
@@ -682,7 +694,7 @@
 					hidedivs("return");
 					$('#formatinfo'+selected('return')).show();
 				}				
-				values = [
+				var values = [
 							{label:"Data", value:"data"},
 							{label:"Image", value:"image"},
 							{label:"Script", value:"script"}
@@ -696,6 +708,7 @@
 					if (!selected("return").match("image")) {
 						$("#typeinfoimage").hide();
 						$("#"+selected("return")+"div").show();
+						$("#typeinfodata").show();
 						dorequest();
 					} else {
 						$("#typeinfoimage").show();
@@ -703,14 +716,14 @@
 					hidedivs("format");
 				}
 				if (selected("return").match("data")) {
-					values = [
-								{label:"Data (native)", value:"0"},
-								{label:"Data (iso)",value:"1"},
-								{label:"Data (yyyy mm dd hh mm ss)",value:"2"}
+					var values = [
+								{label:"Data (native)", value:"ascii-0"},
+								{label:"Data (iso)",value:"ascii-1"},
+								{label:"Data (yyyy mm dd hh mm ss)",value:"ascii-2"}
 							];
 				}
 				if (selected("return").match("image")) {
-					values = [
+					var values = [
 								{label:"PNG",value:"png"},
 								{label:"PDF",value:"pdf"},
 								{label:"SVG",value:"svg"},
@@ -719,7 +732,7 @@
 							];					
 				}
 				if (selected("return").match("script")) {
-					values = [
+					var values = [
 								{label:"IDL (script)",value:"idl"},
 								{label:"MATLAB (script)",value:"matlab"}
 							];
@@ -735,6 +748,11 @@
 					} else {
 						$("#styleinfoimage").show();
 					}
+					if (!selected("return").match("data")) {
+						$("#styleinfodata").hide();						
+					} else {
+						$("#styleinfodata").show();
+					}
 					hidedivs("type");
 				}
 				type.show = function () {
@@ -746,7 +764,7 @@
 						return false;
 					}
 				}
-				values = [
+				var values = [
 							{label:"Time Series", value:"timeseries", selected:"true"},
 							{label:"Autocorrelation", value:"autocorrelation"},
 							{label:"Histogram", value:"histogram"},
@@ -759,7 +777,6 @@
 			function style(i) {
 				style.onselect = function () {
 					dorequest();
-					//$("#"+selected("return")+"div").show();
 				}
 				style.show = function () {
 					if (selected("return") === "image") {
@@ -768,11 +785,19 @@
 						return false;
 					}
 				}
-				values = [
-							{label:"None/Black/Blue", value:"0", selected:true},
-							{label:"Black/Yellow/Yellow", value:"1"},
-							{label:"Sparkline", value:"2"}
-						];
+				if (selected("return") === "image") {
+					var values = [
+								{label:"None/Black/Blue", value:"0", selected:true},
+								{label:"Black/Yellow/Yellow", value:"1"},
+								{label:"Sparkline", value:"2"}
+							];
+				}
+				if (selected("return") === "data") {
+					var values = [
+								{label:"noheader", value:"noheader", selected:true},
+								{label:"header", value:"header"}
+							];				
+				}
 				return values;
 			}
 
@@ -829,7 +854,7 @@
 					$("#debugframe").attr("src",url);
 				} else {
 					url = TSDSFE+url;
-					if (selected('format') !== "0") { 
+					if (selected('format') !== "ascii-1") { 
 						url = url + "&format="+selected('format');
 					}
 					if (!$("#usedatacache").is(":checked")) {
@@ -914,7 +939,7 @@
 						var STOP_dateISO  = START_date.toISOString().replace(/T.*/,"");
 
 						 ploturl = "?catalog="+selected('catalog')+"&dataset="+selected('dataset')+"&parameters="+selected('parameters')+"&start="+START_dateISO+"&stop="+STOP_dateISO+"&return=image";
-						 dataurl = TSDSFE + "scripts/tsdsfe.jyds?server="+TSDSFE+"&catalog="+selected('catalog')+"&dataset="+selected('dataset')+"&parameters="+selected('parameters')+"&timerange="+START_dateISO+"&format=1";
+						 dataurl = TSDSFE + "scripts/tsdsfe.jyds?server="+TSDSFE+"&catalog="+selected('catalog')+"&dataset="+selected('dataset')+"&parameters="+selected('parameters')+"&timerange="+START_dateISO;
 
 
 						 if (!$("#usedatacache").is(":checked")) {
@@ -1043,6 +1068,11 @@
 				<span id="status" style="background-color:yellow;text-align:center"></span>
 			</font>
 		</div>
+		<div style="text-align:left;top:0;left:14em;">
+			<font size="-1">
+				<span id="warning" style="background-color:lightgray;text-align:center"></span>
+			</font>
+		</div>
 
 		<div id="overviewdiv" style="margin-left:14em;margin-top:0em">
 			<p>
@@ -1078,9 +1108,16 @@
 			<div id="styleinfoimage" style="display:none;width:95%">
 				<b>Style options</b> (Background/Text/Symbol):
 				<ul>
-					<li>0 - None/Black/Blue (default)</li>
-					<li>1 - Black/Yellow/Yellow</li>
-					<li>2 - Spark Line</li>
+					<li>0: None/Black/Blue (default)</li>
+					<li>1: Black/Yellow/Yellow</li>
+					<li>2: Spark Line</li>
+				</ul>
+			</div>			
+			<div id="styleinfodata" style="display:none;width:95%">
+				<b>Style options</b>:
+				<ul>
+					<li>noheader (default)</li>
+					<li>header</li>
 				</ul>
 			</div>			
 			<div id="typeinfoimage" style="display:none;width:95%">
@@ -1096,19 +1133,19 @@
 			<div id="formatinfodata" style="display:none;width:95%">
 				<b>Format options:</b>
 				<ul>
-					<li>0: Native (if original was ASCII, otherwise same as option 1)</li>
-					<li>1: Space-separated values with <a href="http://www.w3.org/TR/NOTE-datetime">ISO8601</a> timestamps (e.g., <code>2000&#8209;01&#8209;01T00:00:00.0&nbsp;1.1&nbsp;9.0)</code></li>
-					<li>2: Space-separated values with Year Month Day Hour Minute Seconds timestamps</li>
+					<li>ascii-0: Native (if original was ASCII, otherwise same as option 1)</li>
+					<li>ascii-1: (default) Space-separated values with <a href="http://www.w3.org/TR/NOTE-datetime">ISO8601</a> timestamps (e.g., <code>2000&#8209;01&#8209;01T00:00:00.0&nbsp;1.1&nbsp;9.0)</code></li>
+					<li>ascii-2: Space-separated values with Year Month Day Hour Minute Seconds timestamps</li>
 				</ul>
 			</div>			
 			<div id="formatinfoimage" style="display:none;width:95%">
 				<b>Format options:</b>
 				<ul>
-					<li>PNG - A PNG image with data over selected time range</li>
-					<li>PDF - A PDF file with data over selected time range</li>
-					<li>SVG - A SVG file with data over selected time range</li>
-					<li>JNLP - A JNLP file that downloads and installs Autoplot with data in selected time range.</li>
-					<li>Gallery - A gallery of PNG images of data over selected time range (one day of data per image)</li>
+					<li>PNG: A PNG image with data over selected time range</li>
+					<li>PDF: A PDF file with data over selected time range</li>
+					<li>SVG: A SVG file with data over selected time range</li>
+					<li>JNLP: A JNLP file that downloads and installs Autoplot with data in selected time range.</li>
+					<li>Gallery: A gallery of PNG images of data over selected time range (one day of data per image)</li>
 				</ul>
 			</div>			
 			<div id="formatinfoscript" style="display:none;width:95%">
