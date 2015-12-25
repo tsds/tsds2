@@ -15,13 +15,17 @@ var expand  = require("tsdset").expandtemplate;
 http.globalAgent.maxSockets = 50;
 var options = {pool: {maxSockets: 50}};
 
-var now  = new Date();
-var stop = now.toISOString().substring(0,10);
+var now   = new Date();
+var stop  = now.toISOString().substring(0,10);
+var start = "1980-01-01"
+
+//var start = "2014-12-30"
+//var stop  = "2015-01-02"
 
 // TODO: start time should be determined automatically.
 topts = {
 	type       : "strftime",
-	timeRange  : "1980-01-01/"+stop,
+	timeRange  : start+"/"+stop,
 	indexRange : null, 
 	debug      : false, 
 	template   : "http://supermag.jhuapl.edu/archive/cat/$Y/$Y$m$d.xml"
@@ -41,8 +45,8 @@ function getdata() {
 	for (var i = 0;i<urls.length;i++) {
 		// Request each URL and call urldone() when complete.
 		request(urls[i], function(error, response, body) {
-			if (!error || request.statusCode == 200) {
-				console.log("Downloaded "+response.request.uri.href);
+			if (!error && response.statusCode == 200) {
+				//console.log("Downloaded "+response.request.uri.href);
 				urldone(body,response.request.uri.href);
 			} else {
 				console.log("Problem downloading "+response.request.uri.href);
@@ -141,17 +145,23 @@ function createcatalog() {
 
 // Called each time a request has completed.  When all requests complete, write SuperMAG.raw,
 // which contains JSON represenation of each xml file downloaded.
-function urldone(data,url) {
 
-	// OUT is an object with keys of date and values of an array of stations available on that date.
-	var OUT = {};
+// OUT is an object with keys of date and values of an array of stations available on that date.
+var OUT = {};
+
+function urldone(data, url) {
+
 	
 	if (!urldone.N) urldone.N = 0;
 	urldone.N = urldone.N + 1;
-	
 
+	var id = url.replace(/.*\/([0-9]{8})\.xml/,"$1");
+	
 	if (data.length == 0) {
 		OUT[id] = [];
+		if (urldone.N == urls.length) {
+			finish()
+		}		
 		return;
 	}
 	
@@ -162,18 +172,17 @@ function urldone(data,url) {
 			OUT[id] = [];
 			return;			
 		}
-		console.log("Parsed "+url)
-		var id = url.replace(/.*\/([0-9]{8})\.xml/,"$1");
-		//console.log(id)
+		console.log("Downloaded and parsed "+url)
 		OUT[id] = result.cat.st;
 		if (urldone.N == urls.length) {
-			//console.log(OUT);
-			// When all requests are complete, write file containing OUT and call createcatalog() to 
-			// convert OUT to various forms of catalogs.
-			console.log("Writing SuperMAG.raw");
-			fs.writeFileSync("SuperMAG.raw",JSON.stringify(OUT));
-			createcatalog();
+			finish()
 		}		
-
 	})
+	function finish() {
+		// When all requests are complete, write file containing OUT and call createcatalog() to 
+		// convert OUT to various forms of catalogs.
+		console.log("Writing SuperMAG.raw");
+		fs.writeFileSync("SuperMAG.raw",JSON.stringify(OUT));
+		createcatalog();
+	}
 }

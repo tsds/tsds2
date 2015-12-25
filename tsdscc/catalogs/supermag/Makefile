@@ -10,5 +10,6 @@ SuperMAG.xml: SuperMAG.js
 
 clean:
 	- mv SuperMAG-tsds.xml archive/SuperMAG-tsds-`/bin/date +\%Y\%m\%d`.xml
+	- rm SuperMAG-tsds.json
 	- rm SuperMAG-tsds.xml
 	- rm SuperMAG.raw
