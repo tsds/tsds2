@@ -1,4 +1,3 @@
-var os      = require("os");
 var tests = [];
 i = 0;
 

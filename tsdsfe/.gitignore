@@ -4,7 +4,7 @@ test/output/out*
 deps/bin/
 deps/pngquant/
 cache/
-catalogs/dd
+catalogs/dd/
 .settings/
 log/
 js/autoplotserverfonts.json

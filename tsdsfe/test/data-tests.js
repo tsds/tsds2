@@ -41,6 +41,15 @@ tests[i].test = function (data) {
 
 i = i+1;
 tests[i] = {};
+tests[i].url = "catalog=SSCWeb&dataset=ace&parameters=X_TOD&start=2014-07-10;2014-08-10&stop=2014-07-11;2014-08-11";
+tests[i].test = function (data) {
+	var len = data.toString().split("\n").length;
+	console.log("File should have 241 newlines.  Found: " + len );
+	if (len == 241) {return true;} else {return false}
+};
+
+i = i+1;
+tests[i] = {};
 tests[i].url = "catalog=SuperMAG/PT1M&dataset=BLC&parameters=B_N&start=-P3D&stop=1990-01-10";
 tests[i].test = function (data) {
 	var len = data.toString().split("\n").length;

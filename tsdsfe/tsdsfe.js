@@ -11,14 +11,6 @@ var url     = require('url')
 var util    = require('util')
 var crypto  = require("crypto")
 var clc     = require('cli-color')
-
-var deps = require('./deps.js')
-
-// Helper functions
-function s2b(str) {if (str === "true") {return true} else {return false}}
-function s2i(str) {return parseInt(str)}
-function ds() {return (new Date()).toISOString() + " [tsdsfe] "}
-
 var argv    = require('yargs')
 				.default
 				({
@@ -31,9 +23,17 @@ var argv    = require('yargs')
 				})
 				.argv
 
+var deps = require('./deps.js')
+
+// Helper functions
+function s2b(str) {if (str === "true") {return true} else {return false}}
+function s2i(str) {return parseInt(str)}
+function ds() {return (new Date()).toISOString() + " [tsdsfe] "}
+
 var debugs = 'all,app,stream'
 if (argv.help || argv.h) {
-	console.log("Usage: node tsdsfe.js [--port PORT"
+	console.log("Usage: node tsdsfe.js"
+					+ " [--port PORT"
 					+ " --debugto{file,console} {"+debugs+"}"
 					+ " --check{servers,deps} true|false"
 					+ " --startdeps true|false]"
@@ -57,13 +57,14 @@ for (var i = 0; i < tmpa.length; i++) {
 	if (tmpa[i] !== "") debug["tofile"][tmpa[i]] = true
 }
 // torf = true or false.  Place in object so we don't need to
-// count keys each time logger.  If false, no logging is needed.
+// iterate over keys each time in log functions.
+// If false, no logging is needed.
 debug["tofile"]["torf"] = false
 if (Object.keys(debug["tofile"]).length > 1) {
 	debug["tofile"]["torf"] = true
 }
 
-debug["toconsole"] = {};
+debug["toconsole"] = {}
 var tmpb = argv.debugtoconsole.split(",")
 for (var i = 0; i < tmpb.length; i++) {
 	if (tmpb[i] !== "") debug["toconsole"][tmpb[i]] = true
@@ -72,40 +73,36 @@ if (Object.keys(debug["toconsole"]).length > 1) {
 	debug["toconsole"]["torf"] = true
 }
 
-//http://stackoverflow.com/questions/9768444/possible-eventemitter-memory-leak-detected
+// http://stackoverflow.com/questions/9768444/possible-eventemitter-memory-leak-detected
 process.setMaxListeners(0)
 server.setMaxListeners(0)
 
-if (fs.existsSync("../../datacache/log.js")) {
-	// Development
+var path = "datacache/log.js"
+if (fs.existsSync("../../" + path)) {
+	// Development.  Assumes datacache repo checked out in same dir as tsds2.
 	var develdatacache = true
-	var log = require("../../datacache/log.js")
+	var log = require("../../" + path)
 } else {
 	// Production
 	var develdatacache = false
-	var log = require("./node_modules/datacache/log.js")
+	var log = require("./node_modules/" + path)
 }
 
 if (fs.existsSync("../../viviz")) {
-	// Development
-	var develviviz = true
+	var develviviz = true 	// Development
 } else {
-	// Production
-	var develviviz = false
+	var develviviz = false	// Production
 }
 
-if (fs.existsSync("../../tsdset/lib/expandtemplate.js")) {
+path = "tsdset/lib/expandtemplate.js"
+if (fs.existsSync("../../" + path)) {
 	// Development
 	var develtsdset = true
-	var expandISO8601Duration = 
-			require("../../tsdset/lib/expandtemplate.js")
-			.expandISO8601Duration
+	var expandISO8601Duration = require("../../" + path).expandISO8601Duration
 } else {
 	// Production
 	var develtsdset = false
-	var expandISO8601Duration = 
-			require("./node_modules/tsdset/lib/expandtemplate")
-			.expandISO8601Duration
+	var expandISO8601Duration = require("./node_modules/"+path).expandISO8601Duration
 }
 
 process.on('uncaughtException', function(err) {
@@ -114,43 +111,38 @@ process.on('uncaughtException', function(err) {
 	} else {
 		console.log(err.stack)
 	}
-	var tmps = ds();
-	fs.appendFileSync('tsds-error-'+tmps.split(" ")[0]+".log", err)
+	var tmps = ds().split(" ")[0]
+	fs.appendFileSync('tsds-error-' + tmps + ".log", err)
 	process.exit(1)
 })
 
-process.on('SIGINT', function () {
-	process.exit()
-})
+process.on('SIGINT', function () { process.exit() })
 
 process.on('exit', function () {
 	console.log("\n" + ds() + "Received exit signal.")
-	console.log(ds() + clc.red("(NOT IMPLEMENTED) Removing partially written files."))
+	console.log(ds() + clc.red("(NOT IMPLEMENTED)") 
+					 + " Removing partially written files.")
 
 	if (deps.startdeps.datacache) {
 		console.log(ds() + "Stopping datacache server.")
 		deps.startdeps.datacache.kill('SIGINT')
 	}
-
 	if (deps.startdeps.viviz) {
 		console.log(ds() + "Stopping viviz server.")
 		deps.startdeps.viviz.kill('SIGINT')
 	}
-
 	if (deps.startdeps.autoplot) {
 		console.log(ds() + "Stopping autoplot server.")
 		deps.startdeps.autoplot.kill('SIGINT')
 	}
-	
 	console.log(ds() + "Exiting.")
 })
 
 // Read configuration file in conf/ directory.
 if (fs.existsSync(__dirname + "/conf/config." + os.hostname() + ".js")) {
 	// Look for host-specific config file conf/config.hostname.js.
-	console.log(ds() 
-					+ "Using configuration file conf/config."
-					+ os.hostname() + ".js")
+	console.log(ds() + "Using configuration file conf/config."
+					 + os.hostname() + ".js")
 	var tmpfname = __dirname + "/conf/config." + os.hostname() + ".js"
 	var config = require(tmpfname).config()
 	config.CONFIGFILE = tmpfname
@@ -172,13 +164,13 @@ if (argv.port) {
 // Previously it was 5.  Apache uses 100.
 http.globalAgent.maxSockets = config.maxSockets
 
-// Serve files in these directories as static files and allow
-// directory listings.
+// Serve files in these directories as static files and allow dir listings.
 var dirs = ["js","css","scripts","catalogs","log","test/data"]
 for (var i in dirs) {
 	app.use("/" + dirs[i], express.static(__dirname + "/" + dirs[i]))
 	app.use("/" + dirs[i], express.directory(__dirname + "/" + dirs[i]))
 }
+
 // Compress response (depending on request headers).
 app.use(express.compress())
 
@@ -212,7 +204,7 @@ app.get('/test', function (req, res) {
 	var com = __dirname + '/test/curl-test.sh "' 
 				+ config.TSDSFE + req.originalUrl.replace("/test/","") + '"'
 
-	var addr  = req.headers['x-forwarded-for'] || req.connection.remoteAddress
+	var addr = req.headers['x-forwarded-for'] || req.connection.remoteAddress
 	console.log(ds() + "Request from " + addr + " for " + req.originalUrl)
 	console.log(ds() + "Evaluating " + com.replace(__dirname,""))
 
@@ -302,7 +294,8 @@ if (fs.existsSync(config.PNGQUANT)) {
 	pngquant_exists = true
 }
 if (!pngquant_exists) {
-	console.log(ds() + "Note: " 
+	console.log(ds() 
+		+ "Note: " 
 		+ clc.blue(config.PNGQUANT.replace(__dirname+"/","") 
 		+ " not found.  Image file size will not be reduced."))
 }
@@ -320,18 +313,20 @@ if (!convert_exists) {
 	var result = ""
 	try {
 		var execSync = require('child_process').execSync;
-		var result = execSync('which convert').toString().replace(/\n/,"");
-		console.log(ds() + "Note: " 
+		var result = execSync('which convert').toString().replace(/\n/,"")
+		console.log(ds() 
+				+ "Note: " 
 				+ clc.blue(config.CONVERT 
 				+ " specified in "
 				+ config.CONFIGFILE.replace(__dirname+"/","")
 				+ " not found. Using found "
 				+ result))
 		convert_exists = true
-		config.CONVERT = result;
+		config.CONVERT = result
 	} catch (e) {}
 	if (!convert_exists) {
-		console.log(ds() + "Note: " 
+		console.log(ds() 
+				+ "Note: " 
 				+ clc.blue(config.CONVERT 
 				+ " not found and 'which convert'"
 				+ " did not return path. Canvas size"
@@ -342,7 +337,7 @@ if (!convert_exists) {
 // Initialize logging.
 config = log.init(config)
 
-var msg = "";
+var msg = ""
 if (develdatacache || develtsdset || develviviz) {
 	msg = "Using devel version of:"
 }
@@ -372,45 +367,66 @@ if (argv.startdeps) {
 	console.log(ds() + "Note: " + clc.blue("Dependencies will not be started."))
 }
 
-
 // Start the server.  TODO: Wait until deps are ready.
 server.listen(port)
 
 console.log(ds() + "Listening on port " + port + ". See " + config.TSDSFE)
 
-function handleRequest(req, res) {
+function handleRequest(req, res, options) {
 
 	//res.header('Access-Control-Allow-Origin', '*');
 	//res.header('Access-Control-Allow-Methods', 'GET,POST');
 	//res.header('Access-Control-Allow-Headers', 'Content-Type');
 
-	var options = parseOptions(req, res)
+	if (!options) {
+		var options = parseOptions(req, res)
+	}
 
-	res.options = JSON.parse(JSON.stringify(options))
+	if (options.dd !== "") {
+		var expandDD = require('./js/expandDD.js').expandDD
+		log.logres("Input is dd: " + options.dd, options, "app")
+		expandDD(decodeURIComponent(options.dd), function (err, cat) {
+			var ddfile = crypto.createHash("md5").update(decodeURIComponent(options.dd)).digest("hex")
+			log.logres("Writing " + "catalogs/dd/" + ddfile, options, "app")
+			fs.writeFile("catalogs/dd/" + ddfile, JSON.stringify(cat), function () {
+				options.catalog = ddfile;
+				options.all = "-";
+				options.dd = "";
+				options.usemetadatacache = "true";
+				log.logres("Calling handleRequest()", options, "app")
+				handleRequest(req, res, options);
+			})
+		})
+		return;
+	}
 
-	log.logapp(options.ip + " " + req.originalUrl, config)
+	res.opts = JSON.parse(JSON.stringify(options))
+
+	log.logapp(res.opts.ip + " " + req.originalUrl, config)
 
 	// Set log file name as response header
-	res.header('x-tsdsfe-log', options.logsig)
+	res.header('x-tsdsfe-log', res.opts.logsig)
 
-	log.logres("Configuration file = "+JSON.stringify(config.CONFIGFILE), res.options)
-	log.logres("req.headers = "+JSON.stringify(req.headers), res.options)
-	log.logres("req.headers['x-forwarded-for'] = " + JSON.stringify(req.headers['x-forwarded-for']), res.options)
-	log.logres("req.connection.remoteAddress = " + JSON.stringify(req.connection.remoteAddress), res.options)
-	log.logres("req.originalUrl = " + JSON.stringify(req.originalUrl), res.options)
-	log.logres("options = " + JSON.stringify(options), res.options)
+	log.logres("Configuration file = " 
+				+ JSON.stringify(config.CONFIGFILE), res.opts)
+	log.logres("req.headers = "
+				+ JSON.stringify(req.headers), res.opts)
+	log.logres("req.headers['x-forwarded-for'] = " 
+				+ JSON.stringify(req.headers['x-forwarded-for']), res.opts)
+	log.logres("req.connection.remoteAddress = " 
+				+ JSON.stringify(req.connection.remoteAddress), res.opts)
+	log.logres("req.originalUrl = " 
+				+ JSON.stringify(req.originalUrl), res.opts)
+	log.logres("options = " + JSON.stringify(options), res.opts)
 
-	options.res = res
-	options.req = req
-
-	if (typeof(options) === "undefined") {
+	if (typeof(res.opts) === "undefined") {
 		// TODO: Implement this.
-		log.logres("Error parsing options.  Sent 502.", res.options)
+		log.logres("Error parsing options.  Sent 502.", res.opts)
 		return
 	}
 
-	if (options.return === "log") {
-		console.log(options)
+	if (res.opts.return === "log") {
+		console.log(res.opts)
 		// hash of 127.0.0.1 = f528764d
 		var excludeIPs = "f528764d"
 		// Get directory listing and start streaming lines in files
@@ -424,19 +440,20 @@ function handleRequest(req, res) {
 			+ " | cut -f1,3,4 -d,";
 		var child = require('child_process').exec(com)
 		console.log(com)
-		log.logres("Sending output of shell command: "+com, res.options)
+		log.logres("Sending output of shell command: "+com, res.opts)
 		child.stdout.on('data', function (buffer) {
 			res.write(buffer.toString())
 		})
 		child.stdout.on('end', function() { 
 			log.logres("Finished sending output of shell command."
-						+ " Sending res.end().", res.options)
+						+ " Sending res.end().", res.opts)
 			res.end()
 		})
 		return
 	}
 	
-	// Metadata and images responses are cached as files with filename based on MD5 hash of request.
+	// Metadata and images responses are cached as files with filename
+	// based on MD5 hash of request.
 	// TODO: Sort URL so a=b&c=d and c=d&a=b are treated as equivalent.
 	// TODO: Create lock file while json cache file is being written.
 
@@ -451,31 +468,28 @@ function handleRequest(req, res) {
 		}
 	}
 	var urlreduced = urlr.join("&")
-	//console.log("URL Original     : " + req.originalUrl)
-	//console.log("URL for signature: " + urlreduced)
-
-	var urlsig = crypto.createHash("md5").update(urlreduced).digest("hex")	
+	var urlsig     = crypto.createHash("md5").update(urlreduced).digest("hex")	
 
 	// JSON cache filename
-	var cfile  = config.CACHEDIR + urlsig + ".json"
+	var cfile = config.CACHEDIR + urlsig + ".json"
 
 	// Base image
 	var ifile = config.CACHEDIR + urlsig 
-				+ "." + options.image.width
-				+ "x" + options.image.height
-				+ "." + options.format
+				+ "." + res.opts.image.width
+				+ "x" + res.opts.image.height
+				+ "." + res.opts.format
 
 	// Returned image.  If sizes differ, returned image will be a converted
 	// version of base image.  (To address issue that for small canvas sizes,
  	// Autoplot produces images with text that takes up most of the canvas.)
 	var ifiler = config.CACHEDIR + urlsig 
-				+ "." + options.image.widthr
-				+ "x" + options.image.heightr
-				+ "." + options.format
+				+ "." + res.opts.image.widthr
+				+ "x" + res.opts.image.heightr
+				+ "." + res.opts.format
 
-	if ((options.format === "png") 
-			|| (options.format === "pdf") 
-			|| (options.format === "svg")) {
+	if ((res.opts.format === "png") 
+		|| (res.opts.format === "pdf") 
+		|| (res.opts.format === "svg")) {
 		var isimagereq = true
 	} else {
 		var isimagereq = false
@@ -484,52 +498,54 @@ function handleRequest(req, res) {
 	// TODO: Skip below if return=data because no cache will exist if one
 	// of format={0,1,2} is selected. (Data are not cached by TSDSFE.)
 	if (!isimagereq) {
-		if (options.usemetadatacache) {
+		if (res.opts.usemetadatacache) {
 			if (fs.existsSync(cfile)) {
-				log.logres("Metadata response cache found for originalUrl = " + urlreduced, res.options)
-				log.logres("Using response cache file because usemetadatacache = true.", res.options)
+				log.logres("Metadata response cache found for originalUrl = " + urlreduced, res.opts)
+				log.logres("Using response cache file because usemetadatacache = true.", res.opts)
 				// Send the cached response and finish
 				fs.createReadStream(cfile).pipe(res)
 				return					
 			} else {
-				log.logres("Metadata response cache not found for originalUrl = " + urlreduced, res.options)
+				log.logres("Metadata response cache not found for originalUrl = " + urlreduced, res.opts)
 			}
 		} else {
-			log.logres("Not looking for response cache file because usemetadatacache = false.", res.options)
+			log.logres("Not looking for response cache file because usemetadatacache = false.", res.opts)
 		}
 	} else {
 		if (fs.existsSync(ifiler)) {
-			log.logres("Image response cache found for originalUrl = " + req.originalUrl, res.options)
+			log.logres("Image response cache found for originalUrl = " + req.originalUrl, res.opts)
 		} else {
-			log.logres("Image response cache not found for originalUrl = " + req.originalUrl, res.options)
+			log.logres("Image response cache not found for originalUrl = " + req.originalUrl, res.opts)
 		}
-		if (options.useimagecache) {
+		if (res.opts.useimagecache) {
 		  	if (fs.existsSync(ifiler) && !fs.existsSync(ifiler + ".writing")) {
-				log.logres("Using response cache file.", res.options)
+				log.logres("Using response cache file.", res.opts)
 				log.logres("Writing (sync) " + ifiler.replace(__dirname,"")
-								+ ".streaming", res.options)
+								+ ".streaming", res.opts)
 
 				// Write lock file
 				fs.writeFileSync(ifiler + ".streaming","")
 
-				log.logres("Streaming " + ifiler, res.options)
+				log.logres("Streaming " + ifiler, res.opts)
 
 				// Send the cached response and return		
 				var stream = fs.createReadStream(ifiler)
 				stream
 					.on('error', function () {
-						log.logres("Error when attempting to stream cached image.", res.options)
-						log.logres("Removing (sync) " + ifiler.replace(__dirname,"")+ ".streaming", res.options)
+						log.logres("Error when attempting to stream cached image.", res.opts)
+						log.logres("Removing (sync) " 
+							+ ifiler.replace(__dirname + "/","")
+							+ ".streaming", res.opts)
 						fs.unlinkSync(ifiler + ".streaming")
 					})
 					.on('close', function () {
-						log.logres("Stream close event.", res.options)
+						log.logres("Stream close event.", res.opts)
 					})
 					.on('end', function () {
-						log.logres("Stream end event.", res.options)
+						log.logres("Stream end event.", res.opts)
 						log.logres("Removing (sync) " 
-							+ ifiler.replace(__dirname,"")
-							+ ".streaming", res.options)
+							+ ifiler.replace(__dirname + "/","")
+							+ ".streaming", res.opts)
 						fs.unlinkSync(ifiler + ".streaming")
 					})
 				stream.pipe(res)
@@ -538,34 +554,37 @@ function handleRequest(req, res) {
 		} else {
 			log.logres("Not using image response cache file if"
 						+ " found because useimagecache = false.", 
-						res.options)
+						res.opts)
 		}
 	}
 
 	// Catch case where ?catalog=CATALOG&return={tsds,autoplot-bookmarks,spase}
-	if ( options.return === "autoplot-bookmarks" || options.return === "tsds" ) {
+	if ( res.opts.return === "autoplot-bookmarks" || res.opts.return === "tsds" ) {
 
-		log.logres("Request is for " + options.return, res.options)
+		log.logres("Request is for " + options.return, res.opts)
 
-		if (options.format === "json") {
+		if (res.opts.format === "json") {
 			res.setHeader("Content-Type", "application/json")
 		} else {
 			res.setHeader("Content-Type", "text/xml")
-			options.format = "xml"
+			res.opts.format = "xml"
 		}
 
-		if (options.all === "-") {
+		if (res.opts.all === "-") {
 			finish(config["TSDSFE"] + "catalogs/dd/" + options.catalog)
 		} else {
 			// Get list of all catalogs and their URLs
-			url = config["TSDSFE"] + "?catalog=^.*" + "&usemetadatacache="+options.usemetadatacache
-			log.logres("Requesting "+url, res.options)
+			url = config["TSDSFE"] 
+					+ "?catalog=^.*" 
+					+ "&usemetadatacache="
+					+ res.opts.usemetadatacache
+			log.logres("Requesting "+url, res.opts)
 			request(url, function (err,catres,catbody) {
 				catalogjson = JSON.parse(catbody);
 				// Iterate through list of catalogs and find one that matches
 				// requested catalog.
-				for (var i = 0;i < catalogjson.length;i++) {
-					if (catalogjson[i].label.match(options.catalog)) {
+				for (var i = 0;i < catalogjson.length; i++) {
+					if (catalogjson[i].label.match(res.opts.catalog)) {
 						url = catalogjson[i].href;
 						break
 					}
@@ -576,13 +595,13 @@ function handleRequest(req, res) {
 
 		function finish(url) {
 
-			log.logres("Calling getandparse() with URL " + url, res.options)
+			log.logres("Calling getandparse() with URL " + url, res.opts)
 
 			// Request the matched catalog and parse it.
-			if (options.return === "tsds") {
-				getandparse(url,options,res,function (ret) {
-					if (options.format === "xml") {
-						log.logres("Sending TSDS XML.", res.options)
+			if (res.opts.return === "tsds") {
+				getandparse(url, res, function (ret) {
+					if (res.opts.format === "xml") {
+						log.logres("Sending TSDS XML.", res.opts)
 						res.write(ret.toString())
 						res.end()					
 					} else {
@@ -594,30 +613,35 @@ function handleRequest(req, res) {
 			}
 
 			if (options.return === "autoplot-bookmarks") {
-				var format = options.format
-				// This causes getandparse to return TSDS JSON, which tsds2bookmarks requires.
-				options.format = "json"
-				log.logres("Calling getandparse() with URL " + url, res.options)
-				getandparse(url,options,res,function (ret) {
-					options.format = format
+				var format = res.opts.format
+				// This causes getandparse to return TSDS JSON, which
+				// tsds2bookmarks requires.
+				res.opts.format = "json"
+				
+				log.logres("Calling getandparse() with URL " + url, res.opts)
+				getandparse(url, res, function (ret) {
+
+					res.opts.format = format
 					var tsds2other = require(__dirname + "/js/tsds2other.js").tsds2other
 
-					log.logres("Converting TSDS XML catalog to Autoplot bookmark XML.", res.options)
+					log.logres("Converting TSDS XML catalog to Autoplot bookmark XML.", res.opts)
 
 					// Filename signature is based on input + transformation code.
-					var retsig  = crypto.createHash("md5").update(JSON.stringify(ret)+tsds2other.toString()).digest("hex")
+					var retsig  = crypto.createHash("md5")
+										.update(JSON.stringify(ret) 
+								+ tsds2other.toString()).digest("hex")
 					var retfile = config.CACHEDIR + retsig + ".xml"
 
 					if (fs.existsSync(retfile)) {
-						log.logres("Cache of autoplot-bookmarks file found for input "+url, res.options)
+						log.logres("Cache of autoplot-bookmarks file found for input " + url, res.opts)
 						ret = fs.readFileSync(retfile)
 						finish(ret)
 					} else {
-						log.logres("No cache of autoplot-bookmarks file found for input = "+url, res.options)
+						log.logres("No cache of autoplot-bookmarks file found for input = " + url, res.opts)
 						tsds2other(ret, "autoplot-bookmarks", function (ret) {
 							finish(ret)
-							log.logres("Writing cache file for autoplot-bookmarks for input = "+url, res.options)
-							fs.writeFileSync(retfile,ret)
+							log.logres("Writing cache file for autoplot-bookmarks for input = " + url, res.opts)
+							fs.writeFileSync(retfile, ret)
 						})	
 					}
 
@@ -636,83 +660,91 @@ function handleRequest(req, res) {
 		return
 	}
 
-	// Requests may be made that span multiple catalogs.  Separation identifier is ";".
-	// See tests.js for examples.
-	var N  = options.catalog.split(";").length;
+	// Requests may be made that span multiple catalogs.  
+	// Separation identifier is ";".  See tests for examples.
 
-	// Count of number of catalog responses already sent.  Incremented each time data is sent.
-	// TODO: Move this inside of stream() and use stream.Nc as variable.
-	var Nc = 0;
+	// If any one of these is missing a ";", first value is used.
+	var catalogs    = options.catalog.split(";")
+	var datasets    = options.dataset.split(";")
+	var parameterss = options.parameters.split(";")
+	var starts      = options.start.split(";")
+	var stops       = options.stop.split(";")
 
-	//Sending this to the browser causes only one chunk to be rendered followed by
-	//trailing garbage.
+	var N = Math.max(catalogs.length,datasets.length,parameterss.length,
+					 starts.length,stops.length)
+
+	res.N = N
+	res.Nc = 0
+	// Sending this to the browser causes only one chunk to be rendered 
+	// followed by trailing garbage.
 	//res.setHeader("Content-Type","text/plain"); 
 
 	if (N > 1) {
-
-		// If any one of these is missing a ";", first value is used.
-		var catalogs    = options.catalog.split(";")
-		var datasets    = options.dataset.split(";")
-		var parameterss = options.parameters.split(";")
-		var starts      = options.start.split(";")
-		var stops       = options.stop.split(";")
 		
-		log.logres("handleRequest(): Concatenated parameter request. N = "
-						+ N, res.options)
+		if (isimagereq) {
+			var tmpstr = "Concatenated requests for images not supported."
+			log.logres(tmpstr, res.opts)
+			res.status(502).send(tmpstr)
+		}
+
+		log.logres("Concatenated parameter request. N = " + N, res.opts)
 		
 		var Options = [];
 
-		for (var i=0;i<N;i++) {
-			Options[i]             = {};
+		for (var i = 0;i < N;i++) {
+			Options[i] = {};
 			// Clone options object.
 			for (var key in options) {
 				if ((key !== "req") || (key !== "res")) {
 					Options[i][key] = options[key]
 				}
 			}
-			Options[i].catalog     = catalogs[i] || options.catalog.split(";")[0]
-			Options[i].dataset     = datasets[i] || options.dataset.split(";")[0]
-			Options[i].parameterss = parameterss[i] || options.parameters.split(";")[0]
-			Options[i].start       = starts[i] || options.start.split(";")[0]
-			Options[i].stop        = stops[i] || options.stop.split(";")[0]
+			Options[i].catalog     = catalogs[i] || catalogs[0]
+			Options[i].dataset     = datasets[i] || datasets[0]
+			Options[i].parameters  = parameterss[i] || parameterss[0]
+			Options[i].start       = starts[i] || starts[0]
+			Options[i].stop        = stops[i]  || stops[0]
 		}
-		// If N > 1, stream will call again (catalog(Options[1], stream)) when 
-		// first data request is complete, etc.  If response if for an image, 
+		// If N > 1, stream will call catalog when first data
+		// request is complete, etc.  If response if for an image, 
 		// client will need to split it.
-		catalog(Options[0], res, stream)
+		res.opts = Options[0]
+		res.Options = Options
+		catalog(res, stream)
 		return
 	}
 
-	catalog(options, res, stream);
+	catalog(res, stream);
 
 	function stream(status, data, res) {
-		
-		log.logres("Stream called.", res.options, "stream")
 
 		// TODO: Not all stream options will work for requests that
 		// span multiple catalogs.  Document and fix.
+		
+		log.logres("Stream called.", res.opts, "stream")
 
 		if (status == 0) {
 
 			// If data was not a URL, send it.
 			if (!data.match(/^http/)) {
-				log.logres("Sending "+data, res.options, "stream")
+				log.logres("Sending " + data, res.opts, "stream")
 				res.write(data)
 				
-				Nc = Nc + 1
-				if (N > 1) res.write("\n")
-				if (Nc == N) {
+				res.Nc = res.Nc + 1
+				if (res.N > 1) res.write("\n")
+				if (res.Nc == res.N) {
 					res.end()
 				} else {
-					catalog(Options[Nc], res, stream)
+					res.opts = Options[res.Nc]
+					catalog(res, stream)
 				}
 				return
 			}
 
-			// By default, use attach = true.  If displaying stream in browser, must
-			// return un-gzipped data from DataCache.  DataCache sends concatenated gzip
-			// files, which most browsers don't handle.  Result is first file is displayed and
-			// then trailing garbage.  See
+			// By default, use attach = true.  If displaying stream in
+			// browser, must return un-gzipped data from DataCache.  DataCache
+			// sends concatenated gzip files, which most browsers don't handle.
+			// Result is first file is displayed and then trailing garbage.  See
 			// http://stackoverflow.com/questions/16740034/http-how-to-send-multiple-pre-cached-gzipped-chunks
 			if ((options.attach) && ((options.return === "data") || (options.return === "redirect"))) {
 				if (req.headers['accept-encoding']) {
@@ -728,7 +760,7 @@ function handleRequest(req, res) {
 			}
 
 			// If stream was called with a URL, pipe the data through.
-			log.logres("Streaming from " + data, res.options, "stream")
+			log.logres("Streaming from " + data, res.opts, "stream")
 
 			if (isimagereq && options.format !== "png") {
 				var ifilews  = fs.createWriteStream(ifile)
@@ -754,28 +786,33 @@ function handleRequest(req, res) {
 					var sizeo = options.image.width + "x" + options.image.height
 					var sizer = options.image.widthr + "x" + options.image.heightr
 
-					log.logres("Creating and returning smaller image based on larger image.", res.options)
-					log.logres("Base size: "+sizeo+"; Returned size: "+sizer, res.options)
+					log.logres("Creating and returning smaller image based"
+							   + " on larger image.", res.opts)
+					log.logres("Base size: "+sizeo+"; Returned size: "
+								+ sizer, res.opts)
 
 					var child = require('child_process')
 
 					// ifiler write stream
 					var ifilerws = fs.createWriteStream(ifiler);
-					var convertr  = child.spawn(config.CONVERT,['-quality','100','-resize',sizer,'-','-'])
-					var pngquantr = child.spawn(config.PNGQUANT,['--quality','10','-'])
+					var convertr  = child.spawn(config.CONVERT,
+									['-quality','100','-resize',sizer,'-','-'])
+					var pngquantr = child.spawn(config.PNGQUANT,
+									['--quality','10','-'])
 					
 					// ifile write stream
 					var ifilews  = fs.createWriteStream(ifile);
-					var pngquant = child.spawn(config.PNGQUANT,['--quality','10','-'])
+					var pngquant = child.spawn(config.PNGQUANT,
+									['--quality','10','-'])
 
 					if (!pngquant_exists || !options.image.quant) {
 						if (!pngquant_exists) {
-							log.logres(config.PNGQUANT + " not found.", res.options)
+							log.logres(config.PNGQUANT + " not found.", res.opts)
 						}
 						if (!options.image.quant) {
-							log.logres("image.quant == false.", res.options)
+							log.logres("image.quant == false.", res.opts)
 						}
-						log.logres(" Not reducing image size with pngquant.", res.options)
+						log.logres("Not reducing image size with pngquant.", res.opts)
 
 						// Pipe convertr stdout to resposse
 						convertr.stdout.pipe(res)
@@ -815,26 +852,30 @@ function handleRequest(req, res) {
 					// ifile write stream
 					var ifilews  = fs.createWriteStream(ifile);
 
-					log.logres("Not creating scaled image based on larger image.", res.options)
+					log.logres("Not creating scaled image based on" 
+								+ " larger image.", res.opts)
 
 					if (!pngquant_exists || !options.image.quant) {
 						if (!pngquant_exists) {
-							log.logres(config.PNGQUANT + " not found.", res.options)
+							log.logres(config.PNGQUANT + " not found.", res.opts)
 						}
 						if (!options.image.quant) {
-							log.logres("image.quant == false.", res.options)
+							log.logres("image.quant == false.", res.opts)
 						}
-						log.logres(" Not reducing image size with pngquant.", res.options)
-						log.logres(config.PNGQUANT + " not found.  Not reducing image size with pngquant.", res.options)
+						log.logres("Not reducing image size with pngquant.", 
+									res.opts)
+						log.logres(config.PNGQUANT + " not found.  Not reducing"
+									+ " image size with pngquant.", res.opts)
 						var rd = request.get(data)
 						rd.pipe(res)
 						rd.pipe(ifilews)
 						return
 					}
 
-					log.logres("Reducing image size with pngquant.", res.options)
+					log.logres("Reducing image size with pngquant.", res.opts)
 
-					var pngquant = child.spawn(config.PNGQUANT,['--quality','10','-'])
+					var pngquant = child.spawn(config.PNGQUANT,
+												['--quality','10','-'])
 
 					// Pipe pngquant stdout to ifile
 					pngquant.stdout.pipe(ifilews)
@@ -846,34 +887,43 @@ function handleRequest(req, res) {
 					request
 					.get(data)
 					.on('error', function (err) {
-						var tmpstr  = "Error '" + err.code + "' when attempting to retrieve data from data from " + data
-						var tmpstr2 = "Error " + err.code + " when attempting to retrieve data from data from " + data.split("?")[0]
+						var tmpstr  = "Error '" 
+							+ err.code 
+							+ "' when attempting to retrieve data from data from "
+							+ data
+						var tmpstr2 = "Error " 
+							+ err.code 
+							+ " when attempting to retrieve data from data from " 
+							+ data.split("?")[0]
 						res.setHeader('x-tsdsfe-error',tmpstr2)
-						log.logres(tmpstr2, res.options, "stream")
-						log.logres("Removing " + ifile, res.options, "stream")
+						log.logres(tmpstr2, res.opts, "stream")
+						log.logres("Removing " 
+							+ ifile.replace(__dirname + "/",""), res.opts, "stream")
 						if (fs.existsSync(ifile)) {
 							fs.unlinkSync(ifile)
 						}
-
 						res.status(502).send(tmpstr)
 					})
-						.on('response', function(res0) {
-							if (res0.statusCode !== "200") {
-								// TODO: Abort and send error.
-							}
+					.on('response', function(res0) {
+						if (res0.statusCode !== "200") {
+							// TODO: Abort and send error.
+						}
 						log.logres("Headers: " 
-									+ JSON.stringify(res0.headers), res.options, "stream")
+							+ JSON.stringify(res0.headers), res.opts, "stream")
 						if (res0.headers['content-type']) {
-							res.setHeader('content-type',res0.headers['content-type'])
+							res.setHeader('content-type',
+										  res0.headers['content-type'])
 						}
 						if (res0.headers['x-datacache-log']) {
-							res.setHeader('x-datacache-log',res0.headers['x-datacache-log'])
+							res.setHeader('x-datacache-log',
+										  res0.headers['x-datacache-log'])
 						}
 						if (res0.headers['x-tsdsfe-warning']) {
-							res.setHeader('x-tsdsfe-warning',res0.headers['x-tsdsfe-warning'])
+							res.setHeader('x-tsdsfe-warning',
+										  res0.headers['x-tsdsfe-warning'])
 						}
-						})
-						.pipe(pngquant.stdin)
+					})
+					.pipe(pngquant.stdin)
 					return
 				}
 			}
@@ -881,146 +931,81 @@ function handleRequest(req, res) {
 			// Request data from URL.
 			var urldata = "";
 
-			var sreq = http.get(data, function(res0) {
+			var sreq = http.get(data, function (res0) {
 
-				log.logres("Headers: " + JSON.stringify(res0.headers), res.options, "stream")
+				log.logres("Headers from request: " 
+					+ JSON.stringify(res0.headers), res.opts, "stream")
 
-				if (res0.headers['x-datacache-log']) {
-					res.setHeader('x-datacache-log',res0.headers['x-datacache-log'])
-				}
-				if (res0.headers['x-tsdsfe-warning']) {
-					res.setHeader('x-tsdsfe-warning',res0.headers['x-tsdsfe-warning'])
-				}
-							
-				if (Nc == 0) {
-					if (res0.headers["content-type"])
-						res.setHeader('Content-Type',res0.headers["content-type"]);
+				if (res.Nc == 0) {
 
-					if (res0.headers["content-length"])
-						res.setHeader('Content-Length',res0.headers["content-length"]);
-					
-					if (res0.headers["expires"])
-						res.setHeader('Expires',res0.headers["expires"]);
-				}
+					log.logres("Setting response headers: ", res.opts, "stream")
 
-				res0.setTimeout(1000*60*15,function () {
-					console.log("--- Timeout for request to " + data)
-				});
-
-				if (isimagereq) {
-					if (res0.statusCode != 200) {
-						var writeok = false;
-						log.logres("Image request response not 200.  Not writing image to cache.", res.options, "stream")						
-					} else {
-						var writeok = true;						
+					if (res0.headers['x-datacache-log']) {
+						res.setHeader('x-datacache-log',
+										res0.headers['x-datacache-log'])
+					}
+					if (res0.headers['x-tsdsfe-warning']) {
+						res.setHeader('x-tsdsfe-warning',
+										res0.headers['x-tsdsfe-warning'])
+					}		
+					if (res0.headers["content-type"]) {
+						res.setHeader('Content-Type',
+										res0.headers["content-type"])
+					}
+					if (res0.headers["content-length"]) {
+						res.setHeader('Content-Length',
+										res0.headers["content-length"])
+					}
+					if (res0.headers["expires"]) {
+						res.setHeader('Expires',res0.headers["expires"])
+					}
+					if (options.style === "header") {
+						res.write("Time" + " " + res.dd[0].columnIDs + "\n")
 					}
 
-					if (fs.existsSync(ifiler + ".streaming")) {
-						log.logres("File is being streamed.  Not writing image to cache.", res.options, "stream")
-						writeok = false;
-					}
-					if (fs.existsSync(ifiler + ".writing")) {
-						log.logres("File is being written.  Not writing image to cache.", res.options, "stream")
-						writeok = false;
-					}
-					if (writeok) {
-						log.logres("Writing (sync) " + ifiler + ".writing", res.options, "stream")
-						fs.writeFileSync(ifiler + ".writing","")
-						istream = fs.createWriteStream(ifiler)
-						istream
-							.on('finish',function () {
-								if (!fs.existsSync("deps/bin/pngquant")) {
-									log.logres("deps/bin/pngquant not found.  Not creating smaller version of png.", res.options, "stream")
-									log.logres("Finished writing image.  Removing (sync) " + ifiler + ".writing", res.options, "stream")
-									fs.unlinkSync(ifiler + ".writing")
-									return
-								}
-								var child = require('child_process')
-								var com = 'deps/bin/pngquant -f --ext .quant.png --quality 10'+' '+ifiler
-
-								log.logres("Creating smaller png of full using " + com, res.options, "stream")
-								child.exec(com , function(error, stdout, stderr) {
-									log.logres("Finished writing image and smaller version.  Removing (sync) " + ifile + ".writing", res.options, "stream")
-									fs.unlinkSync(ifiler + ".writing")
-									if (error) console.log(error)
-									if (stdout) console.log(stdout)
-									if (stderr) console.log(stderr)
-								})
-
-							})
-						.on('error', function (err) {
-							if (err) console.log(err)
-							log.logres("Error when attempting to write image to cache. Error = " + err + " Removing (sync) " + ifile + ".streaming", res.options, "stream")
-							console.log("Removing: "+ifile + ".streaming", res.options, "stream")
-							// Test in case finish triggered first then error.
-							if (fs.existsSync(ifile + ".streaming")) {
-								fs.unlinkSync(ifile + ".streaming")
-							}
-						})
-					}
 				}
 
-				if (options.style === "header") {
-					res.write("Time" + " " + res.dd[0].columnIDs + "\n")
-				}
-				//console.log(res.dd[0])
 				res0
-					.on('data', function(chunk) {
-						// Send chunk to client
-						res.write(chunk);
-
-						if (isimagereq && writeok) {
-							// Write chunk to cache file.
-							istream.write(chunk);
-						}
-
+					.on('data', function (chunk) {
 						if (data.length != 0) {
-							if (isimagereq && writeok) {
-								log.logres("Recieved chunk of size " + chunk.length + ". Streaming it and writing chunk to cache file.", res.options, "stream")
-							} else {
-								log.logres("Recieved chunk of size " + chunk.length + ". Streaming it.", res.options, "stream")
-							}
+							log.logres("Recieved chunk of size " 
+								+ chunk.length + ". Streaming it.",
+								  res.opts, "stream")
 						}
+						// Send chunk to client
+						res.write(chunk)
 					})
 					.on('end', function() {
-						if (isimagereq && writeok) {
-							log.logres("Finished recieving data.  Calling end event for write stream.", res.options, "stream")
-							istream.end();
-						}
-
-						// If N > 0, could use convert image1.png image2.png image3.png -append stack.png
-						if (isimagereq) {
-							if (writeok) {
-								log.logres("Finished writing " + ifile + " and removing .writing file.", res.options, "stream")
-							}
-						}
-						log.logres('Got end.', res.options, "stream")
-						Nc = Nc + 1;
-						if (Nc == N) {
-							log.logres("Calling res.end().", res.options, "stream")
+						log.logres('Got end.', res.opts, "stream")
+						res.Nc = res.Nc + 1;
+						if (res.Nc == res.N) {
+							log.logres("Calling res.end().", res.opts, "stream")
 							res.end();
 						} else {
-							log.logres("Calling catalog with Nc="+Nc, res.options, "stream")
-							catalog(Options[Nc], res, stream);
+							log.logres("Calling catalog with Nc = "
+								+ res.Nc, res.opts, "stream")
+							res.opts = res.Options[res.Nc]
+							catalog(res, stream);
 						}
 					})
 					.on('error',function (err) {
-						log.logres("Error for request to " + data + ": " + JSON.stringify(err), res.options, "stream")
+						log.logres("Error for request to " 
+							+ data + ": " 
+							+ JSON.stringify(err), res.opts, "stream")
 						console.log(err)
 						console.log(res0)
-						log.logres("Deleting image cache file due to error.", res.options, "stream")
-						fs.unlinkSync(ifile)
 					})
 			}).on('error', function (err) {
-				var tmpstr = "Error when attempting to retrieve data from data from upstream server "+data.split("/")[2]
-				log.logres(tmpstr, res.options, "stream")
+				var tmpstr = "Error when attempting to retrieve data "
+							+ " from upstream server " + data.split("/")[2]
+				log.logres(tmpstr, res.opts, "stream")
 				res.status(502).send(tmpstr)
 			})
 		} else if (status == 301 || status == 302) {
-			log.logres("Redirecting to "+data, res.options, "stream")
+			log.logres("Redirecting to "+data, res.opts, "stream")
 			res.redirect(status,data);
 		} else {
-			log.logres("Sending JSON.", res.options, "stream")
+			log.logres("Sending JSON.", res.opts, "stream")
 
 			if (typeof(data) === "string") {
 				// Script.
@@ -1031,7 +1016,7 @@ function handleRequest(req, res) {
 				return
 			} else {
 				if (N > 1) {
-					if (Nc == 0) {
+					if (res.Nc == 0) {
 						res.write("[")
 					}
 				}
@@ -1044,21 +1029,27 @@ function handleRequest(req, res) {
 					fs.mkdirSync(config.CACHEDIR)
 				}
 				fs.writeFileSync(cfile,JSON.stringify(data))
-				log.logres("Wrote JSON request cache file " + cfile.replace(__dirname,""), res.options, "stream")
+				log.logres("Wrote JSON request cache file " 
+							+ cfile.replace(__dirname + "/",""), 
+							  res.opts, "stream")
 			} else {
-				log.logres("JSON for " + req.originalUrl + " has zero length.  Not writing cache file.", res.options, "stream")
+				log.logres("JSON for " + req.originalUrl 
+					+ " has zero length.  Not writing cache file.",
+					  res.opts, "stream")
 			}
 
-			Nc = Nc + 1
-			if (N > 1 && N != Nc) res.write(",");
-			if (Nc == N) {
-				if (N > 1) {
-					res.write("]")
-				}
+			res.Nc = res.Nc + 1
+			if (res.N > 1 && res.N != res.Nc) {
+				res.write(",")
+			}
+			if (res.Nc == res.N) {
+				// Close JSON array.
+				if (res.N > 1) { res.write("]") }
 				res.end()
 			} else {
-				log.logres("Calling catalog() again.", res.options, "stream")
-				catalog(Options[Nc], res, stream)
+				log.logres("Calling catalog() again.", res.opts, "stream")
+				res.opts = Options[res.Nc]
+				catalog(res, stream)
 			}
 		}
 	}		
@@ -1107,17 +1098,6 @@ function parseOptions(req, res) {
 	options.config   = config
 
 	log.logres("Request from " + options.ip + " " + req.originalUrl, options, "app")
-
-	if (options.dd !== "") {
-		var expandDD = require('./js/expandDD.js').expandDD
-		log.logres("Input is dd: " + options.dd, options, "app")
-		cat = expandDD(decodeURIComponent(options.dd))
-		var ddfile = crypto.createHash("md5").update(decodeURIComponent(options.dd)).digest("hex")
-		log.logres("Writing (sync) " + "catalogs/dd/" + ddfile, options, "app")
-		fs.writeFileSync("catalogs/dd/" + ddfile,JSON.stringify(cat))
-		options.catalog = ddfile
-		options.all = "-"
-	}
 
 	// If any of the cache options are false and update fails, cache will be used if found (and warning is given in header).
  	// Sent as DataCache parameter.
@@ -1237,7 +1217,7 @@ function parseOptions(req, res) {
 			res.status(502).send(err)
 			return
 		} else if (tmparr[0].length != 10 || tmparr[1].length != 10) {
-			log.logres(err, res.options)
+			log.logres(err, res.opts)
 			log.logres("Sending 502.", options)
 			res.status(502).send(err)
 			return
@@ -1270,12 +1250,12 @@ function parseOptions(req, res) {
 }
 
 // Get XML or JSON from URL and convert to JSON or XML.
-function getandparse(url, options, res, cb) {
+function getandparse(url, res, cb) {
 
 	// Retrieves XML or JSON from a URL and stores XML and JSON as a cache file.
 	// Callback is passed XML or JSON depending on options.format.
 
-	log.logres("Called with format = " + options.format + "; url = " + url, res.options)
+	log.logres("Called with format = " + res.opts.format + "; url = " + url, res.opts)
 	
 	var urlsig = crypto.createHash("md5").update(url).digest("hex")
 
@@ -1289,44 +1269,44 @@ function getandparse(url, options, res, cb) {
 	var cfilexml = config.CACHEDIR + urlsig + ".xml"
 
 	// Don't do HEAD request if cache file exists and usemetadatacache=true.
-	if (options.usemetadatacache) {
-		if (options.format !== "xml" && fs.existsSync(cfilejson)) {
-			log.logres("usemetadatacache = true and JSON cache file found for url = " + url, res.options)
-			log.logres("Reading and parsing JSON cache file (sync).", res.options)
+	if (res.opts.usemetadatacache) {
+		if (res.opts.format !== "xml" && fs.existsSync(cfilejson)) {
+			log.logres("usemetadatacache = true and JSON cache file found for url = " + url, res.opts)
+			log.logres("Reading and parsing JSON cache file (sync).", res.opts)
 			var tmp = JSON.parse(fs.readFileSync(cfilejson))
-			log.logres("Done.", res.options)
+			log.logres("Done.", res.opts)
 			cb(tmp)
 			return
 		}
-		if (options.format === "xml" && fs.existsSync(cfilexml)) {
-			log.logres("usemetadatacache = true and XML cache file exists for url = " + url, res.options)
-			log.logres("Reading and parsing XML cache file (sync).", res.options)
+		if (res.opts.format === "xml" && fs.existsSync(cfilexml)) {
+			log.logres("usemetadatacache = true and XML cache file exists for url = " + url, res.opts)
+			log.logres("Reading and parsing XML cache file (sync).", res.opts)
 			var tmp = fs.readFileSync(cfilexml).toString()
-			log.logres("Done.", res.options)
+			log.logres("Done.", res.opts)
 			cb(tmp)
 			return
 		}
 	}
 
 	// Do head request and fetch if necessary.  Cache if fetched.
-	if (options.format !== "xml" && fs.existsSync(cfilejson)) {
-		log.logres("Cache file found for url = " + url, res.options)
+	if (res.opts.format !== "xml" && fs.existsSync(cfilejson)) {
+		log.logres("Cache file found for url = " + url, res.opts)
 		headthenfetch(url, "json")
 		return
 	}
-	if (options.format === "xml" && fs.existsSync(cfilexml)) {
-		log.logres("Cache file found for url = " + url, res.options)
+	if (res.opts.format === "xml" && fs.existsSync(cfilexml)) {
+		log.logres("Cache file found for url = " + url, res.opts)
 		headthenfetch(url, "xml")
 		return
 	}
 
 	// Fetch and then cache.
-	if (options.format !== "xml") {
-		log.logres("No cache file found for url = " + url, res.options)
+	if (res.opts.format !== "xml") {
+		log.logres("No cache file found for url = " + url, res.opts)
 		fetch(url,"json")
 		return
 	} else {
-		log.logres("No cache file found for url = " + url, res.options)
+		log.logres("No cache file found for url = " + url, res.opts)
 		fetch(url,"xml")
 		return
 	}
@@ -1334,52 +1314,52 @@ function getandparse(url, options, res, cb) {
 	function headthenfetch(url,type) {
 
 		// Do head request for file that contains list of datasets.
-		log.logres("Doing (async) head request on "+url, res.options)
+		log.logres("Doing (async) head request on "+url, res.opts)
 		var hreq = request.head(url, function (herror, hresponse) {
 			if (!herror && hresponse.statusCode != 200) {
 				herror = true
 			}
 
 			if (herror) {
-				log.logres("Error when making head request on " + url, res.options)
-				log.logres("Will try request for " + url, res.options)
+				log.logres("Error when making head request on " + url, res.opts)
+				log.logres("Will try request for " + url, res.opts)
 				age = 1
 			}
 
 			var dhead = new Date(hresponse.headers["last-modified"]);
-			log.logres("Last-modified time: " + dhead, res.options)
+			log.logres("Last-modified time: " + dhead, res.opts)
 			var fstat = fs.statSync(cfile+"."+type).mtime
 			var dfile = new Date(fstat)
-			log.logres('Cache file created: ' + fstat, res.options)
+			log.logres('Cache file created: ' + fstat, res.opts)
 			var age = dhead.getTime() - dfile.getTime();
-			log.logres('Last-modified - Cache file created = ' + age, res.options)
+			log.logres('Last-modified - Cache file created = ' + age, res.opts)
 			var found = true
 
 			if (age <= 0) {
 				log.logres("Cache file has not expired.  Reading cache file "
-						+ (cfile+"."+type).replace(__dirname,"/cache/"), res.options)
-				log.logres("for URL " + hresponse.request.uri.href, res.options)
-				log.logres("Reading cache file (sync) ", res.options)
+						+ (cfile+"."+type).replace(__dirname+"/cache/",""), res.opts)
+				log.logres("for URL " + hresponse.request.uri.href, res.opts)
+				log.logres("Reading cache file (sync) ", res.opts)
 				var tmp = fs.readFileSync(cfile+"."+type).toString()
 				if (type === "json") {	
-					log.logres("Parsing cache file.", res.options)
+					log.logres("Parsing cache file.", res.opts)
 					var tmp2 = JSON.parse(tmp)
-					log.logres("Done.", res.options)
+					log.logres("Done.", res.opts)
 					cb(tmp2)
 				} else {
-					log.logres("Done.", res.options)
+					log.logres("Done.", res.opts)
 					cb(tmp)
 				}
 			} else {
-				log.logres("Cache file has expired.", res.options)
+				log.logres("Cache file has expired.", res.opts)
 				fetch(url,type,true)
 			}
 
 			if (!hresponse) {
-				log.logres("Error when attempting to access " + url, res.options)
-				log.logres("Sending 502 error ", res.options)
+				log.logres("Error when attempting to access " + url, res.opts)
+				log.logres("Sending 502 error ", res.opts)
 				console.error("Error when attempting to access " + url)
-				options.res.status(502).send("Error when attempting to access " + url + "\n")
+				res.opts.status(502).send("Error when attempting to access " + url + "\n")
 				console.error(config)
 				return
 			}
@@ -1388,21 +1368,21 @@ function getandparse(url, options, res, cb) {
 
 	function fetch(url,type,isexpired) {
 
-		log.logres("Fetching " + url, res.options)
+		log.logres("Fetching " + url, res.opts)
 
 		request(url, function (error, response, body) {
 
-			log.logres("Done fetching.", res.options)
+			log.logres("Done fetching.", res.opts)
 
 			if (error) {
 				log.logres("Error when attempting to access " 
 							+ url + " :" 
-							+ JSON.stringify(error), res.options)
+							+ JSON.stringify(error), res.opts)
 			}
 
 			if (response.statusCode != 200) {
 				log.logres("Status code was not 200 when attempting to access " 
-								+ url, res.options)
+								+ url, res.opts)
 			}
 
 			if (error || response.statusCode != 200) {
@@ -1412,7 +1392,7 @@ function getandparse(url, options, res, cb) {
 			if (error) {
 				if (fs.existsSync(cfile+"."+type))  {
 
-					log.logres("Using expired cache because request failed for " + url, res.options)
+					log.logres("Using expired cache because request failed for " + url, res.opts)
 
 					// Add a header noting cache was used (because failed request).
 					if (isexpired) {
@@ -1421,14 +1401,14 @@ function getandparse(url, options, res, cb) {
 						res.header('x-tsdsfe-warning',"Used cache because failed request for " + url)
 					}
 					var tmp = fs.readFileSync(cfile+"."+type).toString()
-					if (options.format === "json") { 
+					if (res.opts.format === "json") { 
 						var tmp = JSON.parse(tmp)
 					}
 					cb(tmp)
 				} else {
 					if (!fs.existsSync(cfile+"."+type))  {
-						log.logres("Error when attempting to access " + url + " and not cached version found.\n", res.options)
-						options.res.status(502).send("Error when attempting to access " + url + " and no cached version found.\n")
+						log.logres("Error when attempting to access " + url + " and not cached version found.\n", res.opts)
+						res.status(502).send("Error when attempting to access " + url + " and no cached version found.\n")
 					}
 				}
 				return
@@ -1438,63 +1418,63 @@ function getandparse(url, options, res, cb) {
 			var isxml  = false
 
 			if (body.match(/^\s*\[|^\s*{/)) {
-				log.logres("Response was JSON", res.options)
+				log.logres("Response was JSON", res.opts)
 				isjson = true;
 			} else {
-				log.logres("Response is XML.", res.options)
+				log.logres("Response is XML.", res.opts)
 				isxml = true
 			}
 
 			if (isxml) {
-				if (options.format === "xml") {
-					log.logres("Returning XML.", res.options)
-					log.logres("Calling cb(xml).", res.options)
+				if (res.opts.format === "xml") {
+					log.logres("Returning XML.", res.opts)
+					log.logres("Calling cb(xml).", res.opts)
 					cb(body);
-					log.logres("Writing (sync) XML cache file for url = " + url, res.options)
+					log.logres("Writing (sync) XML cache file for url = " + url, res.opts)
 					fs.writeFileSync(cfilexml,body)
-					log.logres("Done.", res.options)
+					log.logres("Done.", res.opts)
 				} else {
-					log.logres("Parsing "+url, res.options)
+					log.logres("Parsing "+url, res.opts)
 					var parser = new xml2js.Parser();
 					parser.parseString(body, function (err, json) {
 
-						log.logres("Done parsing.", res.options)
+						log.logres("Done parsing.", res.opts)
 
 						if (err) {
-							log.logres("Sending 502.  Could not parse "+url+".\n", res.options)
-							options.res.status(502).send("Could not parse " + url + ".\n"+err, res.options)
+							log.logres("Sending 502.  Could not parse "+url+".\n", res.opts)
+							res.opts.status(502).send("Could not parse " + url + ".\n"+err, res.opts)
 							return
 						}
 
-						log.logres("Calling cb(json).", res.options)
+						log.logres("Calling cb(json).", res.opts)
 						cb(json)
 
-						log.logres("Writing (sync) JSON cache file for url = " + url, res.options)
+						log.logres("Writing (sync) JSON cache file for url = " + url, res.opts)
 
 						fs.writeFileSync(cfilejson,JSON.stringify(json))
-						log.logres("Done.", res.options)
+						log.logres("Done.", res.opts)
 					})
 				}
 			} else {
-				if (options.format === "xml") {
+				if (res.opts.format === "xml") {
 					var builder = new xml2js.Builder();
 					var xml = builder.buildObject(JSON.parse(body))
 
-					log.logres("Calling cb(xml).", res.options)
+					log.logres("Calling cb(xml).", res.opts)
 					cb(xml)
 
-					log.logres("Writing XML cache file for url = " + url, res.options)
+					log.logres("Writing XML cache file for url = " + url, res.opts)
 
 					fs.writeFileSync(cfilexml,xml)
-					log.logres("Done.", res.options)
+					log.logres("Done.", res.opts)
 				} else {
-					log.logres("Calling cb(json).", res.options)
+					log.logres("Calling cb(json).", res.opts)
 					cb(JSON.parse(body))
 				}				
-				log.logres("Writing JSON cache file for url = " + url, res.options)
+				log.logres("Writing JSON cache file for url = " + url, res.opts)
 				//fs.writeFileSync(cfilejson,JSON.stringify(body))
 				fs.writeFileSync(cfilejson, body)
-				log.logres("Done.", res.options)
+				log.logres("Done.", res.opts)
 			}
 		})
 	}
@@ -1502,11 +1482,11 @@ function getandparse(url, options, res, cb) {
 
 // After catalog() executes, it either calls dataset() or stream().
 // (Calls stream() only if catalog information was requested.)
-function catalog(options, res, cb) {
+function catalog(res, cb) {
 
-	log.logres("Called.", res.options)
+	log.logres("Called.", res.opts)
 
-	if (res.options.all === "-") {
+	if (res.opts.all === "-") {
 		// Creates an equivalent of all.xml
 		var result = 
 			{
@@ -1522,9 +1502,9 @@ function catalog(options, res, cb) {
 							[{
 								"$":
 									{
-										'ID': options.catalog,
+										'ID': res.opts.catalog,
 										'xlink:title': '',
-										'xlink:href': "dd/" + options.catalog
+										'xlink:href': "dd/" + res.opts.catalog
 									}
 							}]
 					}
@@ -1533,10 +1513,9 @@ function catalog(options, res, cb) {
 		afterparse(result)
 		return
 	}
-	
-	//console.log(res.options)
+
 	// Get and parse all.xml
-	getandparse(config.CATALOG, options, res, afterparse)
+	getandparse(config.CATALOG, res, afterparse)
 
 	function afterparse(result) {
 
@@ -1547,9 +1526,9 @@ function catalog(options, res, cb) {
 		var catalogRefs = result["catalog"]["catalogRef"]
 		var xmlbase     = config.XMLBASE || result["catalog"]["$"]["xml:XMLBASE"] || ""
 
-		log.logres("Setting xmlbase to " + xmlbase, res.options)
+		log.logres("Setting xmlbase to " + xmlbase, res.opts)
 
-		log.logres("Found " + catalogRefs.length + " catalogRef node(s).", res.options)
+		log.logres("Found " + catalogRefs.length + " catalogRef node(s).", res.opts)
 
 		// Loop over each catalogRef and remove ones that don't match pattern.
 		for (var i = 0;i < catalogRefs.length;i++) {
@@ -1559,13 +1538,13 @@ function catalog(options, res, cb) {
 			resp[i].label = catalogRefs[i]["$"]["name"] || catalogRefs[i]["$"]["ID"]
 			resp[i].href  = xmlbase+catalogRefs[i]["$"]["xlink:href"]
 
-			if (options.catalog !== "^.*") {
-				if (options.catalog.substring(0,1) === "^") {
-					if (!(catalogRefs[i]["$"]["ID"].match(options.catalog))) {
+			if (res.opts.catalog !== "^.*") {
+				if (res.opts.catalog.substring(0,1) === "^") {
+					if (!(catalogRefs[i]["$"]["ID"].match(res.opts.catalog))) {
 						delete resp[i]
 					}        
 				} else {
-					if (!(catalogRefs[i]["$"]["ID"] === options.catalog)) {
+					if (!(catalogRefs[i]["$"]["ID"] === res.opts.catalog)) {
 						delete resp[i]
 					}
 				}
@@ -1576,34 +1555,34 @@ function catalog(options, res, cb) {
 		// Remove empty elements of array. (TODO: Needed?)
 		resp = resp.filter(function(n){return n})
 		if (resp.length == 0) {
-			if (res.options.all === "-") {
-				log.logres("Error: No matching catalogs in list.", res.options)
+			if (res.opts.all === "-") {
+				log.logres("Error: No matching catalogs in list.", res.opts)
 				var list = "List:"
 				for (var i = 0; i < catalogRefs.length;i++) {
 					list = list + " " + catalogRefs[i]["$"]["ID"] 
 				}
-				log.logres(list, res.options)
-				cb(500,"Error: No matching catalogs with ID="+options.catalog+"in "+options.all+". Options are" + list.join("\n"),res);
+				log.logres(list, res.opts)
+				cb(500,"Error: No matching catalogs with ID="+res.opts.catalog+"in "+res.opts.all+". Options are" + list.join("\n"),res);
 				return
 			} else {
 				// If catalog is a dd md5, this will work.
-				log.logres("No matches.  Try again with res.options.all = -.", res.options)
+				log.logres("No matches.  Try again with res.opts.all = -.", res.opts)
 				// TODO: Check if dd file exists.  If not send error "Catalog with ID not fund in catalogs/dd".
 				// Otherwise response is something like
 				// Error when attempting to access
 				// http://localhost:8004/catalogs/dd/xf5e6af45e1430aa4b2e3f0ea964f7985 and no cached version found
-				res.options.all = "-"
-				catalog(options, res, cb)
+				res.opts.all = "-"
+				catalog(res, cb)
 				return
 			}
 		}
 
-		if (options.dataset === "") {
+		if (res.opts.dataset === "") {
 			// If no dataset was requested and only one catalog URL in list,
 			// add information from within the catalog to the response.
-			if (resp.length == 1 && options.catalog.substring(0,1) !== "^") {
+			if (resp.length == 1 && res.opts.catalog.substring(0,1) !== "^") {
 				// If only one catalog matched pattern.
-				getandparse(resp[0].href,options, res,
+				getandparse(resp[0].href, res,
 					function (result) {
 						//console.log(result)
 						var oresp = []
@@ -1626,14 +1605,14 @@ function catalog(options, res, cb) {
 			}
 		} else {
 			// If dataset was requested, pass list of catalog URLs to dataset().
-			dataset(options, resp, res, cb)
+			dataset(resp, res, cb)
 		}
 	}
 }
 
 // After dataset() executes, calls parameter() or stream().
-// (will call stream() if only dataset information was requested.)
-function dataset(options, catalogs, res, cb) {
+// (Will call stream() if only dataset information was requested.)
+function dataset(catalogs, res, cb) {
 
 	if (catalogs.length == 0) {
 		cb(200, "[]", res)
@@ -1644,18 +1623,19 @@ function dataset(options, catalogs, res, cb) {
 	var parents = []
 	var dresp = []
 
-	log.logres("Called.", res.options)
+	log.logres("Called.", res.opts)
 
 	// Loop over each catalog
 	for (var i = 0; i < catalogs.length;i++) {
-		getandparse(catalogs[i].href, options, res, afterparse);
+		getandparse(catalogs[i].href, res, afterparse);
 	}
 
 	function afterparse(result) {
 
 		if (typeof(afterparse.j) === "undefined") {afterparse.j = 0}
 
-		// TODO: Deal with case of result === "", which means getandparse() failed.
+		// TODO: Deal with case of result === "",
+		// which means getandparse() failed.
 		afterparse.j = afterparse.j+1
 
 		if (typeof(result) === "string") {
@@ -1682,14 +1662,18 @@ function dataset(options, catalogs, res, cb) {
 		    parents = parents.concat(parent)
 		}
 
-		// TODO: This won't catch case when pattern is used; afterparse may not have been called with results in same order as catalog array.
+		// TODO: This won't catch case when pattern is used; afterparse may
+		// not have been called with results in same order as catalog array.
 		if (catalogs.length == 1) {
 			if (parent !== catalogs[afterparse.j-1].value) {
-				log.logres("WARNING: ID of catalog in THREDDS specified with a URL does not match ID of catalog found in catalog.", res.options)
-				log.logres("WARNING: ID in THREDDS ["+config.CATALOG+"] is "+parent, res.options)
-				log.logres("WARNING: ID in catalog ["+catalogs[afterparse.j-1].href+"] is "+catalogs[afterparse.j-1].value, res.options)
-				//options.res.status(502).send("ID of catalog found in "+catalogs[afterparse.j-1].href+" does not match ID associated with URL in "+config.CATALOG);
-				//return
+				log.logres("WARNING: ID of catalog in " + config.CATALOG 
+					+ " does not match ID of catalog found in catalog.",
+					  res.opts)
+				log.logres("WARNING: ID in " + config.CATALOG
+					+ " is " + parent, res.opts)
+				log.logres("WARNING: ID in catalog ["
+					+ catalogs[afterparse.j-1].href + "] is "
+					+ catalogs[afterparse.j-1].value, res.opts)
 			}
 		}
 		var dresp = []
@@ -1716,14 +1700,14 @@ function dataset(options, catalogs, res, cb) {
 				dresp[i].label   = datasets[i]["$"]["label"] || datasets[i]["$"]["name"] || dresp[i].value
 				dresp[i].catalog = parents[i]
 
-				if (options.dataset !== "^.*") {	
-					if (options.dataset.substring(0,1) === "^") {
-						if (!(dresp[i].value.match(options.dataset))) {
+				if (res.opts.dataset !== "^.*") {	
+					if (res.opts.dataset.substring(0,1) === "^") {
+						if (!(dresp[i].value.match(res.opts.dataset))) {
 							delete dresp[i]
 							delete datasets[i]
 						}	
 					} else {
-						if (!(dresp[i].value === options.dataset)) {
+						if (!(dresp[i].value === res.opts.dataset)) {
 							delete dresp[i]
 							delete datasets[i]
 						} else {
@@ -1733,9 +1717,9 @@ function dataset(options, catalogs, res, cb) {
 				}
 			}
 
-			if (options.parameters === "" && !(options.groups === "^.*")) {
+			if (res.opts.parameters === "" && !(res.opts.groups === "^.*")) {
 				dresp = dresp.filter(function(n){return n;}); // Needed?
-				if (dresp.length == 1 && options.dataset.substring(0,1) !== "^") {
+				if (dresp.length == 1 && res.opts.dataset.substring(0,1) !== "^") {
 					if (typeof(datasets[z]["documentation"]) !== "undefined") {
 						for (var k = 0; k < datasets[z]["documentation"].length;k++) {
 							dresp[k] = {}
@@ -1778,18 +1762,18 @@ function dataset(options, catalogs, res, cb) {
 					cb(200,dresp, res)
 				}
 			} else {
-				parameter(options,parents,datasets.filter(function(n){return n}),res,cb)
+				parameter(parents,datasets.filter(function(n){return n}),res,cb)
 			}						
 		}
 	}
 }
 
-function parameter(options, catalogs, datasets, res, cb) {
+function parameter(catalogs, datasets, res, cb) {
 
-	log.logres("Called.", res.options)
+	log.logres("Called.", res.opts)
 
-	if (options.groups === "^.*") {
-		options.parameters = "^.*";
+	if (res.opts.groups === "^.*") {
+		res.opts.parameters = "^.*";
 	}
 
 	var parameters = [];
@@ -1866,23 +1850,23 @@ function parameter(options, catalogs, datasets, res, cb) {
 		if (!('lineregex' in resp[i].dd))    {resp[i].dd.lineregex = parents[i]["lineregex"] || ""}
 		if (!('fillvalue' in resp[i].dd))    {resp[i].dd.fillvalue = parameters[i]["$"]["fillvalue"] || ""}
 		
-		if (options.parameters !== "^.*") {				
+		if (res.opts.parameters !== "^.*") {				
 
 			var value = resp[i].value;
 
-			if (options.parameters.substring(0,1) === "^") {
-				if (!(resp[i].parameters.match(options.parameters))) {
+			if (res.opts.parameters.substring(0,1) === "^") {
+				if (!(resp[i].parameters.match(res.opts.parameters))) {
 					delete resp[i];
 				}
 			} else  {
 				var re = new RegExp("/^"+value+"$/");
-				var mt = options.parameters.match(value);
+				var mt = res.opts.parameters.match(value);
 				if (!mt) {
 					delete resp[i];
 				} else if (mt[0].length != value.length) {
 					delete resp[i];
 				} else {
-					log.logres("Match in catalog for requested parameter "+value+".", res.options)
+					log.logres("Match in catalog for requested parameter "+value+".", res.opts)
 				}
 			}
 		}
@@ -1890,13 +1874,13 @@ function parameter(options, catalogs, datasets, res, cb) {
 
 	resp = resp.filter(function(n){return n});
 
-	if ((options.parameters === "^.*") || (options.start === "" && options.stop === "")) {
+	if ((res.opts.parameters === "^.*") || (res.opts.start === "" && res.opts.stop === "")) {
 		//console.log(cb.toString().substring(0,20))
 		cb(200, resp, res);
 		return;
 	}
 	
-	if (options.groups === "^.*") {
+	if (res.opts.groups === "^.*") {
 		var parinfo = {};
 
 		for (i = 0;i<resp.length;i++) {
@@ -1925,11 +1909,11 @@ function parameter(options, catalogs, datasets, res, cb) {
 			ddresp[j].dd.label   =  datasets[0].groups[0].group[j]["$"].label;
 
 		}
-		log.logres(datasets[0].groups[0].group, res.options)
-		log.logres(ddresp, res.options);
+		log.logres(datasets[0].groups[0].group, res.opts)
+		log.logres(ddresp, res.opts);
 
 		// Get JSON for group list
-		cb(200,ddresp, res);
+		cb(200, ddresp, res);
 		return;
 	}
 	
@@ -1946,18 +1930,21 @@ function parameter(options, catalogs, datasets, res, cb) {
 	// DATE1/DATE2         = DATE1/DATE2
 	// DURATION1/DURATION2 = now+DURATION1/now+DURATION2
 
-	if ((options.start === '') && (options.stop !== '')) {
-	    options.start = "-P1D";
+	if ((res.opts.start === '') && (res.opts.stop !== '')) {
+	    res.opts.start = "-P1D";
 	}
-	if ((options.stop === '') && (options.start !== '')) {
-	    options.stop = "P1D";
+	if ((res.opts.stop === '') && (res.opts.start !== '')) {
+	    res.opts.stop = "P1D";
 	}
-	var start = options.start || resp[0].dd.start;
-	var stop  = options.stop  || resp[0].dd.start;
+	var start = res.opts.start || resp[0].dd.start;
+	var stop  = res.opts.stop  || resp[0].dd.start;
 
 	var tmp = expandISO8601Duration(start+"/"+stop,{debug:false});
 
-	var tmpdd = expandISO8601Duration(resp[0].dd.start+"/"+resp[0].dd.stop,{debug:false});
+	var tmpdd = expandISO8601Duration(
+					resp[0].dd.start
+					+ "/"
+					+ resp[0].dd.stop, {debug:false});
 
 	if (0) {
 		start  = tmp.split("/")[0].replace("T00:00:00.000Z","");
@@ -1971,13 +1958,13 @@ function parameter(options, catalogs, datasets, res, cb) {
 	startdd = tmpdd.split("/")[0];
 	stopdd  = tmpdd.split("/")[1];
 
-	log.logres("Requested start  : " + options.start, options)
-	log.logres("Expanded start   : " + start, options)
-	log.logres("DD start         : " + resp[0].dd.start, options)
-	log.logres("Expanded DD start: " + startdd, options)
-	log.logres("Requested stop   : " + options.stop, options)
-	log.logres("Expanded stop    : " + stop, options)
-	log.logres("Expanded DD stop : " + stopdd, options)
+	log.logres("Requested start  : " + res.opts.start, res.opts)
+	log.logres("Expanded start   : " + start, res.opts)
+	log.logres("DD start         : " + resp[0].dd.start, res.opts)
+	log.logres("Expanded DD start: " + startdd, res.opts)
+	log.logres("Requested stop   : " + res.opts.stop, res.opts)
+	log.logres("Expanded stop    : " + stop, res.opts)
+	log.logres("Expanded DD stop : " + stopdd, res.opts)
 
 	var urltemplate  = resp[0].dd.urltemplate.replace("mirror:http://",config.MIRROR);
 	var urlprocessor = resp[0].dd.urlprocessor;
@@ -1994,59 +1981,61 @@ function parameter(options, catalogs, datasets, res, cb) {
 	}
 
 	if  ((new Date(startdd)).getTime() > (new Date(start)).getTime()) {
-		log.logres("Requested start < Catalog start.  Setting requested start to catalog start.", options)
+		log.logres("Requested start < Catalog start.  "
+			+ " Setting requested start to catalog start.", res.opts);
 		start = startdd
 	}
 
 	if  ((new Date(stopdd)).getTime() < (new Date(stop)).getTime()) {
-		log.logres("Requested stop > Catalog stop.  Setting requested stop to catalog stop.", options)
-		res.options.stop = stopdd
+		log.logres("Requested stop > Catalog stop.  "
+			+ " Setting requested stop to catalog stop.", res.opts);
+		res.opts.stop = stopdd
 		stop = stopdd
 	}
 
-	res.options.start = start
-	res.options.stop = stop
+	res.opts.start = start
+	res.opts.stop = stop
 
-	//console.log(res.options)
+	//console.log(res.opts)
 	var args = "";
 	if (urlprocessor) {
-		args = "&plugin="+urlprocessor;
+		args = "&plugin=" + urlprocessor;
 	}
 	if (urltemplate) {
-		args = args + "&template="+urltemplate;
+		args = args + "&template=" + urltemplate;
 	} 
 	if (urlsource) {
-		args = args + "&source="+urlsource;
+		args = args + "&source=" + urlsource;
 	}
 
 	if (args) {
-		var dc = config.DATACACHE+"?"+args+"&timeRange="+start+"/"+stop;
+		var dc = config.DATACACHE + "?" + args + "&timeRange=" + start + "/" + stop;
 	} else {
-		var dc = config.DATACACHE+"?timeRange="+start+"/"+stop;
+		var dc = config.DATACACHE + "?timeRange=" + start + "/" + stop;
 	}
 	
-	if (options.istest) {
+	if (res.opts.istest) {
 		dc = dc + "&istest=true"
 	}
 
-	if (options.return === "urilist") {
-		cb(0,dc + "&return=urilist",res)
+	if (res.opts.return === "urilist") {
+		cb(0,dc + "&return=urilist", res)
 		return
 	}
-	if (options.return === "urilistflat") {
-		cb(0,dc + "&return=urilistflat",res)
+	if (res.opts.return === "urilistflat") {
+		cb(0,dc + "&return=urilistflat", res)
 		return
 	}
 
-	if (options.return === "image" && options.format === "viviz") {
+	if (res.opts.return === "image" && res.opts.format === "viviz") {
 		var dirprefix = config.TSDSFE 
-						+ "?catalog="    + options.catalog
-						+ "&dataset="    + options.dataset
-						+ "&parameters=" + options.parameters
+						+ "?catalog="    + res.opts.catalog
+						+ "&dataset="    + res.opts.dataset
+						+ "&parameters=" + res.opts.parameters
 						+ "&return=image"
 						+ "&format=png"
-						+ "&type="  + options.type
-		            	+ "&style=" + options.style
+						+ "&type="  + res.opts.type
+		            	+ "&style=" + res.opts.style
  						+ "&image.width=800&image.height=200"
 
 		var viviz = config.VIVIZEXTERNAL 
@@ -2061,7 +2050,7 @@ function parameter(options, catalogs, datasets, res, cb) {
 		return
 	}
 
-	if (options.return === "image" || options.return === "script") {
+	if (res.opts.return === "image" || res.opts.return === "script") {
 
 		// If more than one resp, this won't work.
 		var Labels = "'";
@@ -2071,12 +2060,13 @@ function parameter(options, catalogs, datasets, res, cb) {
 			Labels = Labels + resp[z].parameter + " [" + resp[z].dd.units + "]','";
 		}
 
-		if ((options.return === "script")) {
+		if ((res.opts.return === "script")) {
 
-			if (options.format === "matlab") var ext = "m";
-			if (options.format === "idl") var ext = "pro";
+			if (res.opts.format === "matlab") var ext = "m";
+			if (res.opts.format === "idl") var ext = "pro";
 
-			var script = fs.readFileSync(__dirname + "/scripts/tsdsfe."+ext).toString();
+			var script = fs.readFileSync(__dirname 
+								+ "/scripts/tsdsfe." + ext).toString();
 
 			script = script
 						.replace("__SERVER__",config.TSDSFE)
@@ -2089,7 +2079,7 @@ function parameter(options, catalogs, datasets, res, cb) {
 									"&format=2");
 			script = script.replace("__LABELS__",Labels.slice(0,-2));
 			if (config.TSDSFE.match(/http:\/\/localhost/)) {
-				log.logres("Warning: stream(): Possible configuration error.  Serving an IDL or MATLAB script containing a TSDSFE URL that is localhost", res.options)
+				log.logres("Warning: stream(): Possible configuration error.  Serving an IDL or MATLAB script containing a TSDSFE URL that is localhost", res.opts)
 				script=script.replace("__COMMENT__","!!! Warning: Possible TSDSFE configuration error - script contains a TSDSFE URL that is localhost")
 			} else {
 				script=script.replace("__COMMENT__","")
@@ -2101,8 +2091,8 @@ function parameter(options, catalogs, datasets, res, cb) {
 
 		// For now, don't use relative times because TSDS interpretation is
 		// different from Autoplot (TSDS should change to match Autoplot's.)
-		start = res.options.start.substring(0,10);
-		stop = res.options.stop.substring(0,10);
+		start = res.opts.start.substring(0,10);
+		stop = res.opts.stop.substring(0,10);
 
 		var extra = ""
 		if (resp[0].label) {
@@ -2117,11 +2107,11 @@ function parameter(options, catalogs, datasets, res, cb) {
 			extra = extra + "&fills=" + resp[0].fills
 		}
 
-		var jydsargs = 	  "?catalog=" + options.catalog
-						+ "&dataset=" + options.dataset
-						+ "&parameters=" + options.parameters
+		var jydsargs = 	  "?catalog=" + res.opts.catalog
+						+ "&dataset=" + res.opts.dataset
+						+ "&parameters=" + res.opts.parameters
 						+ "&timerange=" + start+"/"+stop
-						+ "&type=" + options.type
+						+ "&type=" + res.opts.type
 						+ "&server=" + config.TSDSFE
 						+ extra
 
@@ -2129,12 +2119,12 @@ function parameter(options, catalogs, datasets, res, cb) {
 		config.JNLP = "http://autoplot.org/autoplot.jnlp"
 		var jnlpargs = "?open=vap+jyds:"
 
-		log.logres("JYDS    : " + config.JYDS, options)
-		log.logres("jydsargs: " + jydsargs, options)
+		log.logres("JYDS    : " + config.JYDS, res.opts)
+		log.logres("jydsargs: " + jydsargs, res.opts)
 
-		if (options.format === "jnlp") {
-			log.logres("JNLP:     " + config.JNLP, options)
-			log.logres("jnlpargs: " + jnlpargs + "JYDS + jydsargs", options)
+		if (res.opts.format === "jnlp") {
+			log.logres("JNLP:     " + config.JNLP, res.opts)
+			log.logres("jnlpargs: " + jnlpargs + "JYDS + jydsargs", res.opts)
 			// Should be using the following, but the script for autoplot.jnlp
 			// does not decode the argument of open.
 			//cb(301,config.JNLP + jnlpargs + encodeURIComponent(config.JYDS + jydsargs))
@@ -2145,22 +2135,22 @@ function parameter(options, catalogs, datasets, res, cb) {
 		}
 
 		var format = "image/png";
-		if (options.format === "pdf") {format = "application/pdf"}
-		if (options.format === "svg") {format = "image/svg%2Bxml"}
+		if (res.opts.format === "pdf") {format = "application/pdf"}
+		if (res.opts.format === "svg") {format = "image/svg%2Bxml"}
 
 		var apargs = "?format="+format
-					+ "&" + options.stylestr
+					+ "&" + res.opts.stylestr
 					+ "&url=vap+jyds:"
 
-		log.logres("AUTOPLOT: " + config.AUTOPLOT, options)
-		log.logres("apargs: " + apargs + "encodeURIComponent(JYDS + jydsargs) = ", options)	
+		log.logres("AUTOPLOT: " + config.AUTOPLOT, res.opts)
+		log.logres("apargs: " + apargs + "encodeURIComponent(JYDS + jydsargs) = ", res.opts)	
 		var aurl = config.AUTOPLOT + apargs + encodeURIComponent(config.JYDS + jydsargs)
-		log.logres("Making request to: AUTOPLOT + apargs + encodeURIComponent(config.JYDS + jydsargs)", options)
-		log.logres(aurl, options)
-		log.logres("JYDS URL: " + config.JYDS + jydsargs, options)
+		log.logres("Making request to: AUTOPLOT + apargs + encodeURIComponent(config.JYDS + jydsargs)", res.opts)
+		log.logres(aurl, res.opts)
+		log.logres("JYDS URL: " + config.JYDS + jydsargs, res.opts)
 		if (config.TSDSFE.match(/http:\/\/localhost/)) {
 			if (!config.AUTOPLOT.match(/http:\/\/localhost/)) {
-				log.logres("Error: stream(): Autoplot image servlet specified by config.AUTOPLOT must be localhost if config.TSDSFE is localhost.", res.options)
+				log.logres("Error: stream(): Autoplot image servlet specified by config.AUTOPLOT must be localhost if config.TSDSFE is localhost.", res.opts)
 				cb(501,"Server configuration error related to address of Autoplot servlet ("+config.AUTOPLOT+") and address of TSDSFE ("+config.TSDSFE+").",res);
 				return;
 			}
@@ -2185,25 +2175,25 @@ function parameter(options, catalogs, datasets, res, cb) {
 		ddresp[z].urltemplate = "";
 
 		//console.log(resp[z].dd)
-		if (typeof(options.format.match("ascii-1")) !== "null") {
+		if (typeof(res.opts.format.match("ascii-1")) !== "null") {
 			ddresp[z].columns = "" + (z+2);
 			ddresp[z].timeFormat = "%Y-%m-%DT%H%M%SZ";
 			ddresp[z].timeColumns = ""+1;
 		}
-		if (typeof(options.format.match("ascii-2")) !== "null") {
+		if (typeof(res.opts.format.match("ascii-2")) !== "null") {
 			ddresp[z].columns = "" + (z+7);
 			ddresp[z].timeFormat = "%Y %m %D %H %M %S";
 			ddresp[z].timeColumns = "1,2,3,4,5,6";
 		}
 	}
 
-	if (options.return === "dd") {		
-		cb(200,ddresp,res);
-		return;
+	if (res.opts.return === "dd") {		
+		cb(200, ddresp, res)
+		return
 	}
 	
-	if ((options.return === "data") || (options.return === "redirect")) {				 
-		var formatv = options.format.split("-")
+	if ((res.opts.return === "data") || (res.opts.return === "redirect")) {				 
+		var formatv = res.opts.format.split("-")
 		if (formatv.length < 2) {
 			var format = 1
 		} else {
@@ -2216,8 +2206,8 @@ function parameter(options, catalogs, datasets, res, cb) {
 				+"&streamFilterReadTimeFormat="+(resp[0].dd.timeformat || "")
 				+"&streamFilterReadColumns="+columns
 				+"&streamFilterWriteTimeFormat="+format
-				+"&streamFilterWriteComputeFunction="+options.filter
-				+"&streamFilterWriteComputeFunctionWindow="+options.filterWindow
+				+"&streamFilterWriteComputeFunction="+res.opts.filter
+				+"&streamFilterWriteComputeFunctionWindow="+res.opts.filterWindow
 				+"&streamFilterWriteComputeFunctionExcludes="+(resp[0].dd.fillvalue || "")
 				+"&streamOrder=true"
 				+"&streamGzip=false"
@@ -2225,13 +2215,13 @@ function parameter(options, catalogs, datasets, res, cb) {
 
 		// Remove name=value when value === "".
 		dc = dc.replace(/[^=&]+=(&|$)/g,"").replace(/&$/,"");
-		if (!options.usedatacache) dc = dc+"&forceUpdate=true&forceWrite=true"
+		if (!res.opts.usedatacache) dc = dc+"&forceUpdate=true&forceWrite=true"
 
 		var tests = require('./servers.js').tests
 		if (!tests.respectHeaders) {
 			dc = dc + "&respectHeaders=false"
 		}
-		if (options.return === "redirect") {
+		if (res.opts.return === "redirect") {
 			// If more than one resp, this won't work.
 			cb(302,dc,res);
 			return;
@@ -2241,5 +2231,5 @@ function parameter(options, catalogs, datasets, res, cb) {
 		return;
 	}
 
-	cb(500,"Query parameter return=" + options.return + " not recognized.", res)
+	cb(500,"Query parameter return=" + res.opts.return + " not recognized.", res)
 }

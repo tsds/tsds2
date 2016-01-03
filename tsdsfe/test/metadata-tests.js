@@ -163,6 +163,40 @@ tests[i].test = function (data) {
 
 i = i+1;
 tests[i] = {};
+tests[i].url = "catalog=SSCWeb&dataset=ace;wind&parameters=X_TOD";
+tests[i].test = function (data) {
+					datao = JSON.parse(data)
+					len = datao.length
+					console.log("Response array should have 2 elements.")
+					if (len == 2) {
+						return true;
+					} 
+					else {
+						return false;
+					}
+				};
+
+i = i+1;
+tests[i] = {};
+tests[i].url = "catalog=SSCWeb&dataset=ace;wind&parameters=X_TOD;Y_TOD";
+tests[i].test = function (data) {
+					datao = JSON.parse(data)
+					//console.log(datao)
+					var chk = (datao[0][0].dd.id === "X_TOD") && (datao[1][0].dd.id === "Y_TOD")
+					
+					console.log("Response objects should correct dd IDs.")
+
+					if (chk) {
+						return true;
+					} 
+					else {
+						return false;
+					}
+				};
+
+if (0) {
+i = i+1;
+tests[i] = {};
 tests[i].url = "catalog=USGS/Dst/RT/PT1H&dataset=Dst&parameters=DST_RT";
 tests[i].test = function (data) {
 					var json = JSON.parse(data);
@@ -217,7 +251,6 @@ tests[i].test = function (data) {
 					}
 				};
 
-if (0) {
 // When stop date has time component, extra file is returned.
 tests[9] = {};
 tests[9].url = "catalog=SWPC/GOES/Primary/Particle/PT1M&dataset=Gp_particles&parameters=E_gt_4.0&start=-P3D&stop=-P0D1H&return=urilistflat";
