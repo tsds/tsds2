@@ -3,8 +3,10 @@
   	"version": "0.1.2",
   	"engines":{"node": "0.12.x"},
 	"dependencies": {
-		"request" : "2.9.203",
-		"express" : "3.0.0",
+		"request" : "~2.67",
+		"express" : "4.1.0",
+		"serve-index": "*",
+		"compression": "*",
 		"xml2js"  : "*",
 		"cli-color": "*",
 		"mkdirp": "*",

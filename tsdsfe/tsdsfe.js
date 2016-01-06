@@ -1,14 +1,17 @@
 var fs      = require('fs')
 var os      = require("os")
+
 var request = require("request")
 var express = require('express')
-var app     = express().use(express.bodyParser())
+var app     = express()
+var serveIndex  = require('serve-index')
+var compression = require('compression')
 var server  = require("http").createServer(app)
 var qs      = require('querystring')
 var xml2js  = require('xml2js')
 var http    = require('http')
 var url     = require('url')
-var util    = require('util')
+
 var crypto  = require("crypto")
 var clc     = require('cli-color')
 var argv    = require('yargs')
@@ -24,6 +27,8 @@ var argv    = require('yargs')
 				.argv
 
 var deps = require('./deps.js')
+
+
 
 // Helper functions
 function s2b(str) {if (str === "true") {return true} else {return false}}
@@ -168,11 +173,11 @@ http.globalAgent.maxSockets = config.maxSockets
 var dirs = ["js","css","scripts","catalogs","log","test/data"]
 for (var i in dirs) {
 	app.use("/" + dirs[i], express.static(__dirname + "/" + dirs[i]))
-	app.use("/" + dirs[i], express.directory(__dirname + "/" + dirs[i]))
+	app.use("/" + dirs[i], serveIndex(__dirname + "/" + dirs[i], {'icons': true}))
+	//app.use("/" + dirs[i], express.directory(__dirname + "/" + dirs[i]))
 }
 
-// Compress response (depending on request headers).
-app.use(express.compress())
+app.use(compression())
 
 // Get the status of services used by TSDSFE.
 app.get('/status', function (req, res) {
@@ -368,8 +373,8 @@ if (argv.startdeps) {
 }
 
 // Start the server.  TODO: Wait until deps are ready.
-server.listen(port)
-
+//server.listen(port)
+app.listen(port)
 console.log(ds() + "Listening on port " + port + ". See " + config.TSDSFE)
 
 function handleRequest(req, res, options) {
@@ -392,7 +397,7 @@ function handleRequest(req, res, options) {
 				options.catalog = ddfile;
 				options.all = "-";
 				options.dd = "";
-				options.usemetadatacache = "true";
+				req.query.usemetadatacache = "true";
 				log.logres("Calling handleRequest()", options, "app")
 				handleRequest(req, res, options);
 			})
@@ -1059,24 +1064,24 @@ function parseOptions(req, res) {
 
 	var options = {}
 
-	options.all          = req.query.all          || req.body.all          || "/catalogs/all.thredds";
-	options.catalog      = req.query.catalog      || req.body.catalog      || "^.*";
-	options.dataset      = req.query.dataset      || req.body.dataset      || "";
-	options.parameters   = req.query.parameters   || req.body.parameters   || "";
-	options.groups       = req.query.groups       || req.body.groups       || "";
-	options.start        = req.query.start        || req.body.start        || "";
-	options.stop         = req.query.stop         || req.body.stop         || "";
-	options.timerange    = req.query.timerange    || req.body.timerange    || "";
-	options.return       = req.query.return       || req.body.return       || "data";
-	options.format       = req.query.format       || req.body.format       || "";
-	options.style        = req.query.style        || req.body.style        || "";
-	options.type         = req.query.type         || req.body.type         || "";
-	options.filter       = req.query.filter       || req.body.filter       || "";
-	options.filterWindow = req.query.filterWindow || req.body.filterWindow || "";
-	options.attach       = s2b(req.query.attach   || req.body.attach       || "true");
-	options.istest       = s2b(req.query.istest   || req.body.istest       || "false");
+	options.all          = req.query.all                 || "/catalogs/all.thredds";
+	options.catalog      = req.query.catalog           || "^.*";
+	options.dataset      = req.query.dataset          || "";
+	options.parameters   = req.query.parameters    || "";
+	options.groups       = req.query.groups           || "";
+	options.start        = req.query.start              || "";
+	options.stop         = req.query.stop                || "";
+	options.timerange    = req.query.timerange     || "";
+	options.return       = req.query.return       || "data";
+	options.format       = req.query.format       || "";
+	options.style        = req.query.style        || "";
+	options.type         = req.query.type         || "";
+	options.filter       = req.query.filter       || "";
+	options.filterWindow = req.query.filterWindow || "";
+	options.attach       = s2b(req.query.attach   || "true");
+	options.istest       = s2b(req.query.istest   || "false");
 
-	options.dd           =  req.query.dd          || req.body.dd          || "";
+	options.dd           =  req.query.dd          || "";
 
 
 	if (req.headers['x-forwarded-for']) {
@@ -1101,11 +1106,11 @@ function parseOptions(req, res) {
 
 	// If any of the cache options are false and update fails, cache will be used if found (and warning is given in header).
  	// Sent as DataCache parameter.
-	options.usedatacache     = s2b(req.query.usedatacache     || req.body.usedatacache     || "true")
+	options.usedatacache     = s2b(req.query.usedatacache     || "true")
 	// Images are cached locally.
-	options.useimagecache    = s2b(req.query.useimagecache    || req.body.useimagecache    || "true") 
+	options.useimagecache    = s2b(req.query.useimagecache    || "true") 
 	// Metadata is cached locally.
-	options.usemetadatacache = s2b(req.query.usemetadatacache || req.body.usemetadatacache || "true") 
+	options.usemetadatacache = s2b(req.query.usemetadatacache || "true") 
 
 	// TODO: If any input option is not in list of valid inputs, send warning in header.
 
