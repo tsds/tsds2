@@ -4,11 +4,10 @@ var findstartstop = require('./expandDD.js').findstartstop
 var q = "uri=http://localhost:8004/test/data/file1.dat&columns=2&start=2001-01-01&stop=2001-01-03"
 var q = "uri=http://localhost:8004/test/data/file1.dat&columns=2"
 var q = "uri=http://localhost:8004/test/data/2015-11-20.txt&columns=2"
-//var q = "uri=http://localhost:8004/test/data/one.dat&columns=2"
+var q = "uri=http://localhost:8004/test/data/one.dat&columns=2"
+var q = "uri=http://localhost:8004/test/data/&columns=2,3"
 
 //var q = "uri=http://localhost:8004/test/data/$Y$m$d.dat&start=2012-01-01&stop=2001-01-06"
-//var q = "uri=http://localhost:8004/test/data/&columns=2,3"
-//var q = "uri=http://mag.gmu.edu/tmp/"
 
 if (0) {
 	console.log('\n----\n');
@@ -23,7 +22,7 @@ if (0) {
 if (1) {
 	console.log('\n----\n');
 	console.log('Calling expandDD with query string: ' + q);
-	expandDD({queryString: q, debug: true}, function (err, cat) {
+	expandDD({queryString: q, debug: false}, function (err, cat) {
 		console.log('Output: ');
 		if (err) {
 			console.log(err);

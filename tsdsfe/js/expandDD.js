@@ -5,7 +5,6 @@ function expandDD(qs, cb) {
 		debug  = qs.debug;
 		var qs = qs.queryString;
 	}
-
 	if (typeof(qs) === "string") {
 		qo = parseQueryString(qs)
 	}
@@ -13,16 +12,24 @@ function expandDD(qs, cb) {
 		throw new Error('uri is required.')
 		return
 	}
+
 	if (!qo["start"] || !qo["stop"]) {
-		if (debug) console.log("Start or stop not given.  Will " + "attempt to infer from " + qo["uri"]);
+		if (debug) {
+			console.log("Start or stop not given.  Will " 
+						+ "attempt to infer from " + qo["uri"]);
+		}
 		if (qo["uri"].match(/\/$/)) {
 			var dirwalk = require('./dirwalk.js').dirwalk;
-			dirwalk(qo["uri"], function (error, flat, nested) {
+			console.log("Calling dirwalk with URI: " + qo["uri"]);
+			dirwalk(qo["uri"], function (error, list, flat, nested) {
 				if (error) console.log(error);
+				console.log(list)
+				cb(list);
 				//flat.sort();
 				//findstartstop(first, last, qo, cb)
 				//console.log(flat);
 			})
+			return;
 		}
 		get()
 	} else {
