@@ -1,0 +1,106 @@
+Search for weygand bow shock data set
+
+https://www.google.com/webhp?sourceid=chrome-instant&ion=1&espv=2&ie=UTF-8#q=weygand%20bow%20shock%20data%20set
+
+Inspect first link
+
+http://vmo.nasa.gov/mission/metadata/VMO/NumericalData/Weygand/Wind/TAP/Propagated.3DP/GSE/PT60S.xml
+
+Find reference to 
+
+http://vmo.igpp.ucla.edu/data1/Weygand/PropagatedSolarWindGSE/weimer/Wind/TAP
+
+Inspect it and find
+
+http://vmo.igpp.ucla.edu/data1/Weygand/PropagatedSolarWindGSE/weimer/Wind/TAP/V3/
+
+Note that V3 directory was not mentioned in SPASE record.  
+
+Look for Start/End time in SPASE record, and attempt to verify by inspection of http://vmo.igpp.ucla.edu/data1/Weygand/PropagatedSolarWindGSE/weimer/Wind/TAP/V3/.  Find directory has data through 2014-09 but SPASE record has End = 2010-06-30T23:59:00.000.  Decide to use directory End date.
+
+I now have enough information to serve this data through TSDS.  I am going to do this using three approaches: 
+# By telling TSDS the minimal amount of information it needs to serve the numbers.
+# By telling TSDS the minimal amount of information to allow it to create plots with appropriate labels and provide links to information about the data.
+# Using a hypothetical SPASE service.
+
+To do 1. and 2., TSDS needs a TSDS catalog.  Within a catalog is a list of datasets.  
+
+Decide URI template is
+
+http://vmo.igpp.ucla.edu/data1/Weygand/PropagatedSolarWindGSE/weimer/Wind/TAP/V3/$Y/windTAP$Y$m.dat
+
+I could enter this in Autoplot and it would give me a GUI for selecting the columns that I want to plot and I could plot it over an arbitrary time range.  I would need to manually determine the column labels as the data files do not contain a header.
+
+== 1. ==
+To do 1., I need to use this <code>dd</code> string:
+
+ <nowiki>uri=http://vmo.igpp.ucla.edu/data1/Weygand/PropagatedSolarWindGSE/weimer/Wind/TAP/V3/$Y/windTAP$Y$m.dat&start=1995-01-01&stop=2014-09-01&timeFormat=$d $m $Y $H $M $S</nowiki>
+
+I append this string to <nowiki>http://localhost:8004/#</nowiki> and enter the following into a browser
+
+ http://localhost:8004/#uri=http://vmo.igpp.ucla.edu/data1/Weygand/PropagatedSolarWindGSE/weimer/Wind/TAP/V3/$Y/windTAP$Y$m.dat&start=1995-01-01&stop=2014-09-01&timeFormat=$d $m $Y $H $M $S
+
+and then inpsect the GUI and use it to help form requests for data.  The GUI recognizes that there is only one data set and one parameter in the catalog, so it selected them automatically.  
+
+When the above URL was entered in the browser, it sent the query string to the TSDS server, which created a TSDS catalog.  To view the catalog that was created and that the GUI is now working with, select the link named "Catalog configuration" near the bottom of the page in the Catalog section.  Note that the catalog created has one data set with id=<code>1</code> and one parameter with id=<code>1</code> (it assumed the first non-time column was the only parameter and gave it a name of "1").
+
+This above dd is the minimal amount of information that I needed to start serving numbers (for non-ASCII files, a bit more additional information would be needed - more on that later).
+
+Next I selected <code>ascii-0</code> verified that the first line returned 
+
+ 29 08 2014 00 00 00.000 4.121e+03
+
+is found in the [http://vmo.igpp.ucla.edu/data1/Weygand/PropagatedSolarWindGSE/weimer/Wind/TAP/V3/2014/windTAP201408.dat source data file by searching for <code>29 08 2014 00 00 00.000</code> in the file.
+
+== 2. ==
+
+I used the SPASE record to find parameter names.  Parameter names <code>nxangle</code>, <code>nyangle</code>, <code>nzangle</code>, and <code>Propagation flag</code>, were taken from SPASE record <code>ParameterKey</code> element.
+
+Next I append to the previous <code>dd</code> additional information:
+
+ &dataColumns=7,8,9,10,11&dataIDs=nxangle,nyangle,nzangle,Propagation flag&catalogLabel=Weigand SW Propagation Data Set&datasetID=spase://VMO/NumericalData/Weygand/Wind/TAP/Propagated.3DP/GSE/PT60S
+
+And append this to the URL used in 1.:
+
+ http://localhost:8004/#uri=http://vmo.igpp.ucla.edu/data1/Weygand/PropagatedSolarWindGSE/weimer/Wind/TAP/V3/$Y/windTAP$Y$m.dat&start=1995-01-01&stop=2014-09-01&timeFormat=$d $m $Y $H $M $S&columns=7,8,9,10,11&columnIDs=nxangle,nyangle,nzangle,Propagation flag&catalogLabel=Weigand SW Propagation Data Set&datasetID=spase://VMO/NumericalData/Weygand/Wind/TAP/Propagated.3DP/GSE/PT60S&fillValues=1e34
+
+and inpsect the GUI and use it to form requests for data.
+
+== 3. ==
+
+I would query a (hypotetical) service 
+
+ http://spase.org/?catalog=spase://VMO/NumericalData/Weygand/
+
+and get a list of datasets under Weygand, such as
+
+ spase://VMO/NumericalData/Weygand/ACE/TAP/Propagated.3DP/GSE/PT60S
+ spase://VMO/NumericalData/Weygand/Wind/TAP/Propagated.3DP/GSE/PT60S
+ spase://VMO/NumericalData/Weygand/Geotail/TAP/Propagated.LEP/GSE/PT60S.xml
+ ...
+
+and within each of the above SPASE records is a URI template.
+
+I could use this SPASE service to do everything in 2. above.
+
+
+On Wed, Jan 6, 2016 at 12:05 PM, Bob Weigel <robert.s.weigel@gmail.com> wrote:
+All,
+
+I would like to discuss doing a test of serving the data here
+
+http://vmo.igpp.ucla.edu/data1/Weygand/
+
+for which a SPASE record for one of the data sets is
+
+http://vmo.nasa.gov/mission/metadata/VMO/NumericalData/Weygand/Wind/TAP/Propagated.3DP/GSE/PT60S.xml
+
+though TSDS.
+
+I can meet Tuesday, January 19th anytime after 1 pm and anytime on Wednesday, January 20th.
+
+Please let me know of you availability if you would like to meet.  I'll send out call-in information in a separate email.
+
+Bob
+
+

@@ -1,3 +1,15 @@
+var fs = require('fs');
+var crypto = require("crypto")
+
+path = "dirwalk/dirwalk.js"
+if (fs.existsSync("../../../" + path)) {
+	// Development
+	var dirwalk = require("../../../" + path).dirwalk
+} else {
+	// Production
+	var dirwalk = require("../node_modules/"+path).dirwalk
+}
+
 var debug = false;
 function expandDD(qs, cb) {
 
@@ -5,12 +17,19 @@ function expandDD(qs, cb) {
 		debug  = qs.debug;
 		var qs = qs.queryString;
 	}
+
 	if (typeof(qs) === "string") {
-		qo = parseQueryString(qs)
+		qo = parseQueryString(qs);
+		qo.queryString = qs;
 	}
+
 	if (!qo["uri"]) {
-		throw new Error('uri is required.')
-		return
+		if (typeof(cb) === "function") {
+			cb(new Error('uri is required.'));
+		} else {
+			throw new Error('uri is required.');
+		}
+		return;
 	}
 
 	if (!qo["start"] || !qo["stop"]) {
@@ -18,52 +37,16 @@ function expandDD(qs, cb) {
 			console.log("Start or stop not given.  Will " 
 						+ "attempt to infer from " + qo["uri"]);
 		}
-		if (qo["uri"].match(/\/$/)) {
-			var dirwalk = require('./dirwalk.js').dirwalk;
-			console.log("Calling dirwalk with URI: " + qo["uri"]);
-			dirwalk(qo["uri"], function (error, list, flat, nested) {
-				if (error) console.log(error);
-				console.log(list)
-				cb(list);
-				//flat.sort();
-				//findstartstop(first, last, qo, cb)
-				//console.log(flat);
-			})
-			return;
-		}
-		get()
-	} else {
-		createcat(qo, cb)
-	}
-
-	function get() {
-		var request = require("request");
-		var opts = { method: 'GET', uri: qo["uri"], gzip: true };
-		var first = ""
-		var last = ""
-		doget()
-
-		function doget() {
-			request.get(opts)
-				.on('data', function (data) {
-					//console.log("Got chunk:\n" + data)
-					if (first === "") {
-						first = data
-					}
-					if (last === "") {
-						last = data
-					}
-				})
-				.on('error', function (err) {
-					if (debug) console.log('Got error.');
+		findstartstop(qo, 
+			function (err, qo) {
+				if (err) {
 					cb(err);
-				})
-				.on('end', function () {
-					findstartstop(first, last, qo, 
-						function () {findstartstop(first, last, qo, cb)});
-					if (debug) console.log('Got end');
-				})
-		}
+				} else {
+					createcat(qo, cb);
+				}
+			});
+	} else {
+		createcat(qo, cb);
 	}
 
 }
@@ -109,7 +92,7 @@ function createcat(qo, cb) {
 		var dataset = 
 			[
 				{
-					"$": {"id":"","name":"","timecolumns":"","timeformat":"","urltemplate":""},
+					"$": {"id":"","timecolumns":"","timeformat":"","urltemplate":""},
 					"variables":
 						[{
 							"variable": []
@@ -123,8 +106,7 @@ function createcat(qo, cb) {
 				{
 					"$": {
 							"xmlns:xlink": "http://www.w3.org/1999/xlink",
-							"id": "",
-							"name": ""
+							"id": ""
 						},
 					"documentation":
 						[
@@ -143,19 +125,22 @@ function createcat(qo, cb) {
 		cat["catalog"]["timeCoverage"][0]["End"][0] = qo["stop"]
 		delete cat["catalog"]["timeCoverage"][0]["Cadence"]
 
+		var id = crypto.createHash("md5").update(qo["queryString"]).digest("hex")
 		if (qo["catalogID"]) {
-			cat["catalog"]["$"]["id"] = qo["catalogID"]
+			cat["catalog"]["$"]["id"] = qo["catalogID"];
 		} else {
-			cat["catalog"]["$"]["id"] = qo["uri"]
+			cat["catalog"]["$"]["id"] = id;
 		}
 		if (qo["catalogLabel"]) {
 			cat["catalog"]["$"]["name"] = qo["catalogLabel"]
 		} else {
-			cat["catalog"]["$"]["name"] = cat["catalog"]["$"]["id"]
+			//cat["catalog"]["$"]["name"] = cat["catalog"]["$"]["id"]
 		}
 
+		cat["catalog"]["documentation"][0]["$"]["xlink:href"] = "http://tsds.org/dd/"
+	
 		cat["catalog"]["documentation"][0]["$"]["xlink:title"] = 
-				"Catalog derived from string " + qo["querystring"]
+				"Catalog derived from DD string " + qo["querystring"]
 
 		if (qo["datasetID"]) {
 			dataset[0]["$"]["id"] = qo["datasetID"]
@@ -165,16 +150,10 @@ function createcat(qo, cb) {
 		if (qo["datasetLabel"]) {
 			dataset[0]["$"]["name"] = qo["datasetLabel"]
 		} else {
-			dataset[0]["$"]["name"] = dataset[0]["$"]["id"]
+			//dataset[0]["$"]["name"] = dataset[0]["$"]["id"]
 		}
 
 		dataset[0]["$"]["urltemplate"] = qo["uri"]
-
-		if (qo["timeColumns"]) {
-			dataset[0]["$"]["timecolumns"] = qo["timeColumns"]
-		} else {
-			dataset[0]["$"]["timecolumns"] = "1"
-		}
 
 		if (qo["timeFormat"]) {
 			dataset[0]["$"]["timeformat"] = qo["timeFormat"]
@@ -182,50 +161,169 @@ function createcat(qo, cb) {
 			dataset[0]["$"]["timeformat"] = "$Y-$m-$dT$H:$M:$S.$(millis)Z"
 		}
 
-		var columns = qo["columns"] || "2"
+		if (qo["timeColumns"]) {
+			var len = 1;
+			dataset[0]["$"]["timecolumns"] = qo["timeColumns"];
+			// TODO: Verify # of time columns matches what is expected
+			// based on timeformat.
+		} else {
+			var len = dataset[0]["$"]["timeformat"].split(" ").length
+			if (len == 1) {
+				dataset[0]["$"]["timecolumns"] = "1";
+			} else {
+				dataset[0]["$"]["timecolumns"] = "1-" + len;	
+			}
+		}
+
+		if (0) {
+			if (dataset[0]["$"]["timecolumns"].match(/[0-9]\-[0-9]/)) {
+				var tmp = dataset[0]["$"]["timecolumns"].split("-");
+				var start = parseInt(tmp[0]);
+				var stop  = parseInt(tmp[1]);
+
+			}
+		}
+
+		var fillValues = [];
+		if (qo["fillValues"].split(",").length == 1) {
+			// fillValues apply to all variables.
+			dataset[0]["$"]["fillvalue"] = qo["fillValues"];
+		} else {
+			fillValues = qo["fillValues"].split(",");
+		}
+
+		var columns = qo["columns"] || "" + (len + 1)
 		columns = columns.split(",")
 		var units = qo["units"] || ""
 		units = units.split(",")
-		var columnIDs = qo["columnIDs"] || ""
-		columnIDs = columnIDs.split(",")
+		if (!qo["columnIDs"]) {
+			columnIDs = [];
+		} else {
+			columnIDs = qo["columnIDs"].split(",")
+		}
 		var columnLabels = qo["columnLabels"] || ""
 		columnLabels = columnLabels.split(",")
 
+		//console.log(columns)
 		for (var j = 0; j < columns.length; j++) {
-			if (units.length != columns.length) {
+			if (units.length == 1) {
 				units[j] = units[0]					
 			}
-			if (columnIDs.length != columns.length) {
-				columnIDs[j] = columnIDs[0]					
-			}
-			if (columnLabels.length != columns.length) {
+			if (columnLabels.length == 1) {
 				columnLabels[j] = columnLabels[0]					
+			}
+			if (fillValues.length == 1) {
+				fillValues[j] = fillValues[0]					
 			}
 
 			dataset[0]["variables"][0]["variable"][j] = {}
 			dataset[0]["variables"][0]["variable"][j]["$"] = {}
 			dataset[0]["variables"][0]["variable"][j]["$"]["columns"] = columns[j]
+
+			var columnstr = "column";
+			if (columns[j].match(/[0-9]\-[0-9]/)) {
+				columnstr = "columns";
+			}
+
+			if (fillValues[j]) {
+				dataset[0]["variables"][0]["variable"][j]["$"]["fillvalue"] = fillValues[j]
+			}
+
+			if (columnIDs[j]) {
+				dataset[0]["variables"][0]["variable"][j]["$"]["id"] = columnIDs[j]
+			} else {
+				dataset[0]["variables"][0]["variable"][j]["$"]["id"] =  columnstr + columns[j];
+			}
 			if (units[j]) {
 				dataset[0]["variables"][0]["variable"][j]["$"]["units"] = units[j]
 			}
-			if (columnIDs[j]) {
-				dataset[0]["variables"][0]["variable"][j]["$"]["id"] = columnIDs[j]
-			}
 			if (columnLabels[j]) {
 				dataset[0]["variables"][0]["variable"][j]["$"]["label"] = columnLabels[j]
+			} else {
+				if (qo["columnIDs"]) {
+					dataset[0]["variables"][0]["variable"][j]["$"]["label"] = columnIDs[j]
+				} else {
+					dataset[0]["variables"][0]["variable"][j]["$"]["label"] = columnstr + columns[j]
+				}
 			}
+
 		}
 
 		return cat
 	}
 }
 
-function findstartstop(firstc, lastc, qo, cb) {
+function findstartstop(qo, cb) {
 
 	if (typeof(qo) === "string") {
-		qo = parseQueryString(qo)
+		qo = parseQueryString(qo);
 	}
 
+	if (qo["uri"].match(/\/$/)) {
+		console.log("Calling dirwalk with URI: " + qo["uri"]);
+		var dopts = {url: qo["uri"], filepattern: "file[0-9]\.dat"}
+		function finish (err, q) {
+			console.log("Finish called.")
+			console.log(q);
+			// Add new elements in q to qo when finished has been called 2x.
+		}
+		dirwalk(dopts, function (error, list, flat, nested) {
+			if (error) console.log(error);
+			console.log(list)
+			getchunks(qo["uri"] + list[0], function (err, first, last) {
+				inspectchunks(first, last, function (err, q) {
+					finish(err, q)
+				})
+			})
+			getchunks(qo["uri"] + list[list.length-1], function (err, first, last) {
+				inspectchunks(first, last, function (err, q) {
+					finish(err, q)
+				})
+			})
+		})
+		return;
+	} else {
+		getchunks(qo["uri"], function (err, first, last) {
+			inspectchunks(first, last, function (err, q) {
+				// Add new elements in q to qo.
+				// TODO: Don't over-ride.
+				for (var key in q) {
+					qo[key] = q[key];
+				}
+				cb(err, qo)
+			})
+		});
+	}
+}
+
+function getchunks(uri, cb) {
+	var request = require("request");
+	var opts = { method: 'GET', uri: uri, gzip: true };
+	var first = ""
+	var last = ""
+	var err = "";
+	request.get(opts)
+		.on('data', function (data) {
+			//console.log("Got chunk:\n" + data)
+			if (first === "") {
+				first = data
+			}
+			if (last === "") {
+				last = data
+			}
+		})
+		.on('error', function (err) {
+			if (debug) console.log('Got error.');
+			cb(err);
+		})
+		.on('end', function () {
+			cb(err, first, last);
+			if (debug) console.log('Got end');
+		})
+}
+
+function inspectchunks(firstc, lastc, cb) {
+	var qo = {};
 	// Expressions are checked in order until a match.
 	var checks = [
 			{
@@ -321,10 +419,9 @@ function findstartstop(firstc, lastc, qo, cb) {
 			}
 		]
 
-
 	if (debug) console.log("First chunk:\n" + firstc);
 	if (debug) console.log("Last chunk:\n" + lastc);
-
+	var err = ""
 	for (var i = 0; i < checks.length; i++) {
 
 		if (checks[i].types) {
@@ -393,7 +490,7 @@ function findstartstop(firstc, lastc, qo, cb) {
 				if (!cb) {
 					return qo;
 				} else {
-					createcat(qo, cb);
+					cb(err, qo);
 					return;
 				}
 			}

@@ -27,8 +27,9 @@ var argv    = require('yargs')
 				.argv
 
 var deps = require('./deps.js')
-
-
+var servers = require('./servers.js')
+var checkservers = servers.checkservers
+var servertests = servers.tests
 
 // Helper functions
 function s2b(str) {if (str === "true") {return true} else {return false}}
@@ -195,6 +196,13 @@ app.get('/status', function (req, res) {
 					c.deps[key] = checkservers.status[key]
 				}
 			}
+		} else {
+			var TESTS = servertests(config);
+			for (var server in TESTS) {
+				if (TESTS[server].type === "server") {
+					c.servers[server] = "";
+				}
+			}	
 		}
 	}
 	if (Object.keys(c.deps).length == 0) {
@@ -356,7 +364,6 @@ if (!argv.checkdeps) {
 }
 
 if (argv.checkservers) {
-	var checkservers = require('./servers.js').checkservers
 	// Check servers 5 seconds after start-up
 	console.log(ds() + "Starting checks in 5 seconds.")
 	setTimeout(function () {checkservers(config)}, 5000)
@@ -392,8 +399,8 @@ function handleRequest(req, res, options) {
 		log.logres("Input is dd: " + options.dd, options, "app")
 		expandDD(decodeURIComponent(options.dd), function (err, cat) {
 			var ddfile = crypto.createHash("md5").update(decodeURIComponent(options.dd)).digest("hex")
-			log.logres("Writing " + "catalogs/dd/" + ddfile, options, "app")
-			fs.writeFile("catalogs/dd/" + ddfile, JSON.stringify(cat), function () {
+			log.logres("Writing " + "catalogs/dd/" + ddfile + ".json", options, "app")
+			fs.writeFile("catalogs/dd/" + ddfile + ".json", JSON.stringify(cat), function () {
 				options.catalog = ddfile;
 				options.all = "-";
 				options.dd = "";
@@ -576,7 +583,7 @@ function handleRequest(req, res, options) {
 		}
 
 		if (res.opts.all === "-") {
-			finish(config["TSDSFE"] + "catalogs/dd/" + options.catalog)
+			finish(config["TSDSFE"] + "catalogs/dd/" + options.catalog + ".json")
 		} else {
 			// Get list of all catalogs and their URLs
 			url = config["TSDSFE"] 
@@ -752,6 +759,11 @@ function handleRequest(req, res, options) {
 			// Result is first file is displayed and then trailing garbage.  See
 			// http://stackoverflow.com/questions/16740034/http-how-to-send-multiple-pre-cached-gzipped-chunks
 			if ((options.attach) && ((options.return === "data") || (options.return === "redirect"))) {
+				// https://kb.acronis.com/content/39790
+				var fname = req.originalUrl.replace(/^&|^\/\?/,"").replace(/:/g,"").replace(/\//g,"!").replace(/\&/g,"_").replace(/\=/g,"-")+".txt";
+				console.log(fname)
+				res.setHeader("Content-Disposition", "attachment;filename="+fname);
+
 				if (req.headers['accept-encoding']) {
 					if (req.headers['accept-encoding'].match("gzip")) {
 						//res.setHeader('Content-Encoding','gzip');
@@ -759,9 +771,6 @@ function handleRequest(req, res, options) {
 						//data = data.replace("streamGzip=false","streamGzip=true");
 					}
 				}
-				//var fname = req.originalUrl;//.replace(/^&/,"").replace(/\&/g,"_").replace(/\=/g,"-")+"txt";
-				//console.log(fname)
-				//res.setHeader("Content-Disposition", "attachment;filename="+fname);
 			}
 
 			// If stream was called with a URL, pipe the data through.
@@ -894,11 +903,11 @@ function handleRequest(req, res, options) {
 					.on('error', function (err) {
 						var tmpstr  = "Error '" 
 							+ err.code 
-							+ "' when attempting to retrieve data from data from "
+							+ "' when attempting to retrieve data from "
 							+ data
 						var tmpstr2 = "Error " 
 							+ err.code 
-							+ " when attempting to retrieve data from data from " 
+							+ " when attempting to retrieve data from " 
 							+ data.split("?")[0]
 						res.setHeader('x-tsdsfe-error',tmpstr2)
 						log.logres(tmpstr2, res.opts, "stream")
@@ -965,7 +974,25 @@ function handleRequest(req, res, options) {
 						res.setHeader('Expires',res0.headers["expires"])
 					}
 					if (options.style === "header") {
-						res.write("Time" + " " + res.dd[0].columnIDs + "\n")
+						console.log(options)
+						console.log(res.dd)
+						if (options.format === "ascii-0") {
+							var tmpstr = res.dd[0].timeFormat
+											.replace("%Y", " Year").replace("$Y", " Year")
+											.replace("%m", " Month").replace("$m", " Month")
+											.replace("%d", " Day").replace("$d", " Day")
+											.replace("%H", " Hour").replace("$H", " Hour")
+											.replace("%M", " Minute").replace("$M", " Minute")
+											.replace("%S", " Second").replace("$S", " Second")
+
+							res.write(tmpstr.replace(/^ /,"") + " " + res.dd[0].columnIDs + "\n")
+						} 
+						if (options.format === "ascii-1") {
+							res.write("Time" + " " + res.dd[0].columnIDs + "\n")
+						} 
+						if (options.format === "ascii-2") {
+							res.write("Year Month Day Hour Minute Second" + " " + res.dd[0].columnIDs + "\n")
+						} 
 					}
 
 				}
@@ -1002,9 +1029,10 @@ function handleRequest(req, res, options) {
 					})
 			}).on('error', function (err) {
 				var tmpstr = "Error when attempting to retrieve data "
-							+ " from upstream server " + data.split("/")[2]
-				log.logres(tmpstr, res.opts, "stream")
+							+ " from backend server."
 				res.status(502).send(tmpstr)
+				var tmpstr = tmpstr + " at " + data.split("/")[2];
+				log.logres(tmpstr, res.opts, "stream")
 			})
 		} else if (status == 301 || status == 302) {
 			log.logres("Redirecting to "+data, res.opts, "stream")
@@ -1412,7 +1440,7 @@ function getandparse(url, res, cb) {
 					cb(tmp)
 				} else {
 					if (!fs.existsSync(cfile+"."+type))  {
-						log.logres("Error when attempting to access " + url + " and not cached version found.\n", res.opts)
+						log.logres("Error when attempting to access " + url + " and no cached version found.\n", res.opts)
 						res.status(502).send("Error when attempting to access " + url + " and no cached version found.\n")
 					}
 				}
@@ -1509,7 +1537,7 @@ function catalog(res, cb) {
 									{
 										'ID': res.opts.catalog,
 										'xlink:title': '',
-										'xlink:href': "dd/" + res.opts.catalog
+										'xlink:href': "dd/" + res.opts.catalog + ".json"
 									}
 							}]
 					}
@@ -1722,6 +1750,7 @@ function dataset(catalogs, res, cb) {
 				}
 			}
 
+			//console.log(dresp)
 			if (res.opts.parameters === "" && !(res.opts.groups === "^.*")) {
 				dresp = dresp.filter(function(n){return n;}); // Needed?
 				if (dresp.length == 1 && res.opts.dataset.substring(0,1) !== "^") {
@@ -1751,6 +1780,7 @@ function dataset(catalogs, res, cb) {
 					// TODO: Do the following using getandparse().  Document how it works.
 					//console.log(datasets[z])
 					var filecite = __dirname + "/" + catalogs[afterparse.j-1].href.replace(config.TSDSFE,"").replace(/\.xml|\.json/,'.cite')
+					console.log(filecite)
 					if (fs.existsSync(filecite)) {
 						var text = fs.readFileSync(filecite)
 									 .toString()
@@ -1767,7 +1797,7 @@ function dataset(catalogs, res, cb) {
 					cb(200,dresp, res)
 				}
 			} else {
-				parameter(parents,datasets.filter(function(n){return n}),res,cb)
+				parameter(parents, datasets.filter(function(n){return n}), res, cb)
 			}						
 		}
 	}
@@ -1781,6 +1811,7 @@ function parameter(catalogs, datasets, res, cb) {
 		res.opts.parameters = "^.*";
 	}
 
+	var parameterlist = [];
 	var parameters = [];
 	var parents = [];
 	var cats = [];
@@ -1820,17 +1851,19 @@ function parameter(catalogs, datasets, res, cb) {
 	//console.log(datasets)
 	//console.log(parameters)
 	for (var i = 0;i < parameters.length;i++) {
-			
-		var id = parameters[i]["$"]["id"] || parameters[i]["$"]["ID"] || ""
+
+		var id = parameters[i]["$"]["id"] || parameters[i]["$"]["ID"] || "";
+
+		parameterlist[i] = id;
 
 		if (id === "") {
 
 			if (parameters[i]["$"]["columns"].match(/,|-/)) {
-				id = "cols" + parameters[i]["$"]["columns"]
+				id = "columns" + parameters[i]["$"]["columns"];
 			} else {
-				id = "col" + parameters[i]["$"]["columns"]
+				id = "column" + parameters[i]["$"]["columns"];
 			}
-			parameters[i]["$"]["id"] = id
+			parameters[i]["$"]["id"] = id;
 		}
 
 		resp[i]            = {};
@@ -1880,8 +1913,20 @@ function parameter(catalogs, datasets, res, cb) {
 	resp = resp.filter(function(n){return n});
 
 	if ((res.opts.parameters === "^.*") || (res.opts.start === "" && res.opts.stop === "")) {
-		//console.log(cb.toString().substring(0,20))
+		// Return matching parameters.
 		cb(200, resp, res);
+		return;
+	}
+
+	if (typeof(resp[0]) === "undefined") {
+		// No parameters means no further processing can be done.
+		var plural = (res.opts.parameters.split(",").length > 1 ? "s" : "")
+		var msg = "No match in catalog for any of the requested parameter"
+					+ plural + " ("
+					+ res.opts.parameters + "). Available parameters: "
+					+ parameterlist.join(", ") + "\n";
+		log.logres(msg + ". Sending 500 response.", res.opts);
+		cb(500, msg, res);
 		return;
 	}
 	
@@ -1922,10 +1967,8 @@ function parameter(catalogs, datasets, res, cb) {
 		return;
 	}
 	
-	if (typeof(resp[0]) === "undefined") {cb(200,"[]",res);return;}
-
 	var columns = resp[0].dd.timecolumns || 1;
-	for (var z = 0;z<resp.length;z++) {
+	for (var z = 0;z < resp.length; z++) {
 		columns = columns + "," + resp[z].dd.columns;
 	}
 
@@ -1951,24 +1994,28 @@ function parameter(catalogs, datasets, res, cb) {
 					+ "/"
 					+ resp[0].dd.stop, {debug:false});
 
-	if (0) {
+	if (1) {
 		start  = tmp.split("/")[0].replace("T00:00:00.000Z","");
 		stop   = tmp.split("/")[1].replace("T00:00:00.000Z","");
 		startdd = tmpdd.split("/")[0].replace("T00:00:00.000Z","");
 		stopdd  = tmpdd.split("/")[1].replace("T00:00:00.000Z","");
 	}
 
-	start  = tmp.split("/")[0];
-	stop   = tmp.split("/")[1];
-	startdd = tmpdd.split("/")[0];
-	stopdd  = tmpdd.split("/")[1];
+	if (0) {
+		start   = tmp.split("/")[0];
+		stop    = tmp.split("/")[1];
+		startdd = tmpdd.split("/")[0];
+		stopdd  = tmpdd.split("/")[1];
+	}
 
 	log.logres("Requested start  : " + res.opts.start, res.opts)
 	log.logres("Expanded start   : " + start, res.opts)
 	log.logres("DD start         : " + resp[0].dd.start, res.opts)
 	log.logres("Expanded DD start: " + startdd, res.opts)
+
 	log.logres("Requested stop   : " + res.opts.stop, res.opts)
 	log.logres("Expanded stop    : " + stop, res.opts)
+	log.logres("DD stop          : " + resp[0].dd.stop, res.opts)
 	log.logres("Expanded DD stop : " + stopdd, res.opts)
 
 	var urltemplate  = resp[0].dd.urltemplate.replace("mirror:http://",config.MIRROR);
@@ -1976,12 +2023,12 @@ function parameter(catalogs, datasets, res, cb) {
 	var urlsource    = resp[0].dd.urlsource;
 		
 	if ((new Date(stop)).getTime() < (new Date(start)).getTime()) {
-		cb(500,"Stop time is before start time.",res);
+		cb(500, "Stop time is before start time.", res);
 		return;
 	}
 
 	if ((new Date(start)).getTime() > (new Date(stop)).getTime()) {	
-		cb(500,"Start time is after stop time.", res);
+		cb(500, "Start time is after stop time.", res);
 		return;
 	}
 
@@ -2045,12 +2092,12 @@ function parameter(catalogs, datasets, res, cb) {
 
 		var viviz = config.VIVIZEXTERNAL 
 					+ "#"
-					+ "&dir="
+					+ "dir="
 					+ encodeURIComponent(dirprefix)
 					+ "&strftime="
 					+ encodeURIComponent("&start=-P1D&stop=$Y-$m-$d")
-					+ "&start=" + options.start
-					+ "&stop="  + options.stop
+					+ "&start=" + startdd
+					+ "&stop="  + stopdd
 		cb(302, viviz, res)
 		return
 	}
@@ -2069,6 +2116,37 @@ function parameter(catalogs, datasets, res, cb) {
 
 			if (res.opts.format === "matlab") var ext = "m";
 			if (res.opts.format === "idl") var ext = "pro";
+			if (res.opts.format === "python") var ext = "py";
+
+			var warning = "!!! Warning: Possible"
+							+ " TSDSFE configuration error"
+							+ " - script contains a TSDSFE"
+							+ " URL that with a server = localhost."
+							+ " Script will not work unless TSDSFE is running"
+							+ " on localhost";
+			if (res.opts.format === "autoplot") {
+				var url = config.TSDSFE
+								+ "?catalog=" + resp[0].catalog
+								+ "&dataset=" + resp[0].dataset
+								+ "&parameters=" + res.opts.parameters
+								+ "&start=" + start
+								+ "&stop=" + stop
+								+ "&type=" + res.opts.type
+
+				var script =  "1. Start Autoplot using http://autoplot.org/autoplot.jnlp\n"
+							+ "2. Enter the following URL in the Autoplot address bar.\n"
+							+ "3. Open the script tab to see the script.\n\n"
+							+ url;
+
+				if (config.TSDSFE.match(/http:\/\/localhost/)) {
+					script = warning + "\n\n" + script;
+				}
+
+				cb(200, script, res);
+				console.log("---")
+				console.log(script)
+				return;
+			}
 
 			var script = fs.readFileSync(__dirname 
 								+ "/scripts/tsdsfe." + ext).toString();
@@ -2076,21 +2154,22 @@ function parameter(catalogs, datasets, res, cb) {
 			script = script
 						.replace("__SERVER__",config.TSDSFE)
 						.replace("__QUERYSTRING__",
-									"catalog="+resp[0].catalog+
-									"&dataset="+resp[0].dataset+
-									"&parameters="+Parameters.slice(0,-1)+
-									"&start="+start+
-									"&stop="+stop+
-									"&format=2");
+									"catalog=" + resp[0].catalog
+									+ "&dataset=" + resp[0].dataset
+									+ "&parameters=" + res.opts.parameters
+									+ "&start=" + start
+									+ "&stop=" + stop
+									+ "&return=data"
+									+ "&format=ascii-2");
 			script = script.replace("__LABELS__",Labels.slice(0,-2));
 			if (config.TSDSFE.match(/http:\/\/localhost/)) {
-				log.logres("Warning: stream(): Possible configuration error.  Serving an IDL or MATLAB script containing a TSDSFE URL that is localhost", res.opts)
-				script=script.replace("__COMMENT__","!!! Warning: Possible TSDSFE configuration error - script contains a TSDSFE URL that is localhost")
+				log.logres("Warning: stream(): " + warning, res.opts)
+				script = script.replace("__COMMENT__",warning)
 			} else {
-				script=script.replace("__COMMENT__","")
+				script = script.replace("__COMMENT__","")
 			}
 
-			cb(200,script);
+			cb(200, script, res);
 			return;
 		}
 
@@ -2100,16 +2179,16 @@ function parameter(catalogs, datasets, res, cb) {
 		stop = res.opts.stop.substring(0,10);
 
 		var extra = ""
-		if (resp[0].label) {
-			extra = extra + "&labels=" + resp[0].labels
+		if (resp[0].dd.name) {
+			extra = extra + "&labels=" + resp[0].dd.name;
 		} else {
-			extra = extra + "&labels=" + resp[0].parameters
+			extra = extra + "&labels=" + resp[0].dd.id;
 		}
-		if (resp[0].units) {
-			extra = extra + "&units=" + resp[0].units
+		if (resp[0].dd.units) {
+			extra = extra + "&units=" + resp[0].dd.units
 		}
-		if (resp[0].fills) {
-			extra = extra + "&fills=" + resp[0].fills
+		if (resp[0].dd.fillvalue) {
+			extra = extra + "&fills=" + resp[0].dd.fills
 		}
 
 		var jydsargs = 	  "?catalog=" + res.opts.catalog
@@ -2135,7 +2214,7 @@ function parameter(catalogs, datasets, res, cb) {
 			//cb(301,config.JNLP + jnlpargs + encodeURIComponent(config.JYDS + jydsargs))
 			// This works:
 			//console.log("jnlpargs: " + jnlpargs + "encodeURIComponent(JYDS + jydsargs)\n")
-			cb(301,config.JNLP + jnlpargs + config.JYDS + jydsargs,res)
+			cb(301, config.JNLP + jnlpargs + config.JYDS + jydsargs, res)
 			return
 		}
 
@@ -2165,34 +2244,58 @@ function parameter(catalogs, datasets, res, cb) {
 	}
 
 	ddresp = [];
-	for (var z = 0;z<resp.length;z++) {
+	for (var z = 0;z < resp.length; z++) {
 		//ddresp[z] = resp[z].dd;
 		ddresp[z] = {};
-		ddresp[z].columnIDs        = resp[z].dd.id;
-		ddresp[z].columnLabels     = resp[z].dd.label;
-		ddresp[z].columnUnits      = resp[z].dd.units;
-		ddresp[z].columnTypes      = resp[z].dd.type;
-		ddresp[z].columnFillValues = resp[z].dd.fillvalue;
-		ddresp[z].columnRenderings = resp[z].dd.rendering;
+		ddresp[z].columnIDs = resp[z].dd.id;
+		if (resp[z].dd.label) {
+			ddresp[z].columnLabels     = resp[z].dd.label;
+		}
+		if (resp[z].dd.units) {
+			ddresp[z].columnUnits      = resp[z].dd.units;			
+		}
+		if (resp[z].dd.units) {
+			ddresp[z].columnTypes      = resp[z].dd.type;			
+		}
+		if (resp[z].dd.fillvalue) {
+			ddresp[z].columnFillValues = resp[z].dd.fillvalue;
+		}
+		if (resp[z].dd.rendering) {
+			ddresp[z].columnRenderings = resp[z].dd.rendering;
+		}
 		ddresp[z].start = resp[z].dd.start;
-		ddresp[z].stop = resp[z].dd.stop;
+		ddresp[z].stop  = resp[z].dd.stop;
 
-		ddresp[z].urltemplate = "";
+		//ddresp[z].urltemplate = "";
 
-		//console.log(resp[z].dd)
-		if (typeof(res.opts.format.match("ascii-1")) !== "null") {
+		console.log(resp[z].dd)
+
+		if (res.opts.format === "ascii-0") {
+			var len = resp[z].dd.timeformat.split(" ").length
+			if (len == 1) {
+				var tmpstr = "1";
+			} else {
+				var tmpstr = "1-" + len;	
+			}
+
+			ddresp[z].columns = "" + (len+1);
+			ddresp[z].timeFormat = resp[z].dd.timeformat;
+			ddresp[z].timeColumns = tmpstr;
+		}
+		if (res.opts.format === "ascii-1") {
 			ddresp[z].columns = "" + (z+2);
 			ddresp[z].timeFormat = "%Y-%m-%DT%H%M%SZ";
-			ddresp[z].timeColumns = ""+1;
+			ddresp[z].timeColumns = "1";
 		}
-		if (typeof(res.opts.format.match("ascii-2")) !== "null") {
+		if (res.opts.format === "ascii-2") {
 			ddresp[z].columns = "" + (z+7);
-			ddresp[z].timeFormat = "%Y %m %D %H %M %S";
-			ddresp[z].timeColumns = "1,2,3,4,5,6";
+			ddresp[z].timeFormat = "%Y %m %d %H %M %S";
+			ddresp[z].timeColumns = "1-6";
 		}
 	}
 
-	if (res.opts.return === "dd") {		
+	if (res.opts.return === "dd") {
+		console.log(ddresp)	
 		cb(200, ddresp, res)
 		return
 	}
