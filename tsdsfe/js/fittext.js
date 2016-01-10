@@ -6,7 +6,7 @@ function fittext(id, text, shrink, idref) {
 	var wr = $("#"+idref).width();
 	var wa = $("#"+id).width();
 
-	if (wa > wr) {
+	while (wa > wr) {
 		//console.log("--Refer. width = " + wr);
 		//console.log("--Actual width = " + wa);
 

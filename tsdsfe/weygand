@@ -1,3 +1,22 @@
+# ViViz allow specifying filter and image number in URL for gallery mode.
+# Download metadata option
+# Download and save metadata in scripts
+ in metadata.  Note that to get most recent data, set usedatacache=false.  Add return=metadata&format={ascii,bibtex}.  Include not if .cite file not found.
+# Save data in scripts
+# Include request ID in scripts and metatada.  Turn ID into query string with server request.
+# Include granule list and access times
+# Add note that usedatacache=false for fast response time and provide info on access time of data.
+# Create full Weygand catalog
+# Demo when catalog is selected, create links in catalog info block for downloading Autoplot bookmarks.
+
+# Better tooltips on dropdowns.  Same for ViViz.
+# ViViz option to set size - window size will be ignored.
+# Provide link to search through TSDS logs for catalog=PATTERN.  Provide download=log=format={TSDS requests, TSDS granule requests where no server hit was involved} option.
+# Output SPASE option
+# Hover over Autoplot image in Gallery gives option of opening Autoplot, downloading PDF/SVG.  Think about going over to thin client mode.
+
+--
+
 Search for weygand bow shock data set
 
 https://www.google.com/webhp?sourceid=chrome-instant&ion=1&espv=2&ie=UTF-8#q=weygand%20bow%20shock%20data%20set

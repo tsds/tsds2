@@ -1009,7 +1009,10 @@
 					if (selected('format').match("viviz")) {
 
 						$("#gallerydiv").show();
-						$("#imagediv #imagelink").html("Direct link");
+						$("#imagediv #imagelink").attr("href", url);
+						$("#imagediv #imagelink").attr("title", url);
+						$("#imagediv #imagelink").html("Open gallery in new tab");
+						$("#imagediv").show();
 						$("#gallerydiv > div > a").attr("href", url);
 						$("#gallerydiv > div > a").attr("title", url);
 						$("#gallerydiv > iframe").contents().find("body").html('');
@@ -1218,7 +1221,7 @@
 			</div>
 			<div id="gallerydiv" style="height:100%;display:none;background-color:white;align:left">
 				<div><a target="_blank"></a></div>
-				<iframe style="width:95%;height:600px;"></iframe>
+				<iframe style="width:95%;height:400px;"></iframe>
 			</div>
 			<div id="datadiv" style="display:none;background-color:white;align:left">
 					<div><a target="_blank"></a></div>
