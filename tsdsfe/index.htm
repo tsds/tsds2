@@ -10,20 +10,19 @@
 
 		<script type="text/javascript" src="js/deps/jquery-1.8.3.min.js"></script>
 		<script type="text/javascript" src="js/deps/jquery-ui-1.9.2.js"></script>
-		<script type="text/javascript" src="js/deps/jquery-simulate-0.0.1.js"></script>
 		<script type="text/javascript" src="js/deps/date.js"></script>
-		<!-- http://benalman.com/projects/jquery-url-utils-plugin/ -->
 		<script type="text/javascript" src="js/deps/jquery.query-2.1.3.js"></script>
 		<script type="text/javascript" src="js/deps/jquery.ba-hashchange-1.3.js"></script>
 		<script type="text/javascript" src="js/jquery.scrollTo-min.js"></script>
-		<!--script type="text/javascript" src="js/expandtemplate.js"></script-->
 		<script type="text/javascript" src="js/dropdown2.js"></script>
 		<script type="text/javascript" src="js/fittext.js"></script>
+		<script type="text/javascript" src="index-examples.js"></script>
 		<script>
 
+			//To catch uncaught errors.
 			//window.onerror = function (message, filename, linenumber) {alert(message)}
 
-			TSDSFE   = location.href.split("#")[0]; // Get domain name of server.
+			var TSDSFE = location.href.split("#")[0];
 
 			$(function() {
 
@@ -108,7 +107,7 @@
 					["catalog","dataset","parameters","start","stop","return","format","type","style"],
 					["Catalog","Datasets","Parameters","Start","Stop","Return","Format","Type","Style"],
 					[catalogs,datasets,parameters,starttime,stoptime,returntype,format,type,style],
-					"#dropdowns",0,"");
+					"#dropdowns");
 
 				// If initial URL has arguments after #, trigger select on dropdowns.
 				if ( location.hash !== "" && location.hash !== "#catalog=^.*" ) {
@@ -116,7 +115,7 @@
 					triggerselect()
 				}			
 
-				// Show test dropdown in element with id = dropdownstest
+				// Show examples drop-down in element with id = dropdownstest
 				dropdown2(["examples"],["Examples"],[examples],"#dropdownstest");
 
 				return;									
@@ -153,7 +152,7 @@
 				  }
 			});
 
-			// Show results from checkstatus.
+			// Show results from checkstatus().
 			function showstatus() {
 				var catalog = selected('catalog')
 
@@ -166,17 +165,29 @@
 					return
 				}
 
-				var url = "?dd="
-						+ encodeURIComponent(
-							"uri="
-							+location.origin+location.pathname+
-							"log/servers/"
-							+catalog
-							+ "/$Y-$m-$d.txt&start=-P10D&stop=P0D&columns=2,3"
+				var url = "?dd=" + 
+						encodeURIComponent
+							(
+								"uri="
+								+ location.origin + location.pathname
+								+ "log/servers/"
+								+ catalog
+								+ "/$Y-$m-$d.txt"
+								+ "&start=-P10D"
+								+ "&stop=P0D"
+								+ "&columns=2"
+								+ "&columnIDs=ResponseTime"
+								+ "&columnUnits=ms"
+								+ "&catalogLabel=" + catalog + " server monitor"
 							)
-						+ "&dataset=1&parameters=column2&start=-P10D&stop=P0D&return=image"
+						+ "&dataset=1"
+						+ "&parameters=ResponseTime"
+						+ "&start=-P10D"
+						+ "&stop=P0D"
+						+ "&return=image"
 
-				if (!checkstatus.servers[catalog]) {
+				//console.log(checkstatus.servers)
+				if (!checkstatus.servers.hasOwnProperty(catalog)) {
 					$('#cataloginfo ul #statustrue').remove()
 					$('#cataloginfo ul #statusfalse').remove()
 					$('#cataloginfo ul')
@@ -193,7 +204,7 @@
 						+ '<i>Server for data in this catalog is not currently '
 						+ 'being monitored.'
 						+ '</i>'
-						+ '<a href="'+url+'">History</a>'
+						+ ' <a href="'+url+'">History</a>'
 						+ '</li>');
 				} else if (checkstatus.servers[catalog].state == false) {
 					$('#cataloginfo ul #statustrue').remove()
@@ -203,7 +214,7 @@
 							+ '<span style="background-color:yellow">'
 							+ checkstatus.servers[catalog].message
 							+ '</span>'
-							+ '<a href="'+url+'">History</a></li>');
+							+ ' 	<a href="'+url+'">History</a></li>');
 					}
 				} else {
 					var delta = (new Date).getTime()
@@ -403,6 +414,7 @@
 			}
 
 			// Hide divs based on drop-down state.
+			// TODO: This needs clean-up and refactoring.
 			function hidedivs(selected) {
 				if (selected === "catalogs") {
 					$('#datasetinfo').html("");
@@ -416,12 +428,13 @@
 					$('#scriptdiv').hide();
 					$('#datadiv').hide();
 					$('#imagediv').hide();
-					$('#imagediv #image').attr("src","");
 					$('#imagediv a').attr("src","");
 					$('#gallerydiv').hide();
 					$('#gallerydiv iframe').attr("src","");
 					$('#gallerydiv a').attr("src","");
 					$('#overviewdiv').hide();
+					$("#error").html("");
+					$("#errordiv").hide();
 				}
 				if (selected === "datasets") {
 					$('#parameterinfo').html("");
@@ -434,12 +447,13 @@
 					$('#scriptdiv').hide();
 					$('#datadiv').hide();
 					$('#imagediv').hide();
-					$('#imagediv #image').attr("src","");
 					$('#imagediv a').attr("src","");
 					$('#gallerydiv').hide();
 					$('#gallerydiv iframe').attr("src","");
 					$('#gallerydiv a').attr("src","");
 					$('#overviewdiv').hide();
+					$("#error").html("");
+					$("#errordiv").hide();
 				}
 				if (selected === "parameters") {
 					$('#returninfo').hide();
@@ -451,12 +465,13 @@
 					$('#scriptdiv').hide();
 					$('#datadiv').hide();
 					$('#imagediv').hide();
-					$('#imagediv #image').attr("src","");
 					$('#imagediv a').attr("src","");
 					$('#gallerydiv').hide();
 					$('#gallerydiv iframe').attr("src","");
 					$('#gallerydiv a').attr("src","");
 					$('#overviewdiv').hide();
+					$("#error").html("");
+					$("#errordiv").hide();
 				}
 				if (selected === "return") {
 					$("#typeinfoimage").hide();
@@ -468,7 +483,6 @@
 					$('#scriptdiv').hide();
 					$('#datadiv').hide();
 					$('#imagediv').hide();
-					$('#imagediv #image').attr("src","");
 					$('#imagediv a').attr("src","");
 					$('#gallerydiv').hide();
 					$('#gallerydiv iframe').attr("src","");
@@ -479,7 +493,6 @@
 					$('#styleinfoimage').hide();
 					$('#styleinfodata').hide();
 					$('#imagediv').hide();
-					$('#imagediv #image').attr("src","");
 					$('#imagediv a').attr("src","");
 					$('#gallerydiv').hide();
 					$('#gallerydiv iframe').attr("src","");
@@ -489,7 +502,7 @@
 			}
 			
 			// Handle catalog drop-down.
-			function catalogs(i) {
+			function catalogs() {
 
 				catalogs.onselect = function () {
 
@@ -515,9 +528,13 @@
 								$('#cataloginfo ul').append('<li style=""><a href="'+info[j].link+'" title="'+info[j].link+'">'+info[j].link+'</a></li>');
 							}
 						}
+						var loglink = TSDSFE + "?catalog="+selected('catalog')+"&return=log";
+						$('#cataloginfo ul')
+							.append('<li style=""><a href="'+loglink+'" title="'+loglink+'">History of TSDSFE requests with this catalog.</a></li>')
+
 					} else if (info.length == 0) {
 						$('#cataloginfo').append('<ul style="list-style-position: outside;">');	
-						$('#cataloginfo ul').append('<li style="">Catalog <b>' + selected("catalog") + '</b> was not found in <a href="' + TSDSFE + '?catalogs=^.*">catalog list</a></li>');
+						$('#cataloginfo ul').append('<li style="">Catalog <b>' + selected("catalog") + '</b> was not found in <a href="' +  TSDSFE + '?catalogs=^.*">catalog list</a></li>');
 					}
 					$('#catalogtinfo ul').append('</ul>');
 
@@ -538,7 +555,7 @@
 			}
 			
 			// Handle dataset drop-down.
-			function datasets(i) {
+			function datasets() {
 
 				datasets.onselect = function () {
 					info = tsdsfeajax("?catalog="+selected('catalog')+"&dataset="+selected('dataset'));
@@ -549,7 +566,7 @@
 					if (info.length > 0) {
 						for (j = 0;j < info.length;j++) {
 							if (!(info[j].title === "") && !(info[j].link === "")) {
-								$('#datasetinfo ul').append('<li style="">No documentation in catalog '+info[0].catalog+'</li>');
+								$('#datasetinfo ul').append('<li style="">No additional documentation in catalog '+selected('catalog')+' for this dataset.</li>');
 							} else if ((info[j].title === "") && !(info[j].link === "")) {
 								$('#datasetinfo ul').append('<li style=""><a href="'+info[j].link+'">'+info[j].link+'</a></li>');
 							} else if (!(info[j].text === "")) {
@@ -620,7 +637,7 @@
 			}
 			
 			// Handle parameters time drop-downs.			
-			function parameters(i) {
+			function parameters() {
 
 				parameters.onselect = function () {
 					console.log('parameters.onselect(): Called.');
@@ -691,7 +708,7 @@
 			}
 
 			// Handle start time drop-downs.
-			function starttime(i) {
+			function starttime() {
 				starttime.onselect = function () {
 					$('#datadiv').hide();
 				};
@@ -758,7 +775,7 @@
 			}
 
 			// Handle stop time drop-downs.			
-			function stoptime(i) {
+			function stoptime() {
 				stoptime.clearfollowing = function () {
 					if (selected('return')) {
 						dorequest();
@@ -791,7 +808,7 @@
 			}
 			
 			// Handle return drop-down.
-			function returntype(i) {
+			function returntype() {
 				returntype.onselect = function () {
 					hidedivs("return");
 					$('#formatinfo'+selected('return')).show();
@@ -800,22 +817,17 @@
 							{label:"Data", value:"data"},
 							{label:"Image", value:"image"},
 							{label:"Script", value:"script"}
-
 						];
 				return values;
 			}
 
 			// Handle format drop-down.
-			function format(i) {
+			function format() {
 				format.onselect = function () {
 					hidedivs("format");
 					$("#typeinfo"+selected("return")).show();				
 					if (selected("return") === "script") {
 						dorequest();
-					}
-					if (selected("return") === "data") {
-					}
-					if (selected("return") === "image") {
 					}
 				}
 				if (selected("return").match("data")) {
@@ -847,55 +859,42 @@
 			}
 
 			// Handle type drop-down.
-			function type(i) {
+			function type() {
 				type.onselect = function () {
-					if (!selected("return").match("image")) {
-						$("#styleinfoimage").hide();						
+					if (selected("return").match("image")) {
+						$("#styleinfoimage").show();						
 					} else {
-						$("#styleinfoimage").show();
+						$("#styleinfoimage").hide();
 					}
-					if (!selected("return").match("data")) {
-						$("#styleinfodata").hide();						
+					if (selected("return").match("data")) {
+						$("#styleinfodata").show();						
 					} else {
-						$("#styleinfodata").show();
+						$("#styleinfodata").hide();
 					}
 					hidedivs("type");
 				}
-				type.show = function () {
-					//console.log( arguments.callee.caller.toString())
-					if (selected("return") === "image") {
-						return true;
-					} else if (selected("return") === "data") {
-						return false;
-					} else {
-						return false;
-					}
-				}
-				var values = [
-							{label:"Time Series", value:"timeseries", selected:"true"},
+				var values = [];
+				if (selected("return").match("image")) {
+					values = 
+						[
+							{label:"Time Series", value:"timeseries", selected:true},
 							{label:"Autocorrelation", value:"autocorrelation"},
 							{label:"Histogram", value:"histogram"},
 							{label:"Periodogram", value:"periodogram"},
 							{label:"Spectrogram", value:"spectrogram"}
 						];
+				}
 				return values;
 			}
 
 			// Handle style drop-down.
-			function style(i) {
+			function style() {
 				style.onselect = function () {
 					dorequest();
 				}
-				// Determine if drop-down should shown.
-				style.show = function () {
-					if ((selected("return") === "image") || (selected("return") === "data")) {
-						return true;
-					} else {
-						return false;
-					}
-				}
+				var values = [];
 				if (selected("return") === "image") {
-					var values = 
+					values = 
 							[
 								{label:"None/Black/Blue", value:"0", selected:true},
 								{label:"Black/Yellow/Yellow", value:"1"},
@@ -903,13 +902,35 @@
 							];
 				}
 				if (selected("return") === "data") {
-					var values = 
+					values = 
 							[
 								{label:"noheader", value:"noheader", selected:true},
 								{label:"header", value:"header"}
 							];				
 				}
 				return values;
+			}
+
+			// Examples drop-down.
+			function examples() {
+
+				var list = examplelist(); // Defined in index-examples.js.
+
+				examples.onselect = function () {
+					vid = $("#dropdownstest0").attr('value');
+					console.log("Example " + vid + " selected");
+
+					// Find list value.
+					for (var k = 0; k < list.length; k++) {
+						if (list[k].value === vid) {
+							break;
+						}
+					}
+					location.hash = list[k].value;
+					main();
+				};
+
+				return list;
 			}
 
 			// Form URL and place it in DOM based on drop-down state.
@@ -921,6 +942,7 @@
 				$("#imagediv #image").unbind("error");
 				$("#status").hide();
 
+				// Form base URL.
 				urlo = TSDSFE + "?catalog="
 							+ selected('catalog')
 							+ "&dataset=" + selected('dataset')
@@ -936,6 +958,7 @@
 					$("#scriptdiv").show();
 				} else if (selected('return').match(/data/)) {
 
+					// TODO:  This needs updating as API has changed.
 					if (selected('format') === 'debug') {
 						url = urlo
 								+ "&out=asc"
@@ -953,7 +976,7 @@
 						url = urlo + "&attach=false";
 
 						if (selected('format') !== "ascii-1") { 
-							url = urlo + "&format=" + selected('format');
+							url = url + "&format=" + selected('format');
 						}
 						if (selected('style') !== "noheader") { 
 							url = url + "&style=" + selected('style');
@@ -962,6 +985,10 @@
 							url = url + "&usedatacache=false";
 						}
 
+						// Remove any existing links that were added.
+						$("#datadiv > div > a").first().nextAll().remove();
+
+						// Append additional links
 						$("#datadiv > div > a").attr("href", url);
 						$("#datadiv > div > a").attr("title", url);
 						$("#datadiv > div > a").html("Open in new tab");
@@ -982,18 +1009,17 @@
 							.attr("title", "")
 							.attr("target","")
 
-						//$("#imagediv #imageloading").show();
-
 						// Clear any existing iframe.
 						$("#datadiv > iframe").contents().find("body").html('');
 
 						$("#datadiv > iframe")
 							.attr("onload",function () {
-								// Fires when src is set.
-								// TODO: Avoid iframe and put data in <pre>?
-								// In Chrome perhaps not needed as spinner shows
-								// in tab until numbers appear.
+								// Fires when src is set. So not really helpful.
 								$("#imagediv #imageloading").hide();
+								// TODO: Avoid iframe and put data in <pre>?
+								// In Chrome perhaps imageloading not needed
+								// because spinner shows in tab until numbers
+								// appear.
 							});
 						$("#datadiv > iframe").attr("src", url);
 						$("#datadiv").show();
@@ -1030,9 +1056,11 @@
 							.attr("src", url)
 							.css("opacity", "0.2")
 							.on("error", function (err) {
+								alert(selected('format'))
 								var link = "<a target='_blank' title='"+url+"' "
 											+ "href='"+url+"'>Error</a>";
-								var msg = link + " when attempting to retrieve image.";
+								var msg = link 
+											+ " when attempting to retrieve image.";
 								$("#error").html(msg);
 								$("#errordiv").show();
 								$("#imagediv").hide();
@@ -1075,89 +1103,11 @@
 				}
 			}
 
-			// Examples drop-down.
-			function examples() {
-
-				examples.onselect = function () {
-					vid = $("#dropdownstest0").attr('value');
-					console.log("Example " + vid + " selected");
-
-					// Find list value.
-					for (var k = 0; k < list.length; k++) {
-						if (list[k].value === vid) {
-							break;
-						}
-					}
-					location.hash = list[k].value;
-					main();
-				};
-
-								
-				//location.search = $.query.set("catalog","SSCWeb").toString();
-
-				// Use for testing random?
-				function autoselect(el,N) {
-					$(el+"list").click();
-					if (arguments.length < 2)
-						N = 1;
-					for (i = 0; i < N;i++) {
-						$(el).simulate("keydown", { keyCode: $.ui.keyCode.DOWN });
-					}
-					$(el).simulate("keydown", { keyCode: $.ui.keyCode.ENTER });
-				}
-				$("#demo").click(function () {
-					autoselect("#catalog",1);
-					autoselect("#dataset");
-					autoselect("#start");
-					autoselect("#stop");
-					autoselect("#parameters");
-				})
-
-				var list = 
-				[
-					{
-						label:"IMAGE/PT1M/ABK",
-					 	value:"catalog=IMAGE/PT1M&dataset=ABK&parameters=X&start=-P3D&stop=2014-09-30&return=image&format=png&type=timeseries&style=0"
-					 },
-					{
-						label:"SSCWeb/active/X_TOD",
-						value:"catalog=SSCWeb&dataset=active&parameters=X_TOD&start=-P3D&stop=1991-10-04&return=image&format=png&type=timeseries&style=0"
-					},
-					{
-						label:"SuperMAG/AAA/B_N",
-						value:"catalog=SuperMAG/PT1M&dataset=AAA&parameters=B_N&start=-PT3D&stop=2013-12-31&return=image&format=png&type=timeseries&style=0"
-					},
-					{
-						label:"Catalog based on DD",
-						value:"uri=http://vmo.igpp.ucla.edu/data1/Weygand/PropagatedSolarWindGSE/weimer/Wind/TAP/V3/$Y/windTAP$Y$m.dat&start=1995-01-01&stop=2014-09-01&timeFormat=$d $m $Y $H $M $S&columns=7,8,9,10,11&columnIDs=nxangle,nyangle,nzangle,Propagation flag&catalogLabel=Weigand SW Propagation Data Set&datasetID=spase://VMO/NumericalData/Weygand/Wind/TAP/Propagated.3DP/GSE/PT60S&fillValues=1e34"
-					},
-					{
-						label:"Catalog based on DD",
-						value:"uri=http://vmo.igpp.ucla.edu/data1/Weygand/PropagatedSolarWindGSE/weimer/Wind/TAP/V3/$Y/windTAP$Y$m.dat&start=1995-01-01&stop=2014-09-01&timeFormat=$d $m $Y $H $M $S&columns=7,8,9,10,11&columnIDs=nxangle,nyangle,nzangle,Propagation flag&catalogLabel=Weigand SW Propagation Data Set&datasetID=spase://VMO/NumericalData/Weygand/Wind/TAP/Propagated.3DP/GSE/PT60S&fillValues=1e34"
-					}
-				]
-
-				if (0) {
-				list[3] = {label:"SPIDR",value:"spidr",url:"catalog=spidr&dataset=amie_ae&parameters=amie_ae&version=0&start=1991-01-01&stop=1991-01-11"};
-				list[4] = {label:"USGS 1-minute",value:"usgs1m",url:"catalog=USGS/RT/PT1M&dataset=BRW&parameters=H&start=2013-05-02&stop=2013-05-05"};
-				list[5] = {label:"USGS 1-second",value:"usgs1s",url:"catalog=USGS/RT/PT1S&dataset=BRW&parameters=H&start=2013-05-02&stop=2013-05-05"};
-				list[6] = {label:"SWPC AK/2DayFile",value:"SWPC AK/2DayFile",url:"catalog=SWPC/AK/2DayFile&dataset=AK&parameters=BoulderK&start=-PT2D&stop=PT0D&format=0"};
-				list[7] = {label:"SWPC AK",value:"SWPC AK",url:"catalog=SWPC/AK&dataset=AK&parameters=BoulderK&start=-PT5D&stop=-PT2D&format=0"};
-				list[8] = {label:"Linkcheck",value:"Linkcheck",url:"catalog=Autoplot/Linkcheck&dataset=1&parameters=ResponseTime&start=2012-12-07&stop=2012-12-09"};
-				}
-
-				//list[6] = {label:"ISIS-2",value:"ISIS-2",url:"catalog=NSSDC/ISIS-2&dataset=CEP&parameters=L_value&start=1971-04-14&stop=1971-04-16"};
-				//list[7] = {label:"TSX-5",value:"TSX-5",url:"catalog=ViRBO/TSX-5/EPHX&dataset=ephx&parameters=PitchAngle&start=2000-08-15&stop=2000-08-17"};
-				//				list[5] = {label:"ISIS-1",value:"ISIS-1",url:"catalog=NSSDC/ISIS-1&dataset=CEP&start=1969-01-30&stop=1969-02-19&parameters=Altitude"};
-				
-				return list;
-			}
-
 		</script>
 		
 	</head>
 
-	<body>	 		
+	<body>
 
 		<div id="options" style="float:left;width:12em;margin-right:14px;margin-top:0em;display:none;">
 			<a style="text-decoration:underline;cursor:pointer" id="cachecheckboxeslink">

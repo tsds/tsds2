@@ -402,7 +402,7 @@ function handleRequest(req, res, options) {
 			log.logres("Writing " + "catalogs/dd/" + ddfile + ".json", options, "app")
 			fs.writeFile("catalogs/dd/" + ddfile + ".json", JSON.stringify(cat), function () {
 				options.catalog = ddfile;
-				options.all = "-";
+				options.cataloglist = "-";
 				options.dd = "";
 				req.query.usemetadatacache = "true";
 				log.logres("Calling handleRequest()", options, "app")
@@ -571,7 +571,7 @@ function handleRequest(req, res, options) {
 	}
 
 	// Catch case where ?catalog=CATALOG&return={tsds,autoplot-bookmarks,spase}
-	if ( res.opts.return === "autoplot-bookmarks" || res.opts.return === "tsds" ) {
+	if (res.opts.return === "autoplot-bookmarks" || res.opts.return === "tsds") {
 
 		log.logres("Request is for " + options.return, res.opts)
 
@@ -582,7 +582,7 @@ function handleRequest(req, res, options) {
 			res.opts.format = "xml"
 		}
 
-		if (res.opts.all === "-") {
+		if (res.opts.cataloglist === "-") {
 			finish(config["TSDSFE"] + "catalogs/dd/" + options.catalog + ".json")
 		} else {
 			// Get list of all catalogs and their URLs
@@ -973,9 +973,11 @@ function handleRequest(req, res, options) {
 					if (res0.headers["expires"]) {
 						res.setHeader('Expires',res0.headers["expires"])
 					}
+
+					// TODO: Need to loop over 
 					if (options.style === "header") {
-						console.log(options)
-						console.log(res.dd)
+						//console.log(options)
+						//console.log(res.dd)
 						if (options.format === "ascii-0") {
 							var tmpstr = res.dd[0].timeFormat
 											.replace("%Y", " Year").replace("$Y", " Year")
@@ -985,13 +987,13 @@ function handleRequest(req, res, options) {
 											.replace("%M", " Minute").replace("$M", " Minute")
 											.replace("%S", " Second").replace("$S", " Second")
 
-							res.write(tmpstr.replace(/^ /,"") + " " + res.dd[0].columnIDs + "\n")
+							res.write(tmpstr.replace(/^ /,"") + " " + res.dd[0].columnIDs + "[" + res.dd[0].columnUnits + "]" + "\n")
 						} 
 						if (options.format === "ascii-1") {
-							res.write("Time" + " " + res.dd[0].columnIDs + "\n")
+							res.write("Time" + " " + res.dd[0].columnIDs + "[" + res.dd[0].columnUnits + "]" + "\n")
 						} 
 						if (options.format === "ascii-2") {
-							res.write("Year Month Day Hour Minute Second" + " " + res.dd[0].columnIDs + "\n")
+							res.write("Year Month Day Hour Minute Second" + " " + res.dd[0].columnIDs + "[" + res.dd[0].columnUnits + "]" + "\n")
 						} 
 					}
 
@@ -1092,14 +1094,14 @@ function parseOptions(req, res) {
 
 	var options = {}
 
-	options.all          = req.query.all                 || "/catalogs/all.thredds";
-	options.catalog      = req.query.catalog           || "^.*";
-	options.dataset      = req.query.dataset          || "";
-	options.parameters   = req.query.parameters    || "";
-	options.groups       = req.query.groups           || "";
-	options.start        = req.query.start              || "";
-	options.stop         = req.query.stop                || "";
-	options.timerange    = req.query.timerange     || "";
+	options.cataloglist  = req.query.cataloglist  || config.CATALOGLIST;
+	options.catalog      = req.query.catalog      || "^.*";
+	options.dataset      = req.query.dataset      || "";
+	options.parameters   = req.query.parameters   || "";
+	options.groups       = req.query.groups       || "";
+	options.start        = req.query.start        || "";
+	options.stop         = req.query.stop         || "";
+	options.timerange    = req.query.timerange    || "";
 	options.return       = req.query.return       || "data";
 	options.format       = req.query.format       || "";
 	options.style        = req.query.style        || "";
@@ -1519,8 +1521,8 @@ function catalog(res, cb) {
 
 	log.logres("Called.", res.opts)
 
-	if (res.opts.all === "-") {
-		// Creates an equivalent of all.xml
+	if (res.opts.cataloglist === "-") {
+		// Creates an equivalent of CATALOGLIST with a single catalog for a dd.
 		var result = 
 			{
 				"catalog": 
@@ -1547,13 +1549,13 @@ function catalog(res, cb) {
 		return
 	}
 
-	// Get and parse all.xml
-	getandparse(config.CATALOG, res, afterparse)
+	// Get and parse catalog list.
+	getandparse(res.opts.cataloglist, res, afterparse)
 
 	function afterparse(result) {
 
-		// Given JSON containing information in config.CATALOG, form JSON response.
-		// config.CATALOG contains links to all catalogs available.
+		// Given JSON containing information in config.CATALOGLIST, form JSON response.
+		// config.CATALOGLIST contains links to all catalogs available.
 		var resp = [];
 
 		var catalogRefs = result["catalog"]["catalogRef"]
@@ -1588,23 +1590,23 @@ function catalog(res, cb) {
 		// Remove empty elements of array. (TODO: Needed?)
 		resp = resp.filter(function(n){return n})
 		if (resp.length == 0) {
-			if (res.opts.all === "-") {
+			if (res.opts.cataloglist === "-") {
 				log.logres("Error: No matching catalogs in list.", res.opts)
 				var list = "List:"
 				for (var i = 0; i < catalogRefs.length;i++) {
 					list = list + " " + catalogRefs[i]["$"]["ID"] 
 				}
 				log.logres(list, res.opts)
-				cb(500,"Error: No matching catalogs with ID="+res.opts.catalog+"in "+res.opts.all+". Options are" + list.join("\n"),res);
+				cb(500,"Error: No matching catalogs with ID="+res.opts.catalog+"in "+res.opts.cataloglist+". Options are" + list.join("\n"),res);
 				return
 			} else {
 				// If catalog is a dd md5, this will work.
-				log.logres("No matches.  Try again with res.opts.all = -.", res.opts)
+				log.logres("No matches.  Try again with res.opts.cataloglist = -.", res.opts)
 				// TODO: Check if dd file exists.  If not send error "Catalog with ID not fund in catalogs/dd".
 				// Otherwise response is something like
 				// Error when attempting to access
 				// http://localhost:8004/catalogs/dd/xf5e6af45e1430aa4b2e3f0ea964f7985 and no cached version found
-				res.opts.all = "-"
+				res.opts.cataloglist = "-"
 				catalog(res, cb)
 				return
 			}
@@ -1699,10 +1701,10 @@ function dataset(catalogs, res, cb) {
 		// not have been called with results in same order as catalog array.
 		if (catalogs.length == 1) {
 			if (parent !== catalogs[afterparse.j-1].value) {
-				log.logres("WARNING: ID of catalog in " + config.CATALOG 
+				log.logres("WARNING: ID of catalog in " + config.CATALOGLIST 
 					+ " does not match ID of catalog found in catalog.",
 					  res.opts)
-				log.logres("WARNING: ID in " + config.CATALOG
+				log.logres("WARNING: ID in " + config.CATALOGLIST
 					+ " is " + parent, res.opts)
 				log.logres("WARNING: ID in catalog ["
 					+ catalogs[afterparse.j-1].href + "] is "
@@ -2090,14 +2092,23 @@ function parameter(catalogs, datasets, res, cb) {
 		            	+ "&style=" + res.opts.style
  						+ "&image.width=800&image.height=200"
 
+ 		// Find start year of selected data.  Then selected the day number
+ 		// of interest.
+		var startyr = start.substring(0,4);
+		var begin = new Date(startyr + "-01-01");
+		var end   = new Date(stop);
+		var diff  = end.getTime() - begin.getTime();
+		var day = Math.floor(diff/(1000*60*60*24));
+
 		var viviz = config.VIVIZEXTERNAL 
 					+ "#"
-					+ "dir="
-					+ encodeURIComponent(dirprefix)
-					+ "&strftime="
-					+ encodeURIComponent("&start=-P1D&stop=$Y-$m-$d")
+					+ "dir=" + encodeURIComponent(dirprefix)
+					+ "&strftime=" + encodeURIComponent("&start=-P1D&stop=$Y-$m-$d")
 					+ "&start=" + startdd
 					+ "&stop="  + stopdd
+					+ "&regexp=" + startyr
+					+ "&number=" + day
+
 		cb(302, viviz, res)
 		return
 	}
@@ -2249,13 +2260,13 @@ function parameter(catalogs, datasets, res, cb) {
 		ddresp[z] = {};
 		ddresp[z].columnIDs = resp[z].dd.id;
 		if (resp[z].dd.label) {
-			ddresp[z].columnLabels     = resp[z].dd.label;
+			ddresp[z].columnLabels = resp[z].dd.label;
 		}
 		if (resp[z].dd.units) {
-			ddresp[z].columnUnits      = resp[z].dd.units;			
+			ddresp[z].columnUnits = resp[z].dd.units;			
 		}
 		if (resp[z].dd.units) {
-			ddresp[z].columnTypes      = resp[z].dd.type;			
+			ddresp[z].columnTypes = resp[z].dd.type;			
 		}
 		if (resp[z].dd.fillvalue) {
 			ddresp[z].columnFillValues = resp[z].dd.fillvalue;
@@ -2310,13 +2321,13 @@ function parameter(catalogs, datasets, res, cb) {
 
 		dc = dc
 				+"&return=stream"
-				+"&lineRegExp="+(resp[0].dd.lineregex || "")
-				+"&streamFilterReadTimeFormat="+(resp[0].dd.timeformat || "")
-				+"&streamFilterReadColumns="+columns
-				+"&streamFilterWriteTimeFormat="+format
-				+"&streamFilterWriteComputeFunction="+res.opts.filter
-				+"&streamFilterWriteComputeFunctionWindow="+res.opts.filterWindow
-				+"&streamFilterWriteComputeFunctionExcludes="+(resp[0].dd.fillvalue || "")
+				+"&lineRegExp=" + (resp[0].dd.lineregex || "")
+				+"&streamFilterReadTimeFormat=" + (resp[0].dd.timeformat || "")
+				+"&streamFilterReadColumns=" + columns
+				+"&streamFilterWriteTimeFormat=" + format
+				+"&streamFilterWriteComputeFunction=" + res.opts.filter
+				+"&streamFilterWriteComputeFunctionWindow=" + res.opts.filterWindow
+				+"&streamFilterWriteComputeFunctionExcludes=" + (resp[0].dd.fillvalue || "")
 				+"&streamOrder=true"
 				+"&streamGzip=false"
 				;

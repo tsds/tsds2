@@ -166,7 +166,7 @@ function checkservers(config, server) {
 					console.log(ds() 
 						+ "Error when testing " + server + ":\n  "
 						+ err)
-					console.log(config.TSDSFE + TESTS[server]["url"])
+					console.log(TESTS[server]["url"])
 					console.log(ds()
 						+ "Next test in "
 						+ checkservers.status[server]["checkperiod"]

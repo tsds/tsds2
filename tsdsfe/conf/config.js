@@ -57,6 +57,8 @@ exports.config = function config() {
 	// Otherwise it is relative to directory of tsdsfe.js.
 	out["CATALOG"] = out["TSDSFE"] + "catalogs/all.thredds";
 
+	out["CATALOGLIST"] = out["TSDSFE"] + "catalogs/all.thredds";
+
 	// Location to find top-level catalogs and bookmark files.  May be a URL or an absolute path.
 	// When ?catalog=CATALOG&return={tsds-catalog,autoplot-bookmark} is requested,
 	// TSDSCC + CATALOG + "/" + CATALOG-{tsds-catalog,autoplot-bookmark}.EXT is passed through.

@@ -1,14 +1,12 @@
-function dropdown2(ids, names, funs, after, i, selected, callback) {
+function dropdown2(ids, names, funs, after, i, callback) {
 
 	if (arguments.length < 5) {i = 0;};
-	if (arguments.length < 6) {selected = "";};
 
-	if (i == ids.length) {return}
-	if (funs[i].show) {
-		if (!funs[i].show()) {
-			return
-		}
+	if (i == ids.length) {
+		console.log("dropdown(): Last drop-down already set.  Returning.");
+		return;
 	}
+
 	function settoggle(i) {
 		$("#"+ids[i]+"list").unbind('click');
 		console.log("dropdown.settoggle(): Setting click event on "+ids[i]+"list element.");
@@ -24,7 +22,7 @@ function dropdown2(ids, names, funs, after, i, selected, callback) {
 			});
 	}
 		
-	function ac(i,list) {
+	function ac(i, list) {
 		
 		$("#"+ids[i])
 			.autocomplete({
@@ -49,7 +47,7 @@ function dropdown2(ids, names, funs, after, i, selected, callback) {
 				//search: function (event) {funs[i].onselect();},
 				change: function(event, ui) {
 					id = $(this).attr('id');
-					console.log("dropdown.ac.change(): Change event triggered on " + after + i);
+					console.log("dropdown.ac.change(): Change event triggered on drop-down with id = " + id);
 
 					var i = parseInt($(this)
 								.parent().parent()
@@ -133,8 +131,7 @@ function dropdown2(ids, names, funs, after, i, selected, callback) {
 						// console.log(event)
 						console.log("dropdown.ac.change(): " 
 							+ id 
-							+ " value has not changed.  Not removing " 
-							+ after+(i+1) + ".");
+							+ " value has not changed.  Not removing drop-down with id = " + id + ".");
 					}
 				},			
 				select: 
@@ -142,7 +139,7 @@ function dropdown2(ids, names, funs, after, i, selected, callback) {
 
 						id = $(this).attr('id');
 
-						console.log("dropdown.ac.select(): Select event triggered on " + id);
+						console.log("dropdown.ac.select(): Select event triggered on drop-down with id = " + id);
 
 						var i = parseInt($(this).parent().parent()
 												.attr("id")
@@ -183,23 +180,23 @@ function dropdown2(ids, names, funs, after, i, selected, callback) {
 						if (location.hash === "") {
 							var qs = {};
 						} else {
+							console.log("dropdown.ac.select(): Getting query object from hash.");
 							var qs = $.parseQueryString();
 						}
 
 						if ($(p).val()) {
-							console.log("dropdown.ac.select(): Setting query string value to " 
-										+ $(p).val());
+							console.log("dropdown.ac.select(): Setting query object value for " + $(p).attr('name') + " to " + $(p).val());
 							qs[$(p).attr('name')] = $(p).val();
 						}
 						
-						console.log("dropdown.ac.select(): Setting hashchange.byurledit to false");
+						console.log("dropdown.ac.select(): Setting hashchange.byurledit to false.");
 						$(window).hashchange.byurledit = false;
 
-						console.log("dropdown.ac.select(): Setting hash using query string.");
+						console.log("dropdown.ac.select(): Setting hash using modified query object.");
 						location.hash = decodeURIComponent($.param(qs));
 
 						if (val) {
-							console.log("dropdown.ac.select(): Setting "
+							console.log("dropdown.ac.select(): Setting"
 										+ " ui.item.valuelast to ui.item.value.");
 							ui.item.valuelast = ui.item.value;
 						}
@@ -232,7 +229,9 @@ function dropdown2(ids, names, funs, after, i, selected, callback) {
 											+ "values on all remaing drop-downs.");
 							qs = {};
 							for (j = 0;j < i+1;j++) {
-								qs[$(after+j).attr('name')] = $(after+j).val();
+								if ($(after+j).val()) {
+									qs[$(after+j).attr('name')] = $(after+j).val();
+								}
 							}
 							console.log("dropdown.ac.select(): Setting hash based on"
 											+ " values on all remaing drop-downs.");
@@ -246,38 +245,11 @@ function dropdown2(ids, names, funs, after, i, selected, callback) {
 							}
 
 							console.log("dropdown.ac.select(): Setting next drop-down.");
-							dropdown2(ids, names, funs, after, i+1, val, callback);
+							dropdown2(ids, names, funs, after, i+1);
 
-							// If last dropdown, return.
-							if (i+1 == funs.length) {
-								console.log("dropdown.ac.select(): Last drop-down.");
-								return
-							}
-
-							if (funs[i+1].show) {
-								console.log("dropdown.ac.select(): Checking if drop-down should be shown.");
-								// If function has a show callback.
-								if (!funs[i+1].show()) {
-									console.log("dropdown.ac.select(): No. Not showing it.");
-									return
-								} else {
-									console.log("dropdown.ac.select(): Yes. Showing it.");
-									$(after+(i+1)).show();
-								}
-							} else {
-								// Show next drop-down.
-								console.log("dropdown.ac.select(): Showing drop-down " + after+(i+1) + ".");
-								$(after+(i+1)).show();
-							}
 						}
 					}
 			})
-			.click(function () {
-				console.log("dropdown.ac.click(): Showing next drop-down.");
-				if (!$(this).attr('value'))
-					$(this).attr('value','').css('color','black').autocomplete('search');
-			});
-
 	}
 
 	console.log("dropdown(): Creating dropdown with id = " + ids[i]);
@@ -291,25 +263,40 @@ function dropdown2(ids, names, funs, after, i, selected, callback) {
 		.append('<input id="'+ids[i]+'" class="dropdown2"  title="Select ' + names[i] + ' option or enter text to narrow list." style="width:100%;display:table-cell;color:black;font-weight:bold;text-align:center;" value="-'+names[i]+'-"/>')
 		.append('<span class="dropdown2" style="width:5px;display:table-cell"></span>')
 		.append('<label id="'+ids[i]+'list" class="dropdown2" title="Show full list" style="width:1em;display:table-cell;cursor:pointer">&#9660;</label>');
-	
+
+	console.log("dropdown(): Calling " 
+					+ funs[i].toString().split("{")[0].trim() 
+					+ " to get drop-down list entries.");
+
+	var list = funs[i]();
+
+	if (!list) {
+		console.log("dropdown(): Drop-down has no values.  Setting next drop-down.");
+		dropdown2(ids, names, funs, after, i+1);
+		return;
+	}
+
+	if (list.length == 0) {
+		console.log("dropdown(): Drop-down has no values.  Setting next drop-down.");
+		dropdown2(ids, names, funs, after, i+1);
+		return;
+	}
+
+	console.log("dropdown(): Calling dropdown.ac().");
+	ac(i, list);
+
+	console.log("dropdown(): Calling dropdown.settoggle().");
+	settoggle(i);
 
 	// Allow entries not in list.
 	// Append is synchronous, so this won't happen before element is in DOM.
+	// TODO: Each drop-down should have a function validate() that checks if
+	// manually entry is valid.
 	$(after + (i) + ' input[id=' + ids[i] + ']')
 		.live('input',
 			function () {
 				$(this).parent().parent().attr('value', $(this).attr('value'));
 			});
-	
-	console.log("dropdown(): Calling " 
-					+ funs[i].toString().split("{")[0].trim() 
-					+ " with i = "+i);
-
-	var list = funs[i](i, selected);
-
-	console.log("dropdown(): Calling dropdown.ac().");
-	ac(i, list);
-	settoggle(i);
 
 	$('input[id=' + ids[i] + ']').keypress(function(e) {
 		  	console.log( "dropdown(): Handler for .keypress() called." );
@@ -320,19 +307,27 @@ function dropdown2(ids, names, funs, after, i, selected, callback) {
 		    	$('input[id=' + ids[i] + ']').blur();
 		    }
 		    if (e.keyCode == 9) { // TAB
-		    	console.log('dropdown: TAB Pressed.')
+		    	console.log("dropdown(): TAB Pressed.")
 		    	//e.preventDefault();
 		    	//$('input[id=' + ids[i+1] + ']').click();
 		    }
 	});
+
+	if (list.length > 0) {
+		console.log("dropdown.ac.select(): Drop-down has values.  Triggering show on it.");
+		$(after+(i)).show();
+	} 
 	
 	// If only one item, select it.
 	if (list.length == 1) {
-		console.log("dropdown(): Triggering select on " + ids[i] + " because it has only one item.");
+		console.log("dropdown(): Triggering select on " 
+					+ ids[i] + " because it has only one item.");
 		$('input[id=' + ids[i] + ']')
 			.val(list[0].value).data("autocomplete")
 			._trigger("select", event, {item:list[0].value});
-	} else {
+	}
+
+	if (list.length > 1 ) {
 		// Select first item with attribute selected=true.
 		for (var k = 0;k < list.length; k++) {
 			if (list[k].selected) {
@@ -344,10 +339,4 @@ function dropdown2(ids, names, funs, after, i, selected, callback) {
 			}
 		}
 	}
-
-	if (callback) {
-		console.log("dropdown(): Evaluating callback");
-		callback(ids[i], i);
-	}
-
 }
