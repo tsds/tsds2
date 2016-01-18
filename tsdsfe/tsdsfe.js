@@ -111,6 +111,17 @@ if (fs.existsSync("../../" + path)) {
 	var expandISO8601Duration = require("./node_modules/"+path).expandISO8601Duration
 }
 
+path = "tsdsdd/expandDD.js"
+if (fs.existsSync("../../" + path)) {
+	// Development
+	var develtsdsdd = true
+	var expandDD = require("../../" + path).expandDD
+} else {
+	// Production
+	var develtsdsdd = false
+	var expandDD = require("./node_modules/"+path).expandDD
+}
+
 process.on('uncaughtException', function(err) {
 	if (err.errno === 'EADDRINUSE') {
 		console.log(ds() + "Port " + config.PORT + " already in use.")
@@ -395,7 +406,6 @@ function handleRequest(req, res, options) {
 	}
 
 	if (options.dd !== "") {
-		var expandDD = require('./js/expandDD.js').expandDD
 		log.logres("Input is dd: " + options.dd, options, "app")
 		expandDD(decodeURIComponent(options.dd), function (err, cat) {
 			var ddfile = crypto.createHash("md5").update(decodeURIComponent(options.dd)).digest("hex")
@@ -758,10 +768,11 @@ function handleRequest(req, res, options) {
 			// sends concatenated gzip files, which most browsers don't handle.
 			// Result is first file is displayed and then trailing garbage.  See
 			// http://stackoverflow.com/questions/16740034/http-how-to-send-multiple-pre-cached-gzipped-chunks
-			if ((options.attach) && ((options.return === "data") || (options.return === "redirect"))) {
+			if (res.Nc == 0 && options.attach && ((options.return === "data") || (options.return === "redirect"))) {
 				// https://kb.acronis.com/content/39790
 				var fname = req.originalUrl.replace(/^&|^\/\?/,"").replace(/:/g,"").replace(/\//g,"!").replace(/\&/g,"_").replace(/\=/g,"-")+".txt";
-				console.log(fname)
+
+				log.logres("Setting file attachement name to " + fname + ".", res.opts, "stream")
 				res.setHeader("Content-Disposition", "attachment;filename="+fname);
 
 				if (req.headers['accept-encoding']) {
@@ -2279,7 +2290,7 @@ function parameter(catalogs, datasets, res, cb) {
 
 		//ddresp[z].urltemplate = "";
 
-		console.log(resp[z].dd)
+		//console.log(resp[z].dd)
 
 		if (res.opts.format === "ascii-0") {
 			var len = resp[z].dd.timeformat.split(" ").length

@@ -35,8 +35,8 @@ RESULT+=$?
 
 kill -s "SIGINT" $PID
 
-if [[ $RESULT != "1" ]]; then
-	echo "test.sh Exiting with code 1."
+if [[ $RESULT != "0" ]]; then
+	echo "test.sh Exiting with code 0."
 	exit 1
 else
 	echo "test.sh Exiting with code 0."

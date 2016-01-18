@@ -13,9 +13,9 @@
 		"yargs": "*",
 		"dirwalk": "https://github.com/rweigel/dirwalk/tarball/master",
 		"tsdset": "https://github.com/rweigel/tsdset/tarball/master",
+		"tsdsdd": "https://github.com/rweigel/tsdset/tarball/master",
 		"datacache": "https://github.com/rweigel/datacache/tarball/master",
-		"viviz": "https://github.com/rweigel/viviz/tarball/master",
-		"treeify": "https://github.com/rweigel/treeify/tarball/master"
+		"viviz": "https://github.com/rweigel/viviz/tarball/master"
 	},
 	"scripts": {
 		"start": "node tsdsfe.js",
