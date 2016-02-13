@@ -182,7 +182,7 @@ if (argv.port) {
 http.globalAgent.maxSockets = config.maxSockets
 
 // Serve files in these directories as static files and allow dir listings.
-var dirs = ["js","css","scripts","catalogs","log","test/data"]
+var dirs = ["js","css","scripts","catalogs","log","test/data","examples"]
 for (var i in dirs) {
 	app.use("/" + dirs[i], express.static(__dirname + "/" + dirs[i]))
 	app.use("/" + dirs[i], serveIndex(__dirname + "/" + dirs[i], {'icons': true}))
@@ -216,9 +216,9 @@ app.get('/status', function (req, res) {
 			}	
 		}
 	}
-	if (Object.keys(c.deps).length == 0) {
-		c.deps["active"] = argv.startdeps
-	}
+	//if (Object.keys(c.deps).length == 0) {
+	c.deps["active"] = argv.startdeps
+	//}
 	res.send(JSON.stringify(c))
 })
 
@@ -362,12 +362,13 @@ if (!convert_exists) {
 config = log.init(config)
 
 var msg = ""
-if (develdatacache || develtsdset || develviviz) {
+if (develdatacache || develtsdset || develtsdsdd || develviviz) {
 	msg = "Using devel version of:"
 }
 if (develdatacache) {msg = msg + " datacache"}
-if (develviviz) {msg = msg + " viviz"}
 if (develtsdset) {msg = msg + " tsdset"}
+if (develtsdset) {msg = msg + " tsdsdd"}
+if (develviviz) {msg = msg + " viviz"}
 if (msg !== "") {console.log(ds() + "Note: " + clc.blue(msg))}
 
 if (!argv.checkdeps) {
@@ -410,14 +411,25 @@ function handleRequest(req, res, options) {
 		expandDD(decodeURIComponent(options.dd), function (err, cat) {
 			var ddfile = crypto.createHash("md5").update(decodeURIComponent(options.dd)).digest("hex")
 			log.logres("Writing " + "catalogs/dd/" + ddfile + ".json", options, "app")
-			fs.writeFile("catalogs/dd/" + ddfile + ".json", JSON.stringify(cat), function () {
+			// TODO: Proper thread-safe caching.
+			if (fs.existsSync("catalogs/dd/" + ddfile + ".json")) {
+				var data = fs.readFileSync("catalogs/dd/" + ddfile + ".json");
 				options.catalog = ddfile;
 				options.cataloglist = "-";
 				options.dd = "";
 				req.query.usemetadatacache = "true";
 				log.logres("Calling handleRequest()", options, "app")
-				handleRequest(req, res, options);
-			})
+				handleRequest(req, res, options);				
+			} else {
+				fs.writeFile("catalogs/dd/" + ddfile + ".json", JSON.stringify(cat), function () {
+					options.catalog = ddfile;
+					options.cataloglist = "-";
+					options.dd = "";
+					req.query.usemetadatacache = "true";
+					log.logres("Calling handleRequest()", options, "app")
+					handleRequest(req, res, options);
+				})
+			}
 		})
 		return;
 	}
@@ -546,7 +558,7 @@ function handleRequest(req, res, options) {
 								+ ".streaming", res.opts)
 
 				// Write lock file
-				fs.writeFileSync(ifiler + ".streaming","")
+				fs.writeFileSync(ifiler + ".streaming", "")
 
 				log.logres("Streaming " + ifiler, res.opts)
 
@@ -580,108 +592,6 @@ function handleRequest(req, res, options) {
 		}
 	}
 
-	// Catch case where ?catalog=CATALOG&return={tsds,autoplot-bookmarks,spase}
-	if (res.opts.return === "autoplot-bookmarks" || res.opts.return === "tsds") {
-
-		log.logres("Request is for " + options.return, res.opts)
-
-		if (res.opts.format === "json") {
-			res.setHeader("Content-Type", "application/json")
-		} else {
-			res.setHeader("Content-Type", "text/xml")
-			res.opts.format = "xml"
-		}
-
-		if (res.opts.cataloglist === "-") {
-			finish(config["TSDSFE"] + "catalogs/dd/" + options.catalog + ".json")
-		} else {
-			// Get list of all catalogs and their URLs
-			url = config["TSDSFE"] 
-					+ "?catalog=^.*" 
-					+ "&usemetadatacache="
-					+ res.opts.usemetadatacache
-			log.logres("Requesting "+url, res.opts)
-			request(url, function (err,catres,catbody) {
-				catalogjson = JSON.parse(catbody);
-				// Iterate through list of catalogs and find one that matches
-				// requested catalog.
-				for (var i = 0;i < catalogjson.length; i++) {
-					if (catalogjson[i].label.match(res.opts.catalog)) {
-						url = catalogjson[i].href;
-						break
-					}
-				}
-				finish(url)
-			})
-		}
-
-		function finish(url) {
-
-			log.logres("Calling getandparse() with URL " + url, res.opts)
-
-			// Request the matched catalog and parse it.
-			if (res.opts.return === "tsds") {
-				getandparse(url, res, function (ret) {
-					if (res.opts.format === "xml") {
-						log.logres("Sending TSDS XML.", res.opts)
-						res.write(ret.toString())
-						res.end()					
-					} else {
-						typeof(ret)
-						res.write(JSON.stringify(ret))
-						res.end()													
-					}
-				})
-			}
-
-			if (options.return === "autoplot-bookmarks") {
-				var format = res.opts.format
-				// This causes getandparse to return TSDS JSON, which
-				// tsds2bookmarks requires.
-				res.opts.format = "json"
-				
-				log.logres("Calling getandparse() with URL " + url, res.opts)
-				getandparse(url, res, function (ret) {
-
-					res.opts.format = format
-					var tsds2other = require(__dirname + "/js/tsds2other.js").tsds2other
-
-					log.logres("Converting TSDS XML catalog to Autoplot bookmark XML.", res.opts)
-
-					// Filename signature is based on input + transformation code.
-					var retsig  = crypto.createHash("md5")
-										.update(JSON.stringify(ret) 
-								+ tsds2other.toString()).digest("hex")
-					var retfile = config.CACHEDIR + retsig + ".xml"
-
-					if (fs.existsSync(retfile)) {
-						log.logres("Cache of autoplot-bookmarks file found for input " + url, res.opts)
-						ret = fs.readFileSync(retfile)
-						finish(ret)
-					} else {
-						log.logres("No cache of autoplot-bookmarks file found for input = " + url, res.opts)
-						tsds2other(ret, "autoplot-bookmarks", function (ret) {
-							finish(ret)
-							log.logres("Writing cache file for autoplot-bookmarks for input = " + url, res.opts)
-							fs.writeFileSync(retfile, ret)
-						})	
-					}
-
-					function finish(ret) {
-						if (format === "xml") {
-							res.write(ret.toString())
-							res.end()
-						} else {
-							res.write(JSON.stringify(ret))
-							res.end()																						
-						}
-					}
-				})
-			}
-		}
-		return
-	}
-
 	// Requests may be made that span multiple catalogs.  
 	// Separation identifier is ";".  See tests for examples.
 
@@ -697,9 +607,108 @@ function handleRequest(req, res, options) {
 
 	res.N = N
 	res.Nc = 0
-	// Sending this to the browser causes only one chunk to be rendered 
-	// followed by trailing garbage.
-	//res.setHeader("Content-Type","text/plain"); 
+
+	// Catch case where ?catalog=CATALOG&return={tsds,autoplot-bookmarks,spase}
+	if (res.opts.return === "autoplot-bookmarks" || res.opts.return === "tsds") {
+
+		log.logres("Request is for " + options.return, res.opts)
+
+		if (res.opts.format === "json") {
+			res.setHeader("Content-Type", "application/json")
+		} else if (res.opts.format === "xml") {
+			res.setHeader("Content-Type", "text/xml")
+		} 
+
+		if (res.opts.cataloglist === "-") {
+			finish(config["TSDSFE"] + "catalogs/dd/" + options.catalog + ".json")
+		} else {
+			// Get list of all catalogs and their URLs
+			url = config["TSDSFE"] 
+					+ "?catalog=^.*"
+					+ "&usemetadatacache=" + res.opts.usemetadatacache
+			log.logres("Requesting " + url, res.opts)
+			request(url, function (err, catres, catbody) {
+				catalogjson = JSON.parse(catbody);
+				// Iterate through list of catalogs and find one that matches
+				// requested catalog.
+				for (var i = 0;i < catalogjson.length; i++) {
+					if (catalogjson[i].label.match(res.opts.catalog)) {
+						url = catalogjson[i].href;
+						break;
+					}
+				}
+				finish(url)
+			})
+		}
+
+		function finish(url) {
+
+			log.logres("Calling getandparse() with URL " + url, res.opts)
+
+			// Request the matched catalog and parse it.
+			if (res.opts.return === "tsds") {
+				getandparse(url, res, function (ret) {
+					if (res.opts.format === "xml") {
+						log.logres("Streaming TSDS XML.", res.opts);
+						stream(0, ret, res);
+					} else {
+						log.logres("Streaming TSDS JSON.", res.opts);
+						stream(0, JSON.stringify(ret, null, 4), res);
+					}
+				})
+			}
+
+			if (options.return === "autoplot-bookmarks") {
+
+				log.logres("Calling getandparse() with URL " + url, res.opts)
+
+				// getandparse() determines return type from res.opts.format.
+				// We always want JSON here, so temporarily set
+				// res.opts.format = "json";
+				var format_orig = res.opts.format;
+				res.opts.format = "json";
+
+				getandparse(url, res, function (ret) {
+
+					// Undo temporary setting.
+					res.opts.format = format_orig;
+
+					var tsds2other = require(__dirname + "/js/tsds2other.js").tsds2other
+
+					// We want to cache the results of tsds2other here.
+					// getandparse only caches pre-tsds2other result.
+					// TODO: pass getandparse() tsds2other as a callback so 
+					// caching is done there and not here.
+
+					// Cache filename signature is based on input + transformation code.
+					var retsig  = crypto
+									.createHash("md5")
+									.update(JSON.stringify(ret) 
+								+ tsds2other.toString()).digest("hex")
+					var retfile = config.CACHEDIR + retsig + ".xml"
+
+					if (fs.existsSync(retfile) && res.opts.usemetadatacache) {
+						log.logres("Cache of autoplot-bookmarks file found for input " + url, res.opts)
+						fs.readFile(retfile, 
+							function (err, ret) {
+								res.write(ret.toString())
+								res.end()
+							})
+					} else {
+						log.logres("No cache of autoplot-bookmarks XML file found for input = " + url, res.opts)
+						log.logres("Converting TSDS JSON catalog to Autoplot bookmark XML.", res.opts)
+						tsds2other(ret, "autoplot-bookmarks", function (ret) {
+							log.logres("Streaming XML.", res.opts);
+							stream(0, ret, res);
+							log.logres("Writing (sync) cache file containing XML for autoplot-bookmarks for input = " + url, res.opts)
+							fs.writeFileSync(retfile, ret)
+						})	
+					}
+				})
+			}
+		}
+		return
+	}
 
 	if (N > 1) {
 		
@@ -744,6 +753,56 @@ function handleRequest(req, res, options) {
 		// span multiple catalogs.  Document and fix.
 		
 		log.logres("Stream called.", res.opts, "stream")
+		// See https://kb.acronis.com/content/39790
+		// Probably want to change this approach ...
+		var fname = req.originalUrl
+						.replace(/^&|^\/\?/,"")
+						.replace(/:/g,"")
+						.replace(/\//g,"!")
+						.replace(/\&/g,"_")
+						.replace(/\=/g,"-")
+
+		if (options.return === "urilist" && options.format === "ascii") {var ext = ".txt"}
+		if (options.return === "urilist" && options.format === "xml") {var ext = ".xml"}
+		if (options.return === "urilist" && options.format === "json") {var ext = ".json"}
+
+		if (options.return === "tsds" && options.format === "xml") {var ext = ".xml"}
+		if (options.return === "tsds" && options.format === "json") {var ext = ".json"}
+
+		if (options.return === "data") {var ext = ".txt"}
+
+		// TODO: redirect implies return=data.  Need better notation.
+		// Redirect allows data to not need to be piped through tsdsfe.
+		// So return=data&style=header won't work anyway.
+		if (options.return === "redirect") {var ext = ".txt"}
+
+		if (   res.Nc == 0 
+			&& options.attach
+			&& (   options.return === "tsds" 
+				|| options.return === "urilist" 
+				|| options.return === "data" 
+				|| options.return === "redirect"
+				)
+			) {
+			var fname = fname + ext;
+			log.logres("Setting file attachement name to " 
+							+ fname + ".", res.opts, "stream")
+			res.setHeader("Content-Disposition", "attachment;filename=" + fname);
+
+			if (req.headers['accept-encoding']) {
+				if (req.headers['accept-encoding'].match("gzip")) {
+					// If displaying stream in
+					// browser, must return un-gzipped data from DataCache.  DataCache
+					// sends concatenated gzip files, which most browsers don't handle.
+					// Result is first file is displayed and then trailing garbage.  See
+					// http://stackoverflow.com/questions/16740034/http-how-to-send-multiple-pre-cached-gzipped-chunks
+
+					//res.setHeader('Content-Encoding','gzip');
+					// Request a gzipped stream from DataCache.
+					//data = data.replace("streamGzip=false","streamGzip=true");
+				}
+			}
+		}
 
 		if (status == 0) {
 
@@ -763,38 +822,19 @@ function handleRequest(req, res, options) {
 				return
 			}
 
-			// By default, use attach = true.  If displaying stream in
-			// browser, must return un-gzipped data from DataCache.  DataCache
-			// sends concatenated gzip files, which most browsers don't handle.
-			// Result is first file is displayed and then trailing garbage.  See
-			// http://stackoverflow.com/questions/16740034/http-how-to-send-multiple-pre-cached-gzipped-chunks
-			if (res.Nc == 0 && options.attach && ((options.return === "data") || (options.return === "redirect"))) {
-				// https://kb.acronis.com/content/39790
-				var fname = req.originalUrl.replace(/^&|^\/\?/,"").replace(/:/g,"").replace(/\//g,"!").replace(/\&/g,"_").replace(/\=/g,"-")+".txt";
-
-				log.logres("Setting file attachement name to " + fname + ".", res.opts, "stream")
-				res.setHeader("Content-Disposition", "attachment;filename="+fname);
-
-				if (req.headers['accept-encoding']) {
-					if (req.headers['accept-encoding'].match("gzip")) {
-						//res.setHeader('Content-Encoding','gzip');
-						// Request a gzipped stream from DataCache.
-						//data = data.replace("streamGzip=false","streamGzip=true");
-					}
-				}
-			}
-
 			// If stream was called with a URL, pipe the data through.
 			log.logres("Streaming from " + data, res.opts, "stream")
 
 			if (isimagereq && options.format !== "png") {
-				var ifilews  = fs.createWriteStream(ifile)
+				var ifilews = fs.createWriteStream(ifile)
 				// TODO: Check for error here.
 				var rd = request
 							.get(data)
 							.on('response', function(response) {
-								console.log(response.statusCode) // 200
-								console.log(response.headers['content-type']) // 'image/png'
+ 								// 200
+								console.log(response.statusCode)
+								 // 'image/png'
+								console.log(response.headers['content-type'])
 							})
 							.on('error', function(err) {
     							console.log(err)
@@ -862,7 +902,7 @@ function handleRequest(req, res, options) {
 
 					// Pipe pngquant stdout to ifile
 					pngquant.stdout.pipe(ifilews)
-
+					
 					// Pipe request data into pngquant stdin
 					request.get(data).pipe(pngquant.stdin)					
 
@@ -930,11 +970,28 @@ function handleRequest(req, res, options) {
 						res.status(502).send(tmpstr)
 					})
 					.on('response', function(res0) {
-						if (res0.statusCode !== "200") {
-							// TODO: Abort and send error.
+						if (res0.statusCode !== 200) {
+							log.logres("Non-200 status code (" + res0.statusCode+ ") from image request.", res.opts, "stream")
+							log.logres("TODO: Handle this!", res.opts, "stream")
 						}
 						log.logres("Headers: " 
 							+ JSON.stringify(res0.headers), res.opts, "stream")
+						if (res0.headers['x-autoplot-exception']) {
+							// TODO: Put this in other parts of code above.
+							// Should image be cached in this case? Perhaps
+							// we need to cache headers too?
+							log.logres("Autoplot exception. Sending it and aborting.", res.opts, "stream")
+							res.setHeader('x-autoplot-exception',
+										  res0.headers['x-autoplot-exception'])
+							return;
+
+							res.status(502).send(decodeURIComponent(res0.headers['x-autoplot-exception']));
+							log.logres("Removing " 
+								+ ifile.replace(__dirname + "/",""), res.opts, "stream")
+							if (fs.existsSync(ifile)) {
+								fs.unlinkSync(ifile)
+							}
+						}
 						if (res0.headers['content-type']) {
 							res.setHeader('content-type',
 										  res0.headers['content-type'])
@@ -963,7 +1020,7 @@ function handleRequest(req, res, options) {
 
 				if (res.Nc == 0) {
 
-					log.logres("Setting response headers: ", res.opts, "stream")
+					log.logres("Setting response headers.", res.opts, "stream")
 
 					if (res0.headers['x-datacache-log']) {
 						res.setHeader('x-datacache-log',
@@ -972,7 +1029,15 @@ function handleRequest(req, res, options) {
 					if (res0.headers['x-tsdsfe-warning']) {
 						res.setHeader('x-tsdsfe-warning',
 										res0.headers['x-tsdsfe-warning'])
-					}		
+					}
+
+					if (res0.statusCode != 200) {
+						log.logres("Non-200 status code.  Sending it and aborting.", res.opts, "stream")
+						res.setHeader('x-tsdsfe-error',res0.statusMessage);
+						res.status(res0.statusCode).send(res0.statusMessage);
+						return;
+					}
+
 					if (res0.headers["content-type"]) {
 						res.setHeader('Content-Type',
 										res0.headers["content-type"])
@@ -989,6 +1054,10 @@ function handleRequest(req, res, options) {
 					if (options.style === "header") {
 						//console.log(options)
 						//console.log(res.dd)
+						var varstr = ""
+						for (var j = 0;j < res.dd.length; j++) {
+							var varstr = varstr + res.dd[j].columnIDs + "[" + res.dd[j].columnUnits + "] ";
+						}
 						if (options.format === "ascii-0") {
 							var tmpstr = res.dd[0].timeFormat
 											.replace("%Y", " Year").replace("$Y", " Year")
@@ -998,13 +1067,13 @@ function handleRequest(req, res, options) {
 											.replace("%M", " Minute").replace("$M", " Minute")
 											.replace("%S", " Second").replace("$S", " Second")
 
-							res.write(tmpstr.replace(/^ /,"") + " " + res.dd[0].columnIDs + "[" + res.dd[0].columnUnits + "]" + "\n")
+							res.write(tmpstr.replace(/^ /,"") + " " + varstr + "\n")
 						} 
 						if (options.format === "ascii-1") {
-							res.write("Time" + " " + res.dd[0].columnIDs + "[" + res.dd[0].columnUnits + "]" + "\n")
+							res.write("Time" + " " + varstr + "\n")
 						} 
 						if (options.format === "ascii-2") {
-							res.write("Year Month Day Hour Minute Second" + " " + res.dd[0].columnIDs + "[" + res.dd[0].columnUnits + "]" + "\n")
+							res.write("Year Month Day Hour Minute Second" + " " + varstr + "\n")
 						} 
 					}
 
@@ -1042,25 +1111,30 @@ function handleRequest(req, res, options) {
 					})
 			}).on('error', function (err) {
 				var tmpstr = "Error when attempting to retrieve data "
-							+ " from backend server."
-				res.status(502).send(tmpstr)
-				var tmpstr = tmpstr + " at " + data.split("/")[2];
-				log.logres(tmpstr, res.opts, "stream")
+							+ "from backend server."
+				//res.status(502).send(tmpstr)
+				//var tmpstr = tmpstr + " (" + data.split("/")[2] + ")";
+				//log.logres(tmpstr, res.opts, "stream")
 			})
 		} else if (status == 301 || status == 302) {
 			log.logres("Redirecting to "+data, res.opts, "stream")
-			res.redirect(status,data);
+			res.redirect(status, data);
+		} else if (status === 500 || status === 501 || status == 502 || status == 504) {
+			// https://en.wikipedia.org/wiki/List_of_HTTP_status_codes
+			log.logres("Sending text/plain.", res.opts, "stream")
+			res.status(status).send(data)
+			return;
 		} else {
-			log.logres("Sending JSON.", res.opts, "stream")
-
+			// Script
 			if (typeof(data) === "string") {
-				// Script.
-				// TODO: Does not handle concatenated requests.
+				// TODO: Handle concatenated requests.
+				log.logres("Sending text/plain.", res.opts, "stream")
 				res.setHeader('Content-Type','text/plain')
 				res.write(data)
 				res.end()
-				return
+				return;
 			} else {
+				log.logres("Sending JSON.", res.opts, "stream")
 				if (N > 1) {
 					if (res.Nc == 0) {
 						res.write("[")
@@ -1098,7 +1172,7 @@ function handleRequest(req, res, options) {
 				catalog(res, stream)
 			}
 		}
-	}		
+	}
 }
 
 function parseOptions(req, res) {
@@ -1123,7 +1197,6 @@ function parseOptions(req, res) {
 	options.istest       = s2b(req.query.istest   || "false");
 
 	options.dd           =  req.query.dd          || "";
-
 
 	if (req.headers['x-forwarded-for']) {
 		options.ip = req.headers['x-forwarded-for'].replace(/\s+/g,"")
@@ -1278,18 +1351,18 @@ function parseOptions(req, res) {
 		options.return = "dd"
 	}
 
-	if (options.return === "tsds" && options.format !== "json") {
+	if (options.return === "tsds" && options.format === "") {
 		options.format = "xml"
 	}
-	if (options.return === "autoplot-bookmarks" && options.format !== "json") {
+	if (options.return === "autoplot-bookmarks" && options.format === "") {
 		options.format = "xml"
 	}
 
-	//if (options.return === "dd" || options.return.match("urilist")) {
-	if (options.return.match("urilist")) {
-		// options.return === "urilistflat" is technically not a JSON format, 
-		// but processing is same until just before response is sent.
+	// This return type is quite different from tsds and autoplot-bookmarks.
+	// catalog, dataset, parameter, start, stop are all required.
+	if (options.return === "urilist" && options.format === "") {
 		options.format = "json"
+		// Other option is ascii.
 	}
 	
 	return options
@@ -1336,12 +1409,12 @@ function getandparse(url, res, cb) {
 
 	// Do head request and fetch if necessary.  Cache if fetched.
 	if (res.opts.format !== "xml" && fs.existsSync(cfilejson)) {
-		log.logres("Cache file found for url = " + url, res.opts)
+		log.logres("Cache file " + cfilejson.replace(__dirname + "/","") + " found for url = " + url, res.opts)
 		headthenfetch(url, "json")
 		return
 	}
 	if (res.opts.format === "xml" && fs.existsSync(cfilexml)) {
-		log.logres("Cache file found for url = " + url, res.opts)
+		log.logres("Cache file " + cfilexml.replace(__dirname + "/","") + " found for url = " + url, res.opts)
 		headthenfetch(url, "xml")
 		return
 	}
@@ -1357,7 +1430,7 @@ function getandparse(url, res, cb) {
 		return
 	}
 
-	function headthenfetch(url,type) {
+	function headthenfetch(url, type) {
 
 		// Do head request for file that contains list of datasets.
 		log.logres("Doing (async) head request on "+url, res.opts)
@@ -1412,7 +1485,7 @@ function getandparse(url, res, cb) {
 		})
 	}
 
-	function fetch(url,type,isexpired) {
+	function fetch(url, type, isexpired) {
 
 		log.logres("Fetching " + url, res.opts)
 
@@ -1564,7 +1637,6 @@ function catalog(res, cb) {
 	getandparse(res.opts.cataloglist, res, afterparse)
 
 	function afterparse(result) {
-
 		// Given JSON containing information in config.CATALOGLIST, form JSON response.
 		// config.CATALOGLIST contains links to all catalogs available.
 		var resp = [];
@@ -1600,15 +1672,21 @@ function catalog(res, cb) {
 		// Now we have a list of URLs for catalogs associated with the catalog pattern.
 		// Remove empty elements of array. (TODO: Needed?)
 		resp = resp.filter(function(n){return n})
+
 		if (resp.length == 0) {
-			if (res.opts.cataloglist === "-") {
+			if (res.opts.cataloglist !== "-" && res.opts.catalog.length != 32) {
 				log.logres("Error: No matching catalogs in list.", res.opts)
 				var list = "List:"
 				for (var i = 0; i < catalogRefs.length;i++) {
 					list = list + " " + catalogRefs[i]["$"]["ID"] 
 				}
 				log.logres(list, res.opts)
-				cb(500,"Error: No matching catalogs with ID="+res.opts.catalog+"in "+res.opts.cataloglist+". Options are" + list.join("\n"),res);
+				cb(501,  "Error: No matching catalogs with ID = "
+						+ res.opts.catalog
+						+ " in "
+						+ res.opts.cataloglist
+						+ ". Options are "
+						+ list + "\n", res);
 				return
 			} else {
 				// If catalog is a dd md5, this will work.
@@ -1672,7 +1750,7 @@ function dataset(catalogs, res, cb) {
 	log.logres("Called.", res.opts)
 
 	// Loop over each catalog
-	for (var i = 0; i < catalogs.length;i++) {
+	for (var i = 0; i < catalogs.length; i++) {
 		getandparse(catalogs[i].href, res, afterparse);
 	}
 
@@ -1689,8 +1767,6 @@ function dataset(catalogs, res, cb) {
 			result = JSON.parse(result)
 		}
 
-		//console.log(typeof(JSON.parse(result)))
-		//console.log(result)
 		var parent = result["catalog"]["$"]["id"] || result["catalog"]["$"]["ID"]
 
 		var tmparr = result["catalog"]["dataset"]
@@ -1712,14 +1788,19 @@ function dataset(catalogs, res, cb) {
 		// not have been called with results in same order as catalog array.
 		if (catalogs.length == 1) {
 			if (parent !== catalogs[afterparse.j-1].value) {
-				log.logres("WARNING: ID of catalog in " + config.CATALOGLIST 
-					+ " does not match ID of catalog found in catalog.",
-					  res.opts)
-				log.logres("WARNING: ID in " + config.CATALOGLIST
-					+ " is " + parent, res.opts)
-				log.logres("WARNING: ID in catalog ["
-					+ catalogs[afterparse.j-1].href + "] is "
-					+ catalogs[afterparse.j-1].value, res.opts)
+				var msg = "Error: ID of catalog referenced in master catalog in " + config.CATALOGLIST 
+						+ " does not match ID of catalog with dataset."
+						+ "\nID in master catalog [" + config.CATALOGLIST
+						+ "] is \n  '" + parent
+						+ "'\nID in catalog with dataset "
+						+ "["
+						+ catalogs[afterparse.j-1].value
+						+ "] is\n  '"
+						+ catalogs[afterparse.j-1].href
+						+ "'.\n"
+				log.logres(msg, res.opts);
+				cb(500, msg, res);
+				return;
 			}
 		}
 		var dresp = []
@@ -1793,7 +1874,7 @@ function dataset(catalogs, res, cb) {
 					// TODO: Do the following using getandparse().  Document how it works.
 					//console.log(datasets[z])
 					var filecite = __dirname + "/" + catalogs[afterparse.j-1].href.replace(config.TSDSFE,"").replace(/\.xml|\.json/,'.cite')
-					console.log(filecite)
+					//console.log("---" + filecite)
 					if (fs.existsSync(filecite)) {
 						var text = fs.readFileSync(filecite)
 									 .toString()
@@ -1805,9 +1886,9 @@ function dataset(catalogs, res, cb) {
 						dresp[k].link  = ""
 						dresp[k].text  = text
 					}
-					cb(200,dresp, res)
+					cb(200, dresp, res)
 				} else {
-					cb(200,dresp, res)
+					cb(200, dresp, res)
 				}
 			} else {
 				parameter(parents, datasets.filter(function(n){return n}), res, cb)
@@ -1830,7 +1911,10 @@ function parameter(catalogs, datasets, res, cb) {
 	var cats = [];
 	var resp = [];
 	//console.log(catalogs)
+
+	// Get list of all parameters in all datasets
 	for (var i = 0;i < datasets.length;i++) {
+
 		parameters = parameters.concat(datasets[i].variables[0].variable);
 		var parent = datasets[i]["$"];
 
@@ -1863,6 +1947,8 @@ function parameter(catalogs, datasets, res, cb) {
 
 	//console.log(datasets)
 	//console.log(parameters)
+	//console.log(res.opts.parameters)
+	var parametersa = res.opts.parameters.split(",")
 	for (var i = 0;i < parameters.length;i++) {
 
 		var id = parameters[i]["$"]["id"] || parameters[i]["$"]["ID"] || "";
@@ -1870,7 +1956,6 @@ function parameter(catalogs, datasets, res, cb) {
 		parameterlist[i] = id;
 
 		if (id === "") {
-
 			if (parameters[i]["$"]["columns"].match(/,|-/)) {
 				id = "columns" + parameters[i]["$"]["columns"];
 			} else {
@@ -1899,7 +1984,7 @@ function parameter(catalogs, datasets, res, cb) {
 
 		if (!('cadence' in resp[i].dd))      {resp[i].dd.cadence = parents[i]["cadence"] || ""}
 		if (!('lineregex' in resp[i].dd))    {resp[i].dd.lineregex = parents[i]["lineregex"] || ""}
-		if (!('fillvalue' in resp[i].dd))    {resp[i].dd.fillvalue = parameters[i]["$"]["fillvalue"] || ""}
+		if (!('fillvalue' in resp[i].dd))    {resp[i].dd.fillvalue = parents[i]["fillvalue"] || ""}
 		
 		if (res.opts.parameters !== "^.*") {				
 
@@ -1910,14 +1995,18 @@ function parameter(catalogs, datasets, res, cb) {
 					delete resp[i];
 				}
 			} else  {
-				var re = new RegExp("/^"+value+"$/");
-				var mt = res.opts.parameters.match(value);
-				if (!mt) {
+				var found = false;
+				// TODO: Need to verify uritemplates the same (in same file or
+				// response from service.)
+				for (var j = 0;j < parametersa.length; j++) {
+					if (parametersa[j] === value) {
+						found = true;
+						break;
+						log.logres("Match in catalog for requested parameter "+value+".", res.opts)
+					}
+				} 
+				if (!found) {
 					delete resp[i];
-				} else if (mt[0].length != value.length) {
-					delete resp[i];
-				} else {
-					log.logres("Match in catalog for requested parameter "+value+".", res.opts)
 				}
 			}
 		}
@@ -2084,11 +2173,12 @@ function parameter(catalogs, datasets, res, cb) {
 	}
 
 	if (res.opts.return === "urilist") {
-		cb(0,dc + "&return=urilist", res)
-		return
-	}
-	if (res.opts.return === "urilistflat") {
-		cb(0,dc + "&return=urilistflat", res)
+		if (res.opts.return === "urilist" && res.opts.format === "ascii") {
+			dc = dc + "&return=urilistflat"
+		} else {
+			dc = dc + "&return=urilist"
+		}
+		cb(0, dc, res)
 		return
 	}
 
@@ -2129,9 +2219,9 @@ function parameter(catalogs, datasets, res, cb) {
 		// If more than one resp, this won't work.
 		var Labels = "'";
 		var Parameters = "";
-		for (var z = 0;z<resp.length;z++) {
+		for (var z = 0; z < resp.length; z++) {
 			Parameters = Parameters + resp[z].parameter + ",";
-			Labels = Labels + resp[z].parameter + " [" + resp[z].dd.units + "]','";
+			Labels = Labels + resp[z].dd.label + " [" + resp[z].dd.units + "]','";
 		}
 
 		if ((res.opts.return === "script")) {
@@ -2210,7 +2300,7 @@ function parameter(catalogs, datasets, res, cb) {
 			extra = extra + "&units=" + resp[0].dd.units
 		}
 		if (resp[0].dd.fillvalue) {
-			extra = extra + "&fills=" + resp[0].dd.fills
+			extra = extra + "&fills=" + resp[0].dd.fillvalue
 		}
 
 		var jydsargs = 	  "?catalog=" + res.opts.catalog
@@ -2361,5 +2451,5 @@ function parameter(catalogs, datasets, res, cb) {
 		return;
 	}
 
-	cb(500,"Query parameter return=" + res.opts.return + " not recognized.", res)
+	cb(500, "Query parameter return=" + res.opts.return + " not recognized.", res)
 }

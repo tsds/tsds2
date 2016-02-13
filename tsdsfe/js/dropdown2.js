@@ -238,14 +238,19 @@ function dropdown2(ids, names, funs, after, i, callback) {
 							location.hash = decodeURIComponent($.param(qs));
 
 							// Trigger onselect callback for dropdown.
+							var err;
 							if (funs[i].onselect) {
 								console.log("dropdown.ac.select(): Triggering "
 												+ "onselect callback for current drop-down.");
-								funs[i].onselect();
+								var err = funs[i].onselect();
 							}
 
-							console.log("dropdown.ac.select(): Setting next drop-down.");
-							dropdown2(ids, names, funs, after, i+1);
+							if (typeof(err) === "string") {
+								console.log("dropdown.ac.select(): Not setting next drop-down due to error.");								
+							} else {
+								console.log("dropdown.ac.select(): Setting next drop-down.");
+								dropdown2(ids, names, funs, after, i+1);
+							}
 
 						}
 					}
@@ -253,6 +258,13 @@ function dropdown2(ids, names, funs, after, i, callback) {
 	}
 
 	console.log("dropdown(): Creating dropdown with id = " + ids[i]);
+
+	var list = funs[i]();
+
+	if (typeof(list) === "string") {
+		console.log("dropdown(): Drop-down has string value (error). Aborting.");
+		return;
+	}
 
 	$(after+(i)).empty();
 	$(after+(i)).parent().parent().attr("valuelast","");
@@ -268,7 +280,6 @@ function dropdown2(ids, names, funs, after, i, callback) {
 					+ funs[i].toString().split("{")[0].trim() 
 					+ " to get drop-down list entries.");
 
-	var list = funs[i]();
 
 	if (!list) {
 		console.log("dropdown(): Drop-down has no values.  Setting next drop-down.");

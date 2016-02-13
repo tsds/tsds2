@@ -13,13 +13,14 @@
 		"yargs": "*",
 		"dirwalk": "https://github.com/rweigel/dirwalk/tarball/master",
 		"tsdset": "https://github.com/rweigel/tsdset/tarball/master",
-		"tsdsdd": "https://github.com/rweigel/tsdset/tarball/master",
+		"tsdsdd": "https://github.com/rweigel/tsdsdd/tarball/master",
 		"datacache": "https://github.com/rweigel/datacache/tarball/master",
 		"viviz": "https://github.com/rweigel/viviz/tarball/master"
 	},
 	"scripts": {
 		"start": "node tsdsfe.js",
-		"debug-note": "To debug, use npm run debug{1,2}.",
+		"debug-note": "To debug, use npm run debug{0,1,2}.",
+		"debug0": "nodemon -e js -w . -w js -w ../../viviz -w ../../datacache tsdsfe.js",
 		"debug1": "nodemon -e js -w . -w js -w ../../viviz -w ../../datacache tsdsfe.js --debugtoconsole all --checkdeps false --checkservers false",
 		"debug2": "nodemon -e js -w . -w js -w ../../viviz -w ../../datacache tsdsfe.js --debugtoconsole all --startdeps false",
 		"preinstall": "cd deps; make bin/pngquant; cd ../../autoplot/; make install; make stop; make start",

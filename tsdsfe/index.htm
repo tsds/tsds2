@@ -16,7 +16,7 @@
 		<script type="text/javascript" src="js/jquery.scrollTo-min.js"></script>
 		<script type="text/javascript" src="js/dropdown2.js"></script>
 		<script type="text/javascript" src="js/fittext.js"></script>
-		<script type="text/javascript" src="index-examples.js"></script>
+		<script type="text/javascript" src="examples/examples.js"></script>
 		<script>
 
 			//To catch uncaught errors.
@@ -39,6 +39,8 @@
 			})
 
 			function main() {
+
+				hashchange();
 
 				if (location.hash.match(/^#uri=/)) {
 					var uri = "?dd=" 
@@ -174,7 +176,7 @@
 								+ catalog
 								+ "/$Y-$m-$d.txt"
 								+ "&start=-P10D"
-								+ "&stop=P0D"
+								+ "&stop=P1D"
 								+ "&columns=2"
 								+ "&columnIDs=ResponseTime"
 								+ "&columnUnits=ms"
@@ -183,7 +185,7 @@
 						+ "&dataset=1"
 						+ "&parameters=ResponseTime"
 						+ "&start=-P10D"
-						+ "&stop=P0D"
+						+ "&stop=P1D"
 						+ "&return=image"
 
 				//console.log(checkstatus.servers)
@@ -287,8 +289,8 @@
 			}
 
 			// Monitor hash for changes via text entry in address bar.
-			function hashchange () {
-				// The following code needs work and is not used.
+			function hashchange() {
+				// The following code needs work.
 
 				// Update drop-downs when URL is changed manually.
 				console.log("Binding hashchange");
@@ -296,21 +298,31 @@
 				$(window).bind("hashchange",function() {
 					
 					//$(window).hashchange.lashash = qs; 
-					// Need to figure out what parameter was changed and then remove all parameters after that.  Otherwise
-					// User could change the catalog and the parameter list will not be updated.
-					console.log("Hash change");
-					console.log($(window).hashchange.byurledit);
+					// Need to figure out what parameter was changed and then remove all parameters after that.  Otherwise user could change the catalog and the parameter list will not be updated.
+					console.log("--- Hash change");
+					console.log("--- by urledit = " + $(window).hashchange.byurledit);
+					var qs = $.parseQueryString();
+
+					for (var id in qs) {
+						console.log("id in query string = " + qs[id])
+						console.log("id selected value  = " 
+							+ $('#' + id).parent().parent().attr('value'))
+						if (qs[id] !== $('#' + id).parent().parent().attr('value')) {
+							console.log('--- id changed');
+						}
+					}
+
 					if ($(window).hashchange.byurledit) {
-						var qs = $.parseQueryString();
 						console.log("Hash change made by manual edit to URL");
 						console.log("Last hash")
 						console.log(qs);
 						for (var id in qs) {
 							console.log("Triggering: " + qs[id]);
-							// This creates an infinite loop.
-							//$("#"+id).val(qs[id]).data("autocomplete")._trigger("select",event,{item:qs[id]});
+							$("#"+id)
+								.val(qs[id])
+								.data("autocomplete")
+								._trigger("select",event,{item:qs[id]});
 						}
-							//$("#"+id).val(qs[id]).data("autocomplete")._trigger("select",event,{item:qs[id]});
 					}					
 					$(window).hashchange.byurledit = true;
 				});	
@@ -358,12 +370,13 @@
 				$('#status').html("Requesting " + url);
 				console.log("tsdsfeajax(): Requesting " + url);
 
+				var err = false;
 				$.ajax({
 					type: "GET",
 					url: url,
 					async: false,
 					dataType: "text",
-					success: function (data,textStatus, jqXHR) {
+					success: function (data, textStatus, jqXHR) {
 						console.log("tsdsfeajax(): Response from " + url);
 						//$('#ready'+i).show();
 						if (!data.match(/^\s*\[|^\s*\{/)) {
@@ -382,16 +395,26 @@
 						//setTimeout(function () {$('#status').html("")}, 3000);
 					},
 					error: function (xhr, textStatus, errorThrown) {
+						err = true;
+						errmsg = xhr.responseText;
 						$('#error').html("Error encountered when attempting to retrieve <a target='_blank' href='" 
 											+ url + "'>"
-											+ url.replace("&para","&#38;para")+"</a>");
+											+ url.replace("&para","&#38;para")+"</a>"
+											+ ".<br>Message: " + errmsg);
+						$('#errordiv').show();
 					}
 				});
 
-				// Cache response.
-				tsdsfeajax.cache[url] = xret;
-
-				return $.parseJSON(xret);				
+				if (err) {
+					// Cache response.
+					console.log("Error. Returning message: " + errmsg)
+					tsdsfeajax.cache[url] = errmsg;
+					return errmsg;
+				} else {
+					// Cache response.
+					tsdsfeajax.cache[url] = xret;
+					return $.parseJSON(xret);
+				}
 			}
 
 			// Determine selected value for a drop-down.	
@@ -512,6 +535,12 @@
 					var url = "?catalog=" + selected('catalog')
 					
 					info = tsdsfeajax(url);
+
+					if (typeof(info) == "string") {
+						// Error.
+						return info;
+					}
+
 					catalog.info = info;
 					$('#cataloginfo').html("<b>Catalog information:</b>");
 					if (info.length > 0) {
@@ -559,14 +588,15 @@
 
 				datasets.onselect = function () {
 					info = tsdsfeajax("?catalog="+selected('catalog')+"&dataset="+selected('dataset'));
+
 					$('#datasetinfo').html("<b>Dataset documentation:</b>")
 					$('#datasetinfo').append('<ul style="list-style-position: outside;">');
-					$('#datasetinfo ul').append('<li style="">TSDS ID: ' +selected('dataset')+'</li>');
-					console.log(info)
+					$('#datasetinfo ul').append('<li style="">TSDS ID: ' + selected('dataset')+'</li>');
 					if (info.length > 0) {
 						for (j = 0;j < info.length;j++) {
-							if (!(info[j].title === "") && !(info[j].link === "")) {
-								$('#datasetinfo ul').append('<li style="">No additional documentation in catalog '+selected('catalog')+' for this dataset.</li>');
+							if (!info[j].title && !info[j].link) continue;
+							if (info[j].title !== "" && info[j].link !== "") {
+								$('#datasetinfo ul').append('<li style=""><a href="'+info[j].link+'">'+info[j].title+'</a></li>');
 							} else if ((info[j].title === "") && !(info[j].link === "")) {
 								$('#datasetinfo ul').append('<li style=""><a href="'+info[j].link+'">'+info[j].link+'</a></li>');
 							} else if (!(info[j].text === "")) {
@@ -656,6 +686,7 @@
 					$('#parameterinfo').show();					
 					$('#parameterinfo').append('<ul style="list-style-position: outside;">');
 
+					console.log(das[0])
 					if (das.length > 0) {
 						var range = das[0].dd.start + " through " + das[0].dd.stop;
 						var fills  = das[0].dd.fillvalue || "";
@@ -709,6 +740,14 @@
 
 			// Handle start time drop-downs.
 			function starttime() {
+				starttime.clearfollowing = function () {
+					if (selected('return')) {
+						dorequest();
+						return false;
+					} else {
+						return true;
+					}
+				}	
 				starttime.onselect = function () {
 					$('#datadiv').hide();
 				};
@@ -891,10 +930,11 @@
 			function style() {
 				style.onselect = function () {
 					dorequest();
+
 				}
 				var values = [];
 				if (selected("return") === "image") {
-					values = 
+				values = 
 							[
 								{label:"None/Black/Blue", value:"0", selected:true},
 								{label:"Black/Yellow/Yellow", value:"1"},
@@ -986,28 +1026,78 @@
 						}
 
 						// Remove any existing links that were added.
-						$("#datadiv > div > a").first().nextAll().remove();
+						$("#datadiv > #datadivheader")
+							.empty()
+							.append("<a target='_blank'></a>");
+
+						var urld = url
+
+						var urlu = url
+									.replace("return=data","return=urilist")
+									.replace("&format=" + selected('format'),"")
+									.replace("&style=" + selected('style'),"")
+
+						var urlm = TSDSFE + "?catalog="
+									+ selected('catalog')
+									+ "&dataset=" + selected('dataset')
+									+ "&return=tsds"
+									+ "&format=json"
+									+ "&attach=false"
 
 						// Append additional links
-						$("#datadiv > div > a").attr("href", url);
-						$("#datadiv > div > a").attr("title", url);
-						$("#datadiv > div > a").html("Open in new tab");
-						$("#datadiv > div").append("<span> | </span>");
-						$("#datadiv > div > a")
+						$("#datadiv > #datadivheader").append("<b>View (new tab):</b> ")
+						$("#datadiv > #datadivheader > a")
+							.first()
 							.clone()
-							.appendTo("#datadiv > div")
-							.html("Download data")
-							.attr("href", url.replace("&attach=false",""))
-							.attr("title", url.replace("&attach=false",""))
-							.attr("target","")
-						$("#datadiv > div").append("<span> | </span>");
-						$("#datadiv > div > a").first()
+							.appendTo("#datadiv > #datadivheader")
+							.html("Data")
+							.attr("href", urld)
+							.attr("title", urld)
+						$("#datadiv > #datadivheader").append("<span> | </span>");
+						$("#datadiv > #datadivheader > a")
+							.first()
 							.clone()
-							.appendTo("#datadiv > div")
-							.html("Download metadata")
-							.attr("href", "")
-							.attr("title", "")
-							.attr("target","")
+							.appendTo("#datadiv > #datadivheader")
+							.html("Metadata")
+							.attr("href", urlm)
+							.attr("title", urlm)
+						$("#datadiv > #datadivheader").append("<span> | </span>");
+						$("#datadiv > #datadivheader > a")
+							.first()
+							.clone()
+							.appendTo("#datadiv > #datadivheader")
+							.html("URL List")
+							.attr("href", urlu)
+							.attr("title", urlu)
+
+						// Append additional links
+						$("#datadiv > #datadivheader")
+							.append("&nbsp;&nbsp;&nbsp;&nbsp;<b>Download:</b> ")
+						$("#datadiv > #datadivheader > a")
+							.first()
+							.clone()
+							.appendTo("#datadiv > #datadivheader")
+							.html("Data")
+							.attr("href", urld.replace("&attach=false", ""))
+							.attr("title", urld.replace("&attach=false", ""))
+						$("#datadiv > div")
+							.append("<span> | </span>");
+						$("#datadiv > #datadivheader > a")
+							.first()
+							.clone()
+							.appendTo("#datadiv > #datadivheader")
+							.html("Metadata")
+							.attr("href", urlm.replace("&attach=false", ""))
+							.attr("title", urlm.replace("&attach=false", ""))
+						$("#datadiv > #datadivheader").append("<span> | </span>");
+						$("#datadiv > #datadivheader > a")
+							.first()
+							.clone()
+							.appendTo("#datadiv > #datadivheader")
+							.html("URL List")
+							.attr("href", urlu.replace("&attach=false", ""))
+							.attr("title", urlu.replace("&attach=false", ""))
+
 
 						// Clear any existing iframe.
 						$("#datadiv > iframe").contents().find("body").html('');
@@ -1041,7 +1131,9 @@
 						$("#imagediv").show();
 						$("#gallerydiv > div > a").attr("href", url);
 						$("#gallerydiv > div > a").attr("title", url);
-						$("#gallerydiv > iframe").contents().find("body").html('');
+						// Causes error in Chrome:
+						// Uncaught SecurityError: Failed to read the 'contentDocument' property from 'HTMLIFrameElement': Blocked a frame with origin "http://localhost:8004" from accessing a frame with origin "http://localhost:8002". Protocols, domains, and ports must match.
+						//$("#gallerydiv > iframe").contents().find("body").html('');
 						$("#gallerydiv > iframe").attr("src", url);
 
 					} else if (selected('format').match(/png|svg/)) {
@@ -1056,7 +1148,6 @@
 							.attr("src", url)
 							.css("opacity", "0.2")
 							.on("error", function (err) {
-								alert(selected('format'))
 								var link = "<a target='_blank' title='"+url+"' "
 											+ "href='"+url+"'>Error</a>";
 								var msg = link 
@@ -1134,15 +1225,15 @@
 			</button>
 		</div>
 
-		<div style="left:14em;margin-top:-5px">
+		<div style="margin-left:14em;margin-top:-5px">
 			<font size="-1">
-				<span id="status" style="padding:2px;background-color:yellow;text-align:center"></span>
+				<span id="status" style="padding:2px;background-color:yellow;"></span>
 			</font>
 		</div>
-		<div id="warningdiv" style="left:14em;display:none;margin-top:4px;">
+		<div id="warningdiv" style="margin-left:14em;display:none;margin-top:4px;">
 			<span id="warning" style="padding:2px;background-color:lightgray;"></span>
 		</div>
-		<div id="errordiv" style="left:14em;display:none;margin-top:4px;">
+		<div id="errordiv" style="margin-left:14em;display:none;margin-top:4px;">
 			<span id="error" style="padding:2px;background-color:#ff3232"></span>
 		</div>
 
@@ -1174,7 +1265,9 @@
 				<iframe style="width:95%;height:400px;"></iframe>
 			</div>
 			<div id="datadiv" style="display:none;background-color:white;align:left">
-					<div><a target="_blank"></a></div>
+					<div id="datadivheader">
+						
+					</div>
 					<iframe style="width:95%;height:100%;"></iframe>
 			</div>
 			<div id="styleinfoimage" style="display:none;width:95%">

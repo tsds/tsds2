@@ -1,4 +1,4 @@
-<catalog xmlns:xlink="http://www.w3.org/1999/xlink" id="LISIRD" name="LISIRD">
+<catalog xmlns:xlink="http://www.w3.org/1999/xlink" id="LASP/LISIRD" name="LASP/LISIRD">
 <documentation xlink:href="http://lasp.colorado.edu/lisird/tss/catalog.thredds" xlink:title="Catalog based on http://lasp.colorado.edu/lisird/tss/catalog.thredds"/>
 	<dataset id='sorce_tsi_24hr' name='SORCE Total Solar Irradiance - Daily Average'  datareader='dat' timecolumns='1' timeformat='$Y-$m-$dT$H:$M:$S' urltemplate="http://lasp.colorado.edu/lisird/tss/sorce_tsi_24hr.dat?time,tsi_1au,instrument_accuracy_1au,instrument_precision_1au,solar_standard_deviation_1au,measurement_uncertainty_1au,tsi_true_earth,instrument_accuracy_true_earth,instrument_precision_true_earth,solar_standard_deviation_true_earth,measurement_uncertainty_true_earth,avg_measurement_date,std_dev_measurement_date%26format_time(yyyy-MM-dd%27T%27HH:mm:ss)">
 		<documentation xmlns:xlink='http://www.w3.org/1999/xlink' xlink:href='http://lasp.colorado.edu/lisird/tss/sorce_tsi_24hr.html' xlink:title='Dataset documentation'/>

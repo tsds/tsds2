@@ -19,7 +19,7 @@ tests[i].test = function (data) {
 
 i = i+1;
 tests[i] = {};
-tests[i].url = "catalog=^SWPC.*&dataset=^.*";
+tests[i].url = "catalog=^SSCW.*&dataset=^.*";
 tests[i].test = function (data) {
 					eval("data = 'data.toString()'");
 					console.log("Dataset list should have at least one dataset. Found: "+ data.length);
@@ -32,7 +32,7 @@ tests[i].test = function (data) {
 
 i = i+1;
 tests[i] = {};
-tests[i].url = "catalog=^SWPC.*&dataset=AK";
+tests[i].url = "catalog=^SSC.*&dataset=ace";
 tests[i].test = function (data) {
 					var json = JSON.parse(data);
 					console.log("Response array should have more than 0 elements.  Found "+json.length);
@@ -46,7 +46,7 @@ tests[i].test = function (data) {
 
 i = i+1;
 tests[i] = {};
-tests[i].url = "catalog=^SWPC.*&dataset=AK&parameters=^.*";
+tests[i].url = "catalog=^SSC.*&dataset=ace&parameters=^.*";
 tests[i].test = function (data) {
 					eval("data = 'data.toString()'");
 					console.log("Dataset list should have at least one dataset. Found: "+ data.length);
@@ -59,11 +59,7 @@ tests[i].test = function (data) {
 
 i = i+1;
 tests[i] = {};
-tests[i].url = "catalog=SWPC/GOES/Primary/Particle/PT1M&dataset=^.*";
-
-i = i+1;
-tests[i] = {};
-tests[i].url = "catalog=SWPC/GOES/Primary/Particle/PT1M&dataset=Gp_particles&parameters=^.*";
+tests[i].url = "catalog=SSCWeb&dataset=ace&parameters=^.*";
 tests[i].test = function (data) {
 					eval("data = 'data.toString()'");
 					console.log("Dataset list should have at least one dataset. Found: "+ data.length);
@@ -76,7 +72,7 @@ tests[i].test = function (data) {
 
 i = i+1;
 tests[i] = {};
-tests[i].url = "catalog=SWPC/GOES/Primary/Particle/PT1M&dataset=Gp_particles&parameters=E_gt_4.0";
+tests[i].url = "catalog=SSCWeb&dataset=ace&parameters=X_TOD";
 tests[i].test = function (data) {
 					eval("data = 'data.toString()'");
 					console.log("Dataset list should have at least one dataset. Found: "+ data.length)
@@ -87,19 +83,6 @@ tests[i].test = function (data) {
 					}
 				};
 
-// Will be 2 not 3 if this happens to be run at 00:00:00.000 
-i = i+1;
-tests[i] = {};
-tests[i].url = "catalog=SWPC/GOES/Primary/Particle/PT1M&dataset=Gp_particles&parameters=E_gt_4.0&start=-P3D&stop=-P1D&return=urilistflat";
-tests[i].test = function (data) {
-					var len = data.toString().split("\n").length;
-					console.log("File should have 3 rows.  Found: " + len );
-					if (len == 3) {
-						return true;
-					} else {
-						return false;
-					}
-				};
 
 i = i+1;
 tests[i] = {};
@@ -194,7 +177,37 @@ tests[i].test = function (data) {
 					}
 				};
 
+i = i+1;
+tests[i] = {};
+tests[i].url = "catalog=IMAGE/PT1M&dataset=ABK&parameters=X,Y&start=-P3D&stop=2014-09-30&return=data&format=ascii-1&style=header";
+tests[i].test = function (data) {
+
+					dataa = data.toString().split("\n")
+					var chk = (dataa[0].split(" ")[0] === "Time" && dataa[0].split(" ")[1] === "X[nT]" && dataa[0].split(" ")[2] === "Y[nT]")
+					console.log("Header should be Time X[nT] Y[nT]")
+					if (chk) {
+						return true;
+					} 
+					else {
+						return false;
+					}
+				};
+
 if (0) {
+// Will be 2 not 3 if this happens to be run at 00:00:00.000 
+i = i+1;
+tests[i] = {};
+tests[i].url = "catalog=SWPC/GOES/Primary/Particle/PT1M&dataset=Gp_particles&parameters=E_gt_4.0&start=-P3D&stop=-P1D&return=urilist&format=ascii";
+tests[i].test = function (data) {
+					var len = data.toString().split("\n").length;
+					console.log("File should have 3 rows.  Found: " + len );
+					if (len == 3) {
+						return true;
+					} else {
+						return false;
+					}
+				};
+
 i = i+1;
 tests[i] = {};
 tests[i].url = "catalog=USGS/Dst/RT/PT1H&dataset=Dst&parameters=DST_RT";

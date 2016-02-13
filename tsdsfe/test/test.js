@@ -4,7 +4,7 @@
 //		node test/test.js --testfile test/failing-tests.js
 //
 // Run one test:
-//		node test/test.js --start 4 --onetest true
+//		node test/test.js --testfile test/metadata-tests.js --start 4 --onetest true
 // Run all tests starting at test #4:
 //		node test/test.js --start 4
 

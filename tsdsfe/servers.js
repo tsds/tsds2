@@ -76,6 +76,17 @@ function tests(config, server) {
 				"respectHeaders": false,
 				"url": config.TSDSFE + "?catalog=SSCWeb&dataset=ace&parameters=X_TOD&start=2014-08-16&stop=2014-08-17&return=data&usedatacache=false&istest=true"
 			},
+			"CDAWeb":
+			{
+				"check": function (body) {
+							if (!body) return false
+							return body.length == 534600
+						},
+				"type": "server",
+				"interval": 60000,
+				"respectHeaders": false,
+				"url": config.TSDSFE + "?catalog=CDAWeb&dataset=AC_H0_MFI&parameters=Magnitude&start=-P3D&stop=2014-08-13&return=data&usedatacache=false&istest=true"
+			},
 			"IMAGE/PT1M":
 			{
 				"check": function (body) {

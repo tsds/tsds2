@@ -1,0 +1,21 @@
+<p>
+Data from the IMAGE magnetometer network<sup>[1,2,3]</sup> was obtained through the TSDS<sup>[4]</sup> interface<sup>[5]</sup> on {{DATE}}.
+</p>
+<ol>
+	<li>
+		<a href="http://space.fmi.fi/image/">http://space.fmi.fi/image/</a>
+	</li>
+	<li>
+		<a href="http://dx.doi.org/10.1029/2008JA013682">Tanskanen, E.I. (2009), A comprehensive high-throughput analysis of substorms observed by IMAGE magnetometer network: Years 1993-2003 examined, J. Geophys. Res., 114, A05204.
+		</a>
+	</li>
+	<li>
+		In any papers or presentations using IMAGE data, add also an acknowledgement such as "We thank the institutes who maintain the IMAGE Magnetometer Array."
+	</li>
+	<li>
+		<a href="http://dx.doi.org/10.1007/s12145-010-0059-y">Weigel, R. S., Lindholm, D. M., Wilson, A., & Faden, J. (2010). TSDS: high-performance merge, subset, and filter software for time series-like data. Earth Science Informatics, 3(1-2), 29-40.</a>
+	</li>
+	<li>
+		<a href="http://tsds.org/get/">http://tsds.org/</a>
+	</li>
+</ol>

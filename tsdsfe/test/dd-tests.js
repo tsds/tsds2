@@ -1,7 +1,6 @@
 var tests = []
 i = 0
 
-i = i + 1;
 tests[i] = {}
 tests[i].url = "dd=" 
 	+ encodeURIComponent("uri=__SERVER__test/data/2015-11-20.txt&columns=2,3")
