@@ -6,14 +6,14 @@ catalog    = getParam( 'catalog', 'SSCWeb', 'catalog' )
 dataset    = getParam( 'dataset', 'ace', 'dataset' )
 parameters = getParam( 'parameters', 'X_GEO', 'parameters' )
 server     = getParam( 'server', 'http://tsds.org/get/' )
-units      = getParam( 'units', '' )
+units      = getParam( 'units', 'R_E' )
 usecache   = getParam( 'usecache', 'true' )
 labels     = getParam( 'labels', '' )
 title      = getParam( 'title', 'def' )
 fills      = getParam( 'fills', '-1e31')
-process    = getParam( 'type', 'timeseries', 'plot type', ['timeseries','autocorrelation','histogram','periodogram','spectrogram'] )
+process    = getParam( 'type', 'histogram', 'plot type', ['timeseries','autocorrelation','histogram','periodogram','spectrogram'] )
 if ( title=='def' ):
-  title= 'Catalog: ' + catalog + ' | Dataset: ' + dataset #+ ' | Parameters: ' + parameters
+  title= 'Catalog: ' + catalog + ' | Dataset: ' + dataset
 print 'v20140718_1057'
 #print parameters
 
@@ -27,7 +27,12 @@ print surl
 
 # note the server may provide a valid but html response.
 
-f = downloadResourceAsTempFile( URL( surl ), monitor ) 
+try:
+  f = downloadResourceAsTempFile( URL( surl ), monitor )
+except java.io.IOException, ex:
+  import org.das2.dataset
+  raise org.das2.dataset.NoDataInIntervalException('Could not download and save ' + surl)
+
 #print 'File: '+f.toString()
 
 #from java.io import File
@@ -106,9 +111,21 @@ except java.lang.IllegalArgumentException, ex:
 
 if ( process=='histogram' ):
     result= autoHistogram(result)
+    result= putProperty( result, QDataSet.LABEL, "# in bin" )
+    xtags= result.property( QDataSet.DEPEND_0 )
+    xtags= putProperty( xtags, QDataSet.UNITS, units[0])
+    if (units[0] == ''):
+        xtags= putProperty( xtags, QDataSet.LABEL, ll[0])
+    else:
+        xtags= putProperty( xtags, QDataSet.LABEL, ll[0] + ' [' + units[0] + ']')
 elif ( process=='periodogram' ):
     if ( result.rank()==2 ): result= result[:,0]
     result= fftPower(result)
+    result= putProperty( result, QDataSet.LABEL, "Power (arb. scale)" )
+    xtags= result.property( QDataSet.DEPEND_0 )
+    xtags= putProperty( xtags, QDataSet.LABEL, 'f [Hz]')
 elif ( process=='spectrogram' ):
     if ( result.rank()==2 ): result= result[:,0]
-    result= fftPower(result)
+    result= fftPower(result, 100, None)
+    xtags= result.property( QDataSet.DEPEND_0 )
+    result= putProperty( result, QDataSet.LABEL, "f [Hz]" )
