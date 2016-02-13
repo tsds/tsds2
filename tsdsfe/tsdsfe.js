@@ -2333,7 +2333,6 @@ function parameter(catalogs, datasets, res, cb) {
 		var format = "image/png";
 		if (res.opts.format === "pdf") {format = "application/pdf"}
 		if (res.opts.format === "svg") {format = "image/svg%2Bxml"}
-
 		var apargs = "?format="+format
 					+ "&" + res.opts.stylestr
 					+ "&url=vap+jyds:"
@@ -2341,6 +2340,13 @@ function parameter(catalogs, datasets, res, cb) {
 		log.logres("AUTOPLOT: " + config.AUTOPLOT, res.opts)
 		log.logres("apargs: " + apargs + "encodeURIComponent(JYDS + jydsargs) = ", res.opts)	
 		var aurl = config.AUTOPLOT + apargs + encodeURIComponent(config.JYDS + jydsargs)
+
+		if (res.opts.format === "pngurl") {
+			log.logres("--- Servlet URL: " + aurl, res.opts)
+			cb(200, aurl, res)
+			return
+		}
+
 		log.logres("Making request to: AUTOPLOT + apargs + encodeURIComponent(config.JYDS + jydsargs)", res.opts)
 		log.logres(aurl, res.opts)
 		log.logres("JYDS URL: " + config.JYDS + jydsargs, res.opts)
@@ -2351,6 +2357,7 @@ function parameter(catalogs, datasets, res, cb) {
 				return;
 			}
 		}
+
 		cb(0, aurl, res)
 		return
 	}
