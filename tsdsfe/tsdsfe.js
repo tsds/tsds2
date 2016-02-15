@@ -548,11 +548,13 @@ function handleRequest(req, res, options) {
 	} else {
 		if (fs.existsSync(ifiler)) {
 			log.logres("Image response cache found for originalUrl = " + req.originalUrl, res.opts)
-		} else {
-			log.logres("Image response cache not found for originalUrl = " + req.originalUrl, res.opts)
-		}
-		if (res.opts.useimagecache) {
-		  	if (fs.existsSync(ifiler) && !fs.existsSync(ifiler + ".writing")) {
+			var stats = fs.statSync(ifiler);
+			var size = stats["size"];
+			if (size == 0) {
+				log.logres("Image response cache file is zero bytes. Not using.", res.opts);
+			}
+			if (size > 0 && res.opts.useimagecache && !fs.existsSync(ifiler + ".writing")) {
+
 				log.logres("Using response cache file.", res.opts)
 				log.logres("Writing (sync) " + ifiler.replace(__dirname,"")
 								+ ".streaming", res.opts)
@@ -585,10 +587,6 @@ function handleRequest(req, res, options) {
 				stream.pipe(res)
 				return
 			}
-		} else {
-			log.logres("Not using image response cache file if"
-						+ " found because useimagecache = false.", 
-						res.opts)
 		}
 	}
 
@@ -980,7 +978,7 @@ function handleRequest(req, res, options) {
 							// TODO: Put this in other parts of code above.
 							// Should image be cached in this case? Perhaps
 							// we need to cache headers too?
-							log.logres("Autoplot exception. Sending it and aborting.", res.opts, "stream")
+							log.logres("-- Autoplot exception. Sending it and not aborting as exceptions are unreliable.", res.opts, "stream")
 							res.setHeader('x-autoplot-exception',
 										  res0.headers['x-autoplot-exception'])
 							return;
@@ -1279,10 +1277,19 @@ function parseOptions(req, res) {
 		options.image.widthr  = options.image.widthr  || "800"
 		options.image.heightr = options.image.heightr || "200"
 
+		var color = ""
+		// Need to use default colors if more than one parameter; can't pass
+		// multiple colors.
+		if (options.parameters.split(",").length == 1) {
+			var color = "&color=%23000000"; 
+		}
+
 		options.stylestr =   "drawGrid=true"
 							+ "&backgroundColor=none"
 							+ "&foregroundColor=%23000000"
-							+ "&column="+ encodeURIComponent("0%+6em,100%-5em")
+							+ color
+							+ "&fillColor=%23000000"
+							+ "&column="+ encodeURIComponent("0%+8em,100%-5em")
 							+ "&row="   + encodeURIComponent("0%+2em,100%-4em")
 							+ "&width=" + options.image.width
 							+ "&height="+ options.image.height
@@ -1294,10 +1301,16 @@ function parseOptions(req, res) {
 		options.image.widthr  = options.image.widthr  || "800"
 		options.image.heightr = options.image.heightr || "200"
 
+		if (options.parameters.split(",").length == 1) {
+			var color = "&color=%23ffff00"; 
+		}
+
 		options.stylestr =   "drawGrid=true"
 							+ "&backgroundColor=%23000000"
 							+ "&foregroundColor=%23ffff00"
-							+ "&column="+encodeURIComponent("0%+6em,100%-6em")
+							+ color
+							+ "&fillColor=%23ffff00"
+							+ "&column="+encodeURIComponent("0%+8em,100%-6em")
 							+ "&row="+encodeURIComponent("0%+2em,100%-4em")
 							+ "&width="+options.image.width
 							+ "&height="+options.image.height
@@ -2290,17 +2303,26 @@ function parameter(catalogs, datasets, res, cb) {
 		start = res.opts.start.substring(0,10);
 		stop = res.opts.stop.substring(0,10);
 
+		function joinresp(resp, el) {
+			if (resp.length == 1) {return resp[0]["dd"][el]}
+			var str = ""
+			for (var i = 0; i < resp.length-1; i++) {
+				str = str + resp[i]["dd"][el] + ","
+			}
+			return str + resp[i]["dd"][el]
+		}
+
 		var extra = ""
 		if (resp[0].dd.name) {
-			extra = extra + "&labels=" + resp[0].dd.name;
+			extra = extra + "&labels=" + joinresp(resp, 'name');
 		} else {
-			extra = extra + "&labels=" + resp[0].dd.id;
+			extra = extra + "&labels=" + joinresp(resp, 'id');
 		}
 		if (resp[0].dd.units) {
-			extra = extra + "&units=" + resp[0].dd.units
+			extra = extra + "&units=" + joinresp(resp, 'units')
 		}
 		if (resp[0].dd.fillvalue) {
-			extra = extra + "&fills=" + resp[0].dd.fillvalue
+			extra = extra + "&fills=" + joinresp(resp, 'fillvalue')
 		}
 
 		var jydsargs = 	  "?catalog=" + res.opts.catalog

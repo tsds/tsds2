@@ -1,14 +1,15 @@
 # Install
 
-	git clone http://github.com/tsds/tsds2
-	cd tsds2; make install
+	git clone --depth 1 http://github.com/tsds/tsds2
+	cd tsds2/tsdsfe
+	npm install
 
 # Start
 
-	make start
+	npm start
 
 Then browse to http://localhost:8004/
 
 # Test
 
-	make test
+	npm test

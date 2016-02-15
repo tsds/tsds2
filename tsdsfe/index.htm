@@ -668,6 +668,14 @@
 			
 			// Handle parameters time drop-downs.			
 			function parameters() {
+				parameters.clearfollowing = function () {
+					if (selected('return')) {
+						dorequest();
+						return false;
+					} else {
+						return true;
+					}
+				}	
 
 				parameters.onselect = function () {
 					console.log('parameters.onselect(): Called.');
@@ -917,6 +925,7 @@
 					values = 
 						[
 							{label:"Time Series", value:"timeseries", selected:true},
+							{label:"Time Series Scaled", value:"timeseriessc"},
 							{label:"Autocorrelation", value:"autocorrelation"},
 							{label:"Histogram", value:"histogram"},
 							{label:"Periodogram", value:"periodogram"},
@@ -1293,6 +1302,7 @@
 				<b>Image type options:</b>
 				<ul>
 					<li>Time Series (default)</li>
+					<li>Time Series Scaled - Each column <code>c</code> is plotted as (<code>c</code>-&mu;)/&sigma;</li>
 					<li>Histogram</li>
 					<li>Autocorrelation</li>
 					<li>Periodogram</li>

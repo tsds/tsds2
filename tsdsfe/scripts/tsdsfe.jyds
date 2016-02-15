@@ -11,7 +11,7 @@ usecache   = getParam( 'usecache', 'true' )
 labels     = getParam( 'labels', '' )
 title      = getParam( 'title', 'def' )
 fills      = getParam( 'fills', '-1e31')
-process    = getParam( 'type', 'histogram', 'plot type', ['timeseries','autocorrelation','histogram','periodogram','spectrogram'] )
+process    = getParam( 'type', 'timeseries', 'plot type', ['timeseries','timeseriessc','autocorrelation','histogram','periodogram','spectrogram'] )
 if ( title=='def' ):
   title= 'Catalog: ' + catalog + ' | Dataset: ' + dataset
 print 'v20140718_1057'
@@ -78,9 +78,12 @@ try:
             break
 
       llds= DDataSet.createRank1(lenll)
+      lls = []
       for i in xrange(lenll):
-         if (units[0] == ''):
-           llds[i]= eu.createDatum( ll[i]).doubleValue(eu)
+         if ( process == 'timeseriessc' ):
+             lls.append('(' + ll[i] + ' - &mu;)/&sigma;')
+         if (units[0] == '' or process == 'timeseriessc'):
+           llds[i]= eu.createDatum( lls[i]).doubleValue(eu)
          else:
            llds[i]= eu.createDatum( ll[i] + ' [' + units[0] + ']').doubleValue(eu)
 
@@ -95,7 +98,7 @@ try:
      result.putProperty( QDataSet.UNITS, SemanticOps.lookupUnits(units) )
      result.putProperty( QDataSet.LABEL, labels )
    else:
-     result.putProperty( QDataSet.TITLE, title + ' | parameter: ' + parameters)
+     result.putProperty( QDataSet.TITLE, title + ' | Parameters: ' + parameters)
 
 
    try:
@@ -108,8 +111,19 @@ except org.virbo.datasource.HtmlResponseIOException,ex:
    raise org.das2.dataset.NoDataInIntervalException('Problem with response')
 except java.lang.IllegalArgumentException, ex:
    raise org.das2.dataset.NoDataInIntervalException('No data in interval')
-
-if ( process=='histogram' ):
+if ( process == 'timeseriessc' ):
+   n = result.property( QDataSet.DEPEND_1 ).length()
+   for i in range(0,n):
+       m= mean(result[:,i])
+       s= stddev(result[:,i])
+       ms= '%.2g' % m
+       ss= '%.2g' % s
+       result[:,i]= (result[:,i]-m)/s
+       ll[i] = lls[i] + ';  &mu; = ' + ms + ', &sigma; = ' + ss + ' [' + units[i] + ']'
+       llds[i]= eu.createDatum( ll[i]).doubleValue(eu)
+   result.putProperty( QDataSet.DEPEND_1, llds )
+   print ll
+elif ( process=='histogram' ):
     result= autoHistogram(result)
     result= putProperty( result, QDataSet.LABEL, "# in bin" )
     xtags= result.property( QDataSet.DEPEND_0 )
@@ -128,4 +142,4 @@ elif ( process=='spectrogram' ):
     if ( result.rank()==2 ): result= result[:,0]
     result= fftPower(result, 100, None)
     xtags= result.property( QDataSet.DEPEND_0 )
-    result= putProperty( result, QDataSet.LABEL, "f [Hz]" )
+    result= putProperty( result, QDataSet.LABEL, "f [Hz]" ) 
