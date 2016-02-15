@@ -4,6 +4,7 @@ exports.config = function config() {
 
 	out["TSDSFE"] = "http://tsds.org/get/"
 	out["VIVIZEXTERNAL"] = "http://tsds.org/gallery/"
+	out["CONVERT"] = "/usr/bin/convert"
 
 	return out
 }
