@@ -18,7 +18,7 @@
 		"viviz": "https://github.com/rweigel/viviz/tarball/master"
 	},
 	"scripts": {
-		"start": "node tsdsfe.js",
+		"start": "node --max-old-space-size=2048 tsdsfe.js",
 		"debug-note": "To debug, use npm run debug{0,1,2}.",
 		"debug0": "nodemon -e js -w . -w js -w ../../viviz -w ../../datacache tsdsfe.js",
 		"debug1": "nodemon -e js -w . -w js -w ../../viviz -w ../../datacache tsdsfe.js --debugtoconsole all --checkdeps false --checkservers false",
