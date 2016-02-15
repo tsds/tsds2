@@ -292,6 +292,10 @@ if (false) {
 	})
 }
 
+if (!fs.existsSync(__dirname + "/catalogs/dd")) {
+	fs.mkdirSync(__dirname + "/catalogs/dd")
+}
+
 // Local cache directory
 if (!config.CACHEDIR.match(/^\//)) {
 	// If relative path given for CACHEDIR, prepend with __dirname.
