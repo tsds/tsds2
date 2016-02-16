@@ -111,8 +111,9 @@ except org.virbo.datasource.HtmlResponseIOException,ex:
    raise org.das2.dataset.NoDataInIntervalException('Problem with response')
 except java.lang.IllegalArgumentException, ex:
    raise org.das2.dataset.NoDataInIntervalException('No data in interval')
-if ( process == 'timeseriessc' ):
-   n = result.property( QDataSet.DEPEND_1 ).length()
+
+n = result.property( QDataSet.DEPEND_1 ).length()
+if ( process == 'timeseriessc' or process == 'histogramsc' ):
    for i in range(0,n):
        m= mean(result[:,i])
        s= stddev(result[:,i])
@@ -121,8 +122,9 @@ if ( process == 'timeseriessc' ):
        result[:,i]= (result[:,i]-m)/s
        ll[i] = lls[i] + ';  &mu; = ' + ms + ', &sigma; = ' + ss + ' [' + units[i] + ']'
        llds[i]= eu.createDatum( ll[i]).doubleValue(eu)
+
+if ( process == 'timeseriessc' ):
    result.putProperty( QDataSet.DEPEND_1, llds )
-   print ll
 elif ( process=='histogram' ):
     result= autoHistogram(result)
     result= putProperty( result, QDataSet.LABEL, "# in bin" )
