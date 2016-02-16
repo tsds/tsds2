@@ -929,8 +929,7 @@ function handleRequest(req, res, options) {
 						if (!options.image.quant) {
 							log.logres("image.quant == false.", res.opts)
 						}
-						log.logres("Not reducing image size with pngquant.", 
-									res.opts)
+						log.logres("Not reducing image size with pngquant.", res.opts)
 						log.logres(config.PNGQUANT + " not found.  Not reducing"
 									+ " image size with pngquant.", res.opts)
 						var rd = request.get(data)
@@ -1249,9 +1248,13 @@ function parseOptions(req, res) {
 	options.image.widthr  = req.query['image.width']  || ""
 	options.image.heightr = req.query['image.height'] || ""
 
+	// This is allowed because we can't control font size.
+	// Use, e.g., image.width=400,800 to make fonts much smaller relative to
+	// everything else.
 	if (options.image.width) {
 		var widtha  = options.image.width.split(",")
 		var heighta = options.image.height.split(",")
+
 		if (widtha.length > 0) {
 			var maxw = parseFloat(widtha[0])
 			var maxh = parseFloat(heighta[0])
@@ -1281,9 +1284,9 @@ function parseOptions(req, res) {
 		options.image.widthr  = options.image.widthr  || "800"
 		options.image.heightr = options.image.heightr || "200"
 
-		var color = ""
 		// Need to use default colors if more than one parameter; can't pass
 		// multiple colors.
+		var color = "&"
 		if (options.parameters.split(",").length == 1) {
 			var color = "&color=%23000000"; 
 		}
@@ -1305,6 +1308,7 @@ function parseOptions(req, res) {
 		options.image.widthr  = options.image.widthr  || "800"
 		options.image.heightr = options.image.heightr || "200"
 
+		var color = "&"
 		if (options.parameters.split(",").length == 1) {
 			var color = "&color=%23ffff00"; 
 		}
