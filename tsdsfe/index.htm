@@ -1157,6 +1157,8 @@
 						$("#imagediv #imagelink").attr("href", url);
 						$("#imagediv #imagelink").attr("title", url);
 
+						$("#imagediv #image").unbind('error');
+						$("#imagediv #image").unbind('load');
 						$("#imagediv #image")
 							.attr("src", url)
 							.css("opacity", "0.2")
