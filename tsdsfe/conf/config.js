@@ -45,7 +45,7 @@ exports.config = function config() {
 	// and
 	//
 	// out["TSDSFEXTERNAL"] = "http://server/tsds/"
-        out["TSDSFEEXTERNAL"] = "http://localhost:" +out["PORT"];
+    out["TSDSFEEXTERNAL"] = "http://localhost:" +out["PORT"];
 
 	// Autoplot script that creates preview plot.  If TSDSFE["AUTOPLOT"] is not
         // a localhost server, the servelet must have the server in out["JYDS"]
