@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <catalog xmlns:xlink="http://www.w3.org/1999/xlink" id="IMAGE/PT1M" name="IMAGE magnetometer data at 1-minute cadence">
   <documentation xlink:href="http://space.fmi.fi/" xlink:title="IMAGE web page"/>
-  <documentation xlink:href="http://github.com/tsds/tsds2/tsdscc/catalogs/image" xlink:title="Catalog generation software"/>
+  <documentation xlink:href="http://github.com/tsds/tsds2/tree/gh-pages/tsdscc/catalogs/image" xlink:title="Catalog generation software"/>
   <documentation xlink:href="/" xlink:title="Catalog generation date: 2015-07-10T21:26:35.818Z"/>
   <documentation xlink:href="http://space.fmi.fi/image/rulesofroad.html" xlink:title="Conditions of use and acknowledgement of IMAGE data"/>
   <documentation xlink:href="http://space.fmi.fi/image/contributors.html" xlink:title="IMAGE data providers"/>

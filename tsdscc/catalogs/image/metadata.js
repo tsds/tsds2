@@ -57,7 +57,7 @@ function createtsml (list) {
 	
 	root.catalog["documentation"][1] = {};
 	root.catalog["documentation"][1]["$"] = {};
-	root.catalog["documentation"][1]["$"]["xlink:href"] = "http://github.com/tsds/tsds2/tsdscc/catalogs/image";
+	root.catalog["documentation"][1]["$"]["xlink:href"] = "http://github.com/tsds/tsds2/tree/gh-pages/tsdscc/catalogs/image";
 	root.catalog["documentation"][1]["$"]["xlink:title"] = "Catalog generation software";
 
 	root.catalog["documentation"][2] = {};
