@@ -24,21 +24,19 @@ exports.config = function config() {
 
 	out["VIVIZ"] = "http://localhost:8002/";
 
-	// Possibly public URL for redirect.
+	// Possibly public URL for redirects.
 	out["VIVIZEXTERNAL"] = "http://localhost:8002/";
 
 	out["PNGQUANT"] = "deps/bin/pngquant"
 
 	out["CONVERT"]  = "/usr/local/bin/convert"
 
-	// Autoplot script that creates preview plot
-	//out["JYDS"] = "http://localost:"+out["PORT"]+"/scripts/tsdsfe.jyds";
-	out["JYDS"] = "http://localhost:"+out["PORT"]+"/scripts/tsdsfe.jyds";
-
 	// Default Apache server has this set at 100
 	out["maxSockets"] = 100;
 
-	// Location to access data that will appear in MATLAB/IDL/Python scripts.
+	out["TSDSFE"] = "http://localhost:" +out["PORT"];
+
+        // Public URL from which scripts and Autoplot request data.
 	// Typical Apache setting to serve data from http://server/tsdsfe:
 	//
 	// ProxyPass /tsds http://localhost:port retry=1
@@ -46,18 +44,22 @@ exports.config = function config() {
 	//
 	// and
 	//
-	// out["TSDSFE"] = "http://server/tsds/"
-	// Note that if this default setting is used, options for return={png,pdf,svg,matlab,idl}
-	// will probably not work.  For images, the Autoplot servlet will told to request data from a localhost TSDSDFE server.
-	// and not this server.  The IDL and MATLAB scripts will attempt to access data from a localhost TSDSFE server.
-	out["TSDSFE"] = "http://localhost:"+out["PORT"]+"/";
-	
+	// out["TSDSFEXTERNAL"] = "http://server/tsds/"
+        out["TSDSFEEXTERNAL"] = "http://localhost:" +out["PORT"];
+
+	// Autoplot script that creates preview plot.  If TSDSFE["AUTOPLOT"] is not
+        // a localhost server, the servelet must have the server in out["JYDS"]
+        // below in its whitelist.
+	out["JYDS"] = out["TSDSFE"] + "/scripts/tsdsfe.jyds";
+
+	out["JYDSEXTERNAL"] = out["TSDSFEEXTERNAL"] + "/scripts/tsdsfe.jyds";	
+
 	// Location of the master catalog.  May be a URL or directory.
 	// If leading /, path is treated as absolute.
 	// Otherwise it is relative to directory of tsdsfe.js.
-	out["CATALOG"] = out["TSDSFE"] + "catalogs/all.thredds";
+	out["CATALOG"] = out["TSDSFE"] + "/catalogs/all.thredds";
 
-	out["CATALOGLIST"] = out["TSDSFE"] + "catalogs/all.thredds";
+	out["CATALOGLIST"] = out["TSDSFE"] + "/catalogs/all.thredds";
 
 	// Location to find top-level catalogs and bookmark files.  May be a URL or an absolute path.
 	// When ?catalog=CATALOG&return={tsds-catalog,autoplot-bookmark} is requested,
@@ -68,7 +70,7 @@ exports.config = function config() {
 	// If XMLBASE !== "", xml:base attribute in all.thredds will be replaced with XMLBASE.
 	// all.thredds may be located on any server provided that relative paths are given for
 	// catalogRef attribute xlink:href, which points to a TSML file for each catalogRef.
-	out["XMLBASE"] = out["TSDSFE"] + "catalogs/";
+	out["XMLBASE"] = out["TSDSFE"] + "/catalogs/";
 
 	// File system location to store cached metadata.  If leading /, path is treated as absolute.
 	// Otherwise it is relative to directory of tsdsfe.js.

@@ -1895,7 +1895,7 @@ function dataset(catalogs, res, cb) {
 					// TODO: Do the following using getandparse().  Document how it works.
 					//console.log(datasets[z])
 					var filecite = __dirname + "/" + catalogs[afterparse.j-1].href.replace(config.TSDSFE,"").replace(/\.xml|\.json/,'.cite')
-					//console.log("---" + filecite)
+					console.log("---" + filecite)
 					if (fs.existsSync(filecite)) {
 						var text = fs.readFileSync(filecite)
 									 .toString()
@@ -2258,7 +2258,7 @@ function parameter(catalogs, datasets, res, cb) {
 							+ " Script will not work unless TSDSFE is running"
 							+ " on localhost";
 			if (res.opts.format === "autoplot") {
-				var url = config.TSDSFE
+				var url = config.TSDSFEEXTERNAL
 								+ "?catalog=" + resp[0].catalog
 								+ "&dataset=" + resp[0].dataset
 								+ "&parameters=" + res.opts.parameters
@@ -2271,7 +2271,7 @@ function parameter(catalogs, datasets, res, cb) {
 							+ "3. Open the script tab to see the script.\n\n"
 							+ url;
 
-				if (config.TSDSFE.match(/http:\/\/localhost/)) {
+				if (config.TSDSFEEXTERNAL.match(/http:\/\/localhost/)) {
 					script = warning + "\n\n" + script;
 				}
 
@@ -2285,7 +2285,7 @@ function parameter(catalogs, datasets, res, cb) {
 								+ "/scripts/tsdsfe." + ext).toString();
 
 			script = script
-						.replace("__SERVER__",config.TSDSFE)
+						.replace("__SERVER__",config.TSDSFEEXTERNAL)
 						.replace("__QUERYSTRING__",
 									"catalog=" + resp[0].catalog
 									+ "&dataset=" + resp[0].dataset
@@ -2295,7 +2295,7 @@ function parameter(catalogs, datasets, res, cb) {
 									+ "&return=data"
 									+ "&format=ascii-2");
 			script = script.replace("__LABELS__",Labels.slice(0,-2));
-			if (config.TSDSFE.match(/http:\/\/localhost/)) {
+			if (config.TSDSFEEXTERNAL.match(/http:\/\/localhost/)) {
 				log.logres("Warning: stream(): " + warning, res.opts)
 				script = script.replace("__COMMENT__",warning)
 			} else {
@@ -2333,32 +2333,42 @@ function parameter(catalogs, datasets, res, cb) {
 			extra = extra + "&fills=" + joinresp(resp, 'fillvalue')
 		}
 
-		var jydsargs = 	  "?catalog=" + res.opts.catalog
+
+		var baseargs = 	  "?catalog=" + res.opts.catalog
 						+ "&dataset=" + res.opts.dataset
 						+ "&parameters=" + res.opts.parameters
 						+ "&timerange=" + start+"/"+stop
 						+ "&type=" + res.opts.type
-						+ "&server=" + config.TSDSFE
-						+ extra
-
-
-		config.JNLP = "http://autoplot.org/autoplot.jnlp"
-		var jnlpargs = "?open=vap+jyds:"
 
 		log.logres("JYDS    : " + config.JYDS, res.opts)
-		log.logres("jydsargs: " + jydsargs, res.opts)
 
 		if (res.opts.format === "jnlp") {
-			log.logres("JNLP:     " + config.JNLP, res.opts)
-			log.logres("jnlpargs: " + jnlpargs + "JYDS + jydsargs", res.opts)
+
+		        // TODO: If request URL is localhost, use config.TSDSFE? (So 
+		        // jnlp will run offline?)
+    		        server = config.TSDSFEEXTERNAL;
+		        JYDS = config.JYDSEXTERNAL;
+		       
+		        config.JNLP = "http://autoplot.org/autoplot.jnlp"
+		        var jnlpargs = "?open=vap+jyds:"
+	                var jydsargs = baseargs + "&server=" + server + extra
+
+			log.logres("config.JNLP  : " + config.JNLP, res.opts)
+			log.logres("JNLP redirect: " + config.JNLP + jnlpargs + JYDS + jydsargs, res.opts)
 			// Should be using the following, but the script for autoplot.jnlp
 			// does not decode the argument of open.
 			//cb(301,config.JNLP + jnlpargs + encodeURIComponent(config.JYDS + jydsargs))
 			// This works:
-			//console.log("jnlpargs: " + jnlpargs + "encodeURIComponent(JYDS + jydsargs)\n")
-			cb(301, config.JNLP + jnlpargs + config.JYDS + jydsargs, res)
+			cb(301, config.JNLP + jnlpargs + JYDS + jydsargs, res)
 			return
 		}
+
+	        var server = config.TSDSFE;
+	        if (!config.AUTOPLOT.match(/http\:\/\/localhost/)) {
+		    server = config.TSDSFEEXTERNAL;
+		} 
+
+	        var jydsargs = baseargs + "&server=" + server + extra
 
 		var format = "image/png";
 		if (res.opts.format === "pdf") {format = "application/pdf"}
