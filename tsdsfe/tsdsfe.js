@@ -124,7 +124,7 @@ if (fs.existsSync("../../" + path)) {
 
 process.on('uncaughtException', function(err) {
 	if (err.errno === 'EADDRINUSE') {
-		console.log(ds() + "Port " + config.PORT + " already in use.")
+		console.log(ds() + clc.red("Port " + config.PORT + " already in use."))
 	} else {
 		console.log(err.stack)
 	}
