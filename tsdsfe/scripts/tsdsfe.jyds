@@ -1,17 +1,18 @@
 ###################################################
 # title: tsds client
 # label: tsds client
+import math
 tr         = getParam( 'timerange', '1997-08-26/1997-09-05', 'timerange to load' )
 catalog    = getParam( 'catalog', 'SSCWeb', 'catalog' )
 dataset    = getParam( 'dataset', 'ace', 'dataset' )
-parameters = getParam( 'parameters', 'X_GEO', 'parameters' )
+parameters = getParam( 'parameters', 'X_GEO,Y_GEO,Z_GEO', 'parameters' )
 server     = getParam( 'server', 'http://tsds.org/get/' )
-units      = getParam( 'units', 'R_E' )
+units      = getParam( 'units', 'R_E,R_E,R_E' )
 usecache   = getParam( 'usecache', 'true' )
 labels     = getParam( 'labels', '' )
 title      = getParam( 'title', 'def' )
 fills      = getParam( 'fills', '-1e31')
-process    = getParam( 'type', 'timeseries', 'plot type', ['timeseries','timeseriessc','autocorrelation','histogram','periodogram','spectrogram'] )
+process    = getParam( 'type', 'timeseriesscoff', 'plot type', ['timeseries','timeseriessc','autocorrelation','histogram','periodogram','spectrogram'] )
 if ( title=='def' ):
   title= 'Catalog: ' + catalog + ' | Dataset: ' + dataset
 print 'v20140718_1057'
@@ -80,7 +81,7 @@ try:
       llds= DDataSet.createRank1(lenll)
       lls = []
       for i in xrange(lenll):
-         if ( process == 'timeseriessc' ):
+         if ( process == 'timeseriessc' or process == 'timeseriesscoff'):
              lls.append('(' + ll[i] + ' - &mu;)/&sigma;')
          if (units[0] == '' or process == 'timeseriessc'):
            llds[i]= eu.createDatum( lls[i]).doubleValue(eu)
@@ -100,7 +101,6 @@ try:
    else:
      result.putProperty( QDataSet.TITLE, title + ' | Parameters: ' + parameters)
 
-
    try:
      fv= float(fills[0])
      result.putProperty( QDataSet.FILL_VALUE, fv )   
@@ -113,15 +113,30 @@ except java.lang.IllegalArgumentException, ex:
    raise org.das2.dataset.NoDataInIntervalException('No data in interval')
 
 n = result.property( QDataSet.DEPEND_1 ).length()
-if ( process == 'timeseriessc' or process == 'histogramsc' ):
+if ( process == 'timeseriessc' or process == 'timeseriesscoff' or process == 'histogramsc' ):
+   m= []
+   s=[]
+   print lls
    for i in range(0,n):
-       m= mean(result[:,i])
-       s= stddev(result[:,i])
-       ms= '%.2g' % m
-       ss= '%.2g' % s
-       result[:,i]= (result[:,i]-m)/s
+       m.append(stddev(result[:,i]))
+       s.append(stddev(result[:,i]))
+       ms= '%.2g' % mean(result[:,i])
+       ss= '%.2g' % s[i]
+       result[:,i]= (result[:,i]-m[i])/s[i]
        ll[i] = lls[i] + ';  &mu; = ' + ms + ', &sigma; = ' + ss + ' [' + units[i] + ']'
        llds[i]= eu.createDatum( ll[i]).doubleValue(eu)
+
+# Why doesn't print result.value(i) work?
+if ( process == 'timeseriesscoff' and n > 1):
+    mo = math.ceil(float(max(m) % 3))
+    print mo
+    if (mo < 3.0):
+        mo= 3.0
+    for i in range(0,n):
+        off= float(n-i-1)*mo
+        result[:,i] = result[:,i] + off
+        ll[i] = str(int(off)) + ' + ' + ll[i]
+        llds[i]= eu.createDatum( ll[i]).doubleValue(eu)
 
 if ( process == 'timeseriessc' ):
    result.putProperty( QDataSet.DEPEND_1, llds )

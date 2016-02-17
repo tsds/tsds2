@@ -926,6 +926,7 @@
 						[
 							{label:"Time Series", value:"timeseries", selected:true},
 							{label:"Time Series Scaled", value:"timeseriessc"},
+							{label:"Time Series Offset", value:"timeseriesscoff"},
 							{label:"Autocorrelation", value:"autocorrelation"},
 							{label:"Histogram", value:"histogram"},
 							{label:"Periodogram", value:"periodogram"},
@@ -1303,6 +1304,7 @@
 				<ul>
 					<li>Time Series (default)</li>
 					<li>Time Series Scaled - Each column <code>c</code> is plotted as (<code>c</code>-&mu;)/&sigma;</li>
+					<li>Time Series Offset - Each column <code>c</code> is plotted as <code>&Delta;</code> + (<code>c</code>-&mu;)/&sigma; with <code>&Delta;</code> determined automatically.</li>
 					<li>Histogram</li>
 					<li>Autocorrelation</li>
 					<li>Periodogram</li>
