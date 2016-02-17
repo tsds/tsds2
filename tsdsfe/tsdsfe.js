@@ -1308,17 +1308,18 @@ function parseOptions(req, res) {
 		options.image.widthr  = options.image.widthr  || "800"
 		options.image.heightr = options.image.heightr || "200"
 
-		var color = "&"
+		var color = ""
 		if (options.parameters.split(",").length == 1) {
-			var color = "&color=%23ffff00"; 
+			var color = "%23ffff00"; 
+		} else {
+			var color = "%23ffff00,%230000ff,%23ffffff";
 		}
 
 		options.stylestr =   "drawGrid=true"
 							+ "&backgroundColor=%23000000"
 							+ "&foregroundColor=%23ffff00"
-							+ color
-							+ "&fillColor=%23ffff00"
-							+ "&column="+encodeURIComponent("0%+8em,100%-6em")
+							+ "&color=" + color
+							+ "&column="+encodeURIComponent("0%+4em,100%-6em")
 							+ "&row="+encodeURIComponent("0%+2em,100%-4em")
 							+ "&width="+options.image.width
 							+ "&height="+options.image.height

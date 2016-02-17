@@ -118,14 +118,19 @@ if ( process == 'timeseriessc' or process == 'timeseriesscoff' or process == 'hi
    s=[]
    print lls
    for i in range(0,n):
-       m.append(stddev(result[:,i]))
+       m.append(mean(result[:,i]))
+       print m[i]
        s.append(stddev(result[:,i]))
+       print s[i]
        ms= '%.2g' % mean(result[:,i])
        ss= '%.2g' % s[i]
        result[:,i]= (result[:,i]-m[i])/s[i]
+       m[i]= max(abs(result[:,i]))
        ll[i] = lls[i] + ';  &mu; = ' + ms + ', &sigma; = ' + ss + ' [' + units[i] + ']'
        llds[i]= eu.createDatum( ll[i]).doubleValue(eu)
 
+print m
+#print "m = " + str(m)
 # Why doesn't print result.value(i) work?
 if ( process == 'timeseriesscoff' and n > 1):
     mo = math.ceil(float(max(m) % 3))
@@ -134,6 +139,7 @@ if ( process == 'timeseriesscoff' and n > 1):
         mo= 3.0
     for i in range(0,n):
         off= float(n-i-1)*mo
+        print "offset = " + str(off)
         result[:,i] = result[:,i] + off
         ll[i] = str(int(off)) + ' + ' + ll[i]
         llds[i]= eu.createDatum( ll[i]).doubleValue(eu)
