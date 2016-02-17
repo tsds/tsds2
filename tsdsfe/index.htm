@@ -995,6 +995,7 @@
 				$("#scriptdiv").hide()
 				$("#imagediv").hide()
 				$("#gallerydiv").hide()
+
 				// Form base URL.
 				urlo = TSDSFE + "?catalog="
 							+ selected('catalog')
@@ -1138,12 +1139,9 @@
 					if (selected('format').match("viviz")) {
 
 						$("#gallerydiv").show();
-						$("#imagediv #imagelink").attr("href", url);
-						$("#imagediv #imagelink").attr("title", url);
-						$("#imagediv #imagelink").html("Open gallery in new tab");
-						$("#imagediv").show();
-						$("#gallerydiv > div > a").attr("href", url);
-						$("#gallerydiv > div > a").attr("title", url);
+						$("#gallerydiv #gallerylink").attr("href", url);
+						$("#gallerydiv #gallerylink").attr("title", url);
+						$("#gallerydiv #gallerylink").html("Open gallery in new tab");
 						// Causes error in Chrome:
 						// Uncaught SecurityError: Failed to read the 'contentDocument' property from 'HTMLIFrameElement': Blocked a frame with origin "http://localhost:8004" from accessing a frame with origin "http://localhost:8002". Protocols, domains, and ports must match.
 						//$("#gallerydiv > iframe").contents().find("body").html('');
@@ -1276,7 +1274,7 @@
 				<img id="image"></img>
 			</div>
 			<div id="gallerydiv" style="height:100%;display:none;background-color:white;align:left">
-				<div><a target="_blank"></a></div>
+				<div><a id="gallerylink" target="_blank"></a></div>
 				<iframe style="width:95%;height:400px;"></iframe>
 			</div>
 			<div id="datadiv" style="display:none;background-color:white;align:left">
