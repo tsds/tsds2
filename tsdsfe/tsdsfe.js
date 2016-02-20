@@ -1291,6 +1291,11 @@ function parseOptions(req, res) {
 			var color = "&color=%23000000"; 
 		}
 
+		var column = "0%+8em,100%-6em"
+		if (options.type === "timeseriessc" || options.type === "timeseriesscoff") {
+			column = "0%+4em,100%-6em"			
+		}
+
 		options.stylestr =   "drawGrid=true"
 							+ "&backgroundColor=none"
 							+ "&foregroundColor=%23000000"
@@ -1315,11 +1320,16 @@ function parseOptions(req, res) {
 			var color = "%23ffff00,%230000ff,%23ffffff";
 		}
 
+		var column = "0%+8em,100%-6em"
+		if (options.type === "timeseriessc" || options.type === "timeseriesscoff") {
+			column = "0%+4em,100%-6em"			
+		}
+
 		options.stylestr =   "drawGrid=true"
 							+ "&backgroundColor=%23000000"
 							+ "&foregroundColor=%23ffff00"
 							+ "&color=" + color
-							+ "&column="+encodeURIComponent("0%+4em,100%-6em")
+							+ "&column="+encodeURIComponent(column)
 							+ "&row="+encodeURIComponent("0%+2em,100%-4em")
 							+ "&width="+options.image.width
 							+ "&height="+options.image.height

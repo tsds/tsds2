@@ -692,44 +692,60 @@
 
 					$('#parameterinfo').html("<b>Parameter information:</b>")
 					$('#parameterinfo').show();					
-					$('#parameterinfo').append('<ul style="list-style-position: outside;">');
 
-					console.log(das[0])
-					if (das.length > 0) {
-						var range = das[0].dd.start + " through " + das[0].dd.stop;
-						var fills  = das[0].dd.fillvalue || "";
-						var units  = das[0].dd.units || "";
-						var name  = das[0].dd.name || "";
-						var parameter  = das[0].dd.label || "";
-						var label = das[0].dd.label || "";	
-						var labels = das[0].dd.columnLabels || "";	
-						var id  = das[0].dd.id || "";
-						$('#parameterinfo ul').append('<li style="">TSDS ID: '+id+'</li>');
-						if (name !== "")
-							$('#parameterinfo ul').append('<li style="">Name: '+name+'</li>');
-						if (label !== "")
-							$('#parameterinfo ul').append('<li style="">Label: '+label+'</li>');
+					if (das.length == 0) {
+						$('#parameterinfo').append('<ul style="list-style-position: outside;">');
+						$('#parameterinfo ul').append('<li style="">Parameter <b>' + selected("parameters") + '</b> was not found in <a href="' + TSDSFE + '?catalog='+selected('catalog')+'&dataset='+selected('dataset')+'&parameters=^.*">dataset list</a></li>');
+						$('#parameterinfo').append('</ul>');
+						hidedivs("parameters");
+					}
+
+					for (var i = 0; i < das.length; i++) {
+						var range = das[i].dd.start + " through " + das[i].dd.stop;
+						var fills  = das[i].dd.fillvalue || "";
+						var units  = das[i].dd.units || "";
+						var name  = das[i].dd.name || "";
+						var parameter  = das[i].dd.label || "";
+						var label = das[i].dd.label || "";	
+						var labels = das[i].dd.columnLabels || "";	
+						var id  = das[i].dd.id || "";
+						$('#parameterinfo')
+							.append('<ul style="list-style-position: outside;">');
 						$('#parameterinfo ul')
+							.last()
+							.append('<li style="">TSDS ID: '+id+'</li>');
+						if (name !== "")
+							$('#parameterinfo ul')
+							.last()
+							.append('<li style="">Name: '+name+'</li>');
+						if (label !== "")
+							$('#parameterinfo ul')
+							.last()
+							.append('<li style="">Label: '+label+'</li>');
+						$('#parameterinfo ul')
+								.last()
 								.append('<li style="">Availability: '+ range+'</li>');
 						$('#parameterinfo ul')
+								.last()
 								.append(
-											 '<li style="">Cadence: ' 
-											+ (das[0].dd.cadence || "<i>Not available</i>")
-											+'</li>'
+										 '<li style="">Cadence: ' 
+										+ (das[i].dd.cadence || "<i>Not available</i>")
+										+'</li>'
 										);
 						if (labels !== "")
-							$('#parameterinfo ul').append('<li style="">Column Labels: '+labels+'</li>');
+							$('#parameterinfo ul')
+							.last()
+							.append('<li style="">Column Labels: '+labels+'</li>');
 						$('#parameterinfo ul')
+								.last()
 								.append('<li style="">Column Units: ' 
 									+ (units || "<i>Not available</i>")+'</li>');
 						$('#parameterinfo ul')
+								.last()
 								.append('<li style="">Column Fills: '
 									+ (fills|| "<i>Not available</i>")+'</li>');
-					} else {
-						$('#parameterinfo ul').append('<li style="">Parameter <b>' + selected("parameters") + '</b> was not found in <a href="' + TSDSFE + '?catalog='+selected('catalog')+'&dataset='+selected('dataset')+'&parameters=^.*">dataset list</a></li>');
-						
-					}
-					$('#parameterinfo').append('</ul>');
+						$('#parameterinfo').append('</ul>');
+					} 
 					hidedivs("parameters");
 				};
 
@@ -870,6 +886,16 @@
 
 			// Handle format drop-down.
 			function format() {
+
+				format.clearfollowing = function () {
+					if (selected('type')) {
+						dorequest();
+						return false;
+					} else {
+						return true;
+					}
+				}
+
 				format.onselect = function () {
 					hidedivs("format");
 					$("#typeinfo"+selected("return")).show();				
@@ -907,6 +933,15 @@
 
 			// Handle type drop-down.
 			function type() {
+
+				type.clearfollowing = function () {
+					if (selected('style')) {
+						dorequest();
+						return false;
+					} else {
+						return true;
+					}
+				}
 
 				type.onselect = function () {
 					if (selected("return").match("image")) {
@@ -1009,8 +1044,12 @@
 
 				if (selected('return').match(/script/)) {
 					url = urlo + "&format=" + selected('format');
-					$("#dlframe").html("");
-					$("#dlframe").attr("src", url);
+					$("#scriptdiv #scriptlink").html("API URL");
+					$("#scriptdiv #scriptlink").attr("href", url);
+					$("#scriptdiv #scriptlink").attr("title", url);
+
+					$("#scriptdiv iframe").html("");
+					$("#scriptdiv iframe").attr("src", url);
 					$("#scriptdiv").show();
 				} else if (selected('return').match(/data/)) {
 
@@ -1153,7 +1192,7 @@
 
 						$("#imagediv").show();
 						$("#imagediv #imageloading").show();
-						$("#imagediv #imagelink").html("Direct link");
+						$("#imagediv #imagelink").html("API URL");
 						$("#imagediv #imagelink").attr("href", url);
 						$("#imagediv #imagelink").attr("title", url);
 
@@ -1269,7 +1308,8 @@
 	
 		<div id="infodiv" style="margin-left:14em;;margin-top:0em;">		
 			<div id="scriptdiv" style="background-color:white;display:none;">
-				<iframe id="dlframe" style="width:95%;height:20em;"></iframe>
+				<a id="scriptlink" target="_blank"></a>&nbsp;&nbsp;
+				<iframe style="width:95%;height:20em;"></iframe>
 			</div>
 			<div id="imagediv" style="background-color:white;width:100%;height:100%;display:none;">
 				<div><a id="imagelink" target="_blank"></a>&nbsp;&nbsp;<img id="imageloading" style="height:.7em;display:none" src="css/ajax-loader.gif"/></div>
@@ -1290,7 +1330,7 @@
 				<ul>
 					<li>0: None/Black/Blue (default)</li>
 					<li>1: Black/Yellow/Yellow</li>
-					<li>2: Spark Line</li>
+					<li>2: Spark Line (no annotations, only lines)</li>
 				</ul>
 			</div>			
 			<div id="styleinfodata" style="display:none;width:95%">
@@ -1344,7 +1384,7 @@
 				<ul>
 					<li>Data - Data over selected time range</li>
 					<li>Image - <a href="http://autoplot.org/">Autoplot</a> graphic or <a href="http://viviz.org/">ViViz</a> gallery of data over selected time range</li>
-					<li>Script - A script that reads data into memory for various programing languages</li>
+					<li>Script - An short IDL/MATLAB/Python script that reads data into memory.</li>
 				</ul>
 			</div>			
 			<div id="parameterinfo" style="display:none;width:95%"></div>

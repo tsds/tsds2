@@ -13,6 +13,7 @@ labels     = getParam( 'labels', '' )
 title      = getParam( 'title', 'def' )
 fills      = getParam( 'fills', '-1e31')
 process    = getParam( 'type', 'timeseriesscoff', 'plot type', ['timeseries','timeseriessc','autocorrelation','histogram','periodogram','spectrogram'] )
+style      = getParam( 'type', '0', 'plot style', ['0','1','2'] )
 if ( title=='def' ):
   title= 'Catalog: ' + catalog + ' | Dataset: ' + dataset
 print 'v20140718_1057'
@@ -129,9 +130,6 @@ if ( process == 'timeseriessc' or process == 'timeseriesscoff' or process == 'hi
        ll[i] = lls[i] + ';  &mu; = ' + ms + ', &sigma; = ' + ss + ' [' + units[i] + ']'
        llds[i]= eu.createDatum( ll[i]).doubleValue(eu)
 
-print m
-#print "m = " + str(m)
-# Why doesn't print result.value(i) work?
 if ( process == 'timeseriesscoff' and n > 1):
     mo = math.ceil(float(max(m) % 3))
     print mo
