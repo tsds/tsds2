@@ -70,7 +70,7 @@ exports.config = function config() {
 	// If XMLBASE !== "", xml:base attribute in all.thredds will be replaced with XMLBASE.
 	// all.thredds may be located on any server provided that relative paths are given for
 	// catalogRef attribute xlink:href, which points to a TSML file for each catalogRef.
-	out["XMLBASE"] = out["TSDSFE"] + "/catalogs/";
+	out["XMLBASE"] = out["TSDSFEEXTERNAL"] + "/catalogs/";
 
 	// File system location to store cached metadata.  If leading /, path is treated as absolute.
 	// Otherwise it is relative to directory of tsdsfe.js.

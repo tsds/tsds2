@@ -5,6 +5,8 @@ exports.config = function config() {
     out["TSDSFEEXTERNAL"] = "http://tsds.org/get"
 	out["JYDSEXTERNAL"] = out["TSDSFEEXTERNAL"] + "/scripts/tsdsfe.jyds";
 	out["VIVIZEXTERNAL"] = "http://tsds.org/gallery/"
+	out["XMLBASE"] = out["TSDSFE"] + "/catalogs/";
+
 	out["CONVERT"] = "/usr/bin/convert"
 
 	return out
