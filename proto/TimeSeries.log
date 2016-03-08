@@ -1,0 +1,9 @@
+<Buffer 0a 18 73 65 63 6f 6e 64 73 20 73 69 6e 63 65 20 32 30 31 35 2d 30 31 2d 30 31 12 02 6e 54 12 02 6e 54 12 02 6e 54 1a 03 42 5f 78 1a 03 42 5f 79 1a 03 ... >
+{ TimeBase: 'seconds since 2015-01-01',
+  ColumnUnits: [ 'nT', 'nT', 'nT' ],
+  ColumnLabels: [ 'B_x', 'B_y', 'B_z' ],
+  ColumnLabelValues: [ '', '', '' ],
+  ColumnRenderings: [],
+  ColumnFillValues: [ '-1e31', '-1e31', '99999' ],
+  Time: [ 1, 10, 21 ],
+  Data: [ 1, 2, 3, 10, 11, 12, 21, 22, 23 ] }
