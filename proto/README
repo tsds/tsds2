@@ -1,0 +1,11 @@
+Install using
+
+```
+npm install protocol-buffers
+```
+
+Test using
+
+```
+node TimeSeries.js
+```
