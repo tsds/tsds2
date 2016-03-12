@@ -541,6 +541,7 @@
 						return info;
 					}
 
+					var aplink = "<a href='http://autoplot.org/autoplot.jnlp?open=bookmarks:" + TSDSFE + "?catalog=" + selected('catalog') + "SSCWeb&return=autoplot-bookmarks'>Browse catalog in Autoplot</a> (select Bookmarks > " + selected('catalog') + ")";
 					catalog.info = info;
 					$('#cataloginfo').html("<b>Catalog information:</b>");
 					if (info.length > 0) {
@@ -549,17 +550,24 @@
 						$('#cataloginfo ul')
 							.append('<li attr="catalogid">TSDS ID: ' +selected('catalog')+'</li>')
 
+						$('#cataloginfo ul')
+							.append('<li style="">' + aplink + '</li>')
+
 						//console.log("Info: " + info[0].title);
 						for (j = 0;j < info.length;j++) {
-							if (!(info[j].title === "") && !(info[j].link === "")) {
+							
+							if (!(info[j].title === "") && !(info[j].link === "/")) {
 								$('#cataloginfo ul').append('<li style=""><a href="'+info[j].link+'" title="'+info[j].link+'">'+info[j].title+'</a></li>');
-							} else if ((info[j].title === "") && !(info[j].link === "")) {
+							} else if ((info[j].title === "") && !(info[j].link === "/")) {
 								$('#cataloginfo ul').append('<li style=""><a href="'+info[j].link+'" title="'+info[j].link+'">'+info[j].link+'</a></li>');
-							}
+							} else if (!(info[j].title === "") && (info[j].link === "/")) {
+								$('#cataloginfo ul').append('<li style="">' + info[j].title);
+							} 
 						}
 						var loglink = TSDSFE + "?catalog="+selected('catalog')+"&return=log";
 						$('#cataloginfo ul')
 							.append('<li style=""><a href="'+loglink+'" title="'+loglink+'">History of TSDSFE requests with this catalog.</a></li>')
+
 
 					} else if (info.length == 0) {
 						$('#cataloginfo').append('<ul style="list-style-position: outside;">');	
