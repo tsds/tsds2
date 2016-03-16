@@ -1,28 +1,49 @@
 All,
 
-Our requirements for the non-ASCII option for data output from and HPDE API are
+Our requirements for the binary option for data output from and HPDE API are
 
 (1) Easy for person creating a server to create the stream
 (2) Easy to read in a script
 (3) Fast
 (4) A certain amount of flexibility
-(5) Streamable (rules out CDF and OpenDAP)
+(5) Streamable
 
-Some of the things that I have read include
-* http://programmers.stackexchange.com/questions/283635/data-format-for-
-binary-data-transfer
+I am basing my opinions on reading and experimenting with some of the following
+* http://programmers.stackexchange.com/questions/283635/data-format-for-binary-data-transfer
 * http://bjson.org/
 * http://bsonspec.org/
 * http://ubjson.org/
 * https://google.github.io/flatbuffers/flatbuffers_benchmarks.html
 * https://en.wikipedia.org/wiki/Comparison_of_data_serialization_formats
-* http://www.unidata.ucar.edu/software/thredds/v4.3/netcdf-java/stream/
-NcStream.html
+* http://www.unidata.ucar.edu/software/thredds/v4.3/netcdf-java/stream/NcStream.html
 
 All of the above tell me that there is nothing that satisfies (1) and (2).  To prove this to yourself,
-(a) try reading any of the binary formats into MATLAB/IDL/Python and imagine the maintenance that would be required as users upgrade versions or as new library versions are created.
-(b) or try to write a program that converts an ASCII table to any of the suggested formats.
+(a) try reading any of the binary formats into MATLAB/IDL/Python.  When you are done, imagine the maintenance that would be required as users upgrade versions or as new library versions are created.
+(b) try to write a program that converts an ASCII table to any of the suggested formats.
 
+Based on requirement (5), OpenDAP/NetCDF and CDF are not an option.
+
+On the last telecon, we noted that the "simple binary" option may not work because some of the columns may be strings.  I think we can deal with this while still keeping things simple.
+
+Suppose that we have a file containing columns of
+Time, instrumentID, Bx, By, Bz, Px, Py, Pz
+e.g.,
+2015-01-01T00:00:00.000000, A, 9.0, 10.0, 11.0
+2015-01-01T00:00:00.000000, B, 9.0, 10.0, 11.0
+
+where Px, Py, and Pz are the powers in a frequency bin centered on 3.0 Hz.  The following information
+would be needed in the ASCII header (we are discussion how to express this in the header of the spec for the ASCII format that is a generalization of the HPDE Event List:
+
+units       null    null            nT      nT      nT
+labels      Time    instrumentID    Bx      By      Bz
+
+To create a binary version of this, we would need one bit of additional information, columnTypes:
+
+columnTypes char32  char1           double  double  double
+units       null    null            nT      nT      nT
+labels      Time    instrumentID    Bx      By      Bz
+
+To handle spectrograms, we need additional information in the header (Todd is working on how to actually express this in the header of the spec for the ASCII format that is a generalization of the HPDE Event List; question - one could express this information using SPASE. Why are we defining a free-text metadata format?):
 
 Suppose that we have a file containing columns of
 Time, instrumentID, Bx, By, Bz, Px, Py, Pz
@@ -31,20 +52,22 @@ e.g.,
 2015-01-01T00:00:00.000000, B, 9.0, 10.0, 11.0, 5.0, 10.0, 11.0
 
 where Px, Py, and Pz are the powers in a frequency bin centered on 3.0 Hz.  The following information
-would be needed in the ASCII header:
+would be needed in the ASCII header
 
 binValue    null    null            null    null    null    3.0     3.0     3.0
 binUnits    null    null            null    null    null    Hz      Hz      Hz
 units       null    null            nT      nT      nT      nT      nT      nT
 labels      Time    instrumentID    Bx      By      Bz      Px      Py      Pz
 
-To create a binary version of this, we would need one bit of additional information:
+To create a binary version of this, we would need one bit of additional information, columnTypes:
 
 columnTypes char32  char1           double  double  double  double  double  double
 binValue    null    null            null    null    null    3.0     3.0     3.0
 binUnits    null    null            null    null    null    Hz      Hz      Hz
 units       null    null            nT      nT      nT      nT      nT      nT
 labels      Time    instrumentID    Bx      By      Bz      Px      Py      Pz
+
+
 
 
 
