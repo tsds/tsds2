@@ -413,7 +413,9 @@ function handleRequest(req, res, options) {
 	if (options.dd !== "") {
 		log.logres("Input is dd: " + options.dd, options, "app")
 		expandDD(decodeURIComponent(options.dd), function (err, cat) {
-			var ddfile = crypto.createHash("md5").update(decodeURIComponent(options.dd)).digest("hex")
+			var ddfile = crypto
+							.createHash("md5")
+							.update(decodeURIComponent(options.dd)).digest("hex")
 			log.logres("Writing " + "catalogs/dd/" + ddfile + ".json", options, "app")
 			// TODO: Proper thread-safe caching.
 			if (fs.existsSync("catalogs/dd/" + ddfile + ".json")) {
@@ -425,14 +427,16 @@ function handleRequest(req, res, options) {
 				log.logres("Calling handleRequest()", options, "app")
 				handleRequest(req, res, options);				
 			} else {
-				fs.writeFile("catalogs/dd/" + ddfile + ".json", JSON.stringify(cat), function () {
-					options.catalog = ddfile;
-					options.cataloglist = "-";
-					options.dd = "";
-					req.query.usemetadatacache = "true";
-					log.logres("Calling handleRequest()", options, "app")
-					handleRequest(req, res, options);
-				})
+				fs.writeFile("catalogs/dd/" + ddfile + ".json", JSON.stringify(cat), 
+					function () {
+						options.catalog = ddfile;
+						options.cataloglist = "-";
+						options.dd = "";
+						req.query.usemetadatacache = "true";
+						log.logres("Calling handleRequest()", options, "app")
+						handleRequest(req, res, options);
+					}
+				)
 			}
 		})
 		return;
@@ -1051,6 +1055,8 @@ function handleRequest(req, res, options) {
 						res.setHeader('Expires',res0.headers["expires"])
 					}
 
+					// Use res.dd to create HDPE API header here.
+					
 					// TODO: Need to loop over 
 					if (options.style === "header") {
 						//console.log(options)

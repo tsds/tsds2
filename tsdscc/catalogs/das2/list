@@ -1,0 +1,174 @@
+Cassini/|Saturn System Explorer - Orbit Insertion 2004-06-30
+Cassini/MAG/|Dual Technique Magnetometor - Imperial College (Michèle Dougherty)
+Cassini/MAG/VectorSC|Magnetometer Data in Spacecraft Coordinates from http://mapsview.engin.umich.edu/
+DE/|Earth polar orbiters - Launch date 1981-08-03
+DE/de-1/
+DE/de-1/ephemeris
+DE/de-1/mag_lowrate
+DE/de-1/pwi_lowrate
+Galileo/|Jupiter equatorial orbiter - Launch date 1989-10-13
+Galileo/ephemeris/
+Galileo/ephemeris/JupSysIII|Galileo PWS Jupiter orbit parameters
+Galileo/pws/
+Galileo/pws/CharFrequencies|Galileo PWS - Digitized Characteristic Plasma Frequencies
+Galileo/pws/EDPosition|Galileo Orbiter Position from PDS Density Volume
+Galileo/pws/ElectronDensity|Galileo PWS - Measured Electron Number Density
+Galileo/pws/MeasuredFreq|Galileo PWS - Frequency used for Ne Calculation
+Galileo/pws/g152e|Galileo PWS LRS 152-channel uncalibrated electric (even)
+ISEE/|International Sun-Earth Explorers - Launch date 1977-10-22
+ISEE/1/
+ISEE/1/ephemeris/
+ISEE/1/ephemeris/Earth-Magnetic|Selected Ephemeris values from ISEE-1 Magnetic Field Instrument 60-Second Resolution CDF files
+ISEE/1/mfi/
+ISEE/1/mfi/Bmag-Fce|Fce values from ISEE-1 Magnetic Field Instrument 4-Second Resolution CDF files
+ISEE/1/pwi/
+ISEE/1/pwi/SA-Electric|E-field Spectra from ISEE-1 PWI Spectrum Analyzer
+ISEE/1/pwi/SA-Magnetic|B-field Spectra from ISEE-1 PWI Spectrum Analyzer
+ISEE/1/pwi/SFR-Electric|B-field Spectra from ISEE-1 PWI Sweep Frequency Receiver
+ISEE/3/
+ISEE/3/EarthCentric-Ephem|ISEE-3 Reboot ephemeris data reader
+ISEE/3/pwi/
+ISEE/3/pwi/E-field
+Juno/|Jupiter polar orbiter - Launch date 2011-08-05
+Juno/Ephemeris/|Spacecraft position - Jet Propulsion Laboratory (NAIF)
+Juno/Ephemeris/Geocentric|Juno Earth orbit parameters
+Juno/Ephemeris/Heliocentric|Juno Solar orbit parameters
+Juno/Ephemeris/Jovicentric|Juno Jupiter orbit parameters
+Juno/FGM/|Fluxgate Magnetometer - Goddard Spaceflight Center (Jack Connerney)
+Juno/FGM/MagComponentsSCSE|Magnetic Field Compontents in Spacecraft Solar Ecliptic Frame
+Juno/JAD/|Jovian Auroral Distribution Experiment - Southwest Research Institute (David McComas)
+Juno/JAD/Electrons_L2|Ion Abundance from JADE Level 2 data
+Juno/JAD/Ions_L2|Ion Abundance from JADE Level 2 data
+Juno/JAD/OmniDirectionalElectronSpec|JADE Omnidirectional Electron data
+Juno/JAD/OmniDirectionalIonSpec|JADE Omnidirectional Ion data
+Juno/JED/|Jovian Energetic Particle Detector Instrument - Johns Hopkins University Applied Physics Laboratory (Barry Mauk)
+Juno/JED/ElectronSpectra|High resolution electron spectra from a single JEDI sensor, defaults to the 180 sensor
+Juno/JED/ElectronSpectra_LowRes|Low resolution electron spectra from a single JEDI sensor, defaults to the 180 sensor
+Juno/JED/IonSpectra|High resolution ion spectra from a single JEDI sensor, defaults to the 180 sensor
+Juno/JED/IonSpectra_LowRes|Low resolution ion spectra from a single JEDI sensor, defaults to the 180 sensor
+Juno/WAV/|Waves: A Radio and Plasma Wave Receiver - University of Iowa (Bill Kurth)
+Juno/WAV/Burst_Waveforms|Burst Mode calibrated directly sampled waveform data
+Juno/WAV/Burst_above_3MHz|Burst mode calibrated spectra from downmixed wavefrom data
+Juno/WAV/Housekeeping|Waves Housekeeping fixed fields
+Juno/WAV/Survey|Survey Mode Electric or Magnetic Spectral Densities
+Juno/WAV/Uncalibrated/|Raw Waves instrument values
+Juno/WAV/Uncalibrated/ADC_instability|A/D reference voltage oscillation - affects Survey data from 3 to 41 MHz
+Juno/WAV/Uncalibrated/Attenuation|Juno Raw Packet Attenuator Settings
+Juno/WAV/Uncalibrated/HFWBR_Hi|Burst Mode 1 MHz Spectra - raw instrument values
+Juno/WAV/Uncalibrated/HRS|Burst Mode Waveforms - raw instrument values
+Juno/WAV/Uncalibrated/HRS_Power|Burst Mode Waveforms - raw instrument values - mean squared amplitudes
+Juno/WAV/Uncalibrated/HRS_Spectra|Burst Mode Spectra - raw instrument values
+Juno/WAV/Uncalibrated/LRS|Survey data - raw instrument values
+Juno/WAV/em/|Ground test data from the engineering model instrument
+Juno/WAV/em/stl/
+Juno/WAV/em/stl/2015_04_03_sasm/
+Juno/WAV/em/stl/2015_04_03_sasm/Uncalibrated/
+Juno/WAV/em/stl/2015_04_03_sasm/Uncalibrated/HFWBR_Hi|Burst Mode 1 MHz Spectra - raw instrument values
+Juno/WAV/em/stl/2015_04_03_sasm/Uncalibrated/HRS|Burst Mode Waveforms - raw instrument values
+Juno/WAV/em/stl/2015_06_18_sbl_r17/
+Juno/WAV/em/stl/2015_06_18_sbl_r17/Housekeeping|Waves Housekeeping fixed fields
+Juno/WAV/em/stl/2015_06_18_sbl_r17/Survey|Survey Mode, Electric or Magnetic Spectral Densities
+Juno/WAV/em/stl/2015_07_02_jx0405b/
+Juno/WAV/em/stl/2015_07_02_jx0405b/Housekeeping|Waves Housekeeping fixed fields
+Juno/WAV/em/stl/2015_07_02_jx0405b/Survey|Survey Mode, Electric or Magnetic Spectral Densities
+Juno/WAV/em/stl/2015_07_02_jx0405b/Uncalibrated/
+Juno/WAV/em/stl/2015_07_02_jx0405b/Uncalibrated/Attenuation|Juno Raw Packet Attenuator Settings
+Juno/WAV/em/stl/2015_07_02_jx0405b/Uncalibrated/HFWBR_Hi|Burst Mode 1 MHz Spectra - raw instrument values
+Juno/WAV/em/stl/2015_07_02_jx0405b/Uncalibrated/HRS|Burst Mode Waveforms - raw instrument values
+Juno/WAV/em/stl/2015_07_02_jx0405b/Uncalibrated/HRS_Power|Burst Mode Waveforms - raw instrument values - mean squared amplitudes
+Juno/WAV/em/stl/2015_07_02_jx0405b/Uncalibrated/LRS|Survey data - raw instrument values
+Juno/WAV/em/stl/2015_09_03_jc055_30hr/
+Juno/WAV/em/stl/2015_09_03_jc055_30hr/Burst_Waveforms|Burst Mode calibrated directly sampled waveform data
+Juno/WAV/em/stl/2015_09_03_jc055_30hr/Burst_above_3MHz|Burst mode calibrated spectra from downmixed wavefrom data
+Juno/WAV/em/stl/2015_09_03_jc055_30hr/Housekeeping|Waves Housekeeping fixed fields
+Juno/WAV/em/stl/2015_09_03_jc055_30hr/Survey|Survey Mode, Electric or Magnetic Spectral Densities
+Juno/WAV/em/stl/2015_10_07_jx1415/
+Juno/WAV/em/stl/2015_10_07_jx1415/Burst_Waveforms|Burst Mode calibrated directly sampled waveform data
+Juno/WAV/em/stl/2015_10_07_jx1415/Burst_above_3MHz|Burst mode calibrated spectra from downmixed wavefrom data
+Juno/WAV/em/stl/2015_10_07_jx1415/Housekeeping|Waves Housekeeping fixed fields
+Juno/WAV/em/stl/2015_10_07_jx1415/Survey|Survey Mode, Electric or Magnetic Spectral Densities
+Juno/WAV/em/stl/2015_10_22_jx1415/
+Juno/WAV/em/stl/2015_10_22_jx1415/Burst_Waveforms|Burst Mode calibrated directly sampled waveform data
+Juno/WAV/em/stl/2015_10_22_jx1415/Burst_above_3MHz|Burst mode calibrated spectra from downmixed wavefrom data
+Juno/WAV/em/stl/2015_10_22_jx1415/Housekeeping|Waves Housekeeping fixed fields
+Juno/WAV/em/stl/2015_10_22_jx1415/Survey|Survey Mode, Electric or Magnetic Spectral Densities
+Juno/WAV/em/stl/2015_11_29_ops0714/
+Juno/WAV/em/stl/2015_11_29_ops0714/Burst_Waveforms|Burst Mode calibrated directly sampled waveform data
+Juno/WAV/em/stl/2015_11_29_ops0714/Burst_above_3MHz|Burst mode calibrated spectra from downmixed wavefrom data
+Juno/WAV/em/stl/2015_11_29_ops0714/Housekeeping|Waves Housekeeping fixed fields
+Juno/WAV/em/stl/2015_11_29_ops0714/Survey|Survey Mode, Electric or Magnetic Spectral Densities
+Juno/WAV/em/stl/2015_12_16_ops0714/
+Juno/WAV/em/stl/2015_12_16_ops0714/Burst_Waveforms|Burst Mode calibrated directly sampled waveform data
+Juno/WAV/em/stl/2015_12_16_ops0714/Burst_above_3MHz|Burst mode calibrated spectra from downmixed wavefrom data
+Juno/WAV/em/stl/2015_12_16_ops0714/Housekeeping|Waves Housekeeping fixed fields
+Juno/WAV/em/stl/2015_12_16_ops0714/Survey|Survey Mode, Electric or Magnetic Spectral Densities
+Juno/WAV/em/stl/2016_01_25_jx0405c/
+Juno/WAV/em/stl/2016_01_25_jx0405c/Burst_Waveforms|Burst Mode calibrated directly sampled waveform data
+Juno/WAV/em/stl/2016_01_25_jx0405c/Burst_above_3MHz|Burst mode calibrated spectra from downmixed wavefrom data
+Juno/WAV/em/stl/2016_01_25_jx0405c/Housekeeping|Waves Housekeeping fixed fields
+Juno/WAV/em/stl/2016_01_25_jx0405c/Survey|Survey Mode, Electric or Magnetic Spectral Densities
+Mars_Express/|Mars polar orbiter - Launch date 2003-06-02
+Mars_Express/ASPERA/|Analyzer of Space Plasma and Energetic Atoms - Southwest Research Institute (David Winningham)
+Mars_Express/ASPERA/ELS|Electron Spectrometer data from ASPERA
+Mars_Express/Ephemeris/|Spacecraft location data - Jet Propulsion Laboratory (NAIF)
+Mars_Express/Ephemeris/Planetocentric_Cyl|Mars Express cylindrical orbit parameters from SPICE kernels
+Mars_Express/Ephemeris/Planetographic|Mars Express orbit parameters from SPICE kernels
+Mars_Express/Ephemeris/Planetographic_L5|Mars Express orbit parameters from high level (L5) product files
+Mars_Express/MARSIS/|Mars Advanced Radar for Subsurface and Ionosphere Sounding - Univ. of Iowa (Don Gurnett)
+Mars_Express/MARSIS/ApparentAltitude|Apparent Altitude / Electron Number Density - Derived from ionosphere echo trace
+Mars_Express/MARSIS/B-magnitude|Magnetic field magnitude - Derived from sounder pulse excitations of local plasma
+Mars_Express/MARSIS/B-quality|MARSIS local magnetic field measurement quality rating
+Mars_Express/MARSIS/Fp-frequency|Plasma frequency - Derived from sounder pulse excitations of local plasma
+Mars_Express/MARSIS/Ne-density|Electron Number Density - Derived from sounder pulse excitations of local plasma
+Mars_Express/MARSIS/Ne-peakdensity|Peak Electron Number Density - Derived from ionosphere echo trace
+Mars_Express/MARSIS/Ne-quality|MARSIS local plasma denisty quality rating
+Mars_Express/MARSIS/Ne-verification|MARSIS Local plasma density measurement verifiacition flag values
+Mars_Express/MARSIS/Radargram|MARSIS Active Ionspheric Sounder Return Signal by Apparent Range
+Mars_Express/MARSIS/Spectrogram|MARSIS Active Ionspheric Sounder echograms collapsed to form survey spectrograms
+Mars_Express/Models/
+Mars_Express/Models/CainMagneticField|Model Mars magnetic field at Mars Express location
+Maven/|Mars Atmosphere and Volatile Evolution Mission - Orbit Insertion 2014-09-22
+Maven/Ephemeris/|Spacecraft location data - Jet Propulsion Laboratory (NAIF)
+Maven/Ephemeris/Planetographic|Maven Mars orbit parameters
+Maven/MAG/|Dual tri-axial fluxgate magnetometer - Goddard Spaceflight Center (Jack Connerney)
+Maven/MAG/MagComponents_PC|Magnetic field components in the Mars planetocentric frame
+Maven/MAG/MagComponents_SS|Magnetic field components in the Mars Sun-State frame.
+Maven/NGI/|Neutral Gas and Ion Mass Spectrometer (NGIMS) - Goddard Spaceflight Center (Paul Mahaffy)
+Maven/NGI/IonDensities_all|All ion abundances as a spectrum (Level 2)
+Maven/NGI/IonDensities_selected|Electron density and Selected ion densities as line plots (Level 2)
+Maven/NGI/NeutralDensity|Neutral gas density interpolated to equal pressure altitude (Level 3)
+Van_Allen_Probes/
+Van_Allen_Probes/A/
+Van_Allen_Probes/A/emfisis/
+Van_Allen_Probes/A/emfisis/L2/
+Van_Allen_Probes/A/emfisis/L2/WFR_waveform-continuous-burst_psd
+Van_Allen_Probes/A/ephemerides|VAP-A Earth orbit parameters
+Van_Allen_Probes/B/
+Van_Allen_Probes/B/emfisis/
+Van_Allen_Probes/B/emfisis/L2/
+Van_Allen_Probes/B/emfisis/L2/WFR_waveform-continuous-burst_psd
+Van_Allen_Probes/B/ephemerides|VAP-B Earth orbit parameters
+Van_Allen_Probes/EM2/
+Van_Allen_Probes/EM2/Bmag
+Van_Allen_Probes/EM2/Emag
+Van_Allen_Probes/EM2/HFRspec
+Van_Allen_Probes/test/
+Van_Allen_Probes/test/ephemerides-test-a|VAP-A Earth orbit parameters
+Van_Allen_Probes/test/ephemerides-test-b|VAP-B Earth orbit parameters
+Voyager/|Dual Spacecraft Mission to the Outer Planets, and Beyond
+Voyager/1/|Launch date 1977-09-05, Datasets include Jupiter and Saturn flybys, and crosses the Heliopause
+Voyager/1/PWS/|Plasma Wave System - University of Iowa (Don Gurnett)
+Voyager/1/PWS/SpecAnalyzer-4s-Efield|Electric Field averages and peaks from the Voyager 1 PWS Spectrum Analyzer
+Voyager/1/PWS/Uncalibrated/|Raw PWS instrument values
+Voyager/1/PWS/Uncalibrated/SpecAnalyzer-Distogram
+Voyager/1/PWS/Uncalibrated/SpecAnalyzer-Histogram
+Voyager/2/|Launch date 1977-08-20, Datasets includes Jupiter, Saturn, Uranus, & Neptune Flyby's
+Voyager/2/PWS/|Plasma Wave System - University of Iowa (Don Gurnett)
+Voyager/2/PWS/SpecAnalyzer-4s-Efield|Electric Field averages and peaks from the Voyager 2 PWS Spectrum Analyzer
+Voyager/2/PWS/Uncalibrated/|Raw PWS instrument values
+Voyager/2/PWS/Uncalibrated/SpecAnalyzer-Distogram
+Voyager/2/PWS/Uncalibrated/SpecAnalyzer-Histogram
+juno/
+juno/jedi/
+juno/jedi/electrons_avail|JEDI electron data availability
+juno/jedi/ions_avail|JEDI ion data availability

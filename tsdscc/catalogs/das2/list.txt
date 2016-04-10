@@ -1,0 +1,78 @@
+Juno/|Jupiter polar orbiter - Launch date 2011-08-05
+Juno/Ephemeris/|Spacecraft position - Jet Propulsion Laboratory (NAIF)
+Juno/Ephemeris/Geocentric|Juno Earth orbit parameters
+Juno/Ephemeris/Heliocentric|Juno Solar orbit parameters
+Juno/Ephemeris/Jovicentric|Juno Jupiter orbit parameters
+Juno/FGM/|Fluxgate Magnetometer - Goddard Spaceflight Center (Jack Connerney)
+Juno/FGM/MagComponentsSCSE|Magnetic Field Compontents in Spacecraft Solar Ecliptic Frame
+Juno/JAD/|Jovian Auroral Distribution Experiment - Southwest Research Institute (David McComas)
+Juno/JAD/Electrons_L2|Ion Abundance from JADE Level 2 data
+Juno/JAD/Ions_L2|Ion Abundance from JADE Level 2 data
+Juno/JAD/OmniDirectionalElectronSpec|JADE Omnidirectional Electron data
+Juno/JAD/OmniDirectionalIonSpec|JADE Omnidirectional Ion data
+Juno/JED/|Jovian Energetic Particle Detector Instrument - Johns Hopkins University Applied Physics Laboratory (Barry Mauk)
+Juno/JED/ElectronSpectra|High resolution electron spectra from a single JEDI sensor, defaults to the 180 sensor
+Juno/JED/ElectronSpectra_LowRes|Low resolution electron spectra from a single JEDI sensor, defaults to the 180 sensor
+Juno/JED/IonSpectra|High resolution ion spectra from a single JEDI sensor, defaults to the 180 sensor
+Juno/JED/IonSpectra_LowRes|Low resolution ion spectra from a single JEDI sensor, defaults to the 180 sensor
+Juno/WAV/|Waves: A Radio and Plasma Wave Receiver - University of Iowa (Bill Kurth)
+Juno/WAV/Burst_Waveforms|Burst Mode calibrated directly sampled waveform data
+Juno/WAV/Burst_above_3MHz|Burst mode calibrated spectra from downmixed wavefrom data
+Juno/WAV/Housekeeping|Waves Housekeeping fixed fields
+Juno/WAV/Survey|Survey Mode Electric or Magnetic Spectral Densities
+Juno/WAV/Uncalibrated/|Raw Waves instrument values
+Juno/WAV/Uncalibrated/ADC_instability|A/D reference voltage oscillation - affects Survey data from 3 to 41 MHz
+Juno/WAV/Uncalibrated/Attenuation|Juno Raw Packet Attenuator Settings
+Juno/WAV/Uncalibrated/HFWBR_Hi|Burst Mode 1 MHz Spectra - raw instrument values
+Juno/WAV/Uncalibrated/HRS|Burst Mode Waveforms - raw instrument values
+Juno/WAV/Uncalibrated/HRS_Power|Burst Mode Waveforms - raw instrument values - mean squared amplitudes
+Juno/WAV/Uncalibrated/HRS_Spectra|Burst Mode Spectra - raw instrument values
+Juno/WAV/Uncalibrated/LRS|Survey data - raw instrument values
+Juno/WAV/em/|Ground test data from the engineering model instrument
+Juno/WAV/em/stl/
+Juno/WAV/em/stl/2015_04_03_sasm/
+Juno/WAV/em/stl/2015_04_03_sasm/Uncalibrated/
+Juno/WAV/em/stl/2015_04_03_sasm/Uncalibrated/HFWBR_Hi|Burst Mode 1 MHz Spectra - raw instrument values
+Juno/WAV/em/stl/2015_04_03_sasm/Uncalibrated/HRS|Burst Mode Waveforms - raw instrument values
+Juno/WAV/em/stl/2015_06_18_sbl_r17/
+Juno/WAV/em/stl/2015_06_18_sbl_r17/Housekeeping|Waves Housekeeping fixed fields
+Juno/WAV/em/stl/2015_06_18_sbl_r17/Survey|Survey Mode, Electric or Magnetic Spectral Densities
+Juno/WAV/em/stl/2015_07_02_jx0405b/
+Juno/WAV/em/stl/2015_07_02_jx0405b/Housekeeping|Waves Housekeeping fixed fields
+Juno/WAV/em/stl/2015_07_02_jx0405b/Survey|Survey Mode, Electric or Magnetic Spectral Densities
+Juno/WAV/em/stl/2015_07_02_jx0405b/Uncalibrated/
+Juno/WAV/em/stl/2015_07_02_jx0405b/Uncalibrated/Attenuation|Juno Raw Packet Attenuator Settings
+Juno/WAV/em/stl/2015_07_02_jx0405b/Uncalibrated/HFWBR_Hi|Burst Mode 1 MHz Spectra - raw instrument values
+Juno/WAV/em/stl/2015_07_02_jx0405b/Uncalibrated/HRS|Burst Mode Waveforms - raw instrument values
+Juno/WAV/em/stl/2015_07_02_jx0405b/Uncalibrated/HRS_Power|Burst Mode Waveforms - raw instrument values - mean squared amplitudes
+Juno/WAV/em/stl/2015_07_02_jx0405b/Uncalibrated/LRS|Survey data - raw instrument values
+Juno/WAV/em/stl/2015_09_03_jc055_30hr/
+Juno/WAV/em/stl/2015_09_03_jc055_30hr/Burst_Waveforms|Burst Mode calibrated directly sampled waveform data
+Juno/WAV/em/stl/2015_09_03_jc055_30hr/Burst_above_3MHz|Burst mode calibrated spectra from downmixed wavefrom data
+Juno/WAV/em/stl/2015_09_03_jc055_30hr/Housekeeping|Waves Housekeeping fixed fields
+Juno/WAV/em/stl/2015_09_03_jc055_30hr/Survey|Survey Mode, Electric or Magnetic Spectral Densities
+Juno/WAV/em/stl/2015_10_07_jx1415/
+Juno/WAV/em/stl/2015_10_07_jx1415/Burst_Waveforms|Burst Mode calibrated directly sampled waveform data
+Juno/WAV/em/stl/2015_10_07_jx1415/Burst_above_3MHz|Burst mode calibrated spectra from downmixed wavefrom data
+Juno/WAV/em/stl/2015_10_07_jx1415/Housekeeping|Waves Housekeeping fixed fields
+Juno/WAV/em/stl/2015_10_07_jx1415/Survey|Survey Mode, Electric or Magnetic Spectral Densities
+Juno/WAV/em/stl/2015_10_22_jx1415/
+Juno/WAV/em/stl/2015_10_22_jx1415/Burst_Waveforms|Burst Mode calibrated directly sampled waveform data
+Juno/WAV/em/stl/2015_10_22_jx1415/Burst_above_3MHz|Burst mode calibrated spectra from downmixed wavefrom data
+Juno/WAV/em/stl/2015_10_22_jx1415/Housekeeping|Waves Housekeeping fixed fields
+Juno/WAV/em/stl/2015_10_22_jx1415/Survey|Survey Mode, Electric or Magnetic Spectral Densities
+Juno/WAV/em/stl/2015_11_29_ops0714/
+Juno/WAV/em/stl/2015_11_29_ops0714/Burst_Waveforms|Burst Mode calibrated directly sampled waveform data
+Juno/WAV/em/stl/2015_11_29_ops0714/Burst_above_3MHz|Burst mode calibrated spectra from downmixed wavefrom data
+Juno/WAV/em/stl/2015_11_29_ops0714/Housekeeping|Waves Housekeeping fixed fields
+Juno/WAV/em/stl/2015_11_29_ops0714/Survey|Survey Mode, Electric or Magnetic Spectral Densities
+Juno/WAV/em/stl/2015_12_16_ops0714/
+Juno/WAV/em/stl/2015_12_16_ops0714/Burst_Waveforms|Burst Mode calibrated directly sampled waveform data
+Juno/WAV/em/stl/2015_12_16_ops0714/Burst_above_3MHz|Burst mode calibrated spectra from downmixed wavefrom data
+Juno/WAV/em/stl/2015_12_16_ops0714/Housekeeping|Waves Housekeeping fixed fields
+Juno/WAV/em/stl/2015_12_16_ops0714/Survey|Survey Mode, Electric or Magnetic Spectral Densities
+Juno/WAV/em/stl/2016_01_25_jx0405c/
+Juno/WAV/em/stl/2016_01_25_jx0405c/Burst_Waveforms|Burst Mode calibrated directly sampled waveform data
+Juno/WAV/em/stl/2016_01_25_jx0405c/Burst_above_3MHz|Burst mode calibrated spectra from downmixed wavefrom data
+Juno/WAV/em/stl/2016_01_25_jx0405c/Housekeeping|Waves Housekeeping fixed fields
+Juno/WAV/em/stl/2016_01_25_jx0405c/Survey|Survey Mode, Electric or Magnetic Spectral Densities

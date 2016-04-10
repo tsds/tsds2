@@ -34,12 +34,14 @@ function startdeps(dep, config) {
 			options = {"cwd": depdir}
 
 			str = spawn('make',['-s','stop'], options)
-			if (str.stdout.toString() !== "")
-				console.log(ds() + "autoplot stdout: "
-								 + str.stdout.toString().replace(/\n$/,""))
-			if (str.stderr.toString() !== "") {
-				console.log(str.stderr.length)
-				console.log(ds() + "autoplot stderr: " + str.stderr)
+			if (str) {
+				if (str.stdout.toString() !== "")
+					console.log(ds() + "autoplot stdout: "
+									 + str.stdout.toString().replace(/\n$/,""))
+				if (str.stderr.toString() !== "") {
+					console.log(str.stderr.length)
+					console.log(ds() + "autoplot stderr: " + str.stderr)
+				}
 			}
 		}
 
