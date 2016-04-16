@@ -18,6 +18,8 @@ title      = getParam( 'title', 'def' )
 fills      = getParam( 'fills', '-1e31')
 process    = getParam( 'type', 'timeseriesscoff', 'plot type', ['timeseries','timeseriessc','autocorrelation','histogram','periodogram','spectrogram'] )
 style      = getParam( 'type', '0', 'plot style', ['0','1','2'] )
+test       = getParam( 'test', 0, 'test number, 0 is no test', [0,1] )
+
 if ( title=='def' ):
   title= 'Catalog: ' + catalog + ' | Dataset: ' + dataset
 print 'v20140718_1057'
@@ -30,6 +32,9 @@ stop  = tf.format( drtr.max(), None )
 
 surl = server + "?" + "catalog=" + catalog + "&dataset=" + dataset + "&parameters=" + parameters + "&start=" + start + "&stop=" + stop
 print surl
+
+if ( test==1 ):
+    surl= 'https://raw.githubusercontent.com/tsds/tsds2/gh-pages/tsdsfe/scripts/tsdsfe.txt'
 
 # note the server may provide a valid but html response.
 
