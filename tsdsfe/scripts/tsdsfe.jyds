@@ -2,6 +2,10 @@
 # title: tsds client
 # label: tsds client
 import math
+import java.io.IOException
+import org.virbo.datasource.HtmlResponseIOException
+import java.lang.IllegalArgumentException
+
 tr         = getParam( 'timerange', '1997-08-26/1997-09-05', 'timerange to load' )
 catalog    = getParam( 'catalog', 'SSCWeb', 'catalog' )
 dataset    = getParam( 'dataset', 'ace', 'dataset' )
