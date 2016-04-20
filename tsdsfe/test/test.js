@@ -45,8 +45,9 @@ eval(fs.readFileSync(testfile,'utf8'));
 // TSDS server to use
 var server  = "http://localhost:"+port+"/";	
 
-console.log("--------------------------------------------------------")
-console.log("--------------------------------------------------------")
+console.log("--------------------------------------------------------");
+console.log("test.js: Running tests in " + testfile);
+console.log("--------------------------------------------------------");
 
 var m = 1;
 runtest(0,m);

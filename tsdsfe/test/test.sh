@@ -17,20 +17,24 @@ sleep 3
 rm -rf node_modules/datacache/cache/*
 rm -rf ../cache/*
 
-node test/test.js --testfile test/metadata-tests.js
-
+com="node test/test.js --testfile test/metadata-tests.js"
+echo "test.sh: $com"
+$com
 RESULT=$?
 
-node test/test.js --testfile test/data-tests.js 
-
+com="node test/test.js --testfile test/data-tests.js"
+echo "test.sh: $com"
+$com
 RESULT+=$?
 
-node test/test.js --testfile test/image-tests.js 
-
+com="node test/test.js --testfile test/image-tests.js"
+echo "test.sh: $com"
+$com
 RESULT+=$?
 
-node test/test.js --testfile test/dd-tests.js 
-
+com="node test/test.js --testfile test/dd-tests.js"
+echo "test.sh: $com"
+$com
 RESULT+=$?
 
 kill -s "SIGINT" $PID

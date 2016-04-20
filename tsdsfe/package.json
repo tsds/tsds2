@@ -25,6 +25,6 @@
 		"debug1": "nodemon -e js -w . -w js -w ../../viviz -w ../../datacache tsdsfe.js --debugtoconsole all --checkdeps false --checkservers false",
 		"debug2": "nodemon -e js -w . -w js -w ../../viviz -w ../../datacache tsdsfe.js --debugtoconsole all --startdeps false",
 		"preinstall": "npm install nodemon; cd deps; make bin/pngquant; cd ../../autoplot/; make install; make stop; make start",
-		"test": "bash test/test.sh  2>&1 | tee test/test.log"
+		"test": "bash test/test.sh 2>&1 | tee test/test.log"
 	}
 }
