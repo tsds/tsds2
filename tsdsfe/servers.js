@@ -68,7 +68,10 @@ function tests(config, server) {
 			"SSCWeb":
 			{
 				"check": function (body) {
-							if (!body) return false
+							if (!body) {
+								console.log("Response has empty body");
+								return false;
+							}
 							return body.length == 3960
 						},
 				"type": "server",
@@ -79,18 +82,28 @@ function tests(config, server) {
 			"CDAWeb":
 			{
 				"check": function (body) {
-							if (!body) return false
-							return body.length == 534600
+							if (!body) {
+								console.log("Response has empty body");
+								return false;
+							}
+
+							if (body.length == 49772) {
+								return true;
+							} else {
+								console.log("Expected body.length == 49972.  Got " + body.length)
+								return false;
+							}
 						},
 				"type": "server",
 				"interval": 60000,
 				"respectHeaders": false,
-				"url": config.TSDSFE + "?catalog=CDAWeb&dataset=AC_H0_MFI&parameters=Magnitude&start=-P3D&stop=2014-08-13&return=data&usedatacache=false&istest=true"
+				"url": config.TSDSFE + "?catalog=CDAWeb&dataset=AC_H1_MFI&parameters=Magnitude&start=-P3D&stop=2014-08-13&return=data&usedatacache=false&istest=true"
 			},
 			"IMAGE/PT1M":
 			{
 				"check": function (body) {
 							if (!body) return false
+
 							return body.length == 142560
 						},
 				"type": "server",
@@ -181,7 +194,7 @@ function checkservers(config, server) {
 					console.log(ds()
 						+ "Next test in "
 						+ checkservers.status[server]["checkperiod"]
-						+ " ms.  Only success will be reported.")
+						+ " ms..")
 				}
 				checkservers.status[server]["state"] = false;
 				checkservers.status[server]["message"] = "Connection to " + server + " server has failed."
@@ -189,7 +202,7 @@ function checkservers(config, server) {
 				return
 			}
 
-			var ok = TESTS[server]["check"](depsbody,depsres.headers)
+			var ok = TESTS[server]["check"](depsbody, depsres.headers)
 			if (depsres.statusCode != 200 || !ok) {
 				var msg = ""
 				if (depsres.statusCode != "200") {
@@ -207,7 +220,7 @@ function checkservers(config, server) {
 				console.log(ds() + "Problem with " + server + ": " + msg)
 				console.log("\tTest URL: " + TESTS[server]["url"])
 				console.log(ds() 
-							+ "Next test in " 
+							+ "Next test on " + server + " in " 
 							+ checkservers.status[server]["checkperiod"] 
 							+ " ms.")
 				//if (checkservers.status[server]["state"]) {
