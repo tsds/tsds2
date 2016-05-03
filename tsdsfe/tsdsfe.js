@@ -371,7 +371,7 @@ if (develdatacache || develtsdset || develtsdsdd || develviviz) {
 }
 if (develdatacache) {msg = msg + " datacache"}
 if (develtsdset) {msg = msg + " tsdset"}
-if (develtsdset) {msg = msg + " tsdsdd"}
+if (develtsdsdd) {msg = msg + " tsdsdd"}
 if (develviviz) {msg = msg + " viviz"}
 if (msg !== "") {console.log(ds() + "Note: " + clc.blue(msg))}
 
