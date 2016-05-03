@@ -47,7 +47,7 @@ function createtsml (list) {
 	root.catalog["$"] = {};
 	root.catalog["$"]["xmlns:xlink"] = "http://www.w3.org/1999/xlink";
 	root.catalog["$"]["id"]          = "IMAGE/"+cadence;
-	root.catalog["$"]["name"]        = "IMAGE magnetometer data at " + cadencestr1 + " cadence";
+	root.catalog["$"]["name"]        = "IMAGE magnetometer chain data at " + cadencestr1 + " cadence";
 
 	root.catalog["documentation"] = [];
 	root.catalog["documentation"][0] = {};

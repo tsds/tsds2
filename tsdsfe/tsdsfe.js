@@ -407,7 +407,7 @@ function handleRequest(req, res, options) {
 	//res.header('Access-Control-Allow-Headers', 'Content-Type');
 
 	if (!options) {
-		var options = parseOptions(req, res)
+		var options = parseOptions(req, res);
 	}
 
 	if (options.dd !== "") {
@@ -415,8 +415,10 @@ function handleRequest(req, res, options) {
 		expandDD(decodeURIComponent(options.dd), function (err, cat) {
 			var ddfile = crypto
 							.createHash("md5")
-							.update(decodeURIComponent(options.dd)).digest("hex")
-			log.logres("Writing " + "catalogs/dd/" + ddfile + ".json", options, "app")
+							.update(decodeURIComponent(options.dd))
+							.digest("hex")
+			log.logres("Writing " + "catalogs/dd/" + ddfile + ".json",
+						 options, "app")
 			// TODO: Proper thread-safe caching.
 			if (fs.existsSync("catalogs/dd/" + ddfile + ".json")) {
 				var data = fs.readFileSync("catalogs/dd/" + ddfile + ".json");
@@ -433,7 +435,7 @@ function handleRequest(req, res, options) {
 						options.cataloglist = "-";
 						options.dd = "";
 						req.query.usemetadatacache = "true";
-						log.logres("Calling handleRequest()", options, "app")
+						log.logres("Calling handleRequest()", options, "app");
 						handleRequest(req, res, options);
 					}
 				)
@@ -442,13 +444,22 @@ function handleRequest(req, res, options) {
 		return;
 	}
 
-	res.opts = JSON.parse(JSON.stringify(options))
+	// Copy options
+	res.opts = JSON.parse(JSON.stringify(options));
 
-	log.logapp(res.opts.ip + " " + req.originalUrl, config)
+	if (typeof(res.opts) === "undefined") {
+		// TODO: Implement this.
+		log.logres("Error parsing options.  Sent 502.", res.opts)
+		return
+	}
 
 	// Set log file name as response header
-	res.header('x-tsdsfe-log', res.opts.logsig)
+	res.header('x-tsdsfe-log', res.opts.logsig);
 
+	// Log original URL to application log file.
+	log.logapp(res.opts.ip + " " + req.originalUrl, config);
+
+	// Log request information to response log file.
 	log.logres("Configuration file = " 
 				+ JSON.stringify(config.CONFIGFILE), res.opts)
 	log.logres("req.headers = "
@@ -460,12 +471,6 @@ function handleRequest(req, res, options) {
 	log.logres("req.originalUrl = " 
 				+ JSON.stringify(req.originalUrl), res.opts)
 	log.logres("options = " + JSON.stringify(options), res.opts)
-
-	if (typeof(res.opts) === "undefined") {
-		// TODO: Implement this.
-		log.logres("Error parsing options.  Sent 502.", res.opts)
-		return
-	}
 
 	if (res.opts.return === "log") {
 		console.log(res.opts)
@@ -626,7 +631,7 @@ function handleRequest(req, res, options) {
 		} 
 
 		if (res.opts.cataloglist === "-") {
-			finish(config["TSDSFE"] + "catalogs/dd/" + options.catalog + ".json")
+			finish(config["TSDSFE"] + "/catalogs/dd/" + options.catalog + ".json")
 		} else {
 			// Get list of all catalogs and their URLs
 			url = config["TSDSFE"] 
@@ -814,7 +819,7 @@ function handleRequest(req, res, options) {
 
 			// If data was not a URL, send it.
 			if (!data.match(/^http/)) {
-				log.logres("Sending " + data, res.opts, "stream")
+				//log.logres("Sending " + data, res.opts, "stream")
 				res.write(data)
 				
 				res.Nc = res.Nc + 1
@@ -1016,8 +1021,6 @@ function handleRequest(req, res, options) {
 			}
 
 			// Request data from URL.
-			var urldata = "";
-
 			var sreq = http.get(data, function (res0) {
 
 				log.logres("Headers from request: " 
@@ -1055,33 +1058,11 @@ function handleRequest(req, res, options) {
 						res.setHeader('Expires',res0.headers["expires"])
 					}
 
-					// Use res.dd to create HDPE API header here.
-					
-					// TODO: Need to loop over 
-					if (options.style === "header") {
-						//console.log(options)
-						//console.log(res.dd)
-						var varstr = ""
-						for (var j = 0;j < res.dd.length; j++) {
-							var varstr = varstr + res.dd[j].columnIDs + "[" + res.dd[j].columnUnits + "] ";
-						}
-						if (options.format === "ascii-0") {
-							var tmpstr = res.dd[0].timeFormat
-											.replace("%Y", " Year").replace("$Y", " Year")
-											.replace("%m", " Month").replace("$m", " Month")
-											.replace("%d", " Day").replace("$d", " Day")
-											.replace("%H", " Hour").replace("$H", " Hour")
-											.replace("%M", " Minute").replace("$M", " Minute")
-											.replace("%S", " Second").replace("$S", " Second")
-
-							res.write(tmpstr.replace(/^ /,"") + " " + varstr + "\n")
-						} 
-						if (options.format === "ascii-1") {
-							res.write("Time" + " " + varstr + "\n")
-						} 
-						if (options.format === "ascii-2") {
-							res.write("Year Month Day Hour Minute Second" + " " + varstr + "\n")
-						} 
+					if (options.style === "header-0") {
+							res.write(res["header-0"])
+					}
+					if (options.style === "header-1") {
+							res.write(res["header-1"])
 					}
 
 				}
@@ -1311,7 +1292,6 @@ function parseOptions(req, res) {
 							+ "&row="   + encodeURIComponent("0%+2em,100%-4em")
 							+ "&width=" + options.image.width
 							+ "&height="+ options.image.height
-
 	}
 	if ((options.return === "image") && (options.style === "1")) {
 		options.image.width   = options.image.width  || "800"
@@ -1353,9 +1333,11 @@ function parseOptions(req, res) {
 							+ "&width="+options.image.width
 							+ "&height="+options.image.height
 	}
-
 	if ((options.return === "image") && (options.format === "")) {
 		options.format = "png";
+	}
+	if ((options.return === "metadata") && (options.format === "")) {
+		options.format = "header-1";
 	}
 	if ((options.return === "data") && (options.format === "")) {
 		options.format = "ascii-1";
@@ -1776,6 +1758,8 @@ function catalog(res, cb) {
 // (Will call stream() if only dataset information was requested.)
 function dataset(catalogs, res, cb) {
 
+	// catalogs is a list of catalog ids for all datasets in matched catalogs.
+
 	if (catalogs.length == 0) {
 		cb(200, "[]", res)
 		return
@@ -1789,26 +1773,30 @@ function dataset(catalogs, res, cb) {
 
 	// Loop over each catalog
 	for (var i = 0; i < catalogs.length; i++) {
+		//console.log("Getting " + catalogs[i].href)
 		getandparse(catalogs[i].href, res, afterparse);
 	}
 
 	function afterparse(result) {
 
+		// Extract catalog information.
+
 		if (typeof(afterparse.j) === "undefined") {afterparse.j = 0}
 
-		// TODO: Deal with case of result === "",
-		// which means getandparse() failed.
+		// TODO: Deal with case of result === "", which means getandparse() failed.
 		afterparse.j = afterparse.j+1
 
 		if (typeof(result) === "string") {
-			console.log("Variable returned is string?!  Try parsing again ...")
+			console.log("Variable returned is string?!  Try parsing again ...");
 			result = JSON.parse(result)
 		}
 
 		var parent = result["catalog"]["$"]["id"] || result["catalog"]["$"]["ID"]
 
 		var tmparr = result["catalog"]["dataset"]
-		datasets = datasets.concat(tmparr)
+		datasets = datasets.concat(tmparr);
+
+		// Case where timeCoverage node applies to all datasets in catalog.
 		if (result["catalog"]["timeCoverage"]) {
 			var Start = result["catalog"]["timeCoverage"][0]["Start"]
 			if (Start)
@@ -1817,7 +1805,13 @@ function dataset(catalogs, res, cb) {
 			if (End)
 				End = End[0]
 		}
+        
+        var tmpcat = {};
+        tmpcat["$"] = result["catalog"]["$"]
+        tmpcat.timeCoverage = result["catalog"]["documentation"]
+        tmpcat.documentation = result["catalog"]["timeCoverage"]
 
+		// Copy the parent node so that each dataset has a parent.
 		while (parents.length < datasets.length) {
 		    parents = parents.concat(parent)
 		}
@@ -1859,11 +1853,11 @@ function dataset(catalogs, res, cb) {
 					}
 					datasets[i]["timeCoverage"][0]["End"] = [End]
 				}
+				datasets[i].catalog = tmpcat
 
 				dresp[i]         = {}
 				dresp[i].value   = datasets[i]["$"]["id"] || datasets[i]["$"]["ID"]
 				dresp[i].label   = datasets[i]["$"]["label"] || datasets[i]["$"]["name"] || dresp[i].value
-				dresp[i].catalog = parents[i]
 
 				if (res.opts.dataset !== "^.*") {	
 					if (res.opts.dataset.substring(0,1) === "^") {
@@ -1882,9 +1876,10 @@ function dataset(catalogs, res, cb) {
 				}
 			}
 
-			//console.log(dresp)
+			dresp = dresp.filter(function(n){return n;}); // Needed?
+			// If no parameters specified.
 			if (res.opts.parameters === "" && !(res.opts.groups === "^.*")) {
-				dresp = dresp.filter(function(n){return n;}); // Needed?
+
 				if (dresp.length == 1 && res.opts.dataset.substring(0,1) !== "^") {
 					if (typeof(datasets[z]["documentation"]) !== "undefined") {
 						for (var k = 0; k < datasets[z]["documentation"].length;k++) {
@@ -1912,7 +1907,7 @@ function dataset(catalogs, res, cb) {
 					// TODO: Do the following using getandparse().  Document how it works.
 					//console.log(datasets[z])
 					var filecite = __dirname + "/" + catalogs[afterparse.j-1].href.replace(config.TSDSFE,"").replace(/\.xml|\.json/,'.cite')
-					console.log("---" + filecite)
+					//console.log("---" + filecite)
 					if (fs.existsSync(filecite)) {
 						var text = fs.readFileSync(filecite)
 									 .toString()
@@ -1929,19 +1924,23 @@ function dataset(catalogs, res, cb) {
 					cb(200, dresp, res)
 				}
 			} else {
-				parameter(parents, datasets.filter(function(n){return n}), res, cb)
+				parameter(datasets.filter(function(n){return n}), res, cb)
 			}						
 		}
 	}
 }
 
-function parameter(catalogs, datasets, res, cb) {
+function parameter(datasets, res, cb) {
+
+	//console.log(datasets)
 
 	log.logres("Called.", res.opts)
 
 	if (res.opts.groups === "^.*") {
 		res.opts.parameters = "^.*";
 	}
+
+	//res.datasets = datasets;
 
 	var parameterlist = [];
 	var parameters = [];
@@ -1973,17 +1972,14 @@ function parameter(catalogs, datasets, res, cb) {
 			} else {
 				parent.cadence = "";				
 			}
-
 		}
 
-		var cat = catalogs[i];
+		parent.catalog = datasets[i]["catalog"]
 		while (parents.length < parameters.length) {
 			parents.push(parent)
-			cats.push(cat);
 		}
 	}						
 
-	//console.log(datasets)
 	//console.log(parameters)
 	//console.log(res.opts.parameters)
 	var parametersa = res.opts.parameters.split(",")
@@ -2004,10 +2000,12 @@ function parameter(catalogs, datasets, res, cb) {
 
 		resp[i]            = {};
 		resp[i].value      = id;
-		resp[i].catalog    = cats[i];
+		resp[i].catalog    = parents[i]["catalog"]["$"]["id"]
 		resp[i].dataset    = parents[i]["id"] || parents[i]["ID"];
 		resp[i].parameters = id;
 		resp[i].dd         = parameters[i]["$"];
+		resp[i].cataloginfo = parents[i]["catalog"]
+		resp[i].datasetinfo = parents[i];
 
 		//console.log(parents)
 		if (!('urltemplate' in resp[i].dd))  {resp[i].dd.urltemplate = parents[i]["urltemplate"] || ""}
@@ -2419,6 +2417,7 @@ function parameter(catalogs, datasets, res, cb) {
 		return
 	}
 
+	// Form JSON DD
 	ddresp = [];
 	for (var z = 0;z < resp.length; z++) {
 		//ddresp[z] = resp[z].dd;
@@ -2439,11 +2438,22 @@ function parameter(catalogs, datasets, res, cb) {
 		if (resp[z].dd.rendering) {
 			ddresp[z].columnRenderings = resp[z].dd.rendering;
 		}
-		ddresp[z].start = resp[z].dd.start;
-		ddresp[z].stop  = resp[z].dd.stop;
+
+		ddresp[z].catalog = resp[z].catalog;
+		ddresp[z].dataset = resp[z].dataset;
+
+		if (res.opts.start !== '') {
+			ddresp[z].start = start;
+		} else {
+			ddresp[z].start = resp[z].dd.start;
+		}
+		if (res.opts.stop !== '') {
+			ddresp[z].stop = stop;			
+		} else {
+			ddresp[z].stop = resp[z].dd.stop;
+		}
 
 		//ddresp[z].urltemplate = "";
-
 		//console.log(resp[z].dd)
 
 		if (res.opts.format === "ascii-0") {
@@ -2469,20 +2479,34 @@ function parameter(catalogs, datasets, res, cb) {
 			ddresp[z].timeColumns = "1-6";
 		}
 	}
+	res.dd = ddresp
 
 	if (res.opts.return === "dd") {
-		console.log(ddresp)	
 		cb(200, ddresp, res)
 		return
+	}
+
+	res = headers(res, resp);
+
+	if (res.opts.return === "header-0") {
+		cb(200, res["header-0"], res)
+		return;
+	}
+
+	if (res.opts.return === "header-1") {
+		cb(200, res["header-1"], res);
+		return;
 	}
 	
 	if ((res.opts.return === "data") || (res.opts.return === "redirect")) {				 
 		var formatv = res.opts.format.split("-")
+		console.log(formatv)
 		if (formatv.length < 2) {
 			var format = 1
 		} else {
 			var format = formatv[1]
 		}
+		console.log(format)
 
 		dc = dc
 				+"&return=stream"
@@ -2510,10 +2534,78 @@ function parameter(catalogs, datasets, res, cb) {
 			cb(302,dc,res);
 			return;
 		}
-		res.dd = ddresp
+		//console.log(res.opts)
+		//console.log(resp)
+	
+		//console.log(ddresp)	
+
 		cb(0,dc,res)
 		return;
 	}
 
 	cb(500, "Query parameter return=" + res.opts.return + " not recognized.", res)
+}
+
+function headers(res, resp) {
+
+	var header0 = "";
+	var delim = ",";
+	for (var j = 0;j < res.dd.length; j++) {
+		if (j == res.dd.length-1) {delim = ""}
+		var header0 = header0 + res.dd[j].columnIDs + " [" + res.dd[j].columnUnits + "]" + delim;
+	}
+	if (res.opts.format === "ascii-0") {
+		var tmpstr = res.dd[0].timeFormat
+						.replace(/,/g,"")
+						.replace("%Y", " Year").replace("$Y", " Year")
+						.replace("%m", " Month").replace("$m", " Month")
+						.replace("%d", " Day").replace("$d", " Day")
+						.replace("%H", " Hour").replace("$H", " Hour")
+						.replace("%M", " Minute").replace("$M", " Minute")
+						.replace("%S", " Second").replace("$S", " Second")
+
+		header0 = tmpstr.replace(/^ /,"") + " " + header0 + "\n";
+	} 
+	if (res.opts.format === "ascii-1" || res.opts.format === '') {
+		header0 = "Time" + "," + header0 + "\n"
+	} 
+	if (res.opts.format === "ascii-2") {
+		header0 = "Year Month Day Hour Minute Second" + " " + header0 + "\n";
+	} 
+	res["header-0"] = header0;
+
+
+	console.log(resp[0])
+
+	var FieldNames = resp[0].dd.id;
+	var FieldUnits = resp[0].dd.units;
+	var FieldNulls = resp[0].dd.fillvalue;
+	var FieldTypes = "double"
+	for (var j = 1;j < resp.length; j++) {
+		FieldNames = FieldNames + "," + resp[j].dd.id;
+		FieldUnits = FieldUnits + "," + resp[j].dd.units;
+		FieldTypes = FieldTypes + "," + "double";
+		FieldNulls = FieldNulls + "," + resp[j].dd.fillvalue;
+	}
+
+	var header1 = "";
+	header1 = 
+			{
+				"ListTitle": resp[0].datasetinfo.label || resp[0].datasetinfo.name,
+				"ListID": resp[0].catalog + "/" + resp[0].datasetinfo.id,
+				"FirstDate": res.dd[0].start,
+				"LastDate": res.dd[0].stop,
+				"FieldNames": FieldNames,
+				"FieldUnits": FieldUnits,
+				"FieldNulls": FieldNulls,
+				"FieldTypes": FieldTypes,
+		 		"Description": resp[0].cataloginfo["$"]["label"] || resp[0].cataloginfo["$"]["name"] || ""
+		 	}
+    header1s = ""
+	for (key in header1) {
+		header1s += key + ":" + header1[key] + "\n";
+	}
+	res["header-1"] = header1s + "#" + header0;
+
+	return res;	
 }
