@@ -179,7 +179,7 @@ tests[i].test = function (data) {
 
 i = i+1;
 tests[i] = {};
-tests[i].url = "catalog=IMAGE/PT1M&dataset=ABK&parameters=X,Y&start=-P3D&stop=2014-09-30&return=data&format=ascii-1&style=header";
+tests[i].url = "catalog=IMAGE/PT1M&dataset=ABK&parameters=X,Y&start=-P3D&stop=2014-09-30&return=data&format=ascii-1&style=header-0";
 tests[i].test = function (data) {
 
 					dataa = data.toString().split("\n")

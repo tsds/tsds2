@@ -1058,31 +1058,11 @@ function handleRequest(req, res, options) {
 						res.setHeader('Expires',res0.headers["expires"])
 					}
 
-					// Use res.dd to create HDPE API header here.
-					if (options.style === "header") {
-						var varstr = ""
-						for (var j = 0;j < res.dd.length; j++) {
-							var varstr = varstr + res.dd[j].columnIDs + "[" + res.dd[j].columnUnits + "] ";
-						}
-						if (options.format === "ascii-0") {
-							var tmpstr = res.dd[0].timeFormat
-											.replace("%Y", " Year").replace("$Y", " Year")
-											.replace("%m", " Month").replace("$m", " Month")
-											.replace("%d", " Day").replace("$d", " Day")
-											.replace("%H", " Hour").replace("$H", " Hour")
-											.replace("%M", " Minute").replace("$M", " Minute")
-											.replace("%S", " Second").replace("$S", " Second")
-
-
-
-							res.write(tmpstr.replace(/^ /,"") + " " + varstr + "\n")
-						} 
-						if (options.format === "ascii-1") {
-							res.write("Time" + " " + varstr + "\n")
-						} 
-						if (options.format === "ascii-2") {
-							res.write("Year Month Day Hour Minute Second" + " " + varstr + "\n")
-						} 
+					if (options.style === "header-0") {
+							res.write(res["header-0"])
+					}
+					if (options.style === "header-1") {
+							res.write(res["header-1"])
 					}
 
 				}
@@ -1355,6 +1335,9 @@ function parseOptions(req, res) {
 	}
 	if ((options.return === "image") && (options.format === "")) {
 		options.format = "png";
+	}
+	if ((options.return === "metadata") && (options.format === "")) {
+		options.format = "header-1";
 	}
 	if ((options.return === "data") && (options.format === "")) {
 		options.format = "ascii-1";
@@ -1957,7 +1940,7 @@ function parameter(datasets, res, cb) {
 		res.opts.parameters = "^.*";
 	}
 
-	res.datasets = datasets;
+	//res.datasets = datasets;
 
 	var parameterlist = [];
 	var parameters = [];
@@ -2503,78 +2486,27 @@ function parameter(datasets, res, cb) {
 		return
 	}
 
-	var header0 = "";
-	for (var j = 0;j < res.dd.length; j++) {
-		var header0 = header0 + res.dd[j].columnIDs + "[" + res.dd[j].columnUnits + "] ";
-	}
-	if (res.opts.format === "ascii-0") {
-		var tmpstr = res.dd[0].timeFormat
-						.replace("%Y", " Year").replace("$Y", " Year")
-						.replace("%m", " Month").replace("$m", " Month")
-						.replace("%d", " Day").replace("$d", " Day")
-						.replace("%H", " Hour").replace("$H", " Hour")
-						.replace("%M", " Minute").replace("$M", " Minute")
-						.replace("%S", " Second").replace("$S", " Second")
-
-		header0 = tmpstr.replace(/^ /,"") + " " + header0 + "\n";
-	} 
-	if (res.opts.format === "ascii-1" || res.opts.format === '') {
-		header0 = "Time" + " " + header0 + "\n"
-	} 
-	if (res.opts.format === "ascii-2") {
-		header0 = "Year Month Day Hour Minute Second" + " " + header0 + "\n";
-	} 
-	res["header-0"] = header0;
-
+	res = headers(res, resp);
 
 	if (res.opts.return === "header-0") {
-		cb(200, header0, res)
+		cb(200, res["header-0"], res)
 		return;
 	}
+
 	if (res.opts.return === "header-1") {
-		console.log(resp[0])
-
-		var FieldNames = resp[0].dd.id;
-		var FieldUnits = resp[0].dd.units;
-		var FieldNulls = resp[0].dd.fillvalue;
-		var FieldTypes = "double"
-		for (var j = 1;j < resp.length; j++) {
-			FieldNames = FieldNames + "," + resp[j].dd.id;
-			FieldUnits = FieldUnits + "," + resp[j].dd.units;
-			FieldTypes = FieldTypes + "," + "double";
-			FieldNulls = FieldNulls + "," + resp[j].dd.fillvalue;
-		}
-
-		var header1 = "";
-		header1 = 
-				{
-					"ListTitle": resp[0].datasetinfo.label || resp[0].datasetinfo.name,
-					"ListID": resp[0].catalog + "/" + resp[0].datasetinfo.id,
-					"FirstDate": res.dd[0].start,
-					"LastDate": res.dd[0].stop,
-					"FieldNames": FieldNames,
-					"FieldUnits": FieldUnits,
-					"FieldNulls": FieldNulls,
-					"FieldTypes": FieldTypes,
-			 		"Description": resp[0].cataloginfo["$"]["label"] || resp[0].cataloginfo["$"]["name"] || ""
-			 	}
-	    header1s = ""
-		for (key in header1) {
-			header1s += key + ": " + header1[key] + "\n";
-		}
-		res["header-1"] = header1s;
-
-		cb(200, header1s, res);
+		cb(200, res["header-1"], res);
 		return;
 	}
 	
 	if ((res.opts.return === "data") || (res.opts.return === "redirect")) {				 
 		var formatv = res.opts.format.split("-")
+		console.log(formatv)
 		if (formatv.length < 2) {
 			var format = 1
 		} else {
 			var format = formatv[1]
 		}
+		console.log(format)
 
 		dc = dc
 				+"&return=stream"
@@ -2612,4 +2544,66 @@ function parameter(datasets, res, cb) {
 	}
 
 	cb(500, "Query parameter return=" + res.opts.return + " not recognized.", res)
+}
+
+function headers(res, resp) {
+
+	var header0 = "";
+	for (var j = 0;j < res.dd.length; j++) {
+		var header0 = header0 + res.dd[j].columnIDs + "[" + res.dd[j].columnUnits + "] ";
+	}
+	if (res.opts.format === "ascii-0") {
+		var tmpstr = res.dd[0].timeFormat
+						.replace(/,/g,"")
+						.replace("%Y", " Year").replace("$Y", " Year")
+						.replace("%m", " Month").replace("$m", " Month")
+						.replace("%d", " Day").replace("$d", " Day")
+						.replace("%H", " Hour").replace("$H", " Hour")
+						.replace("%M", " Minute").replace("$M", " Minute")
+						.replace("%S", " Second").replace("$S", " Second")
+
+		header0 = tmpstr.replace(/^ /,"") + " " + header0 + "\n";
+	} 
+	if (res.opts.format === "ascii-1" || res.opts.format === '') {
+		header0 = "Time" + " " + header0 + "\n"
+	} 
+	if (res.opts.format === "ascii-2") {
+		header0 = "Year Month Day Hour Minute Second" + " " + header0 + "\n";
+	} 
+	res["header-0"] = header0;
+
+
+	console.log(resp[0])
+
+	var FieldNames = resp[0].dd.id;
+	var FieldUnits = resp[0].dd.units;
+	var FieldNulls = resp[0].dd.fillvalue;
+	var FieldTypes = "double"
+	for (var j = 1;j < resp.length; j++) {
+		FieldNames = FieldNames + "," + resp[j].dd.id;
+		FieldUnits = FieldUnits + "," + resp[j].dd.units;
+		FieldTypes = FieldTypes + "," + "double";
+		FieldNulls = FieldNulls + "," + resp[j].dd.fillvalue;
+	}
+
+	var header1 = "";
+	header1 = 
+			{
+				"ListTitle": resp[0].datasetinfo.label || resp[0].datasetinfo.name,
+				"ListID": resp[0].catalog + "/" + resp[0].datasetinfo.id,
+				"FirstDate": res.dd[0].start,
+				"LastDate": res.dd[0].stop,
+				"FieldNames": FieldNames,
+				"FieldUnits": FieldUnits,
+				"FieldNulls": FieldNulls,
+				"FieldTypes": FieldTypes,
+		 		"Description": resp[0].cataloginfo["$"]["label"] || resp[0].cataloginfo["$"]["name"] || ""
+		 	}
+    header1s = ""
+	for (key in header1) {
+		header1s += key + ": " + header1[key] + "\n";
+	}
+	res["header-1"] = header1s + "#" + header0;
+
+	return res;	
 }
