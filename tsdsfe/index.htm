@@ -984,11 +984,10 @@
 			function style() {
 				style.onselect = function () {
 					dorequest();
-
 				}
 				var values = [];
 				if (selected("return") === "image") {
-				values = 
+					values = 
 							[
 								{label:"None/Black/Blue", value:"0", selected:true},
 								{label:"Black/Yellow/Yellow", value:"1"},
@@ -998,8 +997,9 @@
 				if (selected("return") === "data") {
 					values = 
 							[
-								{label:"noheader", value:"noheader", selected:true},
-								{label:"header", value:"header"}
+								{label:"No Header", value:"noheader", selected:true},
+								{label:"Column Labels", value:"header-0"},
+								{label:"HPDE", value:"header-1"}
 							];				
 				}
 				return values;
@@ -1345,7 +1345,8 @@
 				<b>Style options</b>:
 				<ul>
 					<li>noheader (default): No header line.</li>
-					<li>header: First line contains parameter name and units (if available).</li>
+					<li>header-0: First line contains parameter name and units (if available).</li>
+					<li>header-1: <a href="http://tsds.org/wiki/images/Plain-Text-Data-Format-Specification-v1.docx">Plain Text Data Format header</a></li>
 				</ul>
 			</div>			
 			<div id="typeinfoimage" style="display:none;width:95%">

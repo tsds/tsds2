@@ -2549,8 +2549,10 @@ function parameter(datasets, res, cb) {
 function headers(res, resp) {
 
 	var header0 = "";
+	var delim = ",";
 	for (var j = 0;j < res.dd.length; j++) {
-		var header0 = header0 + res.dd[j].columnIDs + "[" + res.dd[j].columnUnits + "] ";
+		if (j == res.dd.length-1) {delim = ""}
+		var header0 = header0 + res.dd[j].columnIDs + " [" + res.dd[j].columnUnits + "]" + delim;
 	}
 	if (res.opts.format === "ascii-0") {
 		var tmpstr = res.dd[0].timeFormat
@@ -2565,7 +2567,7 @@ function headers(res, resp) {
 		header0 = tmpstr.replace(/^ /,"") + " " + header0 + "\n";
 	} 
 	if (res.opts.format === "ascii-1" || res.opts.format === '') {
-		header0 = "Time" + " " + header0 + "\n"
+		header0 = "Time" + "," + header0 + "\n"
 	} 
 	if (res.opts.format === "ascii-2") {
 		header0 = "Year Month Day Hour Minute Second" + " " + header0 + "\n";
@@ -2601,7 +2603,7 @@ function headers(res, resp) {
 		 	}
     header1s = ""
 	for (key in header1) {
-		header1s += key + ": " + header1[key] + "\n";
+		header1s += key + ":" + header1[key] + "\n";
 	}
 	res["header-1"] = header1s + "#" + header0;
 
