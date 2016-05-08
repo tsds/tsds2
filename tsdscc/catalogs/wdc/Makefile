@@ -12,9 +12,14 @@ all:
 mirror:
 	cd $(DIR); wget -m ftp://ftp.nmh.ac.uk/wdc/obsdata/
 
-# Deal with problem file
+# Deal with problem zip file that expands to
+# data/anon_ftp/wdc/obsdata/1minval/1996/liv9612m.wdc
 fix:
-	cd $(DIR)/ftp.nmh.ac.uk/wdc/obsdata/1minval/1996/; unzip liv1996m.zip; rm -rf data/; rm -f liv1996m.zip; zip -r liv1996m.zip liv9612m.wdc; rm liv9612m.wdc
+	cd $(DIR)/ftp.nmh.ac.uk/wdc/obsdata/1minval/1996/; unzip liv1996m.zip; 
+	cd $(DIR)/ftp.nmh.ac.uk/wdc/obsdata/1minval/1996/; mv data/anon_ftp/wdc/obsdata/1minval/1996/liv9612m.wdc .
+	cd $(DIR)/ftp.nmh.ac.uk/wdc/obsdata/1minval/1996/; rm -rf data/;
+	cd $(DIR)/ftp.nmh.ac.uk/wdc/obsdata/1minval/1996/; rm -f liv1996m.zip; zip -r liv1996m.zip liv9612m.wdc; 
+	cd $(DIR)/ftp.nmh.ac.uk/wdc/obsdata/1minval/1996/; rm liv9612m.wdc
 
 metadata:
 	node metadata.js
