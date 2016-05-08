@@ -4,7 +4,7 @@
 	<documentation xlink:href="/" xlink:title="Catalog generation date: "/>
 	<documentation xlink:href="https://github.com/rweigel/datacache/blob/master/plugins/supermag.js" xlink:title="DataCache plug-in"/>
 
-	<dataset name="" id="" timecolumns="1,2,3,4,5,6" timeformat="$Y,$m,$d,$H,$M,$S" urlprocessor="supermag" urltemplate="http://supermag.jhuapl.edu/mag/lib/services/%3Fservice=mag%26user=tsds2%26start=$Y-$m-$dT00:00:00.000Z%26interval=23%3A59%26stations=$ID%26delta=none%26baseline=all%26format=ascii%26options=%2Bimfgsm%2Bsza">
+	<dataset name="" id="" timecolumns="1,2,3,4,5,6" timeformat="$Y,$m,$d,$H,$M,$S" urlprocessor="supermag" urltemplate="http://supermag.jhuapl.edu/mag/lib/services/%3Fservice=mag%26user=tsds2%26start=$Y-$m-$dT00:00:00.000Z%26interval=23%3A59%26stations=$ID%26delta=none%26baseline=none%26options%3D%2Bmlt%2Bsza%2Bdecl%26format%3Dascii">
 
 		<documentation xlink:href="http://supermag.jhuapl.edu/mag/?tab=description" xlink:title="Coordinate system information"/>
 		<documentation xlink:href="http://supermag.jhuapl.edu/info/?page=rulesoftheroad" xlink:title="Acknowledging SuperMAG's data providers"/>
@@ -21,7 +21,10 @@
 			<variable id="B_N" name="B North GEO" label="B North GEO" units="nT" type="scalar" fillvalue="999999" rendering="%.1f" columns="8"/>
 			<variable id="B_E" name="B East GEO" label="B East GEO" units="nT" type="scalar" fillvalue="999999" rendering="%.1f" columns="9"/>
 			<variable id="B_Z" name="B Vertical GEO" label="B Vertical GEO" units="nT" type="scalar" fillvalue="999999" rendering="%.1f" columns="10"/>
-			<variable id="SZA" name="Solar Zenith Angle" label="Solar Zenith Angle" units="deg" type="scalar" fillvalue="999999" rendering="%.2f" columns="11"/>
+			<variable id="MLT" name="Magnetic Local Time" label="Magnetic Local Time (0-24)" units="" type="scalar" fillvalue="999999" rendering="%.1f" columns="11"/>
+			<variable id="MLAT" name="Magnetic Latitude" label="Magnetic Latitude" units="" type="scalar" fillvalue="999999" rendering="%.1f" columns="12"/>
+			<variable id="IGRF_Declination" name="IGRF Declination" label="IGRF Declination" units="degrees" type="scalar" fillvalue="999999" rendering="%.1f" columns="13"/>
+			<variable id="SZA" name="Solar Zenith Angle" label="Solar Zenith Angle" units="degrees" type="scalar" fillvalue="999999" rendering="%.1f" columns="14"/>
 		</variables>
 
 	</dataset>

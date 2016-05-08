@@ -114,7 +114,7 @@ function tests(config, server) {
 			{
 				"check": function (body) {
 							if (!body) return false
-							return body.length == 126561
+							return body.length == 142560
 						},
 				"type": "server",
 				"interval": 600000,
