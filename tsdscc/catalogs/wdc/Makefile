@@ -1,12 +1,19 @@
 # TODO:
-# Write plug-in for wdc files
+# Write plug-in for wdc files, wdchr and wdcmn.  wdchr partially written in plugins/
 # Check lat longs
 
-
 DIR=/media/disk/Data/tsds_data/original-s0
-# (Could do reads on remote directories and files, but more code is needed.  First mirror then create metadata.)
+all:
+	mirror
+	fix
+	metadata
+
+# (Could do reads on remote directories and files, but more code is needed.  So first mirror and then create metadata based on files)
 mirror:
 	cd $(DIR); wget -m ftp://ftp.nmh.ac.uk/wdc/obsdata/
+
+# Deal with problem file
+fix:
 	cd $(DIR)/ftp.nmh.ac.uk/wdc/obsdata/1minval/1996/; unzip liv1996m.zip; rm -rf data/; rm -f liv1996m.zip; zip -r liv1996m.zip liv9612m.wdc; rm liv9612m.wdc
 
 metadata:

@@ -210,9 +210,9 @@ function createtsml(list) {
 			LON = parseInt(LON)/1000;
 		}
 
-		var SOURCE = url +End.substring(0,4)+"/"+mag+".ack";
+		var SOURCE = url + "/" + End.substring(0,4) + "/" + mag + ".ack";
 
-		ack = dir + "/" + End.substring(0,4)+"/"+mag+".ack";
+		ack = dir + "/" + End.substring(0,4) + "/" + mag + ".ack";
 		if (fs.existsSync(ack)) {
 			data = fs.readFileSync(ack).toString().split("\n");
 			//console.log(data[0])
