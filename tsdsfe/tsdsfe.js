@@ -1513,19 +1513,27 @@ function getandparse(url, res, cb) {
 
 			log.logres("Done fetching.", res.opts)
 
+			if (error || !response) {
+				log.logres("Error when attempting to access " 
+							+ url + " :" 
+							+ JSON.stringify(error), res.opts);
+				error = true;
+			}
+
+			if (response) {
+				if (response.statusCode != 200) {
+					error = true;
+					if (response.statusCode != 200) {
+						log.logres("Status code was not 200 when attempting to access " 
+										+ url, res.opts)
+					}
+				}
+			}
+
 			if (error) {
 				log.logres("Error when attempting to access " 
 							+ url + " :" 
 							+ JSON.stringify(error), res.opts)
-			}
-
-			if (response.statusCode != 200) {
-				log.logres("Status code was not 200 when attempting to access " 
-								+ url, res.opts)
-			}
-
-			if (error || response.statusCode != 200) {
-				error = true;
 			}
 
 			if (error) {
