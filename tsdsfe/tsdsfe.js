@@ -694,8 +694,7 @@ function handleRequest(req, res, options) {
 					// Cache filename signature is based on input + transformation code.
 					var retsig  = crypto
 									.createHash("md5")
-									.update(JSON.stringify(ret) 
-								+ tsds2other.toString()).digest("hex")
+									.update(JSON.stringify(ret) + tsds2other.toString()).digest("hex")
 					var retfile = config.CACHEDIR + retsig + ".xml"
 
 					if (fs.existsSync(retfile) && res.opts.usemetadatacache) {
