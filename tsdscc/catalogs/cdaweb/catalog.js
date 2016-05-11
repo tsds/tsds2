@@ -16,8 +16,8 @@ var baseurl = "http://cdaweb.gsfc.nasa.gov/WS/cdasr/1/dataviews/sp_phys/datasets
 
 var testing = false;
 
-json2tsml();
-return;
+//json2tsml();
+//return;
 
 reqobj = {uri: baseurl,headers: {'Accept':'application/json'}};
 console.log("Requesting: "+baseurl)
@@ -213,7 +213,7 @@ function createtsml() {
 				root.catalog["dataset"][i]["variables"]["variable"][j]["$"]["columns"] = "3,4,5";
 			}
 			if (json.DatasetDescription[i].VariableDescription[j].Type == "scalars") {
-				root.catalog["dataset"][i]["variables"]["variable"][j]["$"]["columns"] = "3-"+(json.DatasetDescription[i].VariableDescription[j].Labels.length+3);
+				root.catalog["dataset"][i]["variables"]["variable"][j]["$"]["columns"] = "3-"+(json.DatasetDescription[i].VariableDescription[j].Labels.length+2);
 			}
 
 			root.catalog["dataset"][i]["variables"]["variable"][j]["$"]["urltemplate"] = "http://cdaweb.gsfc.nasa.gov/WS/cdasr/1/dataviews/sp_phys/datasets/"

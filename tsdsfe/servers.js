@@ -87,10 +87,10 @@ function tests(config, server) {
 								return false;
 							}
 
-							if (body.length == 49772) {
+							if (body.length == 35706) {
 								return true;
 							} else {
-								console.log("Expected body.length == 49972.  Got " + body.length)
+								console.log("Expected body.length == 35706.  Got " + body.length)
 								return false;
 							}
 						},

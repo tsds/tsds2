@@ -263,6 +263,15 @@ app.get('/', function (req, res) {
 	}
 })
 
+app2 = express();
+app2.get('/', function (req,res) {
+	console.log(app2.mountpath);
+	console.log(typeof(req.originalUrl))
+	var catdataset = req.originalUrl.split("filelist");
+	console.log(dataset[0])
+})
+app.use('/IMAGE/PT1M/*/filelist',app2)
+
 // For debugging mysterious timeouts.
 if (false) {
 	server.on('connection', function(socket) {
@@ -1512,19 +1521,27 @@ function getandparse(url, res, cb) {
 
 			log.logres("Done fetching.", res.opts)
 
+			if (error || !response) {
+				log.logres("Error when attempting to access " 
+							+ url + " :" 
+							+ JSON.stringify(error), res.opts);
+				error = true;
+			}
+
+			if (response) {
+				if (response.statusCode != 200) {
+					error = true;
+					if (response.statusCode != 200) {
+						log.logres("Status code was not 200 when attempting to access " 
+										+ url, res.opts)
+					}
+				}
+			}
+
 			if (error) {
 				log.logres("Error when attempting to access " 
 							+ url + " :" 
 							+ JSON.stringify(error), res.opts)
-			}
-
-			if (response.statusCode != 200) {
-				log.logres("Status code was not 200 when attempting to access " 
-								+ url, res.opts)
-			}
-
-			if (error || response.statusCode != 200) {
-				error = true;
 			}
 
 			if (error) {
@@ -2487,25 +2504,20 @@ function parameter(datasets, res, cb) {
 
 	res = headers(res, resp);
 
-	if (res.opts.return === "header-0") {
-		cb(200, res["header-0"], res)
-		return;
-	}
-
-	if (res.opts.return === "header-1") {
-		cb(200, res["header-1"], res);
+	if (res.opts.return === "metadata") {
+		cb(200, res[res.opts.format], res)
 		return;
 	}
 	
 	if ((res.opts.return === "data") || (res.opts.return === "redirect")) {				 
 		var formatv = res.opts.format.split("-")
-		console.log(formatv)
+		//console.log(formatv)
 		if (formatv.length < 2) {
 			var format = 1
 		} else {
 			var format = formatv[1]
 		}
-		console.log(format)
+		//console.log(format)
 
 		dc = dc
 				+"&return=stream"
@@ -2565,7 +2577,7 @@ function headers(res, resp) {
 
 		header0 = tmpstr.replace(/^ /,"") + " " + header0 + "\n";
 	} 
-	if (res.opts.format === "ascii-1" || res.opts.format === '') {
+	if (res.opts.format === "ascii-1" || res.opts.format === "header-1" || res.opts.format === '') {
 		header0 = "Time" + "," + header0 + "\n"
 	} 
 	if (res.opts.format === "ascii-2") {
@@ -2573,8 +2585,7 @@ function headers(res, resp) {
 	} 
 	res["header-0"] = header0;
 
-
-	console.log(resp[0])
+	//console.log(resp[0])
 
 	var FieldNames = resp[0].dd.id;
 	var FieldUnits = resp[0].dd.units;
@@ -2602,9 +2613,9 @@ function headers(res, resp) {
 		 	}
     header1s = ""
 	for (key in header1) {
-		header1s += key + ":" + header1[key] + "\n";
+		header1s += "# " + key + ": " + header1[key] + "\n";
 	}
-	res["header-1"] = header1s + "#" + header0;
+	res["header-1"] = header1s + "# " + header0;
 
 	return res;	
 }
