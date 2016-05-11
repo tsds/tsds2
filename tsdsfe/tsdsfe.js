@@ -122,6 +122,7 @@ if (fs.existsSync("../../" + path)) {
 	var expandDD = require("./node_modules/"+path).expandDD
 }
 
+// If uncaughtException, write error log file
 process.on('uncaughtException', function(err) {
 	if (err.errno === 'EADDRINUSE') {
 		console.log(ds() + clc.red("Port " + config.PORT + " already in use."))
@@ -133,8 +134,10 @@ process.on('uncaughtException', function(err) {
 	process.exit(1)
 })
 
+// Catch CTRL-C
 process.on('SIGINT', function () { process.exit() })
 
+// Handle CTRL-C
 process.on('exit', function () {
 	console.log("\n" + ds() + "Received exit signal.")
 	console.log(ds() + clc.red("(NOT IMPLEMENTED)") 
@@ -191,7 +194,7 @@ for (var i in dirs) {
 
 app.use(compression())
 
-// Get the status of services used by TSDSFE.
+// Get the status of services used by TSDSFE (used by index.html)
 app.get('/status', function (req, res) {
 	var addr = req.headers['x-forwarded-for'] || req.connection.remoteAddress
 	var c = {}
@@ -222,31 +225,6 @@ app.get('/status', function (req, res) {
 	res.send(JSON.stringify(c))
 })
 
-// Test a request using curl-test.sh, which displays log information associated
-// with request from DataCache and TSDSFE.
-app.get('/test', function (req, res) {
-	var com = __dirname + '/test/curl-test.sh "' 
-				+ config.TSDSFE + req.originalUrl.replace("/test/","") + '"'
-
-	var addr = req.headers['x-forwarded-for'] || req.connection.remoteAddress
-	console.log(ds() + "Request from " + addr + " for " + req.originalUrl)
-	console.log(ds() + "Evaluating " + com.replace(__dirname,""))
-
-	var child = require('child_process').exec(com)
-
-	child.stdout.on('data', function (buffer) {
-		if (req.headers['user-agent'].match("curl")) {
-			res.write(buffer.toString())
-		} else {
-			// [1m and [0m are open and close bold tags for shell.
-			// curl-test.sh includes them in output.
-			res.write(buffer.toString().replace('[1m','').replace('[0m',''))			
-		}
-	})
-	child.stdout.on('end', function() {res.end()})
-	return
-})
-
 // Main entry route
 app.get('/', function (req, res) {
 	if (Object.keys(req.query).length === 0) {
@@ -263,44 +241,18 @@ app.get('/', function (req, res) {
 	}
 })
 
-app2 = express();
-app2.get('/', function (req,res) {
-	console.log(app2.mountpath);
-	console.log(typeof(req.originalUrl))
-	var catdataset = req.originalUrl.split("filelist");
-	console.log(dataset[0])
-})
-app.use('/IMAGE/PT1M/*/filelist',app2)
-
-// For debugging mysterious timeouts.
-if (false) {
-	server.on('connection', function(socket) {
-			var key = socket.remoteAddress+":"+socket.remotePort
-			console.log("Socket connected to "+key)
-
-			socket.on('disconnect', function(socket) {
-				console.log("Socket disconnect to "+key)
-			})
-			socket.on('close', function(socket) {
-				console.log("Socket closed to     "+key)
-			})
-			socket.on('end', function(socket) {
-				console.log("Socket end to        "+key)
-			})
-			socket.on('timeout', function(socket) {
-				console.log("Socket timeout to    "+key)
-			})		  
-			socket.setTimeout(config.TIMEOUT,
-				function(obj) {
-					console.log("TSDSFE server timeout ("+(config.TIMEOUT/(1000*60))+" minutes).")
-					server.getConnections(function(err,cnt) {console.log(cnt)})
-					if (obj) {
-						console.log(obj._events.request)
-					}
-			})
+if (0) {
+	app2 = express();
+	app2.get('/', function (req,res) {
+		console.log(app2.mountpath);
+		console.log(typeof(req.originalUrl))
+		var catdataset = req.originalUrl.split("filelist");
+		console.log(dataset[0])
 	})
+	app.use('/IMAGE/PT1M/*/filelist',app2)
 }
 
+// Create catalogs/dd directory
 if (!fs.existsSync(__dirname + "/catalogs/dd")) {
 	fs.mkdirSync(__dirname + "/catalogs/dd")
 }
@@ -374,6 +326,7 @@ if (!convert_exists) {
 // Initialize logging.
 config = log.init(config)
 
+// Report on versions of dependencies being used.
 var msg = ""
 if (develdatacache || develtsdset || develtsdsdd || develviviz) {
 	msg = "Using devel version of:"
@@ -405,12 +358,14 @@ if (argv.startdeps) {
 }
 
 // Start the server.  TODO: Wait until deps are ready.
-//server.listen(port)
 app.listen(port)
 console.log(ds() + "Listening on port " + port + ". See " + config.TSDSFE)
 
+////////////////////////////////////////////////////////////////////////////////
+
 function handleRequest(req, res, options) {
 
+	// CORS
 	//res.header('Access-Control-Allow-Origin', '*');
 	//res.header('Access-Control-Allow-Methods', 'GET,POST');
 	//res.header('Access-Control-Allow-Headers', 'Content-Type');
