@@ -227,6 +227,7 @@ app.get('/status', function (req, res) {
 
 // Main entry route
 app.get('/', function (req, res) {
+	//console.log(req.query)
 	if (Object.keys(req.query).length === 0) {
 		// If no query parameters, return index.htm
 		res.contentType("html")
@@ -1032,7 +1033,7 @@ function handleRequest(req, res, options) {
 
 				res0
 					.on('data', function (chunk) {
-						if (data.length != 0) {
+						if (0) {//(data.length != 0) {
 							log.logres("Recieved chunk of size " 
 								+ chunk.length + ". Streaming it.",
 								  res.opts, "stream")
@@ -1236,7 +1237,7 @@ function parseOptions(req, res) {
 
 		// Need to use default colors if more than one parameter; can't pass
 		// multiple colors.
-		var color = "&"
+		var color = ""
 		if (options.parameters.split(",").length == 1) {
 			var color = "&color=%23000000"; 
 		}
@@ -1265,8 +1266,6 @@ function parseOptions(req, res) {
 		var color = ""
 		if (options.parameters.split(",").length == 1) {
 			var color = "%23ffff00"; 
-		} else {
-			var color = "%23ffff00,%230000ff,%23ffffff";
 		}
 
 		var column = "0%+8em,100%-6em"
@@ -2218,6 +2217,7 @@ function parameter(datasets, res, cb) {
 					+ "&stop="  + stopdd
 					+ "&regexp=" + startyr
 					+ "&number=" + day
+					+ "&showDropdowns=false&showAttributes=false&showAboutText=false&showCatalog=false"
 
 		cb(302, viviz, res)
 		return
@@ -2300,27 +2300,36 @@ function parameter(datasets, res, cb) {
 		stop = res.opts.stop.substring(0,10);
 
 		function joinresp(resp, el) {
-			if (resp.length == 1) {return resp[0]["dd"][el]}
+			if (resp.length == 1) {return resp[0]["dd"][el].replace(",","")};
 			var str = ""
 			for (var i = 0; i < resp.length-1; i++) {
-				str = str + resp[i]["dd"][el] + ","
+				str = str + resp[i]["dd"][el].replace(",","") + ","
 			}
-			return str + resp[i]["dd"][el]
+			return str + resp[i]["dd"][el].replace(",","")
 		}
 
 		var extra = ""
-		if (resp[0].dd.name) {
-			extra = extra + "&labels=" + joinresp(resp, 'name');
+		if (resp[0].dd.columnLabels) {
+			extra = extra + "&labels=" + joinresp(resp, 'columnLabels').replace(/\|/g,"%7C");;
 		} else {
-			extra = extra + "&labels=" + joinresp(resp, 'id');
+			extra = extra + "&labels=" + joinresp(resp, 'id').replace(/\|/g,"%7C");
 		}
 		if (resp[0].dd.units) {
-			extra = extra + "&units=" + joinresp(resp, 'units')
+			extra = extra + "&units=" + joinresp(resp, 'units');
 		}
 		if (resp[0].dd.fillvalue) {
-			extra = extra + "&fills=" + joinresp(resp, 'fillvalue')
+			extra = extra + "&fills=" + joinresp(resp, 'fillvalue');
 		}
 
+		//console.log(resp[0].dd.columnLabels)
+	    //console.log(extra)
+		// A parameter may be a vector type.  In this case, don't specify
+		// color (which forces all lines to be same color in Autoplot.)
+		if (resp[0]["dd"]["type"] === "vector" || resp[0]["dd"]["type"] === "scalars") {
+			res.opts.stylestr = res.opts.stylestr.replace(/&color=.*?&/,"&");
+		}
+		//console.log(resp[0]["dd"]["type"])
+		//console.log(res.opts.stylestr)
 
 		var baseargs = 	  "?catalog=" + res.opts.catalog
 						+ "&dataset=" + res.opts.dataset
@@ -2332,14 +2341,15 @@ function parameter(datasets, res, cb) {
 
 		if (res.opts.format === "jnlp") {
 
-		        // TODO: If request URL is localhost, use config.TSDSFE? (So 
-		        // jnlp will run offline?)
-    		        server = config.TSDSFEEXTERNAL;
-		        JYDS = config.JYDSEXTERNAL;
-		       
-		        config.JNLP = "http://autoplot.org/autoplot.jnlp"
-		        var jnlpargs = "?open=vap+jyds:"
-	                var jydsargs = baseargs + "&server=" + server + extra
+			//console.log(extra)
+			// TODO: If request URL is localhost, use config.TSDSFE? (So 
+			// jnlp will run offline?)
+			server = config.TSDSFEEXTERNAL;
+			JYDS = config.JYDSEXTERNAL;
+
+			config.JNLP = "http://autoplot.org/autoplot.jnlp"
+			var jnlpargs = "?open=vap+jyds:"
+			var jydsargs = baseargs + "&server=" + server + extra
 
 			log.logres("config.JNLP  : " + config.JNLP, res.opts)
 			log.logres("JNLP redirect: " + config.JNLP + jnlpargs + JYDS + jydsargs, res.opts)
@@ -2351,16 +2361,17 @@ function parameter(datasets, res, cb) {
 			return
 		}
 
-	        var server = config.TSDSFE;
-	        if (!config.AUTOPLOT.match(/http\:\/\/localhost/)) {
-		    server = config.TSDSFEEXTERNAL;
+		var server = config.TSDSFE;
+		if (!config.AUTOPLOT.match(/http\:\/\/localhost/)) {
+			server = config.TSDSFEEXTERNAL;
 		} 
 
-	        var jydsargs = baseargs + "&server=" + server + extra
+		var jydsargs = baseargs + "&server=" + server + extra
 
 		var format = "image/png";
-		if (res.opts.format === "pdf") {format = "application/pdf"}
-		if (res.opts.format === "svg") {format = "image/svg%2Bxml"}
+
+		if (res.opts.format.match(/^pdf/)) {format = "application/pdf"}
+		if (res.opts.format.match(/^svg/)) {format = "image/svg%2Bxml"}
 		var apargs = "?format="+format
 					+ "&" + res.opts.stylestr
 					+ "&url=vap+jyds:"
@@ -2369,8 +2380,7 @@ function parameter(datasets, res, cb) {
 		log.logres("apargs: " + apargs + "encodeURIComponent(JYDS + jydsargs) = ", res.opts)	
 		var aurl = config.AUTOPLOT + apargs + encodeURIComponent(config.JYDS + jydsargs)
 
-		if (res.opts.format === "pngurl") {
-			log.logres("--- Servlet URL: " + aurl, res.opts)
+		if (res.opts.format.match(/url$/)) {
 			cb(200, aurl, res)
 			return
 		}
