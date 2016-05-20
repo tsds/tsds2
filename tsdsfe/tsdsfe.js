@@ -434,7 +434,7 @@ function handleRequest(req, res, options) {
 				+ JSON.stringify(req.connection.remoteAddress), res.opts)
 	log.logres("req.originalUrl = " 
 				+ JSON.stringify(req.originalUrl), res.opts)
-	log.logres("options = " + JSON.stringify(options), res.opts)
+	//log.logres("options = " + JSON.stringify(options), res.opts)
 
 	if (res.opts.return === "log") {
 		console.log(res.opts)
@@ -2127,7 +2127,9 @@ function parameter(datasets, res, cb) {
 	log.logres("DD stop          : " + resp[0].dd.stop, res.opts)
 	log.logres("Expanded DD stop : " + stopdd, res.opts)
 
-	var urltemplate  = resp[0].dd.urltemplate.replace("mirror:http://",config.MIRROR);
+	var urltemplate  = resp[0].dd.urltemplate
+							.replace("mirror:http://",config.MIRROR);
+							.replace("mirror:ftp://",config.MIRROR);
 	var urlprocessor = resp[0].dd.urlprocessor;
 	var urlsource    = resp[0].dd.urlsource;
 		

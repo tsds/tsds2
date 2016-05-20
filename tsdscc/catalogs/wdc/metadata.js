@@ -2,14 +2,14 @@ var cadence = process.argv[2] || "PT1M";
 
 var fs = require('fs');
 var zlib = require('zlib');
-var xml2js  = require('xml2js');
+var xml2js = require('xml2js');
 var admzip = require('adm-zip');
 
 var cadencestr1 = "1-minute";
 var cadencestr2 = "1minval";
 var cadencestr3 = "m";
 if (cadence === "PT1H") {
-	cadencestr1  = "1-hour";
+	cadencestr1 = "1-hour";
 	cadencestr2 = "hourval/single_year";
 	cadencestr3 = "";
 }
@@ -19,37 +19,34 @@ var url = "ftp://"+dir;
 
 // Get years where data are available for each magnetometer by inspecting directory.
 var MAGS = {};
-var dir = "./data/"+dir;
+var dir = "./"+dir;
 if (fs.existsSync(dir)) {
 	files = fs.readdirSync(dir);
-	for (var k = 0;k<files.length;k++) {
-		if (files[k].match(/^[0-9]/)) {
+	for (var k = 0;k<files.length;k++) { // Loop over directories
+		if (files[k].match(/^[0-9]/)) { // Year directory
 			console.log(dir+"/"+files[k]);
 			files2 = fs.readdirSync(dir+"/"+files[k]);
-			for (var k2 = 0;k2<files2.length;k2++) {
-
+			for (var k2 = 0;k2<files2.length;k2++) { 
 				if (cadence == "PT1H") {
 					if (files2[k2].match(/wdc$/)) {
 						//if (files2[k2].match(/drv/)) { // for testing metadata creation
-							console.log(dir+"/"+files[k]+"/"+files2[k2]);
+							//console.log(dir+"/"+files[k]+"/"+files2[k2]);
 							mag = files2[k2].substring(0,3);
 							if (!MAGS[mag]) {
 								MAGS[mag] = [];
 							}
 							MAGS[mag].push(files[k])
-							console.log(mag)
 						//}
 					}
 				} else {
 					if (files2[k2].match(/zip$/)) {
 						//if (files2[k2].match(/drv/)) { // for testing metadata creation
-							console.log(dir+"/"+files[k]+"/"+files2[k2]);
+							//console.log(dir+"/"+files[k]+"/"+files2[k2]);
 							mag = files2[k2].substring(0,3);
 							if (!MAGS[mag]) {
 								MAGS[mag] = [];
 							}
 							MAGS[mag].push(files[k])
-							console.log(mag)
 						//}
 					}
 				}
@@ -58,7 +55,6 @@ if (fs.existsSync(dir)) {
 		}
 	}
 }
-
 var STARTS = {};
 var STOPS = {};
 
@@ -66,7 +62,7 @@ var STOPS = {};
 for (var key in MAGS) {
 
 	STARTS[key] = MAGS[key][0];
-	STOPS[key] = MAGS[key][MAGS[key].length-1];
+	STOPS[key]  = MAGS[key][MAGS[key].length-1];
 
 	//console.log(MAGS[key]);	
 }
@@ -74,7 +70,8 @@ for (var key in MAGS) {
 // Extract start/stop month, day and coordinate system information from first and last files for each magnetometer.
 STARTS = extractinfo(STARTS,true);
 STOPS = extractinfo(STOPS,false);
-
+//console.log(STARTS)
+//console.log(STOPS)
 // Combine information.
 var z = 0;
 var info = [];
@@ -83,7 +80,7 @@ for (key in STARTS) {
 	z = z+1;
 }
 
-console.log(info)
+console.log(info.join("\n"))
 createtsml(info);
 
 function extractinfo(LIST,start) {
@@ -147,6 +144,19 @@ function extractinfo(LIST,start) {
 
 function createtsml(list) {
 
+	// http://stackoverflow.com/a/15912608
+	function arrayUnique(array) {
+	    var a = array.concat();
+	    for(var i=0; i<a.length; ++i) {
+	        for(var j=i+1; j<a.length; ++j) {
+	            if(a[i] === a[j])
+	                a.splice(j--, 1);
+	        }
+	    }
+
+	    return a;
+	}
+
 	var root = {};
 	root.catalog = {};
 	root.catalog["$"] = {};
@@ -177,20 +187,40 @@ function createtsml(list) {
 
 	root.catalog["dataset"] = [];
 
-	for (var i = 0;i < list.length;i++) {
 
+	for (var i = 0;i < list.length;i++) {
 		var iv     = list[i].split(",");
 		var MAG    = iv[0].toUpperCase();
 		var mag    = MAG.toLowerCase();
 		var Start  = iv[1];
 		var End    = iv[5];
-		var CSYS   = iv[2];
-		var CSYS2  = iv[6];
-		if (CSYS.length < CSYS2.length) {
-			CSYS = CSYS2;
+		var CSYS   = iv[2].split('').sort().join(''); // Alphabetical sort
+		var CSYS2  = iv[6].split('').sort().join('');
+
+		console.log("Creating tsml for " + list[i])
+
+		if (CSYS !== CSYS2) {
+			// Coordinate system may have changed between first and last file.
+			// May also have changed in between.
+			//console.log("Not creating tsml for " + mag + " because coordinate system changed.")
+			console.log(mag + " coordinate system changed from " + CSYS + " to " + CSYS2)
+			//console.log(CSYS)
+			//console.log(CSYS2)
+			var CSYS = arrayUnique(CSYS.split("").concat(CSYS2.split(""))).join("")
+			//continue;
 		}
-		
-		var LAT    = iv[3];
+		var found = false;
+		for (var z = 0; z < CSYS.split("").length; z++) {
+  			if (CSYS[z] === "N") {
+    			found = true;
+    			break
+  			}
+		}
+		if (found) {
+  			console.log("Ignoring data from " + mag + " because it contains N as a component.")
+  			continue;
+		}
+		var LAT = iv[3];
 		if (LAT.match("-99990")) {
 			LAT = iv[7];
 		}
@@ -200,7 +230,7 @@ function createtsml(list) {
 			LAT = parseInt(LAT)/1000;
 		}
 
-		var LON    = iv[4];
+		var LON = iv[4];
 		if (LON.match("-99999")) {
 			LON = iv[8];
 		}
@@ -218,7 +248,7 @@ function createtsml(list) {
 			//console.log(data[0])
 			NAME = data[0].replace(/:.*\r|:.*$/,"");
 		} else {
-			console.log("Could not find "+ack);
+			console.log("Could not find " + ack);
 			ack = dir + "/" + Start.substring(0,4)+"/"+mag+".ack";
 			if (fs.existsSync(ack)) {
 				data = fs.readFileSync(ack).toString().split("\n");
@@ -236,8 +266,8 @@ function createtsml(list) {
 		root.catalog["dataset"][i]["$"]["id"] = MAG;
 		root.catalog["dataset"][i]["$"]["name"] = NAME;
 		//root.catalog["dataset"][i]["$"]["label"] = "Data source institute: " + SOURCE;
-		root.catalog["dataset"][i]["$"]["timecolumns"] = "1,2";
-		root.catalog["dataset"][i]["$"]["timeformat"] = "$Y-$m-$d,$H:$M:$S.$(millis)";
+		root.catalog["dataset"][i]["$"]["timecolumns"] = "1";
+		root.catalog["dataset"][i]["$"]["timeformat"] = "$Y-$m-$dT$H:$M:$S";
 		if (cadence == "PT1H") {
 			root.catalog["dataset"][i]["$"]["urltemplate"] = "mirror:"+url+"/$Y/"+mag+"$Y"+cadencestr3+".wdc";
 			root.catalog["dataset"][i]["$"]["urlprocessor"]='wdchr';
@@ -257,14 +287,16 @@ function createtsml(list) {
 		root.catalog["dataset"][i]["timeCoverage"]["End"] = End;
 		root.catalog["dataset"][i]["timeCoverage"]["Cadence"] = cadence;
 
-		if (CSYS.substring(0,3).match("XYZ")) {
-			root.catalog["dataset"][i]["groups"] = {};
-			root.catalog["dataset"][i]["groups"]["group"] = [];
-			root.catalog["dataset"][i]["groups"]["group"][i] = {};
-			root.catalog["dataset"][i]["groups"]["group"][i]["$"] = {};
-			root.catalog["dataset"][i]["groups"]["group"][i]["$"]["id"] = CSYS.substring(0,3).toUpperCase();
-			root.catalog["dataset"][i]["groups"]["group"][i]["$"]["name"] = CSYS.substring(0,3).toUpperCase() + " components";
-			root.catalog["dataset"][i]["groups"]["group"][i]["$"]["type"] = "vector";
+		if (0) {
+			if (CSYS.substring(0,3).match("XYZ")) {
+				root.catalog["dataset"][i]["groups"] = {};
+				root.catalog["dataset"][i]["groups"]["group"] = [];
+				root.catalog["dataset"][i]["groups"]["group"][i] = {};
+				root.catalog["dataset"][i]["groups"]["group"][i]["$"] = {};
+				root.catalog["dataset"][i]["groups"]["group"][i]["$"]["id"] = CSYS.substring(0,3).toUpperCase();
+				root.catalog["dataset"][i]["groups"]["group"][i]["$"]["name"] = CSYS.substring(0,3).toUpperCase() + " components";
+				root.catalog["dataset"][i]["groups"]["group"][i]["$"]["type"] = "vector";
+			}
 		}
 
 		root.catalog["dataset"][i]["variables"] = {};
@@ -272,22 +304,20 @@ function createtsml(list) {
 
 		root.catalog["dataset"][i]["variables"]["variable"][0] = {};
 		root.catalog["dataset"][i]["variables"]["variable"][0]["$"] = {};
-		root.catalog["dataset"][i]["variables"]["variable"][0]["$"]["id"] = "DOY";
-		root.catalog["dataset"][i]["variables"]["variable"][0]["$"]["name"] = "DOY";
-		root.catalog["dataset"][i]["variables"]["variable"][0]["$"]["label"] = "Day of Year";
+		root.catalog["dataset"][i]["variables"]["variable"][0]["$"]["id"] = "Time";
+		root.catalog["dataset"][i]["variables"]["variable"][0]["$"]["name"] = "Time";
+		root.catalog["dataset"][i]["variables"]["variable"][0]["$"]["label"] = "Time";
 		root.catalog["dataset"][i]["variables"]["variable"][0]["$"]["type"] = "scalar";
-		root.catalog["dataset"][i]["variables"]["variable"][0]["$"]["rendering"] = "%j";
-		root.catalog["dataset"][i]["variables"]["variable"][0]["$"]["columns"] = 3;
+		root.catalog["dataset"][i]["variables"]["variable"][0]["$"]["columns"] = 1;
 
 		var CSYSv = CSYS.split("");
-
-		for (var j = 1;j < CSYSv.length+1;j++) {
+		for (var j = 0;j < CSYSv.length;j++) {
 			root.catalog["dataset"][i]["variables"]["variable"][j] = {};
 			root.catalog["dataset"][i]["variables"]["variable"][j]["$"] = {};
-			root.catalog["dataset"][i]["variables"]["variable"][j]["$"]["id"] = CSYSv[j-1].toUpperCase();
-			root.catalog["dataset"][i]["variables"]["variable"][j]["$"]["name"] = CSYSv[j-1];
-			root.catalog["dataset"][i]["variables"]["variable"][j]["$"]["label"] = MAG + " " + CSYSv[j-1].toUpperCase();
-			if ((CSYSv[j-1] == "D") || (CSYSv[j-1] == "I")) {
+			root.catalog["dataset"][i]["variables"]["variable"][j]["$"]["id"] = CSYSv[j].toUpperCase();
+			root.catalog["dataset"][i]["variables"]["variable"][j]["$"]["name"] = CSYSv[j];
+			root.catalog["dataset"][i]["variables"]["variable"][j]["$"]["label"] = MAG + " " + CSYSv[j].toUpperCase();
+			if ((CSYSv[j] == "D") || (CSYSv[j] == "I")) {
 				root.catalog["dataset"][i]["variables"]["variable"][j]["$"]["units"] = "tenth-minutes";
 			} else {
 				root.catalog["dataset"][i]["variables"]["variable"][j]["$"]["units"] = "nT";
@@ -295,7 +325,21 @@ function createtsml(list) {
 			root.catalog["dataset"][i]["variables"]["variable"][j]["$"]["type"] = "scalar";
 			root.catalog["dataset"][i]["variables"]["variable"][j]["$"]["fillvalue"] = "999999";
 			root.catalog["dataset"][i]["variables"]["variable"][j]["$"]["rendering"] = "%d";
-			root.catalog["dataset"][i]["variables"]["variable"][j]["$"]["columns"] = ""+(j+3);
+			if (CSYSv[j] === "X")
+				root.catalog["dataset"][i]["variables"]["variable"][j]["$"]["columns"] = "2"
+			if (CSYSv[j] === "Y")
+				root.catalog["dataset"][i]["variables"]["variable"][j]["$"]["columns"] = "3"
+			if (CSYSv[j] === "Z")
+				root.catalog["dataset"][i]["variables"]["variable"][j]["$"]["columns"] = "4"
+			if (CSYSv[j] === "F")
+				root.catalog["dataset"][i]["variables"]["variable"][j]["$"]["columns"] = "5"
+			if (CSYSv[j] === "H")
+				root.catalog["dataset"][i]["variables"]["variable"][j]["$"]["columns"] = "6"
+			if (CSYSv[j] === "D")
+				root.catalog["dataset"][i]["variables"]["variable"][j]["$"]["columns"] = "7"
+			if (CSYSv[j] === "I")
+				root.catalog["dataset"][i]["variables"]["variable"][j]["$"]["columns"] = "I"
+
 		}
 
 	}

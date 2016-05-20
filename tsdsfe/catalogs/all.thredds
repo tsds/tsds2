@@ -11,4 +11,5 @@
 	<catalogRef ID="INTERMAGNET/PT1M" xlink:title="INTERMAGNET/PT1M" xlink:href="INTERMAGNET/PT1M.xml"/>
 	<catalogRef ID="INTERMAGNET/PT1S" xlink:title="INTERMAGNET/PT1S" xlink:href="INTERMAGNET/PT1S.xml"/>
 	<catalogRef ID="LASP/LISIRD" xlink:title="LASP/LISIRD" xlink:href="LASP/LISIRD/LISIRD.xml"/>
+	<catalogRef ID="WDC/PT1H" xlink:title="WDC/PT1H" xlink:href="WDC/PT1H.xml"/>
 </catalog>
