@@ -2127,7 +2127,7 @@ function parameter(datasets, res, cb) {
 	log.logres("Expanded DD stop : " + stopdd, res.opts)
 
 	var urltemplate  = resp[0].dd.urltemplate
-							.replace("mirror:http://",config.MIRROR);
+							.replace("mirror:http://",config.MIRROR)
 							.replace("mirror:ftp://",config.MIRROR);
 	var urlprocessor = resp[0].dd.urlprocessor;
 	var urlsource    = resp[0].dd.urlsource;
@@ -2191,7 +2191,7 @@ function parameter(datasets, res, cb) {
 	}
 
 	if (res.opts.return === "image" && res.opts.format === "viviz") {
-		var dirprefix = config.TSDSFE 
+		var dirprefix = config.TSDSFE + "/"
 						+ "?catalog="    + res.opts.catalog
 						+ "&dataset="    + res.opts.dataset
 						+ "&parameters=" + res.opts.parameters
@@ -2361,7 +2361,7 @@ function parameter(datasets, res, cb) {
 			return
 		}
 
-		var server = config.TSDSFE;
+		var server = config.TSDSFE + "/";
 		if (!config.AUTOPLOT.match(/http\:\/\/localhost/)) {
 			server = config.TSDSFEEXTERNAL;
 		} 
