@@ -2131,7 +2131,7 @@ function parameter(datasets, res, cb) {
 							.replace("mirror:ftp://",config.MIRROR);
 	var urlprocessor = resp[0].dd.urlprocessor;
 	var urlsource    = resp[0].dd.urlsource;
-		
+	var cadence = resp[0].dd.cadence
 	if ((new Date(stop)).getTime() < (new Date(start)).getTime()) {
 		cb(500, "Stop time is before start time.", res);
 		return;
@@ -2209,10 +2209,16 @@ function parameter(datasets, res, cb) {
 		var diff  = end.getTime() - begin.getTime();
 		var day = Math.floor(diff/(1000*60*60*24));
 
+		var window = "-P1D"
+		if (cadence.match(/H$/)) {
+			//would neet to adjust viviz code to handle deltas.
+			//var window = "-P30D"
+		}
+
 		var viviz = config.VIVIZEXTERNAL 
 					+ "#"
 					+ "dir=" + encodeURIComponent(dirprefix)
-					+ "&strftime=" + encodeURIComponent("&start=-P1D&stop=$Y-$m-$d")
+					+ "&strftime=" + encodeURIComponent("&start="+window+"&stop=$Y-$m-$d")
 					+ "&start=" + startdd
 					+ "&stop="  + stopdd
 					+ "&regexp=" + startyr
@@ -2300,8 +2306,9 @@ function parameter(datasets, res, cb) {
 		stop = res.opts.stop.substring(0,10);
 
 		function joinresp(resp, el) {
-			if (resp.length == 1) {return resp[0]["dd"][el].replace(",","")};
+			if (resp.length == 1) {return resp[0]["dd"][el]};
 			var str = ""
+			// Remove commas in ID.
 			for (var i = 0; i < resp.length-1; i++) {
 				str = str + resp[i]["dd"][el].replace(",","") + ","
 			}
@@ -2377,7 +2384,8 @@ function parameter(datasets, res, cb) {
 					+ "&url=vap+jyds:"
 
 		log.logres("AUTOPLOT: " + config.AUTOPLOT, res.opts)
-		log.logres("apargs: " + apargs + "encodeURIComponent(JYDS + jydsargs) = ", res.opts)	
+		log.logres("apargs: " + apargs, res.opts)	
+		log.logres("jydsargs: " + jydsargs, res.opts)	
 		var aurl = config.AUTOPLOT + apargs + encodeURIComponent(config.JYDS + jydsargs)
 
 		if (res.opts.format.match(/url$/)) {
