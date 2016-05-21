@@ -5,6 +5,7 @@ import math
 import java.io.IOException
 import org.virbo.datasource.HtmlResponseIOException
 import java.lang.IllegalArgumentException
+import re
 
 tr         = getParam( 'timerange', '1997-08-26/1997-09-05', 'timerange to load' )
 catalog    = getParam( 'catalog', 'SSCWeb', 'catalog' )
@@ -91,6 +92,8 @@ try:
       llds= DDataSet.createRank1(lenll)
       lls = []
       for i in xrange(lenll):
+         ll[i] = re.sub("\|","&#124;",ll[i])
+         ll[i] = re.sub("%7C","&#124;",ll[i])
          if ( process == 'timeseriessc' or process == 'timeseriesscoff'):
              lls.append('(' + ll[i] + ' - &mu;)/&sigma;')
          if (units[0] == '' or process == 'timeseriessc'):

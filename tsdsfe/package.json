@@ -21,9 +21,9 @@
 	"scripts": {
 		"start": "node --max-old-space-size=2048 tsdsfe.js",
 		"debug-note": "To debug, use npm run debug{0,1,2}.",
-		"debug0": "nodemon -e js -w . -w js -w ../../viviz -w ../../datacache tsdsfe.js",
-		"debug1": "nodemon -e js -w . -w js -w ../../viviz -w ../../datacache tsdsfe.js --debugtoconsole all --checkdeps false --checkservers false",
-		"debug2": "nodemon -e js -w . -w js -w ../../viviz -w ../../datacache tsdsfe.js --debugtoconsole all --startdeps false",
+		"debug0": "nodemon -e js -w . -w js tsdsfe.js",
+		"debug1": "nodemon -e js -w . -w js tsdsfe.js --debugtoconsole all --checkdeps false --checkservers false",
+		"debug2": "nodemon -e js -w . -w js tsdsfe.js --debugtoconsole all --startdeps false",
 		"preinstall": "npm install nodemon; cd deps; make bin/pngquant; cd ../../autoplot/; make install; make stop; make start",
 		"test": "bash test/test.sh 2>&1 | tee test/test.log"
 	}

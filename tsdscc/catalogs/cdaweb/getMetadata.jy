@@ -1,0 +1,72 @@
+import re
+
+f = open('ids_vars-in.txt', 'r')
+file= f.read()
+f.close()
+print "Read ids_vars-in.txt"
+
+newlist = []
+lines= file.split()
+for el in lines:
+  vals= el.split("/")
+  uri= 'vap+cdaweb:ds='+vals[0]+'&id='+vals[1]+'&timerange='+vals[2]
+  print uri
+  ds= getDataSet(uri)
+  m= getMetadata('vap+cdaweb:ds='+vals[0]+'&id='+vals[1]+'&timerange='+vals[2], monitor)
+  fs= m["FORMAT"]
+  fill = '-1e31'
+  tr= m["DEPEND_0"]
+  ga =  m["GlobalAttributes"]
+  timenote = tr["CATDESC"]
+  timeresolution = ga["Time_resolution"]
+  tmp = re.match('([0-9].*) (.*)',timeresolution)
+  number = tmp.groups()[0]
+  word = tmp.groups()[1]
+  pattern = re.compile("year.*")
+  if (pattern.match(word)):
+    cadence = "P" + number + "Y"
+  pattern = re.compile("month.*")
+  if (pattern.match(word)):
+    cadence = "P" + number + "M"
+  pattern = re.compile("day.*")
+  if (pattern.match(word)):
+    cadence = "P" + number + "D"
+  pattern = re.compile("hour.*")
+  if (pattern.match(word)):
+    cadence = "PT" + number + "H"
+  pattern = re.compile("minute.*")
+  if (pattern.match(word)):
+    cadence = "PT" + number + "M"
+  pattern = re.compile("second.*")
+  if (pattern.match(word)):
+    cadence = "PT" + number + "S"
+
+  if (ds != None):
+    fill= ds.property('FILL_VALUE')
+  fillo = fill
+
+  if (len(fs) > 0):
+    fg = re.match('([A-Z]|[a-z])(.*)',fs)
+    fs = fg.groups()[1] + fg.groups()[0]
+    fs = fs.lower()
+    fs = "%" + re.sub("i","d",fs)
+    fill = fs % (fill)
+  if (float(fillo) < -9.9e30):
+    fill = '-1e31'
+  print str(fillo) + " " + fs + " " + fill
+
+  s = "/"
+  vals.append(str(fill))
+  vals.append(str(fs))
+  vals.append(str(cadence))
+  vals.append(str(timeresolution))
+  vals.append(str(timenote))
+  n = s.join(vals);
+  print "  " + n
+  newlist.append(n)
+
+newliststr = "\n".join(newlist)
+file= open('ids_vars-out.txt','w')
+file.write(newliststr)
+file.close()
+#print "Wrote ids_vars-out.txt"
