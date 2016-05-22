@@ -1692,7 +1692,7 @@ function catalog(res, cb) {
 						var oresp = []
 						oresp[0] = {}
 						oresp[0].title = "Catalog configuration"
-						oresp[0].link  = resp[0].href
+						oresp[0].link  = config["TSDSFEEXTERNAL"] + "?catalog="+res.opts.catalog+"&return=tsds&attach=false"
 						if (result["catalog"]["documentation"]) {
 							for (var k = 1; k < result["catalog"]["documentation"].length;k++) {
 								oresp[k] = {}
