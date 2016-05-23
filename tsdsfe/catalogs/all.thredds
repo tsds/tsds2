@@ -11,6 +11,7 @@
 	<catalogRef ID="INTERMAGNET/PT1S" xlink:title="INTERMAGNET/PT1S" xlink:href="INTERMAGNET/PT1S.xml"/>
 	<catalogRef ID="Kyoto/Dst/RT/PT1H" xlink:title="Kyoto real-time Dst" xlink:href="Kyoto/Dst/RT/PT1H.xml"/>
 	<catalogRef ID="LASP/LISIRD" xlink:title="LASP/LISIRD" xlink:href="LASP/LISIRD/LISIRD.xml"/>
+	<catalogRef ID="ViRBO/TSX-5" xlink:title="TSX-5 Extended Ephemeris and CEASE Instrument Measurements" xlink:href="ViRBO/TSX-5/PT5S.xml"/>
 	<catalogRef ID="Weygand/PropagatedSolarWind" xlink:title="Weygand/PropagatedSolarWind" xlink:href="Weygand/PropagatedSolarWind/Wind/MFI/Propagated.3DP/GSM/V3/PT60S.json"/>
 	<catalogRef ID="WDC/PT1H" xlink:title="WDC/PT1H" xlink:href="WDC/PT1H.xml"/>
 </catalog>

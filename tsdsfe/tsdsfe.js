@@ -1535,6 +1535,7 @@ function getandparse(url, res, cb) {
 				} else {
 					log.logres("Parsing "+url, res.opts)
 					var parser = new xml2js.Parser();
+					// TODO: Catch error here.
 					parser.parseString(body, function (err, json) {
 
 						log.logres("Done parsing.", res.opts)
