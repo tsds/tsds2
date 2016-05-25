@@ -183,12 +183,13 @@ tests[i].url = "catalog=IMAGE/PT1M&dataset=ABK&parameters=X,Y&start=-P3D&stop=20
 tests[i].test = function (data) {
 
 					dataa = data.toString().split("\n")
-					var chk = (dataa[0].split(" ")[0] === "Time" && dataa[0].split(" ")[1] === "X[nT]" && dataa[0].split(" ")[2] === "Y[nT]")
-					console.log("Header should be Time X[nT] Y[nT]")
+					var chk = (dataa[0] == "Time,X [nT],Y [nT]")
+					console.log("Header should be Time,X[nT],Y[nT]")
 					if (chk) {
 						return true;
 					} 
 					else {
+						console.log(dataa[0])
 						return false;
 					}
 				};

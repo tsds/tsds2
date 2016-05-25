@@ -1,0 +1,5 @@
+expandDD.htm is used to test expansion of columns specified with special characters -, :, (), and []. It uses expandDD.tests.js.
+
+The Javascript in expandDD.htm should be integrated into expandDD.js.
+
+expandDD.js only expands a DD string that does not contain columns specified with special characters.

@@ -111,16 +111,7 @@ if (fs.existsSync("../../" + path)) {
 	var expandISO8601Duration = require("./node_modules/"+path).expandISO8601Duration
 }
 
-path = "tsdsdd/expandDD.js"
-if (fs.existsSync("../../" + path)) {
-	// Development
-	var develtsdsdd = true
-	var expandDD = require("../../" + path).expandDD
-} else {
-	// Production
-	var develtsdsdd = false
-	var expandDD = require("./node_modules/"+path).expandDD
-}
+var expandDD = require("../tsdsdd/expandDD.js").expandDD
 
 // If uncaughtException, write error log file
 process.on('uncaughtException', function(err) {
@@ -329,12 +320,11 @@ config = log.init(config)
 
 // Report on versions of dependencies being used.
 var msg = ""
-if (develdatacache || develtsdset || develtsdsdd || develviviz) {
+if (develdatacache || develtsdset || develviviz) {
 	msg = "Using devel version of:"
 }
 if (develdatacache) {msg = msg + " datacache"}
 if (develtsdset) {msg = msg + " tsdset"}
-if (develtsdsdd) {msg = msg + " tsdsdd"}
 if (develviviz) {msg = msg + " viviz"}
 if (msg !== "") {console.log(ds() + "Note: " + clc.blue(msg))}
 
@@ -1545,6 +1535,7 @@ function getandparse(url, res, cb) {
 				} else {
 					log.logres("Parsing "+url, res.opts)
 					var parser = new xml2js.Parser();
+					// TODO: Catch error here.
 					parser.parseString(body, function (err, json) {
 
 						log.logres("Done parsing.", res.opts)
@@ -1702,7 +1693,7 @@ function catalog(res, cb) {
 						var oresp = []
 						oresp[0] = {}
 						oresp[0].title = "Catalog configuration"
-						oresp[0].link  = resp[0].href
+						oresp[0].link  = config["TSDSFEEXTERNAL"] + "?catalog="+res.opts.catalog+"&return=tsds&attach=false"
 						if (result["catalog"]["documentation"]) {
 							for (var k = 1; k < result["catalog"]["documentation"].length;k++) {
 								oresp[k] = {}
@@ -2209,16 +2200,19 @@ function parameter(datasets, res, cb) {
 		var diff  = end.getTime() - begin.getTime();
 		var day = Math.floor(diff/(1000*60*60*24));
 
-		var window = "-P1D"
-		if (cadence.match(/H$/)) {
-			//would neet to adjust viviz code to handle deltas.
-			//var window = "-P30D"
+		strftime = "&start=-P1D&stop=$Y-$m-$d";
+		if (cadence.match(/PT/) && cadence.match(/H$/)) {
+			//strftime = "&start=$Y-$m-${d;delta=3}&stop=${Y;offset=0}-${m;offset=0}-${d;offset=2}";
+			// Something goes wrong with the day calculation when passed to viviz.
+			//strftime = "&start=$Y-$m-${d;delta=30}&stop=${Y;offset=0}-${m;offset=0}-${d;offset=30}";
+			//day = Math.floor(day/30);
 		}
-
+		//console.log(dirprefix);
+		//console.log(strftime);
 		var viviz = config.VIVIZEXTERNAL 
 					+ "#"
 					+ "dir=" + encodeURIComponent(dirprefix)
-					+ "&strftime=" + encodeURIComponent("&start="+window+"&stop=$Y-$m-$d")
+					+ "&strftime=" + encodeURIComponent(strftime)
 					+ "&start=" + startdd
 					+ "&stop="  + stopdd
 					+ "&regexp=" + startyr

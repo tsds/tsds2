@@ -14,7 +14,6 @@
 		"dirwalk": "https://github.com/rweigel/dirwalk/tarball/master",
 		"treeify": "https://github.com/rweigel/treeify/tarball/master",
 		"tsdset": "https://github.com/rweigel/tsdset/tarball/master",
-		"tsdsdd": "https://github.com/rweigel/tsdsdd/tarball/master",
 		"datacache": "https://github.com/rweigel/datacache/tarball/master",
 		"viviz": "https://github.com/rweigel/viviz/tarball/master"
 	},
@@ -24,7 +23,7 @@
 		"debug0": "nodemon -e js -w . -w js tsdsfe.js",
 		"debug1": "nodemon -e js -w . -w js tsdsfe.js --debugtoconsole all --checkdeps false --checkservers false",
 		"debug2": "nodemon -e js -w . -w js tsdsfe.js --debugtoconsole all --startdeps false",
-		"preinstall": "npm install nodemon; cd deps; make bin/pngquant; cd ../../autoplot/; make install; make stop; make start",
+		"preinstall": "npm install nodemon; cd deps; make bin/pngquant; cd ../../tsdsdd; npm install; cd ../autoplot/; make install; make stop; make start",
 		"test": "bash test/test.sh 2>&1 | tee test/test.log"
 	}
 }
