@@ -2,7 +2,7 @@
 <catalog id="ViRBO/TSX-5" name="">
   <documentation xlink:href="http://virbo.org/ftp/users/ginet/CEASE-TSX-5/" xlink:title="Root of data directory with READMEs"/>
   <documentation xlink:title="Catalog generation date: 2016-05-22"/>
-  <dataset id="EPHX" name="Extended Ephemeris Information for TSX-5/CEASE" label="Ephemeris information for the CEASE spacecraft, including CEASE look direction, magnetic field, S/C position, and S/C velocity." urltemplate="http://virbo.org/ftp/users/ginet/CEASE-TSX-5/TSX-5/EPHX/$Y/ephx_$y_$j.txt">
+  <dataset id="EPHX" name="Extended Ephemeris Information for TSX-5/CEASE" label="Ephemeris information for the CEASE spacecraft, including CEASE look direction, magnetic field, S/C position, and S/C velocity." timeformat="$Y,$j,$S" urltemplate="http://virbo.org/ftp/users/ginet/CEASE-TSX-5/EPHX/$Y/ephx_$y_$j.txt">
     <timeCoverage>
       <Start>2000-06-08</Start>
       <End>2006-07-05</End>
@@ -24,10 +24,10 @@
       <variable id="VZ" name="VZ" label="Z component of the ECI satellite velocity" units="km/s" type="scalar" fillvalue="" rendering=".2f" columns="16"/>
     </variables>
   </dataset>
-  <dataset id="CEASE" name="CEASE Instrument Measurements" urltemplate="http://virbo.org/ftp/users/ginet/CEASE-TSX-5/TSX-5/CEASE/$Y/tsx5_$y_$j.txt">
+  <dataset id="CEASE" name="CEASE Instrument Measurements"  timeformat="$Y,$j,$S" urltemplate="http://virbo.org/ftp/users/ginet/CEASE-TSX-5/CEASE/$Y/tsx5_$y_$j.txt">
     <timeCoverage>
       <Start>2000-06-08</Start>
-      <End>2007-07-05</End>
+      <End>2006-07-05</End>
       <Cadence>PT5S</Cadence>
     </timeCoverage>
     <variables>
