@@ -2503,6 +2503,7 @@ function parameter(datasets, res, cb) {
 				+"&streamFilterWriteComputeFunction=" + res.opts.filter
 				+"&streamFilterWriteComputeFunctionWindow=" + res.opts.filterWindow
 				+"&streamFilterWriteComputeFunctionExcludes=" + (resp[0].dd.fillvalue || "")
+				+"&streamFilterWriteDelimiter=,"
 				+"&streamOrder=true"
 				+"&streamGzip=false"
 				;
