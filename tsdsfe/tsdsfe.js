@@ -662,7 +662,7 @@ function handleRequest(req, res, options) {
 					} else {
 						log.logres("No cache of autoplot-bookmarks XML file found for input = " + url, res.opts)
 						log.logres("Converting TSDS JSON catalog to Autoplot bookmark XML.", res.opts)
-						tsds2other(ret, "autoplot-bookmarks", function (ret) {
+						tsds2other(ret, "autoplot-bookmarks", config, function (ret) {
 							log.logres("Streaming XML.", res.opts);
 							stream(0, ret, res);
 							log.logres("Writing (sync) cache file containing XML for autoplot-bookmarks for input = " + url, res.opts)
@@ -1237,8 +1237,9 @@ function parseOptions(req, res) {
 			column = "0%+4em,100%-6em"			
 		}
 
+		//+ "&backgroundColor=none" // Reduces image size but not working since 05/26/2016 servlet
+
 		options.stylestr =   "drawGrid=true"
-							+ "&backgroundColor=none"
 							+ "&foregroundColor=%23000000"
 							+ color
 							+ "&fillColor=%23000000"
@@ -2227,9 +2228,9 @@ function parameter(datasets, res, cb) {
 
 		// If more than one resp, this won't work.
 		var Labels = "'";
-		var Parameters = "";
+		var Parameters = "'";
 		for (var z = 0; z < resp.length; z++) {
-			Parameters = Parameters + resp[z].parameter + ",";
+			Parameters = Parameters + resp[z].dd.id + " [" + resp[z].dd.units + "]','";
 			Labels = Labels + resp[z].dd.label + " [" + resp[z].dd.units + "]','";
 		}
 
@@ -2274,6 +2275,7 @@ function parameter(datasets, res, cb) {
 
 			script = script
 						.replace("__SERVER__",config.TSDSFEEXTERNAL)
+						.replace("__STATUS__",config.TSDSFEEXTERNAL + "?catalog=" + resp[0].catalog)
 						.replace("__QUERYSTRING__",
 									"catalog=" + resp[0].catalog
 									+ "&dataset=" + resp[0].dataset
@@ -2282,7 +2284,8 @@ function parameter(datasets, res, cb) {
 									+ "&stop=" + stop
 									+ "&return=data"
 									+ "&format=ascii-2");
-			script = script.replace("__LABELS__",Labels.slice(0,-2));
+			//script = script.replace("__LABELS__",Labels.slice(0,-2));
+			script = script.replace("__LABELS__",Parameters.slice(0,-2));
 			if (config.TSDSFEEXTERNAL.match(/http:\/\/localhost/)) {
 				log.logres("Warning: stream(): " + warning, res.opts)
 				script = script.replace("__COMMENT__",warning)
@@ -2370,7 +2373,6 @@ function parameter(datasets, res, cb) {
 		var jydsargs = baseargs + "&server=" + server + extra
 
 		var format = "image/png";
-
 		if (res.opts.format.match(/^pdf/)) {format = "application/pdf"}
 		if (res.opts.format.match(/^svg/)) {format = "image/svg%2Bxml"}
 		var apargs = "?format="+format
