@@ -541,7 +541,7 @@
 						return info;
 					}
 
-					var aplink = "<a href='http://autoplot.org/autoplot.jnlp?open=bookmarks:" + TSDSFE + "?catalog=" + selected('catalog') + "SSCWeb&return=autoplot-bookmarks'>Browse catalog in Autoplot</a> (select Bookmarks > " + selected('catalog') + ")";
+					var aplink = "<a href='http://autoplot.org/autoplot.jnlp?open=bookmarks:" + TSDSFE + "?catalog=" + selected('catalog') + "&return=autoplot-bookmarks'>Browse catalog in Autoplot</a> (select Bookmarks > " + selected('catalog') + ")";
 					catalog.info = info;
 					$('#cataloginfo').html("<b>Catalog information:</b>");
 					if (info.length > 0) {
@@ -1252,10 +1252,10 @@
 						$("#imagediv").show();
 						$("#imagelink").attr("href", url);
 						if (selected('format').match(/pdf/)) {
-							$("#imagelink").html("Download PDF<br/>");
+							$("#imagelink").html("Download PDF");
 						}
 						if (selected('format').match(/jnlp/)) {
-							$("#imagelink").html("Download JNLP<br/>");
+							$("#imagelink").html("Download JNLP");
 						}
 					} else {
 						// Error
