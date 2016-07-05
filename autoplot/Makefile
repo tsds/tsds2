@@ -52,7 +52,7 @@ test3:
 
 install:
 	mkdir -p deps;
-	#curl $(WARURL) > pkgs/AutoplotServlet.war
+#	curl $(WARURL) > pkgs/AutoplotServlet.war
 	cd deps; unzip -q -o ../pkgs/$(JETTY).zip
 	cd deps; cp ../pkgs/AutoplotServlet.war $(JETTY)/webapps
 	cd deps; rm -f jetty; ln -s $(JETTY) jetty
