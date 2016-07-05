@@ -194,7 +194,7 @@ function checkservers(config, server) {
 					console.log(ds()
 						+ "Next test in "
 						+ checkservers.status[server]["checkperiod"]
-						+ " ms..")
+						+ " ms.")
 				}
 				checkservers.status[server]["state"] = false;
 				checkservers.status[server]["message"] = "Connection to " + server + " server has failed."
