@@ -4,7 +4,7 @@ if (typeof(exports) !== "undefined" && require){
 	var treeify = require('treeify').treeify;
 }
 
-function tsds2other(tsdsjson, other, callback) {
+function tsds2other(tsdsjson, other, config, callback) {
 
 	// Convert TSDS catalog in JSON to Autoplot bookmark JSON and then convert to bookmark XML.
 	// One bookmark is created per variable.
@@ -14,6 +14,8 @@ function tsds2other(tsdsjson, other, callback) {
 	var dsg = 0; // Dataset group
 	var j   = 0; // Increment for each variable
 
+	if (!tsdsjson["catalog"]) return "";
+	
 	var catalog = tsdsjson["catalog"]["$"]["id"];
 
 	// 1-D array of bookmarks.
@@ -47,7 +49,7 @@ function tsds2other(tsdsjson, other, callback) {
 
 		for (var dsv = 0; dsv < tsdsjson["catalog"]["dataset"][ds]["variables"][0]["variable"].length; dsv++) {
 			var parameters = tsdsjson["catalog"]["dataset"][ds]["variables"][0]["variable"][dsv]["$"]["id"];
-			var url = "http://autoplot.org/git/jyds/tsdsfe.jyds?http://tsds.org/get/?catalog="
+			var url = config["JYDSEXTERNAL"]+"?"+config["TSDSFEEXTERNAL"]+"?catalog="
 							+catalog+"&amp;dataset="+dataset+"&amp;parameters="+parameters+"&amp;start=-P2D"+"&amp;stop="+stop;
 
 			if (catalog.match("SuperMAG")) {
@@ -73,7 +75,7 @@ function tsds2other(tsdsjson, other, callback) {
 		if (tsdsjson["catalog"]["dataset"][ds]["groups"]) {
 			for (var dsg = 0; dsg < tsdsjson["catalog"]["dataset"][ds]["groups"][0]["group"].length; dsg++) {
 				var parameters = tsdsjson["catalog"]["dataset"][ds]["groups"][0]["group"][dsg]["$"]["id"];
-				var url = "http://autoplot.org/git/jyds/tsdsfe.jyds?http://tsds.org/get/?catalog="
+				var url = config["JYDSEXTERNAL"]+"?"+config["TSDSFEEXTERNAL"]+"?catalog="
 								+catalog+"&amp;dataset="+dataset+"&amp;parameters="+parameters+"&amp;start=-P2D"+"&amp;stop="+stop;
 
 				if (catalog.match("SuperMAG")) {
