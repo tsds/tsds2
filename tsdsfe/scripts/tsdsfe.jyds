@@ -17,7 +17,7 @@ usecache   = getParam( 'usecache', 'true' )
 labels     = getParam( 'labels', '' )
 title      = getParam( 'title', 'def' )
 fills      = getParam( 'fills', '-1e31')
-process    = getParam( 'type', 'timeseriesscoff', 'plot type', ['timeseries','timeseriessc','autocorrelation','histogram','periodogram','spectrogram'] )
+process    = getParam( 'type', 'timeseries', 'plot type', ['timeseries','timeseriessc','autocorrelation','histogram','periodogram','spectrogram'] )
 style      = getParam( 'type', '0', 'plot style', ['0','1','2'] )
 test       = getParam( 'test', 0, 'test number, 0 is no test', [0,1] )
 
@@ -175,4 +175,6 @@ elif ( process=='spectrogram' ):
     if ( result.rank()==2 ): result= result[:,0]
     result= fftPower(result, 100, None)
     xtags= result.property( QDataSet.DEPEND_0 )
-    result= putProperty( result, QDataSet.LABEL, "f [Hz]" ) 
+    ytags= result.property( QDataSet.DEPEND_1 )
+    ytags= putProperty( ytags, QDataSet.LABEL, "f [Hz]" )
+    result= putProperty( result, QDataSet.DEPEND_1, ytags )

@@ -8,11 +8,12 @@ SVR  = "__SERVER__"
 QS   = "__QUERYSTRING__"
 
 oUrl = OBJ_NEW('IDLnetUrl')
+print, 'If download error, check server status at __STATUS__'
 ds   = oUrl->Get(url=SVR+"?"+QS, /string_array )
 D    = fltarr(size(ds,/DIMENSIONS),size(strsplit(ds[0]),/DIMENSIONS))
 reads, ds, D
 
-L        = ['Year','Month','Day','Hour','Minute','Second',__LABELS__]
+L = ['Year','Month','Day','Hour','Minute','Second',__LABELS__]
 
 help, D
 print, 'has column labels'
