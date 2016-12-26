@@ -3,6 +3,11 @@ if (typeof(exports) !== "undefined" && require){
 	var xml2js  = require('xml2js');
 	var treeify = require('treeify').treeify;
 }
+var fs = require('fs')
+
+path = "tsdset/lib/expandtemplate.js"
+var expandISO8601Duration = {}
+var expandISO8601Duration = require("../node_modules/"+path).expandISO8601Duration
 
 function tsds2other(tsdsjson, other, config, callback) {
 
@@ -15,7 +20,7 @@ function tsds2other(tsdsjson, other, config, callback) {
 	var j   = 0; // Increment for each variable
 
 	if (!tsdsjson["catalog"]) return "";
-	
+
 	var catalog = tsdsjson["catalog"]["$"]["id"];
 
 	// 1-D array of bookmarks.
@@ -27,13 +32,13 @@ function tsds2other(tsdsjson, other, config, callback) {
 	// 1-D object look-up object of information used to populate bookmark structure.
 	var info = {}; 
 	info[catalog] = {};
-	info[catalog].title = tsdsjson["catalog"]["$"]["name"];
-	info[catalog].description = tsdsjson["catalog"]["$"]["label"] || tsdsjson["catalog"]["$"]["name"] || tsdsjson["catalog"]["$"]["id"] ;
+	info[catalog].title = tsdsjson["catalog"]["$"]["id"];
+	info[catalog].description = tsdsjson["catalog"]["$"]["label"] || tsdsjson["catalog"]["$"]["name"] || tsdsjson["catalog"]["$"]["name"] ;
 
 	for (var ds = 0; ds < tsdsjson["catalog"]["dataset"].length; ds++) {
 		var dataset = tsdsjson["catalog"]["dataset"][ds]["$"]["id"];
 
-		if (catalog.match("SuperMAG") || catalog.match("SSCWeb")) {
+		if (catalog.match("SuperMAG") || catalog.match("SSCWeb") || catalog.match("WDC/PT1H")) {
 			// Add an extra key in ID to force creation of subdirectories of A-Z below catalog directory.
 			var datasetkey = dataset.substring(0,1).toUpperCase();
 			info[datasetkey] = {};
@@ -45,14 +50,19 @@ function tsds2other(tsdsjson, other, config, callback) {
 		info[dataset].title       = tsdsjson["catalog"]["dataset"][ds]["$"]["name"] || tsdsjson["catalog"]["dataset"][ds]["$"]["id"];
 		info[dataset].description = tsdsjson["catalog"]["dataset"][ds]["$"]["label"] || tsdsjson["catalog"]["dataset"][ds]["$"]["name"];
 
-		var stop = tsdsjson["catalog"]["dataset"][ds]["timeCoverage"][0]["Start"][0].substring(0,10);
+		var stop = tsdsjson["catalog"]["dataset"][ds]["timeCoverage"][0]["End"][0].substring(0,10);
 
+		//console.log(info[dataset].title)
+		//console.log(tsdsjson["catalog"]["dataset"][ds]["timeCoverage"])
+		var timeRange = expandISO8601Duration("-P2D/"+stop,{debug:true});
+		//var timeRange = ""
 		for (var dsv = 0; dsv < tsdsjson["catalog"]["dataset"][ds]["variables"][0]["variable"].length; dsv++) {
 			var parameters = tsdsjson["catalog"]["dataset"][ds]["variables"][0]["variable"][dsv]["$"]["id"];
-			var url = config["JYDSEXTERNAL"]+"?"+config["TSDSFEEXTERNAL"]+"?catalog="
-							+catalog+"&amp;dataset="+dataset+"&amp;parameters="+parameters+"&amp;start=-P2D"+"&amp;stop="+stop;
+			var url = config["JYDSEXTERNAL"]+"?server="+config["TSDSFEEXTERNAL"]+"&amp;catalog="
+							+catalog+"&amp;dataset="+dataset+"&amp;parameters="+parameters+"&amp;timerange="+timeRange
+							//+catalog+"&amp;dataset="+dataset+"&amp;parameters="+parameters+"&amp;start=-P2D"+"&amp;stop="+stop;
 
-			if (catalog.match("SuperMAG")) {
+			if (catalog.match("SuperMAG") || catalog.match("WDC/PT1H")) {
 				links[j] = catalog + "." + datasetkey + "." + dataset + "." + dataset + "/" + parameters;
 			} else if (catalog.match("SSCWeb")) {
 				links[j] = catalog + "." + datasetkey + "." + dataset + ".parameters." + dataset + "/" + parameters;
