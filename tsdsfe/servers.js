@@ -72,13 +72,19 @@ function tests(config, server) {
 								console.log("Response has empty body");
 								return false;
 							}
-							return body.length == 3960
+							if (body.length == 3960) {
+								return true;
+							} else {
+								console.log("SSCWeb: Expected body.length == 3960.  Got " + body.length)
+								return false;								
+							}
 						},
 				"type": "server",
 				"interval": 3600000,
 				"respectHeaders": false,
 				"url": config.TSDSFE + "?catalog=SSCWeb&dataset=ace&parameters=X_TOD&start=2014-08-16&stop=2014-08-17&return=data&usedatacache=false&istest=true"
-			},
+			}
+			,
 			"CDAWeb":
 			{
 				"check": function (body) {
@@ -90,7 +96,7 @@ function tests(config, server) {
 							if (body.length == 35706) {
 								return true;
 							} else {
-								console.log("Expected body.length == 35706.  Got " + body.length)
+								console.log("CDAWeb: Expected body.length == 35706.  Got " + body.length)
 								return false;
 							}
 						},
@@ -102,9 +108,16 @@ function tests(config, server) {
 			"IMAGE/PT1M":
 			{
 				"check": function (body) {
-							if (!body) return false
-
-							return body.length == 142560
+							if (!body) {
+								console.log("Response has empty body");
+								return false;
+							}
+							if (body.length == 142560) {
+								return true;
+							} else {
+								console.log("IMAGE/PT1M: Expected body.length == 142560.  Got " + body.length)
+								return false;								
+							}
 						},
 				"type": "server",
 				"interval": 60000,
