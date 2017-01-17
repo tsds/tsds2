@@ -548,6 +548,8 @@
 						$('#cataloginfo')
 							.append('<ul style="list-style-position:outside;">')
 						$('#cataloginfo ul')
+							.append('<li attr="haipurl"><span style="background-color:pink"><a href="' +TSDSFE+selected('catalog')+'/hapi/catalog">HAPI URL</a></span></li>')
+						$('#cataloginfo ul')
 							.append('<li attr="catalogid">TSDS ID: ' +selected('catalog')+'</li>')
 
 						$('#cataloginfo ul')
@@ -597,8 +599,11 @@
 				datasets.onselect = function () {
 					info = tsdsfeajax("?catalog="+selected('catalog')+"&dataset="+selected('dataset'));
 
-					$('#datasetinfo').html("<b>Dataset documentation:</b>")
+					$('#datasetinfo').html("<b>Dataset information:</b>")
 					$('#datasetinfo').append('<ul style="list-style-position: outside;">');
+						$('#datasetinfo ul')
+							.append('<li attr="haipurl"><span style="background-color:pink"><a href="' +TSDSFE+selected('catalog')+'/hapi/info?id=' + selected('dataset') + '">HAPI URL</a></span></li>')
+
 					$('#datasetinfo ul').append('<li style="">TSDS ID: ' + selected('dataset')+'</li>');
 					if (info.length > 0) {
 						for (j = 0;j < info.length;j++) {
@@ -868,8 +873,8 @@
 				var start = info[0].dd.start.replace(/\n/g,"").substring(0,10);
 				var stop = info[0].dd.stop.replace(/\n/g,"").substring(0,10);
 				if (info[0].dd.stop.match("P")) {
-					var timeRange  = expandISO8601Duration(start+"/"+stop);
-					var stop = timeRange.split("/")[1].substring(0,10)
+					//var timeRange  = expandISO8601Duration(start+"/"+stop);
+					//var stop = timeRange.split("/")[1].substring(0,10)
 				}
 				
 				list[0].label = stop;
@@ -1107,8 +1112,16 @@
 									+ "&format=json"
 									+ "&attach=false"
 
+
 						// Append additional links
+
+						var start = selected('start');
+						var stop = selected('stop');
+
+						$("#datadiv > #datadivheader").append("<span style='background-color:pink'><a href='"+TSDSFE+selected('catalog')+"/hapi/data?id="+selected('dataset')+"&parameters="+selected('parameters')+"&time.min="+start+"&time.max="+stop+"'>HAPI Data URL</a></span>&nbsp;&nbsp;")
+
 						$("#datadiv > #datadivheader").append("<b>View (new tab):</b> ")
+
 						$("#datadiv > #datadivheader > a")
 							.first()
 							.clone()

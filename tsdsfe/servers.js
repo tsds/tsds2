@@ -75,7 +75,7 @@ function tests(config, server) {
 							return body.length == 3960
 						},
 				"type": "server",
-				"interval": 60000,
+				"interval": 3600000,
 				"respectHeaders": false,
 				"url": config.TSDSFE + "?catalog=SSCWeb&dataset=ace&parameters=X_TOD&start=2014-08-16&stop=2014-08-17&return=data&usedatacache=false&istest=true"
 			},
@@ -95,7 +95,7 @@ function tests(config, server) {
 							}
 						},
 				"type": "server",
-				"interval": 60000,
+				"interval": 3600000,
 				"respectHeaders": false,
 				"url": config.TSDSFE + "?catalog=CDAWeb&dataset=AC_H1_MFI&parameters=Magnitude&start=-P3D&stop=2014-08-13&return=data&usedatacache=false&istest=true"
 			},
@@ -109,18 +109,22 @@ function tests(config, server) {
 				"type": "server",
 				"interval": 60000,
 				"url": config.TSDSFE + "?catalog=IMAGE/PT1M&dataset=ABK&parameters=X&start=-P3D&stop=2014-09-30&return=data&usedatacache=false&istest=true"
-			},
-			"SuperMAG/PT1M":
+			}
+		}
+
+if (0) {
+		junk = {"SuperMAG/PT1M":
 			{
 				"check": function (body) {
 							if (!body) return false
 							return body.length == 142560
 						},
 				"type": "server",
-				"interval": 600000,
+				"interval": 3600000,
 				"url": config.TSDSFE + "?catalog=SuperMAG/PT1M&dataset=AAA&parameters=B_N&start=-PT3D&stop=2013-12-31&return=data&usedatacache=false&istest=true"
 			}
 		}
+}
 
 	if (server) {
 		return TESTS[server]

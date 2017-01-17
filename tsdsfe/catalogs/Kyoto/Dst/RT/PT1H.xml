@@ -4,19 +4,13 @@
 	<dataset name="Real-time Dst" ID="Dst"
 		urlprocessor="kyotodst"
 		urltemplate="http://wdc.kugi.kyoto-u.ac.jp/dst_realtime/$Y$m/index.html"
-		timeformat="$Y-$m-$DT$H:$M.$S" timecolumns="1"
-		datareader="lasp.tss.iosp.ColumnarAsciiReader">
+		timeformat="$Y-$m-$DT$H:$M:$S" timecolumns="1">
 		<documentation xmlns:xlink="http://www.w3.org/1999/xlink"
 			xlink:href="http://wdc.kugi.kyoto-u.ac.jp/dst_realtime/" xlink:title="Real-time Dst estimate from Kyoto; 1-hour cadence." />
-		<access serviceName="tss" urlPath="Dst" />
-		<access serviceName="ncml" urlPath="Dst" />
 		<timeCoverage>
 			<Start>-P1Y</Start>
 			<End>P0D</End>
 		</timeCoverage>
-		<groups>
-			<group/>
-		</groups>
 		<variables>
 			<variable id="Dst" name="Real-time Dst" label="Real-time Dst" units="nT" type="scalar" format="%4d" fillvalue="9999" columns="2"/>
 		</variables>

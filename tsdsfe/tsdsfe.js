@@ -46,6 +46,7 @@ if (argv.help || argv.h) {
 				)
 	return
 }
+var tsds2other = require(__dirname + "/js/tsds2other.js").tsds2other
 
 argv.checkdeps    = s2b(argv.checkdeps)
 argv.checkservers = s2b(argv.checkservers)
@@ -233,16 +234,178 @@ app.get('/', function (req, res) {
 	}
 })
 
-if (0) {
-	app2 = express();
-	app2.get('/', function (req,res) {
-		console.log(app2.mountpath);
-		console.log(typeof(req.originalUrl))
-		var catdataset = req.originalUrl.split("filelist");
-		console.log(dataset[0])
+// HAPI Entry route 1.
+app.get('/:catalog/:cadence?/hapi/catalog', function (req, res) {
+	// Get list of all catalogs and their URLs
+	cadence = ""
+	if (req.params.cadence) {
+		cadence = "/" + req.params.cadence;
+	}
+	url = config["TSDSFE"] 
+			+ "?catalog="+req.params.catalog+cadence
+			+ "&dataset=^.*"
+			+ "&usemetadatacache=false"
+	//console.log(url)
+	//log.logres("Requesting " + url, res.opts)
+	request(url, function (err, catres, catbody) {
+		datasetjson = JSON.parse(catbody);
+		//console.log(datasetjson);
+		var catalog = {};
+		catalog["HAPI"] = "1.0";
+		catalog["catalog"] = [];
+		for (var i = 0;i < datasetjson.length; i++) {
+			catalog["catalog"][i] = {"id": datasetjson[i]["value"]};
+		}
+		res.send(JSON.stringify(catalog,null,4));
+		return;
 	})
-	app.use('/IMAGE/PT1M/*/filelist',app2)
-}
+})
+
+// HAPI Entry route 2.
+app.get('/:catalog/:cadence?/hapi/info', function (req, res) {
+	// Get list of all catalogs and their URLs
+	cadence = ""
+	if (req.params.cadence) {
+		cadence = "/" + req.params.cadence;
+	}
+	if (req.query.parameters) {
+		var parameters = req.query.parameters
+	} else {
+		var parameters = "^.*"
+	}
+	//console.log(req.params)
+	url = config["TSDSFE"] 
+			+ "?catalog="+req.params.catalog+cadence
+			+ "&dataset="+req.query.id
+			+ "&parameters="+parameters
+			+ "&usemetadatacache=false"
+    //console.log(url)
+	//log.logres("Requesting " + url, res.opts)
+	request(url, function (err, catres, catbody) {
+		parametersjson = JSON.parse(catbody);
+		var catalog = {};
+		catalog["firstDate"] = parametersjson[0]["dd"].start;
+		catalog["lastDate"] = parametersjson[0]["dd"].stop;
+		catalog["deltaTime"] = parametersjson[0]["dd"].cadence;
+		catalog["description"] = parametersjson[0]["datasetinfo"].label;
+		catalog["resourceID"] = parametersjson[0].spaseid;
+		catalog["creationDate"] = (new Date()).toISOString();
+
+		catalog["HAPI"] = "1.0";
+		catalog["parameters"] = [];
+		catalog["parameters"][0] = {
+			"name": "Time",
+			"type": "isotime",
+			"length": 24
+		}
+		for (var i = 0;i < parametersjson.length; i++) {
+			var size = 1;
+			var units = "";
+			if (parametersjson[i]["dd"].columns) {
+				size = parametersjson[i]["dd"].columns.split(",").length;
+			}
+			if (parametersjson[i]["dd"].units) {
+				units = parametersjson[i]["dd"].units.split(",")[0];
+			}
+			catalog["parameters"][i+1] = 
+				{
+					"name": parametersjson[i]["value"],
+					"type": "float",
+					"size": [size],
+					"units": units,
+					"description": parametersjson[i]["dd"].label,
+					"fill": parametersjson[i]["dd"].fillvalue
+				}
+		}
+		res.send(JSON.stringify(catalog,null,4));
+		return;
+	})
+})
+
+// HAPI Entry route 3.
+app.get('/:catalog/:cadence?/hapi/data', function (req, res) {
+	// Get list of all catalogs and their URLs
+	cadence = ""
+	if (req.params.cadence) {
+		cadence = "/" + req.params.cadence;
+	}
+	if (req.query.parameters) {
+		var parameters = req.query.parameters
+	} else {
+		var parameters = "^.*"
+	}
+
+	url = config["TSDSFE"] 
+			+ "?catalog="+req.params.catalog+cadence
+			+ "&dataset="+req.query.id
+			+ "&parameters="+parameters
+			+ "&usemetadatacache=false"
+    //console.log(url)
+    var include = req.query.include || "";
+    var url0 = ""
+    if (include === "header") {
+		url0 = config["TSDSFE"] + "/" + req.params.catalog+cadence+"/hapi/info/?id="+req.query.id;   	
+    }
+
+	request(url, function (err, catres, catbody) {
+		parametersjson = JSON.parse(catbody);
+		var parameterscsv = [];
+		for (var i = 0;i < parametersjson.length; i++) {
+			parameterscsv[i] = parametersjson[i]["value"];
+		}
+		//console.log(parameterscsv.join(","))
+		url = config["TSDSFE"] 
+				+ "?catalog="+req.params.catalog+cadence
+				+ "&dataset="+req.query.id
+				+ "&parameters="+parameterscsv.join(",")
+				+ "&start="+req.query["time.min"]
+				+ "&stop="+req.query["time.max"]
+				+ "&usemetadatacache=false"
+		//console.log(url)
+
+		if (req.query.format === "binary") {
+			var byline = require('byline');
+			d = byline(request.get(url));
+		} else {
+			d = request.get(url);
+		}
+		if (include === "header") {
+				request(url0, function (err, resheader, bodyheader) {
+					var Readable = require('stream').Readable
+					s = new Readable
+					s.push("#" + bodyheader.replace(/\n/g,'\n#') + "\n")
+					s.push(null)
+				    var StreamConcat = require('stream-concat');
+				    combinedStream = new StreamConcat([s,d]);
+				    combinedStream.pipe(res)
+				})
+		} else {
+			console.log("--here")
+			//res.setHeader('content-disposition', 'attachment; filename=null');
+			res.removeHeader('content-disposition');
+			//console.log(res._headers)
+			if (req.query.format === "binary") {
+				d
+				.on('data', 
+					function(line) {
+						linea = line.toString().split(",");
+						console.log(linea)
+						time = new Buffer(linea[0].length)
+						time.write(linea[0])
+						val = new Buffer(8)
+						val.writeDoubleLE(linea[1])
+						res.write(time)
+						res.write(val)
+					})
+				.on('end', function() {res.end()})
+			} else {
+				d.pipe(res).on('finish', function () {console.log(res._headers); });
+			}
+		}
+		return;
+	})
+
+})
 
 // Create catalogs/dd directory
 if (!fs.existsSync(__dirname + "/catalogs/dd")) {
@@ -639,7 +802,6 @@ function handleRequest(req, res, options) {
 					// Undo temporary setting.
 					res.opts.format = format_orig;
 
-					var tsds2other = require(__dirname + "/js/tsds2other.js").tsds2other
 
 					// We want to cache the results of tsds2other here.
 					// getandparse only caches pre-tsds2other result.
@@ -726,6 +888,7 @@ function handleRequest(req, res, options) {
 						.replace(/\//g,"!")
 						.replace(/\&/g,"_")
 						.replace(/\=/g,"-")
+						.replace(/\,/g,"_")
 
 		if (options.return === "urilist" && options.format === "ascii") {var ext = ".txt"}
 		if (options.return === "urilist" && options.format === "xml") {var ext = ".xml"}
@@ -994,9 +1157,14 @@ function handleRequest(req, res, options) {
 					}
 
 					if (res0.statusCode != 200) {
-						log.logres("Non-200 status code.  Sending it and aborting.", res.opts, "stream")
+						log.logres("Non-200 status code.  Sending it and aborting.", res.opts, "stream");
 						res.setHeader('x-tsdsfe-error',res0.statusMessage);
-						res.status(res0.statusCode).send(res0.statusMessage);
+						if (res0.headers["x-datacache-error"]) {
+							res.setHeader('x-datacache-error',res0.headers["x-datacache-error"]);
+							res.status(res0.statusCode).send("Datacache error: " + res0.headers["x-datacache-error"]);
+						} else {
+							res.status(res0.statusCode).send(res0.statusMessage);
+						}
 						return;
 					}
 
@@ -1739,19 +1907,38 @@ function dataset(catalogs, res, cb) {
 		getandparse(catalogs[i].href, res, afterparse);
 	}
 
+	//function HAPI2TSDS(result) {
+		// repeat for all i
+		// i = 0;
+		//	getandparse(result["catalog"][i]["id"], res, afterparseHAPI, i)
+		//
+		// function afterparseHAPI(resultHAPI, i) {
+		//     catalog[i]["info"] = resultHAPI
+		//	   Assemble.
+		//     afterparse(result)
+		//}
+	//}
+
 	function afterparse(result) {
 
 		// Extract catalog information.
-
-		if (typeof(afterparse.j) === "undefined") {afterparse.j = 0}
-
-		// TODO: Deal with case of result === "", which means getandparse() failed.
-		afterparse.j = afterparse.j+1
 
 		if (typeof(result) === "string") {
 			console.log("Variable returned is string?!  Try parsing again ...");
 			result = JSON.parse(result)
 		}
+
+		// If result["HAPI"]
+		// Loop through each dataset and get parameter information and build result["catalog"]. Call afterparse(result)
+		//if (result[HAPI]) {
+		//   HAPI2TSDS(result);
+		//   return;
+		//}
+
+		if (typeof(afterparse.j) === "undefined") {afterparse.j = 0}
+
+		// TODO: Deal with case of result === "", which means getandparse() failed.
+		afterparse.j = afterparse.j+1
 
 		var parent = result["catalog"]["$"]["id"] || result["catalog"]["$"]["ID"]
 
@@ -1772,6 +1959,11 @@ function dataset(catalogs, res, cb) {
         tmpcat["$"] = result["catalog"]["$"]
         tmpcat.timeCoverage = result["catalog"]["documentation"]
         tmpcat.documentation = result["catalog"]["timeCoverage"]
+        //console.log(result["catalog"]["dataset"])
+        //if (result["catalog"]["dataset"][0]["SPASE"]) {
+	    //    tmpcat.spaseid = result["catalog"]["dataset"][0]["SPASE"][0]["ID"][0];
+	    //    console.log(result["catalog"]["dataset"][0]["SPASE"][0]["ID"][0])
+        //}
 
 		// Copy the parent node so that each dataset has a parent.
 		while (parents.length < datasets.length) {
@@ -1917,6 +2109,10 @@ function parameter(datasets, res, cb) {
 		parameters = parameters.concat(datasets[i].variables[0].variable);
 		var parent = datasets[i]["$"];
 
+		if (datasets[i]["SPASE"]) {
+			parent.spaseid = datasets[i]["SPASE"][0]["ID"][0];
+		}
+		//console.log(datasets[i]["SPASE"][0]["ID"][0])
 		var timeCoverage = datasets[i].timeCoverage[0];
 		if (timeCoverage) {
 			if (timeCoverage.Start) {
@@ -1942,7 +2138,7 @@ function parameter(datasets, res, cb) {
 		}
 	}						
 
-	//console.log(parameters)
+	//console.log(parents)
 	//console.log(res.opts.parameters)
 	var parametersa = res.opts.parameters.split(",")
 	for (var i = 0;i < parameters.length;i++) {
@@ -1964,6 +2160,8 @@ function parameter(datasets, res, cb) {
 		resp[i].value      = id;
 		resp[i].catalog    = parents[i]["catalog"]["$"]["id"]
 		resp[i].dataset    = parents[i]["id"] || parents[i]["ID"];
+		resp[i].spaseid    = parents[i]["spaseid"] || ""
+		//console.log(parents[i])
 		resp[i].parameters = id;
 		resp[i].dd         = parameters[i]["$"];
 		resp[i].cataloginfo = parents[i]["catalog"]

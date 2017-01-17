@@ -3,7 +3,7 @@
 	<catalogRef ID="CDAWeb" xlink:title="CDAWeb" xlink:href="CDAWeb/CDAWeb.xml"/>
 	<catalogRef ID="CARISMA/FGM/PT1S" xlink:title="CARISMA/FGM/PT1S" xlink:href="CARISMA/FGM/PT1S.xml"/>
 	<catalogRef ID="SSCWeb" xlink:title="SSCWeb" xlink:href="SSCWeb/SSCWeb.xml"/>
-	<catalogRef ID="SuperMAG/PT1M" xlink:title="SuperMAG/PT1M" xlink:href="SuperMAG/PT1M.xml"/>
+	<!--catalogRef ID="SuperMAG/PT1M" xlink:title="SuperMAG/PT1M" xlink:href="SuperMAG/PT1M.xml"/-->
 	<catalogRef ID="IMAGE/PT1M" xlink:title="IMAGE/PT1M" xlink:href="IMAGE/PT1M.xml"/>
 	<catalogRef ID="IMAGE/PT20S" xlink:title="IMAGE/PT20S" xlink:href="IMAGE/PT20S.xml"/>
 	<catalogRef ID="IMAGE/PT10S" xlink:title="IMAGE/PT10S" xlink:href="IMAGE/PT10S.xml"/>
