@@ -1974,16 +1974,9 @@ function dataset(catalogs, res, cb) {
 		// not have been called with results in same order as catalog array.
 		if (catalogs.length == 1) {
 			if (parent !== catalogs[afterparse.j-1].value) {
-				var msg = "Error: ID of catalog referenced in master catalog in " + config.CATALOGLIST 
-						+ " does not match ID of catalog with dataset."
-						+ "\nID in master catalog [" + config.CATALOGLIST
-						+ "] is \n  '" + parent
-						+ "'\nID in catalog with dataset "
-						+ "["
-						+ catalogs[afterparse.j-1].value
-						+ "] is\n  '"
-						+ catalogs[afterparse.j-1].href
-						+ "'.\n"
+			var msg = "Error: ID (" + catalogs[afterparse.j-1].value + ")" + " of catalog referenced in master catalog [" + config.CATALOGLIST  + "]"
+						+ " does not match ID (" +  parent + ") of catalog containing dataset "
+						+ "[" + catalogs[afterparse.j-1].href + "]."
 				log.logres(msg, res.opts);
 				cb(500, msg, res);
 				return;
@@ -2179,6 +2172,7 @@ function parameter(datasets, res, cb) {
 		if (!('urlprocessor' in resp[i].dd)) {resp[i].dd.urlprocessor = parents[i]["urlprocessor"] || ""}
 
 		if (!('cadence' in resp[i].dd))      {resp[i].dd.cadence = parents[i]["cadence"] || ""}
+		if (!('delim' in resp[i].dd))            {resp[i].dd.delim = parents[i]["delim"] || ""}
 		if (!('lineregex' in resp[i].dd))    {resp[i].dd.lineregex = parents[i]["lineregex"] || ""}
 		if (!('fillvalue' in resp[i].dd))    {resp[i].dd.fillvalue = parents[i]["fillvalue"] || ""}
 		
@@ -2692,6 +2686,7 @@ function parameter(datasets, res, cb) {
 				+"&return=stream"
 				+"&lineRegExp=" + (resp[0].dd.lineregex || "")
 				+"&streamFilterReadTimeFormat=" + (resp[0].dd.timeformat || "")
+				+"&streamFilterReadColumnsDelimiter=" + (resp[0].dd.delim || "")
 				+"&streamFilterReadColumns=" + columns
 				+"&streamFilterWriteTimeFormat=" + format
 				+"&streamFilterWriteComputeFunction=" + res.opts.filter
