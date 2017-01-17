@@ -63,9 +63,9 @@ tests[i] = {};
 tests[i].url = "catalog=IMAGE/PT20S&dataset=ALT&parameters=X,Y,Z&start=-P2D&stop=1991-08-31";
 tests[i].test = function (data) {
 	var len = data.toString().split("\n").length;
-	var nc = data.toString().split("\n")[0].split(" ").length
+	var nc = data.toString().split("\n")[0].split(",").length
 	console.log("File should have 8641 newlines and 4 columns. Found: " + len + " and " + nc);
-	if (len == 8641) {return true;} else {return false}
+	if (len == 8641 && nc == 4) {return true;} else {return false}
 };
 tests[i].note = ''
 
