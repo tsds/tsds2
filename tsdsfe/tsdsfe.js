@@ -380,7 +380,7 @@ app.get('/:catalog/:cadence?/hapi/data', function (req, res) {
 				    combinedStream.pipe(res)
 				})
 		} else {
-			console.log("--here")
+			//console.log("--here")
 			//res.setHeader('content-disposition', 'attachment; filename=null');
 			res.removeHeader('content-disposition');
 			//console.log(res._headers)
@@ -399,7 +399,9 @@ app.get('/:catalog/:cadence?/hapi/data', function (req, res) {
 					})
 				.on('end', function() {res.end()})
 			} else {
-				d.pipe(res).on('finish', function () {console.log(res._headers); });
+				d.pipe(res).on('finish', function () {
+					//console.log(res._headers);
+				});
 			}
 		}
 		return;
