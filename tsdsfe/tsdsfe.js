@@ -2108,7 +2108,7 @@ function parameter(datasets, res, cb) {
 			parent.spaseid = datasets[i]["SPASE"][0]["ID"][0];
 		}
 		//console.log(datasets[i]["SPASE"][0]["ID"][0])
-		var timeCoverage = datasets[i].timeCoverage[0];
+		var timeCoverage = datasets[i].timeCoverage;
 		if (timeCoverage) {
 			if (timeCoverage.Start) {
 				parent.start = timeCoverage.Start[0]
