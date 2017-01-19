@@ -548,6 +548,9 @@
 						$('#cataloginfo')
 							.append('<ul style="list-style-position:outside;">')
 						$('#cataloginfo ul')
+ 							.append('<li attr="haipurl"><span style="background-color:pink"><a href="' +TSDSFE+selected('catalog')+'/hapi/catalog/">HAPI URL</a></span></li>')
+
+						$('#cataloginfo ul')
 							.append('<li attr="catalogid">TSDS ID: ' +selected('catalog')+'</li>')
 
 						$('#cataloginfo ul')
@@ -597,8 +600,12 @@
 				datasets.onselect = function () {
 					info = tsdsfeajax("?catalog="+selected('catalog')+"&dataset="+selected('dataset'));
 
-					$('#datasetinfo').html("<b>Dataset documentation:</b>")
+					$('#datasetinfo').html("<b>Dataset information:</b>")
 					$('#datasetinfo').append('<ul style="list-style-position: outside;">');
+
+					$('#datasetinfo ul')
+ 						.append('<li attr="haipurl"><span style="background-color:pink"><a href="' +TSDSFE+selected('catalog')+'/hapi/info?id=' + selected('dataset') + '">HAPI URL</a></span></li>')
+ 
 					$('#datasetinfo ul').append('<li style="">TSDS ID: ' + selected('dataset')+'</li>');
 					if (info.length > 0) {
 						for (j = 0;j < info.length;j++) {
@@ -701,6 +708,9 @@
 					$('#parameterinfo').html("<b>Parameter information:</b>")
 					$('#parameterinfo').show();					
 
+					//$('#parameterinfo ul')
+ 					//	.append('<li attr="haipurl"><span style="background-color:pink"><a href="' +TSDSFE+selected('catalog')+'/hapi/info?id=' + selected('dataset') + '">HAPI URL</a></span></li>')
+
 					if (das.length == 0) {
 						$('#parameterinfo').append('<ul style="list-style-position: outside;">');
 						$('#parameterinfo ul').append('<li style="">Parameter <b>' + selected("parameters") + '</b> was not found in <a href="' + TSDSFE + '?catalog='+selected('catalog')+'&dataset='+selected('dataset')+'&parameters=^.*">dataset list</a></li>');
@@ -719,6 +729,7 @@
 						var id  = das[i].dd.id || "";
 						$('#parameterinfo')
 							.append('<ul style="list-style-position: outside;">');
+
 						$('#parameterinfo ul')
 							.last()
 							.append('<li style="">TSDS ID: '+id+'</li>');
@@ -1117,6 +1128,15 @@
 									+ "&attach=false"
 
 						// Append additional links
+
+						var start = selected('start');
+ 						var stop = selected('stop');
+ 						$("#datadiv > #datadivheader").append("<span style='background-color:pink'><a href='"+TSDSFE+selected('catalog')+"/hapi/data?id="+selected('dataset')+"&parameters="+selected('parameters')+"&time.min="+start+"&time.max="+stop+"'>HAPI Data URL</a></span>&nbsp;&nbsp;")
+ 						$("#datadiv > #datadivheader").append("<b>View (new tab):</b> ")
+ 
+  						$("#datadiv > #datadivheader > a")
+  							.first()
+  							.clone()
 						$("#datadiv > #datadivheader").append("<b>View (new tab):</b> ")
 						$("#datadiv > #datadivheader > a")
 							.first()
