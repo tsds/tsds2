@@ -234,6 +234,26 @@ app.get('/', function (req, res) {
 	}
 })
 
+// HAPI Entry route 0.
+app.get('/:catalog/:cadence?/hapi', function (req, res) {
+	cadence = ""
+	if (req.params.cadence) {
+		cadence = "/" + req.params.cadence;
+	}
+	res.contentType("html");
+	res.send(fs.readFileSync(__dirname+"/hapi.htm").toString().replace(/__CATALOG__/g,req.params.catalog+cadence));
+})
+
+// HAPI Entry route.
+app.get('/:catalog/:cadence?/capabilities', function (req, res) {
+	cadence = ""
+	if (req.params.cadence) {
+		cadence = "/" + req.params.cadence;
+	}
+	res.contentType("Content-Type: application/json");
+	res.send('{"HAPI": "1.0","outputFormats": [ "csv", "binary" ]}');
+})
+
 // HAPI Entry route 1.
 app.get('/:catalog/:cadence?/hapi/catalog', function (req, res) {
 	// Get list of all catalogs and their URLs
@@ -576,8 +596,10 @@ function handleRequest(req, res, options) {
 	// Set log file name as response header
 	res.header('x-tsdsfe-log', res.opts.logsig);
 
-	// Log original URL to application log file.
-	log.logapp(res.opts.ip + " " + req.originalUrl, config);
+	// Log original URL to application log file if not a test.
+	if (!req.originalUrl.match("istest=true")) {
+		log.logapp(res.opts.ip + " " + req.originalUrl, config);
+	}
 
 	// Log request information to response log file.
 	log.logres("Configuration file = " 
@@ -2109,19 +2131,22 @@ function parameter(datasets, res, cb) {
 		}
 		//console.log(datasets[i]["SPASE"][0]["ID"][0])
 		var timeCoverage = datasets[i].timeCoverage;
-		if (timeCoverage) {
-			if (timeCoverage.Start) {
-				parent.start = timeCoverage.Start[0]
+
+		if (timeCoverage[0]) {
+			if (timeCoverage[0].Start) {
+				parent.start = timeCoverage[0].Start[0]
+			} else {
+				parent.start = "P0D";
 			}
 			
-			if (timeCoverage.End) {
-				parent.stop = timeCoverage.End[0];
+			if (timeCoverage[0].End) {
+				parent.stop = timeCoverage[0].End[0];
 			} else {
-				parent.stop = "P0D";	
+				parent.stop = "P0D";
 			}
 
-			if (timeCoverage.Cadence) {
-				parent.cadence = timeCoverage.Cadence[0];
+			if (timeCoverage[0].Cadence) {
+				parent.cadence = timeCoverage[0].Cadence[0];
 			} else {
 				parent.cadence = "";				
 			}
