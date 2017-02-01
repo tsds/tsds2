@@ -1,961 +1,385 @@
-AC_AT_DEF/RTN_ATT/1997-08-26/-1e31/%9.5f/PT1H/1 hour/Time, beginning of interval
-AC_AT_DEF/GCI_ATT/1997-08-26/-1e31/%9.5f/PT1H/1 hour/Time, beginning of interval
-AC_AT_DEF/GSE_ATT/1997-08-26/-1e31/%9.5f/PT1H/1 hour/Time, beginning of interval
-AC_H0_MFI/Magnitude/1997-09-02/-1e31/%8.3f/PT16S/16 second/Time, beginning of interval
-AC_H0_MFI/BGSEc/1997-09-02/-1e31/%9.3f/PT16S/16 second/Time, beginning of interval
-AC_H0_MFI/BGSM/1997-09-02/-1e31/%9.3e/PT16S/16 second/Time, beginning of interval
-AC_H0_MFI/dBrms/1997-09-02/-1e31/%8.3f/PT16S/16 second/Time, beginning of interval
-AC_H0_MFI/SC_pos_GSE/1997-09-02/-1e31/%9.1f/PT16S/16 second/Time, beginning of interval
-AC_H0_MFI/SC_pos_GSM/1997-09-02/-1e31/%9.1f/PT16S/16 second/Time, beginning of interval
-AC_H0_SWE/Np/1998-02-04/-1e31/%8.4f/PT64S/64 second/Time, beginning of interval
-AC_H0_SWE/Vp/1998-02-04/-1e31/%8.2f/PT64S/64 second/Time, beginning of interval
-AC_H0_SWE/Tpr/1998-02-04/-1e31/%9.1f/PT64S/64 second/Time, beginning of interval
-AC_H0_SWE/alpha_ratio/1998-02-04/-1e31/%8.4f/PT64S/64 second/Time, beginning of interval
-AC_H0_SWE/V_GSE/1998-02-04/-1e31/%8.1f/PT64S/64 second/Time, beginning of interval
-AC_H0_SWE/V_RTN/1998-02-04/-1e31/%8.1f/PT64S/64 second/Time, beginning of interval
-AC_H0_SWE/V_GSM/1998-02-04/-1e31/%8.1f/PT64S/64 second/Time, beginning of interval
-AC_H0_SWE/SC_pos_GSE/1998-02-04/-1e31/%9.1f/PT64S/64 second/Time, beginning of interval
-AC_H0_SWE/SC_pos_GSM/1998-02-04/-1e31/%9.1f/PT64S/64 second/Time, beginning of interval
-AC_H1_EPM/P1/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/P2/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/P3/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/P4/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/P5/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/P6/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/P7/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/P8/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/unc_P1/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/unc_P2/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/unc_P3/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/unc_P4/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/unc_P5/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/unc_P6/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/unc_P7/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/unc_P8/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/DE1/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/DE2/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/DE3/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/DE4/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/unc_DE1/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/unc_DE2/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/unc_DE3/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/unc_DE4/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/W3/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/W4/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/W5/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/W6/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/W7/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/W8/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/unc_W3/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/unc_W4/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/unc_W5/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/unc_W6/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/unc_W7/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/unc_W8/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/E1p/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/E2p/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/E3p/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/E4p/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/FP5p/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/FP6p/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/FP7p/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/unc_E1p/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/unc_E2p/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/unc_E3p/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/unc_E4p/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/unc_FP5p/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/unc_FP6p/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/unc_FP7p/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/Z2/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/Z2A/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/Z3/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/Z4/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/unc_Z2/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/unc_Z2A/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/unc_Z3/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/unc_Z4/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/P1p/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/P2p/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/P3p/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/P4p/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/P5p/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/P6p/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/P7p/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/P8p/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/unc_P1p/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/unc_P2p/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/unc_P3p/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/unc_P4p/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/unc_P5p/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/unc_P6p/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/unc_P7p/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/unc_P8p/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/E1/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/E2/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/E3/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/E4/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/FP5/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/FP6/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/FP7/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/unc_E1/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/unc_E2/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/unc_E3/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/unc_E4/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/unc_FP5/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/unc_FP6/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_EPM/unc_FP7/1997-08-30/-1e31/%11.4e/PT5M/5 minute/Time, beginning of interval
-AC_H1_MFI/Magnitude/1997-09-02/-1e31/%8.3f/PT4M/4 minutes/Time, beginning of interval
-AC_H1_MFI/BGSEc/1997-09-02/-1e31/%9.3f/PT4M/4 minutes/Time, beginning of interval
-AC_H1_MFI/BGSM/1997-09-02/-1e31/%9.3e/PT4M/4 minutes/Time, beginning of interval
-AC_H1_MFI/SC_pos_GSE/1997-09-02/-1e31/%9.1f/PT4M/4 minutes/Time, beginning of interval
-AC_H1_MFI/SC_pos_GSM/1997-09-02/-1e31/%9.1f/PT4M/4 minutes/Time, beginning of interval
-AC_H1_SIS/flux_He/1997-08-29/-1e31/%11.4e/PT256S/256 seconds/Time, beginning of interval
-AC_H1_SIS/flux_C/1997-08-29/-1e31/%11.4e/PT256S/256 seconds/Time, beginning of interval
-AC_H1_SIS/flux_N/1997-08-29/-1e31/%11.4e/PT256S/256 seconds/Time, beginning of interval
-AC_H1_SIS/flux_O/1997-08-29/-1e31/%11.4e/PT256S/256 seconds/Time, beginning of interval
-AC_H1_SIS/flux_Ne/1997-08-29/-1e31/%11.4e/PT256S/256 seconds/Time, beginning of interval
-AC_H1_SIS/flux_Na/1997-08-29/-1e31/%11.4e/PT256S/256 seconds/Time, beginning of interval
-AC_H1_SIS/flux_Mg/1997-08-29/-1e31/%11.4e/PT256S/256 seconds/Time, beginning of interval
-AC_H1_SIS/flux_Al/1997-08-29/-1e31/%11.4e/PT256S/256 seconds/Time, beginning of interval
-AC_H1_SIS/flux_Si/1997-08-29/-1e31/%11.4e/PT256S/256 seconds/Time, beginning of interval
-AC_H1_SIS/flux_S/1997-08-29/-1e31/%11.4e/PT256S/256 seconds/Time, beginning of interval
-AC_H1_SIS/flux_Ar/1997-08-29/-1e31/%11.4e/PT256S/256 seconds/Time, beginning of interval
-AC_H1_SIS/flux_Ca/1997-08-29/-1e31/%11.4e/PT256S/256 seconds/Time, beginning of interval
-AC_H1_SIS/flux_Fe/1997-08-29/-1e31/%11.4e/PT256S/256 seconds/Time, beginning of interval
-AC_H1_SIS/flux_Ni/1997-08-29/-1e31/%11.4e/PT256S/256 seconds/Time, beginning of interval
-AC_H1_SIS/cnt_He/1997-08-29/-1e31/%11.4e/PT256S/256 seconds/Time, beginning of interval
-AC_H1_SIS/cnt_C/1997-08-29/-1e31/%11.4e/PT256S/256 seconds/Time, beginning of interval
-AC_H1_SIS/cnt_N/1997-08-29/-1e31/%11.4e/PT256S/256 seconds/Time, beginning of interval
-AC_H1_SIS/cnt_O/1997-08-29/-1e31/%11.4e/PT256S/256 seconds/Time, beginning of interval
-AC_H1_SIS/cnt_Ne/1997-08-29/-1e31/%11.4e/PT256S/256 seconds/Time, beginning of interval
-AC_H1_SIS/cnt_Na/1997-08-29/-1e31/%11.4e/PT256S/256 seconds/Time, beginning of interval
-AC_H1_SIS/cnt_Mg/1997-08-29/-1e31/%11.4e/PT256S/256 seconds/Time, beginning of interval
-AC_H1_SIS/cnt_Al/1997-08-29/-1e31/%11.4e/PT256S/256 seconds/Time, beginning of interval
-AC_H1_SIS/cnt_Si/1997-08-29/-1e31/%11.4e/PT256S/256 seconds/Time, beginning of interval
-AC_H1_SIS/cnt_S/1997-08-29/-1e31/%11.4e/PT256S/256 seconds/Time, beginning of interval
-AC_H1_SIS/cnt_Ar/1997-08-29/-1e31/%11.4e/PT256S/256 seconds/Time, beginning of interval
-AC_H1_SIS/cnt_Ca/1997-08-29/-1e31/%11.4e/PT256S/256 seconds/Time, beginning of interval
-AC_H1_SIS/cnt_Fe/1997-08-29/-1e31/%11.4e/PT256S/256 seconds/Time, beginning of interval
-AC_H1_SIS/cnt_Ni/1997-08-29/-1e31/%11.4e/PT256S/256 seconds/Time, beginning of interval
-AC_H2_CRIS/flux_B/1997-08-27/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_CRIS/flux_C/1997-08-27/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_CRIS/flux_N/1997-08-27/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_CRIS/flux_O/1997-08-27/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_CRIS/flux_F/1997-08-27/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_CRIS/flux_Ne/1997-08-27/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_CRIS/flux_Na/1997-08-27/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_CRIS/flux_Mg/1997-08-27/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_CRIS/flux_Al/1997-08-27/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_CRIS/flux_Si/1997-08-27/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_CRIS/flux_P/1997-08-27/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_CRIS/flux_S/1997-08-27/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_CRIS/flux_Cl/1997-08-27/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_CRIS/flux_Ar/1997-08-27/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_CRIS/flux_K/1997-08-27/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_CRIS/flux_Ca/1997-08-27/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_CRIS/flux_Sc/1997-08-27/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_CRIS/flux_Ti/1997-08-27/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_CRIS/flux_V/1997-08-27/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_CRIS/flux_Cr/1997-08-27/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_CRIS/flux_Mn/1997-08-27/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_CRIS/flux_Fe/1997-08-27/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_CRIS/flux_Co/1997-08-27/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_CRIS/flux_Ni/1997-08-27/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_CRIS/cnt_B/1997-08-27/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_CRIS/cnt_C/1997-08-27/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_CRIS/cnt_N/1997-08-27/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_CRIS/cnt_O/1997-08-27/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_CRIS/cnt_F/1997-08-27/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_CRIS/cnt_Ne/1997-08-27/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_CRIS/cnt_Na/1997-08-27/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_CRIS/cnt_Mg/1997-08-27/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_CRIS/cnt_Al/1997-08-27/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_CRIS/cnt_Si/1997-08-27/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_CRIS/cnt_P/1997-08-27/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_CRIS/cnt_S/1997-08-27/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_CRIS/cnt_Cl/1997-08-27/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_CRIS/cnt_Ar/1997-08-27/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_CRIS/cnt_K/1997-08-27/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_CRIS/cnt_Ca/1997-08-27/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_CRIS/cnt_Sc/1997-08-27/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_CRIS/cnt_Ti/1997-08-27/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_CRIS/cnt_V/1997-08-27/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_CRIS/cnt_Cr/1997-08-27/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_CRIS/cnt_Mn/1997-08-27/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_CRIS/cnt_Fe/1997-08-27/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_CRIS/cnt_Co/1997-08-27/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_CRIS/cnt_Ni/1997-08-27/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/P1/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/P2/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/P3/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/P4/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/P5/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/P6/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/P7/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/P8/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/unc_P1/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/unc_P2/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/unc_P3/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/unc_P4/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/unc_P5/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/unc_P6/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/unc_P7/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/unc_P8/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/DE1/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/DE2/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/DE3/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/DE4/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/unc_DE1/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/unc_DE2/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/unc_DE3/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/unc_DE4/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/W3/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/W4/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/W5/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/W6/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/W7/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/W8/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/unc_W3/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/unc_W4/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/unc_W5/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/unc_W6/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/unc_W7/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/unc_W8/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/E1p/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/E2p/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/E3p/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/E4p/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/FP5p/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/FP6p/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/FP7p/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/unc_E1p/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/unc_E2p/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/unc_E3p/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/unc_E4p/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/unc_FP5p/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/unc_FP6p/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/unc_FP7p/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/Z2/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/Z2A/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/Z3/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/Z4/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/unc_Z2/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/unc_Z2A/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/unc_Z3/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/unc_Z4/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/P1p/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/P2p/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/P3p/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/P4p/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/P5p/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/P6p/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/P7p/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/P8p/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/unc_P1p/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/unc_P2p/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/unc_P3p/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/unc_P4p/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/unc_P5p/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/unc_P6p/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/unc_P7p/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/unc_P8p/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/E1/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/E2/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/E3/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/E4/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/FP5/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/FP6/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/FP7/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/unc_E1/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/unc_E2/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/unc_E3/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/unc_E4/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/unc_FP5/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/unc_FP6/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_EPM/unc_FP7/1997-08-30/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_MFI/Magnitude/1997-09-02/-1e31/%8.3f/PT1H/1 hour/Time, beginning of interval
-AC_H2_MFI/BGSEc/1997-09-02/-1e31/%9.3f/PT1H/1 hour/Time, beginning of interval
-AC_H2_MFI/BGSM/1997-09-02/-1e31/%9.3e/PT1H/1 hour/Time, beginning of interval
-AC_H2_MFI/SC_pos_GSE/1997-09-02/-1e31/%9.1f/PT1H/1 hour/Time, beginning of interval
-AC_H2_MFI/SC_pos_GSM/1997-09-02/-1e31/%9.1f/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/H1/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/H2/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/H3/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/unc_H1/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/unc_H2/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/unc_H3/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/He1/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/He2/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/He3/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/He4cal/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/He5/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/He6/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/He7/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/He8/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/HeCAck/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/unc_He1/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/unc_He2/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/unc_He3/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/unc_He4cal/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/unc_He5/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/unc_He6/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/unc_He7/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/unc_He8/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/unc_HeCAck/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/ClowE/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/C1/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/C2/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/C3/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/C4/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/C5/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/C6/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/unc_ClowE/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/unc_C1/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/unc_C2/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/unc_C3/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/unc_C4/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/unc_C5/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/unc_C6/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/N1/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/N2/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/N3/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/N4/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/N5/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/N6/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/unc_N1/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/unc_N2/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/unc_N3/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/unc_N4/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/unc_N5/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/unc_N6/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/OlowE/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/O1/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/O2/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/O3/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/O4/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/O5/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/unc_OlowE/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/unc_O1/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/unc_O2/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/unc_O3/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/unc_O4/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/unc_O5/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/Ne1/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/Ne2/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/Ne3/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/Ne4/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/unc_Ne1/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/unc_Ne2/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/unc_Ne3/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/unc_Ne4/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/Mg1/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/Mg2/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/Mg3/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/Mg4/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/unc_Mg1/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/unc_Mg2/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/unc_Mg3/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/unc_Mg4/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/Si1/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/Si2/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/Si3/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/Si4/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/unc_Si1/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/unc_Si2/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/unc_Si3/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/unc_Si4/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/FeloE/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/Fe1/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/Fe2/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/Fe3/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/Fe4/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/unc_FeloE/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/unc_Fe1/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/unc_Fe2/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/unc_Fe3/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SEP/unc_Fe4/1997-10-08/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SIS/flux_He/1997-08-29/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SIS/flux_C/1997-08-29/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SIS/flux_N/1997-08-29/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SIS/flux_O/1997-08-29/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SIS/flux_Ne/1997-08-29/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SIS/flux_Na/1997-08-29/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SIS/flux_Mg/1997-08-29/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SIS/flux_Al/1997-08-29/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SIS/flux_Si/1997-08-29/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SIS/flux_S/1997-08-29/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SIS/flux_Ar/1997-08-29/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SIS/flux_Ca/1997-08-29/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SIS/flux_Fe/1997-08-29/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SIS/flux_Ni/1997-08-29/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SIS/cnt_He/1997-08-29/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SIS/cnt_C/1997-08-29/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SIS/cnt_N/1997-08-29/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SIS/cnt_O/1997-08-29/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SIS/cnt_Ne/1997-08-29/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SIS/cnt_Na/1997-08-29/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SIS/cnt_Mg/1997-08-29/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SIS/cnt_Al/1997-08-29/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SIS/cnt_Si/1997-08-29/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SIS/cnt_S/1997-08-29/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SIS/cnt_Ar/1997-08-29/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SIS/cnt_Ca/1997-08-29/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SIS/cnt_Fe/1997-08-29/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SIS/cnt_Ni/1997-08-29/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_SWE/Np/1998-02-04/-1e31/%8.4f/PT1H/1 hour/Time, beginning of interval
-AC_H2_SWE/Vp/1998-02-04/-1e31/%8.2f/PT1H/1 hour/Time, beginning of interval
-AC_H2_SWE/Tpr/1998-02-04/-1e31/%9.1f/PT1H/1 hour/Time, beginning of interval
-AC_H2_SWE/alpha_ratio/1998-02-04/-1e31/%8.4f/PT1H/1 hour/Time, beginning of interval
-AC_H2_SWE/V_GSE/1998-02-04/-1e31/%8.1f/PT1H/1 hour/Time, beginning of interval
-AC_H2_SWE/V_RTN/1998-02-04/-1e31/%8.1f/PT1H/1 hour/Time, beginning of interval
-AC_H2_SWE/V_GSM/1998-02-04/-1e31/%8.1f/PT1H/1 hour/Time, beginning of interval
-AC_H2_SWE/SC_pos_GSE/1998-02-04/-1e31/%9.1f/PT1H/1 hour/Time, beginning of interval
-AC_H2_SWE/SC_pos_GSM/1998-02-04/-1e31/%9.1f/PT1H/1 hour/Time, beginning of interval
-AC_H2_SWI/nHe2/1998-02-04/-1e31/%8.4f/PT1H/1 hour/Time, beginning of interval
-AC_H2_SWI/nHe2_err/1998-02-04/-1e31/%8.4f/PT1H/1 hour/Time, beginning of interval
-AC_H2_SWI/vHe2/1998-02-04/-1e31/%8.2f/PT1H/1 hour/Time, beginning of interval
-AC_H2_SWI/vthHe2/1998-02-04/-1e31/%8.2f/PT1H/1 hour/Time, beginning of interval
-AC_H2_SWI/He_qual/1998-02-04/-1/%2d/PT1H/1 hour/Time, beginning of interval
-AC_H2_SWI/vC5/1998-02-04/-1e31/%8.2f/PT1H/1 hour/Time, beginning of interval
-AC_H2_SWI/vthC5/1998-02-04/-1e31/%8.2f/PT1H/1 hour/Time, beginning of interval
-AC_H2_SWI/C5_qual/1998-02-04/-1/%2d/PT1H/1 hour/Time, beginning of interval
-AC_H2_SWI/vO6/1998-02-04/-1e31/%8.2f/PT1H/1 hour/Time, beginning of interval
-AC_H2_SWI/vthO6/1998-02-04/-1e31/%8.2f/PT1H/1 hour/Time, beginning of interval
-AC_H2_SWI/O6_qual/1998-02-04/-1/%2d/PT1H/1 hour/Time, beginning of interval
-AC_H2_SWI/vFe10/1998-02-04/-1e31/%8.2f/PT1H/1 hour/Time, beginning of interval
-AC_H2_SWI/vthFe10/1998-02-04/-1e31/%8.2f/PT1H/1 hour/Time, beginning of interval
-AC_H2_SWI/Fe10_qual/1998-02-04/-1/%2d/PT1H/1 hour/Time, beginning of interval
-AC_H2_SWI/C6to4/1998-02-04/-1e31/%9.4f/PT1H/1 hour/Time, beginning of interval
-AC_H2_SWI/C6to4_err/1998-02-04/-1e31/%9.4f/PT1H/1 hour/Time, beginning of interval
-AC_H2_SWI/C6to4_qual/1998-02-04/-1/%2d/PT1H/1 hour/Time, beginning of interval
-AC_H2_SWI/C6to5/1998-02-04/-1e31/%9.4f/PT1H/1 hour/Time, beginning of interval
-AC_H2_SWI/C6to5_err/1998-02-04/-1e31/%9.4f/PT1H/1 hour/Time, beginning of interval
-AC_H2_SWI/C6to5_qual/1998-02-04/-1/%2d/PT1H/1 hour/Time, beginning of interval
-AC_H2_SWI/O7to6/1998-02-04/-1e31/%9.4f/PT1H/1 hour/Time, beginning of interval
-AC_H2_SWI/O7to6_err/1998-02-04/-1e31/%9.4f/PT1H/1 hour/Time, beginning of interval
-AC_H2_SWI/O7to6_qual/1998-02-04/-1/%2d/PT1H/1 hour/Time, beginning of interval
-AC_H2_SWI/avqC/1998-02-04/-1e31/%9.4f/PT1H/1 hour/Time, beginning of interval
-AC_H2_SWI/avqC_err/1998-02-04/-1e31/%9.4f/PT1H/1 hour/Time, beginning of interval
-AC_H2_SWI/avqC_qual/1998-02-04/-1/%2d/PT1H/1 hour/Time, beginning of interval
-AC_H2_SWI/avqO/1998-02-04/-1e31/%9.4f/PT1H/1 hour/Time, beginning of interval
-AC_H2_SWI/avqO_err/1998-02-04/-1e31/%9.4f/PT1H/1 hour/Time, beginning of interval
-AC_H2_SWI/avqO_qual/1998-02-04/-1/%2d/PT1H/1 hour/Time, beginning of interval
-AC_H2_SWI/avqMg/1998-02-04/-1e31/%9.4f/PT1H/1 hour/Time, beginning of interval
-AC_H2_SWI/avqMg_err/1998-02-04/-1e31/%9.4f/PT1H/1 hour/Time, beginning of interval
-AC_H2_SWI/avqMg_qual/1998-02-04/-1/%2d/PT1H/1 hour/Time, beginning of interval
-AC_H2_SWI/avqSi/1998-02-04/-1e31/%9.4f/PT1H/1 hour/Time, beginning of interval
-AC_H2_SWI/avqSi_err/1998-02-04/-1e31/%9.4f/PT1H/1 hour/Time, beginning of interval
-AC_H2_SWI/avqSi_qual/1998-02-04/-1/%2d/PT1H/1 hour/Time, beginning of interval
-AC_H2_SWI/avqFe/1998-02-04/-1e31/%9.4f/PT1H/1 hour/Time, beginning of interval
-AC_H2_SWI/avqFe_err/1998-02-04/-1e31/%9.4f/PT1H/1 hour/Time, beginning of interval
-AC_H2_SWI/avqFe_qual/1998-02-04/-1/%2d/PT1H/1 hour/Time, beginning of interval
-AC_H2_SWI/FetoO/1998-02-04/-1e31/%9.4f/PT1H/1 hour/Time, beginning of interval
-AC_H2_SWI/FetoO_err/1998-02-04/-1e31/%9.4f/PT1H/1 hour/Time, beginning of interval
-AC_H2_SWI/FetoO_qual/1998-02-04/-1/%2d/PT1H/1 hour/Time, beginning of interval
-AC_H2_SWI/SW_type/1998-02-04/-1/%2d/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/H_S1/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/H_S2/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/H_S3/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/H_S4/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/H_S5/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/unc_H_S1/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/unc_H_S2/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/unc_H_S3/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/unc_H_S4/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/unc_H_S5/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/He3_S1/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/He3_S2/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/He3_L2/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/He3_L3/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/He3_L4/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/He3_L5/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/He3_L6/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/unc_He3_S1/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/unc_He3_S2/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/unc_He3_L2/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/unc_He3_L3/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/unc_He3_L4/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/unc_He3_L5/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/unc_He3_L6/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/He4_S1/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/He4_S2/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/He4_S3/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/He4_L1/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/He4_L2/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/He4_L3/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/He4_L4/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/He4_L5/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/He4_L6/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/He4_L7/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/He4_L8/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/He4_L9/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/He4_L10/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/He4_L11/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/He4_L12/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/unc_He4_S1/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/unc_He4_S2/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/unc_He4_S3/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/unc_He4_L1/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/unc_He4_L2/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/unc_He4_L3/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/unc_He4_L4/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/unc_He4_L5/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/unc_He4_L6/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/unc_He4_L7/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/unc_He4_L8/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/unc_He4_L9/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/unc_He4_L10/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/unc_He4_L11/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/unc_He4_L12/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/C_S1/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/C_L1/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/C_L2/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/C_L3/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/C_L4/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/C_L5/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/C_L6/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/C_L7/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/C_L8/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/unc_C_S1/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/unc_C_L1/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/unc_C_L2/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/unc_C_L3/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/unc_C_L4/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/unc_C_L5/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/unc_C_L6/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/unc_C_L7/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/unc_C_L8/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/O_S1/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/O_L1/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/O_L2/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/O_L3/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/O_L4/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/O_L5/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/O_L6/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/O_L7/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/unc_O_S1/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/unc_O_L1/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/unc_O_L2/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/unc_O_L3/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/unc_O_L4/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/unc_O_L5/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/unc_O_L6/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/unc_O_L7/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/Ne_S_L1/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/Ne_S_L2/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/Ne_S_L3/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/Ne_S_L4/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/Ne_S_L5/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/Ne_S_L6/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/Ne_S_L7/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/unc_Ne_S_L1/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/unc_Ne_S_L2/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/unc_Ne_S_L3/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/unc_Ne_S_L4/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/unc_Ne_S_L5/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/unc_Ne_S_L6/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/unc_Ne_S_L7/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/Fe_L1/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/Fe_L2/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/Fe_L3/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/Fe_L4/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/Fe_L5/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/Fe_L6/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/Fe_L7/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/Fe_L8/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/Fe_L9/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/unc_Fe_L1/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/unc_Fe_L2/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/unc_Fe_L3/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/unc_Fe_L4/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/unc_Fe_L5/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/unc_Fe_L6/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/unc_Fe_L7/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/unc_Fe_L8/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H2_ULE/unc_Fe_L9/1998-02-20/-1e31/%11.4e/PT1H/1 hour/Time, beginning of interval
-AC_H3_CRIS/flux_B/1997-08-27/-1e31/%11.4e/P1D/1 day/Time, beginning of interval
-AC_H3_CRIS/flux_C/1997-08-27/-1e31/%11.4e/P1D/1 day/Time, beginning of interval
-AC_H3_CRIS/flux_N/1997-08-27/-1e31/%11.4e/P1D/1 day/Time, beginning of interval
-AC_H3_CRIS/flux_O/1997-08-27/-1e31/%11.4e/P1D/1 day/Time, beginning of interval
-AC_H3_CRIS/flux_F/1997-08-27/-1e31/%11.4e/P1D/1 day/Time, beginning of interval
-AC_H3_CRIS/flux_Ne/1997-08-27/-1e31/%11.4e/P1D/1 day/Time, beginning of interval
-AC_H3_CRIS/flux_Na/1997-08-27/-1e31/%11.4e/P1D/1 day/Time, beginning of interval
-AC_H3_CRIS/flux_Mg/1997-08-27/-1e31/%11.4e/P1D/1 day/Time, beginning of interval
-AC_H3_CRIS/flux_Al/1997-08-27/-1e31/%11.4e/P1D/1 day/Time, beginning of interval
-AC_H3_CRIS/flux_Si/1997-08-27/-1e31/%11.4e/P1D/1 day/Time, beginning of interval
-AC_H3_CRIS/flux_P/1997-08-27/-1e31/%11.4e/P1D/1 day/Time, beginning of interval
-AC_H3_CRIS/flux_S/1997-08-27/-1e31/%11.4e/P1D/1 day/Time, beginning of interval
-AC_H3_CRIS/flux_Cl/1997-08-27/-1e31/%11.4e/P1D/1 day/Time, beginning of interval
-AC_H3_CRIS/flux_Ar/1997-08-27/-1e31/%11.4e/P1D/1 day/Time, beginning of interval
-AC_H3_CRIS/flux_K/1997-08-27/-1e31/%11.4e/P1D/1 day/Time, beginning of interval
-AC_H3_CRIS/flux_Ca/1997-08-27/-1e31/%11.4e/P1D/1 day/Time, beginning of interval
-AC_H3_CRIS/flux_Sc/1997-08-27/-1e31/%11.4e/P1D/1 day/Time, beginning of interval
-AC_H3_CRIS/flux_Ti/1997-08-27/-1e31/%11.4e/P1D/1 day/Time, beginning of interval
-AC_H3_CRIS/flux_V/1997-08-27/-1e31/%11.4e/P1D/1 day/Time, beginning of interval
-AC_H3_CRIS/flux_Cr/1997-08-27/-1e31/%11.4e/P1D/1 day/Time, beginning of interval
-AC_H3_CRIS/flux_Mn/1997-08-27/-1e31/%11.4e/P1D/1 day/Time, beginning of interval
-AC_H3_CRIS/flux_Fe/1997-08-27/-1e31/%11.4e/P1D/1 day/Time, beginning of interval
-AC_H3_CRIS/flux_Co/1997-08-27/-1e31/%11.4e/P1D/1 day/Time, beginning of interval
-AC_H3_CRIS/flux_Ni/1997-08-27/-1e31/%11.4e/P1D/1 day/Time, beginning of interval
-AC_H3_CRIS/cnt_B/1997-08-27/-1e31/%11.4e/P1D/1 day/Time, beginning of interval
-AC_H3_CRIS/cnt_C/1997-08-27/-1e31/%11.4e/P1D/1 day/Time, beginning of interval
-AC_H3_CRIS/cnt_N/1997-08-27/-1e31/%11.4e/P1D/1 day/Time, beginning of interval
-AC_H3_CRIS/cnt_O/1997-08-27/-1e31/%11.4e/P1D/1 day/Time, beginning of interval
-AC_H3_CRIS/cnt_F/1997-08-27/-1e31/%11.4e/P1D/1 day/Time, beginning of interval
-AC_H3_CRIS/cnt_Ne/1997-08-27/-1e31/%11.4e/P1D/1 day/Time, beginning of interval
-AC_H3_CRIS/cnt_Na/1997-08-27/-1e31/%11.4e/P1D/1 day/Time, beginning of interval
-AC_H3_CRIS/cnt_Mg/1997-08-27/-1e31/%11.4e/P1D/1 day/Time, beginning of interval
-AC_H3_CRIS/cnt_Al/1997-08-27/-1e31/%11.4e/P1D/1 day/Time, beginning of interval
-AC_H3_CRIS/cnt_Si/1997-08-27/-1e31/%11.4e/P1D/1 day/Time, beginning of interval
-AC_H3_CRIS/cnt_P/1997-08-27/-1e31/%11.4e/P1D/1 day/Time, beginning of interval
-AC_H3_CRIS/cnt_S/1997-08-27/-1e31/%11.4e/P1D/1 day/Time, beginning of interval
-AC_H3_CRIS/cnt_Cl/1997-08-27/-1e31/%11.4e/P1D/1 day/Time, beginning of interval
-AC_H3_CRIS/cnt_Ar/1997-08-27/-1e31/%11.4e/P1D/1 day/Time, beginning of interval
-AC_H3_CRIS/cnt_K/1997-08-27/-1e31/%11.4e/P1D/1 day/Time, beginning of interval
-AC_H3_CRIS/cnt_Ca/1997-08-27/-1e31/%11.4e/P1D/1 day/Time, beginning of interval
-AC_H3_CRIS/cnt_Sc/1997-08-27/-1e31/%11.4e/P1D/1 day/Time, beginning of interval
-AC_H3_CRIS/cnt_Ti/1997-08-27/-1e31/%11.4e/P1D/1 day/Time, beginning of interval
-AC_H3_CRIS/cnt_V/1997-08-27/-1e31/%11.4e/P1D/1 day/Time, beginning of interval
-AC_H3_CRIS/cnt_Cr/1997-08-27/-1e31/%11.4e/P1D/1 day/Time, beginning of interval
-AC_H3_CRIS/cnt_Mn/1997-08-27/-1e31/%11.4e/P1D/1 day/Time, beginning of interval
-AC_H3_CRIS/cnt_Fe/1997-08-27/-1e31/%11.4e/P1D/1 day/Time, beginning of interval
-AC_H3_CRIS/cnt_Co/1997-08-27/-1e31/%11.4e/P1D/1 day/Time, beginning of interval
-AC_H3_CRIS/cnt_Ni/1997-08-27/-1e31/%11.4e/P1D/1 day/Time, beginning of interval
-AC_H3_MFI/Magnitude/1998-01-01/-1e31/%8.3f/PT1S/1 second/Time, beginning of interval
-AC_H3_MFI/BRTN/1998-01-01/-1e31/%9.3f/PT1S/1 second/Time, beginning of interval
-AC_H3_MFI/BGSEc/1998-01-01/-1e31/%9.3f/PT1S/1 second/Time, beginning of interval
-AC_H3_MFI/BGSM/1998-01-01/-1e31/%9.3e/PT1S/1 second/Time, beginning of interval
-AC_H3_SW2/vHe2/2012-06-01/-1e31/%8.2f/PT2H/2 hour/Time, beginning of interval
-AC_H3_SW2/vthHe2/2012-06-01/-1e31/%8.2f/PT2H/2 hour/Time, beginning of interval
-AC_H3_SW2/He_qual/2012-06-01/-1/%2d/PT2H/2 hour/Time, beginning of interval
-AC_H3_SW2/C6to5/2012-06-01/-1e31/%10.4f/PT2H/2 hour/Time, beginning of interval
-AC_H3_SW2/C6to5_err/2012-06-01/-1e31/%10.4f/PT2H/2 hour/Time, beginning of interval
-AC_H3_SW2/C6to5_qual/2012-06-01/-1/%2d/PT2H/2 hour/Time, beginning of interval
-AC_H3_SW2/O7to6/2012-06-01/-1e31/%10.4f/PT2H/2 hour/Time, beginning of interval
-AC_H3_SW2/O7to6_err/2012-06-01/-1e31/%10.4f/PT2H/2 hour/Time, beginning of interval
-AC_H3_SW2/O7to6_qual/2012-06-01/-1/%2d/PT2H/2 hour/Time, beginning of interval
-AC_H3_SW2/O8to6/2012-06-01/-1e31/%10.4f/PT2H/2 hour/Time, beginning of interval
-AC_H3_SW2/O8to6_err/2012-06-01/-1e31/%10.4f/PT2H/2 hour/Time, beginning of interval
-AC_H3_SW2/O8to6_qual/2012-06-01/-1/%2d/PT2H/2 hour/Time, beginning of interval
-AC_H3_SW2/avqFe/2012-06-01/-1e31/%10.4f/PT2H/2 hour/Time, beginning of interval
-AC_H3_SW2/avqFe_err/2012-06-01/-1e31/%10.4f/PT2H/2 hour/Time, beginning of interval
-AC_H3_SW2/avqFe_qual/2012-06-01/-1/%2d/PT2H/2 hour/Time, beginning of interval
-AC_H3_SW2/FetoO/2012-06-01/-1e31/%10.4f/PT2H/2 hour/Time, beginning of interval
-AC_H3_SW2/FetoO_err/2012-06-01/-1e31/%10.4f/PT2H/2 hour/Time, beginning of interval
-AC_H3_SW2/FetoO_qual/2012-06-01/-1/%2d/PT2H/2 hour/Time, beginning of interval
-AC_H3_SWI/nHe2/1998-02-04/-1e31/%8.4f/PT2H/2 hour/Time, beginning of interval
-AC_H3_SWI/nHe2_err/1998-02-04/-1e31/%8.4f/PT2H/2 hour/Time, beginning of interval
-AC_H3_SWI/vHe2/1998-02-04/-1e31/%8.2f/PT2H/2 hour/Time, beginning of interval
-AC_H3_SWI/vthHe2/1998-02-04/-1e31/%8.2f/PT2H/2 hour/Time, beginning of interval
-AC_H3_SWI/He_qual/1998-02-04/-1/%2d/PT2H/2 hour/Time, beginning of interval
-AC_H3_SWI/vC5/1998-02-04/-1e31/%8.2f/PT2H/2 hour/Time, beginning of interval
-AC_H3_SWI/vthC5/1998-02-04/-1e31/%8.2f/PT2H/2 hour/Time, beginning of interval
-AC_H3_SWI/C5_qual/1998-02-04/-1/%2d/PT2H/2 hour/Time, beginning of interval
-AC_H3_SWI/vO6/1998-02-04/-1e31/%8.2f/PT2H/2 hour/Time, beginning of interval
-AC_H3_SWI/vthO6/1998-02-04/-1e31/%8.2f/PT2H/2 hour/Time, beginning of interval
-AC_H3_SWI/O6_qual/1998-02-04/-1/%2d/PT2H/2 hour/Time, beginning of interval
-AC_H3_SWI/vFe10/1998-02-04/-1e31/%8.2f/PT2H/2 hour/Time, beginning of interval
-AC_H3_SWI/vthFe10/1998-02-04/-1e31/%8.2f/PT2H/2 hour/Time, beginning of interval
-AC_H3_SWI/Fe10_qual/1998-02-04/-1/%2d/PT2H/2 hour/Time, beginning of interval
-AC_H3_SWI/C6to4/1998-02-04/-1e31/%9.4f/PT2H/2 hour/Time, beginning of interval
-AC_H3_SWI/C6to4_err/1998-02-04/-1e31/%9.4f/PT2H/2 hour/Time, beginning of interval
-AC_H3_SWI/C6to4_qual/1998-02-04/-1/%2d/PT2H/2 hour/Time, beginning of interval
-AC_H3_SWI/C6to5/1998-02-04/-1e31/%9.4f/PT2H/2 hour/Time, beginning of interval
-AC_H3_SWI/C6to5_err/1998-02-04/-1e31/%9.4f/PT2H/2 hour/Time, beginning of interval
-AC_H3_SWI/C6to5_qual/1998-02-04/-1/%2d/PT2H/2 hour/Time, beginning of interval
-AC_H3_SWI/O7to6/1998-02-04/-1e31/%9.4f/PT2H/2 hour/Time, beginning of interval
-AC_H3_SWI/O7to6_err/1998-02-04/-1e31/%9.4f/PT2H/2 hour/Time, beginning of interval
-AC_H3_SWI/O7to6_qual/1998-02-04/-1/%2d/PT2H/2 hour/Time, beginning of interval
-AC_H3_SWI/avqC/1998-02-04/-1e31/%9.4f/PT2H/2 hour/Time, beginning of interval
-AC_H3_SWI/avqC_err/1998-02-04/-1e31/%9.4f/PT2H/2 hour/Time, beginning of interval
-AC_H3_SWI/avqC_qual/1998-02-04/-1/%2d/PT2H/2 hour/Time, beginning of interval
-AC_H3_SWI/avqO/1998-02-04/-1e31/%9.4f/PT2H/2 hour/Time, beginning of interval
-AC_H3_SWI/avqO_err/1998-02-04/-1e31/%9.4f/PT2H/2 hour/Time, beginning of interval
-AC_H3_SWI/avqO_qual/1998-02-04/-1/%2d/PT2H/2 hour/Time, beginning of interval
-AC_H3_SWI/avqMg/1998-02-04/-1e31/%9.4f/PT2H/2 hour/Time, beginning of interval
-AC_H3_SWI/avqMg_err/1998-02-04/-1e31/%9.4f/PT2H/2 hour/Time, beginning of interval
-AC_H3_SWI/avqMg_qual/1998-02-04/-1/%2d/PT2H/2 hour/Time, beginning of interval
-AC_H3_SWI/avqSi/1998-02-04/-1e31/%9.4f/PT2H/2 hour/Time, beginning of interval
-AC_H3_SWI/avqSi_err/1998-02-04/-1e31/%9.4f/PT2H/2 hour/Time, beginning of interval
-AC_H3_SWI/avqSi_qual/1998-02-04/-1/%2d/PT2H/2 hour/Time, beginning of interval
-AC_H3_SWI/avqFe/1998-02-04/-1e31/%9.4f/PT2H/2 hour/Time, beginning of interval
-AC_H3_SWI/avqFe_err/1998-02-04/-1e31/%9.4f/PT2H/2 hour/Time, beginning of interval
-AC_H3_SWI/avqFe_qual/1998-02-04/-1/%2d/PT2H/2 hour/Time, beginning of interval
-AC_H3_SWI/HetoO/1998-02-04/-1e31/%9.4f/PT2H/2 hour/Time, beginning of interval
-AC_H3_SWI/HetoO_err/1998-02-04/-1e31/%9.4f/PT2H/2 hour/Time, beginning of interval
-AC_H3_SWI/HetoO_qual/1998-02-04/-1/%2d/PT2H/2 hour/Time, beginning of interval
-AC_H3_SWI/CtoO/1998-02-04/-1e31/%9.4f/PT2H/2 hour/Time, beginning of interval
-AC_H3_SWI/CtoO_err/1998-02-04/-1e31/%9.4f/PT2H/2 hour/Time, beginning of interval
-AC_H3_SWI/CtoO_qual/1998-02-04/-1/%2d/PT2H/2 hour/Time, beginning of interval
-AC_H3_SWI/NetoO/1998-02-04/-1e31/%9.4f/PT2H/2 hour/Time, beginning of interval
-AC_H3_SWI/NetoO_err/1998-02-04/-1e31/%9.4f/PT2H/2 hour/Time, beginning of interval
-AC_H3_SWI/NetoO_qual/1998-02-04/-1/%2d/PT2H/2 hour/Time, beginning of interval
-AC_H3_SWI/MgtoO/1998-02-04/-1e31/%9.4f/PT2H/2 hour/Time, beginning of interval
-AC_H3_SWI/MgtoO_err/1998-02-04/-1e31/%9.4f/PT2H/2 hour/Time, beginning of interval
-AC_H3_SWI/MgtoO_qual/1998-02-04/-1/%2d/PT2H/2 hour/Time, beginning of interval
-AC_H3_SWI/SitoO/1998-02-04/-1e31/%9.4f/PT2H/2 hour/Time, beginning of interval
-AC_H3_SWI/SitoO_err/1998-02-04/-1e31/%9.4f/PT2H/2 hour/Time, beginning of interval
-AC_H3_SWI/SitoO_qual/1998-02-04/-1/%2d/PT2H/2 hour/Time, beginning of interval
-AC_H3_SWI/FetoO/1998-02-04/-1e31/%9.4f/PT2H/2 hour/Time, beginning of interval
-AC_H3_SWI/FetoO_err/1998-02-04/-1e31/%9.4f/PT2H/2 hour/Time, beginning of interval
-AC_H3_SWI/FetoO_qual/1998-02-04/-1/%2d/PT2H/2 hour/Time, beginning of interval
-AC_H3_SWI/SW_type/1998-02-04/-1/%2d/PT2H/2 hour/Time, beginning of interval
-AC_H4_SWI/nHe2/1998-02-04/-1e31/%8.4f/P1D/1 day/Time, beginning of interval
-AC_H4_SWI/nHe2_err/1998-02-04/-1e31/%10.6f/P1D/1 day/Time, beginning of interval
-AC_H4_SWI/He_qual/1998-02-04/-1/%2d/P1D/1 day/Time, beginning of interval
-AC_H4_SWI/C6to4/1998-02-04/-1e31/%10.4f/P1D/1 day/Time, beginning of interval
-AC_H4_SWI/C6to4_err/1998-02-04/-1e31/%10.4f/P1D/1 day/Time, beginning of interval
-AC_H4_SWI/C6to4_qual/1998-02-04/-1/%2d/P1D/1 day/Time, beginning of interval
-AC_H4_SWI/C6to5/1998-02-04/-1e31/%10.4f/P1D/1 day/Time, beginning of interval
-AC_H4_SWI/C6to5_err/1998-02-04/-1e31/%10.4f/P1D/1 day/Time, beginning of interval
-AC_H4_SWI/C6to5_qual/1998-02-04/-1/%2d/P1D/1 day/Time, beginning of interval
-AC_H4_SWI/O7to6/1998-02-04/-1e31/%10.4f/P1D/1 day/Time, beginning of interval
-AC_H4_SWI/O7to6_err/1998-02-04/-1e31/%10.4f/P1D/1 day/Time, beginning of interval
-AC_H4_SWI/O7to6_qual/1998-02-04/-1/%2d/P1D/1 day/Time, beginning of interval
-AC_H4_SWI/avqC/1998-02-04/-1e31/%10.4f/P1D/1 day/Time, beginning of interval
-AC_H4_SWI/avqC_err/1998-02-04/-1e31/%10.4f/P1D/1 day/Time, beginning of interval
-AC_H4_SWI/avqC_qual/1998-02-04/-1/%2d/P1D/1 day/Time, beginning of interval
-AC_H4_SWI/avqO/1998-02-04/-1e31/%10.4f/P1D/1 day/Time, beginning of interval
-AC_H4_SWI/avqO_err/1998-02-04/-1e31/%10.4f/P1D/1 day/Time, beginning of interval
-AC_H4_SWI/avqO_qual/1998-02-04/-1/%2d/P1D/1 day/Time, beginning of interval
-AC_H4_SWI/avqMg/1998-02-04/-1e31/%10.4f/P1D/1 day/Time, beginning of interval
-AC_H4_SWI/avqMg_err/1998-02-04/-1e31/%10.4f/P1D/1 day/Time, beginning of interval
-AC_H4_SWI/avqMg_qual/1998-02-04/-1/%2d/P1D/1 day/Time, beginning of interval
-AC_H4_SWI/avqSi/1998-02-04/-1e31/%10.4f/P1D/1 day/Time, beginning of interval
-AC_H4_SWI/avqSi_err/1998-02-04/-1e31/%10.4f/P1D/1 day/Time, beginning of interval
-AC_H4_SWI/avqSi_qual/1998-02-04/-1/%2d/P1D/1 day/Time, beginning of interval
-AC_H4_SWI/avqFe/1998-02-04/-1e31/%10.4f/P1D/1 day/Time, beginning of interval
-AC_H4_SWI/avqFe_err/1998-02-04/-1e31/%10.4f/P1D/1 day/Time, beginning of interval
-AC_H4_SWI/avqFe_qual/1998-02-04/-1/%2d/P1D/1 day/Time, beginning of interval
-AC_H4_SWI/HetoO/1998-02-04/-1e31/%10.4f/P1D/1 day/Time, beginning of interval
-AC_H4_SWI/HetoO_err/1998-02-04/-1e31/%10.4f/P1D/1 day/Time, beginning of interval
-AC_H4_SWI/HetoO_qual/1998-02-04/-1/%2d/P1D/1 day/Time, beginning of interval
-AC_H4_SWI/CtoO/1998-02-04/-1e31/%10.4f/P1D/1 day/Time, beginning of interval
-AC_H4_SWI/CtoO_err/1998-02-04/-1e31/%10.4f/P1D/1 day/Time, beginning of interval
-AC_H4_SWI/CtoO_qual/1998-02-04/-1/%2d/P1D/1 day/Time, beginning of interval
-AC_H4_SWI/NtoO/1998-02-04/-1e31/%10.4f/P1D/1 day/Time, beginning of interval
-AC_H4_SWI/NtoO_err/1998-02-04/-1e31/%10.4f/P1D/1 day/Time, beginning of interval
-AC_H4_SWI/NtoO_qual/1998-02-04/-1/%2d/P1D/1 day/Time, beginning of interval
-AC_H4_SWI/NetoO/1998-02-04/-1e31/%10.4f/P1D/1 day/Time, beginning of interval
-AC_H4_SWI/NetoO_err/1998-02-04/-1e31/%10.4f/P1D/1 day/Time, beginning of interval
-AC_H4_SWI/NetoO_qual/1998-02-04/-1/%2d/P1D/1 day/Time, beginning of interval
-AC_H4_SWI/MgtoO/1998-02-04/-1e31/%10.4f/P1D/1 day/Time, beginning of interval
-AC_H4_SWI/MgtoO_err/1998-02-04/-1e31/%10.4f/P1D/1 day/Time, beginning of interval
-AC_H4_SWI/MgtoO_qual/1998-02-04/-1/%2d/P1D/1 day/Time, beginning of interval
-AC_H4_SWI/SitoO/1998-02-04/-1e31/%10.4f/P1D/1 day/Time, beginning of interval
-AC_H4_SWI/SitoO_err/1998-02-04/-1e31/%10.4f/P1D/1 day/Time, beginning of interval
-AC_H4_SWI/SitoO_qual/1998-02-04/-1/%2d/P1D/1 day/Time, beginning of interval
-AC_H4_SWI/StoO/1998-02-04/-1e31/%10.4f/P1D/1 day/Time, beginning of interval
-AC_H4_SWI/StoO_err/1998-02-04/-1e31/%10.4f/P1D/1 day/Time, beginning of interval
-AC_H4_SWI/StoO_qual/1998-02-04/-1/%2d/P1D/1 day/Time, beginning of interval
-AC_H4_SWI/FetoO/1998-02-04/-1e31/%10.4f/P1D/1 day/Time, beginning of interval
-AC_H4_SWI/FetoO_err/1998-02-04/-1e31/%10.4f/P1D/1 day/Time, beginning of interval
-AC_H4_SWI/FetoO_qual/1998-02-04/-1/%2d/P1D/1 day/Time, beginning of interval
-AC_H5_SWI/qdistC/1998-02-04/-1e31/%10.4f/PT2H/2 hour/Time, beginning of interval
-AC_H5_SWI/qdistC_err/1998-02-04/-1e31/%10.4f/PT2H/2 hour/Time, beginning of interval
-AC_H5_SWI/qflagsC/1998-02-04/-1/%2d/PT2H/2 hour/Time, beginning of interval
-AC_H5_SWI/qdistO/1998-02-04/-1e31/%10.4f/PT2H/2 hour/Time, beginning of interval
-AC_H5_SWI/qdistO_err/1998-02-04/-1e31/%10.4f/PT2H/2 hour/Time, beginning of interval
-AC_H5_SWI/qflagsO/1998-02-04/-1/%2d/PT2H/2 hour/Time, beginning of interval
-AC_H5_SWI/qdistNe/1998-02-04/-1e31/%10.4f/PT2H/2 hour/Time, beginning of interval
-AC_H5_SWI/qdistNe_err/1998-02-04/-1e31/%10.4f/PT2H/2 hour/Time, beginning of interval
-AC_H5_SWI/qflagsNe/1998-02-04/-1/%2d/PT2H/2 hour/Time, beginning of interval
-AC_H5_SWI/qdistMg/1998-02-04/-1e31/%10.4f/PT2H/2 hour/Time, beginning of interval
-AC_H5_SWI/qdistMg_err/1998-02-04/-1e31/%10.4f/PT2H/2 hour/Time, beginning of interval
-AC_H5_SWI/qflagsMg/1998-02-04/-1/%2d/PT2H/2 hour/Time, beginning of interval
-AC_H5_SWI/qdistSi/1998-02-04/-1e31/%10.4f/PT2H/2 hour/Time, beginning of interval
-AC_H5_SWI/qdistSi_err/1998-02-04/-1e31/%10.4f/PT2H/2 hour/Time, beginning of interval
-AC_H5_SWI/qflagsSi/1998-02-04/-1/%2d/PT2H/2 hour/Time, beginning of interval
-AC_H5_SWI/qdistFe/1998-02-04/-1e31/%10.4f/PT2H/2 hour/Time, beginning of interval
-AC_H5_SWI/qdistFe_err/1998-02-04/-1e31/%10.4f/PT2H/2 hour/Time, beginning of interval
-AC_H5_SWI/qflagsFe/1998-02-04/-1/%2d/PT2H/2 hour/Time, beginning of interval
-AC_K0_EPM/H_lo/2010-08-01/-1e31/%11.3e/PT5M/5 minutes/Time, beginning of interval
-AC_K0_EPM/Ion_very_lo/2010-08-01/-1e31/%11.3e/PT5M/5 minutes/Time, beginning of interval
-AC_K0_EPM/Ion_lo/2010-08-01/-1e31/%11.3e/PT5M/5 minutes/Time, beginning of interval
-AC_K0_EPM/Ion_mid/2010-08-01/-1e31/%11.3e/PT5M/5 minutes/Time, beginning of interval
-AC_K0_EPM/Ion_hi/2010-08-01/-1e31/%11.3e/PT5M/5 minutes/Time, beginning of interval
-AC_K0_EPM/Electron_lo/2010-08-01/-1e31/%11.3e/PT5M/5 minutes/Time, beginning of interval
-AC_K0_EPM/Electron_hi/2010-08-01/-1e31/%11.3e/PT5M/5 minutes/Time, beginning of interval
-AC_K0_MFI/Magnitude/2011-07-01/-1e31/%8.3f/PT5M/5 minutes/Time, centered
-AC_K0_MFI/BGSEc/2011-07-01/-1e31/%9.3f/PT5M/5 minutes/Time, centered
-AC_K0_SIS/H_lo/1997-08-28/-1e31/%11.3e/PT1H/1 hour/Time, beginning of interval
-AC_K0_SIS/H_hi/1997-08-28/-1e31/%11.3e/PT1H/1 hour/Time, beginning of interval
-AC_K0_SIS/CNO_lo/1997-08-28/-1e31/%11.3e/PT1H/1 hour/Time, beginning of interval
-AC_K0_SIS/CNO_hi/1997-08-28/-1e31/%11.3e/PT1H/1 hour/Time, beginning of interval
-AC_K0_SIS/Z_ge_10/1997-08-28/-1e31/%11.3e/PT1H/1 hour/Time, beginning of interval
-AC_K0_SWE/Np/2010-08-01/-1e31/%6.2f/PT5M/5 minutes/Time, centered
-AC_K0_SWE/Vp/2010-08-01/-1e31/%8.1f/PT5M/5 minutes/Time, centered
-AC_K0_SWE/He_ratio/2010-08-01/-1e31/%7.3f/PT5M/5 minutes/Time, centered
-AC_K0_SWE/Tpr/2010-08-01/-1e31/%9.1f/PT5M/5 minutes/Time, centered
-AC_K1_EPM/H_lo/2010-08-01/-1e31/%11.3e/PT1H/1 hour/Time, beginning of interval
-AC_K1_EPM/Ion_very_lo/2010-08-01/-1e31/%11.3e/PT1H/1 hour/Time, beginning of interval
-AC_K1_EPM/Ion_lo/2010-08-01/-1e31/%11.3e/PT1H/1 hour/Time, beginning of interval
-AC_K1_EPM/Ion_mid/2010-08-01/-1e31/%11.3e/PT1H/1 hour/Time, beginning of interval
-AC_K1_EPM/Ion_hi/2010-08-01/-1e31/%11.3e/PT1H/1 hour/Time, beginning of interval
-AC_K1_EPM/Electron_lo/2010-08-01/-1e31/%11.3e/PT1H/1 hour/Time, beginning of interval
-AC_K1_EPM/Electron_hi/2010-08-01/-1e31/%11.3e/PT1H/1 hour/Time, beginning of interval
-AC_K1_MFI/dBrms/2011-07-01/-1e31/%8.3f/PT16S/16 second/Time, centered
-AC_K1_MFI/Magnitude/2011-07-01/-1e31/%8.3f/PT16S/16 second/Time, centered
-AC_K1_MFI/BGSEc/2011-07-01/-1e31/%9.3f/PT16S/16 second/Time, centered
-AC_K1_SWE/Np/2010-08-01/-1e31/%6.2f/PT1H/1 hour/Time, centered
-AC_K1_SWE/Vp/2010-08-01/-1e31/%8.1f/PT1H/1 hour/Time, centered
-AC_K1_SWE/He_ratio/2010-08-01/-1e31/%7.3f/PT1H/1 hour/Time, centered
-AC_K1_SWE/Tpr/2010-08-01/-1e31/%9.1f/PT1H/1 hour/Time, centered
-AC_K2_MFI/Magnitude/2011-07-01/-1e31/%8.3f/PT1H/1 hour/Time, centered
-AC_K2_MFI/BGSEc/2011-07-01/-1e31/%9.3f/PT1H/1 hour/Time, centered
-AC_OR_DEF/GSE_POS/1997-08-26/-1e31/%10.1f/P1D/1 day/Time, beginning of interval
-AC_OR_DEF/GCI_POS/1997-08-26/-1e31/%10.1f/P1D/1 day/Time, beginning of interval
-AC_OR_SSC/GSE_LAT/1997-08-26/-1e31/%8.2f/PT12M/12 minute/ 
-AC_OR_SSC/GSE_LON/1997-08-26/-1e31/%8.2f/PT12M/12 minute/ 
-AC_OR_SSC/RADIUS/1997-08-26/-1e31/%8.2f/PT12M/12 minute/ 
-AC_OR_SSC/XYZ_GSE/1997-08-26/-1e31/%8.2f/PT12M/12 minute/ 
-AC_OR_SSC/XYZ_GSEO/1997-08-26/-1e31/%8.2f/PT12M/12 minute/ 
-OMNI2_H0_MRG1HR/Rot1800/1963-01-01/9999/%4d/PT1H/1 hour/Time_at_center_of_hour
-OMNI2_H0_MRG1HR/IMF1800/1963-01-01/99/%2d/PT1H/1 hour/Time_at_center_of_hour
-OMNI2_H0_MRG1HR/PLS1800/1963-01-01/99/%2d/PT1H/1 hour/Time_at_center_of_hour
-OMNI2_H0_MRG1HR/IMF_PTS1800/1963-01-01/ 999/%4d/PT1H/1 hour/Time_at_center_of_hour
-OMNI2_H0_MRG1HR/PLS_PTS1800/1963-01-01/ 999/%4d/PT1H/1 hour/Time_at_center_of_hour
-OMNI2_H0_MRG1HR/ABS_B1800/1963-01-01/999.9/%5.1f/PT1H/1 hour/Time_at_center_of_hour
-OMNI2_H0_MRG1HR/F1800/1963-01-01/999.9/%5.1f/PT1H/1 hour/Time_at_center_of_hour
-OMNI2_H0_MRG1HR/THETA_AV1800/1963-01-01/999.9/%5.1f/PT1H/1 hour/Time_at_center_of_hour
-OMNI2_H0_MRG1HR/PHI_AV1800/1963-01-01/999.9/%5.1f/PT1H/1 hour/Time_at_center_of_hour
-OMNI2_H0_MRG1HR/BX_GSE1800/1963-01-01/999.9/%5.1f/PT1H/1 hour/Time_at_center_of_hour
-OMNI2_H0_MRG1HR/BY_GSE1800/1963-01-01/999.9/%5.1f/PT1H/1 hour/Time_at_center_of_hour
-OMNI2_H0_MRG1HR/BZ_GSE1800/1963-01-01/999.9/%5.1f/PT1H/1 hour/Time_at_center_of_hour
-OMNI2_H0_MRG1HR/BY_GSM1800/1963-01-01/999.9/%5.1f/PT1H/1 hour/Time_at_center_of_hour
-OMNI2_H0_MRG1HR/BZ_GSM1800/1963-01-01/999.9/%5.1f/PT1H/1 hour/Time_at_center_of_hour
-OMNI2_H0_MRG1HR/SIGMA-ABS_B1800/1963-01-01/999.9/%5.1f/PT1H/1 hour/Time_at_center_of_hour
-OMNI2_H0_MRG1HR/SIGMA-B1800/1963-01-01/999.9/%5.1f/PT1H/1 hour/Time_at_center_of_hour
-OMNI2_H0_MRG1HR/SIGMA-Bx1800/1963-01-01/999.9/%5.1f/PT1H/1 hour/Time_at_center_of_hour
-OMNI2_H0_MRG1HR/SIGMA-By1800/1963-01-01/999.9/%5.1f/PT1H/1 hour/Time_at_center_of_hour
-OMNI2_H0_MRG1HR/SIGMA-Bz1800/1963-01-01/999.9/%5.1f/PT1H/1 hour/Time_at_center_of_hour
-OMNI2_H0_MRG1HR/T1800/1963-01-01/ 9999990/%8.0f/PT1H/1 hour/Time_at_center_of_hour
-OMNI2_H0_MRG1HR/N1800/1963-01-01/999.9/%5.1f/PT1H/1 hour/Time_at_center_of_hour
-OMNI2_H0_MRG1HR/V1800/1963-01-01/ 9999/%5.0f/PT1H/1 hour/Time_at_center_of_hour
-OMNI2_H0_MRG1HR/PHI-V1800/1963-01-01/999.9/%5.1f/PT1H/1 hour/Time_at_center_of_hour
-OMNI2_H0_MRG1HR/THETA-V1800/1963-01-01/999.9/%5.1f/PT1H/1 hour/Time_at_center_of_hour
-OMNI2_H0_MRG1HR/Ratio1800/1963-01-01/9.999/%5.3f/PT1H/1 hour/Time_at_center_of_hour
-OMNI2_H0_MRG1HR/Pressure1800/1963-01-01/99.99/%5.2f/PT1H/1 hour/Time_at_center_of_hour
-OMNI2_H0_MRG1HR/SIGMA-T1800/1963-01-01/ 9999990/%8.0f/PT1H/1 hour/Time_at_center_of_hour
-OMNI2_H0_MRG1HR/SIGMA-N1800/1963-01-01/999.9/%5.1f/PT1H/1 hour/Time_at_center_of_hour
-OMNI2_H0_MRG1HR/SIGMA-V1800/1963-01-01/ 9999/%5.0f/PT1H/1 hour/Time_at_center_of_hour
-OMNI2_H0_MRG1HR/SIGMA-PHI-V1800/1963-01-01/999.9/%5.1f/PT1H/1 hour/Time_at_center_of_hour
-OMNI2_H0_MRG1HR/SIGMA-THETA-V1800/1963-01-01/999.9/%5.1f/PT1H/1 hour/Time_at_center_of_hour
-OMNI2_H0_MRG1HR/SIGMA-ratio1800/1963-01-01/9.999/%5.3f/PT1H/1 hour/Time_at_center_of_hour
-OMNI2_H0_MRG1HR/E1800/1963-01-01/999.99/%6.2f/PT1H/1 hour/Time_at_center_of_hour
-OMNI2_H0_MRG1HR/Beta1800/1963-01-01/999.99/%6.2f/PT1H/1 hour/Time_at_center_of_hour
-OMNI2_H0_MRG1HR/Mach_num1800/1963-01-01/999.9/%5.1f/PT1H/1 hour/Time_at_center_of_hour
-OMNI2_H0_MRG1HR/Mgs_mach_num1800/1963-01-01/99.9/%4.1f/PT1H/1 hour/Time_at_center_of_hour
-OMNI2_H0_MRG1HR/PR-FLX_11800/1963-01-01/1000000.00/%9.2f/PT1H/1 hour/Time_at_center_of_hour
-OMNI2_H0_MRG1HR/PR-FLX_21800/1963-01-01/100000.00/%8.2f/PT1H/1 hour/Time_at_center_of_hour
-OMNI2_H0_MRG1HR/PR-FLX_41800/1963-01-01/ 9999.99/%8.2f/PT1H/1 hour/Time_at_center_of_hour
-OMNI2_H0_MRG1HR/PR-FLX_101800/1963-01-01/100000.00/%8.2f/PT1H/1 hour/Time_at_center_of_hour
-OMNI2_H0_MRG1HR/PR-FLX_301800/1963-01-01/100000.00/%8.2f/PT1H/1 hour/Time_at_center_of_hour
-OMNI2_H0_MRG1HR/PR-FLX_601800/1963-01-01/100000.00/%8.2f/PT1H/1 hour/Time_at_center_of_hour
-OMNI2_H0_MRG1HR/MFLX1800/1963-01-01/ 0/%2d/PT1H/1 hour/Time_at_center_of_hour
-OMNI2_H0_MRG1HR/R1800/1963-01-01/999/%3d/PT1H/1 hour/Time_at_center_of_hour
-OMNI2_H0_MRG1HR/F10_INDEX1800/1963-01-01/999.9/%5.1f/PT1H/1 hour/Time_at_center_of_hour
-OMNI2_H0_MRG1HR/KP1800/1963-01-01/99/%2d/PT1H/1 hour/Time_at_center_of_hour
-OMNI2_H0_MRG1HR/DST1800/1963-01-01/99999/%5d/PT1H/1 hour/Time_at_center_of_hour
-OMNI2_H0_MRG1HR/AE1800/1963-01-01/9999/%4d/PT1H/1 hour/Time_at_center_of_hour
-OMNI2_H0_MRG1HR/AP_INDEX1800/1963-01-01/999/%3d/PT1H/1 hour/Time_at_center_of_hour
-OMNI2_H0_MRG1HR/AL_INDEX1800/1963-01-01/ 99999/%6d/PT1H/1 hour/Time_at_center_of_hour
-OMNI2_H0_MRG1HR/AU_INDEX1800/1963-01-01/ 99999/%6d/PT1H/1 hour/Time_at_center_of_hour
-OMNI2_H0_MRG1HR/PC_N_INDEX1800/1963-01-01/999.9/%5.1f/PT1H/1 hour/Time_at_center_of_hour
-OMNI_COHO1HR_MERGED_MAG_PLASMA/heliographicLatitude/1963-01-01/-1e31/%7.1f/PT1H/1 hour/Epoch Time
-OMNI_COHO1HR_MERGED_MAG_PLASMA/heliographicLongitude/1963-01-01/-1e31/%7.1f/PT1H/1 hour/Epoch Time
-OMNI_COHO1HR_MERGED_MAG_PLASMA/BR/1963-01-01/-1e31/%6.1f/PT1H/1 hour/Epoch Time
-OMNI_COHO1HR_MERGED_MAG_PLASMA/BT/1963-01-01/-1e31/%6.1f/PT1H/1 hour/Epoch Time
-OMNI_COHO1HR_MERGED_MAG_PLASMA/BN/1963-01-01/-1e31/%6.1f/PT1H/1 hour/Epoch Time
-OMNI_COHO1HR_MERGED_MAG_PLASMA/ABS_B/1963-01-01/-1e31/%6.1f/PT1H/1 hour/Epoch Time
-OMNI_COHO1HR_MERGED_MAG_PLASMA/V/1963-01-01/-1e31/%5.0f/PT1H/1 hour/Epoch Time
-OMNI_COHO1HR_MERGED_MAG_PLASMA/elevAngle/1963-01-01/-1e31/%6.1f/PT1H/1 hour/Epoch Time
-OMNI_COHO1HR_MERGED_MAG_PLASMA/azimuthAngle/1963-01-01/-1e31/%6.1f/PT1H/1 hour/Epoch Time
-OMNI_COHO1HR_MERGED_MAG_PLASMA/N/1963-01-01/-1e31/%6.1f/PT1H/1 hour/Epoch Time
-OMNI_COHO1HR_MERGED_MAG_PLASMA/T/1963-01-01/-1e31/%9.0f/PT1H/1 hour/Epoch Time
-OMNI_HRO_1MIN/IMF/1981-01-01/99/%2d/PT1M/1 minute/Epoch Time
-OMNI_HRO_1MIN/PLS/1981-01-01/99/%2d/PT1M/1 minute/Epoch Time
-OMNI_HRO_1MIN/IMF_PTS/1981-01-01/999/%3d/PT1M/1 minute/Epoch Time
-OMNI_HRO_1MIN/PLS_PTS/1981-01-01/999/%3d/PT1M/1 minute/Epoch Time
-OMNI_HRO_1MIN/percent_interp/1981-01-01/999/%3d/PT1M/1 minute/Epoch Time
-OMNI_HRO_1MIN/Timeshift/1981-01-01/999999/%6d/PT1M/1 minute/Epoch Time
-OMNI_HRO_1MIN/RMS_Timeshift/1981-01-01/999999/%6d/PT1M/1 minute/Epoch Time
-OMNI_HRO_1MIN/RMS_phase/1981-01-01/99.99/%5.2f/PT1M/1 minute/Epoch Time
-OMNI_HRO_1MIN/Time_btwn_obs/1981-01-01/999999/%6d/PT1M/1 minute/Epoch Time
-OMNI_HRO_1MIN/F/1981-01-01/9999.99/%7.2f/PT1M/1 minute/Epoch Time
-OMNI_HRO_1MIN/BX_GSE/1981-01-01/9999.99/%7.2f/PT1M/1 minute/Epoch Time
-OMNI_HRO_1MIN/BY_GSE/1981-01-01/9999.99/%7.2f/PT1M/1 minute/Epoch Time
-OMNI_HRO_1MIN/BZ_GSE/1981-01-01/9999.99/%7.2f/PT1M/1 minute/Epoch Time
-OMNI_HRO_1MIN/BY_GSM/1981-01-01/9999.99/%7.2f/PT1M/1 minute/Epoch Time
-OMNI_HRO_1MIN/BZ_GSM/1981-01-01/9999.99/%7.2f/PT1M/1 minute/Epoch Time
-OMNI_HRO_1MIN/RMS_SD_B/1981-01-01/9999.99/%7.2f/PT1M/1 minute/Epoch Time
-OMNI_HRO_1MIN/RMS_SD_fld_vec/1981-01-01/9999.99/%7.2f/PT1M/1 minute/Epoch Time
-OMNI_HRO_1MIN/flow_speed/1981-01-01/ 99999.9/%8.1f/PT1M/1 minute/Epoch Time
-OMNI_HRO_1MIN/Vx/1981-01-01/99999.9/%7.1f/PT1M/1 minute/Epoch Time
-OMNI_HRO_1MIN/Vy/1981-01-01/99999.9/%7.1f/PT1M/1 minute/Epoch Time
-OMNI_HRO_1MIN/Vz/1981-01-01/99999.9/%7.1f/PT1M/1 minute/Epoch Time
-OMNI_HRO_1MIN/proton_density/1981-01-01/999.99/%6.2f/PT1M/1 minute/Epoch Time
-OMNI_HRO_1MIN/T/1981-01-01/ 9999999/%8.0f/PT1M/1 minute/Epoch Time
-OMNI_HRO_1MIN/Pressure/1981-01-01/99.99/%5.2f/PT1M/1 minute/Epoch Time
-OMNI_HRO_1MIN/E/1981-01-01/999.99/%6.2f/PT1M/1 minute/Epoch Time
-OMNI_HRO_1MIN/Beta/1981-01-01/999.99/%6.2f/PT1M/1 minute/Epoch Time
-OMNI_HRO_1MIN/Mach_num/1981-01-01/999.9/%5.1f/PT1M/1 minute/Epoch Time
-OMNI_HRO_1MIN/Mgs_mach_num/1981-01-01/99.9/%4.1f/PT1M/1 minute/Epoch Time
-OMNI_HRO_1MIN/x/1981-01-01/9999.99/%7.2f/PT1M/1 minute/Epoch Time
-OMNI_HRO_1MIN/y/1981-01-01/9999.99/%7.2f/PT1M/1 minute/Epoch Time
-OMNI_HRO_1MIN/z/1981-01-01/9999.99/%7.2f/PT1M/1 minute/Epoch Time
-OMNI_HRO_1MIN/BSN_x/1981-01-01/9999.99/%7.2f/PT1M/1 minute/Epoch Time
-OMNI_HRO_1MIN/BSN_y/1981-01-01/9999.99/%7.2f/PT1M/1 minute/Epoch Time
-OMNI_HRO_1MIN/BSN_z/1981-01-01/9999.99/%7.2f/PT1M/1 minute/Epoch Time
-OMNI_HRO_1MIN/AE_INDEX/1981-01-01/99999/%5d/PT1M/1 minute/Epoch Time
-OMNI_HRO_1MIN/AL_INDEX/1981-01-01/99999/%5d/PT1M/1 minute/Epoch Time
-OMNI_HRO_1MIN/AU_INDEX/1981-01-01/ 99999/%6d/PT1M/1 minute/Epoch Time
-OMNI_HRO_1MIN/SYM_D/1981-01-01/99999/%5d/PT1M/1 minute/Epoch Time
-OMNI_HRO_1MIN/SYM_H/1981-01-01/99999/%5d/PT1M/1 minute/Epoch Time
-OMNI_HRO_1MIN/ASY_D/1981-01-01/99999/%5d/PT1M/1 minute/Epoch Time
-OMNI_HRO_1MIN/ASY_H/1981-01-01/99999/%5d/PT1M/1 minute/Epoch Time
-OMNI_HRO_1MIN/PC_N_INDEX/1981-01-01/ 999.99/%7.2f/PT1M/1 minute/Epoch Time
-OMNI_HRO_5MIN/IMF/1981-01-01/99/%2d/PT5M/5 minute/Epoch Time
-OMNI_HRO_5MIN/PLS/1981-01-01/99/%2d/PT5M/5 minute/Epoch Time
-OMNI_HRO_5MIN/IMF_PTS/1981-01-01/999/%3d/PT5M/5 minute/Epoch Time
-OMNI_HRO_5MIN/PLS_PTS/1981-01-01/999/%3d/PT5M/5 minute/Epoch Time
-OMNI_HRO_5MIN/percent_interp/1981-01-01/999/%3d/PT5M/5 minute/Epoch Time
-OMNI_HRO_5MIN/Timeshift/1981-01-01/999999/%6d/PT5M/5 minute/Epoch Time
-OMNI_HRO_5MIN/RMS_Timeshift/1981-01-01/999999/%6d/PT5M/5 minute/Epoch Time
-OMNI_HRO_5MIN/Time_btwn_obs/1981-01-01/999999/%6d/PT5M/5 minute/Epoch Time
-OMNI_HRO_5MIN/F/1981-01-01/9999.99/%7.2f/PT5M/5 minute/Epoch Time
-OMNI_HRO_5MIN/BX_GSE/1981-01-01/9999.99/%7.2f/PT5M/5 minute/Epoch Time
-OMNI_HRO_5MIN/BY_GSE/1981-01-01/9999.99/%7.2f/PT5M/5 minute/Epoch Time
-OMNI_HRO_5MIN/BZ_GSE/1981-01-01/9999.99/%7.2f/PT5M/5 minute/Epoch Time
-OMNI_HRO_5MIN/BY_GSM/1981-01-01/9999.99/%7.2f/PT5M/5 minute/Epoch Time
-OMNI_HRO_5MIN/BZ_GSM/1981-01-01/9999.99/%7.2f/PT5M/5 minute/Epoch Time
-OMNI_HRO_5MIN/RMS_SD_B/1981-01-01/9999.99/%7.2f/PT5M/5 minute/Epoch Time
-OMNI_HRO_5MIN/RMS_SD_fld_vec/1981-01-01/9999.99/%7.2f/PT5M/5 minute/Epoch Time
-OMNI_HRO_5MIN/flow_speed/1981-01-01/ 99999.9/%8.1f/PT5M/5 minute/Epoch Time
-OMNI_HRO_5MIN/Vx/1981-01-01/99999.9/%7.1f/PT5M/5 minute/Epoch Time
-OMNI_HRO_5MIN/Vy/1981-01-01/99999.9/%7.1f/PT5M/5 minute/Epoch Time
-OMNI_HRO_5MIN/Vz/1981-01-01/99999.9/%7.1f/PT5M/5 minute/Epoch Time
-OMNI_HRO_5MIN/proton_density/1981-01-01/999.99/%6.2f/PT5M/5 minute/Epoch Time
-OMNI_HRO_5MIN/T/1981-01-01/ 9999999/%8.0f/PT5M/5 minute/Epoch Time
-OMNI_HRO_5MIN/Pressure/1981-01-01/99.99/%5.2f/PT5M/5 minute/Epoch Time
-OMNI_HRO_5MIN/E/1981-01-01/999.99/%6.2f/PT5M/5 minute/Epoch Time
-OMNI_HRO_5MIN/Beta/1981-01-01/999.99/%6.2f/PT5M/5 minute/Epoch Time
-OMNI_HRO_5MIN/Mach_num/1981-01-01/999.9/%5.1f/PT5M/5 minute/Epoch Time
-OMNI_HRO_5MIN/Mgs_mach_num/1981-01-01/99.9/%4.1f/PT5M/5 minute/Epoch Time
-OMNI_HRO_5MIN/x/1981-01-01/9999.99/%7.2f/PT5M/5 minute/Epoch Time
-OMNI_HRO_5MIN/y/1981-01-01/9999.99/%7.2f/PT5M/5 minute/Epoch Time
-OMNI_HRO_5MIN/z/1981-01-01/9999.99/%7.2f/PT5M/5 minute/Epoch Time
-OMNI_HRO_5MIN/BSN_x/1981-01-01/9999.99/%7.2f/PT5M/5 minute/Epoch Time
-OMNI_HRO_5MIN/BSN_y/1981-01-01/9999.99/%7.2f/PT5M/5 minute/Epoch Time
-OMNI_HRO_5MIN/BSN_z/1981-01-01/9999.99/%7.2f/PT5M/5 minute/Epoch Time
-OMNI_HRO_5MIN/AE_INDEX/1981-01-01/99999/%5d/PT5M/5 minute/Epoch Time
-OMNI_HRO_5MIN/AL_INDEX/1981-01-01/99999/%5d/PT5M/5 minute/Epoch Time
-OMNI_HRO_5MIN/AU_INDEX/1981-01-01/ 99999/%6d/PT5M/5 minute/Epoch Time
-OMNI_HRO_5MIN/SYM_D/1981-01-01/99999/%5d/PT5M/5 minute/Epoch Time
-OMNI_HRO_5MIN/SYM_H/1981-01-01/99999/%5d/PT5M/5 minute/Epoch Time
-OMNI_HRO_5MIN/ASY_D/1981-01-01/99999/%5d/PT5M/5 minute/Epoch Time
-OMNI_HRO_5MIN/ASY_H/1981-01-01/99999/%5d/PT5M/5 minute/Epoch Time
-OMNI_HRO_5MIN/PC_N_INDEX/1981-01-01/ 999.99/%7.2f/PT5M/5 minute/Epoch Time
-OMNI_HRO_5MIN/PR-FLX_10/1981-01-01/  99999.99/%10.2f/PT5M/5 minute/Epoch Time
-OMNI_HRO_5MIN/PR-FLX_30/1981-01-01/  99999.99/%10.2f/PT5M/5 minute/Epoch Time
-OMNI_HRO_5MIN/PR-FLX_60/1981-01-01/  99999.99/%10.2f/PT5M/5 minute/Epoch Time
+POLAR_HYDRA_MOMENTS-14SEC\DENSITY_ELE\1996-03-20\-1e31\%11.3e\PT13.8S\13.8 seconds\Interval centered time\None
+POLAR_HYDRA_MOMENTS-14SEC\BULK_VELOCITY_ELE\1996-03-20\-1e31\%8.0e\PT13.8S\13.8 seconds\Interval centered time\None
+POLAR_HYDRA_MOMENTS-14SEC\TPARL_ELE\1996-03-20\-1e31\%11.3e\PT13.8S\13.8 seconds\Interval centered time\None
+POLAR_HYDRA_MOMENTS-14SEC\TPERP_ELE\1996-03-20\-1e31\%11.3e\PT13.8S\13.8 seconds\Interval centered time\None
+POLAR_HYDRA_MOMENTS-14SEC\DENSITY_ION\1996-03-20\-1e31\%11.3e\PT13.8S\13.8 seconds\Interval centered time\None
+POLAR_HYDRA_MOMENTS-14SEC\BULK_VELOCITY_ION\1996-03-20\-1e31\%8.0e\PT13.8S\13.8 seconds\Interval centered time\None
+POLAR_HYDRA_MOMENTS-14SEC\TPARL_ION\1996-03-20\-1e31\%11.3e\PT13.8S\13.8 seconds\Interval centered time\None
+POLAR_HYDRA_MOMENTS-14SEC\TPERP_ION\1996-03-20\-1e31\%11.3e\PT13.8S\13.8 seconds\Interval centered time\None
+PO_10MINATT_EFI\X\1996-03-16\-1e31\%7.3f\PT13.8S\None\Time relative to midnight January 1, 0 AD, Scalar\None
+PO_10MINATT_EFI\Y\1996-03-16\-1e31\%7.3f\PT13.8S\None\Time relative to midnight January 1, 0 AD, Scalar\None
+PO_10MINATT_EFI\Z\1996-03-16\-1e31\%7.3f\PT13.8S\None\Time relative to midnight January 1, 0 AD, Scalar\None
+PO_6SECEDSC_EFI\E_X\1996-03-16\-1e31\%7.2f\PT13.8S\None\Time relative to midnight January 1, 0 AD, Scalar\None
+PO_6SECEDSC_EFI\E_Y\1996-03-16\-1e31\%7.2f\PT13.8S\None\Time relative to midnight January 1, 0 AD, Scalar\None
+PO_6SECPOTLDENS_EFI\S_C_Pot\1996-03-16\-1e31\%7.2f\PT13.8S\None\Time relative to midnight January 1, 0 AD, Scalar\None
+PO_6SECPOTLDENS_EFI\n\1996-03-16\1.0000e+020\%10.4e\PT13.8S\None\Time relative to midnight January 1, 0 AD, Scalar\None
+PO_AT_DEF\BODY_SPIN_RATE\1996-02-24\-1e31\%9.3f\PT13.8S\None\Attitude EPOCH time                     \None
+PO_AT_DEF\GCI_R_ASCENSION\1996-02-24\-1e31\%7.3f\PT13.8S\None\Attitude EPOCH time                     \None
+PO_AT_DEF\GCI_DECLINATION\1996-02-24\-1e31\%7.3f\PT13.8S\None\Attitude EPOCH time                     \None
+PO_AT_DEF\GSE_R_ASCENSION\1996-02-24\-1e31\%7.3f\PT13.8S\None\Attitude EPOCH time                     \None
+PO_AT_DEF\GSE_DECLINATION\1996-02-24\-1e31\%7.3f\PT13.8S\None\Attitude EPOCH time                     \None
+PO_AT_DEF\GSM_R_ASCENSION\1996-02-24\-1e31\%7.3f\PT13.8S\None\Attitude EPOCH time                     \None
+PO_AT_DEF\GSM_DECLINATION\1996-02-24\-1e31\%7.3f\PT13.8S\None\Attitude EPOCH time                     \None
+PO_AT_PRE\BODY_SPIN_RATE\1996-03-08\-1e31\%9.3f\PT13.8S\None\Attitude EPOCH time\None
+PO_AT_PRE\GCI_R_ASCENSION\1996-03-08\-1e31\%7.3f\PT13.8S\None\Attitude EPOCH time\None
+PO_AT_PRE\GCI_DECLINATION\1996-03-08\-1e31\%7.3f\PT13.8S\None\Attitude EPOCH time\None
+PO_AT_PRE\GSE_R_ASCENSION\1996-03-08\-1e31\%7.3f\PT13.8S\None\Attitude EPOCH time\None
+PO_AT_PRE\GSE_DECLINATION\1996-03-08\-1e31\%7.3f\PT13.8S\None\Attitude EPOCH time\None
+PO_AT_PRE\GSM_R_ASCENSION\1996-03-08\-1e31\%7.3f\PT13.8S\None\Attitude EPOCH time\None
+PO_AT_PRE\GSM_DECLINATION\1996-03-08\-1e31\%7.3f\PT13.8S\None\Attitude EPOCH time\None
+PO_H0_CAM\DCR_H_PLUS\1996-03-18\ -9.990e+002\%12.3e\PT13.8S\3 minutes 22 seconds \time\None
+PO_H0_CAM\H_PLUS\1996-03-18\ -9.990e+002\%12.3e\PT13.8S\3 minutes 22 seconds \time\None
+PO_H0_CAM\HE_PLUS\1996-03-18\ -9.990e+002\%12.3e\PT13.8S\3 minutes 22 seconds \time\None
+PO_H0_CAM\HE_PLUS2\1996-03-18\ -9.990e+002\%12.3e\PT13.8S\3 minutes 22 seconds \time\None
+PO_H0_CAM\O_LT_PLUS3\1996-03-18\ -9.990e+002\%12.3e\PT13.8S\3 minutes 22 seconds \time\None
+PO_H0_CAM\O_GT_PLUS2\1996-03-18\ -9.990e+002\%12.3e\PT13.8S\3 minutes 22 seconds \time\None
+PO_H0_HYD\ELECTRON_DIFFERENTIAL_ENERGY_FLUX\1996-03-20\-1e31\%11.3e\PT13.8S\13.8 seconds\Time, centered\None
+PO_H0_HYD\ION_DIFFERENTIAL_ENERGY_FLUX\1996-03-20\-1e31\%11.3e\PT13.8S\13.8 seconds\Time, centered\None
+PO_H0_PWI\Fce\1996-03-25\-1e31\%12.4e\PT13.8S\None\Time, begin time of MCA E spectrum\None
+PO_H0_PWI\MCAE_Antenna\1996-03-25\-2147483648\%2d\PT13.8S\None\Time, begin time of MCA E spectrum\None
+PO_H0_PWI\MCAB_Antenna\1996-03-25\-2147483648\%2d\PT13.8S\None\Time, begin time of MCA E spectrum\None
+PO_H0_PWI\MCAE_Elec\1996-03-25\-1e31\%12.4e\PT13.8S\None\Time, begin time of MCA E spectrum\None
+PO_H0_PWI\MCAB_Mag\1996-03-25\-1e31\%12.4e\PT13.8S\None\Time, begin time of MCA B spectrum\None
+PO_H0_TID\hp_den\1996-03-27\-1e31\%10.2f\PT13.8S\None\Time of observation\spase://VMO/NumericalData/POLAR/TIDE/H0-CDF
+PO_H0_TID\hp_vel\1996-03-27\-1e31\%10.3f\PT13.8S\None\Time of observation\spase://VMO/NumericalData/POLAR/TIDE/H0-CDF
+PO_H0_TID\hp_temp\1996-03-27\-1e31\%5.1f\PT13.8S\None\Time of observation\spase://VMO/NumericalData/POLAR/TIDE/H0-CDF
+PO_H0_TID\hp_en\1996-03-27\-1e31\%12.5e\PT13.8S\None\Time of observation\spase://VMO/NumericalData/POLAR/TIDE/H0-CDF
+PO_H0_TID\hp_spin\1996-03-27\-1e31\%12.5e\PT13.8S\None\Time of observation\spase://VMO/NumericalData/POLAR/TIDE/H0-CDF
+PO_H0_TID\hp_polar\1996-03-27\-1e31\%12.5e\PT13.8S\None\Time of observation\spase://VMO/NumericalData/POLAR/TIDE/H0-CDF
+PO_H0_TID\op_den\1996-03-27\-1e31\%10.2f\PT13.8S\None\Time of observation\spase://VMO/NumericalData/POLAR/TIDE/H0-CDF
+PO_H0_TID\op_vel\1996-03-27\-1e31\%10.3f\PT13.8S\None\Time of observation\spase://VMO/NumericalData/POLAR/TIDE/H0-CDF
+PO_H0_TID\op_temp\1996-03-27\-1e31\%5.1f\PT13.8S\None\Time of observation\spase://VMO/NumericalData/POLAR/TIDE/H0-CDF
+PO_H0_TID\op_en\1996-03-27\-1e31\%12.5e\PT13.8S\None\Time of observation\spase://VMO/NumericalData/POLAR/TIDE/H0-CDF
+PO_H0_TID\op_spin\1996-03-27\-1e31\%12.5e\PT13.8S\None\Time of observation\spase://VMO/NumericalData/POLAR/TIDE/H0-CDF
+PO_H0_TID\op_polar\1996-03-27\-1e31\%12.5e\PT13.8S\None\Time of observation\spase://VMO/NumericalData/POLAR/TIDE/H0-CDF
+PO_H0_TID\hep_den\1996-03-27\-1e31\%10.2f\PT13.8S\None\Time of observation\spase://VMO/NumericalData/POLAR/TIDE/H0-CDF
+PO_H0_TID\hep_vel\1996-03-27\-1e31\%10.3f\PT13.8S\None\Time of observation\spase://VMO/NumericalData/POLAR/TIDE/H0-CDF
+PO_H0_TID\hep_temp\1996-03-27\-1e31\%5.1f\PT13.8S\None\Time of observation\spase://VMO/NumericalData/POLAR/TIDE/H0-CDF
+PO_H0_TID\hep_en\1996-03-27\-1e31\%12.5e\PT13.8S\None\Time of observation\spase://VMO/NumericalData/POLAR/TIDE/H0-CDF
+PO_H0_TID\hep_spin\1996-03-27\-1e31\%12.5e\PT13.8S\None\Time of observation\spase://VMO/NumericalData/POLAR/TIDE/H0-CDF
+PO_H0_TID\hep_polar\1996-03-27\-1e31\%12.5e\PT13.8S\None\Time of observation\spase://VMO/NumericalData/POLAR/TIDE/H0-CDF
+PO_H0_TID\tide_stat\1996-03-27\255\%1d\PT13.8S\None\Time of observation\spase://VMO/NumericalData/POLAR/TIDE/H0-CDF
+PO_H0_TID\psi_stat\1996-03-27\255\%1d\PT13.8S\None\Time of observation\spase://VMO/NumericalData/POLAR/TIDE/H0-CDF
+PO_H0_TID\sc_pot\1996-03-27\-1e31\%9.4f\PT13.8S\None\Time of observation\spase://VMO/NumericalData/POLAR/TIDE/H0-CDF
+PO_H0_TID\ram_spin\1996-03-27\-1e31\%8.3f\PT13.8S\None\Time of observation\spase://VMO/NumericalData/POLAR/TIDE/H0-CDF
+PO_H0_TID\ram_polar\1996-03-27\-1e31\%8.3f\PT13.8S\None\Time of observation\spase://VMO/NumericalData/POLAR/TIDE/H0-CDF
+PO_H0_TID\mag_az\1996-03-27\-1e31\%8.3f\PT13.8S\None\Time of observation\spase://VMO/NumericalData/POLAR/TIDE/H0-CDF
+PO_H0_TID\mag_el\1996-03-27\-1e31\%8.3f\PT13.8S\None\Time of observation\spase://VMO/NumericalData/POLAR/TIDE/H0-CDF
+PO_H0_TIM\Energy_Range_ID\1996-03-17\255\%3d\PT13.8S\None\NSSDC standard-reference time value at the center of the accumulation interval.\spase://VMO/NumericalData/POLAR/TIMAS/H0_PT12S
+PO_H0_TIM\Fec\1996-03-17\-1e31\%8.0f\PT13.8S\None\NSSDC standard-reference time value at the center of the accumulation interval.\spase://VMO/NumericalData/POLAR/TIMAS/H0_PT12S
+PO_H0_TIM\Bcr\1996-03-17\-1e31\%8.0f\PT13.8S\None\NSSDC standard-reference time value at the center of the accumulation interval.\spase://VMO/NumericalData/POLAR/TIMAS/H0_PT12S
+PO_H0_TIM\Spins\1996-03-17\  255\%5d\PT13.8S\None\NSSDC standard-reference time value at the center of the accumulation interval.\spase://VMO/NumericalData/POLAR/TIMAS/H0_PT12S
+PO_H0_TIM\Energy_status\1996-03-17\255\%3d\PT13.8S\None\NSSDC standard-reference time value at the center of the accumulation interval.\spase://VMO/NumericalData/POLAR/TIMAS/H0_PT12S
+PO_H0_TIM\PA_status\1996-03-17\255\%3d\PT13.8S\None\NSSDC standard-reference time value at the center of the accumulation interval.\spase://VMO/NumericalData/POLAR/TIMAS/H0_PT12S
+PO_H0_TIM\Quality\1996-03-17\255\%3d\PT13.8S\None\NSSDC standard-reference time value at the center of the accumulation interval.\spase://VMO/NumericalData/POLAR/TIMAS/H0_PT12S
+PO_H1_PWI\SFRA_Antenna\1996-03-25\-2147483648\%2d\PT13.8S\None\Time, begin time of SFR 1 spectrum\None
+PO_H1_PWI\SFRB_Antenna\1996-03-25\-2147483648\%2d\PT13.8S\None\Time, begin time of SFR 1 spectrum\None
+PO_H1_PWI\SFR_Mode\1996-03-25\-2147483648\%2d\PT13.8S\None\Time, begin time of SFR 1 spectrum\None
+PO_H1_PWI\SFR5A\1996-03-25\-1e31\%12.4e\PT13.8S\None\Start Time of SFR4 & SFR 5 Spectra\None
+PO_H1_PWI\SFR4A\1996-03-25\-1e31\%12.4e\PT13.8S\None\Start Time of SFR4 & SFR 5 Spectra\None
+PO_H1_PWI\SFR3A\1996-03-25\-1e31\%12.4e\PT13.8S\None\Start Time of SFR 3 Spectrum\None
+PO_H1_PWI\SFR2A\1996-03-25\-1e31\%12.4e\PT13.8S\None\Start Time of SFR2 spectrum\None
+PO_H1_PWI\SFR1A\1996-03-25\-1e31\%12.4e\PT13.8S\None\Time, begin time of SFR 1 spectrum\None
+PO_H1_PWI\SFR5B\1996-03-25\-1e31\%12.4e\PT13.8S\None\Start Time of SFR4 & SFR 5 Spectra\None
+PO_H1_PWI\SFR4B\1996-03-25\-1e31\%12.4e\PT13.8S\None\Start Time of SFR4 & SFR 5 Spectra\None
+PO_H1_PWI\SFR3B\1996-03-25\-1e31\%12.4e\PT13.8S\None\Start Time of SFR 3 Spectrum\None
+PO_H1_PWI\SFR2B\1996-03-25\-1e31\%12.4e\PT13.8S\None\Start Time of SFR2 spectrum\None
+PO_H1_PWI\SFR1B\1996-03-25\-1e31\%12.4e\PT13.8S\None\Time, begin time of SFR 1 spectrum\None
+PO_H1_PWI\SFR5Phase\1996-03-25\-1e31\%6.1f\PT13.8S\None\Start Time of SFR4 & SFR 5 Spectra\None
+PO_H1_PWI\SFR4Phase\1996-03-25\-1e31\%6.1f\PT13.8S\None\Start Time of SFR4 & SFR 5 Spectra\None
+PO_H1_PWI\SFR3Phase\1996-03-25\-1e31\%6.1f\PT13.8S\None\Start Time of SFR 3 Spectrum\None
+PO_H1_PWI\SFR2Phase\1996-03-25\-1e31\%6.1f\PT13.8S\None\Start Time of SFR2 spectrum\None
+PO_H1_PWI\SFR1Phase\1996-03-25\-1e31\%6.1f\PT13.8S\None\Time, begin time of SFR 1 spectrum\None
+PO_H1_PWI\SFR5_Corr\1996-03-25\-1e31\%6.3f\PT13.8S\None\Start Time of SFR4 & SFR 5 Spectra\None
+PO_H1_PWI\SFR4_Corr\1996-03-25\-1e31\%6.3f\PT13.8S\None\Start Time of SFR4 & SFR 5 Spectra\None
+PO_H1_PWI\SFR3_Corr\1996-03-25\-1e31\%6.3f\PT13.8S\None\Start Time of SFR 3 Spectrum\None
+PO_H1_PWI\SFR2_Corr\1996-03-25\-1e31\%6.3f\PT13.8S\None\Start Time of SFR2 spectrum\None
+PO_H1_PWI\SFR1_Corr\1996-03-25\-1e31\%6.3f\PT13.8S\None\Time, begin time of SFR 1 spectrum\None
+PO_H1_PWI\Fce\1996-03-25\10.0000e-032\%11.4e\PT13.8S\None\Time of Fce\None
+PO_H1_PWI\fUHR\1996-03-25\-1e31\%11.4e\PT13.8S\None\Time of fUHR/Ne\None
+PO_H1_PWI\Ne\1996-03-25\-1e31\%8.2f\PT13.8S\None\Time of fUHR/Ne\None
+PO_H1_TID\total_den\1996-12-08\-1e31\%10.2f\PT13.8S\None\Time of observation\spase://VMO/NumericalData/POLAR/TIDE/H1_CDF
+PO_H1_TID\total_vel\1996-12-08\-1e31\%10.3f\PT13.8S\None\Time of observation\spase://VMO/NumericalData/POLAR/TIDE/H1_CDF
+PO_H1_TID\total_temp\1996-12-08\-1e31\%5.1f\PT13.8S\None\Time of observation\spase://VMO/NumericalData/POLAR/TIDE/H1_CDF
+PO_H1_TID\total_en\1996-12-08\-1e31\%12.5e\PT13.8S\None\Time of observation\spase://VMO/NumericalData/POLAR/TIDE/H1_CDF
+PO_H1_TID\total_spin\1996-12-08\-1e31\%12.5e\PT13.8S\None\Time of observation\spase://VMO/NumericalData/POLAR/TIDE/H1_CDF
+PO_H1_TID\tide_stat\1996-12-08\255\%1d\PT13.8S\None\Time of observation\spase://VMO/NumericalData/POLAR/TIDE/H1_CDF
+PO_H1_TID\psi_stat\1996-12-08\255\%1d\PT13.8S\None\Time of observation\spase://VMO/NumericalData/POLAR/TIDE/H1_CDF
+PO_H1_TID\sc_pot\1996-12-08\-1e31\%9.4f\PT13.8S\None\Time of observation\spase://VMO/NumericalData/POLAR/TIDE/H1_CDF
+PO_H1_TID\ram_spin\1996-12-08\-1e31\%8.3f\PT13.8S\None\Time of observation\spase://VMO/NumericalData/POLAR/TIDE/H1_CDF
+PO_H1_TID\ram_polar\1996-12-08\-1e31\%8.3f\PT13.8S\None\Time of observation\spase://VMO/NumericalData/POLAR/TIDE/H1_CDF
+PO_H1_TID\mag_az\1996-12-08\-1e31\%8.3f\PT13.8S\None\Time of observation\spase://VMO/NumericalData/POLAR/TIDE/H1_CDF
+PO_H1_TID\mag_el\1996-12-08\-1e31\%8.3f\PT13.8S\None\Time of observation\spase://VMO/NumericalData/POLAR/TIDE/H1_CDF
+PO_H2_PWI\DATA_QUALITY\1996-03-25\-2147480064\%2d\PT0.01S\0.01 seconds\Time\None
+PO_H2_PWI\LFWR_Ex\1996-03-25\-1e31\%12.4e\PT0.01S\0.01 seconds\Time\None
+PO_H2_PWI\LFWR_Ey\1996-03-25\-1e31\%12.4e\PT0.01S\0.01 seconds\Time\None
+PO_H2_PWI\LFWR_Ez\1996-03-25\-1e31\%12.4e\PT0.01S\0.01 seconds\Time\None
+PO_H2_PWI\LFWR_Bx\1996-03-25\-1e31\%12.4e\PT0.01S\0.01 seconds\Time\None
+PO_H2_PWI\LFWR_By\1996-03-25\-1e31\%12.4e\PT0.01S\0.01 seconds\Time\None
+PO_H2_PWI\LFWR_Bz\1996-03-25\-1e31\%12.4e\PT0.01S\0.01 seconds\Time\None
+PO_H2_TIM\H_Fluence\1996-03-17\-1e31\%12.4e\PT0.01S\None\NSSDC standard-reference time value at the center of the accumulation interval.\spase://VMO/NumericalData/POLAR/TIMAS/H2_PT12S
+PO_H2_TIM\O_Fluence\1996-03-17\-1e31\%12.4e\PT0.01S\None\NSSDC standard-reference time value at the center of the accumulation interval.\spase://VMO/NumericalData/POLAR/TIMAS/H2_PT12S
+PO_H2_TIM\He1_Fluence\1996-03-17\-1e31\%12.4e\PT0.01S\None\NSSDC standard-reference time value at the center of the accumulation interval.\spase://VMO/NumericalData/POLAR/TIMAS/H2_PT12S
+PO_H2_TIM\He2_Fluence\1996-03-17\-1e31\%12.4e\PT0.01S\None\NSSDC standard-reference time value at the center of the accumulation interval.\spase://VMO/NumericalData/POLAR/TIMAS/H2_PT12S
+PO_H2_TIM\H_sigma\1996-03-17\-128\%4d\PT0.01S\None\NSSDC standard-reference time value at the center of the accumulation interval.\spase://VMO/NumericalData/POLAR/TIMAS/H2_PT12S
+PO_H2_TIM\O_sigma\1996-03-17\-128\%4d\PT0.01S\None\NSSDC standard-reference time value at the center of the accumulation interval.\spase://VMO/NumericalData/POLAR/TIMAS/H2_PT12S
+PO_H2_TIM\He1_sigma\1996-03-17\-128\%4d\PT0.01S\None\NSSDC standard-reference time value at the center of the accumulation interval.\spase://VMO/NumericalData/POLAR/TIMAS/H2_PT12S
+PO_H2_TIM\He2_sigma\1996-03-17\-128\%4d\PT0.01S\None\NSSDC standard-reference time value at the center of the accumulation interval.\spase://VMO/NumericalData/POLAR/TIMAS/H2_PT12S
+PO_H2_TIM\H_Eflux\1996-03-17\-1e31\%12.4e\PT0.01S\None\NSSDC standard-reference time value at the center of the accumulation interval.\spase://VMO/NumericalData/POLAR/TIMAS/H2_PT12S
+PO_H2_TIM\O_Eflux\1996-03-17\-1e31\%12.4e\PT0.01S\None\NSSDC standard-reference time value at the center of the accumulation interval.\spase://VMO/NumericalData/POLAR/TIMAS/H2_PT12S
+PO_H2_TIM\He1_Eflux\1996-03-17\-1e31\%12.4e\PT0.01S\None\NSSDC standard-reference time value at the center of the accumulation interval.\spase://VMO/NumericalData/POLAR/TIMAS/H2_PT12S
+PO_H2_TIM\He2_Eflux\1996-03-17\-1e31\%12.4e\PT0.01S\None\NSSDC standard-reference time value at the center of the accumulation interval.\spase://VMO/NumericalData/POLAR/TIMAS/H2_PT12S
+PO_H2_TIM\H_efluxsigma\1996-03-17\-128\%4d\PT0.01S\None\NSSDC standard-reference time value at the center of the accumulation interval.\spase://VMO/NumericalData/POLAR/TIMAS/H2_PT12S
+PO_H2_TIM\O_efluxsigma\1996-03-17\-128\%4d\PT0.01S\None\NSSDC standard-reference time value at the center of the accumulation interval.\spase://VMO/NumericalData/POLAR/TIMAS/H2_PT12S
+PO_H2_TIM\He1_efluxsigma\1996-03-17\-128\%4d\PT0.01S\None\NSSDC standard-reference time value at the center of the accumulation interval.\spase://VMO/NumericalData/POLAR/TIMAS/H2_PT12S
+PO_H2_TIM\He2_efluxsigma\1996-03-17\-128\%4d\PT0.01S\None\NSSDC standard-reference time value at the center of the accumulation interval.\spase://VMO/NumericalData/POLAR/TIMAS/H2_PT12S
+PO_H2_TIM\SZA\1996-03-17\-1e31\%7.2f\PT0.01S\None\NSSDC standard-reference time value at the center of the accumulation interval.\spase://VMO/NumericalData/POLAR/TIMAS/H2_PT12S
+PO_H2_TIM\Conjugate_SZA\1996-03-17\-1e31\%7.2f\PT0.01S\None\NSSDC standard-reference time value at the center of the accumulation interval.\spase://VMO/NumericalData/POLAR/TIMAS/H2_PT12S
+PO_H2_TIM\SZA_status\1996-03-17\255\%3d\PT0.01S\None\NSSDC standard-reference time value at the center of the accumulation interval.\spase://VMO/NumericalData/POLAR/TIMAS/H2_PT12S
+PO_H2_TIM\Conjugate_SZA_status\1996-03-17\255\%3d\PT0.01S\None\NSSDC standard-reference time value at the center of the accumulation interval.\spase://VMO/NumericalData/POLAR/TIMAS/H2_PT12S
+PO_H2_TIM\H_quality\1996-03-17\255\%3d\PT0.01S\None\NSSDC standard-reference time value at the center of the accumulation interval.\spase://VMO/NumericalData/POLAR/TIMAS/H2_PT12S
+PO_H2_TIM\O_quality\1996-03-17\255\%3d\PT0.01S\None\NSSDC standard-reference time value at the center of the accumulation interval.\spase://VMO/NumericalData/POLAR/TIMAS/H2_PT12S
+PO_H2_TIM\He1_quality\1996-03-17\255\%3d\PT0.01S\None\NSSDC standard-reference time value at the center of the accumulation interval.\spase://VMO/NumericalData/POLAR/TIMAS/H2_PT12S
+PO_H2_TIM\He2_quality\1996-03-17\255\%3d\PT0.01S\None\NSSDC standard-reference time value at the center of the accumulation interval.\spase://VMO/NumericalData/POLAR/TIMAS/H2_PT12S
+PO_H2_TIM\R\1996-03-17\-1e31\%4.1f\PT0.01S\None\NSSDC standard-reference time value at the center of the accumulation interval.\spase://VMO/NumericalData/POLAR/TIMAS/H2_PT12S
+PO_H2_TIM\L\1996-03-17\-1e31\%4.1f\PT0.01S\None\NSSDC standard-reference time value at the center of the accumulation interval.\spase://VMO/NumericalData/POLAR/TIMAS/H2_PT12S
+PO_H2_TIM\MLT\1996-03-17\-1e31\%4.1f\PT0.01S\None\NSSDC standard-reference time value at the center of the accumulation interval.\spase://VMO/NumericalData/POLAR/TIMAS/H2_PT12S
+PO_H2_TIM\LocT\1996-03-17\-1e31\%4.1f\PT0.01S\None\NSSDC standard-reference time value at the center of the accumulation interval.\spase://VMO/NumericalData/POLAR/TIMAS/H2_PT12S
+PO_H2_TIM\Mlat\1996-03-17\-1e31\%4.1f\PT0.01S\None\NSSDC standard-reference time value at the center of the accumulation interval.\spase://VMO/NumericalData/POLAR/TIMAS/H2_PT12S
+PO_H2_TIM\ILA\1996-03-17\-1e31\%4.1f\PT0.01S\None\NSSDC standard-reference time value at the center of the accumulation interval.\spase://VMO/NumericalData/POLAR/TIMAS/H2_PT12S
+PO_H2_TIM\MagField\1996-03-17\-1e31\%7.2e\PT0.01S\None\NSSDC standard-reference time value at the center of the accumulation interval.\spase://VMO/NumericalData/POLAR/TIMAS/H2_PT12S
+PO_H2_TIM\SC_Potential\1996-03-17\-1e31\%4.1f\PT0.01S\None\NSSDC standard-reference time value at the center of the accumulation interval.\spase://VMO/NumericalData/POLAR/TIMAS/H2_PT12S
+PO_H2_TIM\Imf_Gsm\1996-03-17\-1e31\%7.2e\PT0.01S\None\NSSDC standard-reference time value at the center of the accumulation interval.\spase://VMO/NumericalData/POLAR/TIMAS/H2_PT12S
+PO_H2_TIM\SW_pressure\1996-03-17\-1e31\%4.1f\PT0.01S\None\NSSDC standard-reference time value at the center of the accumulation interval.\spase://VMO/NumericalData/POLAR/TIMAS/H2_PT12S
+PO_H2_TIM\SW_density\1996-03-17\-1e31\%4.1f\PT0.01S\None\NSSDC standard-reference time value at the center of the accumulation interval.\spase://VMO/NumericalData/POLAR/TIMAS/H2_PT12S
+PO_H2_TIM\SW_velocity\1996-03-17\-1e31\%7.2e\PT0.01S\None\NSSDC standard-reference time value at the center of the accumulation interval.\spase://VMO/NumericalData/POLAR/TIMAS/H2_PT12S
+PO_H2_TIM\Energy_range\1996-03-17\255\%3d\PT0.01S\None\NSSDC standard-reference time value at the center of the accumulation interval.\spase://VMO/NumericalData/POLAR/TIMAS/H2_PT12S
+PO_H3_PWI\DATA_QUALITY\1996-03-25\-2147483648\%1d\PT0.01S\None\Time, time of HFWR 16 kHz value\None
+PO_H3_PWI\HFWR_Ex16K\1996-03-25\-1e31\%12.4e\PT0.01S\None\Time, time of HFWR 16 kHz value\None
+PO_H3_PWI\HFWR_Ey16K\1996-03-25\-1e31\%12.4e\PT0.01S\None\Time, time of HFWR 16 kHz value\None
+PO_H3_PWI\HFWR_Ez16K\1996-03-25\-1e31\%12.4e\PT0.01S\None\Time, time of HFWR 16 kHz value\None
+PO_H3_PWI\HFWR_Bx16K\1996-03-25\-1e31\%12.4e\PT0.01S\None\Time, time of HFWR 16 kHz value\None
+PO_H3_PWI\HFWR_By16K\1996-03-25\-1e31\%12.4e\PT0.01S\None\Time, time of HFWR 16 kHz value\None
+PO_H3_PWI\HFWR_Bz16K\1996-03-25\-1e31\%12.4e\PT0.01S\None\Time, time of HFWR 16 kHz value\None
+PO_H3_PWI\Gain1\1996-03-25\-2147483648\%2d\PT0.01S\None\Time, begin time of HFWR 16 kHz spectrum\None
+PO_H3_PWI\Gain2\1996-03-25\-2147483648\%2d\PT0.01S\None\Time, begin time of HFWR 16 kHz spectrum\None
+PO_H3_PWI\Gain3\1996-03-25\-2147483648\%2d\PT0.01S\None\Time, begin time of HFWR 16 kHz spectrum\None
+PO_H3_PWI\MGain\1996-03-25\-2147483648\%2d\PT0.01S\None\Time, begin time of HFWR 16 kHz spectrum\None
+PO_H4_PWI\DATA_QUALITY\1996-03-26\-2147483648\%1d\None\See VAR_NOTES for Delta_T, below\Time, time of HFWR 2 kHz value\None
+PO_H4_PWI\HFWR_Ex2K\1996-03-26\-1e31\%12.4e\None\See VAR_NOTES for Delta_T, below\Time, time of HFWR 2 kHz value\None
+PO_H4_PWI\HFWR_Ey2K\1996-03-26\-1e31\%12.4e\None\See VAR_NOTES for Delta_T, below\Time, time of HFWR 2 kHz value\None
+PO_H4_PWI\HFWR_Ez2K\1996-03-26\-1e31\%12.4e\None\See VAR_NOTES for Delta_T, below\Time, time of HFWR 2 kHz value\None
+PO_H4_PWI\HFWR_Bx2K\1996-03-26\-1e31\%12.4e\None\See VAR_NOTES for Delta_T, below\Time, time of HFWR 2 kHz value\None
+PO_H4_PWI\HFWR_By2K\1996-03-26\-1e31\%12.4e\None\See VAR_NOTES for Delta_T, below\Time, time of HFWR 2 kHz value\None
+PO_H4_PWI\HFWR_Bz2K\1996-03-26\-1e31\%12.4e\None\See VAR_NOTES for Delta_T, below\Time, time of HFWR 2 kHz value\None
+PO_H4_PWI\Gain1\1996-03-26\-2147483648\%2d\None\See VAR_NOTES for Delta_T, below\Time, begin time of HFWR 2 kHz spectrum\None
+PO_H4_PWI\Gain2\1996-03-26\-2147483648\%2d\None\See VAR_NOTES for Delta_T, below\Time, begin time of HFWR 2 kHz spectrum\None
+PO_H4_PWI\Gain3\1996-03-26\-2147483648\%2d\None\See VAR_NOTES for Delta_T, below\Time, begin time of HFWR 2 kHz spectrum\None
+PO_H4_PWI\MGain\1996-03-26\-2147483648\%2d\None\See VAR_NOTES for Delta_T, below\Time, begin time of HFWR 2 kHz spectrum\None
+PO_H5_PWI\DATA_QUALITY\1996-03-25\-2147483648\%1d\None\See notes for Delta_T below.\Time, time of HFWR 16 kHz value\None
+PO_H5_PWI\HFWR_Eu16K\1996-03-25\-1e31\%12.4e\None\See notes for Delta_T below.\Time, time of HFWR 16 kHz value\None
+PO_H5_PWI\HFWR_Evp16K\1996-03-25\-1e31\%12.4e\None\See notes for Delta_T below.\Time, time of HFWR 16 kHz value\None
+PO_H5_PWI\HFWR_Evm16K\1996-03-25\-1e31\%12.4e\None\See notes for Delta_T below.\Time, time of HFWR 16 kHz value\None
+PO_H5_PWI\HFWR_Bu16K\1996-03-25\-1e31\%12.4e\None\See notes for Delta_T below.\Time, time of HFWR 16 kHz value\None
+PO_H5_PWI\HFWR_Bv16K\1996-03-25\-1e31\%12.4e\None\See notes for Delta_T below.\Time, time of HFWR 16 kHz value\None
+PO_H5_PWI\HFWR_Bz16K\1996-03-25\-1e31\%12.4e\None\See notes for Delta_T below.\Time, time of HFWR 16 kHz value\None
+PO_H5_PWI\Gain1\1996-03-25\-1e31\%2d\None\See notes for Delta_T below.\Time, begin time of HFWR 16 kHz spectrum\None
+PO_H5_PWI\Gain2\1996-03-25\-2147483648\%2d\None\See notes for Delta_T below.\Time, begin time of HFWR 16 kHz spectrum\None
+PO_H5_PWI\Gain3\1996-03-25\-2147483648\%2d\None\See notes for Delta_T below.\Time, begin time of HFWR 16 kHz spectrum\None
+PO_H5_PWI\MGain\1996-03-25\-1e31\%2d\None\See notes for Delta_T below.\Time, begin time of HFWR 16 kHz spectrum\None
+PO_K0_CAM\Protons\1996-02-26\-1e31\%9.4f\None\96 sec\Time \None
+PO_K0_CAM\Protons_errorbars\1996-02-26\-1e31\%9.4f\None\96 sec\Time \None
+PO_K0_CAM\ERR_P\1996-02-26\-1e31\%9.4f\None\96 sec\Time \None
+PO_K0_CAM\He_Plus\1996-02-26\-1e31\%9.4f\None\96 sec\Time \None
+PO_K0_CAM\He_Plus_errorbars\1996-02-26\-1e31\%9.4f\None\96 sec\Time \None
+PO_K0_CAM\ERR_Hep\1996-02-26\-1e31\%9.4f\None\96 sec\Time \None
+PO_K0_CAM\Alphas\1996-02-26\-1e31\%9.4f\None\96 sec\Time \None
+PO_K0_CAM\Alphas_errorbars\1996-02-26\-1e31\%9.4f\None\96 sec\Time \None
+PO_K0_CAM\ERR_alpha\1996-02-26\-1e31\%9.4f\None\96 sec\Time \None
+PO_K0_CAM\O_le2p\1996-02-26\-1e31\%9.4f\None\96 sec\Time \None
+PO_K0_CAM\O_le2p_errorbars\1996-02-26\-1e31\%9.4f\None\96 sec\Time \None
+PO_K0_CAM\ERR_Op\1996-02-26\-1e31\%9.4f\None\96 sec\Time \None
+PO_K0_CAM\O_gt_2pl\1996-02-26\-1e31\%9.4f\None\96 sec\Time \None
+PO_K0_CAM\O_gt_2pl_errorbars\1996-02-26\-1e31\%9.4f\None\96 sec\Time \None
+PO_K0_CAM\ERR_O3pl\1996-02-26\-1e31\%9.4f\None\96 sec\Time \None
+PO_K0_CAM\H_low_E\1996-02-26\-1e31\%9.4f\None\96 sec\Time \None
+PO_K0_CAM\H_low_E_errorbars\1996-02-26\-1e31\%9.4f\None\96 sec\Time \None
+PO_K0_CAM\ERR_H_le\1996-02-26\-1e31\%9.4f\None\96 sec\Time \None
+PO_K0_CAM\H_high_E\1996-02-26\-1e31\%9.4f\None\96 sec\Time \None
+PO_K0_CAM\H_high_E_errorbars\1996-02-26\-1e31\%9.4f\None\96 sec\Time \None
+PO_K0_CAM\ERR_H_he\1996-02-26\-1e31\%9.4f\None\96 sec\Time \None
+PO_K0_CAM\He_low_E\1996-02-26\-1e31\%9.4f\None\96 sec\Time \None
+PO_K0_CAM\He_low_E_errorbars\1996-02-26\-1e31\%9.4f\None\96 sec\Time \None
+PO_K0_CAM\ERR_He_le\1996-02-26\-1e31\%9.4f\None\96 sec\Time \None
+PO_K0_CAM\He_high_E\1996-02-26\-1e31\%9.4f\None\96 sec\Time \None
+PO_K0_CAM\He_high_E_errorbars\1996-02-26\-1e31\%9.4f\None\96 sec\Time \None
+PO_K0_CAM\ERR_He_he\1996-02-26\-1e31\%9.4f\None\96 sec\Time \None
+PO_K0_CAM\CNO_low_E\1996-02-26\-1e31\%9.4f\None\96 sec\Time \None
+PO_K0_CAM\CNO_low_E_errorbars\1996-02-26\-1e31\%9.4f\None\96 sec\Time \None
+PO_K0_CAM\ERR_CNO_le\1996-02-26\-1e31\%9.4f\None\96 sec\Time \None
+PO_K0_CAM\CNO_high_E\1996-02-26\-1e31\%9.4f\None\96 sec\Time \None
+PO_K0_CAM\CNO_high_E_errorbars\1996-02-26\-1e31\%9.4f\None\96 sec\Time \None
+PO_K0_CAM\ERR_CNO_he\1996-02-26\-1e31\%9.4f\None\96 sec\Time \None
+PO_K0_CEP\IPS_10\1996-02-26\-1e31\%9.4f\None\96 sec\Time \None
+PO_K0_CEP\IPS_10_errorbars\1996-02-26\-1e31\%9.4f\None\96 sec\Time \None
+PO_K0_CEP\IPS_10_ERR\1996-02-26\-1e31\%9.4f\None\96 sec\Time \None
+PO_K0_CEP\IPS_30\1996-02-26\-1e31\%9.4f\None\96 sec\Time \None
+PO_K0_CEP\IPS_30_errorbars\1996-02-26\-1e31\%9.4f\None\96 sec\Time \None
+PO_K0_CEP\IPS_30_ERR\1996-02-26\-1e31\%9.4f\None\96 sec\Time \None
+PO_K0_CEP\IPS_50\1996-02-26\-1e31\%9.4f\None\96 sec\Time \None
+PO_K0_CEP\IPS_50_errorbars\1996-02-26\-1e31\%9.4f\None\96 sec\Time \None
+PO_K0_CEP\IPS_50_ERR\1996-02-26\-1e31\%9.4f\None\96 sec\Time \None
+PO_K0_CEP\IPS_FLAG\1996-02-26\-128\%1d\None\96 sec\Time \None
+PO_K0_CEP\IES_10\1996-02-26\-1e31\%9.4f\None\96 sec\Time \None
+PO_K0_CEP\IES_10_errorbars\1996-02-26\-1e31\%9.4f\None\96 sec\Time \None
+PO_K0_CEP\IES_10_ERR\1996-02-26\-1e31\%9.4f\None\96 sec\Time \None
+PO_K0_CEP\IES_30\1996-02-26\-1e31\%9.4f\None\96 sec\Time \None
+PO_K0_CEP\IES_30_errorbars\1996-02-26\-1e31\%9.4f\None\96 sec\Time \None
+PO_K0_CEP\IES_30_ERR\1996-02-26\-1e31\%9.4f\None\96 sec\Time \None
+PO_K0_CEP\IES_50\1996-02-26\-1e31\%9.4f\None\96 sec\Time \None
+PO_K0_CEP\IES_50_errorbars\1996-02-26\-1e31\%9.4f\None\96 sec\Time \None
+PO_K0_CEP\IES_50_ERR\1996-02-26\-1e31\%9.4f\None\96 sec\Time \None
+PO_K0_CEP\HIST_ABCI\1996-02-26\-1e31\%9.4f\None\96 sec\Time \None
+PO_K0_CEP\HIST_ABCI_errorbars\1996-02-26\-1e31\%9.4f\None\96 sec\Time \None
+PO_K0_CEP\HIST_ABCI_ERR\1996-02-26\-1e31\%9.4f\None\96 sec\Time \None
+PO_K0_CEP\HIST_ABCE\1996-02-26\-1e31\%9.4f\None\96 sec\Time \None
+PO_K0_CEP\HIST_ABCE_errorbars\1996-02-26\-1e31\%9.4f\None\96 sec\Time \None
+PO_K0_CEP\HIST_ABCE_ERR\1996-02-26\-1e31\%9.4f\None\96 sec\Time \None
+PO_K0_CEP\HIST_AH\1996-02-26\-1e31\%9.4f\None\96 sec\Time \None
+PO_K0_CEP\HIST_AH_errorbars\1996-02-26\-1e31\%9.4f\None\96 sec\Time \None
+PO_K0_CEP\HIST_AH_ERR\1996-02-26\-1e31\%9.4f\None\96 sec\Time \None
+PO_K0_CEP\HIST_A1\1996-02-26\-1e31\%9.4f\None\96 sec\Time \None
+PO_K0_CEP\HIST_A1_errorbars\1996-02-26\-1e31\%9.4f\None\96 sec\Time \None
+PO_K0_CEP\HIST_A1_ERR\1996-02-26\-1e31\%9.4f\None\96 sec\Time \None
+PO_K0_CEP\HIST_FLAG\1996-02-26\-128\%1d\None\96 sec\Time \None
+PO_K0_EFI\ESPIN\1996-03-15\-1e31\%12.6f\None\None\Time relative to midnight January 1, 0 AD, Scalar\None
+PO_K0_EFI\EXY12G\1996-03-15\-1e31\%12.6f\None\None\Time relative to midnight January 1, 0 AD, Scalar\None
+PO_K0_EFI\EZ12G\1996-03-15\-1e31\%12.6f\None\None\Time relative to midnight January 1, 0 AD, Scalar\None
+PO_K0_EFI\SIG12G\1996-03-15\-1e31\%12.6f\None\None\Time relative to midnight January 1, 0 AD, Scalar\None
+PO_K0_EFI\POTENT\1996-03-15\-1e31\%11.6f\None\None\Time relative to midnight January 1, 0 AD, Scalar\None
+PO_K0_EFI\BAND1\1996-03-15\-1e31\%10.6f\None\None\Time relative to midnight January 1, 0 AD, Scalar\None
+PO_K0_EFI\BAND2\1996-03-15\-1e31\%10.6f\None\None\Time relative to midnight January 1, 0 AD, Scalar\None
+PO_K0_EFI\BAND3\1996-03-15\-1e31\%10.6f\None\None\Time relative to midnight January 1, 0 AD, Scalar\None
+PO_K0_EFI\BIAS1\1996-03-15\-1e31\%6.1f\None\None\Time relative to midnight January 1, 0 AD, Scalar\None
+PO_K0_EFI\DCURR\1996-03-15\-1e31\%11.6f\None\None\Time relative to midnight January 1, 0 AD, Scalar\None
+PO_K0_HYD\SC_pos_gsm\1996-03-20\-1e31\%5.1f\PT1M\1 minute\Time, centered\None
+PO_K0_HYD\SC_pos_gsmO\1996-03-20\-1e31\%5.1f\PT1M\1 minute\Time, centered\None
+PO_K0_HYD\SC_pos_gsmV\1996-03-20\-1e31\%5.1f\PT1M\1 minute\Time, centered\None
+PO_K0_HYD\MAX_ENERGY\1996-03-20\-1e31\%9.2f\PT1M\1 minute\Time, centered\None
+PO_K0_HYD\MIN_ENERGY\1996-03-20\-1e31\%9.2f\PT1M\1 minute\Time, centered\None
+PO_K0_HYD\ELE_DENSITY\1996-03-20\-1e31\%8.2f\PT1M\1 minute\Time, centered\None
+PO_K0_HYD\ELE_MEAN_ENERGY\1996-03-20\-1e31\%9.2f\PT1M\1 minute\Time, centered\None
+PO_K0_MFE\POS_GSE\1996-03-16\-1e31\%9.5f\PT1M\None\0.92 min Epoch Time\None
+PO_K0_MFE\POS_GSM\1996-03-16\-1e31\%9.5f\PT1M\None\0.92 min Epoch Time\None
+PO_K0_MFE\POS_SM\1996-03-16\-1e31\%9.5f\PT1M\None\0.92 min Epoch Time\None
+PO_K0_MFE\Rad_Dist\1996-03-16\-1e31\%9.5f\PT1M\None\0.92 min Epoch Time\None
+PO_K0_MFE\TILT\1996-03-16\-1e31\%6.2f\PT1M\None\0.92 min Epoch Time\None
+PO_K0_MFE\BT\1996-03-16\-1e31\%13.6e\PT1M\None\6 sec Epoch Time\None
+PO_K0_MFE\BSC\1996-03-16\-1e31\%13.6e\PT1M\None\6 sec Epoch Time\None
+PO_K0_MFE\COMP_DELTA\1996-03-16\-1e31\%13.6e\PT1M\None\0.92 min Epoch Time\None
+PO_K0_MFE\TRANS_DELTA\1996-03-16\-1e31\%13.6e\PT1M\None\0.92 min Epoch Time\None
+PO_K0_MFE\BTAV\1996-03-16\-1e31\%13.6e\PT1M\None\0.92 min Epoch Time\None
+PO_K0_MFE\B_GSE\1996-03-16\-1e31\%13.6e\PT1M\None\0.92 min Epoch Time\None
+PO_K0_MFE\B_GSM\1996-03-16\-1e31\%13.6e\PT1M\None\0.92 min Epoch Time\None
+PO_K0_MFE\B_SM\1996-03-16\-1e31\%13.6e\PT1M\None\0.92 min Epoch Time\None
+PO_K0_MFE\MBTIGRF\1996-03-16\-1e31\%13.6e\PT1M\None\0.92 min Epoch Time\None
+PO_K0_MFE\MBCIGRF_GSE\1996-03-16\-1e31\%13.6e\PT1M\None\0.92 min Epoch Time\None
+PO_K0_MFE\MBCIGRF_GSM\1996-03-16\-1e31\%13.6e\PT1M\None\0.92 min Epoch Time\None
+PO_K0_MFE\MBCIGRF_SM\1996-03-16\-1e31\%13.6e\PT1M\None\0.92 min Epoch Time\None
+PO_K0_MFE\MBTSY\1996-03-16\-1e31\%13.6e\PT1M\None\0.92 min Epoch Time\None
+PO_K0_MFE\MBCTSYGSE\1996-03-16\-1e31\%13.6e\PT1M\None\0.92 min Epoch Time\None
+PO_K0_MFE\MBCTSYGSM\1996-03-16\-1e31\%13.6e\PT1M\None\0.92 min Epoch Time\None
+PO_K0_MFE\MBCTSYSM\1996-03-16\-1e31\%13.6e\PT1M\None\0.92 min Epoch Time\None
+PO_K0_MFE\N_FOOT_PRINT\1996-03-16\-1e31\%12.5e\PT1M\None\0.92 min Epoch Time\None
+PO_K0_MFE\S_FOOT_PRINT\1996-03-16\-1e31\%12.5e\PT1M\None\0.92 min Epoch Time\None
+PO_K0_MFE\dt_var\1996-03-16\-2147483648\%4d\PT1M\None\0.92 min Epoch Time\None
+PO_K0_MFE\POS_GSEV\1996-03-16\-1e31\%9.5f\PT1M\None\0.92 min Epoch Time\None
+PO_K0_MFE\POS_GSMV\1996-03-16\-1e31\%9.5f\PT1M\None\0.92 min Epoch Time\None
+PO_K0_MFE\POS_SMV\1996-03-16\-1e31\%9.5f\PT1M\None\0.92 min Epoch Time\None
+PO_K0_MFE\Rad_DistV\1996-03-16\-1e31\%9.5f\PT1M\None\0.92 min Epoch Time\None
+PO_K0_MFE\TILTV\1996-03-16\-1e31\%6.2f\PT1M\None\0.92 min Epoch Time\None
+PO_K0_PIX\XSA_LOW\1996-02-27\-1e31\%10.5e\PT1M\None\NSSDC Standard Time \None
+PO_K0_PIX\XSA_LOW_O\1996-02-27\-1e31\%10.5e\PT1M\None\NSSDC Standard Time \None
+PO_K0_PIX\XSA_LOW_Test\1996-02-27\-1e31\%10.5e\PT1M\None\NSSDC Standard Time \None
+PO_K0_PIX\XSA_LOW_P\1996-02-27\-1e31\%10.5e\PT1M\None\NSSDC Standard Time \None
+PO_K0_PIX\XSA_LOW_M\1996-02-27\-1e31\%10.5e\PT1M\None\NSSDC Standard Time \None
+PO_K0_PIX\XSA_LOW_MV\1996-02-27\-1e31\%10.5e\PT1M\None\NSSDC Standard Time \None
+PO_K0_PIX\XSA_LOW_O_MV\1996-02-27\-1e31\%10.5e\PT1M\None\NSSDC Standard Time \None
+PO_K0_PIX\XSA_LOW_P_MV\1996-02-27\-1e31\%10.5e\PT1M\None\NSSDC Standard Time \None
+PO_K0_PIX\XSA_LOW_M_MV\1996-02-27\-1e31\%10.5e\PT1M\None\NSSDC Standard Time \None
+PO_K0_PIX\XSA_HIGH\1996-02-27\-1e31\%10.5e\PT1M\None\NSSDC Standard Time \None
+PO_K0_PIX\XSA_HIGH_O\1996-02-27\-1e31\%10.5e\PT1M\None\NSSDC Standard Time \None
+PO_K0_PIX\XSA_HIGH_Test\1996-02-27\-1e31\%10.5e\PT1M\None\NSSDC Standard Time \None
+PO_K0_PIX\XSA_HIGH_P\1996-02-27\-1e31\%10.5e\PT1M\None\NSSDC Standard Time \None
+PO_K0_PIX\XSA_HIGH_M\1996-02-27\-1e31\%10.5e\PT1M\None\NSSDC Standard Time \None
+PO_K0_PIX\XSA_HIGH_MV\1996-02-27\-1e31\%10.5e\PT1M\None\NSSDC Standard Time \None
+PO_K0_PIX\XSA_HIGH_O_MV\1996-02-27\-1e31\%10.5e\PT1M\None\NSSDC Standard Time \None
+PO_K0_PIX\XSA_HIGH_P_MV\1996-02-27\-1e31\%10.5e\PT1M\None\NSSDC Standard Time \None
+PO_K0_PIX\XSA_HIGH_M_MV\1996-02-27\-1e31\%10.5e\PT1M\None\NSSDC Standard Time \None
+PO_K0_PIX\TXF_LOW\1996-02-27\-1e31\%10.5e\PT1M\None\NSSDC Standard Time \None
+PO_K0_PIX\TXF_HIGH\1996-02-27\-1e31\%10.5e\PT1M\None\NSSDC Standard Time \None
+PO_K0_PWI\Fce\1996-02-27\-1e31\%12.4e\None\5-minute\Time, beginning of 5-min. interval\None
+PO_K0_PWI\Fcp\1996-02-27\-1e31\%12.4e\None\5-minute\Time, beginning of 5-min. interval\None
+PO_K0_PWI\FcO\1996-02-27\-1e31\%12.4e\None\5-minute\Time, beginning of 5-min. interval\None
+PO_K0_PWI\MLAT\1996-02-27\-1e31\%12.4e\None\5-minute\Time, beginning of 5-min. interval\None
+PO_K0_PWI\EDMLT\1996-02-27\-1e31\%12.4e\None\5-minute\Time, beginning of 5-min. interval\None
+PO_K0_PWI\L_Shell\1996-02-27\-1e31\%12.4e\None\5-minute\Time, beginning of 5-min. interval\None
+PO_K0_PWI\GR_DIST\1996-02-27\-1e31\%12.4e\None\5-minute\Time, beginning of 5-min. interval\None
+PO_K0_PWI\SFRA_Av_E\1996-02-27\-1e31\%12.4e\None\5-minute\Time, beginning of 5-min. interval\None
+PO_K0_PWI\SFRA_Av_M\1996-02-27\-1e31\%12.4e\None\5-minute\Time, beginning of 5-min. interval\None
+PO_K0_PWI\SFRB_Av_E\1996-02-27\-1e31\%12.4e\None\5-minute\Time, beginning of 5-min. interval\None
+PO_K0_PWI\SFRB_Av_M\1996-02-27\-1e31\%12.4e\None\5-minute\Time, beginning of 5-min. interval\None
+PO_K0_PWI\SFRA_Pk_E\1996-02-27\-1e31\%12.4e\None\5-minute\Time, beginning of 5-min. interval\None
+PO_K0_PWI\SFRA_Pk_M\1996-02-27\-1e31\%12.4e\None\5-minute\Time, beginning of 5-min. interval\None
+PO_K0_PWI\SFRB_Pk_E\1996-02-27\-1e31\%12.4e\None\5-minute\Time, beginning of 5-min. interval\None
+PO_K0_PWI\SFRB_Pk_M\1996-02-27\-1e31\%12.4e\None\5-minute\Time, beginning of 5-min. interval\None
+PO_K0_PWI\SFR_MODE\1996-02-27\-2147483648\%11d\None\5-minute\Time, beginning of 5-min. interval\None
+PO_K0_PWI\SFRA_Antenna\1996-02-27\-2147483648\%2d\None\5-minute\Time, beginning of 5-min. interval\None
+PO_K0_PWI\SFRB_Antenna\1996-02-27\-2147483648\%2d\None\5-minute\Time, beginning of 5-min. interval\None
+PO_K0_PWI\MLATV\1996-02-27\-1e31\%12.4e\None\5-minute\Time, beginning of 5-min. interval\None
+PO_K0_PWI\EDMLTV\1996-02-27\-1e31\%12.4e\None\5-minute\Time, beginning of 5-min. interval\None
+PO_K0_PWI\L_ShellV\1996-02-27\-1e31\%12.4e\None\5-minute\Time, beginning of 5-min. interval\None
+PO_K0_PWI\GR_DISTV\1996-02-27\-1e31\%12.4e\None\5-minute\Time, beginning of 5-min. interval\None
+PO_K0_SPHA\SPIN_PHASE\1996-01-25\-1e31\%12.8f\None\None\Spin phase EPOCH time                   \None
+PO_K0_SPHA\AVG_SPIN_RATE\1996-01-25\-1e31\%12.8f\None\None\Spin phase EPOCH time                   \None
+PO_K0_SPHA\STNDEV_SPIN_RATE\1996-01-25\-1e31\%12.8f\None\None\Spin phase EPOCH time                   \None
+PO_K0_SPHA\FAULT\1996-01-25\-2147483648\%1d\None\None\Spin phase EPOCH time                   \None
+PO_K1_TIM\Flux_H\1999-06-07\-1e31\%12.4e\None\None\NSSDC standard-reference time value at the center of the accumulation interval.\spase://VMO/NumericalData/POLAR/TIMAS/K1_PT96S
+PO_K1_TIM\Flux_O\1999-06-07\-1e31\%12.4e\None\None\NSSDC standard-reference time value at the center of the accumulation interval.\spase://VMO/NumericalData/POLAR/TIMAS/K1_PT96S
+PO_K1_TIM\Flux_He_1\1999-06-07\-1e31\%12.4e\None\None\NSSDC standard-reference time value at the center of the accumulation interval.\spase://VMO/NumericalData/POLAR/TIMAS/K1_PT96S
+PO_K1_TIM\Flux_He_2\1999-06-07\-1e31\%12.4e\None\None\NSSDC standard-reference time value at the center of the accumulation interval.\spase://VMO/NumericalData/POLAR/TIMAS/K1_PT96S
+PO_K1_TIM\Bcr\1999-06-07\-1e31\%8.0f\None\None\NSSDC standard-reference time value at the center of the accumulation interval.\spase://VMO/NumericalData/POLAR/TIMAS/K1_PT96S
+PO_OR_DEF\GCI_POS\1996-02-27\-1e31\%17.5f\None\None\Orbit Epoch Time\None
+PO_OR_DEF\GCI_VEL\1996-02-27\-1e31\%12.7f\None\None\Orbit Epoch Time\None
+PO_OR_DEF\GSE_POS\1996-02-27\-1e31\%17.5f\None\None\Orbit Epoch Time\None
+PO_OR_DEF\GSE_VEL\1996-02-27\-1e31\%12.7f\None\None\Orbit Epoch Time\None
+PO_OR_DEF\GSM_POS\1996-02-27\-1e31\%17.5f\None\None\Orbit Epoch Time\None
+PO_OR_DEF\GSM_VEL\1996-02-27\-1e31\%12.7f\None\None\Orbit Epoch Time\None
+PO_OR_DEF\SUN_VECTOR\1996-02-27\-1e31\%17.5f\None\None\Orbit Epoch Time\None
+PO_OR_DEF\HEC_POS\1996-02-27\-1e31\%17.5f\None\None\Orbit Epoch Time\None
+PO_OR_DEF\HEC_VEL\1996-02-27\-1e31\%12.7f\None\None\Orbit Epoch Time\None
+PO_OR_DEF\CRN_EARTH\1996-02-27\-2147483648\%4d\None\None\Orbit Epoch Time\None
+PO_OR_DEF\LONG_EARTH\1996-02-27\-1e31\%7.3f\None\None\Orbit Epoch Time\None
+PO_OR_DEF\LAT_EARTH\1996-02-27\-1e31\%7.3f\None\None\Orbit Epoch Time\None
+PO_OR_DEF\LONG_SPACE\1996-02-27\-1e31\%7.3f\None\None\Orbit Epoch Time\None
+PO_OR_DEF\LAT_SPACE\1996-02-27\-1e31\%7.3f\None\None\Orbit Epoch Time\None
+PO_OR_DEF\EDMLT_TIME\1996-02-27\-1e31\%8.4f\None\None\Orbit Epoch Time\None
+PO_OR_DEF\MAG_LATITUDE\1996-02-27\-1e31\%8.4f\None\None\Orbit Epoch Time\None
+PO_OR_DEF\L_SHELL\1996-02-27\-1e31\%11.4f\None\None\Orbit Epoch Time\None
+PO_OR_DEF\ORB_REV_NUM\1996-02-27\-1e31\%5d\None\None\Orbit Epoch Time\None
+PO_OR_DEF\NEXT_CROSS\1996-02-27\-1e31\%5d\None\None\Orbit Epoch Time\None
+PO_PA_DEF\ORB_PITCH\1996-03-15\-1e31\%9.5f\None\None\DP attitude EPOCH time\None
+PO_PA_DEF\ORB_ROLL\1996-03-15\-1e31\%9.5f\None\None\DP attitude EPOCH time\None
+PO_PA_DEF\ORB_YAW\1996-03-15\-1e31\%9.5f\None\None\DP attitude EPOCH time\None
+PO_PA_DEF\GCI_PITCH\1996-03-15\-1e31\%9.5f\None\None\DP attitude EPOCH time\None
+PO_PA_DEF\GCI_ROLL\1996-03-15\-1e31\%9.5f\None\None\DP attitude EPOCH time\None
+PO_PA_DEF\GCI_YAW\1996-03-15\-1e31\%9.5f\None\None\DP attitude EPOCH time\None
+PO_PA_DEF\GSE_PITCH\1996-03-15\-1e31\%9.5f\None\None\DP attitude EPOCH time\None
+PO_PA_DEF\GSE_ROLL\1996-03-15\-1e31\%9.5f\None\None\DP attitude EPOCH time\None
+PO_PA_DEF\GSE_YAW\1996-03-15\-1e31\%9.5f\None\None\DP attitude EPOCH time\None
+PO_PA_DEF\GSM_PITCH\1996-03-15\-1e31\%9.5f\None\None\DP attitude EPOCH time\None
+PO_PA_DEF\GSM_ROLL\1996-03-15\-1e31\%9.5f\None\None\DP attitude EPOCH time\None
+PO_PA_DEF\GSM_YAW\1996-03-15\-1e31\%9.5f\None\None\DP attitude EPOCH time\None
+PO_PA_DEF\DPA_INDICATOR\1996-03-15\-2147483648\%1d\None\None\DP attitude EPOCH time\None
+PO_PA_DEF\DSP_ANGLE\1996-03-15\-1e31\%9.5f\None\None\DP attitude EPOCH time\None
+PO_PA_DEF\LOCK_STATUS\1996-03-15\-2147483648\%1d\None\None\DP attitude EPOCH time\None

@@ -2,10 +2,12 @@ var xml2js  = require('xml2js');
 var fs      = require('fs');
 
 var keyre = /^AC_H0_MFI/;
-var keyre = /.*/;
+//var keyre = /.*/;
+//var keyre = /^AC_|^OMNI|^PO/;
 
 var files = fs.readdirSync("./json");
 //console.log("json2tsml(): Reading " + files[0]);
+var keyre = /^PO/;
 
 var json = {};
 json.DatasetDescription = [];
@@ -25,19 +27,25 @@ for (var i = 0;i<files.length;i++) {
 
 list = fs.readFileSync("ids_vars-out.txt").toString().split("\n");
 
+var List = {};
+for (var i = 0; i < list.length;i++) {
+	info = list[i].split("\\");
+	List[info[0] + "/" + info[1]] = list[i];
+}
+
 var k = 0;
+var i = 0;
 for (var i = 0;i < json.DatasetDescription.length;i++) {
 	var DatasetID = json.DatasetDescription[i].Id;
-	info = list[k].split("/")
+	json.DatasetDescription[i].SPASEID = info[8];
 	json.DatasetDescription[i].TimeInterval.Cadence = info[5];
 	var Start = json.DatasetDescription[i].TimeInterval.Start.split("T");
 	for (var j=0;j<json.DatasetDescription[i].VariableDescription.length;j++) {
 		var VariableID = json.DatasetDescription[i].VariableDescription[j].Name;
-//		if (list[k]) {
-			//list[k] = DatasetID + "/" + VariableID + "/" + Start[0];
-			json.DatasetDescription[i].VariableDescription[j].FillValue = info[3];
-			json.DatasetDescription[i].VariableDescription[j].Rendering = info[4].replace(/([A-Z]|[a-z])(.*)/,'$2$1').replace('i','d').toLowerCase();			
-//		}
+		console.log(DatasetID + "/" + VariableID)
+		info = List[DatasetID + "/" + VariableID].split("\\")
+		json.DatasetDescription[i].VariableDescription[j].FillValue = info[3];
+		json.DatasetDescription[i].VariableDescription[j].Rendering = info[4].replace(/([A-Z]|[a-z])(.*)/,'$2$1').replace('i','d').toLowerCase();			
 		k = k+1;
 	}
 }
@@ -127,6 +135,9 @@ function createtsml() {
 
 		root.catalog["dataset"][i]["documentation"][dn] = {};
 		root.catalog["dataset"][i]["documentation"][dn]["_"] = head2;
+
+		root.catalog["dataset"][i]["SPASE"] = {};
+		root.catalog["dataset"][i]["SPASE"]["ID"] = json.DatasetDescription[i].SPASEID;
 
 		root.catalog["dataset"][i]["timeCoverage"] = {};
 		root.catalog["dataset"][i]["timeCoverage"]["Start"] = json.DatasetDescription[i].TimeInterval.Start;

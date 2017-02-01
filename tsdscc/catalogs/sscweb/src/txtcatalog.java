@@ -144,10 +144,10 @@ public class txtcatalog {
         for (SatelliteDescription sat : satellites) {
 
             System.out.println(
-                "  " + sat.getId() + "  " + sat.getName() +
-                "  " + sat.getResolution() + "s " + 
-                sat.getStartTime() + " - " + sat.getEndTime() + "  " +
-                "  " + sat.getGeometry() + "  " + 
+                sat.getId() + "," + sat.getName() +
+                "," + sat.getResolution() + "s," + 
+                sat.getStartTime() + "," + sat.getEndTime() +
+                "," + sat.getGeometry() + "," + 
                 sat.getTrajectoryGeometry());
         };
 

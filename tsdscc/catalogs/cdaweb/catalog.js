@@ -3,9 +3,11 @@ var fs      = require('fs');
 var request = require("request");
 
 //var keyre = /^AC_H1_SIS/;
-var keyre = /^AC_|^OMNI/;
+var keyre = /^AC_|^OMNI|^PO/;
+//var keyre = /^PO_K1_VIS/;
+
 //var keyre = /^AC_H0_MFI/;
-//var keyre = /^AC/;
+var keyre = /^PO/;
 //var keyre = /.*/;
 //var keyre = /^AC_H0_MFI|^AC_H1_SIS/;
 
@@ -40,6 +42,7 @@ request(reqobj, function (err,res,body) {
 	for (var j = 0;j < Nall;j++) {
 		IDs[j] = jsonAll.DatasetDescription[j].Id;
 		if (keyre) {
+			//console.log(jsonAll.DatasetDescription[j].Id)
 			if (jsonAll.DatasetDescription[j].Id.match(keyre)) {
 				json.DatasetDescription[k] = jsonAll.DatasetDescription[j];
 				k = k+1;
@@ -65,6 +68,10 @@ request(reqobj, function (err,res,body) {
 
 function getvariables(i) {
 
+	if (i == getvariables.N) {
+		return;
+	}
+	//console.log(json.DatasetDescription[i])
 	var url = baseurl+json.DatasetDescription[i].Id+"/variables";
 	reqobj = {uri: url, headers: {'Accept':'application/json'}};
 
@@ -73,7 +80,6 @@ function getvariables(i) {
 		if (err) console.log(err);
 
 		console.log("Received:"+url.replace(baseurl,""));
-
 		getvariables.Ndone = getvariables.Ndone+1;
 
 		jsonv = JSON.parse(body);
@@ -153,7 +159,7 @@ function getfileinfo(i,j,url,Nh) {
 
 		if (body.match("WARNING: Increase time period selected for listing.")) {
 			console.log("Trying again with longer time range.");
-			getvariableinfo(i,j,Math.pow(2,Nh));
+			getvariableinfo(i,j,Nh*2);
 			return;
 		}
 

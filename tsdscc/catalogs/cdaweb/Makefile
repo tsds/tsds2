@@ -1,5 +1,5 @@
 all:
-	mv CDAWeb-tsds.xml archive/CDAWeb-tsds-`/bin/date +\%Y\%m\%d`.xml
+	- mv CDAWeb-tsds.xml archive/CDAWeb-tsds-`/bin/date +\%Y\%m\%d`.xml
 	node catalog.js
 	node ids_vars.js
 	java -Djava.awt.headless=true -jar autoplot.jar org.virbo.autoplot.AutoplotUI --script getMetadata.jy
