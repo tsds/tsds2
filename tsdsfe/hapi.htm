@@ -1,0 +1,30 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+		<title>__CATALOG__</title>
+	</head>
+	<body>
+		<h2>HAPI Server for __CATALOG__ data</h2>
+		<p>
+			This server supports the HAPI 1.0 API specification for delivery of time series data. The server consists of the following endpoints that will respond to HTTP GET requests.
+		</p>
+		<ol>
+			<li>
+				<a href="capabilities">capabilities</a> describe the capabilities of the server; this lists the output formats the server can emit (CSV and binary). Example: <a href="__SERVER__/__CATALOG__/capabilities">__SERVER__/__CATALOG__/capabilities</a>
+			</li>
+			<li>
+				<a href="catalog">catalog</a> list the datasets that are available; each dataset is associated with a unique id
+			</li>
+			<li>
+				<a href="info">info</a> obtain a description for dataset of a given id; the description defines the parameters in every dataset record
+			</li>
+			<li>
+				<a href="data">data</a> stream data content for a dataset of a given id; the streaming request must have time bounds (specified by request parameters time.min and time.max) and may indicate a subset of parameters (default is all parameters)
+			</li>
+		</ol>
+		<p>
+			For more information on the HAPI API, see the <a href="https://github.com/hapi-server/data-specification">HAPI specification document</a>.
+		</p>
+	</body>
+<html>
