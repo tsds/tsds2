@@ -306,7 +306,7 @@ app.get('/:catalog/:cadence?/hapi/info', function (req, res) {
 		var catalog = {};
 		catalog["firstDate"] = parametersjson[0]["dd"].start;
 		catalog["lastDate"] = parametersjson[0]["dd"].stop;
-		catalog["deltaTime"] = parametersjson[0]["dd"].cadence;
+		catalog["cadence"] = parametersjson[0]["dd"].cadence;
 		catalog["description"] = parametersjson[0]["datasetinfo"].label;
 		catalog["resourceID"] = parametersjson[0].spaseid;
 		catalog["creationDate"] = (new Date()).toISOString();
@@ -615,7 +615,7 @@ function handleRequest(req, res, options) {
 	//log.logres("options = " + JSON.stringify(options), res.opts)
 
 	if (res.opts.return === "log") {
-		console.log(res.opts)
+		//console.log(res.opts)
 		// hash of 127.0.0.1 = f528764d
 		var excludeIPs = "f528764d"
 		// Get directory listing and start streaming lines in files
@@ -628,7 +628,7 @@ function handleRequest(req, res, options) {
 			+ " | grep -v " + excludeIPs
 			+ " | cut -f1,3,4 -d,";
 		var child = require('child_process').exec(com)
-		console.log(com)
+		//console.log(com)
 		log.logres("Sending output of shell command: "+com, res.opts)
 		child.stdout.on('data', function (buffer) {
 			res.write(buffer.toString())
@@ -2199,7 +2199,7 @@ function parameter(datasets, res, cb) {
 		if (!('urlprocessor' in resp[i].dd)) {resp[i].dd.urlprocessor = parents[i]["urlprocessor"] || ""}
 
 		if (!('cadence' in resp[i].dd))      {resp[i].dd.cadence = parents[i]["cadence"] || ""}
-		if (!('delim' in resp[i].dd))            {resp[i].dd.delim = parents[i]["delim"] || ""}
+		if (!('delim' in resp[i].dd))        {resp[i].dd.delim = parents[i]["delim"] || ""}
 		if (!('lineregex' in resp[i].dd))    {resp[i].dd.lineregex = parents[i]["lineregex"] || ""}
 		if (!('fillvalue' in resp[i].dd))    {resp[i].dd.fillvalue = parents[i]["fillvalue"] || ""}
 		
