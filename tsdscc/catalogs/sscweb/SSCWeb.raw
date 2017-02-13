@@ -1,26 +1,28 @@
 Privacy and Important Notices:
   http://www.nasa.gov/about/highlights/HP_Privacy.html
-Time to execute getPrivacyAndImportantNotices = 0.063seconds
+Time to execute getPrivacyAndImportantNotices = 0.088seconds
 
 
 Satellites:
-ace,ACE,720s,1997-08-26T00:00:00Z,2017-03-27T23:36:00Z,,
+ace,ACE,720s,1997-08-26T00:00:00Z,2017-04-24T23:36:00Z,,
 active,Active,60s,1989-09-29T00:00:00Z,1991-10-04T08:00:00Z,,
-aerocube6a,AEROCUBE-6A,60s,2014-06-29T00:00:00Z,2017-01-29T00:00:00Z,,
-aerocube6b,AEROCUBE-6B,60s,2014-06-29T00:00:00Z,2017-01-30T00:00:00Z,,
-aim,AIM,60s,2007-04-25T00:00:00Z,2017-01-29T00:00:00Z,,
-akebono,Akebono,60s,1989-02-23T00:00:00Z,2017-01-28T00:00:00Z,,
+aerocube6a,AEROCUBE-6A,60s,2014-06-29T00:00:00Z,2017-02-27T00:00:00Z,,
+aerocube6b,AEROCUBE-6B,60s,2014-06-29T00:00:00Z,2017-02-26T00:00:00Z,,
+aim,AIM,60s,2007-04-25T00:00:00Z,2017-02-25T00:00:00Z,,
+akebono,Akebono,60s,1989-02-23T00:00:00Z,2017-02-27T00:00:00Z,,
 alouette1,Alouette-1,60s,1965-01-01T00:00:00Z,1972-09-25T00:00:00Z,,
 alouette2,Alouette-2,60s,1966-01-27T00:00:00Z,1975-07-31T00:00:00Z,,
 apex,APEX-MAIN,60s,1991-12-17T00:00:00Z,2004-05-01T00:00:00Z,,
-aqua,Aqua,60s,2002-05-04T00:00:00Z,2017-01-30T00:00:00Z,,
+aqua,Aqua,60s,2002-05-04T00:00:00Z,2017-02-25T00:00:00Z,,
+arase,Arase (ERG),60s,2016-12-20T00:00:00Z,2017-02-26T00:00:00Z,,
+araseplanned,Arase (ERG; 2-year Predict),60s,2017-01-23T22:00:00Z,2019-03-25T00:00:00Z,,
 ariel4,ARIEL-4,60s,1972-01-16T00:00:00Z,1978-11-26T00:00:00Z,,
-artemisp1,ARTEMIS_P1,60s,2007-02-18T00:13:59Z,2017-01-08T23:58:59Z,,
+artemisp1,ARTEMIS_P1,60s,2007-02-18T00:13:59Z,2017-02-12T23:58:59Z,,
 artemisp1pred,ARTEMIS_P1 (4-year Predict),60s,2008-07-18T00:30:00Z,2023-01-01T00:01:00Z,,
-artemisp2,ARTEMIS_P2,60s,2007-02-18T00:13:59Z,2017-01-10T23:58:59Z,,
+artemisp2,ARTEMIS_P2,60s,2007-02-18T00:13:59Z,2017-02-11T23:58:59Z,,
 artemisp2pred,ARTEMIS_P2 (4-year Predict),60s,2008-07-18T00:30:00Z,2023-01-01T00:01:00Z,,
 astrid2,ASTRID II,60s,1998-12-12T00:00:00Z,2002-04-03T00:00:00Z,,
-aura,Aura,60s,2004-07-15T00:00:00Z,2017-01-30T00:00:00Z,,
+aura,Aura,60s,2004-07-15T00:00:00Z,2017-02-25T00:00:00Z,,
 barrel1a,BARREL-1A,60s,2013-01-28T13:25:30Z,2013-02-14T01:42:29Z,,
 barrel1b,BARREL-1B,60s,2013-01-02T10:26:30Z,2013-01-09T20:16:29Z,,
 barrel1c,BARREL-1C,60s,2013-01-16T19:11:30Z,2013-01-26T01:52:30Z,,
@@ -56,13 +58,13 @@ barrel2t,BARREL-2T,60s,2013-12-31T11:29:30Z,2014-01-17T07:45:29Z,,
 barrel2w,BARREL-2W,60s,2013-12-31T17:51:29Z,2014-01-11T17:46:29Z,,
 barrel2x,BARREL-2X,60s,2014-01-04T19:23:30Z,2014-01-22T08:18:29Z,,
 barrel2y,BARREL-2Y,60s,2014-01-11T19:46:29Z,2014-01-19T18:16:29Z,,
-calipso,CALIPSO,60s,2006-04-28T00:00:00Z,2017-01-29T00:00:00Z,,
-cassiope,CASSIOPE,60s,2013-10-07T00:00:00Z,2017-01-29T00:00:00Z,,
+calipso,CALIPSO,60s,2006-04-28T00:00:00Z,2017-02-26T00:00:00Z,,
+cassiope,CASSIOPE,60s,2013-10-07T00:00:00Z,2017-02-26T00:00:00Z,,
 cce,CCE (AMPTE/CCE),60s,1984-08-16T15:55:00Z,1989-08-01T00:04:59Z,,
 champ,CHAMP,60s,2000-11-09T00:00:00Z,2010-10-10T00:00:00Z,,
 chandra,Chandra,60s,1999-10-31T00:00:00Z,2013-07-02T00:00:00Z,,
 chibism,Chibis-M,60s,2012-01-26T00:00:00Z,2014-11-04T00:00:00Z,,
-cloudsat,Cloudsat,60s,2006-05-05T00:00:00Z,2017-01-29T00:00:00Z,,
+cloudsat,Cloudsat,60s,2006-05-05T00:00:00Z,2017-02-26T00:00:00Z,,
 cluster1,Cluster-1 (FM5/Rumba),60s,2000-08-22T00:02:30Z,2021-12-31T23:59:30Z,,
 cluster2,Cluster-2 (FM6/Salsa),60s,2000-08-22T00:02:30Z,2021-12-31T23:59:30Z,,
 cluster3,Cluster-3 (FM7/Samba),60s,2000-08-22T00:02:30Z,2021-12-31T23:59:30Z,,
@@ -84,42 +86,41 @@ dmspf11,DMSP-11,60s,1991-11-29T00:00:00Z,2003-09-09T00:00:00Z,,
 dmspf12,DMSP-12,60s,1994-09-16T00:00:00Z,2003-09-09T00:00:00Z,,
 dmspf13,DMSP-13,60s,1995-04-13T00:00:00Z,2010-05-08T00:00:00Z,,
 dmspf14,DMSP-14,60s,1997-04-20T00:00:00Z,2010-11-13T00:00:00Z,,
-dmspf15,DMSP-15,60s,1999-12-13T00:00:00Z,2016-12-03T00:00:00Z,,
-dmspf16,DMSP-16,60s,2003-10-18T00:00:00Z,2016-12-03T00:00:00Z,,
-dmspf17,DMSP-17,60s,2006-11-05T16:30:00Z,2016-12-03T00:00:00Z,,
-dmspf18,DMSP-18,60s,2009-10-22T00:00:00Z,2016-12-03T00:00:00Z,,
+dmspf15,DMSP-15,60s,1999-12-13T00:00:00Z,2016-12-31T00:00:00Z,,
+dmspf16,DMSP-16,60s,2003-10-18T00:00:00Z,2016-12-31T00:00:00Z,,
+dmspf17,DMSP-17,60s,2006-11-05T16:30:00Z,2016-12-31T00:00:00Z,,
+dmspf18,DMSP-18,60s,2009-10-22T00:00:00Z,2016-12-31T00:00:00Z,,
 dmspf19,DMSP-19,60s,2014-04-03T00:00:00Z,2016-11-13T00:00:00Z,,
 doublestar1,Double Star-1,60s,2004-01-03T07:05:59Z,2007-10-10T12:37:00Z,,
 doublestar2,Double Star-2,60s,2004-09-16T23:53:59Z,2009-12-31T23:58:59Z,,
 dscovr,DSCOVR,720s,2015-03-09T00:12:00Z,2017-10-03T23:36:00Z,,
 equators,Equator-S,60s,1997-12-12T16:00:00Z,1998-09-24T08:00:00Z,,
-erg,ERG,60s,2016-12-20T00:00:00Z,2017-01-24T00:00:00Z,,
-ergplanned,ERG (planned),600s,2016-12-20T12:00:00Z,2019-01-30T12:00:00Z,,
 explorer45,Explorer-45,60s,1971-11-22T00:00:00Z,1974-01-31T00:00:00Z,,
-fast,FAST,60s,1996-08-22T00:00:00Z,2017-01-30T00:00:00Z,,
-firebird3,FIREBIRD 3,60s,2015-01-31T20:10:59Z,2017-02-08T00:00:00Z,,
-firebird4,FIREBIRD 4,60s,2015-01-31T20:10:59Z,2017-02-08T00:00:00Z,,
+fast,FAST,60s,1996-08-22T00:00:00Z,2017-02-25T00:00:00Z,,
+firebird3,FIREBIRD 3,60s,2015-01-31T20:10:59Z,2017-03-06T00:00:00Z,,
+firebird4,FIREBIRD 4,60s,2015-01-31T20:10:59Z,2017-03-07T00:00:00Z,,
 freja,Freja,60s,1992-10-07T00:00:00Z,2000-05-11T00:00:00Z,,
-gcomw1,GCOM-W1,60s,2012-05-17T00:00:00Z,2017-01-29T00:00:00Z,,
+gcomw1,GCOM-W1,60s,2012-05-17T00:00:00Z,2017-02-26T00:00:00Z,,
 genesis,Genesis,3600s,2001-08-12T00:00:00Z,2004-09-07T23:00:00Z,,
-geotail,Geotail,720s,1992-07-26T00:00:00Z,2017-02-12T23:48:00Z,,
+geotail,Geotail,720s,1992-07-26T00:00:00Z,2017-03-12T23:48:00Z,,
 geotailpred,Geotail (2-year Predict),60s,2016-07-27T00:01:30Z,2019-03-31T23:58:30Z,,
 gms3,GMS-3,60s,1986-03-25T00:00:00Z,1986-07-01T00:00:00Z,,
 goes10,GOES-10,60s,1997-04-25T00:06:00Z,2009-11-28T00:00:00Z,,
 goes11,GOES-11,180s,2000-05-17T00:00:00Z,2016-12-17T00:00:00Z,,
 goes12,GOES-12,60s,2001-08-18T00:00:00Z,2016-12-20T00:00:00Z,,
-goes13,GOES-13,180s,2006-06-10T00:00:00Z,2017-01-28T00:00:00Z,,
-goes14,GOES-14,180s,2009-07-09T00:00:00Z,2017-01-28T00:00:00Z,,
-goes15,GOES-15,180s,2010-03-21T00:00:00Z,2017-01-29T00:00:00Z,,
+goes13,GOES-13,180s,2006-06-10T00:00:00Z,2017-02-24T00:00:00Z,,
+goes14,GOES-14,180s,2009-07-09T00:00:00Z,2017-02-24T00:00:00Z,,
+goes15,GOES-15,180s,2010-03-21T00:00:00Z,2017-02-25T00:00:00Z,,
+goes16,GOES-16,60s,2016-12-03T10:55:59Z,2017-02-24T00:00:00Z,,
 goes6,GOES-6,180s,1993-12-01T00:00:00Z,1995-05-01T08:00:00Z,,
 goes7,GOES-7,180s,1987-04-15T00:00:00Z,1998-12-02T00:00:00Z,,
 goes8,GOES-8,60s,1994-05-03T00:00:00Z,2016-11-23T00:00:00Z,,
 goes9,GOES-9,60s,1995-06-05T00:00:00Z,2010-03-18T00:00:00Z,,
-gosat,GOSAT,60s,2009-01-30T00:00:00Z,2017-01-30T00:00:00Z,,
-grace1,GRACE-1,60s,2002-03-31T00:00:00Z,2017-01-29T00:00:00Z,,
-grace2,GRACE-2,60s,2002-03-31T00:00:00Z,2017-01-29T00:00:00Z,,
+gosat,GOSAT,60s,2009-01-30T00:00:00Z,2017-02-27T00:00:00Z,,
+grace1,GRACE-1,60s,2002-03-31T00:00:00Z,2017-02-25T00:00:00Z,,
+grace2,GRACE-2,60s,2002-03-31T00:00:00Z,2017-02-27T00:00:00Z,,
 hawkeye,Hawkeye,180s,1974-06-09T00:00:00Z,1978-01-01T08:00:00Z,,
-hinode,Hinode,60s,2006-09-23T00:10:00Z,2017-01-29T00:00:00Z,,
+hinode,Hinode,60s,2006-09-23T00:10:00Z,2017-02-25T00:00:00Z,,
 iconpred,ICON (Conceptual),60s,2017-06-15T00:00:00Z,2017-07-06T00:00:00Z,,
 image,IMAGE,120s,2000-03-27T00:00:55Z,2006-07-31T22:37:59Z,,
 imp7,IMP-7,720s,1972-09-26T00:00:00Z,1978-10-01T00:00:00Z,,
@@ -128,15 +129,14 @@ interballaurora,Interball-2 (Auroral Probe),60s,1996-09-02T00:00:00Z,1999-07-15T
 interballtail,Interball-1 (Tail),180s,1995-08-04T00:00:00Z,2000-10-10T08:00:00Z,,
 irm,IRM (AMPTE/IRM),720s,1984-09-12T00:00:00Z,1986-08-30T08:00:00Z,,
 isee1,ISEE-1,60s,1977-10-22T14:49:00Z,1987-09-26T05:58:59Z,,
-isee1old,ISEE-1 (Superceded),720s,1977-10-23T00:00:00Z,1987-09-26T06:35:59Z,,
 isee2,ISEE-2,60s,1977-10-22T14:49:00Z,1987-09-26T05:58:59Z,,
 isee3,ISEE-3,720s,1978-08-16T03:43:59Z,2014-08-11T23:36:00Z,,
 isis1,ISIS-1,60s,1969-01-30T00:00:00Z,1990-01-30T00:00:00Z,,
 isis2,ISIS-2,60s,1971-04-10T00:00:00Z,1990-01-30T00:00:00Z,,
-iss,ISS,60s,1998-11-21T00:00:00Z,2017-01-30T00:00:00Z,,
+iss,ISS,60s,1998-11-21T00:00:00Z,2017-02-25T00:00:00Z,,
 issb,ISS-b,60s,1978-02-19T00:00:00Z,1983-11-16T00:00:00Z,,
-jason2,JASON2,60s,2008-07-08T00:00:00Z,2017-01-30T00:00:00Z,,
-juno,Juno,60s,2013-08-01T01:01:00Z,2016-10-16T22:57:29Z,,
+jason2,JASON2,60s,2008-07-08T00:00:00Z,2017-02-25T00:00:00Z,,
+juno,Juno,60s,2013-08-01T01:01:00Z,2017-01-06T13:02:30Z,,
 kepler,Kepler,60s,2014-01-06T00:01:00Z,2016-09-29T23:56:59Z,,
 lanl01,LANL-01,180s,2001-05-02T02:00:00Z,2008-01-03T17:00:00Z,,
 lanl02,LANL-02,180s,2003-10-01T02:00:00Z,2008-01-03T17:00:00Z,,
@@ -150,88 +150,87 @@ mars,Mars,60s,2006-01-01T00:00:00Z,2019-12-31T23:58:59Z,,
 maven,MAVEN,60s,2013-11-21T20:01:00Z,2017-01-31T23:57:29Z,,
 mercury,Mercury,60s,2008-01-01T00:00:00Z,2015-12-31T23:58:59Z,,
 messenger,MESSENGER,60s,2004-08-03T08:00:00Z,2015-03-28T10:40:39Z,,
-metop1b,MetOp-B (MetOp-1),60s,2012-09-17T00:00:00Z,2017-01-30T00:00:00Z,,
-metop2a,MetOp-A (MetOp-2),60s,2006-10-19T00:00:00Z,2017-01-30T00:00:00Z,,
+metop1b,MetOp-B (MetOp-1),60s,2012-09-17T00:00:00Z,2017-02-25T00:00:00Z,,
+metop2a,MetOp-A (MetOp-2),60s,2006-10-19T00:00:00Z,2017-02-25T00:00:00Z,,
 microlab1,Microlab1,60s,2000-01-01T00:00:00Z,2005-04-30T00:00:00Z,,
 mir,MIR,60s,1995-07-26T00:00:00Z,2000-11-29T00:00:00Z,,
-mms1,MMS 1,60s,2015-03-13T00:00:29Z,2017-07-03T00:52:30Z,,
+mms1,MMS 1,60s,2015-03-13T00:00:29Z,2017-08-06T18:42:29Z,,
 mms1pred,MMS 1 (6-year Predict),60s,2017-04-17T21:19:29Z,2022-10-01T11:17:30Z,,
-mms2,MMS 2,60s,2015-03-13T00:00:29Z,2017-07-03T00:52:30Z,,
+mms2,MMS 2,60s,2015-03-13T00:00:29Z,2017-08-06T18:42:29Z,,
 mms2pred,MMS 2 (2-year Predict),60s,2015-07-24T11:57:29Z,2018-08-03T06:43:29Z,,
-mms3,MMS 3,60s,2015-03-13T00:00:29Z,2017-07-03T00:52:30Z,,
+mms3,MMS 3,60s,2015-03-13T00:00:29Z,2017-08-06T18:42:29Z,,
 mms3pred,MMS 3 (2-year Predict),60s,2015-07-24T11:57:29Z,2018-08-03T06:43:29Z,,
-mms4,MMS 4,60s,2015-03-13T00:00:29Z,2017-07-03T00:52:30Z,,
+mms4,MMS 4,60s,2015-03-13T00:00:29Z,2017-08-06T18:42:29Z,,
 mms4pred,MMS 4 (2-year Predict),60s,2015-07-24T11:57:29Z,2018-08-03T06:43:29Z,,
 moon,Moon,60s,1959-01-01T00:00:00Z,2017-08-21T23:58:00Z,,
-mro,MRO,60s,2014-01-04T21:01:00Z,2017-01-09T15:43:29Z,,
+mro,MRO,60s,2014-01-04T21:01:00Z,2017-03-06T11:04:29Z,,
 msx,MSX,60s,1996-04-25T00:00:00Z,1999-03-04T00:00:00Z,,
 noaa10,NOAA-10,60s,1986-09-27T00:00:00Z,1991-09-27T00:00:00Z,,
 noaa12,NOAA-12,60s,1991-05-16T00:00:00Z,1998-05-02T00:00:00Z,,
 noaa14,NOAA-14,60s,1995-01-14T00:00:00Z,2004-05-01T00:00:00Z,,
-noaa15,NOAA-15,60s,1998-05-26T00:00:00Z,2017-01-29T00:00:00Z,,
+noaa15,NOAA-15,60s,1998-05-26T00:00:00Z,2017-02-25T00:00:00Z,,
 noaa16,NOAA-16,60s,2000-09-27T00:00:00Z,2015-12-20T00:00:00Z,,
 noaa17,NOAA-17,60s,2002-06-25T00:00:00Z,2015-12-20T00:00:00Z,,
-noaa18,NOAA-18,60s,2005-07-03T00:00:00Z,2017-01-29T00:00:00Z,,
-noaa19,NOAA-19,60s,2009-02-06T21:37:00Z,2017-01-29T00:00:00Z,,
+noaa18,NOAA-18,60s,2005-07-03T00:00:00Z,2017-02-25T00:00:00Z,,
+noaa19,NOAA-19,60s,2009-02-06T21:37:00Z,2017-02-25T00:00:00Z,,
 noaa5,NOAA-5,60s,1976-07-31T00:00:00Z,1980-06-28T00:00:00Z,,
 noaa6,NOAA-6,60s,1979-10-05T00:00:00Z,1986-08-09T00:00:00Z,,
 noaa7,NOAA-7,60s,1981-10-01T00:00:00Z,1986-06-29T00:00:00Z,,
 noaa8,NOAA-8,60s,1983-03-28T00:00:00Z,1985-10-27T00:00:00Z,,
-oersted,Oersted,60s,1999-05-15T00:00:00Z,2017-01-29T00:00:00Z,,
+oersted,Oersted,60s,1999-05-15T00:00:00Z,2017-02-26T00:00:00Z,,
 ogo5,OGO-5,60s,1969-04-09T00:00:00Z,1971-05-10T00:00:00Z,,
 ogo6,OGO-6,60s,1969-06-05T00:00:00Z,1970-01-01T08:00:00Z,,
 ohzora,Ohzora,60s,1984-02-20T00:00:00Z,1986-04-12T08:00:00Z,,
-parasol,PARASOL,60s,2004-12-19T00:00:00Z,2017-01-30T00:00:00Z,,
+parasol,PARASOL,60s,2004-12-19T00:00:00Z,2017-02-26T00:00:00Z,,
 polar,Polar,180s,1996-03-01T00:00:00Z,2009-06-27T00:00:00Z,,
-rbspa,RBSP-A,60s,2012-08-30T09:25:59Z,2017-03-04T00:00:00Z,,
-rbspapred,RBSP-A (1-year Predict),60s,2013-11-26T00:01:59Z,2017-12-19T23:58:59Z,,
-rbspb,RBSP-B,60s,2012-08-30T09:25:59Z,2017-03-04T00:00:00Z,,
-rbspbpred,RBSP-B (1-year Predict),60s,2013-11-26T00:01:59Z,2017-12-19T23:58:59Z,,
-reimei,Reimei,60s,2005-08-25T00:00:00Z,2017-01-29T00:00:00Z,,
-rhessi,RHESSI,60s,2002-02-05T00:00:00Z,2017-01-30T00:00:00Z,,
+rbspa,RBSP-A,60s,2012-08-30T09:25:59Z,2017-03-31T23:00:00Z,,
+rbspapred,RBSP-A (1-year Predict),60s,2013-11-26T00:01:59Z,2018-01-16T23:58:59Z,,
+rbspb,RBSP-B,60s,2012-08-30T09:25:59Z,2017-03-31T23:00:00Z,,
+rbspbpred,RBSP-B (1-year Predict),60s,2013-11-26T00:01:59Z,2018-01-16T23:58:59Z,,
+reimei,Reimei,60s,2005-08-25T00:00:00Z,2017-02-25T00:00:00Z,,
+rhessi,RHESSI,60s,2002-02-05T00:00:00Z,2017-02-25T00:00:00Z,,
 rocsat1,ROCSAT1,60s,1999-03-31T00:00:00Z,2004-06-13T00:00:00Z,,
 rosetta,Rosetta,60s,2004-03-02T10:27:20Z,2016-07-31T01:38:30Z,,
 sampex,SAMPEX,60s,1992-07-04T00:00:00Z,2012-11-12T00:00:00Z,,
 scatha,SCATHA,60s,1979-02-05T00:00:00Z,1991-01-01T08:00:00Z,,
-sdo,SDO,60s,2010-05-22T00:00:00Z,2017-01-29T00:00:00Z,,
+sdo,SDO,60s,2010-05-22T00:00:00Z,2017-02-24T00:00:00Z,,
 snoe,SNOE,60s,1998-02-27T00:00:00Z,2004-05-01T00:00:00Z,,
-soho,SOHO,720s,1995-12-02T01:13:00Z,2017-01-30T23:36:00Z,,
-sohoold,SOHOold,720s,1995-12-05T00:00:00Z,2012-12-31T23:35:58Z,,
-sorce,SORCE,60s,2003-01-30T00:00:00Z,2017-01-29T00:00:00Z,,
+soho,SOHO,720s,1995-12-02T00:12:00Z,2017-04-03T23:36:00Z,,
+sorce,SORCE,60s,2003-01-30T00:00:00Z,2017-02-25T00:00:00Z,,
 spitzer,Spitzer,60s,2013-09-01T01:01:00Z,2017-01-01T00:03:00Z,,
 sputnik1,Sputnik 1,60s,1957-10-04T00:00:00Z,1957-10-31T00:00:00Z,,
 st5a,ST5-A,60s,2006-03-23T00:00:00Z,2006-08-28T00:00:00Z,,
 st5b,ST5-B,60s,2006-03-23T00:00:00Z,2006-08-29T00:00:00Z,,
 st5c,ST5-C,60s,2006-03-23T00:00:00Z,2006-08-29T00:00:00Z,,
-stereoa,STEREO-Ahead,720s,2006-10-27T00:00:00Z,2017-03-31T23:36:00Z,,
-stereob,STEREO-Behind,720s,2006-10-27T00:00:00Z,2017-03-24T23:36:00Z,,
+stereoa,STEREO-Ahead,720s,2006-10-27T00:00:00Z,2017-05-05T23:36:00Z,,
+stereob,STEREO-Behind,720s,2006-10-27T00:00:00Z,2017-05-04T23:36:00Z,,
 sun,Sun,60s,1959-01-01T00:00:00Z,2017-12-31T23:58:59Z,,
-suomi,Suomi NPP,60s,2011-11-04T00:00:00Z,2017-01-29T00:00:00Z,,
-swarma,Swarm A,60s,2013-11-26T00:00:00Z,2017-01-29T00:00:00Z,,
-swarmb,Swarm B,60s,2013-11-26T00:00:00Z,2017-01-29T00:00:00Z,,
-swarmc,Swarm C,60s,2013-11-26T00:00:00Z,2017-01-30T00:00:00Z,,
+suomi,Suomi NPP,60s,2011-11-04T00:00:00Z,2017-02-25T00:00:00Z,,
+swarma,Swarm A,60s,2013-11-26T00:00:00Z,2017-02-27T00:00:00Z,,
+swarmb,Swarm B,60s,2013-11-26T00:00:00Z,2017-02-27T00:00:00Z,,
+swarmc,Swarm C,60s,2013-11-26T00:00:00Z,2017-02-27T00:00:00Z,,
 tatiana1,Tatiana1,60s,2005-01-25T00:00:00Z,2007-03-30T00:00:00Z,,
 tatiana2,Tatiana2,60s,2009-09-17T00:00:00Z,2010-07-13T00:00:00Z,,
-themisa,THEMIS-A (P5),60s,2007-02-18T00:13:59Z,2017-01-10T23:58:59Z,,
+themisa,THEMIS-A (P5),60s,2007-02-18T00:13:59Z,2017-02-12T23:58:59Z,,
 themisapred,THEMIS-A (4-year Predict),60s,2008-07-18T00:30:00Z,2024-12-31T23:58:59Z,,
-themisb,THEMIS-B (P1),60s,2007-02-18T00:13:59Z,2017-01-08T23:58:59Z,,
+themisb,THEMIS-B (P1),60s,2007-02-18T00:13:59Z,2017-02-12T23:58:59Z,,
 themisbpred,THEMIS-B (4-year Predict),60s,2008-07-18T00:30:00Z,2023-01-01T00:01:00Z,,
-themisc,THEMIS-C (P2),60s,2007-02-18T00:13:59Z,2017-01-10T23:58:59Z,,
+themisc,THEMIS-C (P2),60s,2007-02-18T00:13:59Z,2017-02-11T23:58:59Z,,
 themiscpred,THEMIS-C (4-year Predict),60s,2008-07-18T00:30:00Z,2023-01-01T00:01:00Z,,
-themisd,THEMIS-D (P3),60s,2007-02-18T00:13:59Z,2017-01-10T23:58:59Z,,
+themisd,THEMIS-D (P3),60s,2007-02-18T00:13:59Z,2017-02-12T23:58:59Z,,
 themisdpred,THEMIS-D (4-year Predict),60s,2008-07-18T00:30:00Z,2024-12-31T23:58:59Z,,
-themise,THEMIS-E (P4),60s,2007-02-18T00:13:59Z,2017-01-10T23:58:59Z,,
+themise,THEMIS-E (P4),60s,2007-02-18T00:13:59Z,2017-02-12T23:58:59Z,,
 themisepred,THEMIS-E (4-year Predict),60s,2008-07-18T00:30:00Z,2024-12-31T23:58:59Z,,
-timed,TIMED,60s,2002-02-07T00:00:00Z,2017-01-30T00:00:00Z,,
+timed,TIMED,60s,2002-02-07T00:00:00Z,2017-02-26T00:00:00Z,,
 trace,TRACE,60s,1998-04-02T00:00:00Z,2010-10-19T00:00:00Z,,
 tse2017c,Total_Solar_Eclipse_2017,60s,2017-08-21T16:49:59Z,2017-08-21T20:01:00Z,,
-twins1,Twins1,120s,2007-04-01T00:02:30Z,2016-10-31T23:48:29Z,,
-twins2,Twins2,120s,2008-04-11T00:16:30Z,2016-10-31T23:58:30Z,,
+twins1,Twins1,120s,2007-04-01T00:02:30Z,2016-12-08T23:52:30Z,,
+twins2,Twins2,120s,2008-04-11T00:16:30Z,2016-12-08T23:58:30Z,,
 uars,UARS,60s,1991-09-20T00:00:00Z,2006-05-11T00:00:00Z,,
 viking,Viking,60s,1986-03-05T00:00:00Z,1987-01-01T00:00:00Z,,
-wind,Wind,720s,1994-11-16T00:00:00Z,2017-03-14T23:48:00Z,,
+wind,Wind,720s,1994-11-16T00:00:00Z,2017-04-11T23:48:00Z,,
 yohkoh,Yohkoh (Solar-A),60s,1991-09-05T00:00:00Z,1998-01-02T00:00:00Z,,
-Time to execute getAllSatellites = 0.096seconds
+Time to execute getAllSatellites = 0.102seconds
 
 
 SPASE Observatories:
@@ -337,7 +336,7 @@ SPASE Observatories:
   uars  spase://SMWG/Observatory/UARS
   wind  spase://SMWG/Observatory/Wind
   yohkoh  spase://SMWG/Observatory/Yohkoh
-Time to execute getAllSpaseObservatories = 1.823seconds
+Time to execute getAllSpaseObservatories = 1.282seconds
 
 
 Ground Stations:
@@ -555,9 +554,9 @@ Ground Stations:
   HIS  80.62  58.05  Heiss Island
   NOC  81.6  -16.6  Nord
   ALE  82.5  -62.5  Alert
-Time to execute getAllGroundStations = 0.048seconds
-xmlStart/End = 2017-01-11T20:28:47.644Z, 2017-01-12T20:28:47.644Z
-start/end date = Wed Jan 11 15:28:47 EST 2017, Thu Jan 12 15:28:47 EST 2017
+Time to execute getAllGroundStations = 0.049seconds
+xmlStart/End = 2017-02-12T19:03:56.256Z, 2017-02-13T19:03:56.256Z
+start/end date = Sun Feb 12 14:03:56 EST 2017, Mon Feb 13 14:03:56 EST 2017
 
 Orbit getGraphs results:
 
@@ -568,9 +567,9 @@ result.getStatusSubCode() = SUCCESS
 getGraphs status text is empty
 
 getGraphs URLs returned:
-  http://sscweb.sci.gsfc.nasa.gov/images/ORBIT_15608_001.gif
+  http://sscweb.sci.gsfc.nasa.gov/images/ORBIT_29091_001.gif
 
-Time to execute getGraphs = 0.59seconds
+Time to execute getGraphs = 0.293seconds
 
 Map getGraphs results:
 
@@ -581,9 +580,9 @@ result.getStatusSubCode() = SUCCESS
 getGraphs status text is empty
 
 getGraphs URLs returned:
-  http://sscweb.sci.gsfc.nasa.gov/images/MAPPED_MOON_15631_000.gif
+  http://sscweb.sci.gsfc.nasa.gov/images/MAPPED_MOON_29110_000.gif
 
-Time to execute getGraphs = 0.53seconds
+Time to execute getGraphs = 0.569seconds
 
 Time Series getGraphs results:
 
@@ -594,9 +593,9 @@ result.getStatusSubCode() = SUCCESS
 getGraphs status text is empty
 
 getGraphs URLs returned:
-  http://sscweb.sci.gsfc.nasa.gov/images/TIME_SERIES_15666_000.gif
+  http://sscweb.sci.gsfc.nasa.gov/images/TIME_SERIES_29129_000.gif
 
-Time to execute getGraphs = 1.209seconds
+Time to execute getGraphs = 1.073seconds
 
 getData results:
 
@@ -610,42 +609,31 @@ Satellite Data:
   fast
   Time                                      GSE                                       Local      Radial     Magnetic     Neutral     Bow         Magneto     Dipole      Dipole    Spacecraft   Radial Trc   N BTraced     GSE      Magnetic   Vectors 
                              X           Y           Z        Lat        Lon           Time      Length     Strength     Sheet       Shock       Pause       L Value     InvLat    Region       Region       Region        X          Y          Z     
-  2017-01-11T20:29:00Z
-     2102.55    -2382.61     6897.89       65.27      311.43        8.76     7594.63    27284.76      NA       -87862.05   -64497.35        2.17       47.30   D Psphere   N Mid-Lat   N Mid-Lat   -15617.83    16038.60   -15598.22
-  2017-01-11T20:31:00Z
-     2805.52    -2634.51     6373.24       58.87      316.80        9.12     7445.12    26639.98      NA       -87195.18   -64114.78        1.77       41.35   D Psphere   N Mid-Lat   N Mid-Lat   -18078.26    16716.75   -10169.34
-  2017-01-11T20:33:00Z
-     3469.51    -2849.87     5760.05       52.06      320.60        9.37     7303.24    25848.18      NA       -86574.93   -63790.30        1.50       35.18   D Psphere   Low Lat     N Mid-Lat   -19410.14    16625.89    -3867.12
-  2017-01-11T20:35:00Z
-     4082.40    -3023.31     5062.06       44.90      323.48        9.57     7171.53    25109.74      NA       -86011.18   -63527.37        1.31       28.95   D Psphere   Low Lat     Low Lat     -19343.67    15699.41     3138.51
-  2017-01-11T20:37:00Z
-     4631.79    -3149.76     4285.37       37.42      325.78        9.72     7052.58    24673.40      NA       -85513.81   -63327.69        1.18       22.97   D Psphere   Low Lat     Low Lat     -17440.06    13811.26    10670.99
+  2017-02-12T19:04:00Z
+    -1045.51     8552.21    -4210.78      -26.05       96.97       18.46     9589.79     8013.03     -203.42   -91929.25   -66417.65        1.50       35.39   N Psphere   Low Lat     N Mid-Lat     -979.24     5950.34     5276.67
+  2017-02-12T19:06:00Z
+    -1287.49     8722.84    -3561.79      -22.00       98.40       18.56     9509.57     8233.53      490.25   -92211.96   -66697.19        1.49       35.11   N Psphere   Low Lat     N Mid-Lat    -1034.33     4854.20     6569.47
+  2017-02-12T19:08:00Z
+    -1520.87     8835.25    -2889.02      -17.86       99.77       18.65     9419.19     8595.03     1180.55   -92481.87   -66976.22        1.50       35.23   N Psphere   Low Lat     N Mid-Lat     -985.61     3438.19     7815.49
+  2017-02-12T19:10:00Z
+    -1743.78     8886.95    -2196.43      -13.63      101.10       18.74     9318.96     9134.00     1862.47   -92736.41   -67252.34        1.52       35.78   N Psphere   Low Lat     N Mid-Lat     -804.49     1669.67     8943.99
+  2017-02-12T19:12:00Z
+    -1954.32     8875.61    -1488.28       -9.30      102.42       18.83     9209.28     9886.26     2530.69   -92972.95   -67522.72        1.56       36.76   N Psphere   Low Lat     N Mid-Lat     -460.54     -468.53     9864.40
   moon
   Time                                      GSE                                       Local      Radial     Magnetic     Neutral     Bow         Magneto     Dipole      Dipole    Spacecraft   Radial Trc   N BTraced     GSE      Magnetic   Vectors 
                              X           Y           Z        Lat        Lon           Time      Length     Strength     Sheet       Shock       Pause       L Value     InvLat    Region       Region       Region        X          Y          Z     
-  2017-01-11T20:29:00Z
-  -360218.78    53962.84   -25422.56       -3.99      171.48       23.43   365124.45        1.59     4039.39  -305638.39  -134532.73       60.84       82.63   Plasma Sh   Low Lat     N PolrCap        1.23        0.25        0.97
-  2017-01-11T20:31:00Z
-  -360240.31    53844.38   -25415.44       -3.99      171.50       23.43   365127.71        1.62     4134.33  -305717.61  -134626.99       60.88       82.64   Plasma Sh   Low Lat     N PolrCap        1.28        0.25        0.97
-  2017-01-11T20:33:00Z
-  -360261.84    53725.94   -25408.35       -3.99      171.52       23.43   365131.01        1.66     4228.81  -305796.61  -134721.08       60.92       82.64   Plasma Sh   Low Lat     N PolrCap        1.33        0.24        0.97
-  2017-01-11T20:35:00Z
-  -360283.27    53607.45   -25401.22       -3.99      171.54       23.44   365134.25        1.70     4322.89  -305875.41  -134815.08       60.96       82.64   Plasma Sh   Low Lat     N PolrCap        1.38        0.23        0.97
-  2017-01-11T20:37:00Z
-  -360304.70    53488.98   -25394.11       -3.99      171.56       23.44   365137.52        1.74     4416.50  -305953.97  -134908.91       61.00       82.64   Plasma Sh   Low Lat     N PolrCap        1.43        0.23        0.96
+  2017-02-12T19:04:00Z
+  -357215.82  -143761.71     7906.77        1.18      201.92        1.46   385140.35      NA       -52713.16  -169328.06    -4392.54       60.56       82.62   N Msheath   Low Lat       None         NA          NA          NA    
+  2017-02-12T19:06:00Z
+  -357179.50  -143868.74     7917.92        1.18      201.94        1.46   385146.86      NA       -52928.54  -169214.67    -4287.89       60.56       82.62   N Msheath   Low Lat       None         NA          NA          NA    
+  2017-02-12T19:08:00Z
+  -357143.15  -143975.76     7929.07        1.18      201.96        1.46   385153.37      NA       -53143.40  -169101.32    -4183.25       60.56       82.62   N Msheath   Low Lat       None         NA          NA          NA    
+  2017-02-12T19:10:00Z
+  -357106.76  -144082.78     7940.23        1.18      201.97        1.46   385159.88      NA       -53357.72  -168987.95    -4078.62       60.56       82.62   N Msheath   Low Lat       None         NA          NA          NA    
+  2017-02-12T19:12:00Z
+  -357070.38  -144189.79     7951.38        1.18      201.99        1.47   385166.43      NA       -53571.50  -168874.62    -3973.99       60.56       82.62   N Msheath   Low Lat       None         NA          NA          NA    
 
-Time to execute getData = 6.449seconds
-
-getDataFile results:
-result.getStatusCode() = SUCCESS
-result.getStatusSubCode() = SUCCESS
-
-getDataFile status text is empty
-
-getDataFile URLs returned:
-  http://sscweb.sci.gsfc.nasa.gov/query_output/locator_server15907.txt
-
-Time to execute getDataFiles = 5.825seconds
+Time to execute getData = 2.211seconds
 
 getDataFile results:
 result.getStatusCode() = SUCCESS
@@ -654,7 +642,18 @@ result.getStatusSubCode() = SUCCESS
 getDataFile status text is empty
 
 getDataFile URLs returned:
-  http://sscweb.sci.gsfc.nasa.gov/query_output/fast_20170112152902_16125.cdf
-  http://sscweb.sci.gsfc.nasa.gov/query_output/moon_20170112152902_16125.cdf
+  http://sscweb.sci.gsfc.nasa.gov/query_output/locator_server29162.txt
 
-Time to execute getDataFiles 2 = 5.91seconds
+Time to execute getDataFiles = 1.673seconds
+
+getDataFile results:
+result.getStatusCode() = SUCCESS
+result.getStatusSubCode() = SUCCESS
+
+getDataFile status text is empty
+
+getDataFile URLs returned:
+  http://sscweb.sci.gsfc.nasa.gov/query_output/fast_20170213140402_29188.cdf
+  http://sscweb.sci.gsfc.nasa.gov/query_output/moon_20170213140402_29188.cdf
+
+Time to execute getDataFiles 2 = 1.308seconds
