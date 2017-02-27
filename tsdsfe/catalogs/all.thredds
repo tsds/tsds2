@@ -16,4 +16,5 @@
 	<catalogRef ID="Weygand/PropagatedSolarWind" xlink:title="Weygand/PropagatedSolarWind" xlink:href="Weygand/PropagatedSolarWind/Wind/MFI/Propagated.3DP/GSM/V3/PT60S.json"/>
 	<catalogRef ID="CDAWeb2" xlink:title="CDAWeb2" xlink:href="CDAWeb2/CDAWeb2.json"/>
 	<catalogRef ID="DataShop" xlink:title="DataShop" xlink:href="DataShop/DataShop.json"/>
+	<catalogRef ID="Faden" xlink:title="Faden" xlink:href="Faden/Faden.json"/>
 </catalog>

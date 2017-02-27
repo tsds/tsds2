@@ -2,6 +2,7 @@
 if (typeof(exports) !== "undefined" && require){
 	var xml2js  = require('xml2js');
 	var treeify = require('treeify').treeify;
+	//var treeify = require('/home/weigel/git/treeify/treeify.js').treeify;
 }
 var fs = require('fs')
 
@@ -32,8 +33,13 @@ function tsds2other(tsdsjson, other, config, callback) {
 	// 1-D object look-up object of information used to populate bookmark structure.
 	var info = {}; 
 	info[catalog] = {};
-	info[catalog].title = tsdsjson["catalog"]["$"]["id"];
-	info[catalog].description = tsdsjson["catalog"]["$"]["label"] || tsdsjson["catalog"]["$"]["name"] || tsdsjson["catalog"]["$"]["name"] ;
+	info[catalog].title = tsdsjson["catalog"]["$"]["id"] || "";
+	info[catalog].description = tsdsjson["catalog"]["$"]["label"] || tsdsjson["catalog"]["$"]["name"] || "";
+
+	info[catalog].title = info[catalog].title.replace(">","&gt;").replace("<","&lt;");
+	info[catalog].description = info[catalog].description.replace(">","&gt;").replace("<","&lt;");
+
+	var delim = "#";
 
 	for (var ds = 0; ds < tsdsjson["catalog"]["dataset"].length; ds++) {
 		var dataset = tsdsjson["catalog"]["dataset"][ds]["$"]["id"];
@@ -48,7 +54,10 @@ function tsds2other(tsdsjson, other, config, callback) {
 
 		info[dataset] = {};
 		info[dataset].title       = tsdsjson["catalog"]["dataset"][ds]["$"]["name"] || tsdsjson["catalog"]["dataset"][ds]["$"]["id"];
-		info[dataset].description = tsdsjson["catalog"]["dataset"][ds]["$"]["label"] || tsdsjson["catalog"]["dataset"][ds]["$"]["name"];
+		info[dataset].description = tsdsjson["catalog"]["dataset"][ds]["$"]["label"] || tsdsjson["catalog"]["dataset"][ds]["$"]["name"] || tsdsjson["catalog"]["dataset"][ds]["$"]["id"];
+
+		info[dataset].title = info[dataset].title.replace(">","&gt;").replace("<","&lt;");
+		info[dataset].description = info[dataset].description.replace(">","&gt;").replace("<","&lt;");
 
 		var stop = tsdsjson["catalog"]["dataset"][ds]["timeCoverage"][0]["End"][0].substring(0,10);
 
@@ -63,19 +72,23 @@ function tsds2other(tsdsjson, other, config, callback) {
 							//+catalog+"&amp;dataset="+dataset+"&amp;parameters="+parameters+"&amp;start=-P2D"+"&amp;stop="+stop;
 
 			if (catalog.match("SuperMAG") || catalog.match("WDC/PT1H")) {
-				links[j] = catalog + "." + datasetkey + "." + dataset + "." + dataset + "/" + parameters;
+				links[j] = catalog + delim + datasetkey + delim + dataset + delim + dataset + "/" + parameters;
 			} else if (catalog.match("SSCWeb")) {
-				links[j] = catalog + "." + datasetkey + "." + dataset + ".parameters." + dataset + "/" + parameters;
+				links[j] = catalog + delim + datasetkey + delim + dataset + delim + "parameters" + delim + dataset + "/" + parameters;
 				info["parameters"] = {};
 				info["parameters"].title       = "Parameters";
 				info["parameters"].description = "";
 			} else {
-				links[j] = catalog + "." + dataset + "." + dataset + "/" + parameters;
+				links[j] = catalog + delim + dataset + delim + dataset + "/" + parameters;
 			}
 
 			info[dataset + "/" + parameters] = {};
 			info[dataset + "/" + parameters].title       = parameters;
 			info[dataset + "/" + parameters].description = tsdsjson["catalog"]["dataset"][ds]["variables"][0]["variable"][dsv]["$"]["label"] || tsdsjson["catalog"]["dataset"][ds]["variables"][0]["variable"][dsv]["$"]["name"] || tsdsjson["catalog"]["dataset"][ds]["variables"][0]["variable"][dsv]["$"]["id"];
+
+			info[dataset + "/" + parameters].title = info[dataset + "/" + parameters].title.replace(">","&gt;").replace("<","&lt;");
+			info[dataset + "/" + parameters].description = info[dataset + "/" + parameters].description.replace(">","&gt;").replace("<","&lt;");
+
 			info[dataset + "/" + parameters].uri = url;
 			
 			j = j+1;
@@ -89,19 +102,20 @@ function tsds2other(tsdsjson, other, config, callback) {
 								+catalog+"&amp;dataset="+dataset+"&amp;parameters="+parameters+"&amp;start=-P2D"+"&amp;stop="+stop;
 
 				if (catalog.match("SuperMAG")) {
-					links[j] = catalog + "." + datasetkey + "." + dataset + "." + dataset + "/" + parameters;
+					links[j] = catalog + delim + datasetkey + delim + dataset + delim + dataset + "/" + parameters;
 				} else if (catalog.match("SSCWeb")) {
-					links[j] = catalog + "." + datasetkey + "." + dataset + ".groups." + dataset + "/" + parameters;
+					links[j] = catalog + delim + datasetkey + delim + dataset + delim + "groups" + delim + dataset + "/" + parameters;
 					info["groups"] = {};
 					info["groups"].title       = "Parameter Groups";
 					info["groups"].description = "";
 				} else {
-					links[j] = catalog + "." + dataset + "." + dataset + "/" + parameters;
+					links[j] = catalog + delim + dataset + delim + dataset + "/" + parameters;
 				}
 
 				info[dataset + "/" + parameters] = {};
 				info[dataset + "/" + parameters].title       = parameters;
 				info[dataset + "/" + parameters].description = tsdsjson["catalog"]["dataset"][ds]["groups"][0]["group"][dsg]["$"]["label"] || tsdsjson["catalog"]["dataset"][ds]["group"][0]["groups"][dsg]["$"]["name"] || tsdsjson["catalog"]["dataset"][ds]["groups"][0]["group"][dsg]["$"]["id"];
+				info[dataset + "/" + parameters].description = info[dataset + "/" + parameters].description.replace(">","&gt;").replace("<","&lt;");
 				info[dataset + "/" + parameters].uri = url;
 				
 				j = j+1;
@@ -114,11 +128,12 @@ function tsds2other(tsdsjson, other, config, callback) {
 	if (other === "autoplot-bookmarks") {
 		// treeify() creates a structured JSON object based on IDs.
 		// json2autoplotbookmarks() converts it to XML.
-		json2autoplotbookmarks(treeify(links))
+		json2autoplotbookmarks(treeify(links,delim))
 
 	}
 
 	function json2autoplotbookmarks(obj,level) {
+		//console.log(obj)
 
 		function isarray(a) {
 			if( Object.prototype.toString.call( a ) === '[object Array]' ) {
@@ -137,6 +152,7 @@ function tsds2other(tsdsjson, other, config, callback) {
 
 		var DirOpenRoot = '<bookmark-list version="1.1">';
 		var DirCloseRoot = '</bookmark-list>';
+
 		function FolderOpen(key) {
 			var str = '<bookmark-folder><title>'+info[key].title+'</title><description>'+info[key].description+'</description><bookmark-list>'
 			return str;
