@@ -2111,6 +2111,7 @@ function parameter(datasets, res, cb) {
 		res.opts.parameters = "^.*";
 	}
 
+
 	//res.datasets = datasets;
 
 	var parameterlist = [];
@@ -2134,7 +2135,7 @@ function parameter(datasets, res, cb) {
 
 		if (timeCoverage[0]) {
 			if (timeCoverage[0].Start) {
-				parent.start = timeCoverage[0].Start[0]
+				parent.start = timeCoverage[0].Start[0];
 			} else {
 				parent.start = "P0D";
 			}
