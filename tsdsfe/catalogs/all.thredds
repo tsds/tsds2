@@ -17,4 +17,5 @@
 	<catalogRef ID="CDAWeb2" xlink:title="CDAWeb2" xlink:href="CDAWeb2/CDAWeb2.json"/>
 	<catalogRef ID="DataShop" xlink:title="DataShop" xlink:href="DataShop/DataShop.json"/>
 	<catalogRef ID="Faden" xlink:title="Faden" xlink:href="Faden/Faden.json"/>
+	<catalogRef ID="ISWA" xlink:title="ISWA" xlink:href="ISWA/ISWA.json"/>
 </catalog>
