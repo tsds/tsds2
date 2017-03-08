@@ -59,7 +59,11 @@ function tsds2other(tsdsjson, other, config, callback) {
 		info[dataset].title = info[dataset].title.replace(">","&gt;").replace("<","&lt;");
 		info[dataset].description = info[dataset].description.replace(">","&gt;").replace("<","&lt;");
 
-		var stop = tsdsjson["catalog"]["dataset"][ds]["timeCoverage"][0]["End"][0].substring(0,10);
+		if (tsdsjson["catalog"]["dataset"][ds]["timeCoverage"][0]["End"][0]) {
+			var stop = tsdsjson["catalog"]["dataset"][ds]["timeCoverage"][0]["End"][0].substring(0,10);
+		} else {
+			var stop = "P0D";
+		}
 
 		//console.log(info[dataset].title)
 		//console.log(tsdsjson["catalog"]["dataset"][ds]["timeCoverage"])
