@@ -236,26 +236,42 @@ app.get('/', function (req, res) {
 
 // HAPI Entry route 0.
 app.get('/:catalog/:cadence?/hapi', function (req, res) {
+	res.contentType("application/json");
 	cadence = ""
 	if (req.params.cadence) {
 		cadence = "/" + req.params.cadence;
 	}
-	res.contentType("html");
-	res.send(fs.readFileSync(__dirname+"/hapi.htm").toString().replace(/__CATALOG__/g,req.params.catalog+cadence));
+	url = config["TSDSFE"] 
+			+ "?catalog="+req.params.catalog+cadence
+			+ "&dataset=^.*"
+			+ "&usemetadatacache=false"
+
+	request(url, function (err, catres, catbody) {
+		datasetjson = JSON.parse(catbody);
+		res.contentType("html");
+		res.send(fs.readFileSync(__dirname+"/hapi.htm")
+				.toString()
+				.replace(/__EXAMPLE_ID__/g,datasetjson[0]["value"])
+				.replace(/__CATALOG__/g,req.params.catalog+cadence)
+				.replace(/__SERVER__/g, config["TSDSFEEXTERNAL"]));
+		})
+
 })
 
 // HAPI Entry route.
-app.get('/:catalog/:cadence?/capabilities', function (req, res) {
+app.get('/:catalog/:cadence?/hapi/capabilities', function (req, res) {
+	res.contentType("application/json");
 	cadence = ""
 	if (req.params.cadence) {
 		cadence = "/" + req.params.cadence;
 	}
 	res.contentType("Content-Type: application/json");
-	res.send('{"HAPI": "1.0","outputFormats": [ "csv", "binary" ]}');
+	res.send('{"HAPI": "1.1","outputFormats": [ "csv", "binary" ]}');
 })
 
 // HAPI Entry route 1.
 app.get('/:catalog/:cadence?/hapi/catalog', function (req, res) {
+	res.contentType("application/json");
 	// Get list of all catalogs and their URLs
 	cadence = ""
 	if (req.params.cadence) {
@@ -265,13 +281,13 @@ app.get('/:catalog/:cadence?/hapi/catalog', function (req, res) {
 			+ "?catalog="+req.params.catalog+cadence
 			+ "&dataset=^.*"
 			+ "&usemetadatacache=false"
-	//console.log(url)
+	console.log(url)
 	//log.logres("Requesting " + url, res.opts)
 	request(url, function (err, catres, catbody) {
 		datasetjson = JSON.parse(catbody);
 		//console.log(datasetjson);
 		var catalog = {};
-		catalog["HAPI"] = "1.0";
+		catalog["HAPI"] = "1.1";
 		catalog["catalog"] = [];
 		for (var i = 0;i < datasetjson.length; i++) {
 			catalog["catalog"][i] = {"id": datasetjson[i]["value"]};
@@ -283,6 +299,7 @@ app.get('/:catalog/:cadence?/hapi/catalog', function (req, res) {
 
 // HAPI Entry route 2.
 app.get('/:catalog/:cadence?/hapi/info', function (req, res) {
+	res.contentType("application/json");
 	// Get list of all catalogs and their URLs
 	cadence = ""
 	if (req.params.cadence) {
@@ -304,37 +321,47 @@ app.get('/:catalog/:cadence?/hapi/info', function (req, res) {
 	request(url, function (err, catres, catbody) {
 		parametersjson = JSON.parse(catbody);
 		var catalog = {};
-		catalog["firstDate"] = parametersjson[0]["dd"].start;
-		catalog["lastDate"] = parametersjson[0]["dd"].stop;
+		catalog["startDate"] = parametersjson[0]["dd"].start;
+		catalog["stopDate"] = parametersjson[0]["dd"].stop;
 		catalog["cadence"] = parametersjson[0]["dd"].cadence;
 		catalog["description"] = parametersjson[0]["datasetinfo"].label;
 		catalog["resourceID"] = parametersjson[0].spaseid;
 		catalog["creationDate"] = (new Date()).toISOString();
 
-		catalog["HAPI"] = "1.0";
+		catalog["HAPI"] = "1.1";
 		catalog["parameters"] = [];
 		catalog["parameters"][0] = {
 			"name": "Time",
 			"type": "isotime",
 			"length": 24
 		}
-		for (var i = 0;i < parametersjson.length; i++) {
+		var io = 0;
+		if (parametersjson[0]["dd"].name === "Time") {
+			io = 1;
+		}
+		for (var i = io;i < parametersjson.length; i++) {
 			var size = 1;
 			var units = "";
 			if (parametersjson[i]["dd"].columns) {
-				size = parametersjson[i]["dd"].columns.split(",").length;
+				if (parametersjson[i]["dd"].columns.match(/,/)) {
+					size = parametersjson[i]["dd"].columns.split(",").length;
+				}
+				if (parametersjson[i]["dd"].columns.match(/-/)) {
+					tmp = parametersjson[i]["dd"].columns.split("-");
+					size = 1+s2i(tmp[1]) - s2i(tmp[0]);
+				}
 			}
 			if (parametersjson[i]["dd"].units) {
 				units = parametersjson[i]["dd"].units.split(",")[0];
 			}
-			catalog["parameters"][i+1] = 
+			catalog["parameters"][i-io+1] = 
 				{
 					"name": parametersjson[i]["value"],
-					"type": "float",
+					"type": "double",
 					"size": [size],
 					"units": units,
 					"description": parametersjson[i]["dd"].label,
-					"fill": parametersjson[i]["dd"].fillvalue
+					"fill": parametersjson[i]["dd"].fillvalue || null
 				}
 		}
 		res.send(JSON.stringify(catalog,null,4));
@@ -384,9 +411,11 @@ app.get('/:catalog/:cadence?/hapi/data', function (req, res) {
 		//console.log(url)
 
 		if (req.query.format === "binary") {
+			res.contentType("application/octet-stream");
 			var byline = require('byline');
 			d = byline(request.get(url));
 		} else {
+			res.contentType("text/csv");
 			d = request.get(url);
 		}
 		if (include === "header") {
@@ -409,13 +438,14 @@ app.get('/:catalog/:cadence?/hapi/data', function (req, res) {
 				.on('data', 
 					function(line) {
 						linea = line.toString().split(",");
-						console.log(linea)
 						time = new Buffer(linea[0].length)
 						time.write(linea[0])
-						val = new Buffer(8)
-						val.writeDoubleLE(linea[1])
-						res.write(time)
-						res.write(val)
+						val = new Buffer(8*(linea[0].length-1))
+						for (var i = 1;i<line[0].length+1;i++) {
+							val.writeDoubleLE(linea[i])
+						}
+						res.write(time);
+						res.write(val);
 					})
 				.on('end', function() {res.end()})
 			} else {
@@ -542,9 +572,9 @@ console.log(ds() + "Listening on port " + port + ". See " + config.TSDSFE)
 function handleRequest(req, res, options) {
 
 	// CORS
-	//res.header('Access-Control-Allow-Origin', '*');
-	//res.header('Access-Control-Allow-Methods', 'GET,POST');
-	//res.header('Access-Control-Allow-Headers', 'Content-Type');
+	res.header('Access-Control-Allow-Origin', '*');
+	res.header('Access-Control-Allow-Methods', 'GET,POST');
+	res.header('Access-Control-Allow-Headers', 'Content-Type');
 
 	if (!options) {
 		var options = parseOptions(req, res);
@@ -2191,7 +2221,7 @@ function parameter(datasets, res, cb) {
 		//console.log(parents)
 		if (!('urltemplate' in resp[i].dd))  {resp[i].dd.urltemplate = parents[i]["urltemplate"] || ""}
 		if (!('timeformat' in resp[i].dd))   {resp[i].dd.timeformat = parents[i]["timeformat"] || "$Y-$m-$dT$H:$M:$S.$(millis)Z"}
-		if (!('timecolumns' in resp[i].dd))  {resp[i].dd.timecolumns = parents[i]["timecolumns"] || resp[i].dd.timeformat.split(/,|\s/).length}
+		if (!('timecolumns' in resp[i].dd))  {resp[i].dd.timecolumns = parents[i]["timecolumns"] || "1-" + resp[i].dd.timeformat.split(/,|\s/).length}
 		if (!('columns' in resp[i].dd))      {resp[i].dd.columns = parents[i]["columns"]}
 		if (!('start' in resp[i].dd))        {resp[i].dd.start = parents[i]["start"]}
 		if (!('stop' in resp[i].dd))         {resp[i].dd.stop = parents[i]["stop"]}
@@ -2204,6 +2234,10 @@ function parameter(datasets, res, cb) {
 		if (!('lineregex' in resp[i].dd))    {resp[i].dd.lineregex = parents[i]["lineregex"] || ""}
 		if (!('fillvalue' in resp[i].dd))    {resp[i].dd.fillvalue = parents[i]["fillvalue"] || ""}
 		
+		if (resp[i].dd.timecolumns === "1-1") {
+			resp[i].dd.timecolumns = "1";
+		}
+
 		if (res.opts.parameters !== "^.*") {				
 
 			var value = resp[i].value;
@@ -2287,6 +2321,8 @@ function parameter(datasets, res, cb) {
 		return;
 	}
 	
+	//console.log(resp)
+
 	var columns = resp[0].dd.timecolumns || 1;
 	for (var z = 0;z < resp.length; z++) {
 		columns = columns + "," + resp[z].dd.columns;
@@ -2664,7 +2700,7 @@ function parameter(datasets, res, cb) {
 		//console.log(resp[z].dd)
 
 		if (res.opts.format === "ascii-0") {
-			var len = resp[z].dd.timeformat.split(" ").length
+			var len = resp[z].dd.timeformat.split(/\s+|,/).length
 			if (len == 1) {
 				var tmpstr = "1";
 			} else {

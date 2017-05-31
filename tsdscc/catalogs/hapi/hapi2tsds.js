@@ -61,6 +61,7 @@ function hapi2tsds(datasets,parameters) {
 			catalog["dataset"][ds]["variables"][0]["variable"][v]["$"]["name"] = parameters[ds]["parameters"][v]["name"];
 			catalog["dataset"][ds]["variables"][0]["variable"][v]["$"]["label"] = parameters[ds]["parameters"][v]["description"];
 			catalog["dataset"][ds]["variables"][0]["variable"][v]["$"]["units"] = parameters[ds]["parameters"][v]["units"];
+			catalog["dataset"][ds]["variables"][0]["variable"][v]["$"]["fillvalue"] = parameters[ds]["parameters"][v]["fill"];
 			catalog["dataset"][ds]["variables"][0]["variable"][v]["$"]["columns"] = columnsstr;
 		}
 	}

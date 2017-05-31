@@ -11,16 +11,16 @@
 		</p>
 		<ol>
 			<li>
-				<a href="capabilities">capabilities</a> describe the capabilities of the server; this lists the output formats the server can emit (CSV and binary). Example: <a href="__SERVER__/__CATALOG__/capabilities">__SERVER__/__CATALOG__/capabilities</a>
+				<a href="__SERVER____CATALOG__/hapi/capabilities">capabilities</a> - describe the capabilities of the server; this lists the output formats the server can emit (CSV and binary).
 			</li>
 			<li>
-				<a href="catalog">catalog</a> list the datasets that are available; each dataset is associated with a unique id
+				<a href="__SERVER____CATALOG__/hapi/catalog">catalog</a> - list the datasets that are available; each dataset is associated with a unique id
 			</li>
 			<li>
-				<a href="info">info</a> obtain a description for dataset of a given id; the description defines the parameters in every dataset record
+				<code>info</code> - obtain a description for dataset of a given id; the description defines the parameters in every dataset record; <a href="__SERVER____CATALOG__/hapi/info?id=__EXAMPLE_ID__">Example for id=__EXAMPLE_ID__</a>
 			</li>
 			<li>
-				<a href="data">data</a> stream data content for a dataset of a given id; the streaming request must have time bounds (specified by request parameters time.min and time.max) and may indicate a subset of parameters (default is all parameters)
+				<code>data</code> - stream data content for a dataset of a given id; the streaming request must have time bounds (specified by request parameters time.min and time.max) and may indicate a subset of parameters (default is all parameters)
 			</li>
 		</ol>
 		<p>

@@ -62,7 +62,7 @@ function tests(config, server) {
 							return false
 						},
 				"type": "dependency",
-				"interval": config.DEPSCHECKPERIOD,
+				"interval": 3600000,
 				"url": config.AUTOPLOT + "?url=vap%2Binline:linspace(0,1,10)"
 			},
 			"SSCWeb":

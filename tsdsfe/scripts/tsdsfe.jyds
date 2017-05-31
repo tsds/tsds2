@@ -55,6 +55,7 @@ from java.io import FileReader, BufferedReader
 fo= BufferedReader( FileReader(f) )
 line1= fo.readLine()
 
+Nd = len(line1.split(","))-1
 if line1 is None:
    raise Exception(' tsdsfe.jyds - No data from '+surl)
 
@@ -73,8 +74,17 @@ try:
           ll= parameters.split(',')  
       else:
           ll= labels.split(',')
-      eu= EnumerationUnits.create('default')
+
       lenll= len(ll)
+
+      if (Nd != lenll):
+        lenll = Nd
+        label = ll[0]
+        ll = []
+        for i in xrange(Nd):
+          ll.append(label + "[" + str(i) + "]")
+
+      eu= EnumerationUnits.create('default')
       units= units.split(',')
       fills= fills.split(',')
 

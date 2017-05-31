@@ -18,4 +18,5 @@
 	<catalogRef ID="DataShop" xlink:title="DataShop" xlink:href="DataShop/DataShop.json"/>
 	<catalogRef ID="Faden" xlink:title="Faden" xlink:href="Faden/Faden.json"/>
 	<catalogRef ID="ISWA" xlink:title="ISWA" xlink:href="ISWA/ISWA.json"/>
+	<catalogRef ID="TestData" xlink:title="TestData" xlink:href="TestData/TestData.json"/>
 </catalog>
