@@ -31,6 +31,11 @@ var servers = require('./servers.js')
 var checkservers = servers.checkservers
 var servertests = servers.tests
 
+if (!/v0\.12/.test(process.version)) {
+	console.log("Node v0.12 required. Current version is "+process.version+". Exiting with code 1.");
+	process.exit(1);
+}
+
 // Helper functions
 function s2b(str) {if (str === "true") {return true} else {return false}}
 function s2i(str) {return parseInt(str)}
@@ -265,8 +270,8 @@ app.get('/:catalog/:cadence?/hapi/capabilities', function (req, res) {
 	if (req.params.cadence) {
 		cadence = "/" + req.params.cadence;
 	}
-	res.contentType("Content-Type: application/json");
-	res.send('{"HAPI": "1.1","outputFormats": [ "csv", "binary" ]}');
+	res.contentType("application/json");
+	res.send('{"HAPI": "1.1","status": { "code": 1200, "message": "OK"},"outputFormats": [ "csv" ]}' + "\n");
 })
 
 // HAPI Entry route 1.
@@ -281,16 +286,16 @@ app.get('/:catalog/:cadence?/hapi/catalog', function (req, res) {
 			+ "?catalog="+req.params.catalog+cadence
 			+ "&dataset=^.*"
 			+ "&usemetadatacache=false"
-	console.log(url)
+	//console.log(url)
 	//log.logres("Requesting " + url, res.opts)
 	request(url, function (err, catres, catbody) {
 		datasetjson = JSON.parse(catbody);
-		//console.log(datasetjson);
 		var catalog = {};
 		catalog["HAPI"] = "1.1";
+		catalog["status"] = { "code": 1200, "message": "OK"};
 		catalog["catalog"] = [];
 		for (var i = 0;i < datasetjson.length; i++) {
-			catalog["catalog"][i] = {"id": datasetjson[i]["value"]};
+			catalog["catalog"][i] = {"id": datasetjson[i]["value"], "title": datasetjson[i]["label"]};
 		}
 		res.send(JSON.stringify(catalog,null,4));
 		return;
@@ -324,19 +329,21 @@ app.get('/:catalog/:cadence?/hapi/info', function (req, res) {
 		catalog["startDate"] = parametersjson[0]["dd"].start;
 		catalog["stopDate"] = parametersjson[0]["dd"].stop;
 		catalog["cadence"] = parametersjson[0]["dd"].cadence;
-		catalog["description"] = parametersjson[0]["datasetinfo"].label;
-		catalog["resourceID"] = parametersjson[0].spaseid;
+		catalog["description"] = parametersjson[0]["datasetinfo"].label || parametersjson[0]["datasetinfo"].title;
+		//catalog["resourceID"] = parametersjson[0].spaseid;
 		catalog["creationDate"] = (new Date()).toISOString();
 
 		catalog["HAPI"] = "1.1";
+		catalog["status"] = { "code": 1200, "message": "OK"};
 		catalog["parameters"] = [];
 		catalog["parameters"][0] = {
 			"name": "Time",
 			"type": "isotime",
-			"length": 24
+			"length": 25
 		}
+		console.log(parametersjson)
 		var io = 0;
-		if (parametersjson[0]["dd"].name === "Time") {
+		if (parametersjson[0]["dd"]["id"] === "Time") {
 			io = 1;
 		}
 		for (var i = io;i < parametersjson.length; i++) {
@@ -348,21 +355,34 @@ app.get('/:catalog/:cadence?/hapi/info', function (req, res) {
 				}
 				if (parametersjson[i]["dd"].columns.match(/-/)) {
 					tmp = parametersjson[i]["dd"].columns.split("-");
-					size = 1+s2i(tmp[1]) - s2i(tmp[0]);
+					size = 1+s2i(tmp[1])-s2i(tmp[0]);
 				}
 			}
 			if (parametersjson[i]["dd"].units) {
 				units = parametersjson[i]["dd"].units.split(",")[0];
 			}
+			if (units.trim() === "") units = null;
 			catalog["parameters"][i-io+1] = 
 				{
-					"name": parametersjson[i]["value"],
+					"name": parametersjson[i]["dd"]["id"],
 					"type": "double",
-					"size": [size],
 					"units": units,
 					"description": parametersjson[i]["dd"].label,
 					"fill": parametersjson[i]["dd"].fillvalue || null
 				}
+			if (parametersjson[i]["dd"]["length"]) {
+				catalog["parameters"][i-io+1]["length"] = s2i(parametersjson[i]["dd"]["length"]) + 1;
+				catalog["parameters"][i-io+1]["type"] = "string";
+			}
+			if (parametersjson[i]["dd"]["rendering"]) {
+				if (/d/.test(parametersjson[i]["dd"]["rendering"])) {
+					catalog["parameters"][i-io+1]["type"] = "integer";
+				}
+			}
+			if (size > 1) {
+				catalog["parameters"][i-io+1]["size"] = [size];
+			}
+
 		}
 		res.send(JSON.stringify(catalog,null,4));
 		return;
@@ -371,7 +391,7 @@ app.get('/:catalog/:cadence?/hapi/info', function (req, res) {
 
 // HAPI Entry route 3.
 app.get('/:catalog/:cadence?/hapi/data', function (req, res) {
-	// Get list of all catalogs and their URLs
+
 	cadence = ""
 	if (req.params.cadence) {
 		cadence = "/" + req.params.cadence;
@@ -382,47 +402,51 @@ app.get('/:catalog/:cadence?/hapi/data', function (req, res) {
 		var parameters = "^.*"
 	}
 
-	url = config["TSDSFE"] 
+	url = config["TSDSFE"] + "/"
 			+ "?catalog="+req.params.catalog+cadence
 			+ "&dataset="+req.query.id
 			+ "&parameters="+parameters
 			+ "&usemetadatacache=false"
-    //console.log(url)
+
     var include = req.query.include || "";
     var url0 = ""
     if (include === "header") {
-		url0 = config["TSDSFE"] + "/" + req.params.catalog+cadence+"/hapi/info/?id="+req.query.id;   	
+		url0 = config["TSDSFE"]+"/"+req.params.catalog+cadence+"/hapi/info/?id="+req.query.id;   	
     }
 
 	request(url, function (err, catres, catbody) {
+
 		parametersjson = JSON.parse(catbody);
+		//console.log(parametersjson)	
 		var parameterscsv = [];
 		for (var i = 0;i < parametersjson.length; i++) {
 			parameterscsv[i] = parametersjson[i]["value"];
 		}
-		//console.log(parameterscsv.join(","))
-		url = config["TSDSFE"] 
+
+		url = config["TSDSFE"] + "/"
 				+ "?catalog="+req.params.catalog+cadence
 				+ "&dataset="+req.query.id
 				+ "&parameters="+parameterscsv.join(",")
 				+ "&start="+req.query["time.min"]
 				+ "&stop="+req.query["time.max"]
 				+ "&usemetadatacache=false"
-		//console.log(url)
 
-		if (req.query.format === "binary") {
-			res.contentType("application/octet-stream");
-			var byline = require('byline');
-			d = byline(request.get(url));
+		if (req.query.format === "binary" || req.query.format === "fbinary") {
+			res.contentType("application/octet-stream");			
+			d = request.get(url + "&format=binary-0");
 		} else {
 			res.contentType("text/csv");
+			//console.log("--" + url)
 			d = request.get(url);
 		}
 		if (include === "header") {
 				request(url0, function (err, resheader, bodyheader) {
 					var Readable = require('stream').Readable
+					json = JSON.parse(bodyheader);
+					json["status"] = { "code": 1200, "message": "OK"};
+					json["format"] = req.query.format;
 					s = new Readable
-					s.push("#" + bodyheader.replace(/\n/g,'\n#') + "\n")
+					s.push("#" + JSON.stringify(json) + "\n");
 					s.push(null)
 				    var StreamConcat = require('stream-concat');
 				    combinedStream = new StreamConcat([s,d]);
@@ -433,26 +457,7 @@ app.get('/:catalog/:cadence?/hapi/data', function (req, res) {
 			//res.setHeader('content-disposition', 'attachment; filename=null');
 			res.removeHeader('content-disposition');
 			//console.log(res._headers)
-			if (req.query.format === "binary") {
-				d
-				.on('data', 
-					function(line) {
-						linea = line.toString().split(",");
-						time = new Buffer(linea[0].length)
-						time.write(linea[0])
-						val = new Buffer(8*(linea[0].length-1))
-						for (var i = 1;i<line[0].length+1;i++) {
-							val.writeDoubleLE(linea[i])
-						}
-						res.write(time);
-						res.write(val);
-					})
-				.on('end', function() {res.end()})
-			} else {
-				d.pipe(res).on('finish', function () {
-					//console.log(res._headers);
-				});
-			}
+			d.pipe(res).on('finish', function () {})
 		}
 		return;
 	})
@@ -573,7 +578,7 @@ function handleRequest(req, res, options) {
 
 	// CORS
 	res.header('Access-Control-Allow-Origin', '*');
-	res.header('Access-Control-Allow-Methods', 'GET,POST');
+	res.header('Access-Control-Allow-Methods', 'GET');
 	res.header('Access-Control-Allow-Headers', 'Content-Type');
 
 	if (!options) {
@@ -2078,6 +2083,10 @@ function dataset(catalogs, res, cb) {
 			}
 
 			dresp = dresp.filter(function(n){return n;}); // Needed?
+			if (dresp.length == 0) {
+				res.end();
+				return;
+			}
 			// If no parameters specified.
 			if (res.opts.parameters === "" && !(res.opts.groups === "^.*")) {
 
@@ -2141,7 +2150,6 @@ function parameter(datasets, res, cb) {
 		res.opts.parameters = "^.*";
 	}
 
-
 	//res.datasets = datasets;
 
 	var parameterlist = [];
@@ -2192,11 +2200,39 @@ function parameter(datasets, res, cb) {
 	//console.log(parents)
 	//console.log(res.opts.parameters)
 	var parametersa = res.opts.parameters.split(",")
+	tresp = [];
+	var	i = 0;
+	tresp[i]            = {};
+	tresp[i].value      = "Time";
+	tresp[i].catalog    = parents[i]["catalog"]["$"]["id"]
+	tresp[i].dataset    = parents[i]["id"] || parents[i]["ID"];
+	tresp[i].spaseid    = parents[i]["spaseid"] || "";
+	tresp[i].parameters = "Time";
+	tresp[i].cataloginfo = parents[i]["catalog"];
+	tresp[i].datasetinfo = parents[i];
+
+	tresp[i].dd = {};
+	tresp[i].dd.id = "Time";
+	tresp[i].dd.units = "";
+	tresp[i].dd.urltemplate = parents[i]["urltemplate"] || parameters[0]["$"]["urltemplate"]
+	tresp[i].dd.timeformat = parents[i]["timeformat"] || "$Y-$m-$dT$H:$M:$S.$(millis)Z"
+	tresp[i].dd.timecolumns = parents[i]["timecolumns"] || "1-" + tresp[i].dd.timeformat.split(/,|\s/).length
+	tresp[i].dd.columns = tresp[i].dd.timecolumns
+	tresp[i].dd.type = "isotime"
+	tresp[i].dd.start = parents[i]["start"]
+	tresp[i].dd.stop = parents[i]["stop"]
+	tresp[i].dd.urlsource = parents[i]["urlsource"] || ""
+	tresp[i].dd.urlprocessor = parents[i]["urlprocessor"] || ""
+	tresp[i].dd.cadence = parents[i]["cadence"] || ""
+	tresp[i].dd.delim = parents[i]["delim"] || ""
+	tresp[i].dd.lineregex = parents[i]["lineregex"] || ""
+	tresp[i].dd.fillvalue = parents[i]["fillvalue"] || ""
+
 	for (var i = 0;i < parameters.length;i++) {
 
 		var id = parameters[i]["$"]["id"] || parameters[i]["$"]["ID"] || "";
 
-		parameterlist[i] = id;
+		parameterlist[i] = id; // List of available parameters to list if no matches.
 
 		if (id === "") {
 			if (parameters[i]["$"]["columns"].match(/,|-/)) {
@@ -2211,14 +2247,12 @@ function parameter(datasets, res, cb) {
 		resp[i].value      = id;
 		resp[i].catalog    = parents[i]["catalog"]["$"]["id"]
 		resp[i].dataset    = parents[i]["id"] || parents[i]["ID"];
-		resp[i].spaseid    = parents[i]["spaseid"] || ""
-		//console.log(parents[i])
+		resp[i].spaseid    = parents[i]["spaseid"] || "";
 		resp[i].parameters = id;
 		resp[i].dd         = parameters[i]["$"];
-		resp[i].cataloginfo = parents[i]["catalog"]
+		resp[i].cataloginfo = parents[i]["catalog"];
 		resp[i].datasetinfo = parents[i];
 
-		//console.log(parents)
 		if (!('urltemplate' in resp[i].dd))  {resp[i].dd.urltemplate = parents[i]["urltemplate"] || ""}
 		if (!('timeformat' in resp[i].dd))   {resp[i].dd.timeformat = parents[i]["timeformat"] || "$Y-$m-$dT$H:$M:$S.$(millis)Z"}
 		if (!('timecolumns' in resp[i].dd))  {resp[i].dd.timecolumns = parents[i]["timecolumns"] || "1-" + resp[i].dd.timeformat.split(/,|\s/).length}
@@ -2238,34 +2272,20 @@ function parameter(datasets, res, cb) {
 			resp[i].dd.timecolumns = "1";
 		}
 
+		// If not all parameters requested (^.*), remove unrequested ones.
 		if (res.opts.parameters !== "^.*") {				
-
-			var value = resp[i].value;
-
-			if (res.opts.parameters.substring(0,1) === "^") {
-				if (!(resp[i].parameters.match(res.opts.parameters))) {
-					delete resp[i];
-				}
-			} else  {
-				var found = false;
-				// TODO: Need to verify uritemplates the same (in same file or
-				// response from service.)
-				for (var j = 0;j < parametersa.length; j++) {
-					if (parametersa[j] === value) {
-						found = true;
-						break;
-						log.logres("Match in catalog for requested parameter "+value+".", res.opts)
-					}
-				} 
-				if (!found) {
-					delete resp[i];
-				}
+			if (parametersa.indexOf(id) == -1) {
+				delete resp[i];
 			}
 		}
 	}
 
+	// Remove deleted array elements
 	resp = resp.filter(function(n){return n});
 
+	resp = tresp.concat(resp);
+
+	// No search requested and only parameters were requested w/o start/stop times.
 	if ((res.opts.parameters === "^.*") || (res.opts.start === "" && res.opts.stop === "")) {
 		// Return matching parameters.
 		cb(200, resp, res);
@@ -2323,8 +2343,8 @@ function parameter(datasets, res, cb) {
 	
 	//console.log(resp)
 
-	var columns = resp[0].dd.timecolumns || 1;
-	for (var z = 0;z < resp.length; z++) {
+	var columns = resp[0].dd.timecolumns;
+	for (var z = 1;z < resp.length; z++) {
 		columns = columns + "," + resp[z].dd.columns;
 	}
 
@@ -2374,12 +2394,13 @@ function parameter(datasets, res, cb) {
 	log.logres("DD stop          : " + resp[0].dd.stop, res.opts)
 	log.logres("Expanded DD stop : " + stopdd, res.opts)
 
-	var urltemplate  = resp[0].dd.urltemplate
+	var end = resp.length-1
+	var urltemplate  = resp[end].dd.urltemplate
 							.replace("mirror:http://",config.MIRROR)
 							.replace("mirror:ftp://",config.MIRROR);
-	var urlprocessor = resp[0].dd.urlprocessor;
-	var urlsource    = resp[0].dd.urlsource;
-	var cadence = resp[0].dd.cadence
+	var urlprocessor = resp[end].dd.urlprocessor;
+	var urlsource    = resp[end].dd.urlsource;
+	var cadence = resp[end].dd.cadence
 	if ((new Date(stop)).getTime() < (new Date(start)).getTime()) {
 		cb(500, "Stop time is before start time.", res);
 		return;
@@ -2521,8 +2542,8 @@ function parameter(datasets, res, cb) {
 				}
 
 				cb(200, script, res);
-				console.log("---")
-				console.log(script)
+				//console.log("---")
+				//console.log(script)
 				return;
 			}
 
@@ -2530,18 +2551,17 @@ function parameter(datasets, res, cb) {
 								+ "/scripts/tsdsfe." + ext).toString();
 
 			script = script
+						.replace("__SERVER__",config.TSDSFEEXTERNAL + resp[0].catalog + "/hapi" )
 						.replace("__SERVER__",config.TSDSFEEXTERNAL)
-						.replace("__STATUS__",config.TSDSFEEXTERNAL + "?catalog=" + resp[0].catalog)
-						.replace("__QUERYSTRING__",
-									"catalog=" + resp[0].catalog
-									+ "&dataset=" + resp[0].dataset
-									+ "&parameters=" + res.opts.parameters
-									+ "&start=" + start
-									+ "&stop=" + stop
-									+ "&return=data"
-									+ "&format=ascii-2");
+						.replace("__DATASET__",resp[0].dataset)
+						.replace("__PARAMS__",res.opts.parameters)
+						.replace("__START__",start)
+						.replace("__STOP__",stop)
+
+			//console.log(script)
+//									"catalog=" + resp[0].catalog
 			//script = script.replace("__LABELS__",Labels.slice(0,-2));
-			script = script.replace("__LABELS__",Parameters.slice(0,-2));
+
 			if (config.TSDSFEEXTERNAL.match(/http:\/\/localhost/)) {
 				log.logres("Warning: stream(): " + warning, res.opts)
 				script = script.replace("__COMMENT__",warning)
@@ -2569,15 +2589,15 @@ function parameter(datasets, res, cb) {
 		}
 
 		var extra = ""
-		if (resp[0].dd.columnLabels) {
+		if (resp[end].dd.columnLabels) {
 			extra = extra + "&labels=" + joinresp(resp, 'columnLabels').replace(/\|/g,"%7C");;
 		} else {
 			extra = extra + "&labels=" + joinresp(resp, 'id').replace(/\|/g,"%7C");
 		}
-		if (resp[0].dd.units) {
+		if (resp[end].dd.units) {
 			extra = extra + "&units=" + joinresp(resp, 'units');
 		}
-		if (resp[0].dd.fillvalue) {
+		if (resp[end].dd.fillvalue) {
 			extra = extra + "&fills=" + joinresp(resp, 'fillvalue');
 		}
 
@@ -2585,7 +2605,7 @@ function parameter(datasets, res, cb) {
 	    //console.log(extra)
 		// A parameter may be a vector type.  In this case, don't specify
 		// color (which forces all lines to be same color in Autoplot.)
-		if (resp[0]["dd"]["type"] === "vector" || resp[0]["dd"]["type"] === "scalars") {
+		if (resp[end]["dd"]["type"] === "vector" || resp[end]["dd"]["type"] === "scalars") {
 			res.opts.stylestr = res.opts.stylestr.replace(/&color=.*?&/,"&");
 		}
 		//console.log(resp[0]["dd"]["type"])
@@ -2698,6 +2718,10 @@ function parameter(datasets, res, cb) {
 
 		//ddresp[z].urltemplate = "";
 		//console.log(resp[z].dd)
+		var fileformat = "0";
+		if (res.opts.format === "binary-0") {
+			fileformat = "1"
+		}
 
 		if (res.opts.format === "ascii-0") {
 			var len = resp[z].dd.timeformat.split(/\s+|,/).length
@@ -2748,14 +2772,15 @@ function parameter(datasets, res, cb) {
 
 		dc = dc
 				+"&return=stream"
-				+"&lineRegExp=" + (resp[0].dd.lineregex || "")
-				+"&streamFilterReadTimeFormat=" + (resp[0].dd.timeformat || "")
-				+"&streamFilterReadColumnsDelimiter=" + (resp[0].dd.delim || "")
+				+"&lineRegExp=" + (resp[end].dd.lineregex || "")
+				+"&streamFilterReadTimeFormat=" + (resp[end].dd.timeformat || "")
+				+"&streamFilterReadColumnsDelimiter=" + (resp[end].dd.delim || "")
 				+"&streamFilterReadColumns=" + columns
+				+"&streamFilterWriteFormat=" + fileformat
 				+"&streamFilterWriteTimeFormat=" + format
 				+"&streamFilterWriteComputeFunction=" + res.opts.filter
 				+"&streamFilterWriteComputeFunctionWindow=" + res.opts.filterWindow
-				+"&streamFilterWriteComputeFunctionExcludes=" + (resp[0].dd.fillvalue || "")
+				+"&streamFilterWriteComputeFunctionExcludes=" + (resp[end].dd.fillvalue || "")
 				+"&streamFilterWriteDelimiter=,"
 				+"&streamOrder=true"
 				+"&streamGzip=false"
@@ -2790,7 +2815,8 @@ function headers(res, resp) {
 
 	var header0 = "";
 	var delim = ",";
-	for (var j = 0;j < res.dd.length; j++) {
+	//console.log(res.dd)
+	for (var j = 1;j < res.dd.length; j++) {
 		if (j == res.dd.length-1) {delim = ""}
 		var header0 = header0 + res.dd[j].columnIDs + " [" + res.dd[j].columnUnits + "]" + delim;
 	}
@@ -2812,7 +2838,7 @@ function headers(res, resp) {
 	if (res.opts.format === "ascii-2") {
 		header0 = "Year Month Day Hour Minute Second" + " " + header0 + "\n";
 	} 
-	res["header-0"] = header0;
+	res["header-0"] = header0.replace(/,\n/,"\n");
 
 	//console.log(resp[0])
 

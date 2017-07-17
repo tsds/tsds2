@@ -89,12 +89,15 @@ function startdeps(dep, config) {
 			try {
 				execSync(com)
 			} catch (err) {
-				// Catch error if process not matched
-				//console.log(err)
+				// Process not matched; not an error.
 			}
 		} else {
 			var com = "pkill --signal SIGINT --full '" + pstr + "'"
-			execSync(com)
+			try {
+				execSync(com);
+			} catch (err) {
+				// Process not matched; not an error.
+			}
 		}
 
 		console.log(ds() 
@@ -153,12 +156,15 @@ function startdeps(dep, config) {
 			try {
 				execSync(com)
 			} catch (err) {
-				// Catch error if process not matched
-				//console.log(err)
+				// Process not matched; not an error.
 			}
 		} else {
 			var com = "pkill --signal SIGINT --full '" + pstr + "'"
-			execSync(com)
+			try {
+				execSync(com);
+			} catch (err) {
+				// Process not matched; not an error.
+			}
 		}
 
 		console.log(ds() 
