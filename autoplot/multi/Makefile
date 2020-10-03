@@ -16,6 +16,13 @@
 # For most recent Nailgun (0.9), download from source.
 # git clone https://github.com/martylamb/nailgun.git
 
+all:
+	curl http://autoplot.org/jnlp/latest/autoplot.jar > deps/autoplot.jar
+	java -Djava.awt.headless=true -Djava.library.path=. 					\
+		-cp ./deps/autoplot.jar:./nailgun/nailgun-server/target/nailgun-server-0.9.3-SNAPSHOT.jar:. 	\
+		com.martiansoftware.nailgun.NGServer 7000 &
+
+
 xall:
 	curl http://autoplot.org/jnlp/latest/autoplot.jar > deps/autoplot.jar
 	cd deps; unzip ../pkgs/nailgun-0.7.1.zip
@@ -26,7 +33,7 @@ xall:
 
 showbug:
 		rm -f /tmp/BGSM*.png
-		node showbug.js 50
+		node showbug.js 200
 
 ###############################################################################
 testjetty:
@@ -43,15 +50,16 @@ startjetty:
 startnailgun:
 	node test.js --Nservers=10 --method=launchnailgun &
 
+#	javac ListFonts.java
+#	java ListFonts > ../tsdsfe/js/autoplotserverfonts.json
+#	cd deps; unzip ../pkgs/nailgun-0.7.1.zip
+#	cd deps/nailgun-0.7.1; make;
+
 prep:
 	mkdir -p deps;
-	javac ListFonts.java
-	java ListFonts > ../tsdsfe/js/autoplotserverfonts.json
 	curl http://autoplot.org/jnlp/latest/autoplot.jar > deps/autoplot.jar
 	curl http://autoplot.org/hudson/job/autoplot-jar-servlet/lastSuccessfulBuild/artifact/autoplot/AutoplotServlet/dist/AutoplotServlet.war > deps/AutoplotServlet.war
-	cd deps; unzip ../pkgs/nailgun-0.7.1.zip
-	cd deps/nailgun-0.7.1; make;
-	cd deps; unzip ../pkgs/jetty-distribution-8.1.16.v20140903.zip
+	cd deps; unzip ../../pkgs/jetty-distribution-8.1.16.v20140903.zip
 	cd deps; mv AutoplotServlet.war jetty-distribution-8.1.16.v20140903/webapps
 	npm install yargs
 	cd data; sudo npm install http-server -g;

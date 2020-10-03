@@ -9,7 +9,7 @@ var Ncpus = os.cpus().length;
 datafile = 'vap+bin:file:/Users/robertweigel/Desktop/autoplot/data/a.bin';
 //datafile = 'vap+cdf:file:/Users/robertweigel/Desktop/autoplot/data/autoplot.cdf?BGSM';
 //datafile = 'vap+cdf:http://localhost:9000/autoplot.cdf?BGSM';
-//datafile = 'vap+inline:rand(300)+ii'  // loop will add 0,1,2,3,... in each step
+datafile = 'vap+inline:rand(300)+ii'  // loop will add 0,1,2,3,... in each step
 
 var argv = require('yargs')
                 .default({ Nservers : 10, Nrequests : 1, method: "nailgun"})

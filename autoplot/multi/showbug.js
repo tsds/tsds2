@@ -14,7 +14,7 @@ run();
 
 function run () {
 
-	xcom = 'deps/nailgun-0.7.1/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer -u "'+datafile+'" -f png -o /tmp/BGSM.png';
+	xcom = 'nailgun/ng --nailgun-port 7000 org.virbo.autoplot.AutoplotServer -u "'+datafile+'" -f png -o /tmp/BGSM.png';
 
 	var Nd = 0;
 	to = new Date().getTime();

@@ -1,26 +1,38 @@
-var fs      = require('fs');
-var os      = require("os");
+//var fs      = require('fs');
 var request = require("request");
-var express = require('express');
-var app     = express();
 var xml2js  = require('xml2js');
 
+const fs = require('fs-extra');
+
 var urlo = "https://sscweb.sci.gsfc.nasa.gov/WS/sscr/2/observatories";
-var cfileraw = "SSCWeb.json.raw";
-var cfile = "SSCWeb-hapi.json";
+var cfile = "SSCWeb-info.json";
 
-catalog = getSatellites();
+SSCWeb2HAPI(
+	function (err,catalog) {
+		if (err) {
+			console.log(err);
+		}
+		console.log(catalog);
+	}
+)
 
-function getSatellites() {
+function SSCWeb2HAPI(cb) {
+
+	// Returns HAPI catalog or throws error if it can't reach urlo
+	// and no cached catalog is found. Only updates cached catalog
+	// if it is older than 24 hours.
 
 	var age = 0;
+	// Look for cached catalog file
 	if (fs.existsSync(cfile)) {
 		age = new Date().getTime() - fs.statSync(cfile).mtime;
 		age = age/(86400*1000);
-		if (age < 1) { // Cache file less than one day old
-			console.log("Reading cache file because it is less than one day old.")
+		if (age < 1) { 
+			// Cache file less than one day old
+			console.log("Returning cache file because it is less than one day old.")
 			return fs.readFileSync(cfile);
 		} else {
+			// Save current version
 			ymd = new Date().toISOString().substring(0,10);
 			cfilec = cfile.replace(/\.json/,"-"+ymd+".json");
 			fs.copySync(__dirname+"/"+cfile,__dirname+"/old/"+cfilec);
@@ -34,29 +46,30 @@ function getSatellites() {
 			if (error) {
 				if (fs.existsSync(cfile)) {
 					console.log("Could not get "+urlo+". Returning cached metadata.")
-					return fs.readFileSync(cfile);
+					cb(null,fs.readFileSync(cfile));
 				} else {
-					console.log("Could not get "+urlo+" and no cached metadata. Throwing error.")
-					// Throw error
+					cb(Error ("Could not get "+urlo+" and no cached metadata."));
 				}
 			}
-			//console.error("Error for " + urlo + e);
 			var parser = new xml2js.Parser();
-			// TODO: Catch error here.
-			console.error("Got " + urlo);
 			parser.parseString(body, function (err, jsonraw) {
-				//console.error("Writing " + cfileraw);
-				//fs.writeFileSync(cfileraw,JSON.stringify(json,null,4));
-				//console.error("Wrote " + cfileraw);
-				makeHAPI(jsonraw);
+				if (err) {
+					cb(err);
+				}
+				makeHAPI(jsonraw,cb);
 			})
 	})
 }
+exports.SSCWeb2HAPI = SSCWeb2HAPI;
 
-function makeHAPI(jsonraw) {
+function makeHAPI(jsonraw,cb) {
+
+	// If two requests to update at same time, only one will write
+	// cache file.
+	makeHAPI.writing = makeHAPI.writing || false;
+
 	var params = fs.readFileSync("SSCWeb-parameters.txt").toString();
 	params = params.split(/\n/);
-	//console.log(params)
 
 	var catalog = {}
 	catalog["catalog"] = [];
@@ -68,7 +81,7 @@ function makeHAPI(jsonraw) {
 		catalog["catalog"][i]["info"] = {};
 		catalog["catalog"][i]["info"]["startDate"] = obs[i]["StartTime"][0];
 		catalog["catalog"][i]["info"]["stopDate"] = obs[i]["EndTime"][0];
-		catalog["catalog"][i]["info"]["cadence"] = obs[i]["Resolution"][0];
+		catalog["catalog"][i]["info"]["cadence"] = "PT" + obs[i]["Resolution"][0] + "S";
 		catalog["catalog"][i]["info"]["description"] = "Ephemeris data";
 		catalog["catalog"][i]["info"]["resourceURL"] = "https://sscweb.sci.gsfc.nasa.gov/";
 		catalog["catalog"][i]["info"]["parameters"] = [];
@@ -82,6 +95,7 @@ function makeHAPI(jsonraw) {
 			catalog["catalog"][i]["info"]["parameters"][j]["fill"] = paraminfo[4].replace(/"/g,"");
 			catalog["catalog"][i]["info"]["parameters"][j]["type"] = paraminfo[5].replace(/"/g,"");
 			var type = paraminfo[5].replace(/"/g,"");
+			console.log(paraminfo[0].replace(/"/g,"") + " " + type);
 			if (/f$/.test(type)) {
 				catalog["catalog"][i]["info"]["parameters"][j]["type"] = "double";
 			}
@@ -94,10 +108,25 @@ function makeHAPI(jsonraw) {
 			}
 		}
 
+		var Time =  { 
+                        "name": "Time",
+                        "type": "isotime",
+                        "units": "UTC",
+                        "fill": null,
+                        "length": 18
+                    };
+
+		catalog["catalog"][i]["info"]["parameters"].unshift(Time);
+
 	}
-	//console.log(JSON.stringify(catalog,null,4));
-	console.error("Writing " + cfile)
-	fs.writeFile(cfile,JSON.stringify(catalog,null,4))
-	console.error("Wrote " + cfile);
-	return catalog;
+	if (!makeHAPI.writing) {
+		console.error("Writing " + cfile)
+		makeHAPI.writing = true;
+		fs.writeFile(cfile,JSON.stringify(catalog,null,4), 
+			function () {
+				makeHAPI.writing = false;
+				console.error("Wrote " + cfile);
+		})
+	}
+	cb(null,catalog);
 }
