@@ -5,6 +5,6 @@
 		"xml2js"   : "*",
 		"request"  : "*",
 		"adm-zip"  : "*",
-		"express"  : "3.1.0"
+		"express"  : "4.17.1"
 	}
 }
