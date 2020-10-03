@@ -8,6 +8,6 @@
 		"unzip"    : "*",
 		"zlib"     : "*",
 		"jsdom"    : "*",
-		"express"  : "3.1.0"
+		"express"  : "4.17.1"
 	}
 }
